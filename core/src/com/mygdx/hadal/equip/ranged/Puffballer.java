@@ -24,7 +24,6 @@ public class Puffballer extends RangedWeapon {
 	private static final int clipSize = 1;
 	private static final int ammoSize = 25;
 	private static final float shootCd = 0.8f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 36.0f;
@@ -57,7 +56,7 @@ public class Puffballer extends RangedWeapon {
 	private boolean held = false;
 
 	public Puffballer(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 

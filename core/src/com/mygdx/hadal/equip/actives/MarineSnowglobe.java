@@ -25,8 +25,6 @@ import com.mygdx.hadal.strategies.hitbox.Static;
  */
 public class MarineSnowglobe extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 8.0f;
 	
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(400, 400);
@@ -37,7 +35,7 @@ public class MarineSnowglobe extends ActiveItem {
 	private static final float SLOW_SLOW = 0.75f;
 	
 	public MarineSnowglobe(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

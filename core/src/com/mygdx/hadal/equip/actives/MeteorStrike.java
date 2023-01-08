@@ -15,8 +15,6 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  */
 public class MeteorStrike extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.1f;
 	private static final float MAX_CHARGE = 20.0f;
 
 	private static final float BASE_DAMAGE = 28.0f;
@@ -26,7 +24,7 @@ public class MeteorStrike extends ActiveItem {
 	private static final float SPREAD = 15.0f;
 	
 	public MeteorStrike(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 public class Fisticuffs extends MeleeWeapon {
 
 	private static final float SWING_CD = 0.07f;
-	private static final float WINDUP = 0.0f;
 	private static final float BASE_DAMAGE = 36.0f;
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(60, 40);
 	private static final float PROJECTILE_SPEED = 24.0f;
@@ -32,7 +31,7 @@ public class Fisticuffs extends MeleeWeapon {
 	private static final Sprite EVENT_SPRITE = Sprite.P_DEFAULT;
 
 	public Fisticuffs(Schmuck user) {
-		super(user, SWING_CD, WINDUP, WEAPON_SPRITE, EVENT_SPRITE);
+		super(user, SWING_CD, WEAPON_SPRITE, EVENT_SPRITE);
 	}
 	
 	private final Vector2 startVelo = new Vector2();

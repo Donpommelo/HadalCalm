@@ -23,7 +23,6 @@ public class PartyPopper extends RangedWeapon {
 	private static final int clipSize = 1;
 	private static final int ammoSize = 22;
 	private static final float shootCd = 0.3f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.6f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 61.0f;
@@ -51,7 +50,7 @@ public class PartyPopper extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	public PartyPopper(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	

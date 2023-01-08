@@ -13,8 +13,6 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class RadialBarrage extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 20.0f;
 	
 	private static final float DURATION = 5.0f;
@@ -22,7 +20,7 @@ public class RadialBarrage extends ActiveItem {
 	private static final int TOTAL_SHOTS = 6;
 
 	public RadialBarrage(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

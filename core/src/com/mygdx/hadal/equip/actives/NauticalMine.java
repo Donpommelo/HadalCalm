@@ -15,14 +15,12 @@ import static com.mygdx.hadal.battle.WeaponUtils.NAUTICAL_MINE_LIFESPAN;
  */
 public class NauticalMine extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.1f;
 	private static final float MAX_CHARGE = 8.0f;
 	
 	private static final float PROJECTILE_SPEED = 15.0f;
 	
 	public NauticalMine(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

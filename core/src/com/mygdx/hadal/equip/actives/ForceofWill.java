@@ -12,14 +12,12 @@ import com.mygdx.hadal.statuses.Invulnerability;
  */
 public class ForceofWill extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 15.0f;
 	
 	private static final float DURATION = 2.0f;
 	
 	public ForceofWill(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

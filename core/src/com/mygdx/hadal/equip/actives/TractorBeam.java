@@ -26,8 +26,6 @@ import com.mygdx.hadal.strategies.hitbox.HomingMouse;
  */
 public class TractorBeam extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 6.0f;
 
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(80, 60);
@@ -41,7 +39,7 @@ public class TractorBeam extends ActiveItem {
 	private static final Sprite PROJ_SPRITE = Sprite.OPEN_HAND;
 	private static final Sprite PROJ_SPRITE_2 = Sprite.CLOSED_HAND;
 
-	public TractorBeam(Schmuck user) { super(user, USECD, USEDELAY, MAX_CHARGE); }
+	public TractorBeam(Schmuck user) { super(user, MAX_CHARGE); }
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {

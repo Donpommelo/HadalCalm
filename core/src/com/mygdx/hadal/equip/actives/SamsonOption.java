@@ -21,8 +21,6 @@ import com.mygdx.hadal.strategies.hitbox.Static;
  */
 public class SamsonOption extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 5.0f;
 	
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(400, 400);
@@ -33,7 +31,7 @@ public class SamsonOption extends ActiveItem {
 	private static final float EXPLOSION_KNOCKBACK = 30.0f;
 	
 	public SamsonOption(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

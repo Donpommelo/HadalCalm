@@ -27,7 +27,6 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 public class DiamondCutter extends MeleeWeapon {
 
 	private static final float SWING_CD = 0.0f;
-	private static final float WINDUP = 0.0f;
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(120, 120);
 	private static final float BASE_DAMAGE = 8.5f;
 	private static final float KNOCKBACK = 0.0f;
@@ -53,7 +52,7 @@ public class DiamondCutter extends MeleeWeapon {
 	private float innateAttackCdCount;
 
 	public DiamondCutter(Schmuck user) {
-		super(user, SWING_CD, WINDUP, WEAPON_SPRITE, EVENT_SPRITE);
+		super(user, SWING_CD, WEAPON_SPRITE, EVENT_SPRITE);
 	}
 	
 	private final Vector2 projOffset = new Vector2();

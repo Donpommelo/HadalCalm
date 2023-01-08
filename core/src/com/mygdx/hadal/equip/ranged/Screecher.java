@@ -31,7 +31,6 @@ public class Screecher extends RangedWeapon {
 	private static final int clipSize = 60;
 	private static final int ammoSize = 240;
 	private static final float shootCd = 0.15f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.2f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 12.0f;
@@ -55,7 +54,7 @@ public class Screecher extends RangedWeapon {
 	private float shortestFraction;
 	
 	public Screecher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	

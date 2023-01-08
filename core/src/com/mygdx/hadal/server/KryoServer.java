@@ -22,6 +22,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -130,6 +131,19 @@ public class KryoServer {
         	 */
 			@Override
 			public void received(final Connection c, Object o) {
+
+
+				if (o instanceof final PacketsSync.SyncClientSnapshot p) {
+					final PlayState ps = getPlayState();
+
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							player.onReceiveSync(p, p.timestamp);
+						}
+					}
+				}
 
 				/*
 				 * This packet is sent periodically to inform the server of the client's inputs

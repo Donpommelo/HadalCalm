@@ -14,8 +14,6 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class Honeycomb extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 15.0f;
 
 	private static final float PROJECTILE_SPEED = 5.0f;
@@ -23,7 +21,7 @@ public class Honeycomb extends ActiveItem {
 	private static final float PROC_CD = 0.15f;
 
 	public Honeycomb(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

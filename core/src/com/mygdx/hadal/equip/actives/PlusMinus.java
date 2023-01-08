@@ -18,8 +18,6 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class PlusMinus extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 12.0f;
 
 	private static final float DURATION = 3.0f;
@@ -29,7 +27,7 @@ public class PlusMinus extends ActiveItem {
 	private static final int CHAIN_AMOUNT = 4;
 	
 	public PlusMinus(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

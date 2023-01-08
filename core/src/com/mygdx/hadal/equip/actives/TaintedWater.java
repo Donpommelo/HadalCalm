@@ -20,8 +20,6 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
  */
 public class TaintedWater extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 10.0f;
 	
 	private static final float DURATION = 4.0f;
@@ -35,7 +33,7 @@ public class TaintedWater extends ActiveItem {
 	private static final float POISON_DURATION = 2.5f;
 	
 	public TaintedWater(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

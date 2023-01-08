@@ -20,7 +20,6 @@ public class BouncingBlade extends RangedWeapon {
 	private static final int clipSize = 5;
 	private static final int ammoSize = 30;
 	private static final float shootCd = 0.7f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 42.0f;
@@ -36,7 +35,7 @@ public class BouncingBlade extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_BLADEGUN;
 
 	public BouncingBlade(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 

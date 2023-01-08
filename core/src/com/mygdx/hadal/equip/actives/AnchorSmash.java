@@ -30,8 +30,6 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  */
 public class AnchorSmash extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.1f;
 	private static final float MAX_CHARGE = 16.0f;
 
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(300, 259);
@@ -45,7 +43,7 @@ public class AnchorSmash extends ActiveItem {
 	private static final Sprite PROJ_SPRITE = Sprite.ANCHOR;
 
 	public AnchorSmash(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 
 	private float shortestFraction;

@@ -27,7 +27,6 @@ public class AssaultBits extends RangedWeapon {
 	private static final int clipSize = 40;
 	private static final int ammoSize = 200;
 	private static final float shootCd = 0.3f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.1f;
 	private static final int reloadAmount = 0;
 	private static final float projectileSpeed = 45.0f;
@@ -46,7 +45,7 @@ public class AssaultBits extends RangedWeapon {
 	private final Array<Enemy> bits = new Array<>();
 
 	public AssaultBits(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,
 				true, weaponSprite, eventSprite, lifespan, projectileSize.x, summonShootCd);
 	}
 	

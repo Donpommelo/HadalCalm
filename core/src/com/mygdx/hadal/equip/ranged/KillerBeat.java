@@ -24,7 +24,6 @@ public class KillerBeat extends RangedWeapon {
 	private static final int clipSize = 240;
 	private static final int ammoSize = 0;
 	private static final float shootCd = 0.18f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 25.0f;
@@ -48,7 +47,7 @@ public class KillerBeat extends RangedWeapon {
 	private static final IntArray notes = new IntArray(noteArray);
 
 	public KillerBeat(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 		setCharging(true);
 	}

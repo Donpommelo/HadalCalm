@@ -27,8 +27,6 @@ import com.mygdx.hadal.constants.Stats;
  */
 public class HydraulicUppercut extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 8.0f;
 	
 	private static final Vector2 HITBOX_SIZE = new Vector2(150, 150);
@@ -38,7 +36,7 @@ public class HydraulicUppercut extends ActiveItem {
 	private static final float RECOIL = 180.0f;
 	private static final float PARTICLE_LIFESPAN = 0.6f;
 
-	public HydraulicUppercut(Schmuck user) { super(user, USECD, USEDELAY, MAX_CHARGE); }
+	public HydraulicUppercut(Schmuck user) { super(user, MAX_CHARGE); }
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {

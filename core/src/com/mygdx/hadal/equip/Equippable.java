@@ -23,9 +23,6 @@ public abstract class Equippable {
 	//The delay in seconds after using this tool before you can use a tool again.
 	protected final float useCd;
 	
-	//The delay in seconds between pressing the button for this tool and it activating. 
-	protected final float useDelay;
-
 	//Whether this tool is currently in the process of reloading or not.
 	protected boolean reloading;
 	
@@ -57,15 +54,13 @@ public abstract class Equippable {
 	 * Equippables are constructed when creating tool spawns or default schmuck loadouts
 	 * @param user: Schmuck that is using this tool.
 	 * @param useCd: The delay after using this tool before you can use a tool again.
-	 * @param useDelay: The delay between pressing the button for this tool and it activating. 
 	 * @param equipSprite: The equip's sprite when equipped
 	 * @param eventSprite: The equip's sprite as a pickup
 	 * @param chargeTime: If a charge weapon, how long does it take to fully charge?
 	 */
-	public Equippable(Schmuck user, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite, float chargeTime) {
+	public Equippable(Schmuck user, float useCd, Sprite equipSprite, Sprite eventSprite, float chargeTime) {
 		this.user = user;
 		this.useCd = useCd;
-		this.useDelay = useDelay;
 		this.reloading = false;
 		this.charging = false;
 		this.chargeTime = chargeTime;
@@ -77,8 +72,8 @@ public abstract class Equippable {
 	/**
 	 * Default charge time is 0 for non-charge weapons
 	 */
-	public Equippable(Schmuck user, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
-		this(user, useCd, useDelay, equipSprite, eventSprite, 0);
+	public Equippable(Schmuck user, float useCd, Sprite equipSprite, Sprite eventSprite) {
+		this(user, useCd, equipSprite, eventSprite, 0);
 	}
 	
 	/**
@@ -177,8 +172,6 @@ public abstract class Equippable {
 	public void setAmmoLeft(int ammoLeft) {}
 	
 	public float getUseCd() { return useCd;	}
-	
-	public float getUseDelay() { return useDelay; }
 	
 	public Sprite getWeaponSprite() { return equipSprite; }
 	

@@ -30,8 +30,6 @@ import com.mygdx.hadal.constants.Stats;
  */
 public class CallofWalrus extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 12.0f;
 	
 	private static final float BUFF_DURATION = 4.0f;
@@ -42,7 +40,7 @@ public class CallofWalrus extends ActiveItem {
 	private static final float DURATION = 0.4f;
 
 	public CallofWalrus(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

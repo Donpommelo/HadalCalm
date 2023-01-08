@@ -26,8 +26,6 @@ import com.mygdx.hadal.strategies.hitbox.OrbitUser;
  */
 public class OrbitalShield extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 18.0f;
 	
 	private static final Vector2 PROJ_SIZE = new Vector2(25, 25);
@@ -40,7 +38,7 @@ public class OrbitalShield extends ActiveItem {
 	private static final float PROJ_RANGE = 5.0f;
 
 	public OrbitalShield(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

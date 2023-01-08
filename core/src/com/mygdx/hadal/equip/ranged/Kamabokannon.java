@@ -23,7 +23,6 @@ public class Kamabokannon extends RangedWeapon {
 	private static final int clipSize = 100;
 	private static final int ammoSize = 500;
 	private static final float shootCd = 0.1f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.3f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 22.0f;
@@ -42,7 +41,7 @@ public class Kamabokannon extends RangedWeapon {
 	private SoundEntity oozeSound;
 	
 	public Kamabokannon(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	

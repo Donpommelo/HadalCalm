@@ -23,7 +23,6 @@ public class ReticleStrike extends RangedWeapon {
 	private static final int clipSize = 1;
 	private static final int ammoSize = 25;
 	private static final float shootCd = 0.35f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.9f;
 	private static final int reloadAmount = 1;
 	private static final float recoil = 16.0f;
@@ -44,7 +43,7 @@ public class ReticleStrike extends RangedWeapon {
 	private static final float explosionKnockback = 20.0f;
 	
 	public ReticleStrike(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	

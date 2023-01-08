@@ -21,7 +21,6 @@ public class PearlRevolver extends RangedWeapon {
 	private static final int clipSize = 6;
 	private static final int ammoSize = 48;
 	private static final float shootCd = 0.3f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 0.6f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 37.0f;
@@ -36,7 +35,7 @@ public class PearlRevolver extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_GRENADE;
 
 	public PearlRevolver(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 

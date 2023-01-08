@@ -15,8 +15,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class HealingField extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 20.0f;
 	
 	private static final Vector2 FIELD_SIZE = new Vector2(360, 360);
@@ -24,7 +22,7 @@ public class HealingField extends ActiveItem {
 	private static final float HEAL_DURATION = 10.0f;
 	
 	public HealingField(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

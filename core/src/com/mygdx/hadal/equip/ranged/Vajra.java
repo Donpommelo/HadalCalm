@@ -20,7 +20,6 @@ public class Vajra extends RangedWeapon {
 	private static final int clipSize = 3;
 	private static final int ammoSize = 21;
 	private static final float shootCd = 0.4f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.1f;
 	private static final int reloadAmount = 0;
 
@@ -39,7 +38,7 @@ public class Vajra extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 
 	public Vajra(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeedStart, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 

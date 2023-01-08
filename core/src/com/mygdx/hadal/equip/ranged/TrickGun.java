@@ -23,7 +23,6 @@ public class TrickGun extends RangedWeapon {
 	private static final int clipSize = 5;
 	private static final int ammoSize = 30;
 	private static final float shootCd = 0.4f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 0.75f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 60.0f;
@@ -47,7 +46,7 @@ public class TrickGun extends RangedWeapon {
 	private static final Sprite projSprite = Sprite.TRICKBULLET;
 	
 	public TrickGun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	

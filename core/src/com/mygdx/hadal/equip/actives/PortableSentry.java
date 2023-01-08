@@ -28,8 +28,6 @@ import com.mygdx.hadal.constants.Constants;
  */
 public class PortableSentry extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.1f;
 	private static final float MAX_CHARGE = 20.0f;
 	
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(70, 70);
@@ -40,7 +38,7 @@ public class PortableSentry extends ActiveItem {
 	private static final Sprite PROJ_SPRITE = Sprite.ORB_BLUE;
 
 	public PortableSentry(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

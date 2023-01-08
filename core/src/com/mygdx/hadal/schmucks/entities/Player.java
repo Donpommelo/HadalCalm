@@ -102,7 +102,7 @@ public class Player extends PhysicsSchmuck {
 	private boolean groundedOverride;
 
 	//blinded is kept track of this way too b/c it affects visuals
-	private float blinded;
+	protected float blinded;
 
 	//
 	private boolean hovering, running, invisible, translucent, transparent;
@@ -353,8 +353,62 @@ public class Player extends PhysicsSchmuck {
 	private final Vector2 mouseLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
-		controllerCount += delta;
 		playerLocation.set(getPixelPosition());
+
+		processMovement(delta);
+
+		processFuel(delta);
+
+		if (shooting) {
+			shoot(delta);
+		}
+		
+		//If player is reloading, run the reload method of the current equipment.
+		boolean reloading = playerData.getCurrentTool().isReloading();
+		toggleReloadEffects(reloading);
+		if (reloading) {
+			playerData.getCurrentTool().reload(delta);
+		}
+		
+		//charge active item in all modes except campaign (where items charge by dealing damage).
+		if (!GameMode.CAMPAIGN.equals(state.getMode())) {
+			playerData.getActiveItem().gainCharge(delta);
+		}
+		
+		//keep track of reload/charge percent to properly sync those fields in the ui
+		reloadPercent = playerData.getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
+		chargePercent = playerData.getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
+		
+		//process cds
+		interactCdCount -= delta;
+		pingCdCount -= delta;
+		hitSoundCdCount -= delta;
+		hitSoundLargeCdCount -= delta;
+		typingCdCount -= delta;
+
+		if (shootBuffered && shootCdCount < 0) {
+			shootBuffered = false;
+			shoot(delta);
+		}
+
+		//Determine player mouse location and hence where the arm should be angled.
+		playerLocation.set(getPixelPosition());
+		mouseLocation.set(mouse.getPixelPosition());
+		mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
+
+		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
+		
+		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
+		playerData.getCurrentTool().update(state, delta);
+
+		//process list of units that damaged this player within the last ~5 seconds
+		playerData.processRecentDamagedBy(delta);
+		
+		super.controller(delta);
+	}
+
+	protected void processMovement(float delta) {
+		controllerCount += delta;
 
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		while (controllerCount >= Constants.INTERVAL) {
@@ -374,11 +428,7 @@ public class Player extends PhysicsSchmuck {
 			}
 			toggleRunningEffects((MoveState.MOVE_LEFT.equals(moveState) || MoveState.MOVE_RIGHT.equals(moveState)) && grounded);
 		}
-		
-		if (shooting) {
-			shoot(delta);
-		}
-		
+
 		//Determine if the player is in the air or on ground.
 		grounded = feetData.getNumContacts() > 0 || groundedOverride;
 
@@ -387,40 +437,10 @@ public class Player extends PhysicsSchmuck {
 			playerData.setExtraJumpsUsed(0);
 		}
 
-		//process fuel regen. Base fuel regen is canceled upon using fuel.
-		if (fuelRegenCdCount > 0.0f) {
-			fuelRegenCdCount -= grounded ? delta * GROUND_FUEL_CD_BOOST : delta;
-		} else {
-			playerData.fuelGain(grounded ? GROUND_FUEL_REGEN_BOOST * FUEL_REGEN * delta : FUEL_REGEN * delta);
-		}
-		playerData.fuelGain(playerData.getStat(Stats.FUEL_REGEN) * delta);
-
-		//If player is reloading, run the reload method of the current equipment.
-		boolean reloading = playerData.getCurrentTool().isReloading();
-		toggleReloadEffects(reloading);
-		if (reloading) {
-			playerData.getCurrentTool().reload(delta);
-		}
-		
-		//charge active item in all modes except campaign (where items charge by dealing damage).
-		if (!GameMode.CAMPAIGN.equals(state.getMode())) {
-			playerData.getActiveItem().gainCharge(delta);
-		}
-		
-		//keep track of reload/charge percent to properly sync those fields in the ui
-		reloadPercent = playerData.getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
-		chargePercent = playerData.getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
-		
-		//process cds
 		jumpCdCount -= delta;
 		fastFallCdCount -= delta;
 		airblastCdCount -= delta;
-		interactCdCount -= delta;
-		pingCdCount -= delta;
-		hitSoundCdCount -= delta;
-		hitSoundLargeCdCount -= delta;
-		typingCdCount -= delta;
-		
+
 		//if inputting certain actions during cooldown, an action is buffered
 		if (jumpBuffered && jumpCdCount < 0) {
 			jumpBuffered = false;
@@ -430,26 +450,17 @@ public class Player extends PhysicsSchmuck {
 			airblastBuffered = false;
 			airblast();
 		}
-		if (shootBuffered && shootCdCount < 0) {
-			shootBuffered = false;
-			shoot(delta);
-		}
-		
-		//Determine player mouse location and hence where the arm should be angled.
-		if (mouse.getBody() != null) {
-			playerLocation.set(getPixelPosition());
-			mouseLocation.set(mouse.getPixelPosition());
-			mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
-		}
-		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
-		
-		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
-		playerData.getCurrentTool().update(state, delta);
+	}
 
-		//process list of units that damaged this player within the last ~5 seconds
-		playerData.processRecentDamagedBy(delta);
-		
-		super.controller(delta);
+	protected void processFuel(float delta) {
+
+		//process fuel regen. Base fuel regen is canceled upon using fuel.
+		if (fuelRegenCdCount > 0.0f) {
+			fuelRegenCdCount -= grounded ? delta * GROUND_FUEL_CD_BOOST : delta;
+		} else {
+			playerData.fuelGain(grounded ? GROUND_FUEL_REGEN_BOOST * FUEL_REGEN * delta : FUEL_REGEN * delta);
+		}
+		playerData.fuelGain(playerData.getStat(Stats.FUEL_REGEN) * delta);
 	}
 
 	private final Vector2 hoverDirection = new Vector2();
@@ -871,8 +882,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void onServerSync() {
 
-		short statusCode = PlayerStatusUtil.statusToCode(grounded, running, hovering, playerData.getCurrentTool().isReloading(),
-				invisible, translucent, transparent);
+		short statusCode = getStatusCode();
 
 		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
 				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
@@ -1008,6 +1018,11 @@ public class Player extends PhysicsSchmuck {
 	
 	@Override
 	public BodyData getBodyData() { return playerData; }
+
+	public short getStatusCode() {
+		return PlayerStatusUtil.statusToCode(grounded, running, hovering, playerData.getCurrentTool().isReloading(),
+				invisible, translucent, transparent);
+	}
 
 	public void setScaleModifier(float scaleModifier) {
 		this.spriteHelper.setScale(SCALE * (1.0f + scaleModifier));

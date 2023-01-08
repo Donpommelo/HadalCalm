@@ -13,14 +13,12 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class SupplyDrop extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 10.0f;
 
 	private static final float EQUIP_DROP_LIFEPAN = 10.0f;
 
 	public SupplyDrop(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 		setCurrentCharge(MAX_CHARGE);
 	}
 	

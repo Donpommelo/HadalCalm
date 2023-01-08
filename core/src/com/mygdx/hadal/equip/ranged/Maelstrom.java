@@ -24,7 +24,6 @@ public class Maelstrom extends RangedWeapon {
 	private static final int clipSize = 3;
 	private static final int ammoSize = 18;
 	private static final float shootCd = 0.75f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 12.0f;
@@ -44,7 +43,7 @@ public class Maelstrom extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
 	
 	public Maelstrom(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 

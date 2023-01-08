@@ -19,7 +19,6 @@ public class TyrrazzanReaper extends RangedWeapon {
 
 	private static final int clipSize = 10;
 	private static final int ammoSize = 70;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
 	private static final float recoil = 4.5f;
@@ -56,7 +55,7 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_GRENADE;
 
 	public TyrrazzanReaper(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeedMax, shootCdMax, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeedMax, shootCdMax, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespanMax);
 	}
 

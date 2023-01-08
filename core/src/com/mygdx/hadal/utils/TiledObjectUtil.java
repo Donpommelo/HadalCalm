@@ -303,12 +303,6 @@ public class TiledObjectUtil {
 			case "WrapPortal" -> e = new PortalWrap(state, position, size,
 					object.getProperties().get("axis", true, boolean.class),
 					object.getProperties().get("direction", false, boolean.class));
-			case "Displacer" -> {
-				Vector2 power = new Vector2(
-						object.getProperties().get("displaceX", 0.0f, float.class),
-						object.getProperties().get("displaceY", 0.0f, float.class));
-				e = new Displacer(state, position, size, power);
-			}
 			case "CurrentTemp" -> {
 				Vector2 power = new Vector2(
 						object.getProperties().get("currentX", 0.0f, float.class),
@@ -454,6 +448,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("event", true, boolean.class),
 					object.getProperties().get("enemy", true, boolean.class),
 					object.getProperties().get("teamIndex", -1, Integer.class));
+			case "Displacer" -> {
+				Vector2 power = new Vector2(
+						object.getProperties().get("displaceX", 0.0f, float.class),
+						object.getProperties().get("displaceY", 0.0f, float.class));
+				e = new Displacer(state, position, size, power);
+			}
 			case "Current" -> {
 				Vector2 power = new Vector2(
 						object.getProperties().get("currentX", 0.0f, float.class),

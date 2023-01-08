@@ -34,7 +34,6 @@ public class Hexenhowitzer extends RangedWeapon {
 	private static final int clipSize = 1;
 	private static final int ammoSize = 1;
 	private static final float shootCd = 0.35f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 27.0f;
@@ -59,7 +58,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	private Status glowing;
 	
 	public Hexenhowitzer(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,false,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,false,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	

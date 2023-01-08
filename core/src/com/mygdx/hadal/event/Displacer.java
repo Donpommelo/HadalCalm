@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.PlayerClientOnHost;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.constants.Constants;
@@ -55,7 +56,7 @@ public class Displacer extends Event {
 						if (state.getPlayer().equals(player)) {
 							schmucks.add(fixB.getEntity());
 						}
-					} else {
+					} else if (state.isServer() &&!(fixB.getEntity() instanceof PlayerClientOnHost)) {
 						schmucks.add(fixB.getEntity());
 					}
 				}

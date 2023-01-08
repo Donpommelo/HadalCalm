@@ -25,7 +25,6 @@ public class ColaCannon extends RangedWeapon {
 	private static final int clipSize = 1;
 	private static final int ammoSize = 17;
 	private static final float shootCd = 0.1f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 2.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 11.0f;
@@ -52,7 +51,7 @@ public class ColaCannon extends RangedWeapon {
 	private float lastNoise;
 
 	public ColaCannon(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 

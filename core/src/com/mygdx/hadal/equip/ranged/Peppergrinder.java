@@ -29,7 +29,6 @@ public class Peppergrinder extends RangedWeapon {
 	private static final int clipSize = 60;
 	private static final int ammoSize = 360;
 	private static final float shootCd = 0.06f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 19.0f;
@@ -47,7 +46,7 @@ public class Peppergrinder extends RangedWeapon {
 	private static final int spreadChange = 8;
 
 	public Peppergrinder(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 

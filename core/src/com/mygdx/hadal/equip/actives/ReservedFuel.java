@@ -17,15 +17,13 @@ import com.mygdx.hadal.constants.Stats;
  */
 public class ReservedFuel extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 15.0f;
 	
 	private static final float DURATION = 5.0f;
 	private static final float POWER = 18.0f;
 	
 	public ReservedFuel(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

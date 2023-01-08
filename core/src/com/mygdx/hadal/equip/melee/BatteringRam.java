@@ -26,7 +26,6 @@ import com.mygdx.hadal.constants.Stats;
 public class BatteringRam extends MeleeWeapon {
 
 	private static final float SHOOT_CD = 0.0f;
-	private static final float SHOOT_DELAY = 0.0f;
 	private static final Vector2 HITBOX_SIZE = new Vector2(90, 120);
 	private static final float KNOCKBACK = 40.0f;
 	private static final float LIFESPAN = 0.5f;
@@ -51,7 +50,7 @@ public class BatteringRam extends MeleeWeapon {
 	private float innateAttackCdCount;
 
 	public BatteringRam(Schmuck user) {
-		super(user, SHOOT_CD, SHOOT_DELAY, WEAPON_SPRITE, EVENT_SPRITE, MAX_CHARGE);
+		super(user, SHOOT_CD, WEAPON_SPRITE, EVENT_SPRITE, MAX_CHARGE);
 	}
 	
 	@Override

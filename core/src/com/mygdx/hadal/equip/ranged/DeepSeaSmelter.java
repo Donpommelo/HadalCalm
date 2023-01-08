@@ -26,7 +26,6 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private static final int clipSize = 500;
 	private static final int ammoSize = 0;
 	private static final float shootCd = 0.12f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 15.0f;
@@ -53,7 +52,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private boolean overheated;
 	
 	public DeepSeaSmelter(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	

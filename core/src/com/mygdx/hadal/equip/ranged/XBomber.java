@@ -25,7 +25,6 @@ public class XBomber extends RangedWeapon {
 	private static final int clipSize = 2;
 	private static final int ammoSize = 26;
 	private static final float shootCd = 0.2f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.2f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 24.0f;
@@ -44,7 +43,7 @@ public class XBomber extends RangedWeapon {
 	private static final float crossDamage = 24.0f;
 
 	public XBomber(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	

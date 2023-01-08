@@ -22,7 +22,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
 public class Riftsplitter extends MeleeWeapon {
 
 	private static final float SHOOT_CD = 0.4f;
-	private static final float SHOOT_DELAY = 0.2f;
 	private static final float BASE_DAMAGE = 30.0f;
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(30, 120);
 	private static final float PROJECTILE_SPEED = 33.0f;
@@ -40,7 +39,7 @@ public class Riftsplitter extends MeleeWeapon {
 	private static final Sprite EVENT_SPRITE = Sprite.P_SCRAPRIPPER;
 
 	public Riftsplitter(Schmuck user) {
-		super(user, SHOOT_CD, SHOOT_DELAY, WEAPON_SPRITE, EVENT_SPRITE);
+		super(user, SHOOT_CD, WEAPON_SPRITE, EVENT_SPRITE);
 	}
 	
 	@Override
@@ -123,7 +122,6 @@ public class Riftsplitter extends MeleeWeapon {
 		return new String[] {
 				String.valueOf((int) BASE_DAMAGE),
 				String.valueOf((int) SHOCKWAVE_DAMAGE),
-				String.valueOf(SHOOT_CD),
-				String.valueOf(SHOOT_DELAY)};
+				String.valueOf(SHOOT_CD)};
 	}
 }

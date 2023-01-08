@@ -14,7 +14,6 @@ public class SpeargunNerfed extends RangedWeapon {
 	private static final int clipSize = 8;
 	private static final int ammoSize = 88;
 	private static final float shootCd = 0.2f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.5f;
 	private static final int reloadAmount = 0;
 	private static final float projectileSpeed = 35.0f;
@@ -25,7 +24,7 @@ public class SpeargunNerfed extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
 
 	public SpeargunNerfed(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	

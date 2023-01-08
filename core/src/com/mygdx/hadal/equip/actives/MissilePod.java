@@ -16,15 +16,13 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class MissilePod extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 15.0f;
 	
 	private static final float DURATION = 1.2f;
 	private static final float PROC_CD = 0.1f;
 
 	public MissilePod(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

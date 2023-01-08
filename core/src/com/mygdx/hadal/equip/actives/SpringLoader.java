@@ -16,8 +16,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class SpringLoader extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 3.0f;
 	
 	private static final Vector2 SPRING_RADIUS = new Vector2(96, 16);
@@ -25,7 +23,7 @@ public class SpringLoader extends ActiveItem {
 	private static final float SPRING_DURATION = 6.0f;
 	
 	public SpringLoader(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

@@ -22,7 +22,6 @@ public class AmitaCannon extends RangedWeapon {
 	private static final int clipSize = 4;
 	private static final int ammoSize = 32;
 	private static final float shootCd = 0.4f;
-	private static final float shootDelay = 0.1f;
 	private static final float reloadTime = 1.6f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 8.8f;
@@ -43,7 +42,7 @@ public class AmitaCannon extends RangedWeapon {
 	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
 
 	public AmitaCannon(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,
 				true, weaponSprite, eventSprite, lifespan, projectileSize.x);
 	}
 

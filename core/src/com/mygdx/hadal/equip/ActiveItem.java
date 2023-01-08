@@ -26,8 +26,8 @@ public class ActiveItem extends Equippable {
 	protected final float maxCharge;
 	protected float currentCharge;
 
-	public ActiveItem(Schmuck user, float usecd, float usedelay, float maxCharge) {
-		super(user, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+	public ActiveItem(Schmuck user, float maxCharge) {
+		super(user, 0.0f, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 		this.maxCharge = maxCharge;
 	}
 	

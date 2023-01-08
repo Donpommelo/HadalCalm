@@ -66,6 +66,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
@@ -451,7 +452,6 @@ public class PlayState extends GameState {
 	}
 	
 	//these control the frequency that we process world physics.
-	private static final float PHYSICS_TIME = 0.005f;
 	private float physicsAccumulator;
 
 	//these control the frequency that we send sync packets for world entities.
@@ -1023,11 +1023,19 @@ public class PlayState extends GameState {
 		Player p;
 		if (connID < 0) {
 			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
-		} else if (!client) {
-			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+		} else if (isServer()) {
+			if (0 == connID) {
+				p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			} else {
+				p = new PlayerClientOnHost(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			}
 		} else {
-			//clients always spawn at (0,0), then move when the server tells them to.
-			p = new PlayerClient(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
+			if (!client) {
+				p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			} else {
+				//clients always spawn at (0,0), then move when the server tells them to.
+				p = new PlayerSelfOnClient(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
+			}
 		}
 		
 		//teleportation particles for reset players (indicates returning to hub)

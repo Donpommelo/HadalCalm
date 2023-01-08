@@ -19,8 +19,6 @@ import com.mygdx.hadal.statuses.StatusComposite;
  */
 public class Reloader extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 13.0f;
 
 	private static final float DURATION = 1.5f;
@@ -28,7 +26,7 @@ public class Reloader extends ActiveItem {
 	private static final float BONUS_ATK_SPD_2 = 0.3f;
 
 	public Reloader(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

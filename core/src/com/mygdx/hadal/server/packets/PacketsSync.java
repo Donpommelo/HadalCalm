@@ -136,6 +136,31 @@ public class PacketsSync {
         }
     }
 
+    public static class SyncClientSnapshot {
+        public Vector2 attackAngle;
+        public float currentFuel;
+        public short maskBits;
+        public Vector2 pos;
+        public Vector2 velocity;
+        public float age;
+        public float timestamp;
+        public MoveState moveState;
+
+        public SyncClientSnapshot() {}
+
+        public SyncClientSnapshot(Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
+                                  Vector2 attackAngle, float currentFuel, short maskBits) {
+            this.pos = pos;
+            this.velocity = velocity;
+            this.age = age;
+            this.timestamp = timestamp;
+            this.moveState = moveState;
+            this.attackAngle = attackAngle;
+            this.currentFuel = currentFuel;
+            this.maskBits = maskBits;
+        }
+    }
+
     public static class SyncParticles extends SyncEntity {
         public boolean on;
         public SyncParticles() {}

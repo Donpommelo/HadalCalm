@@ -28,8 +28,6 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  */
 public class MeridianMaker extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.1f;
 	private static final float MAX_CHARGE = 8.0f;
 	
 	private static final float BASE_DAMAGE = 45.0f;
@@ -43,7 +41,7 @@ public class MeridianMaker extends ActiveItem {
 	private static final Sprite PROJ_SPRITE = Sprite.NOTHING;
 
 	public MeridianMaker(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

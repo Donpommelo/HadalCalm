@@ -24,7 +24,6 @@ public class Minigun extends RangedWeapon {
 	private static final int clipSize = 200;
 	private static final int ammoSize = 800;
 	private static final float shootCd = 0.05f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 2.0f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 20.0f;
@@ -49,7 +48,7 @@ public class Minigun extends RangedWeapon {
 	private ParticleEntity slow;
 
 	public Minigun(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	

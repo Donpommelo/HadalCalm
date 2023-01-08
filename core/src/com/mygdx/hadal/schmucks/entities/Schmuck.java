@@ -37,13 +37,9 @@ public class Schmuck extends HadalEntity {
 	//Is this schmuck currently standing on a solid surface?
 	protected boolean grounded;
 	
-	//Counters that keep track of delay between action initiation + action execution and action execution + next action
+	//Counter that keeps track of delay between action execution + next action
 	protected float shootCdCount;
-	protected float shootDelayCount;
-	
-	//The last used tool. This is used to process equipment with a delay between using and executing.
-	protected Equippable usedTool;
-	
+
 	//This particle is triggered upon receiving damage
 	public ParticleEntity impact;
 
@@ -88,13 +84,7 @@ public class Schmuck extends HadalEntity {
 		
 		//process cooldowns on firing
 		shootCdCount -= delta;
-		shootDelayCount -= delta;
-		
-		//If the delay on using a tool just ended, use the tool.
-		if (shootDelayCount <= 0 && usedTool != null) {
-			useToolEnd();
-		}
-		
+
 		//Process statuses
 		getBodyData().statusProcTime(new ProcTime.TimePass(delta));
 	}
@@ -124,32 +114,17 @@ public class Schmuck extends HadalEntity {
 		getBodyData().statusProcTime(new ProcTime.WhileAttack(delta, tool));
 
 		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
-		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
+		if ((shootCdCount < 0) || !wait) {
 
 			//Register the tool targeting the input coordinates.
 			tool.mouseClicked(delta, state, getBodyData(), hitbox, mouseLocation);
 			
-			//set the tool that will be executed after delay to input tool.
-			usedTool = tool;
-			
-			//account for the tool's use delay.
-			shootDelayCount = tool.getUseDelay();
+			//the schmuck will not register another tool usage for the tool's cd
+			shootCdCount = tool.getUseCd() * (1 - getBodyData().getStat(Stats.TOOL_SPD));
+
+			//execute the tool.
+			tool.execute(state, getBodyData());
 		}
-	}
-	
-	/**
-	 * This method is called after a tool is used following the tool's delay.
-	 */
-	public void useToolEnd() {
-		
-		//the schmuck will not register another tool usage for the tool's cd
-		shootCdCount = usedTool.getUseCd() * (1 - getBodyData().getStat(Stats.TOOL_SPD));
-		
-		//execute the tool.
-		usedTool.execute(state, getBodyData());
-		
-		//clear the used tool field.
-		usedTool = null;
 	}
 	
 	/**
@@ -216,8 +191,6 @@ public class Schmuck extends HadalEntity {
 	
 	public void setShootCdCount(float shootCdCount) { this.shootCdCount = shootCdCount; }
 
-	public float getShootDelayCount() { return shootDelayCount; }
-	
 	public short getHitboxfilter() { return hitboxfilter; }
 
 	public void setHitboxfilter(short hitboxfilter) { this.hitboxfilter = hitboxfilter; }

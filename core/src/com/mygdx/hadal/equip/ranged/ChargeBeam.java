@@ -31,7 +31,6 @@ public class ChargeBeam extends RangedWeapon {
 	private static final int clipSize = 4;
 	private static final int ammoSize = 16;
 	private static final float shootCd = 0.0f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.3f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 18.0f;
@@ -51,7 +50,7 @@ public class ChargeBeam extends RangedWeapon {
 	private ParticleEntity charge, overcharge;
 
 	public ChargeBeam(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x * 3.0f, lifespan, maxCharge);
 	}
 

@@ -15,14 +15,12 @@ import static com.mygdx.hadal.battle.WeaponUtils.SPIRIT_DEFAULT_DAMAGE;
  */
 public class SpiritRelease extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 10.0f;
 
 	private static final int SPIRIT_NUM = 3;
 
 	public SpiritRelease(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

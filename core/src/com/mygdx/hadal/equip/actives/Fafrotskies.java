@@ -21,8 +21,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
  */
 public class Fafrotskies extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.1f;
 	private static final float MAX_CHARGE = 15.0f;
 	
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(200, 50);
@@ -37,7 +35,7 @@ public class Fafrotskies extends ActiveItem {
 	private static final Sprite PROJ_SPRITE = Sprite.ORB_BLUE;
 
 	public Fafrotskies(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

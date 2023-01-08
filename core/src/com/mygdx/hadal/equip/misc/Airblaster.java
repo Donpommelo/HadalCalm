@@ -27,7 +27,6 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 public class Airblaster extends MeleeWeapon {
 
 	private static final float SWING_CD = 0.25f;
-	private static final float WINDUP = 0.0f;
 	private static final float BASE_DAMAGE = 0.0f;
 	private static final Vector2 HITBOX_SIZE = new Vector2(150, 150);
 	private static final float KNOCKBACK = 60.0f;
@@ -38,7 +37,7 @@ public class Airblaster extends MeleeWeapon {
 	public static final float REFLECT_VELO_MAX = 80.0f;
 
 	public Airblaster(Schmuck user) {
-		super(user, SWING_CD, WINDUP, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+		super(user, SWING_CD, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override

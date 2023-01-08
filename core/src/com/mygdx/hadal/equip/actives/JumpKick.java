@@ -26,8 +26,6 @@ import com.mygdx.hadal.constants.Stats;
  */
 public class JumpKick extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 8.0f;
 	
 	private static final float RECOIL = 150.0f;
@@ -39,7 +37,7 @@ public class JumpKick extends ActiveItem {
 	private static final float KNOCKBACK = 90.0f;
 
 	public JumpKick(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

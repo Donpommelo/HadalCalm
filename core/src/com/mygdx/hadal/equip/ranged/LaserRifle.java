@@ -27,7 +27,6 @@ public class LaserRifle extends RangedWeapon {
 	private static final int clipSize = 8;
 	private static final int ammoSize = 56;
 	private static final float shootCd = 0.4f;
-	private static final float shootDelay = 0;
 	private static final float reloadTime = 1.25f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 24.0f;
@@ -50,7 +49,7 @@ public class LaserRifle extends RangedWeapon {
 	private float shortestFraction;
 	
 	public LaserRifle(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, lifespan, 0);
 	}
 

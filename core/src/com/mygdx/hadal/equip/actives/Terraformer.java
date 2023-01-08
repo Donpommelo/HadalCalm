@@ -18,8 +18,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Terraformer extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 8.0f;
 	
 	private static final Vector2 BLOCK_SIZE = new Vector2(64, 192);
@@ -27,7 +25,7 @@ public class Terraformer extends ActiveItem {
 	private static final float BLOCK_SPEED = 8.0f;
 
 	public Terraformer(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

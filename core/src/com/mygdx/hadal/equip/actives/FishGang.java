@@ -16,15 +16,13 @@ import com.mygdx.hadal.statuses.Temporary;
  */
 public class FishGang extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 32.0f;
 	
 	private static final int NUM_FISH = 5;
 	private static final float FISH_LIFESPAN = 20.0f;
 	
 	public FishGang(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override
@@ -42,7 +40,7 @@ public class FishGang extends ActiveItem {
 					}
 				};
 				
-			} else if (randFloat > 0.7f){
+			} else if (randFloat > 0.7f) {
 				new Spittlefish(state, user.getPlayer().getPixelPosition(), 0.0f, user.getPlayer().getHitboxfilter()) {
 					
 					@Override

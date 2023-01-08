@@ -22,8 +22,6 @@ import com.mygdx.hadal.constants.Stats;
  */
 public class ImmolationAura extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 13.0f;
 
 	private static final float BASE_DAMAGE = 5.0f;
@@ -34,7 +32,7 @@ public class ImmolationAura extends ActiveItem {
 	private static final float BURN_INTERVAL = 1 / 60f;
 
 	public ImmolationAura(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override

@@ -13,6 +13,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -23,6 +24,8 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.UUID;
+
+import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 
 /**
  * This is a version of the playstate that is provided for Clients.
@@ -103,13 +106,13 @@ public class ClientState extends PlayState {
 				inputMultiplexer.addProcessor(stage);
 				inputMultiplexer.addProcessor(controller);
 				inputMultiplexer.addProcessor(new CommonController(this));
+				inputMultiplexer.addProcessor(new PlayerController(player));
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
 		}
 	}
 	
 	//these control the frequency that we process world physics.
-	private static final float PHYSICS_TIME = 1 / 200f;
 	private float physicsAccumulator;
 
 	//these control the frequency that we send latency checking packets to the server.

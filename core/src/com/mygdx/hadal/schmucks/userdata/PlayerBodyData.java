@@ -221,14 +221,12 @@ public class PlayerBodyData extends BodyData {
 	 * Player switches to last used weapon slot
 	 */
 	public void switchToLast() {
-		if (schmuck.getShootDelayCount() <= 0) {
-			if (lastSlot < getNumWeaponSlots()) {
-				if (!(multitools[lastSlot] instanceof NothingWeapon)) {
-					int tempSlot = lastSlot;
-					lastSlot = currentSlot;
-					currentSlot = tempSlot;
-					setEquip();
-				}
+		if (lastSlot < getNumWeaponSlots()) {
+			if (!(multitools[lastSlot] instanceof NothingWeapon)) {
+				int tempSlot = lastSlot;
+				lastSlot = currentSlot;
+				currentSlot = tempSlot;
+				setEquip();
 			}
 		}
 	}
@@ -590,7 +588,6 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public void fuelGain(float fuelRegen) {
-		if (!schmuck.getState().isServer()) { return; }
 		currentFuel += fuelRegen;
 		if (currentFuel > getStat(Stats.MAX_FUEL)) {
 			currentFuel = getStat(Stats.MAX_FUEL);

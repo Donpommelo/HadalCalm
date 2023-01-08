@@ -28,7 +28,6 @@ public class VineSower extends RangedWeapon {
 	private static final int clipSize = 2;
 	private static final int ammoSize = 28;
 	private static final float shootCd = 0.0f;
-	private static final float shootDelay = 0.0f;
 	private static final float reloadTime = 1.4f;
 	private static final int reloadAmount = 0;
 	private static final float baseDamage = 28.0f;
@@ -60,7 +59,7 @@ public class VineSower extends RangedWeapon {
 	private static final Vector2 vineSpriteSize = new Vector2(60, 60);
 
 	public VineSower(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount,true,
+		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	

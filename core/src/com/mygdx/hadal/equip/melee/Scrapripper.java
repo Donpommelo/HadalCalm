@@ -19,7 +19,6 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 public class Scrapripper extends MeleeWeapon {
 
 	private static final float SHOOT_CD = 0.45f;
-	private static final float SHOOT_DELAY = 0.0f;
 	private static final float BASE_DAMAGE = 60.0f;
 	private static final Vector2 HITBOX_SIZE = new Vector2(200, 120);
 	private static final Vector2 HITBOX_SPRITE_SIZE = new Vector2(300, 180);
@@ -30,7 +29,7 @@ public class Scrapripper extends MeleeWeapon {
 	private static final Sprite EVENT_SPRITE = Sprite.P_SCRAPRIPPER;
 
 	public Scrapripper(Schmuck user) {
-		super(user, SHOOT_CD, SHOOT_DELAY, WEAPON_SPRITE, EVENT_SPRITE);
+		super(user, SHOOT_CD, WEAPON_SPRITE, EVENT_SPRITE);
 	}
 	
 	@Override
