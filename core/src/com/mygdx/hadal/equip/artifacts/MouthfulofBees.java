@@ -33,8 +33,8 @@ public class MouthfulofBees extends Artifact {
 				if (damage > 0) {
 					int numBees = (int) (damage / damagePerBee);
 					for (int i = 0; i < numBees; i++) {
-						SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
-								new Vector2(0, beeSpeed), DamageSource.MOUTHFUL_OF_BEES);
+						SyncedAttack.BEE_MOUTHFUL.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
+								new Vector2(0, beeSpeed));
 					}
 				}
 				return damage;
@@ -44,7 +44,7 @@ public class MouthfulofBees extends Artifact {
 			public void onDeath(BodyData perp, DamageSource source) {
 				for (int i = 0; i < beesOnDeath; i++) {
 					SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
-							new Vector2(0, beeSpeed), DamageSource.MOUTHFUL_OF_BEES);
+							new Vector2(0, beeSpeed));
 				}
 			}
 		}.setPriority(PRIORITY_SCALE);

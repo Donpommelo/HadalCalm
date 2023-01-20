@@ -45,8 +45,8 @@ public class BookofBurial extends Artifact {
 					procCdCount = 0;
 					new ParticleEntity(state, p.getSchmuck(), Particle.RING, 0.0f, 1.0f, true,
 							SyncType.CREATESYNC).setScale(0.4f);
-					SyncedAttack.PROXIMITY_MINE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getPlayer().getPixelPosition(),
-							new Vector2(), DamageSource.BOOK_OF_BURIAL, explosionDamage);
+					SyncedAttack.PROXIMITY_MINE_BOOK.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getPlayer().getPixelPosition(),
+							new Vector2(), explosionDamage);
 				}
 				return damage;
 			}

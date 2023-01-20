@@ -26,21 +26,21 @@ public class PeachwoodSword extends Artifact {
 			@Override
 			public void onKill(BodyData vic, DamageSource source) {
 				if (vic instanceof PlayerBodyData) {
-					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
+					SyncedAttack.VENGEFUL_SPIRIT_PEACHWOOD.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
 							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {},
-							DamageSource.PEACHWOOD_SWORD, 0.0f, 0.0f, spiritDamagePlayer);
+							0.0f, 0.0f, spiritDamagePlayer);
 				} else {
-					SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
+					SyncedAttack.VENGEFUL_SPIRIT_PEACHWOOD.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
 							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {},
-							DamageSource.PEACHWOOD_SWORD,0.0f, 0.0f, spiritDamageEnemy);
+							0.0f, 0.0f, spiritDamageEnemy);
 				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp, DamageSource source) {
-				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
+				SyncedAttack.VENGEFUL_SPIRIT_PEACHWOOD.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
 						new Vector2[] {p.getSchmuck().getPixelPosition()}, new Vector2[] {},
-						DamageSource.PEACHWOOD_SWORD,0.0f, 0.0f, spiritDamagePlayer);
+						0.0f, 0.0f, spiritDamagePlayer);
 			}
 		};
 	}

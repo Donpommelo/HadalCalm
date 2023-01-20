@@ -44,7 +44,7 @@ public class BeeGun extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SyncedAttack.BEE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, DamageSource.BEE_GUN);
+		SyncedAttack.BEE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 
 	public static Hitbox createBee(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source) {

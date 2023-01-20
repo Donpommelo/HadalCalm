@@ -98,16 +98,11 @@ public class PacketsSync {
     }
 
     public static class SyncPlayer extends SyncSchmuck {
-        public Vector2 attackAngle;
+        public Vector2 mousePosition;
         public int currentSlot;
         public float reloadPercent;
         public float chargePercent;
         public float currentFuel;
-        public int currentClip;
-        public int currentAmmo;
-        public float activeCharge;
-        public short maskBits;
-        public float blinded;
         public short statusCode;
 
         public SyncPlayer() {}
@@ -118,46 +113,49 @@ public class PacketsSync {
          * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
          */
         public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
-                          float currentHp, Vector2 attackAngle, int currentSlot, float reloadPercent,
-                          float chargePercent, float currentFuel, int currentClip, int currentAmmo, float activeCharge,
-                          short maskBits, float blinded, short statusCode) {
+                          float currentHp, Vector2 mousePosition, int currentSlot, float reloadPercent,
+                          float chargePercent, float currentFuel, short statusCode) {
             super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
-            this.attackAngle = attackAngle;
+            this.mousePosition = mousePosition;
             this.currentSlot = currentSlot;
             this.reloadPercent = reloadPercent;
             this.chargePercent = chargePercent;
             this.currentFuel = currentFuel;
-            this.currentClip = currentClip;
-            this.currentAmmo = currentAmmo;
-            this.activeCharge = activeCharge;
-            this.maskBits = maskBits;
-            this.blinded = blinded;
             this.statusCode = statusCode;
         }
     }
 
     public static class SyncClientSnapshot {
-        public Vector2 attackAngle;
+        public Vector2 mousePosition;
+        public int currentSlot;
+        public float reloadPercent;
+        public float chargePercent;
         public float currentFuel;
-        public short maskBits;
+        public short statusCode;
         public Vector2 pos;
         public Vector2 velocity;
         public float age;
         public float timestamp;
         public MoveState moveState;
+        public float currentHp;
 
         public SyncClientSnapshot() {}
 
         public SyncClientSnapshot(Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
-                                  Vector2 attackAngle, float currentFuel, short maskBits) {
+                                  float currentHp, Vector2 mousePosition, int currentSlot, float reloadPercent,
+                                  float chargePercent, float currentFuel, short statusCode) {
             this.pos = pos;
             this.velocity = velocity;
             this.age = age;
             this.timestamp = timestamp;
             this.moveState = moveState;
-            this.attackAngle = attackAngle;
+            this.currentHp = currentHp;
+            this.mousePosition = mousePosition;
+            this.currentSlot = currentSlot;
+            this.reloadPercent = reloadPercent;
+            this.chargePercent = chargePercent;
             this.currentFuel = currentFuel;
-            this.maskBits = maskBits;
+            this.statusCode = statusCode;
         }
     }
 

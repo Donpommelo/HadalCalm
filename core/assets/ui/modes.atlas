@@ -53,16 +53,37 @@ matryoshka
   orig: 300, 400
   offset: 0, 0
   index: -1
-resurrection
+placeholder
   rotate: false
   xy: 908, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0
   index: -1
-survival
+resurrection
   rotate: false
   xy: 1210, 404
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+survival
+  rotate: false
+  xy: 1210, 2
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+trickortreat
+  rotate: false
+  xy: 1512, 404
+  size: 300, 400
+  orig: 300, 400
+  offset: 0, 0
+  index: -1
+trickortreat_v2
+  rotate: false
+  xy: 1512, 2
   size: 300, 400
   orig: 300, 400
   offset: 0, 0

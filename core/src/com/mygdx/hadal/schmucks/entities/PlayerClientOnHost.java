@@ -53,28 +53,48 @@ public class PlayerClientOnHost extends Player {
 	}
 
 	@Override
+	protected void processEquipment(float delta) {}
+
+	@Override
 	public void onServerSync() {}
 
 	@Override
 	public void onReceiveSync(Object o, float timestamp) {
 		super.onReceiveSync(o, timestamp + 4 * PlayState.SYNC_TIME);
 
-		short statusCode = getStatusCode();
-
-		HadalGame.server.sendToAllExceptUDP(getConnID(), new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
-				entityAge, timestamp + 2 * PlayState.SYNC_TIME, moveState, getBodyData().getCurrentHp(),
-				mouseAngle, playerData.getCurrentSlot(),
-				playerData.getCurrentTool().isReloading() ? reloadPercent : -1.0f,
-				playerData.getCurrentTool().isCharging() ? chargePercent : -1.0f,
-				playerData.getCurrentFuel(),
-				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(),
-				playerData.getActiveItem().chargePercent(),
-				getMainFixture().getFilterData().maskBits, blinded, statusCode));
+		if (o instanceof PacketsSync.SyncClientSnapshot p) {
+			HadalGame.server.sendToAllExceptUDP(getConnID(), new PacketsSync.SyncPlayer(entityID, p.pos, p.velocity,
+					p.age, timestamp + 2 * PlayState.SYNC_TIME, p.moveState, p.currentHp,
+					p.mousePosition, p.currentSlot,
+					p.reloadPercent,
+					p.chargePercent,
+					p.currentFuel,
+					p.statusCode));
+		}
 	}
 
 	@Override
 	public void onClientSync(Object o) {
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
+
+			getMouse().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
+
+			getPlayerData().setCurrentSlot(p.currentSlot);
+			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
+			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
+
+			getPlayerData().getCurrentTool().setReloading(p.reloadPercent != -1.0f, true);
+			reloadPercent = p.reloadPercent;
+			getPlayerData().getCurrentTool().setReloadCd(reloadPercent);
+
+			getPlayerData().getCurrentTool().setCharging(p.chargePercent != -1.0f);
+			chargePercent = p.chargePercent;
+			getPlayerData().getCurrentTool().setChargeCd(chargePercent);
+
+			getPlayerData().setCurrentFuel(p.currentFuel);
+
+			processStatusCode(p.statusCode);
+
 			if (null != body) {
 				prevPos.set(serverPos);
 				serverPos.set(p.pos);

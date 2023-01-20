@@ -8,15 +8,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.schmucks.entities.MouseTracker;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
 
 import java.util.PriorityQueue;
@@ -380,8 +379,6 @@ public class BotManager {
         Player newPlayer = state.createPlayer(null, user.getScores().getName(), user.getScoresExtra().getLoadout(),
                 null, user.getScores().getConnID(), user, true, false, false,
                 user.getHitBoxFilter().getFilter());
-        MouseTracker newMouse = new MouseTracker(state, false);
-        newPlayer.setMouse(newMouse);
         user.setPlayer(newPlayer);
         user.setSpectator(false);
     }

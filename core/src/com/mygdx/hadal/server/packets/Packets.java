@@ -7,6 +7,9 @@ import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
@@ -16,10 +19,8 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.*;
-import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -27,7 +28,6 @@ import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.battle.DamageTag;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -367,100 +367,6 @@ public class Packets {
             this.layer = layer;
             this.align = align;
         }
-	}
-
-	public static class CreateSyncedAttackSingle {
-		public long uuidMSB, uuidLSB;
-		public long uuidMSBCreator, uuidLSBCreator;
-		public Vector2 pos, velo;
-		public SyncedAttack attack;
-
-		public CreateSyncedAttackSingle() {}
-
-		/**
-		 * A CreateSyncedAttackSingle is sent from server to client to inform them that an attack was executed
-		 * For most weapons, this packages multiple fields of a single attack to send fewer packets
-		 * @param entityID: The entityID of the hitbox this attack will create
-		 * @param creatorID: The entityID of the player that is executing the attack
-		 * @param pos: The starting position of the hbox this attack will create
-		 * @param velo: The starting velocity/trajectory of the hbox this attack will create
-		 * @param attack: the type of attack that is being executed
-		 */
-		public CreateSyncedAttackSingle(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-			this.uuidLSBCreator = creatorID.getLeastSignificantBits();
-			this.uuidMSBCreator = creatorID.getMostSignificantBits();
-			this.pos = pos;
-			this.velo = velo;
-			this.attack = attack;
-		}
-	}
-
-	public static class CreateSyncedAttackSingleExtra extends CreateSyncedAttackSingle {
-		public float[] extraFields;
-
-		public CreateSyncedAttackSingleExtra() {}
-
-		/**
-		 * A CreateSyncedAttackSingleExtra is like a CreateSyncedAttackSingle except it carries extra information
-		 * so the client can process things like charge levels
-		 * @param extraFields: extra information needed to execute this specific attack
-		 */
-		public CreateSyncedAttackSingleExtra(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
-			super(entityID, creatorID, pos, velo, attack);
-			this.extraFields = extraFields;
-		}
-	}
-
-	public static class CreateSyncedAttackMulti {
-		public long[] uuidMSB, uuidLSB;
-		public long uuidMSBCreator, uuidLSBCreator;
-		public Vector2 weaponVelo;
-		public Vector2[] pos, velo;
-		public SyncedAttack attack;
-
-		public CreateSyncedAttackMulti() {}
-
-		/**
-		 * A CreateSyncedAttackMulti is like a CreateSyncedAttackSingle except it executes an attack that creates several
-		 * hitboxes like the flounderbuss or party popper.
-		 * @param entityID: The entityID of the hitbox this attack will create
-		 * @param creatorID: The entityID of the player that is executing the attack
-		 * @param pos: The starting positions of the hboxes this attack will create
-		 * @param velo: The starting velocities/trajectories of the hboxes this attack will create
-		 * @param attack: the type of attack that is being executed
-		 */
-		public CreateSyncedAttackMulti(UUID[] entityID, UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
-			this.uuidLSB = new long[entityID.length];
-			this.uuidMSB = new long[entityID.length];
-			for (int i = 0; i < entityID.length; i++) {
-				uuidLSB[i] = entityID[i].getLeastSignificantBits();
-				uuidMSB[i] = entityID[i].getMostSignificantBits();
-			}
-			this.uuidLSBCreator = creatorID.getLeastSignificantBits();
-			this.uuidMSBCreator = creatorID.getMostSignificantBits();
-			this.weaponVelo = weaponVelo;
-			this.pos = pos;
-			this.velo = velo;
-			this.attack = attack;
-		}
-	}
-
-	public static class CreateSyncedAttackMultiExtra extends CreateSyncedAttackMulti {
-		public float[] extraFields;
-
-		public CreateSyncedAttackMultiExtra() {}
-
-		/**
-		 * A CreateSyncedAttackMultiExtra is like a CreateSyncedAttackMulti except it carries extra information
-		 * so thee client can process things like charge levels
-		 * @param extraFields: extra information needed to execute this specific attack
-		 */
-		public CreateSyncedAttackMultiExtra(UUID[] entityID, UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
-			super(entityID, creatorID, weaponVelo, pos, velo, attack);
-			this.extraFields = extraFields;
-		}
 	}
 
 	public static class CreateEnemy {
@@ -1252,10 +1158,6 @@ public class Packets {
 		kryo.register(DeletePlayer.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
-		kryo.register(CreateSyncedAttackSingle.class);
-		kryo.register(CreateSyncedAttackSingleExtra.class);
-		kryo.register(CreateSyncedAttackMulti.class);
-		kryo.register(CreateSyncedAttackMultiExtra.class);
     	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
@@ -1315,6 +1217,15 @@ public class Packets {
 		kryo.register(PacketsLoadout.SyncCharacterServer.class);
 		kryo.register(PacketsLoadout.SyncTeamServer.class);
 		kryo.register(PacketsLoadout.SyncCosmeticServer.class);
+
+		kryo.register(PacketsAttacks.SyncedAttackSingle.class);
+		kryo.register(PacketsAttacks.SyncedAttackSingleServer.class);
+		kryo.register(PacketsAttacks.SyncedAttackSingleExtra.class);
+		kryo.register(PacketsAttacks.SyncedAttackSingleExtraServer.class);
+		kryo.register(PacketsAttacks.SyncedAttackMulti.class);
+		kryo.register(PacketsAttacks.SyncedAttackMultiServer.class);
+		kryo.register(PacketsAttacks.SyncedAttackMultiExtra.class);
+		kryo.register(PacketsAttacks.SyncedAttackMultiExtraServer.class);
 
 		kryo.register(int[].class);
 		kryo.register(float[].class);

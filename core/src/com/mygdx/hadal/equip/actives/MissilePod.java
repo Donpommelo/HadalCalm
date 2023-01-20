@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -38,7 +37,7 @@ public class MissilePod extends ActiveItem {
 				if (procCdCount >= PROC_CD) {
 					procCdCount -= PROC_CD;
 					SyncedAttack.HOMING_MISSILE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
-							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 5), DamageSource.MISSILE_POD);
+							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 5));
 				}
 				procCdCount += delta;
 			}

@@ -12,7 +12,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
-import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
@@ -89,7 +88,6 @@ public class ClientState extends PlayState {
 		//client still needs anchor points, world dummies and mouse tracker
 		addEntity(getAnchor().getEntityID(), getAnchor(), false, ObjectLayer.STANDARD);
 		addEntity(getWorldDummy().getEntityID(), getWorldDummy(), false, ObjectLayer.STANDARD);
-		addEntity(getMouse().getEntityID(), getMouse(), false, ObjectLayer.STANDARD);
 	}
 	
 	@Override
@@ -123,8 +121,6 @@ public class ClientState extends PlayState {
 	private static final float INPUT_SYNC_TIME = 1 / 60f;
 	private float inputAccumulator;
 
-	private final Vector3 lastMouseLocation = new Vector3();
-
 	//separate timer used to calculate latency
 	private float clientPingTimer;
 	@Override
@@ -139,24 +135,23 @@ public class ClientState extends PlayState {
 		}
 
 		//repeatedly send client inputs and mouse position to server
-		inputAccumulator += delta;
-		while (inputAccumulator >= INPUT_SYNC_TIME) {
-			inputAccumulator -= INPUT_SYNC_TIME;
-
-			if (controller != null) {
-				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-				HadalGame.viewportCamera.unproject(mousePosition);
-
-				if (player != null) {
-					playerPosition.set(player.getPixelPosition());
-				}
-
-				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(mousePosition.x, mousePosition.y, playerPosition.x, playerPosition.y,
-						((ClientController) controller).getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
-				((ClientController) controller).postKeystrokeSync();
-			}
-		}
-		lastMouseLocation.set(mousePosition);
+//		inputAccumulator += delta;
+//		while (inputAccumulator >= INPUT_SYNC_TIME) {
+//			inputAccumulator -= INPUT_SYNC_TIME;
+//
+//			if (controller != null) {
+//				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//				HadalGame.viewportCamera.unproject(mousePosition);
+//
+//				if (player != null) {
+//					playerPosition.set(player.getPixelPosition());
+//				}
+//
+//				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(mousePosition.x, mousePosition.y, playerPosition.x, playerPosition.y,
+//						((ClientController) controller).getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
+//				((ClientController) controller).postKeystrokeSync();
+//			}
+//		}
 
 		//All entities that are set to be created are created and assigned their entityID
 		for (CreatePacket packet : createListClient) {

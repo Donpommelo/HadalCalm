@@ -610,7 +610,7 @@ public class Boss1 extends EnemyFloating {
 				positions[1] = new Vector2(getPixelPosition()).add(100, 0);
 				positions[2] = new Vector2(getPixelPosition()).add(-100, 0);
 				SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, enemy, new Vector2(), positions,
-						new Vector2[] {}, DamageSource.ENEMY_ATTACK, 0.0f, 0.0f, spiritDamage);
+						new Vector2[] {}, 0.0f, 0.0f, spiritDamage);
 			}
 		});
 	}

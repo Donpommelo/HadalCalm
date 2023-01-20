@@ -93,9 +93,6 @@ public class PlayState extends GameState {
 	protected final Box2DDebugRenderer b2dr;
 	protected final World world;
 
-	//This holds the mouse location
-	private final MouseTracker mouse;
-
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
 	private final OrderedSet<HadalEntity> createList = new OrderedSet<>();
@@ -256,9 +253,6 @@ public class PlayState extends GameState {
 		worldDummy = new WorldDummy(this);
 		anchor = new AnchorPoint(this);
 		
-		//The mouse tracker is the player's mouse position
-		mouse = new MouseTracker(this, true);
-
 		PlayState me = this;
 		//load map. We override the render so that we can apply a shader to the tileset
 		map = new TmxMapLoader().load(level.getMap());
@@ -1627,8 +1621,6 @@ public class PlayState extends GameState {
 	public void setSpectatorBounded(boolean spectatorBounded) { this.spectatorBounded = spectatorBounded; }
 
 	public boolean isSpectatorBounded() { return spectatorBounded; }
-
-	public MouseTracker getMouse() { return mouse; }
 
 	public InputProcessor getController() { return controller; }
 

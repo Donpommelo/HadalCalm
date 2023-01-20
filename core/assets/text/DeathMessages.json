@@ -224,6 +224,9 @@
         },
         {
             "message": "<perp> hornswoggled <vic>", "weight": 25, "namedPerp": true
+        },
+        {
+            "message": "<perp> philogrobolized <vic>", "weight": 25, "namedPerp": true
         }
     ],
 "WAVE_BEAM":  [

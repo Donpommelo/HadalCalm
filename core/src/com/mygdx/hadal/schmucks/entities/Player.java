@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.*;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.PlayerSpriteHelper;
 import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
@@ -22,9 +22,6 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.constants.MoveState;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -39,8 +36,6 @@ import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.PlayerStatusUtil;
 import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -196,9 +191,6 @@ public class Player extends PhysicsSchmuck {
 		setBodySprite(startLoadout.character, startLoadout.team);
 		loadParticlesAndSounds();
 		
-		//This schmuck tracks mouse location. Used for projectiles that home towards mouse.
-		mouse = state.getMouse();
-		
 		this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
 		this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
 		this.hpBar = Sprite.UI_MAIN_HEALTHBAR.getFrame();
@@ -208,6 +200,12 @@ public class Player extends PhysicsSchmuck {
 		this.typingBubble =  new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_SLOW,
 			Objects.requireNonNull(Sprite.NOTIFICATIONS_CHAT.getFrames()));
 		typingBubble.setPlayMode(PlayMode.LOOP_PINGPONG);
+
+		//This schmuck tracks mouse location. Used for projectiles that home towards mouse.
+		mouse = new MouseTracker(state, this == state.getPlayer());
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(mouse.entityID, mouse,false, PlayState.ObjectLayer.STANDARD);
+		}
 	}
 	
 	/**
@@ -254,6 +252,8 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void create() {
+		mouse.setSelf(this == state.getPlayer());
+
 		alive = true;
 		destroyed = false;
 
@@ -356,54 +356,10 @@ public class Player extends PhysicsSchmuck {
 		playerLocation.set(getPixelPosition());
 
 		processMovement(delta);
-
 		processFuel(delta);
+		processEquipment(delta);
+		processMiscellaneous(delta);
 
-		if (shooting) {
-			shoot(delta);
-		}
-		
-		//If player is reloading, run the reload method of the current equipment.
-		boolean reloading = playerData.getCurrentTool().isReloading();
-		toggleReloadEffects(reloading);
-		if (reloading) {
-			playerData.getCurrentTool().reload(delta);
-		}
-		
-		//charge active item in all modes except campaign (where items charge by dealing damage).
-		if (!GameMode.CAMPAIGN.equals(state.getMode())) {
-			playerData.getActiveItem().gainCharge(delta);
-		}
-		
-		//keep track of reload/charge percent to properly sync those fields in the ui
-		reloadPercent = playerData.getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
-		chargePercent = playerData.getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
-		
-		//process cds
-		interactCdCount -= delta;
-		pingCdCount -= delta;
-		hitSoundCdCount -= delta;
-		hitSoundLargeCdCount -= delta;
-		typingCdCount -= delta;
-
-		if (shootBuffered && shootCdCount < 0) {
-			shootBuffered = false;
-			shoot(delta);
-		}
-
-		//Determine player mouse location and hence where the arm should be angled.
-		playerLocation.set(getPixelPosition());
-		mouseLocation.set(mouse.getPixelPosition());
-		mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
-
-		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
-		
-		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
-		playerData.getCurrentTool().update(state, delta);
-
-		//process list of units that damaged this player within the last ~5 seconds
-		playerData.processRecentDamagedBy(delta);
-		
 		super.controller(delta);
 	}
 
@@ -461,6 +417,56 @@ public class Player extends PhysicsSchmuck {
 			playerData.fuelGain(grounded ? GROUND_FUEL_REGEN_BOOST * FUEL_REGEN * delta : FUEL_REGEN * delta);
 		}
 		playerData.fuelGain(playerData.getStat(Stats.FUEL_REGEN) * delta);
+	}
+
+	protected void processEquipment(float delta) {
+		if (shooting) {
+			shoot(delta);
+		}
+
+		//If player is reloading, run the reload method of the current equipment.
+		boolean reloading = playerData.getCurrentTool().isReloading();
+		toggleReloadEffects(reloading);
+		if (reloading) {
+			playerData.getCurrentTool().reload(delta);
+		}
+
+		//charge active item in all modes except campaign (where items charge by dealing damage).
+		if (!GameMode.CAMPAIGN.equals(state.getMode())) {
+			playerData.getActiveItem().gainCharge(delta);
+		}
+
+		//keep track of reload/charge percent to properly sync those fields in the ui
+		reloadPercent = playerData.getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
+		chargePercent = playerData.getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
+
+		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
+		playerData.getCurrentTool().update(state, delta);
+
+		if (shootBuffered && shootCdCount < 0) {
+			shootBuffered = false;
+			shoot(delta);
+		}
+	}
+
+	protected void processMiscellaneous(float delta) {
+
+		//Determine player mouse location and hence where the arm should be angled.
+		playerLocation.set(getPixelPosition());
+		mouseLocation.set(mouse.getPixelPosition());
+		mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
+
+		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
+
+		//process cds
+		interactCdCount -= delta;
+		pingCdCount -= delta;
+		hitSoundCdCount -= delta;
+		hitSoundLargeCdCount -= delta;
+		typingCdCount -= delta;
+
+		//process list of units that damaged this player within the last ~5 seconds
+		playerData.processRecentDamagedBy(delta);
 	}
 
 	private final Vector2 hoverDirection = new Vector2();
@@ -808,19 +814,6 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
-	/**
-	 * When the player is in the air, their animation freezes. This gets the frame for that
-	 * @param reverse: which direction is the player facing
-	 * @return the integer frame number that should be displayed given the player's movement status
-	 */
-	public int getFreezeFrame(boolean reverse) {
-		if (Math.abs(getLinearVelocity().x) > Math.abs(getLinearVelocity().y)) {
-			return reverse ? 5 : 2;
-		} else {
-			return reverse ? 1 : 6;
-		}
-	}
-
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -841,9 +834,9 @@ public class Player extends PhysicsSchmuck {
 	 */
 	private static final float MAX_DAMAGE_THRESHOLD = 60.0f;
 	public void playHitSound(float damage) {
-		
+
 		if (damage <= 0.0f) { return; }
-		
+
 		if (damage > MAX_DAMAGE_THRESHOLD) {
 			if (hitSoundLargeCdCount < 0) {
 				hitSoundLargeCdCount = HIT_SOUND_CD;
@@ -886,13 +879,11 @@ public class Player extends PhysicsSchmuck {
 
 		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
 				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
-				mouseAngle, playerData.getCurrentSlot(),
+				getMouse().getPosition(), playerData.getCurrentSlot(),
 				playerData.getCurrentTool().isReloading() ? reloadPercent : -1.0f,
 				playerData.getCurrentTool().isCharging() ? chargePercent : -1.0f,
 				playerData.getCurrentFuel(),
-				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(),
-				playerData.getActiveItem().chargePercent(),
-				getMainFixture().getFilterData().maskBits, blinded, statusCode));
+				statusCode));
 	}
 	
 	/**
@@ -919,7 +910,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayer p) {
-			serverAttackAngle.setAngleRad(p.attackAngle.angleRad());
+			getMouse().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
@@ -928,25 +919,9 @@ public class Player extends PhysicsSchmuck {
 			getPlayerData().getCurrentTool().setCharging(p.chargePercent != -1.0f);
 			chargePercent = p.chargePercent;
 			getPlayerData().setCurrentFuel(p.currentFuel);
-			getPlayerData().getCurrentTool().setClipLeft(p.currentClip);
-			getPlayerData().getCurrentTool().setAmmoLeft(p.currentAmmo);
-			getPlayerData().getActiveItem().setCurrentChargePercent(p.activeCharge);
-			blinded = p.blinded;
 
-			grounded = PlayerStatusUtil.codeToGrounded(p.statusCode);
-			invisible = PlayerStatusUtil.codeToInvisible(p.statusCode);
-			translucent = PlayerStatusUtil.codeToTranslucent(p.statusCode);
-			transparent = PlayerStatusUtil.codeToTransparent(p.statusCode);
-			toggleRunningEffects(PlayerStatusUtil.codeToRunning(p.statusCode));
-			toggleHoverEffects(PlayerStatusUtil.codeToHovering(p.statusCode));
-			toggleReloadEffects(PlayerStatusUtil.codeToReloading(p.statusCode));
+			processStatusCode(p.statusCode);
 
-			//client's own player does not sync dropthrough passability
-			if (!(this instanceof PlayerClient) && p.maskBits != getMainFixture().getFilterData().maskBits) {
-				Filter filter = getMainFixture().getFilterData();
-				filter.maskBits = p.maskBits;
-				getMainFixture().setFilterData(filter);
-			}
 		} else if (o instanceof Packets.DeletePlayer p) {
 
 			//delegate to sprite helper for despawn so it can dispose of frame buffer object
@@ -955,16 +930,26 @@ public class Player extends PhysicsSchmuck {
 			((ClientState) state).removeEntity(entityID);
 		}
 	}
-	
-	private final Vector2 serverAttackAngle = new Vector2(0, 1);
+
+	public void processStatusCode(short statusCode) {
+		grounded = PlayerStatusUtil.codeToGrounded(statusCode);
+		invisible = PlayerStatusUtil.codeToInvisible(statusCode);
+		translucent = PlayerStatusUtil.codeToTranslucent(statusCode);
+		transparent = PlayerStatusUtil.codeToTransparent(statusCode);
+		toggleRunningEffects(PlayerStatusUtil.codeToRunning(statusCode));
+		toggleHoverEffects(PlayerStatusUtil.codeToHovering(statusCode));
+		toggleReloadEffects(PlayerStatusUtil.codeToReloading(statusCode));
+	}
+
 	@Override
 	public void clientController(float delta) {
 		playerLocation.set(getPixelPosition());
+		mouseLocation.set(mouse.getPixelPosition());
+		mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
+		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 
 		super.clientController(delta);
-		//client mouse lerps towards the angle sent by server
-		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
-		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
+
 		typingCdCount -= delta;
 	}
 	

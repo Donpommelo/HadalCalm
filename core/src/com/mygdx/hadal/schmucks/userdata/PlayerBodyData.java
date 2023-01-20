@@ -678,10 +678,8 @@ public class PlayerBodyData extends BodyData {
 			}
 			
 			//delete the player's mouse pointer
-			if (player.getMouse() != player.getState().getMouse()) {
-				player.getMouse().queueDeletion();
-			}
-			
+			player.getMouse().queueDeletion();
+
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)
 			if (currentTool != null) {
 				currentTool.unequip(player.getState());

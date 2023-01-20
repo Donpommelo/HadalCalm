@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -25,7 +24,7 @@ public class ProximityMine extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SyncedAttack.PROXIMITY_MINE.initiateSyncedAttackSingle(state, user.getPlayer(), user.getPlayer().getPixelPosition(),
-				new Vector2(), DamageSource.PROXIMITY_MINE, EXPLOSION_DAMAGE);
+				new Vector2(), EXPLOSION_DAMAGE);
 	}
 
 	@Override

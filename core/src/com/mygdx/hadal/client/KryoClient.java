@@ -17,7 +17,6 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.MovingPoint;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
@@ -30,6 +29,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.*;
 import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
@@ -634,7 +634,7 @@ public class KryoClient {
 		/*
 		 * Server tells us to execute a synced attack. Do so with the parameters provided
 		 */
-		if (o instanceof final Packets.CreateSyncedAttackSingle p) {
+		if (o instanceof final PacketsAttacks.SyncedAttackSingleServer p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
@@ -644,10 +644,10 @@ public class KryoClient {
 					}
 					if (creator instanceof Schmuck schmuck) {
 						Hitbox hbox;
-						if (p instanceof Packets.CreateSyncedAttackSingleExtra p1) {
-							hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, p1.extraFields);
+						if (p instanceof PacketsAttacks.SyncedAttackSingleExtraServer p1) {
+							hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false, p1.extraFields);
 						} else {
-							hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo);
+							hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false);
 						}
 						hbox.serverPos.set(p.pos).scl(1 / PPM);
 						hbox.serverVelo.set(p.velo);
@@ -661,7 +661,7 @@ public class KryoClient {
 		/*
 		 * Server tells us to execute a synced attack that creates multiple hitboxes. Do so with the parameters provided
 		 */
-		if (o instanceof final Packets.CreateSyncedAttackMulti p) {
+		if (o instanceof final PacketsAttacks.SyncedAttackMultiServer p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
@@ -671,10 +671,12 @@ public class KryoClient {
 					}
 					if (creator instanceof Schmuck schmuck) {
 						Hitbox[] hboxes;
-						if (p instanceof Packets.CreateSyncedAttackMultiExtra p1) {
-							hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo, p1.extraFields);
+						if (p instanceof PacketsAttacks.SyncedAttackMultiExtraServer p1) {
+							hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
+									0, false, p1.extraFields);
 						} else {
-							hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo);
+							hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
+									0, false);
 						}
 
 						for (int i = 0; i < hboxes.length; i++) {

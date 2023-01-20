@@ -1,9 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -39,8 +38,8 @@ public class ForagersHive extends Artifact {
 					procCdCount -= procCd;
 
 					startVelo.set(0, beeSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
-					SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
-							startVelo, DamageSource.FORAGERS_HIVE);
+					SyncedAttack.BEE_FORAGER.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
+							startVelo);
 				}
 			}
 		};

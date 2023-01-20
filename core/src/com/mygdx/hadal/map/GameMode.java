@@ -41,7 +41,7 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
  */
 public enum GameMode {
 
-    HUB("", "koh", GameText.HUB, GameText.HUB_DESC,
+    HUB("", "placeholder", GameText.HUB, GameText.HUB_DESC,
             new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(1)) {
 
         @Override
@@ -51,14 +51,14 @@ public enum GameMode {
         public boolean isHub() { return true; }
     },
 
-    CAMPAIGN("", "koh", GameText.CAMPAIGN, GameText.CAMPAIGN_DESC,
+    CAMPAIGN("", "placeholder", GameText.CAMPAIGN, GameText.CAMPAIGN_DESC,
             new SettingTeamMode(TeamMode.COOP), new SettingLives(1)) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
     },
 
-    BOSS("", "koh", GameText.BOSS, GameText.BOSS_DESC,
+    BOSS("", "placeholder", GameText.BOSS, GameText.BOSS_DESC,
             new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
             new DisplayUITag("ALLY_HEALTH"),
             new ToggleWeaponDrops()),
@@ -71,7 +71,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    DREAM_OF_A_WHALE("arena", "koh", GameText.NOTHING, GameText.NOTHING,
+    DREAM_OF_A_WHALE("arena", "placeholder", GameText.NOTHING, GameText.NOTHING,
             new SetCameraOnSpawn(),
             new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
             new DisplayUITag("SCOREBOARD"), new DisplayUITag("ALLY_HEALTH")) {
@@ -96,7 +96,7 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
         new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    TRICK_OR_TREAT("team,tot,objective", "koh", CTF, GameText.TRICK_OR_TREAT, GameText.TRICK_OR_TREAT_DESC,
+    TRICK_OR_TREAT("team,tot,objective", "trickortreat_v2", CTF, GameText.TRICK_OR_TREAT, GameText.TRICK_OR_TREAT_DESC,
             new SetCameraOnSpawn(),
             new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(),
             new SettingTeamScoreCap(), new SettingLives(0), new SettingBaseHp(), new SettingRespawnTime(5), new SettingLoadoutOutfit(),
@@ -159,7 +159,7 @@ public enum GameMode {
             new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
             new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
 
-    SANDBOX("", "koh", GameText.SANDBOX, GameText.SANDBOX_DESC, new SettingTeamMode(TeamMode.COOP),
+    SANDBOX("", "placeholder", GameText.SANDBOX, GameText.SANDBOX_DESC, new SettingTeamMode(TeamMode.COOP),
             new SettingLives(0)),
 
     ;

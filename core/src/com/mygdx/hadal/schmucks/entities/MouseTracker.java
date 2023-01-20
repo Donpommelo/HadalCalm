@@ -26,12 +26,12 @@ public class MouseTracker extends HadalEntity {
 	//This tracks the location of a client mouse sent by packet
 	private final Vector2 desiredLocation = new Vector2();
 
-	//Whether this player is the host or not
-	private final boolean server;
+	//Does this mouse belong to the player or another networked player
+	private boolean self;
 
-	public MouseTracker(PlayState state, boolean server) {
+	public MouseTracker(PlayState state, boolean self) {
 		super(state, new Vector2(), new Vector2(1, 1));
-		this.server = server;
+		this.self = self;
 	}
 
 	@Override
@@ -43,12 +43,12 @@ public class MouseTracker extends HadalEntity {
 	public void controller(float delta) {
 
 		//server player's mouse sets location constantly. Client's mouse moves to desired location which is set when receiving packets from respective client
-		if (server) {
+		if (self) {
 			tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			HadalGame.viewportCamera.unproject(tmpVec3);
 			mousePosition.set(tmpVec3.x / PPM, tmpVec3.y / PPM);
 		} else {
-			mousePosition.set(desiredLocation.x / PPM, desiredLocation.y / PPM);
+			mousePosition.set(desiredLocation.x, desiredLocation.y);
 		}
 	}
 
@@ -82,4 +82,6 @@ public class MouseTracker extends HadalEntity {
 		mousePixelPosition.set((int) mousePixelPosition.x, (int) mousePixelPosition.y);
 		return mousePixelPosition;
 	}
+
+	public void setSelf(boolean self) { this.self = self; }
 }

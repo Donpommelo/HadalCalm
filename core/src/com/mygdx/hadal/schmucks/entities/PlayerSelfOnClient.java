@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.entities;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageTag;
@@ -10,7 +9,6 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
@@ -37,18 +35,14 @@ public class PlayerSelfOnClient extends Player {
 	}
 
 	private float syncAccumulator;
-	private final Vector2 newPosition = new Vector2();
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
 
 		processMovement(delta);
 		processFuel(delta);
-
-		newPosition.set(getPixelPosition());
-		mouseAngle.set(newPosition.x, newPosition.y)
-				.sub(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
-		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
+		processEquipment(delta);
+		processMiscellaneous(delta);
 
 		//Apply base hp regen
 		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTag.REGEN);
@@ -60,11 +54,14 @@ public class PlayerSelfOnClient extends Player {
 		if (syncAccumulator >= SYNC_TIME) {
 			syncAccumulator = 0;
 
+			short statusCode = getStatusCode();
 			HadalGame.client.sendUDP(new PacketsSync.SyncClientSnapshot(getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer(), moveState,
-					mouseAngle,
+					entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
+					getMouse().getPosition(), playerData.getCurrentSlot(),
+					playerData.getCurrentTool().isReloading() ? reloadPercent : -1.0f,
+					playerData.getCurrentTool().isCharging() ? chargePercent : -1.0f,
 					playerData.getCurrentFuel(),
-					getMainFixture().getFilterData().maskBits));
+					statusCode));
 		}
 	}
 

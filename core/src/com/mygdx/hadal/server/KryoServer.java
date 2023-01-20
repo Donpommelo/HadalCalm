@@ -17,10 +17,10 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.MouseTracker;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
@@ -164,7 +164,41 @@ public class KryoServer {
 						}
 					}
 				}
-				
+
+				if (o instanceof final PacketsAttacks.SyncedAttackSingle p) {
+					final PlayState ps = getPlayState();
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
+								if (p instanceof PacketsAttacks.SyncedAttackSingleExtra p1) {
+									p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p1.extraFields);
+								} else {
+									p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+								}
+							});
+						}
+					}
+				}
+
+				if (o instanceof final PacketsAttacks.SyncedAttackMulti p) {
+					final PlayState ps = getPlayState();
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
+								if (p instanceof PacketsAttacks.SyncedAttackMultiExtra p1) {
+									p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p1.extraFields);
+								} else {
+									p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+								}
+							});
+						}
+					}
+				}
+
 				/*
 				 * The Client has connected.
 				 * Notify clients and create a new player for the client. Also, tell the new client what level to load
@@ -620,8 +654,6 @@ public class KryoServer {
 				//Create a new player with the designated fields and give them a mouse pointer.
 				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connID, user, reset, false, justJoined,
 						user.getHitBoxFilter().getFilter());
-				MouseTracker newMouse = new MouseTracker(ps, false);
-				newPlayer.setMouse(newMouse);
 
 				user.setPlayer(newPlayer);
 				user.setSpectator(false);

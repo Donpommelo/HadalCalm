@@ -18,6 +18,7 @@ import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.PlayerMiscUtil;
 
 /**
  * The PlayerSpriteHelper helps draw the player sprite. Each player has a PlayerSpriteHelper.
@@ -254,7 +255,7 @@ public class PlayerSpriteHelper {
         } else {
             bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             batch.draw(grounded ? bodyStillSprite.getKeyFrame(animationTime, true) :
-                    bodyRunSprite.getKeyFrame(player.getFreezeFrame(false)), bodyX, bodyY, 0, 0,
+                    bodyRunSprite.getKeyFrame(PlayerMiscUtil.getFreezeFrame(player.getLinearVelocity(), false)), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         }
 

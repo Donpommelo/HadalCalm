@@ -75,7 +75,7 @@ public class AssaultBits extends RangedWeapon {
 
 	@Override
 	public void update(PlayState state, float delta) {
-		if (bits.size< 3) {
+		if (bits.size < 3) {
 			setCharging(true);
 
 			if (chargeCd < getChargeTime()) {

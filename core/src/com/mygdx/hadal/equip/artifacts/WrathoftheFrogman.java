@@ -1,10 +1,9 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.equip.Equippable;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -41,8 +40,8 @@ public class WrathoftheFrogman extends Artifact {
 					procCdCount -= procCd;
 
 					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
-					SyncedAttack.HOMING_MISSILE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
-							inflicted.getSchmuck().getPixelPosition(), startVelo, DamageSource.WRATH_OF_THE_FROGMAN);
+					SyncedAttack.HOMING_MISSILE_FROGMAN.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
+							inflicted.getSchmuck().getPixelPosition(), startVelo);
 				}
 			}
 		};

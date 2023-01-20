@@ -114,7 +114,7 @@ public class Status implements Comparable<Status> {
 	
 	public void scrapPickup() {}
 	
-	public void onAirBlast(Equippable tool) {}
+	public void onAirBlast(Vector2 airblastDirection) {}
 
 	public void whileHover(Vector2 hoverDirection) {}
 
