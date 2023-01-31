@@ -72,9 +72,9 @@ public class AllyRevive extends ModeSetting {
 
                                         //players or teams that "qualify" for a win only win if they are the only one(s) alive
                                         if (factionLeft == -1) {
-                                            factionLeft = playerLeft.getHitboxfilter();
+                                            factionLeft = playerLeft.getHitboxFilter();
                                         } else {
-                                            if (factionLeft != playerLeft.getHitboxfilter()) {
+                                            if (factionLeft != playerLeft.getHitboxFilter()) {
                                                 allded = false;
                                             }
                                         }

@@ -102,7 +102,7 @@ public class Screecher extends RangedWeapon {
 				} else {
 					if (fixture.getUserData() instanceof HadalData) {
 						if (fixture.getUserData() instanceof BodyData && fraction < shortestFraction) {
-							if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
+							if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxFilter() != filter) {
 								shortestFraction = fraction;
 								return fraction;
 							}
@@ -127,7 +127,7 @@ public class Screecher extends RangedWeapon {
 			distance = extraFields[0];
 		}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.NOTHING);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -140,7 +140,7 @@ public class Screecher extends RangedWeapon {
 
 		//the trail creates particles along the projectile's length
 		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed),
-				user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
+				user.getHitboxFilter(), true, true, user, Sprite.NOTHING);
 		trail.setSyncDefault(false);
 		trail.setEffectsHit(false);
 		trail.setEffectsMovement(false);

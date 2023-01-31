@@ -9,7 +9,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.HubOptionPlayer;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
-import com.mygdx.hadal.effects.PlayerSpriteHelper;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketsLoadout;

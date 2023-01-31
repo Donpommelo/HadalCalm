@@ -67,8 +67,8 @@ public class RallyPoint implements Comparable<RallyPoint> {
         if (shortestPaths.containsKey(-1)) {
             path = shortestPaths.get(-1).get(end);
         }
-        if (shortestPaths.containsKey((int) bot.getHitboxfilter())) {
-            path = shortestPaths.get((int) bot.getHitboxfilter()).get(end);
+        if (shortestPaths.containsKey((int) bot.getHitboxFilter())) {
+            path = shortestPaths.get((int) bot.getHitboxFilter()).get(end);
         }
         return path;
     }

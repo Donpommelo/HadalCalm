@@ -81,7 +81,7 @@ public class AnchorSmash extends ActiveItem {
 		}
 
 		Hitbox hbox = new Hitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, new Vector2(0, -PROJECTILE_SPEED),
-				user.getHitboxfilter(), true, false, user, PROJ_SPRITE);
+				user.getHitboxFilter(), true, false, user, PROJ_SPRITE);
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		hbox.makeUnreflectable();
 

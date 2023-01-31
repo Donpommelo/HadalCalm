@@ -118,7 +118,7 @@ public class LoveBow extends RangedWeapon {
 		float heal = chargeAmount * (maxHeal - minHeal) + minHeal;
 
 		Hitbox hurtbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity),
-				user.getHitboxfilter(), false, true, user, projSprite);
+				user.getHitboxFilter(), false, true, user, projSprite);
 		hurtbox.setGravity(1.0f);
 
 		hurtbox.addStrategy(new ControllerDefault(state, hurtbox, user.getBodyData()));
@@ -156,7 +156,7 @@ public class LoveBow extends RangedWeapon {
 					//if shooting self after delay or any ally, the arrow will heal. Otherwise, damage is inflicted
 					if (UserDataType.BODY.equals(fixB.getType())) {
 
-						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxfilter() == user.getHitboxfilter())) {
+						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxFilter() == user.getHitboxFilter())) {
 							((BodyData) fixB).regainHp(heal, creator, true);
 							SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
 							ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
@@ -165,7 +165,7 @@ public class LoveBow extends RangedWeapon {
 								((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectLayer.HBOX);
 							}
 							hurtbox.die();
-						} else if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()) {
+						} else if (((BodyData) fixB).getSchmuck().getHitboxFilter() != user.getHitboxFilter()) {
 							ParticleEntity hurt = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
 									true, SyncType.NOSYNC);
 							if (!state.isServer()) {

@@ -58,7 +58,7 @@ public class SlodgeNozzle extends RangedWeapon {
 	public static Hitbox createSlodge(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, Sprite.NOTHING);
 		hbox.setGravity(3.0f);
 		hbox.setDurability(3);

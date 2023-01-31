@@ -46,7 +46,7 @@ public class MarineSnowglobe extends ActiveItem {
 	public static Hitbox createMarineSnow(PlayState state, Schmuck user, Vector2 startPosition) {
 		SoundEffect.FREEZE_IMPACT.playSourced(state, startPosition, 0.9f, 0.5f);
 
-		Hitbox hbox = new RangedHitbox(state, user.getPixelPosition(), PROJECTILE_SIZE, DURATION, new Vector2(), user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, user.getPixelPosition(), PROJECTILE_SIZE, DURATION, new Vector2(), user.getHitboxFilter(),
 				false, false, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 

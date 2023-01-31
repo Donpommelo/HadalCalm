@@ -5,13 +5,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.schmucks.entities.PlayerClientOnHost;
+import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
@@ -20,8 +24,6 @@ import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveHeal;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * Body data contains the stats and methods of any unit; player or enemy.
@@ -271,37 +273,43 @@ public class BodyData extends HadalData {
 	public float receiveDamage(float baseDamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
 							   DamageSource source, DamageTag... tags) {
 		if (!schmuck.isAlive()) { return 0.0f; }
-		
+
+		boolean processDamageEffects = true;
+		if (schmuck.getState().isServer()) {
+			if (schmuck instanceof PlayerClientOnHost) {
+				processDamageEffects = false;
+			}
+		} else {
+			if (!(schmuck instanceof PlayerSelfOnClient)) {
+				processDamageEffects = false;
+			}
+		}
+
 		//calculate damage
 		float damage = baseDamage;
-		damage -= baseDamage * (getStat(Stats.DAMAGE_RES));
-		damage += baseDamage * (perp.getStat(Stats.DAMAGE_AMP));
-		damage += baseDamage * (-DAMAGE_VARIANCE + MathUtils.random() * 2 * DAMAGE_VARIANCE);
-		
-		//proc effects and inflict damage
-		if (procEffects) {
-			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, source, tags))).damage;
-			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, source, tags))).damage;
-		}
-		currentHp -= damage;
-		
-		//apply knockback
-		float kbScale = 1;
-		kbScale -= Math.min(getStat(Stats.KNOCKBACK_RES), 1.0f);
-		kbScale += perp.getStat(Stats.KNOCKBACK_AMP);
-		schmuck.applyLinearImpulse(new Vector2(knockback).scl(kbScale));
 
-		if (schmuck.getState().isServer()) {
+		if (processDamageEffects) {
+
+			damage -= baseDamage * (getStat(Stats.DAMAGE_RES));
+			damage += baseDamage * (perp.getStat(Stats.DAMAGE_AMP));
+			damage += baseDamage * (-DAMAGE_VARIANCE + MathUtils.random() * 2 * DAMAGE_VARIANCE);
+
+			//proc effects and inflict damage
+			if (procEffects) {
+				damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, source, tags))).damage;
+				damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, source, tags))).damage;
+			}
+			currentHp -= damage;
+
+			//apply knockback
+			float kbScale = 1;
+			kbScale -= Math.min(getStat(Stats.KNOCKBACK_RES), 1.0f);
+			kbScale += perp.getStat(Stats.KNOCKBACK_AMP);
+			schmuck.applyLinearImpulse(new Vector2(knockback).scl(kbScale));
 
 			//Give credit for kills to last schmuck (besides self) who damaged this schmuck
 			if (!perp.equals(this) && !perp.equals(schmuck.getState().getWorldDummy().getBodyData())) {
 				lastDamagedBy = perp;
-			}
-
-			//Make schmuck flash upon receiving damage
-			if (damage > 0 && schmuck.getShaderCount() < -Constants.FLASH) {
-				schmuck.setShader(Shader.WHITE, Constants.FLASH, true);
-				schmuck.impact.onForBurst(0.25f);
 			}
 
 			if (currentHp <= 0) {
@@ -310,48 +318,55 @@ public class BodyData extends HadalData {
 				damage += currentHp;
 
 				currentHp = 0;
-				die(lastDamagedBy, source, tags);
+				if (schmuck.getState().isServer()) {
+					die(lastDamagedBy, source, tags);
+				}
+			}
+		}
+
+		//Make schmuck flash upon receiving damage
+		if (damage > 0 && schmuck.getShaderCount() < -Constants.FLASH) {
+			schmuck.setShader(Shader.WHITE, Constants.FLASH);
+			schmuck.impact.onForBurst(0.25f);
+		}
+
+		//charge on-damage active item
+		if (perp instanceof PlayerBodyData perpData) {
+			if (GameMode.CAMPAIGN.equals(schmuck.getState().getMode())) {
+
+				//active item charges less against non-player enemies
+				if (this instanceof PlayerBodyData) {
+					perpData.getActiveItem().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER);
+				} else {
+					perpData.getActiveItem().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER * ActiveItem.ENEMY_DAMAGE_CHARGE_MULTIPLIER);
+				}
 			}
 
-			//charge on-damage active item
-			if (perp instanceof PlayerBodyData perpData) {
-				if (GameMode.CAMPAIGN.equals(schmuck.getState().getMode())) {
-					
-					//active item charges less against non-player enemies
-					if (this instanceof PlayerBodyData) {
-						perpData.getActiveItem().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER);
-					} else {
-						perpData.getActiveItem().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER * ActiveItem.ENEMY_DAMAGE_CHARGE_MULTIPLIER);
+			if (perpData.getPlayer().getUser() != null) {
+
+				//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
+				perpData.getPlayer().getHitsoundHelper().playHitSound(this, damage);
+
+				SavedPlayerFieldsExtra field = perpData.getPlayer().getUser().getScoresExtra();
+				if (perp.getSchmuck().getHitboxFilter() != schmuck.getHitboxFilter()) {
+
+					//track perp's damage dealt
+					if (field != null && damage > 0.0f) {
+						field.incrementDamageDealt(damage);
 					}
-				}
 
-				if (perpData.getPlayer().getUser() != null) {
-					SavedPlayerFieldsExtra field = perpData.getPlayer().getUser().getScoresExtra();
-					//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
-					if (perp.getSchmuck().getHitboxfilter() != schmuck.getHitboxfilter()) {
-						if (currentHp == 0) {
-							perpData.getPlayer().playHitSound(999);
+				} else {
+					if (field != null && damage > 0.0f) {
+						if (perp.getSchmuck().equals(schmuck)) {
+							field.incrementDamageDealtSelf(damage);
 						} else {
-							perpData.getPlayer().playHitSound(damage);
-						}
-
-						//track perp's damage dealt
-						if (field != null && damage > 0.0f) {
-							field.incrementDamageDealt(damage);
-						}
-
-					} else {
-						if (field != null && damage > 0.0f) {
-							if (perp.getSchmuck().equals(schmuck)) {
-								field.incrementDamageDealtSelf(damage);
-							} else {
-								field.incrementDamageDealtAllies(damage);
-							}
+							field.incrementDamageDealtAllies(damage);
 						}
 					}
 				}
 			}
 		}
+
 		return damage;
 	}
 	

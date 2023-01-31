@@ -37,7 +37,7 @@ public class ForagersHive extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 
-					startVelo.set(0, beeSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
+					startVelo.set(0, beeSpeed).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
 					SyncedAttack.BEE_FORAGER.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
 							startVelo);
 				}

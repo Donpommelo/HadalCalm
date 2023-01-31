@@ -93,7 +93,7 @@ public class Torpedofish extends EnemySwimming {
 					startVelo.nor().scl(projectileSpeed);
 					SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 1.0f, 0.75f, false);
 					
-					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
+					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, projSprite);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new AdjustAngle(state, hbox, enemy.getBodyData()));

@@ -103,7 +103,7 @@ public class PacketsSync {
         public float reloadPercent;
         public float chargePercent;
         public float currentFuel;
-        public short statusCode;
+        public short conditionCode;
 
         public SyncPlayer() {}
 
@@ -114,14 +114,14 @@ public class PacketsSync {
          */
         public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
                           float currentHp, Vector2 mousePosition, int currentSlot, float reloadPercent,
-                          float chargePercent, float currentFuel, short statusCode) {
+                          float chargePercent, float currentFuel, short conditionCode) {
             super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
             this.mousePosition = mousePosition;
             this.currentSlot = currentSlot;
             this.reloadPercent = reloadPercent;
             this.chargePercent = chargePercent;
             this.currentFuel = currentFuel;
-            this.statusCode = statusCode;
+            this.conditionCode = conditionCode;
         }
     }
 

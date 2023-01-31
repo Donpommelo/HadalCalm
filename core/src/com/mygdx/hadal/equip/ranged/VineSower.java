@@ -136,7 +136,7 @@ public class VineSower extends RangedWeapon {
 		final int splitNum = extraFields.length > 1 ? (int) extraFields[1] : 0;
 
 		//create an invisible hitbox that makes the vines as it moves
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, seedSize, vineLifespan, startVelocity, user.getHitboxfilter(),
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, seedSize, vineLifespan, startVelocity, user.getHitboxFilter(),
 				false, false, user, Sprite.NOTHING);
 		hbox.setPassability(Constants.BIT_WALL);
 		hbox.makeUnreflectable();
@@ -175,7 +175,7 @@ public class VineSower extends RangedWeapon {
 					Sprite projSprite = vineSprites[randomIndex];
 
 					RangedHitbox vine = new RangedHitbox(state, lastPosition, vineSize, vineLifespan, new Vector2(),
-							user.getHitboxfilter(), true, true, creator.getSchmuck(),
+							user.getHitboxFilter(), true, true, creator.getSchmuck(),
 							vineCountTotal == vineNum && splitNum == 0 ? Sprite.VINE_B : projSprite) {
 
 						private final Vector2 newPosition = new Vector2();

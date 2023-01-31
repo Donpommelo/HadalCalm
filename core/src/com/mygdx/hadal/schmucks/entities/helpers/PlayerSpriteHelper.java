@@ -1,4 +1,4 @@
-package com.mygdx.hadal.effects;
+package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
@@ -396,8 +397,9 @@ public class PlayerSpriteHelper {
 
         //render player
         player.getState().getBatch().begin();
-        render(player.getState().getBatch(), player.getAttackAngle(), player.getMoveState(), 0.0f, 0.0f,
-                false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f), true, null, false);
+        render(player.getState().getBatch(), player.getMouseHelper().getAttackAngle(), player.getMoveState(),
+                0.0f, 0.0f,false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f),
+                true, null, false);
         player.getState().getBatch().end();
 
         ragdollBuffer.end();

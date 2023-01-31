@@ -89,7 +89,7 @@ public class Scissorfish extends EnemySwimming {
 							
 					startVelo.set(meleeRange, meleeRange).setAngleDeg(getAttackAngle());
 					
-					Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), meleeSize, meleeInterval, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.IMPACT);
+					Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), meleeSize, meleeInterval, enemy.getLinearVelocity(), enemy.getHitboxFilter(), true, true, enemy, Sprite.IMPACT);
 					hbox.makeUnreflectable();
 					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), attack1Damage, defaultMeleeKB,

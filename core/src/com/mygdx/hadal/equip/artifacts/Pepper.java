@@ -38,9 +38,9 @@ public class Pepper extends Artifact {
 					entityLocation.set(p.getSchmuck().getPosition());
 					state.getWorld().QueryAABB(fixture -> {
 						if (fixture.getUserData() instanceof BodyData bodyData) {
-							if (bodyData.getSchmuck().getHitboxfilter() != p.getSchmuck().getHitboxfilter()) {
+							if (bodyData.getSchmuck().getHitboxFilter() != p.getSchmuck().getHitboxFilter()) {
 								bodyData.receiveDamage(damage, new Vector2(), p, true, null, DamageSource.PEPPER);
-								bodyData.getSchmuck().setShader(Shader.STATIC, effectDuration, true);
+								bodyData.getSchmuck().setShader(Shader.STATIC, effectDuration);
 							}
 						}
 						return true;

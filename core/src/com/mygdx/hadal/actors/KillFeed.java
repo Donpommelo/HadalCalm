@@ -10,7 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.effects.PlayerSpriteHelper;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;

@@ -41,7 +41,7 @@ public class ImmolationAura extends ActiveItem {
 
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 6.0f, user, user));
 
-		Hitbox hbox = new Hitbox(state, mouseLocation, HITBOX_SIZE, LIFESPAN, new Vector2(), user.getPlayer().getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, mouseLocation, HITBOX_SIZE, LIFESPAN, new Vector2(), user.getPlayer().getHitboxFilter(),
 			true, true, user.getPlayer(), Sprite.NOTHING);
 		hbox.makeUnreflectable();
 		
@@ -62,7 +62,7 @@ public class ImmolationAura extends ActiveItem {
 				while (controllerCount >= BURN_INTERVAL) {
 					controllerCount -= BURN_INTERVAL;
 
-					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), HITBOX_SIZE, BURN_INTERVAL, pulseVelocity, user.getSchmuck().getHitboxfilter(),
+					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), HITBOX_SIZE, BURN_INTERVAL, pulseVelocity, user.getSchmuck().getHitboxFilter(),
 						true, true, user.getSchmuck(), Sprite.NOTHING);
 					pulse.setSyncDefault(false);
 					pulse.setEffectsVisual(false);
@@ -72,7 +72,7 @@ public class ImmolationAura extends ActiveItem {
 					pulse.addStrategy(new DamageStandard(state, pulse, user, BASE_DAMAGE, KNOCKBACK,
 							DamageSource.IMMOLATION_AURA, DamageTag.MELEE).setStaticKnockback(true));
 
-					hoverDirection.setAngleDeg(user.getPlayer().getAttackAngle() + 180);
+					hoverDirection.setAngleDeg(user.getPlayer().getMouseHelper().getAttackAngle() + 180);
 					user.getPlayer().pushMomentumMitigation(hoverDirection.x, hoverDirection.y);
 				}
 			}

@@ -39,7 +39,7 @@ public class WrathoftheFrogman extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 
-					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
+					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
 					SyncedAttack.HOMING_MISSILE_FROGMAN.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
 							inflicted.getSchmuck().getPixelPosition(), startVelo);
 				}

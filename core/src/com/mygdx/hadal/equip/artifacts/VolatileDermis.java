@@ -40,7 +40,7 @@ public class VolatileDermis extends Artifact {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
 					SoundEffect.THUNDER.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.5f, false);
-					p.addStatus(new Shocked(state, p, p, chainDamage, chainRadius, chainAmount, p.getSchmuck().getHitboxfilter(), DamageSource.VOLATILE_DERMIS));
+					p.addStatus(new Shocked(state, p, p, chainDamage, chainRadius, chainAmount, p.getSchmuck().getHitboxFilter(), DamageSource.VOLATILE_DERMIS));
 				}
 				return damage;
 			}

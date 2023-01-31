@@ -35,12 +35,14 @@ public class Constants {
 
     //Synced Player Properties
     public static final short GROUNDED = 1;
-    public static final short RUNNING = 2;
-    public static final short HOVERING = 4;
-    public static final short RELOADING = 8;
-    public static final short INVISIBLE = 16;
-    public static final short TRANSPARENT = 32;
-    public static final short TRANSLUCENT = 64;
+    public static final short JUMPING = 2;
+    public static final short RUNNING = 4;
+    public static final short HOVERING = 8;
+    public static final short RELOADING = 16;
+    public static final short INVISIBLE = 32;
+    public static final short TRANSPARENT = 64;
+    public static final short TRANSLUCENT = 128;
+    public static final short TYPING = 256;
 
     //misc constants
     public static final int MAX_NAME_LENGTH = 25;

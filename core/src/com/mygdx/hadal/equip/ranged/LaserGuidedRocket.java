@@ -62,7 +62,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 		SoundEffect.ROLLING_ROCKET.playSourced(state, startPosition, 0.4f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
@@ -74,7 +74,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 		hbox.addStrategy(new HomingMouse(state, hbox, user.getBodyData(), homePower));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 1.0f)
 			.setSyncType(SyncType.NOSYNC));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION9, 0.6f).setSynced(false));

@@ -122,7 +122,7 @@ public class Minigun extends RangedWeapon {
 	public static Hitbox createMinigunBullet(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 

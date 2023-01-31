@@ -95,7 +95,7 @@ public class TyrrazzanReaper extends RangedWeapon {
 		int spread = (int) ((1 - effectiveRange) * spreadMax);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(size), lifespan,
-				startVelocity.nor().scl(velocity), user.getHitboxfilter(), true, true, user, projSprite);
+				startVelocity.nor().scl(velocity), user.getHitboxFilter(), true, true, user, projSprite);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

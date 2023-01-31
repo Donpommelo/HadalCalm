@@ -39,7 +39,7 @@ public class ShillersDeathcap extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					hbox.addStrategy(new PoisonTrail(state, hbox, p, poisonSize, poisonRadius, poisonDamage, poisonDuration,
-							p.getSchmuck().getHitboxfilter()));
+							p.getSchmuck().getHitboxFilter()));
 				}
 			}
 		};

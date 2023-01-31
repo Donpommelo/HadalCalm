@@ -50,7 +50,7 @@ public class GomezsAmygdala extends Artifact {
 					SoundEffect.MAGIC18_BUFF.playUniversal(state, p.getPlayer().getPixelPosition(), 0.5f, false);
 
 					new ParticleEntity(state, p.getPlayer(), Particle.PICKUP_ENERGY, 1.0f, buffDuration, true, SyncType.CREATESYNC);
-					p.getPlayer().setShader(Shader.PULSE_RED, buffDuration, true);
+					p.getPlayer().setShader(Shader.PULSE_RED, buffDuration);
 					
 					p.addStatus(new StatusComposite(state, buffDuration, false, perp, p,
 							new StatChangeStatus(state, Stats.GROUND_SPD, spdBuff, p),

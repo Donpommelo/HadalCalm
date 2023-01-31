@@ -76,7 +76,7 @@ public class TurretVolley extends Turret {
 						
 						startVelo.set(projectileSpeed, projectileSpeed).setAngleDeg(getAttackAngle());
 
-						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, projLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
+						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, projLifespan, startVelo, getHitboxFilter(), true, true, enemy, Sprite.ORB_RED);
 						
 						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 						hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));

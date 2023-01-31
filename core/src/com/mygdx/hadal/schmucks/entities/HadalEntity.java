@@ -430,18 +430,12 @@ public abstract class HadalEntity {
 	 * Set this entity's shader (this will be used when rendering this entity)
 	 * @param shader: shader to use
 	 * @param shaderCount: how long does this shader last?
-	 * @param synced: does the server need to tell the client to reflect this shader change?
 	 */
-	public void setShader(Shader shader, float shaderCount, boolean synced) {
+	public void setShader(Shader shader, float shaderCount) {
 		shader.loadShader();
 		this.shader = shader;
 		this.shaderDuration = shaderCount;
 		this.shaderCount = shaderCount;
-
-		//The server tells the client to also display the shader
-		if (state.isServer() && synced) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityID, shader, shaderCount));
-		}
 	}
 	
 	public void decreaseShaderCount(float i) {
@@ -526,6 +520,8 @@ public abstract class HadalEntity {
 	public boolean isBotModePickup() { return botModePickup; }
 
 	public void setBotModePickup(boolean botModePickup) { this.botModePickup = botModePickup; }
+
+	public float getAnimationTime() { return animationTime; }
 
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null && Float.isFinite(position.x) && Float.isFinite(position.y)) {

@@ -62,7 +62,7 @@ public class PlayerAlignmentChanger extends Event {
 						filter.groupIndex = newIndex;
 
 						p.getMainFixture().setFilterData(filter);
-						p.setHitboxfilter(newIndex);
+						p.setHitboxFilter(newIndex);
 					}
 				}
 			}

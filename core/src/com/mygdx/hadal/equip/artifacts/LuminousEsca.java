@@ -41,7 +41,7 @@ public class LuminousEsca extends Artifact {
 						entityLocation.set(p.getSchmuck().getPosition());
 						state.getWorld().QueryAABB(fixture -> {
 									if (fixture.getUserData() instanceof BodyData bodyData) {
-										if (bodyData.getSchmuck().getHitboxfilter() != p.getSchmuck().getHitboxfilter()) {
+										if (bodyData.getSchmuck().getHitboxFilter() != p.getSchmuck().getHitboxFilter()) {
 											bodyData.addStatus(new Blinded(state, blindDuration, p, bodyData, false));
 										}
 									}

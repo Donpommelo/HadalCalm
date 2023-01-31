@@ -56,7 +56,7 @@ public class ReticleStrike extends RangedWeapon {
 		SoundEffect.LOCKANDLOAD.playSourced(state, startPosition, 0.8f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -70,7 +70,7 @@ public class ReticleStrike extends RangedWeapon {
 					lastPosition.add(new Vector2(hbox.getPixelPosition()).sub(lastPosition).nor().scl(reticleSpacing));
 
 					Hitbox reticle = new RangedHitbox(state, lastPosition, new Vector2(reticleSize, reticleSize), reticleLifespan,
-							new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.CROSSHAIR);
+							new Vector2(), user.getHitboxFilter(), true, true, user, Sprite.CROSSHAIR);
 					reticle.setSyncDefault(false);
 					reticle.setEffectsMovement(false);
 					reticle.setEffectsHit(false);
@@ -80,7 +80,7 @@ public class ReticleStrike extends RangedWeapon {
 					reticle.addStrategy(new CreateParticles(state, reticle, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
 							.setParticleSize(40.0f).setParticleColor(HadalColor.HOT_PINK).setSyncType(SyncType.NOSYNC));
 					reticle.addStrategy(new DieExplode(state, reticle, user.getBodyData(), explosionRadius, explosionDamage,
-							explosionKnockback, user.getHitboxfilter(), false, DamageSource.RETICLE_STRIKE));
+							explosionKnockback, user.getHitboxFilter(), false, DamageSource.RETICLE_STRIKE));
 					reticle.addStrategy(new DieSound(state, reticle, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
 					reticle.addStrategy(new Static(state, reticle, user.getBodyData()));
 

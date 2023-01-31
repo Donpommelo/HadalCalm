@@ -94,7 +94,7 @@ public class KillerBeat extends RangedWeapon {
 					case 6 -> SoundEffect.PIANO_C2.playSourced(state, startPosition[i], 0.5f, 1.0f);
 				}
 
-				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i], user.getHitboxfilter(),
+				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i], user.getHitboxFilter(),
 						true, true, user, projSprite);
 				hbox.setDurability(2);
 
@@ -161,7 +161,7 @@ public class KillerBeat extends RangedWeapon {
 	@Override
 	public String getChargeText() {
 
-		if (((Player) user).getChargePercent() < chargeBonusThreshold) {
+		if (((Player) user).getUiHelper().getChargePercent() < chargeBonusThreshold) {
 			return "";
 		} else {
 			return UIText.HIT_IT.text();

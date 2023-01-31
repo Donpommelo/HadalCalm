@@ -87,7 +87,7 @@ public class AssaultBits extends RangedWeapon {
 					SoundEffect.CYBER2.playUniversal(state, user.getPixelPosition(), 0.4f, false);
 
 					//bits are removed from the list upon death
-					DroneBit bit = new DroneBit(state, user.getPixelPosition(), 0.0f, user.getHitboxfilter()) {
+					DroneBit bit = new DroneBit(state, user.getPixelPosition(), 0.0f, user.getHitboxFilter()) {
 
 						@Override
 						public boolean queueDeletion() {
@@ -97,7 +97,6 @@ public class AssaultBits extends RangedWeapon {
 					};
 					bit.setMoveTarget(user);
 					bit.setOwner((Player) user);
-					bit.setAttackTarget(((Player) user).getMouse());
 					bits.add(bit);
 
 					if (bits.size >= 3) {
@@ -126,7 +125,7 @@ public class AssaultBits extends RangedWeapon {
 			SoundEffect.SHOOT2.playSourced(state, startPosition[0], 0.6f);
 			for (int i = 0; i < startPosition.length; i++) {
 				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i],
-						user.getHitboxfilter(), true,true, user, projSprite);
+						user.getHitboxFilter(), true,true, user, projSprite);
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

@@ -60,7 +60,7 @@ public class GhostStep extends ActiveItem {
 
 		user.setLinearVelocity(RECOIL * direction, 0);
 
-		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 

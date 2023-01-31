@@ -53,7 +53,7 @@ public class JuryRiggedBindings extends Artifact {
 					if (extraFire instanceof RangedWeapon ranged) {
 						startVelo.set(tool.getWeaponVelo()).nor().scl(ranged.getProjectileSpeed());
 						extraFire.fire(state, p.getSchmuck(), p.getSchmuck().getProjectileOrigin(startVelo, extraFire.getAmmoSize()),
-								startVelo, p.getSchmuck().getHitboxfilter());
+								startVelo, p.getSchmuck().getHitboxFilter());
 						lastFiredIndex = (lastFiredIndex + 1) % (p.getNumWeaponSlots() - 1);
 					}
 				}

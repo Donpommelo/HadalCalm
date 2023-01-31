@@ -49,7 +49,7 @@ public class WallDropthrough extends Event {
 						
 						//let a fastfalling player drop through without stopping
 						if (entity instanceof Player p) {
-							if (p.isFastFalling()) { return; }
+							if (p.getFastfallHelper().isFastFalling()) { return; }
 						}
 						Filter filter = entity.getMainFixture().getFilterData();
 						filter.maskBits = (short) (filter.maskBits | Constants.BIT_DROPTHROUGHWALL);

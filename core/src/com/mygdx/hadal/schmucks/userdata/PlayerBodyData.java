@@ -7,7 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
@@ -606,7 +606,7 @@ public class PlayerBodyData extends BodyData {
 		float damage = baseDamage * getGroupDamageReduction(recentDamagedBy.size);
 		damage = super.receiveDamage(damage, knockback, perp, procEffects, hbox, source, tags);
 
-		if (perp.schmuck.getHitboxfilter() != player.getHitboxfilter()) {
+		if (perp.schmuck.getHitboxFilter() != player.getHitboxFilter()) {
 			if (perp instanceof PlayerBodyData playerData) {
 				recentDamagedBy.put(playerData, recentDamagedBy.get(playerData, 0.0f) + damage);
 			}
@@ -677,9 +677,6 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 			
-			//delete the player's mouse pointer
-			player.getMouse().queueDeletion();
-
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)
 			if (currentTool != null) {
 				currentTool.unequip(player.getState());
@@ -739,7 +736,7 @@ public class PlayerBodyData extends BodyData {
 
 	public Player getPlayer() {	return player;}
 	
-	public int getExtraJumps() { return NUM_EXTRA_JUMPS + (int)getStat(Stats.JUMP_NUM); }
+	public int getExtraJumps() { return NUM_EXTRA_JUMPS + (int) getStat(Stats.JUMP_NUM); }
 	
 	public float getJumpPower() { return JUMP_POW * (1 + getStat(Stats.JUMP_POW)); }
 	

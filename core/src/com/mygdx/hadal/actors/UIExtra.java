@@ -86,7 +86,7 @@ public class UIExtra extends AHadalActor {
 		for (User user : state.getScoreWindow().getOrderedUsers()) {
 			if (!user.isSpectator() && null != user.getPlayer()) {
 				if (null != user.getPlayer().getPlayerData() && !user.getPlayer().equals(state.getPlayer())) {
-					if (user.getPlayer().getHitboxfilter() == viewingUserTeam) {
+					if (user.getPlayer().getHitboxFilter() == viewingUserTeam) {
 						HadalGame.FONT_UI.draw(batch, WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SHORT),
 								HadalGame.CONFIG_WIDTH - NAME_MAX_LENGTH - HP_WIDTH - START_X_EXTRA, currentY, NAME_MAX_LENGTH,
 								Align.left, true);
@@ -141,7 +141,7 @@ public class UIExtra extends AHadalActor {
 		//check if user is null b/c several ui tags require checking user information
 		if (null != user) {
 			if (null != user.getPlayer()) {
-				viewingUserTeam = user.getPlayer().getHitboxfilter();
+				viewingUserTeam = user.getPlayer().getHitboxFilter();
 			}
 			for (UITag uiTag : uiTags) {
 				text.append(uiTag.updateTagText(state, changedType, user));

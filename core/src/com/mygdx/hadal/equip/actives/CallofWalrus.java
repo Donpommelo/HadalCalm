@@ -62,7 +62,7 @@ public class CallofWalrus extends ActiveItem {
 				if (fixB != null) {
 					if (UserDataType.BODY.equals(fixB.getType())) {
 						BodyData ally = (BodyData) fixB;
-						if (ally.getSchmuck().getHitboxfilter() == user.getPlayer().getHitboxfilter()) {
+						if (ally.getSchmuck().getHitboxFilter() == user.getPlayer().getHitboxFilter()) {
 							if (!buffed.contains(fixB, false)) {
 								buffed.add(fixB);
 								ally.addStatus(new StatusComposite(state, BUFF_DURATION, false, user, ally,

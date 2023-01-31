@@ -82,7 +82,7 @@ public class KBKBuddy extends EnemySwimming {
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
 					
-					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, enemy.getBodyData()));

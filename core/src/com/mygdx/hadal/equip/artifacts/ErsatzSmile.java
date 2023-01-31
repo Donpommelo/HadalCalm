@@ -33,7 +33,7 @@ public class ErsatzSmile extends Artifact {
 						flip = Math.abs(e.getAttackAngle()) > 90;
 
 					} else if (vic.getSchmuck() instanceof Player p) {
-						flip = Math.abs(p.getAttackAngle()) > 90;
+						flip = Math.abs(p.getMouseHelper().getAttackAngle()) > 90;
 					}
 					if (damaging.isPositionBasedOnUser()) {
 						if (flip) {

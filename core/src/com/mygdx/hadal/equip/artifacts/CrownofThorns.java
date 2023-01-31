@@ -57,7 +57,7 @@ public class CrownofThorns extends Artifact {
 					for (int i = 0; i < thornsNumber; i++) {
 						angle.setAngleDeg(angle.angleDeg() + 60);
 						Hitbox hbox = new RangedHitbox(state, p.getSchmuck().getPixelPosition(), projectileSize, thornDuration,
-								new Vector2(angle).nor().scl(thornSpeed), p.getSchmuck().getHitboxfilter(),
+								new Vector2(angle).nor().scl(thornSpeed), p.getSchmuck().getHitboxFilter(),
 								true, false, p.getSchmuck(), projSprite);
 						
 						hbox.addStrategy(new ControllerDefault(state, hbox, p));

@@ -80,7 +80,7 @@ public class Peppergrinder extends RangedWeapon {
 		}
 		float finalSpread = spread;
 
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

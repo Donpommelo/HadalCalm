@@ -260,21 +260,6 @@ public enum SoundEffect {
 	}
 	
 	/**
-	 * This registers a hitsound for the chosen player.
-	 * Large indicates the damage was high or fatal and pitches up the sound.
-	 * This is only run on the server.
-	 */
-	public static void registerHitSound(GameStateManager gsm, Player player, boolean large) {
-		
-		//play sound right away for host, otherwise send packet
-		if (0 == player.getConnID()) {
-			playHitSound(gsm, large);
-		} else {
-			HadalGame.server.sendToTCP(player.getConnID(), new Packets.SyncHitSound(large));
-		}
-	}
-	
-	/**
 	 * This actually plays the hitsound.
 	 * This is run for player that dealt the damage and is run for both host or client
 	 */

@@ -115,7 +115,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 
 			for (int i = 0; i < startPosition.length; i++) {
 				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i],
-						user.getHitboxfilter(), true, true, user, projSprite);
+						user.getHitboxFilter(), true, true, user, projSprite);
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

@@ -85,7 +85,7 @@ public class Shocked extends Status {
 			//find a target closest to the current victim
 			inflicted.getSchmuck().getWorld().QueryAABB(fixture -> {
 				if (fixture.getUserData() instanceof BodyData bodyData) {
-					if (bodyData.getSchmuck().getHitboxfilter() != filter && bodyData.getSchmuck().isAlive() && inflicted != fixture.getUserData()) {
+					if (bodyData.getSchmuck().getHitboxFilter() != filter && bodyData.getSchmuck().isAlive() && inflicted != fixture.getUserData()) {
 						if (chainAttempt == null) {
 							chainAttempt = bodyData.getSchmuck();
 							closestDist = chainAttempt.getPosition().dst2(entityLocation);

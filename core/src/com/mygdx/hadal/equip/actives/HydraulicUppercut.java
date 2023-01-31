@@ -69,7 +69,7 @@ public class HydraulicUppercut extends ActiveItem {
 
 		user.pushMomentumMitigation(0, RECOIL);
 
-		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();
 

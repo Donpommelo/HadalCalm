@@ -35,7 +35,7 @@ public class ObligeLaMort extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 
-					boolean flip = Math.abs(p.getPlayer().getAttackAngle()) > 90;
+					boolean flip = Math.abs(p.getPlayer().getMouseHelper().getAttackAngle()) > 90;
 
 					if (MoveState.MOVE_RIGHT.equals(p.getPlayer().getMoveState())) {
 						applyPush(flip, true, p.getPlayer().isGrounded());

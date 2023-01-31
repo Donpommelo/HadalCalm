@@ -35,17 +35,17 @@ public class PetrifiedPayload extends Artifact {
 			public void onKill(BodyData vic, DamageSource source) {
 				if (vic instanceof PlayerBodyData) {
 					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-							explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter(), true, DamageSource.PETRIFIED_PAYLOAD);
+							explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxFilter(), true, DamageSource.PETRIFIED_PAYLOAD);
 				} else {
 					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-							explosionDamageEnemy, explosionKnockback, p.getSchmuck().getHitboxfilter(), true, DamageSource.PETRIFIED_PAYLOAD);
+							explosionDamageEnemy, explosionKnockback, p.getSchmuck().getHitboxFilter(), true, DamageSource.PETRIFIED_PAYLOAD);
 				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp, DamageSource source) {
 				WeaponUtils.createExplosion(state, perp.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
-						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxfilter(), true, DamageSource.PETRIFIED_PAYLOAD);
+						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxFilter(), true, DamageSource.PETRIFIED_PAYLOAD);
 			}
 		});
 	}

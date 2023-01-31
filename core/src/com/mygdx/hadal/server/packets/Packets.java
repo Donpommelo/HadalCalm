@@ -12,7 +12,7 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
@@ -757,26 +757,6 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncShader {
-		public long uuidMSB, uuidLSB;
-		public Shader shader;
-		public float shaderCount;
-		public SyncShader() {}
-		
-		/**
-		 * A SyncShader is sent from the Server to the Client whenever a new shader is implemented.
-		 * @param entityID: schmuck whose shader to change. (if null, change shader for whole playstate)
-		 * @param shader: enum of the new shader
-		 * @param shaderCount: duration of shader
-		 */
-		public SyncShader(UUID entityID, Shader shader, float shaderCount) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-			this.shader = shader;
-			this.shaderCount = shaderCount;
-		}
-	}
-	
 	public static class SyncSoundSingle {
 		public SoundEffect sound;
 		public Vector2 worldPos;
@@ -870,19 +850,6 @@ public class Packets {
 			this.on = on;
 			this.age = age;
 			this.timestamp = timestamp;
-		}
-	}
-	
-	public static class SyncHitSound {
-		public boolean large;
-		public SyncHitSound() {}
-
-		/**
-		 * A SyncHitSound is a simple packet that just tells the client to play their hitsound.
-		 * @param large: is this hitsound pitched up as a result of high damage or being fatal?
-		 */
-		public SyncHitSound(boolean large) {
-			this.large = large;
 		}
 	}
 	
@@ -1004,22 +971,6 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncTyping {
-		public long uuidMSB, uuidLSB;
-		
-		public SyncTyping() {}
-		
-		/**
-		 * A LatencyAck is sent from the client to the server when they type in the message window.
-		 * This is also sent from the server to the client to indicate which players are currently typing.
-		 * @param entityID: this is the id of the player that is currently typing.
-		 */
-		public SyncTyping(UUID entityID) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-		}
-	}
-
 	public static class RemoveScore {
 		public int connID;
 
@@ -1170,11 +1121,9 @@ public class Packets {
     	kryo.register(CreateRagdoll.class);
 
     	kryo.register(SyncUI.class);
-    	kryo.register(SyncShader.class);
     	kryo.register(SyncSoundSingle.class);
     	kryo.register(CreateSound.class);
     	kryo.register(SyncSound.class);
-    	kryo.register(SyncHitSound.class);
     	kryo.register(MissedCreate.class);
     	kryo.register(MissedDelete.class);
     	kryo.register(StartSpectate.class);
@@ -1183,7 +1132,6 @@ public class Packets {
     	kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);
     	kryo.register(SyncExtraResultsInfo.class);
-		kryo.register(SyncTyping.class);
 		kryo.register(RemoveScore.class);
 		kryo.register(ClientYeet.class);
 		kryo.register(SyncEmote.class);

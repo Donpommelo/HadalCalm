@@ -48,7 +48,7 @@ public class Speargun extends RangedWeapon {
 		SoundEffect.SPIKE.playSourced(state, startPosition, 0.5f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 

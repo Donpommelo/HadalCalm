@@ -51,7 +51,7 @@ public class MeridianMaker extends ActiveItem {
 		final Vector2 currentVec = new Vector2(weaponVelo).nor().scl(CURRENT_FORCE);
 		
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, PROJECTILE_SIZE.x), PROJECTILE_SIZE, LIFESPAN,
-				new Vector2(weaponVelo).nor().scl(PROJECTILE_SPEED), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), PROJ_SPRITE);
+				new Vector2(weaponVelo).nor().scl(PROJECTILE_SPEED), user.getPlayer().getHitboxFilter(), false, false, user.getPlayer(), PROJ_SPRITE);
 		
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		

@@ -40,9 +40,9 @@ public class PlayerSelfOnClient extends Player {
 		super.clientController(delta);
 
 		processMovement(delta);
-		processFuel(delta);
 		processEquipment(delta);
 		processMiscellaneous(delta);
+		processMiscellaneousUniversal(delta);
 
 		//Apply base hp regen
 		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTag.REGEN);
@@ -54,13 +54,13 @@ public class PlayerSelfOnClient extends Player {
 		if (syncAccumulator >= SYNC_TIME) {
 			syncAccumulator = 0;
 
-			short statusCode = getStatusCode();
+			short statusCode = getConditionCode();
 			HadalGame.client.sendUDP(new PacketsSync.SyncClientSnapshot(getPosition(), getLinearVelocity(),
 					entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
-					getMouse().getPosition(), playerData.getCurrentSlot(),
-					playerData.getCurrentTool().isReloading() ? reloadPercent : -1.0f,
-					playerData.getCurrentTool().isCharging() ? chargePercent : -1.0f,
-					playerData.getCurrentFuel(),
+					getMouseHelper().getPosition(), getPlayerData().getCurrentSlot(),
+					getPlayerData().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f,
+					getPlayerData().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f,
+					getPlayerData().getCurrentFuel(),
 					statusCode));
 		}
 	}

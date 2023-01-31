@@ -47,7 +47,7 @@ public class Boomerang extends RangedWeapon {
 	public static Hitbox createBoomerang(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.BOOMERANG_WHIZ.playSourced(state, startPosition, 1.0f);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, projSprite);
 		hbox.setRestitution(0.0f);
 

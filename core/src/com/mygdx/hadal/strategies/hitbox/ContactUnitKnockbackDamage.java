@@ -53,7 +53,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 				Vector2 hitboxSize = new Vector2();
 				hitboxSize.set(vic.getSchmuck().getSize()).add(5, 5);
 				
-				Hitbox hbox = new Hitbox(state, new Vector2(), hitboxSize, LIFESPAN, new Vector2(), creator.getSchmuck().getHitboxfilter(),
+				Hitbox hbox = new Hitbox(state, new Vector2(), hitboxSize, LIFESPAN, new Vector2(), creator.getSchmuck().getHitboxFilter(),
 					true, true, creator.getSchmuck(), Sprite.NOTHING);
 				hbox.makeUnreflectable();
 				

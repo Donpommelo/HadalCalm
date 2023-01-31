@@ -66,7 +66,7 @@ public class CR4PCannon extends RangedWeapon {
 				int randomIndex = MathUtils.random(projSprites.length - 1);
 				Sprite projSprite = projSprites[randomIndex];
 
-				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i], user.getHitboxfilter(),
+				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i], user.getHitboxFilter(),
 						true, true, user, projSprite);
 				hbox.setGravity(0.5f);
 				hbox.setDurability(2);

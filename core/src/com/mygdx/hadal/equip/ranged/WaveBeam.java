@@ -61,7 +61,7 @@ public class WaveBeam extends RangedWeapon {
 		user.recoil(startVelocity, recoil);
 
 		//we create an invisible hitbox that moves in a straight line.
-		Hitbox center = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox center = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.NOTHING);
 		center.setEffectsHit(false);
 		center.setEffectsVisual(false);
@@ -77,7 +77,7 @@ public class WaveBeam extends RangedWeapon {
 			}
 
 			private void createWaveBeam(float startAngle) {
-				Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+				Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 						true, true, user, projSprite);
 				hbox.setSyncDefault(false);
 				hbox.setEffectsMovement(false);

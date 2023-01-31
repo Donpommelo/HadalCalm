@@ -105,7 +105,7 @@ public class Puffballer extends RangedWeapon {
 		SoundEffect.SPIT.playSourced(state, startPosition, 1.2f, 0.5f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false,true, user, projSprite) {
 
 			private boolean markedForDeath, died;
@@ -144,7 +144,7 @@ public class Puffballer extends RangedWeapon {
 						newVelocity.set(extraFields[i * 2], extraFields[i * 2 + 1]);
 
 						RangedHitbox frag = new RangedHitbox(state, getPixelPosition(), new Vector2(sporeFragSize), sporeFragLifespan,
-								new Vector2(newVelocity), user.getHitboxfilter(), false, false, user, Sprite.SPORE_YELLOW) {
+								new Vector2(newVelocity), user.getHitboxFilter(), false, false, user, Sprite.SPORE_YELLOW) {
 
 							@Override
 							public void create() {

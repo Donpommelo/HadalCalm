@@ -52,7 +52,7 @@ public class Machinegun extends RangedWeapon {
 		SoundEffect.GUN2.playSourced(state, startPosition, 0.15f, 1.0f + pitch);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 

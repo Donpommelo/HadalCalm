@@ -19,7 +19,7 @@ public class InteractableEventData extends EventData {
 	public void onTouch(HadalData fixB) {
 		if (fixB != null) {	
 			if (fixB instanceof PlayerBodyData playerData) {
-				playerData.getPlayer().setCurrentEvent(event);
+				playerData.getPlayer().getEventHelper().getCurrentEvents().add(event);
 			}
 		}
 		super.onTouch(fixB);
@@ -29,9 +29,7 @@ public class InteractableEventData extends EventData {
 	public void onRelease(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB instanceof PlayerBodyData playerData) {
-				if (playerData.getPlayer().getCurrentEvent() == event) {
-					playerData.getPlayer().setCurrentEvent(null);
-				}
+				playerData.getPlayer().getEventHelper().getCurrentEvents().removeValue(event, false);
 			}
 		}
 		super.onRelease(fixB);

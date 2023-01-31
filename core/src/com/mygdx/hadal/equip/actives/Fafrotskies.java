@@ -58,7 +58,7 @@ public class Fafrotskies extends ActiveItem {
 					controllerCount -= RAIN_INTERVAL;
 					
 					Hitbox rain = new Hitbox(state, new Vector2(hbox.getPixelPosition()).add((MathUtils.random() -  0.5f) * hbox.getSize().x, 0), RAIN_SIZE, LIFESPAN, new Vector2(0, -RAIN_SPEED),
-							user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.SPIT);
+							user.getPlayer().getHitboxFilter(), true, false, user.getPlayer(), Sprite.SPIT);
 					
 					rain.addStrategy(new ControllerDefault(state, rain, user));
 					rain.addStrategy(new DamageStandard(state, rain, user, RAIN_DAMAGE, RAIN_KNOCKBACK, DamageSource.FAFROTSKIES,

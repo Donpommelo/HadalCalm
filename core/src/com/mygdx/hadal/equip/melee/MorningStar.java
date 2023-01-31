@@ -85,7 +85,7 @@ public class MorningStar extends MeleeWeapon {
 		Hitbox[] hboxes = new Hitbox[2];
 
 		//the base is connected to the player and links to the rest of the flail weapon
-		Hitbox base = new Hitbox(state, user.getPixelPosition(), CHAIN_SIZE, 0, new Vector2(), user.getHitboxfilter(),
+		Hitbox base = new Hitbox(state, user.getPixelPosition(), CHAIN_SIZE, 0, new Vector2(), user.getHitboxFilter(),
 				true, false, user, CHAIN_SPRITE);
 		base.setDensity(1.0f);
 		base.makeUnreflectable();
@@ -133,7 +133,7 @@ public class MorningStar extends MeleeWeapon {
 		//create several linked hboxes
 		for (int i = 0; i < CHAIN_NUM; i++) {
 			final int currentI = i;
-			links[i] = new Hitbox(state, user.getPixelPosition(), CHAIN_SIZE, 0, new Vector2(),user.getHitboxfilter(),
+			links[i] = new Hitbox(state, user.getPixelPosition(), CHAIN_SIZE, 0, new Vector2(),user.getHitboxFilter(),
 					true, false, user, CHAIN_SPRITE);
 			links[i].setDensity(1.0f);
 			links[i].setSyncDefault(false);
@@ -189,7 +189,7 @@ public class MorningStar extends MeleeWeapon {
 
 		//the star hbox damages people and has weight
 		Hitbox star = new RangedHitbox(state, user.getPixelPosition(), PROJECTILE_SIZE, 0, new Vector2(),
-				user.getHitboxfilter(), false, true, user, PROJ_SPRITE);
+				user.getHitboxFilter(), false, true, user, PROJ_SPRITE);
 
 		star.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		star.setGravity(1.0f);

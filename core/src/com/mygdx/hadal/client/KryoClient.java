@@ -14,7 +14,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
@@ -236,23 +235,6 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					cs.syncLatency(p.serverTimestamp, p.clientTimestamp);
-				});
-			}
-		}
-
-		/*
-		 * Server tells us a player started typing. Make typing bubble appear above their head.
-		 */
-		else if (o instanceof final Packets.SyncTyping p) {
-			final ClientState cs = getClientState();
-			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
-					if (null != entity) {
-						if (entity instanceof Player player) {
-							player.startTyping();
-						}
-					}
 				});
 			}
 		}
@@ -547,21 +529,6 @@ public class KryoClient {
 		}
 
 		/*
-		 * When a shader in the server changes, we are told to echo that change.
-		 */
-		else if (o instanceof final Packets.SyncShader p) {
-			final ClientState cs = getClientState();
-			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
-					if (null != entity) {
-						entity.setShader(p.shader, p.shaderCount, false);
-					}
-				});
-			}
-		}
-
-		/*
 		 * We are told by the server each player's extra score info. Set it so we can display in the results state.
 		 */
 		else if (o instanceof final Packets.SyncExtraResultsInfo p) {
@@ -828,7 +795,7 @@ public class KryoClient {
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
 					newPlayer.setConnID(p.connID);
-					newPlayer.setHitboxfilter(p.hitboxFilter);
+					newPlayer.setHitboxFilter(p.hitboxFilter);
 					newPlayer.setScaleModifier(p.scaleModifier);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
 
@@ -970,16 +937,6 @@ public class KryoClient {
 			return true;
 		}
 
-		else if (o instanceof Packets.SyncHitSound p) {
-			final ClientState cs = getClientState();
-			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					SoundEffect.playHitSound(cs.getGsm(), p.large);
-				});
-			}
-			return true;
-		}
-		
 		//if none of the packets match, return false to indicate the packet was not a sync packet
 		return false;
 	}

@@ -44,7 +44,7 @@ public class Schmuck extends HadalEntity {
 	public ParticleEntity impact;
 
 	//This is the filter of this unit and hitboxes it spawns
-	protected short hitboxfilter;
+	protected short hitboxFilter;
 
 	/**
 	 * This constructor is called when a Schmuck is made.
@@ -59,7 +59,7 @@ public class Schmuck extends HadalEntity {
 		super(state, startPos, size);
 		this.name = name;
 		this.grounded = false;
-		this.hitboxfilter = hitboxFilter;
+		this.hitboxFilter = hitboxFilter;
 		this.baseHp = baseHp;
 
 		if (state.isServer()) {
@@ -191,9 +191,9 @@ public class Schmuck extends HadalEntity {
 	
 	public void setShootCdCount(float shootCdCount) { this.shootCdCount = shootCdCount; }
 
-	public short getHitboxfilter() { return hitboxfilter; }
+	public short getHitboxFilter() { return hitboxFilter; }
 
-	public void setHitboxfilter(short hitboxfilter) { this.hitboxfilter = hitboxfilter; }
+	public void setHitboxFilter(short hitboxFilter) { this.hitboxFilter = hitboxFilter; }
 
 	public float getBaseHp() { return baseHp; }
 

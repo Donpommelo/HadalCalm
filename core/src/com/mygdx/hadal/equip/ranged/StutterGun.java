@@ -57,7 +57,7 @@ public class StutterGun extends RangedWeapon {
 		SoundEffect.LASER2.playSourced(state, user.getPixelPosition(), 0.5f, 1.0f + pitch);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.LASER_ORANGE);
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

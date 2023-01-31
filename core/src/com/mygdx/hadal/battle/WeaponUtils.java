@@ -50,7 +50,7 @@ public class WeaponUtils {
 
 		//this prevents players from damaging allies with explosives in the hub
 		short actualFilter = filter;
-		if (user.getHitboxfilter() == Constants.PLAYER_HITBOX && state.getMode().isHub()) {
+		if (user.getHitboxFilter() == Constants.PLAYER_HITBOX && state.getMode().isHub()) {
 			actualFilter = Constants.PLAYER_HITBOX;
 		}
 
@@ -82,7 +82,7 @@ public class WeaponUtils {
 	public static Hitbox createBomb(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source) {
 		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 0.2f);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, BOMB_SIZE, BOMB_LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, BOMB_SIZE, BOMB_LIFESPAN, startVelocity, user.getHitboxFilter(),
 				false, true, user, BOMB_SPRITE);
 		hbox.setSpriteSize(BOMB_SPRITE_SIZE);
 		hbox.setGravity(2.5f);
@@ -97,9 +97,9 @@ public class WeaponUtils {
 				(short) 0, false, source));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f).setSynced(false));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f).setSynced(false));
-		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 
-		Hitbox sparks = new RangedHitbox(state, startPosition, BOMB_SIZE, BOMB_LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox sparks = new RangedHitbox(state, startPosition, BOMB_SIZE, BOMB_LIFESPAN, startVelocity, user.getHitboxFilter(),
 				true, false, user, SPARK_SPRITE);
 		sparks.setSpriteSize(BOMB_SPRITE_SIZE);
 		sparks.setSyncDefault(false);
@@ -127,7 +127,7 @@ public class WeaponUtils {
 	private static final Sprite MISSILE_SPRITE = Sprite.MISSILE_B;
 	public static Hitbox createHomingMissile(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
 											 DamageSource source) {
-		Hitbox hbox = new RangedHitbox(state, startPosition, TORPEDO_SIZE, TORPEDO_LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, TORPEDO_SIZE, TORPEDO_LIFESPAN, startVelocity, user.getHitboxFilter(),
 				true, false, user, MISSILE_SPRITE);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -137,11 +137,11 @@ public class WeaponUtils {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), TORPEDO_BASE_DAMAGE, TORPEDO_BASE_KNOCKBACK,
 				source, DamageTag.EXPLOSIVE, DamageTag.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), TORPEDO_EXPLOSION_RADIUS, TORPEDO_EXPLOSION_DAMAGE,
-				TORPEDO_EXPLOSION_KNOCKBACK, user.getHitboxfilter(), false, source));
+				TORPEDO_EXPLOSION_KNOCKBACK, user.getHitboxFilter(), false, source));
 		hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), TORPEDO_HOMING, TORPEDO_HOMING_RADIUS));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), TORPEDO_SPREAD));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
-		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 
 		return hbox;
 	}
@@ -184,7 +184,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), NAUTICAL_MINE_EXPLOSION_RADIUS, NAUTICAL_MINE_EXPLOSION_DAMAGE,
 				NAUTICAL_MINE_EXPLOSION_KNOCKBACK, (short) 0, false, DamageSource.NAUTICAL_MINE));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f).setSynced(false));
-		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
 			@Override
@@ -209,7 +209,7 @@ public class WeaponUtils {
 		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 1.0f);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, STICK_GRENADE_SIZE, STICK_GRENADE_LIFESPAN, startVelocity,
-				user.getHitboxfilter(), false, false, user, Sprite.CABER);
+				user.getHitboxFilter(), false, false, user, Sprite.CABER);
 
 		hbox.setGravity(1.0f);
 
@@ -220,7 +220,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), STICK_GRENADE_EXPLOSION_RADIUS, STICK_GRENADE_EXPLOSION_DAMAGE,
-				STICK_GRENADE_EXPLOSION_KNOCKBACK, user.getHitboxfilter(), false, DamageSource.CRIME_DISCOURAGEMENT_STICK));
+				STICK_GRENADE_EXPLOSION_KNOCKBACK, user.getHitboxFilter(), false, DamageSource.CRIME_DISCOURAGEMENT_STICK));
 		return hbox;
 	}
 
@@ -336,7 +336,7 @@ public class WeaponUtils {
 
 				explosion.addStrategy(new ControllerDefault(state, explosion, user.getBodyData()));
 				explosion.addStrategy(new Static(state, explosion, user.getBodyData()));
-				explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), WARNING_TIME, false));
+				explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), WARNING_TIME));
 				explosion.addStrategy(new DieExplode(state, explosion, user.getBodyData(), MINE_EXPLOSION_RADIUS, mineDamage,
 						MINE_EXPLOSION_KNOCKBACK, (short) 0, false, source));
 				explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
@@ -372,7 +372,7 @@ public class WeaponUtils {
 
 			for (int i = 0; i < startPosition.length; i++) {
 				Hitbox hbox = new RangedHitbox(state, startPosition[i], new Vector2(SPIRIT_SIZE, SPIRIT_SIZE), SPIRIT_LIFESPAN,
-						new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.SKULL) {
+						new Vector2(), user.getHitboxFilter(), true, true, user, Sprite.SKULL) {
 
 					private final Vector2 entityLocation = new Vector2();
 					private final Vector2 entityVelocity = new Vector2();
@@ -382,7 +382,7 @@ public class WeaponUtils {
 						if (!alive) { return; }
 						entityVelocity.set(getLinearVelocity());
 						if (entityVelocity.isZero() && user instanceof Player player) {
-							entityVelocity.set(0, 1).setAngleDeg(player.getAttackAngle());
+							entityVelocity.set(0, 1).setAngleDeg(player.getMouseHelper().getAttackAngle());
 						}
 
 						boolean flip = true;
@@ -429,14 +429,14 @@ public class WeaponUtils {
 											  float reticleLifespan, float explosionDamage, float explosionKnockback,
 											  int explosionRadius, DamageSource source) {
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(reticleSize, reticleSize), reticleLifespan,
-			new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.CROSSHAIR);
+			new Vector2(), user.getHitboxFilter(), true, false, user, Sprite.CROSSHAIR);
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f).setParticleSize(40.0f).setParticleColor(
 			HadalColor.HOT_PINK));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback,
-				user.getHitboxfilter(), true, source));
+				user.getHitboxFilter(), true, source));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 	}
@@ -498,7 +498,7 @@ public class WeaponUtils {
 					int randomIndex = MathUtils.random(PROJ_SPRITES.length - 1);
 					Sprite projSprite = PROJ_SPRITES[randomIndex];
 
-					Hitbox hbox = new Hitbox(state, new Vector2(originPt), METEOR_SIZE, LIFESPAN, new Vector2(0, -METEOR_SPEED), user.getHitboxfilter(), true, false, user, projSprite);
+					Hitbox hbox = new Hitbox(state, new Vector2(originPt), METEOR_SIZE, LIFESPAN, new Vector2(0, -METEOR_SPEED), user.getHitboxFilter(), true, false, user, projSprite);
 					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
 					hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -531,7 +531,7 @@ public class WeaponUtils {
 		SoundEffect.ATTACK1.playUniversal(state, user.getPixelPosition(), 0.4f, 0.5f, false);
 
 		//create an invisible hitbox that makes the vines as it moves
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineInvisSize, lifespan, startVelo, user.getHitboxfilter(),
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineInvisSize, lifespan, startVelo, user.getHitboxFilter(),
 			false, false, user, Sprite.NOTHING);
 		hbox.setSyncDefault(false);
 		hbox.makeUnreflectable();
@@ -568,7 +568,7 @@ public class WeaponUtils {
 					Sprite projSprite = VINE_SPRITES[randomIndex];
 
 					RangedHitbox vine = new RangedHitbox(state, lastPosition, vineSize, lifespan, new Vector2(),
-						user.getHitboxfilter(), true, true, creator.getSchmuck(),
+						user.getHitboxFilter(), true, true, creator.getSchmuck(),
 						vineCountTotal == vineNum && splitNum == 0 ? Sprite.VINE_B : projSprite) {
 
 						private final Vector2 newPosition = new Vector2();
@@ -638,13 +638,13 @@ public class WeaponUtils {
 		SoundEffect.PING.playSourced(state, startPosition, 0.6f);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, PING_SIZE, PING_LIFESPAN, new Vector2(),
-				user.getHitboxfilter(), true, false, user, Sprite.NOTIFICATIONS_ALERT);
+				user.getHitboxFilter(), true, false, user, Sprite.NOTIFICATIONS_ALERT);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 
 		Hitbox hboxPing = new RangedHitbox(state, new Vector2(startPosition).add(PING_OFFSET), PING_ARROW_SIZE, PING_LIFESPAN, new Vector2(),
-				user.getHitboxfilter(), true, false, user, Sprite.NOTIFICATIONS_ALERT_PING);
+				user.getHitboxFilter(), true, false, user, Sprite.NOTIFICATIONS_ALERT_PING);
 		hboxPing.setSpriteSize(PING_ARROW_SIZE);
 		hboxPing.setSyncDefault(false);
 
@@ -709,7 +709,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), EMOTE_EXPLODE_RADIUS, EMOTE_EXPLODE_DAMAGE,
 					EMOTE_EXPLODE_KNOCKBACK, (short) 0, false, DamageSource.THE_FINGER));
 			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f).setSynced(false));
-			hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+			hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
 				@Override

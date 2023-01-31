@@ -13,6 +13,6 @@ public class ToggleNoDamage extends ModeSetting {
 
     @Override
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
-        p.setHitboxfilter(Constants.PLAYER_HITBOX);
+        p.setHitboxFilter(Constants.PLAYER_HITBOX);
     }
 }

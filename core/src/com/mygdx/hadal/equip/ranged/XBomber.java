@@ -56,7 +56,7 @@ public class XBomber extends RangedWeapon {
 		SoundEffect.FIRE9.playSourced(state, startPosition, 0.25f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 		hbox.setGravity(2.0f);
 
@@ -82,7 +82,7 @@ public class XBomber extends RangedWeapon {
 
 			private void createCross(int rotate) {
 				Hitbox cross = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(),
-						user.getHitboxfilter(), true, true, user, projSprite) {
+						user.getHitboxFilter(), true, true, user, projSprite) {
 
 					@Override
 					public void create() {

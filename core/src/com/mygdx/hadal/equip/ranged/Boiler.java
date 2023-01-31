@@ -86,7 +86,7 @@ public class Boiler extends RangedWeapon {
 	public static Hitbox createBoilerFire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		user.recoil(startVelocity, recoil);
 
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, Sprite.NOTHING);
 		hbox.setDurability(3);
 

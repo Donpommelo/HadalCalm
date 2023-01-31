@@ -89,7 +89,7 @@ public class LaserRifle extends RangedWeapon {
 
 		//Create Hitbox from position to wall using raycast distance. Set angle and position of hitbox and make it static.
 		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(distance * PPM, projectileHeight), lifespan,
-				startVelocity, user.getHitboxfilter(),true, true, user, projSprite) {
+				startVelocity, user.getHitboxFilter(),true, true, user, projSprite) {
 
 			private final Vector2 newPosition = new Vector2();
 			@Override
@@ -121,7 +121,7 @@ public class LaserRifle extends RangedWeapon {
 
 		//the trail creates particles along the projectile's length
 		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed),
-				user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
+				user.getHitboxFilter(), true, true, user, Sprite.NOTHING);
 		trail.setSyncDefault(false);
 		trail.setEffectsHit(false);
 		trail.setEffectsMovement(false);

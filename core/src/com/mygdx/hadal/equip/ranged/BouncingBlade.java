@@ -48,7 +48,7 @@ public class BouncingBlade extends RangedWeapon {
 		SoundEffect.METAL_IMPACT_1.playSourced(state, startPosition, 0.75f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, projSprite);
 		hbox.setDurability(durability);
 		hbox.setRestitution(1.0f);

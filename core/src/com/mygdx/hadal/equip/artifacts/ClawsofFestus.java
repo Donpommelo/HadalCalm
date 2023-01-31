@@ -48,7 +48,7 @@ public class ClawsofFestus extends Artifact {
 									new Vector2(-player.getSize().x / 2, 0.5f),
 									new Vector2(player.getSize().x / 8, player.getSize().y - 2),
 									true, 0, 0, 0, 0,
-									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxfilter());
+									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxFilter());
 
 							leftSensor.setUserData(leftData);
 
@@ -58,7 +58,7 @@ public class ClawsofFestus extends Artifact {
 									new Vector2(player.getSize().x / 2,  0.5f),
 									new Vector2(player.getSize().x / 8, player.getSize().y - 2),
 									true, 0, 0, 0, 0,
-									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxfilter());
+									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxFilter());
 
 							rightSensor.setUserData(rightData);
 						}

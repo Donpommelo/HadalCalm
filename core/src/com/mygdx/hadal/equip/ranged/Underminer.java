@@ -182,7 +182,7 @@ public class Underminer extends RangedWeapon {
 		if (startPosition.length != 0) {
 			for (int i = 0; i < startPosition.length; i++) {
 				final int drillNum = i;
-				Hitbox frag = new Hitbox(state, startPosition[i], fragSize, fragLifespan, startVelocity[i], user.getHitboxfilter(),
+				Hitbox frag = new Hitbox(state, startPosition[i], fragSize, fragLifespan, startVelocity[i], user.getHitboxFilter(),
 						true, true, user, projSprite);
 				frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
 				frag.addStrategy(new AdjustAngle(state, frag, user.getBodyData()));
@@ -206,7 +206,7 @@ public class Underminer extends RangedWeapon {
 								Hitbox bomb = new Hitbox(state, hbox.getPixelPosition(), fragSize, bombLifespan,
 										new Vector2(startVelocity[drillNum]).setAngleDeg(startVelocity[drillNum].angleDeg() +
 												extraFields[drillNum * numBombs + i]).nor().scl(bombSpeed),
-										user.getHitboxfilter(), true, true, user, projSprite);
+										user.getHitboxFilter(), true, true, user, projSprite);
 								bomb.setSyncDefault(false);
 								bomb.setGravity(3.0f);
 								bomb.setDurability(2);
@@ -217,9 +217,9 @@ public class Underminer extends RangedWeapon {
 										DamageSource.UNDERMINER, DamageTag.RANGED));
 								bomb.addStrategy(new ContactWallDie(state, bomb, user.getBodyData()).setDelay(0.1f));
 								bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), explosionRadius, explosionDamage,
-										explosionKnockback, user.getHitboxfilter(), false, DamageSource.UNDERMINER));
+										explosionKnockback, user.getHitboxFilter(), false, DamageSource.UNDERMINER));
 								bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
-								bomb.addStrategy(new FlashShaderNearDeath(state, bomb, user.getBodyData(), 1.0f, false));
+								bomb.addStrategy(new FlashShaderNearDeath(state, bomb, user.getBodyData(), 1.0f));
 
 								if (!state.isServer()) {
 									((ClientState) state).addEntity(bomb.getEntityID(), bomb, false, ClientState.ObjectLayer.HBOX);

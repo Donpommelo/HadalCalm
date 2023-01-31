@@ -34,7 +34,7 @@ public class FeelingofBeingWatched extends Artifact {
 				if (procCdCount >= buffCooldown && p.getCurrentFuel() <= fuelThreshold) {
 					procCdCount -= buffCooldown;
 
-					p.getPlayer().setShader(Shader.PULSE_RED, buffDuration, false);
+					p.getPlayer().setShader(Shader.PULSE_RED, buffDuration);
 					p.addStatus(new StatChangeStatus(state, Stats.DAMAGE_AMP, damageBuff, p));
 				}
 			}

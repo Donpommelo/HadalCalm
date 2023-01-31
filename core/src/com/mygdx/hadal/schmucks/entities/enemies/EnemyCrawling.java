@@ -63,7 +63,7 @@ public class EnemyCrawling extends Enemy {
 			this.feetData = new FeetData(UserDataType.FEET, this);
 			
 			Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f,  - hboxSize.y / 2), new Vector2(hboxSize.x - 2, hboxSize.y / 8), true, 0, 0, 0, 0,
-					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
+					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), hitboxFilter);
 			
 			feet.setUserData(feetData);
 		}

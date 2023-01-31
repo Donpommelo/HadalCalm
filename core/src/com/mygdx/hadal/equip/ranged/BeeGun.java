@@ -48,7 +48,7 @@ public class BeeGun extends RangedWeapon {
 	}
 
 	public static Hitbox createBee(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source) {
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, projSprite);
 		hbox.setDensity(0.5f);
 		hbox.setDurability(beeDurability);

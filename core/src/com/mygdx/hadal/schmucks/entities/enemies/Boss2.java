@@ -99,7 +99,7 @@ public class Boss2 extends EnemyFloating {
 		//create each link of the boss' body
 		for (int i = 0; i < links.length; i ++) {
 			links[i] = BodyBuilder.createBox(world, startPos, getHboxSize(), 0, 1, 0, false, false, Constants.BIT_ENEMY, (short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
-					hitboxfilter, false, link);
+                    hitboxFilter, false, link);
 			
 			RevoluteJointDef joint1 = new RevoluteJointDef();
 			
@@ -291,7 +291,7 @@ public class Boss2 extends EnemyFloating {
 				SoundEffect.SPIT.playUniversal(state, getPixelPosition(), 0.8f, 0.6f, false);
 				
 				Vector2 startVelo = new Vector2(0, projSpeed).setAngleDeg(getAttackAngle());
-				Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback,
@@ -315,7 +315,7 @@ public class Boss2 extends EnemyFloating {
 							for (int i = 0; i < numProj; i++) {
 								fragVelo.setAngleDeg(60 * i);
 								fragPosition.set(hbox.getPixelPosition()).add(new Vector2(fragVelo).nor().scl(5));
-								Hitbox frag = new Hitbox(state, fragPosition, new Vector2(size, size), lifespan, fragVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+								Hitbox frag = new Hitbox(state, fragPosition, new Vector2(size, size), lifespan, fragVelo, getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 								frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
 								frag.addStrategy(new DamageStandard(state, frag, getBodyData(), baseDamage, knockback,
 										DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
@@ -453,7 +453,7 @@ public class Boss2 extends EnemyFloating {
 				@Override
 				public void execute() {
 					startVelo.set(slodgeSpeed, slodgeSpeed).setAngleDeg(getAttackAngle());
-					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, slodgeSize.x), slodgeSize, slodgeLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, slodgeSize.x), slodgeSize, slodgeLifespan, startVelo, getHitboxFilter(), false, true, enemy, Sprite.NOTHING);
 					hbox.setRestitution(0.5f);
 					hbox.setGravity(3.0f);
 					hbox.setDurability(3);
@@ -501,7 +501,7 @@ public class Boss2 extends EnemyFloating {
 					SoundEffect.LAUNCHER4.playUniversal(state, getPixelPosition(), 0.4f, 0.8f, false);
 					
 					startVelo.set(fuguSpeed, fuguSpeed).setAngleDeg(getAttackAngle());
-					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fuguSize.x), fuguSize, fuguLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.FUGU);
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fuguSize.x), fuguSize, fuguLifespan, startVelo, getHitboxFilter(), false, true, enemy, Sprite.FUGU);
 					hbox.setGravity(3.0f);
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
@@ -509,7 +509,7 @@ public class Boss2 extends EnemyFloating {
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fuguDamage, fuguKB,
 							DamageSource.ENEMY_ATTACK, DamageTag.POISON, DamageTag.RANGED));
 					hbox.addStrategy(new DiePoison(state, hbox, getBodyData(), poisonRadius, poisonDamage, poisonDuration,
-							getHitboxfilter(), DamageSource.ENEMY_ATTACK));
+							getHitboxFilter(), DamageSource.ENEMY_ATTACK));
 					hbox.addStrategy(new DieRagdoll(state, hbox, getBodyData(), true));
 					hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.DEFLATE, 0.25f));
 				}

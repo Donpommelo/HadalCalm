@@ -147,7 +147,7 @@ public class Hexenhowitzer extends RangedWeapon {
 			}
 		}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.NOTHING);
 		hbox.setGravity(1.0f);
 

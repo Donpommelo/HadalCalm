@@ -69,7 +69,7 @@ public class JumpKick extends ActiveItem {
 		Vector2 push = new Vector2(startVelocity).nor().scl(RECOIL);
 		user.pushMomentumMitigation(push.x, push.y);
 
-		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 

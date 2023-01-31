@@ -95,7 +95,7 @@ public class Kamabokannon extends RangedWeapon {
 	public static Hitbox createKamaboko(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		user.recoil(startVelocity, recoil);
 
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.NOTHING);
 		hbox.setGravity(1.0f);
 

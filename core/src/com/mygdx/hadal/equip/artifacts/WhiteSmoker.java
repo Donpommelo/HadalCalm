@@ -46,7 +46,7 @@ public class WhiteSmoker extends Artifact {
 			public void whileHover(Vector2 hoverDirection) {
 				RangedHitbox hbox = new RangedHitbox(state, p.getSchmuck().getPixelPosition(), projectileSize, lifespan,
 						new Vector2(hoverDirection).nor().scl(-projectileSpeed),
-						p.getSchmuck().getHitboxfilter(), false, true, p.getPlayer(), Sprite.NOTHING);
+						p.getSchmuck().getHitboxFilter(), false, true, p.getPlayer(), Sprite.NOTHING);
 				hbox.setDurability(3);
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, p));

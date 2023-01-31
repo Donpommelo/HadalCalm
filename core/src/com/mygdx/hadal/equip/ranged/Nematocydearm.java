@@ -52,7 +52,7 @@ public class Nematocydearm extends RangedWeapon {
 		SoundEffect.ATTACK1.playSourced(state, startPosition, 0.4f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 		hbox.setSpriteSize(projectileSize);
 

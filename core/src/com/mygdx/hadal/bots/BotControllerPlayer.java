@@ -94,8 +94,8 @@ public class BotControllerPlayer extends BotController {
      * This is run continuously to make the bot interact with weapon pickup events, if they are touching one
      */
     private void processBotPickup() {
-        if (null != player.getCurrentEvent()) {
-            if (player.getCurrentEvent() instanceof PickupEquip pickup) {
+        if (!player.getEventHelper().getCurrentEvents().isEmpty()) {
+            if (player.getEventHelper().getCurrentEvents().get(0) instanceof PickupEquip pickup) {
                 BotLoadoutProcessor.processWeaponPickup(player, pickup);
             }
         }
@@ -151,7 +151,7 @@ public class BotControllerPlayer extends BotController {
         //if distance to target is above threshold, use boost
         if (distSquared * collision > player.getBoostDesireMultiplier() && 0.0f >= boostDesireCount && 0 < thisLocation.y &&
                 player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getAirblastCost()) {
-            player.getMouse().setDesiredLocation((
+            player.getMouseHelper().setDesiredLocation((
                     predictedSelfLocation.x - thisLocation.x) * PPM,(predictedSelfLocation.y - thisLocation.y) * PPM);
             boostDesired = true;
         }

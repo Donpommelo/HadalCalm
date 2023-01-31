@@ -83,7 +83,7 @@ public class DiamondCutter extends MeleeWeapon {
 	}
 
 	public static Hitbox createDiamondCutter(PlayState state, Schmuck user) {
-		Hitbox hbox = new Hitbox(state, new Vector2(), PROJECTILE_SIZE, 0, new Vector2(), user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, new Vector2(), PROJECTILE_SIZE, 0, new Vector2(), user.getHitboxFilter(),
 				true, true, user, PROJ_SPRITE);
 		hbox.makeUnreflectable();
 		hbox.setSyncedDeleteNoDelay(true);
@@ -106,7 +106,7 @@ public class DiamondCutter extends MeleeWeapon {
 					hbox.die();
 				}
 
-				projOffset.set(0, RANGE).setAngleDeg(((Player) user).getAttackAngle());
+				projOffset.set(0, RANGE).setAngleDeg(((Player) user).getMouseHelper().getAttackAngle());
 				entityLocation.set(user.getPosition());
 				hbox.setTransform(entityLocation.x - projOffset.x / PPM,entityLocation.y - projOffset.y / PPM, hbox.getAngle());
 
@@ -115,7 +115,7 @@ public class DiamondCutter extends MeleeWeapon {
 					controllerCount -= SPIN_INTERVAL;
 
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, SPIN_INTERVAL, pulseVelocity,
-							user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
+							user.getHitboxFilter(), true, true, user, Sprite.NOTHING);
 					pulse.setSyncDefault(false);
 					pulse.setEffectsVisual(false);
 					pulse.makeUnreflectable();

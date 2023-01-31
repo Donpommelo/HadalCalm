@@ -27,7 +27,7 @@ public class Impermeable extends Status {
 		
 		//set unit's invisibility to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setTransparent(true);
+			playerData.getPlayer().getEffectHelper().setTransparent(true);
 		}
 		
 		fadeCount = FADE_TIME;
@@ -55,7 +55,7 @@ public class Impermeable extends Status {
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, SyncType.CREATESYNC).setScale(0.4f);
 		
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setTransparent(false);
+			playerData.getPlayer().getEffectHelper().setTransparent(false);
 		}
 
 		if (inflicted.getSchmuck().getMainFixture() != null) {
@@ -68,7 +68,7 @@ public class Impermeable extends Status {
 	@Override
 	public void onDeath(BodyData perp, DamageSource source) {
 		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().setTransparent(false);
+			playerData.getPlayer().getEffectHelper().setTransparent(false);
 		}
 	}
 	

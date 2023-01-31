@@ -58,7 +58,7 @@ public class Riftsplitter extends MeleeWeapon {
 	public static Hitbox createRiftSplit(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.4f, false);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
 				false, true, user, PROJ_SPRITE);
 		hbox.setRestitution(1.0f);
 
@@ -89,7 +89,7 @@ public class Riftsplitter extends MeleeWeapon {
 
 			private void createShockwave(int rotate) {
 				Hitbox shockwave = new RangedHitbox(state, hbox.getPixelPosition(), SHOCKWAVE_SIZE, SHOCKWAVE_LIFESPAN,
-						new Vector2(hbox.getLinearVelocity()).rotate90(rotate).nor().scl(SHOCKWAVE_SPEED), user.getHitboxfilter(),
+						new Vector2(hbox.getLinearVelocity()).rotate90(rotate).nor().scl(SHOCKWAVE_SPEED), user.getHitboxFilter(),
 						true, true, user, Sprite.SPLITTER_B);
 				shockwave.setSyncDefault(false);
 

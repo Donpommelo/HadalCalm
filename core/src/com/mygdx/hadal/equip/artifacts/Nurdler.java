@@ -52,9 +52,9 @@ public class Nurdler extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 
-					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
+					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
 					Hitbox hbox = new RangedHitbox(state, p.getSchmuck().getPixelPosition(), projectileSize, lifespan,
-							startVelo, p.getSchmuck().getHitboxfilter(),true, true, p.getSchmuck(), projSprite);
+							startVelo, p.getSchmuck().getHitboxFilter(),true, true, p.getSchmuck(), projSprite);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, p));
 					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, p));

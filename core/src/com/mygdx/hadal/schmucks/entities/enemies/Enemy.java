@@ -107,7 +107,7 @@ public class Enemy extends Schmuck {
 		super.create();
 		
 		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, 0, false, true, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
-				hitboxfilter, false, getBodyData());
+                hitboxFilter, false, getBodyData());
 
 		//this also increments player score if coop/single player arena
 		getBodyData().addStatus(new Status(state, getBodyData()) {
@@ -280,7 +280,7 @@ public class Enemy extends Schmuck {
 	 */
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		return new Packets.CreateEnemy(entityID, getPixelPosition(), type, hitboxfilter, isBoss, name);
+		return new Packets.CreateEnemy(entityID, getPixelPosition(), type, hitboxFilter, isBoss, name);
 	}
 
 	@Override

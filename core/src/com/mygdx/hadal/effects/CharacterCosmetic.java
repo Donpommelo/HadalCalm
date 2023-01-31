@@ -13,8 +13,8 @@ import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.effects.PlayerSpriteHelper.GIB_DURATION;
-import static com.mygdx.hadal.effects.PlayerSpriteHelper.GIB_GRAVITY;
+import static com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.GIB_DURATION;
+import static com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.GIB_GRAVITY;
 
 /**
  * A CharacterCosmetic represents a single Character-Cosmetic relationship

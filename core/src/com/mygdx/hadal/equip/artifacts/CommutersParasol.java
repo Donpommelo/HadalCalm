@@ -39,7 +39,7 @@ public class CommutersParasol extends Artifact {
 					procCdCount -= procCd;
 					
 					Hitbox hbox = new Hitbox(state, p.getSchmuck().getPixelPosition(), size, lifespan, new Vector2(0, 0),
-							p.getSchmuck().getHitboxfilter(), true, false, p.getSchmuck(), sprite);
+							p.getSchmuck().getHitboxFilter(), true, false, p.getSchmuck(), sprite);
 					hbox.makeUnreflectable();
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, p));

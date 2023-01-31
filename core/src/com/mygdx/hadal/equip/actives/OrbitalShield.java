@@ -66,7 +66,7 @@ public class OrbitalShield extends ActiveItem {
 	
 	private static Hitbox createOrbital(PlayState state, Schmuck user, float startAngle) {
 		Hitbox hbox = new RangedHitbox(state, user.getPixelPosition(), PROJ_SIZE, PROJ_LIFESPAN, new Vector2(),
-				user.getHitboxfilter(), true, true, user, Sprite.STAR_WHITE);
+				user.getHitboxFilter(), true, true, user, Sprite.STAR_WHITE);
 		hbox.setSpriteSize(SPRITE_SIZE);
 		hbox.makeUnreflectable();
 		

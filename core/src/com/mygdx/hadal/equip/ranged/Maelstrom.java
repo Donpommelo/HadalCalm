@@ -57,7 +57,7 @@ public class Maelstrom extends RangedWeapon {
 		user.recoil(startVelocity, recoil);
 
 		final Vector2 explosionSize = new Vector2(projectileSize);
-		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, projSprite) {
 
 			private final Vector2 entityLocation = new Vector2();

@@ -512,7 +512,7 @@ public class Boss1 extends EnemyFloating {
 								EnemyUtils.floorHeight(state));
 							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
 							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
-								explosionKnockback,	getHitboxfilter(), true, DamageSource.ENEMY_ATTACK);
+								explosionKnockback,	getHitboxFilter(), true, DamageSource.ENEMY_ATTACK);
 						}
 					});
 				}
@@ -538,7 +538,7 @@ public class Boss1 extends EnemyFloating {
 								EnemyUtils.floorHeight(state));
 							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
 							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
-								explosionKnockback,	getHitboxfilter(), true, DamageSource.ENEMY_ATTACK);
+								explosionKnockback,	getHitboxFilter(), true, DamageSource.ENEMY_ATTACK);
 						}
 					});
 				}
@@ -577,7 +577,7 @@ public class Boss1 extends EnemyFloating {
 					SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.5f, 0.8f, false);
 					
 					Vector2 startVelo = new Vector2(ballSpeed, ballSpeed).setAngleDeg(getAttackAngle());
-					Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, ballSize), new Vector2(ballSize, ballSize), ballLifespan, startVelo, getHitboxfilter(), false, true, enemy, Sprite.ORB_RED);
+					Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, ballSize), new Vector2(ballSize, ballSize), ballLifespan, startVelo, getHitboxFilter(), false, true, enemy, Sprite.ORB_RED);
 					hbox.setGravity(10.0f);
 					hbox.setRestitution(1);
 					
@@ -644,7 +644,7 @@ public class Boss1 extends EnemyFloating {
 							public void execute() {
 								location.set(EnemyUtils.getLeftSide(state) + index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
 								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true,
-										getHitboxfilter(), DamageSource.ENEMY_ATTACK);
+										getHitboxFilter(), DamageSource.ENEMY_ATTACK);
 							}
 						});
 					}
@@ -667,7 +667,7 @@ public class Boss1 extends EnemyFloating {
 							public void execute() {
 								location.set(EnemyUtils.getRightSide(state) - index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
 								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true,
-										getHitboxfilter(), DamageSource.ENEMY_ATTACK);
+										getHitboxFilter(), DamageSource.ENEMY_ATTACK);
 							}
 						});
 					}

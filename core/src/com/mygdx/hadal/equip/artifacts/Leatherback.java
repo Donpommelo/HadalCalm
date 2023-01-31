@@ -24,7 +24,7 @@ public class Leatherback extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (damaging != null) {
-					boolean flip = Math.abs(p.getPlayer().getAttackAngle()) > 90;
+					boolean flip = Math.abs(p.getPlayer().getMouseHelper().getAttackAngle()) > 90;
 					if (damaging.isPositionBasedOnUser()) {
 						if (flip) {
 							if ((perp.getSchmuck().getPixelPosition().x - p.getSchmuck().getPixelPosition().x) < p.getSchmuck().getSize().x / 2) {

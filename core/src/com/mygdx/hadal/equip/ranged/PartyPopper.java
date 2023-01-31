@@ -67,7 +67,7 @@ public class PartyPopper extends RangedWeapon {
 		SoundEffect.CRACKER1.playSourced(state, startPosition, 1.0f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, projSprite);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -94,7 +94,7 @@ public class PartyPopper extends RangedWeapon {
 					Sprite projSprite = fragSprites[randomIndex];
 
 					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan,
-							newVelocity.setAngleDeg(newDegrees), user.getHitboxfilter(), false, true, user, projSprite) {
+							newVelocity.setAngleDeg(newDegrees), user.getHitboxFilter(), false, true, user, projSprite) {
 
 						@Override
 						public void create() {

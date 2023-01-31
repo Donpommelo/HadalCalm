@@ -135,12 +135,12 @@ public class SettingTeamMode extends ModeSetting {
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
         if (!TeamMode.COOP.equals(mode.getTeamMode())) {
             if (TeamMode.FFA.equals(mode.getTeamMode())) {
-                p.setHitboxfilter(hitboxFilter);
+                p.setHitboxFilter(hitboxFilter);
             } else {
                 if (AlignmentFilter.NONE.equals(newLoadout.team)) {
-                    p.setHitboxfilter(hitboxFilter);
+                    p.setHitboxFilter(hitboxFilter);
                 } else {
-                    p.setHitboxfilter(newLoadout.team.getFilter());
+                    p.setHitboxFilter(newLoadout.team.getFilter());
                 }
             }
         }
@@ -193,9 +193,9 @@ public class SettingTeamMode extends ModeSetting {
 
                             //players or teams that "qualify" for a win only win if they are the only one(s) alive
                             if (factionLeft == -1) {
-                                factionLeft = playerLeft.getHitboxfilter();
+                                factionLeft = playerLeft.getHitboxFilter();
                             } else {
-                                if (factionLeft != playerLeft.getHitboxfilter()) {
+                                if (factionLeft != playerLeft.getHitboxFilter()) {
                                     allded = false;
                                 }
                             }

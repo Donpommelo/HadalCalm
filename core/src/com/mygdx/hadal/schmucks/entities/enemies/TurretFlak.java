@@ -79,7 +79,7 @@ public class TurretFlak extends Turret {
 
 						float newDegrees = startVelo.angleDeg() + MathUtils.random(-spread, spread + 1);
 						spreadVelo.set(startVelo.setAngleDeg(newDegrees));
-						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(spreadVelo, size.x), projectileSize, projLifespan, spreadVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
+						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(spreadVelo, size.x), projectileSize, projLifespan, spreadVelo, getHitboxFilter(), true, true, enemy, Sprite.ORB_RED);
 						hbox.setGravity(3.0f);
 						
 						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));

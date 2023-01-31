@@ -1,27 +1,23 @@
 package com.mygdx.hadal.schmucks.entities;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.constants.*;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.PlayerSpriteHelper;
-import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.schmucks.entities.helpers.*;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -34,14 +30,10 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.utils.PlayerStatusUtil;
+import com.mygdx.hadal.utils.PlayerConditionUtil;
 import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
-
-import java.util.Objects;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -59,23 +51,8 @@ public class Player extends PhysicsSchmuck {
 	public static final int HB_HEIGHT = 516;
 
 	public static final float SCALE = 0.15f;
-	public static final float UI_SCALE = 0.4f;
 	public static final float PLAYER_MASS = 2.4489846f;
 	public static final float PICKUP_RADIUS = 250.0f;
-
-	//counters for various cooldowns.
-	protected static final float HOVER_CD = 0.08f;
-	protected static final float JUMP_CD = 0.25f;
-	private static final float FAST_FALL_CD = 0.05f;
-	private static final float AIRBLAST_CD = 0.25f;
-	private static final float INTERACT_CD = 0.15f;
-	private static final float HIT_SOUND_CD = 0.15f;
-	private static final float PING_CD = 1.0f;
-	private static final float HOVER_FUEL_REGEN_CD = 1.5f;
-	private static final float AIRBLAST_FUEL_REGEN_CD = 3.0f;
-	private static final float FUEL_REGEN = 16.0f;
-	private static final float GROUND_FUEL_CD_BOOST = 3.0f;
-	private static final float GROUND_FUEL_REGEN_BOOST = 5.0f;
 
 	//this makes the player animate faster in the air for the "luigi legs"
 	private static final float AIR_ANIMATION_SLOW = 3.0f;
@@ -86,63 +63,42 @@ public class Player extends PhysicsSchmuck {
 	private boolean dontMoveCamera;
 
 	private final PlayerSpriteHelper spriteHelper;
+	private final PlayerUIHelper uiHelper;
+	private final PlayerEffectHelper effectHelper;
+	private final HitsoundHelper hitsoundHelper;
+	private final MouseHelper mouseHelper;
+	private final FuelHelper fuelHelper;
+	private final MovementAirblastHelper airblastHelper;
+	private final MovementFastfallHelper fastfallHelper;
+	private final MovementJumpHelper jumpHelper;
+	private final EventInteractHelper eventHelper;
+	private final PingHelper pingHelper;
+
 	private TextureRegion toolSprite;
-	private final Animation<TextureRegion> typingBubble;
-	private final TextureRegion reloadMeter, reloadBar, hpBar, hpBarFade, fuelBar, fuelCutoff;
 
 	//Foot data for checking groundedness
-	protected FeetData feetData, pickupRadiusData;
+	private FeetData feetData;
 
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.)
 	private boolean groundedOverride;
 
 	//blinded is kept track of this way too b/c it affects visuals
-	protected float blinded;
+	private float blinded;
 
-	//
-	private boolean hovering, running, invisible, translucent, transparent;
-	
 	//does the player have a shoot/jump or boost action buffered? (i.e used when still on cd)
-	protected boolean shootBuffered, jumpBuffered, airblastBuffered;
+	private boolean shootBuffered;
 
-	protected float jumpCdCount, fastFallCdCount, airblastCdCount, interactCdCount, hitSoundCdCount,
-			hitSoundLargeCdCount, pingCdCount, fuelRegenCdCount;
-
-	//This is the angle that the player's arm is pointing
-	protected float attackAngle;
-	
 	//user data
-	protected PlayerBodyData playerData;
-	
-	//The event that the player last collided with. Used for active events that the player interacts with by pressing 'E'
-	private Event currentEvent;
-	
-	//Equipment that the player has built into their toolset.
-	private final Airblaster airblast;
+	private PlayerBodyData playerData;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
-	protected float controllerCount;
+	private float controllerCount;
 	
 	//Is the player currently shooting/hovering/fastfalling?
 	private boolean shooting;
-	protected boolean hoveringAttempt;
-	protected boolean fastFalling;
-	
-	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
-	protected float reloadPercent, reloadDelayed;
-	
-	//This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
-	protected float chargePercent, chargeDelayed;
-	
-	//particles and sounds used by the player
-	protected ParticleEntity hoverBubbles, dustCloud;
-	private SoundEntity runSound, hoverSound, reloadSound;
-	
+
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
-	
-	//this exists so that player can aim towards the mouse.
-	private MouseTracker mouse;
 	
 	//This is the loadout that this player starts with.
 	private final Loadout startLoadout;
@@ -157,9 +113,6 @@ public class Player extends PhysicsSchmuck {
 	//this is the point we are starting at.
 	private Event start;
 
-	//is the player currently typing in chat? (yes if this float is greater that 0.0f)
-	protected float typingCdCount;
-	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -175,7 +128,6 @@ public class Player extends PhysicsSchmuck {
 				  User user, boolean reset, Event start) {
 		super(state, startPos, new Vector2(HB_WIDTH * SCALE, HB_HEIGHT * SCALE), name, Constants.PLAYER_HITBOX, BASE_HP);
 		this.name = name;
-		airblast = new Airblaster(this);
 		toolSprite = Sprite.MT_DEFAULT.getFrame();
 
 		this.moveState = MoveState.STAND;
@@ -189,23 +141,17 @@ public class Player extends PhysicsSchmuck {
 
 		this.spriteHelper = new PlayerSpriteHelper(this, SCALE);
 		setBodySprite(startLoadout.character, startLoadout.team);
-		loadParticlesAndSounds();
-		
-		this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
-		this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
-		this.hpBar = Sprite.UI_MAIN_HEALTHBAR.getFrame();
-		this.hpBarFade = Sprite.UI_MAIN_HEALTH_MISSING.getFrame();
-		this.fuelBar = Sprite.UI_MAIN_FUELBAR.getFrame();
-		this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrame();
-		this.typingBubble =  new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_SLOW,
-			Objects.requireNonNull(Sprite.NOTIFICATIONS_CHAT.getFrames()));
-		typingBubble.setPlayMode(PlayMode.LOOP_PINGPONG);
 
-		//This schmuck tracks mouse location. Used for projectiles that home towards mouse.
-		mouse = new MouseTracker(state, this == state.getPlayer());
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(mouse.entityID, mouse,false, PlayState.ObjectLayer.STANDARD);
-		}
+		this.effectHelper = new PlayerEffectHelper(state, this);
+		this.uiHelper = new PlayerUIHelper(state, this);
+		this.hitsoundHelper = new HitsoundHelper(state, this);
+		this.mouseHelper = new MouseHelper(state, this);
+		this.fuelHelper = new FuelHelper(this);
+		this.airblastHelper = new MovementAirblastHelper(this);
+		this.fastfallHelper = new MovementFastfallHelper(this);
+		this.jumpHelper = new MovementJumpHelper(state, this);
+		this.eventHelper = new EventInteractHelper(this);
+		this.pingHelper = new PingHelper(state, this);
 	}
 	
 	/**
@@ -223,37 +169,10 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	/**
-	 * This method prepares the various particle emitting entities attached to the player.
-	 */
-	public void loadParticlesAndSounds() {
-		dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false,
-				SyncType.NOSYNC);
-		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false,
-				SyncType.NOSYNC);
-
-		hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.0f, 0.2f, 1.0f,
-				true, true, SyncType.NOSYNC);
-		runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.0f, 0.1f, 1.0f,
-				true, true, SyncType.NOSYNC);
-		reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.0f, 0.2f, 1.0f,
-				true, true, SyncType.NOSYNC);
-
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(dustCloud.getEntityID(), dustCloud, false, PlayState.ObjectLayer.EFFECT);
-			((ClientState) state).addEntity(hoverBubbles.getEntityID(), hoverBubbles, false, PlayState.ObjectLayer.EFFECT);
-			((ClientState) state).addEntity(hoverSound.getEntityID(), hoverSound, false, PlayState.ObjectLayer.EFFECT);
-			((ClientState) state).addEntity(runSound.getEntityID(), runSound, false, PlayState.ObjectLayer.EFFECT);
-			((ClientState) state).addEntity(reloadSound.getEntityID(), reloadSound, false, PlayState.ObjectLayer.EFFECT);
-		}
-	}
-	
-	/**
 	 * Create the player's body and initialize player's user data.
 	 */
 	@Override
 	public void create() {
-		mouse.setSelf(this == state.getPlayer());
-
 		alive = true;
 		destroyed = false;
 
@@ -295,29 +214,24 @@ public class Player extends PhysicsSchmuck {
 
 		//we scale size here to account for any player size modifiers
 		size.scl(1.0f + scaleModifier);
-
-		//for server, we adjust offset of particles to account for size changes
-		dustCloud.setOffset(0, -size.y / 2);
-		hoverBubbles.setOffset(0, -size.y / 2);
+		effectHelper.setEffectOffset();
 
 		this.body = BodyBuilder.createBox(world, startPos, size, gravityModifier, PLAYER_DENSITY, restitutionModifier, 0.0f, false, true, Constants.BIT_PLAYER,
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-				hitboxfilter, false, playerData);
+				hitboxFilter, false, playerData);
 
 		//create several extra fixtures to keep track of feet to determine when the player gets their jump back and what terrain event they are standing on.
 		this.feetData = new FeetData(UserDataType.FEET, this);
 
 		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter);
+				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxFilter);
 
 		feet.setUserData(feetData);
 
-		this.pickupRadiusData = new FeetData(UserDataType.PICKUP_RADIUS, this);
-
 		Fixture pickupRadius = FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(PICKUP_RADIUS, PICKUP_RADIUS), true, 0, 0, 0, 0,
-				Constants.BIT_PICKUP_RADIUS, Constants.BIT_PROJECTILE, hitboxfilter);
+				Constants.BIT_PICKUP_RADIUS, Constants.BIT_PROJECTILE, hitboxFilter);
 
-		pickupRadius.setUserData(pickupRadiusData);
+		pickupRadius.setUserData(new FeetData(UserDataType.PICKUP_RADIUS, this));
 
 		//make the player's mass constant to avoid mass changing when player is a different size
 		MassData newMass = body.getMassData();
@@ -349,16 +263,13 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * The player's controller currently polls for input.
 	 */
-	private final Vector2 playerLocation = new Vector2();
-	private final Vector2 mouseLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
-		playerLocation.set(getPixelPosition());
 
 		processMovement(delta);
-		processFuel(delta);
 		processEquipment(delta);
 		processMiscellaneous(delta);
+		processMiscellaneousUniversal(delta);
 
 		super.controller(delta);
 	}
@@ -370,20 +281,15 @@ public class Player extends PhysicsSchmuck {
 		while (controllerCount >= Constants.INTERVAL) {
 			controllerCount -= Constants.INTERVAL;
 
-			//if the player is successfully hovering, run hover(). We check if hover is successful so that effects that run when hovering do not activate when not actually hovering (white smoker)
-			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
-					playerData.getCurrentFuel() >= playerData.getHoverCost()) {
-				if (jumpCdCount < 0) {
-					hover();
-				}
-			} else {
-				toggleHoverEffects(false);
-			}
-			if (fastFalling) {
-				fastFall();
-			}
-			toggleRunningEffects((MoveState.MOVE_LEFT.equals(moveState) || MoveState.MOVE_RIGHT.equals(moveState)) && grounded);
+			jumpHelper.controllerInterval();
+			fastfallHelper.controllerInterval();
+			effectHelper.toggleRunningEffects((MoveState.MOVE_LEFT.equals(moveState) || MoveState.MOVE_RIGHT.equals(moveState)) && grounded);
 		}
+
+		fuelHelper.controller(delta);
+		jumpHelper.controller(delta);
+		fastfallHelper.controller(delta);
+		airblastHelper.controller(delta);
 
 		//Determine if the player is in the air or on ground.
 		grounded = feetData.getNumContacts() > 0 || groundedOverride;
@@ -392,31 +298,6 @@ public class Player extends PhysicsSchmuck {
 		if (grounded) {
 			playerData.setExtraJumpsUsed(0);
 		}
-
-		jumpCdCount -= delta;
-		fastFallCdCount -= delta;
-		airblastCdCount -= delta;
-
-		//if inputting certain actions during cooldown, an action is buffered
-		if (jumpBuffered && jumpCdCount < 0) {
-			jumpBuffered = false;
-			jump();
-		}
-		if (airblastBuffered && airblastCdCount < 0) {
-			airblastBuffered = false;
-			airblast();
-		}
-	}
-
-	protected void processFuel(float delta) {
-
-		//process fuel regen. Base fuel regen is canceled upon using fuel.
-		if (fuelRegenCdCount > 0.0f) {
-			fuelRegenCdCount -= grounded ? delta * GROUND_FUEL_CD_BOOST : delta;
-		} else {
-			playerData.fuelGain(grounded ? GROUND_FUEL_REGEN_BOOST * FUEL_REGEN * delta : FUEL_REGEN * delta);
-		}
-		playerData.fuelGain(playerData.getStat(Stats.FUEL_REGEN) * delta);
 	}
 
 	protected void processEquipment(float delta) {
@@ -426,7 +307,8 @@ public class Player extends PhysicsSchmuck {
 
 		//If player is reloading, run the reload method of the current equipment.
 		boolean reloading = playerData.getCurrentTool().isReloading();
-		toggleReloadEffects(reloading);
+
+		effectHelper.toggleReloadEffects(reloading);
 		if (reloading) {
 			playerData.getCurrentTool().reload(delta);
 		}
@@ -436,9 +318,7 @@ public class Player extends PhysicsSchmuck {
 			playerData.getActiveItem().gainCharge(delta);
 		}
 
-		//keep track of reload/charge percent to properly sync those fields in the ui
-		reloadPercent = playerData.getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
-		chargePercent = playerData.getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
+		uiHelper.controllerEquip(delta);
 
 		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
 		playerData.getCurrentTool().update(state, delta);
@@ -451,137 +331,18 @@ public class Player extends PhysicsSchmuck {
 
 	protected void processMiscellaneous(float delta) {
 
-		//Determine player mouse location and hence where the arm should be angled.
-		playerLocation.set(getPixelPosition());
-		mouseLocation.set(mouse.getPixelPosition());
-		mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
-
-		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
-
 		//process cds
-		interactCdCount -= delta;
-		pingCdCount -= delta;
-		hitSoundCdCount -= delta;
-		hitSoundLargeCdCount -= delta;
-		typingCdCount -= delta;
+		eventHelper.controller(delta);
+		hitsoundHelper.controller(delta);
+		pingHelper.controller(delta);
 
 		//process list of units that damaged this player within the last ~5 seconds
 		playerData.processRecentDamagedBy(delta);
 	}
 
-	private final Vector2 hoverDirection = new Vector2();
-	/**
-	 * Player's Hover power. Costs fuel and continuously pushes the player upwards.
-	 */
-	public void hover() {
-		if (jumpCdCount < 0) {
-
-			//hovering sets fuel regen on cooldown
-			if (fuelRegenCdCount < HOVER_FUEL_REGEN_CD) {
-				fuelRegenCdCount = HOVER_FUEL_REGEN_CD;
-			}
-
-			//Player will continuously do small upwards bursts that cost fuel.
-			playerData.fuelSpend(playerData.getHoverCost());
-			jumpCdCount = HOVER_CD;
-
-			hoverDirection.set(0, playerData.getHoverPower());
-
-			if (playerData.getStat(Stats.HOVER_CONTROL) > 0) {
-				hoverDirection.setAngleDeg(attackAngle + 180);
-			}
-
-			pushMomentumMitigation(hoverDirection.x, hoverDirection.y);
-
-			playerData.statusProcTime(new ProcTime.whileHover(hoverDirection));
-
-			toggleHoverEffects(true);
-		} else {
-			toggleHoverEffects(false);
-
-		}
-	}
-
-	private void toggleRunningEffects(boolean running) {
-		this.running = running;
-		if (running && !invisible) {
-			dustCloud.turnOn();
-			runSound.turnOn();
-		} else {
-			dustCloud.turnOff();
-			runSound.turnOff();
-		}
-	}
-
-	private void toggleHoverEffects(boolean hovering) {
-		this.hovering = hovering;
-		if (hovering && !invisible) {
-			hoverBubbles.turnOn();
-			hoverSound.turnOn();
-		} else {
-			hoverBubbles.turnOff();
-			hoverSound.turnOff();
-		}
-	}
-
-	private void toggleReloadEffects(boolean reloading) {
-		if (reloading && !invisible) {
-			reloadSound.turnOn();
-		} else {
-			reloadSound.turnOff();
-		}
-	}
-
-	/**
-	 * Player's jump. Player moves up if they have jumps left.
-	 */
-	public void jump() {
-		if (grounded) {
-			if (jumpCdCount < 0) {
-				jumpCdCount = JUMP_CD;
-				pushMomentumMitigation(0, playerData.getJumpPower());
-				
-				if (!invisible) {
-					//activate jump particles and sound
-					new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - size.y / 2),
-							Particle.WATER_BURST, 1.0f, true, SyncType.CREATESYNC);
-					SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
-				}
-			} else {
-				jumpBuffered = true;
-			}
-		} else {
-			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
-				if (jumpCdCount < 0) {
-					jumpCdCount = JUMP_CD;
-					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
-					pushMomentumMitigation(0, playerData.getJumpPower());
-					
-					if (!invisible) {
-						//activate double-jump particles and sound
-						new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, SyncType.CREATESYNC);
-						SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
-					}
-				} else {
-					jumpBuffered = true;
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Player falls rapidly if in the air. If grounded, this also interacts with terrain events.
-	 */
-	public void fastFall() {
-		if (fastFallCdCount < 0) {
-			fastFallCdCount = FAST_FALL_CD;
-			if (playerData.getFastFallPower() > 0) {
-				push(0, -1, playerData.getFastFallPower());
-			}
-		}
-		if (!feetData.getTerrain().isEmpty()) {
-			feetData.getTerrain().get(0).getEventData().onInteract(this);
-		}
+	protected void processMiscellaneousUniversal(float delta) {
+		jumpHelper.controllerUniversal(delta);
+		mouseHelper.controller();
 	}
 	
 	/**
@@ -590,7 +351,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void shoot(float delta) {
 		if (alive) {
-			useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition(), true);
+			useToolStart(delta, playerData.getCurrentTool(), hitboxFilter, mouseHelper.getPixelPosition(), true);
 		}
 	}
 	
@@ -614,41 +375,10 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	/**
-	 * Player's airblast power. Boosts player, knocks enemies/hitboxes.
-	 */
-	public void airblast() {
-		if (airblastCdCount < 0) {
-			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
-
-				//airblasting sets fuel regen on cooldown
-				if (fuelRegenCdCount < AIRBLAST_FUEL_REGEN_CD) {
-					fuelRegenCdCount = AIRBLAST_FUEL_REGEN_CD;
-				}
-
-				playerData.fuelSpend(playerData.getAirblastCost());
-				airblastCdCount = AIRBLAST_CD;
-				useToolStart(0, airblast, hitboxfilter, mouse.getPixelPosition(), false);
-			}
-		} else {
-			airblastBuffered = true;
-		}
-	}
-	
-	/**
-	 * Player interacts with an event they are overlapping with
-	 */
-	public void interact() {
-		if (currentEvent != null && interactCdCount < 0) {
-			interactCdCount = INTERACT_CD;
-			currentEvent.getEventData().onInteract(this);
-		}
-	}
-	
-	/**
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		playerData.getActiveItem().mouseClicked(0, state, getBodyData(), hitboxfilter, mouse.getPixelPosition());
+		playerData.getActiveItem().mouseClicked(0, state, getBodyData(), hitboxFilter, mouseHelper.getPixelPosition());
 		playerData.getActiveItem().execute(state, getBodyData());
 	}
 	
@@ -659,99 +389,25 @@ public class Player extends PhysicsSchmuck {
 		playerData.getCurrentTool().setReloading(true, false);
 	}
 	
-	/**
-	 * Player pings at mouse location
-	 */
-	private static final Vector2 NOTIF_OFFSET = new Vector2(0, 35);
-	public void ping() {
-		if (pingCdCount < 0) {
-			pingCdCount = PING_CD;
-			SyncedAttack.PING.initiateSyncedAttackSingle(state, this, mouse.getPixelPosition().add(NOTIF_OFFSET), new Vector2());
-		}
-	}
-	
-	private static final int BAR_X = 20;
-	private static final int BAR_Y = 0;
-	private static final int HP_WIDTH = 5;
-	private static final int HP_HEIGHT = 40;
-	private static final int FLIP_RANGE = 80;
-	private static final int CUTOFF_THICKNESS = 3;
-	private boolean barRight;
-	protected final Vector2 mouseAngle = new Vector2();
+	private final Vector2 playerLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
+		playerLocation.set(getPixelPosition());
 
-		//process player invisibility. Completely invisible players are partially transparent to allies
-		float transparency;
-		boolean batchSet = false;
-		if (transparent) {
-			return;
-		}
-		if (invisible) {
-			if (state.getPlayer().hitboxfilter == hitboxfilter) {
-				transparency = 0.3f;
-				batch.setColor(1.0f,  1.0f, 1.0f, transparency);
-				batchSet = true;
-			} else {
-				return;
-			}
-		}
-		if (translucent) {
-			if (state.getPlayer().hitboxfilter != hitboxfilter) {
-				transparency = 0.3f;
-				batch.setColor(1.0f,  1.0f, 1.0f, transparency);
-				batchSet = true;
-			}
-		}
+		boolean batchSet = effectHelper.processInvisibility(batch);
 
 		//render player sprite using sprite helper
-		spriteHelper.render(batch, attackAngle, moveState, animationTime, animationTimeExtra, grounded, playerLocation,
+		spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra, grounded, playerLocation,
 				true, null, true);
 
 		if (batchSet) {
 			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
-		
-		float textX = playerLocation.x - reloadMeter.getRegionWidth() * UI_SCALE / 2;
-		float textY = playerLocation.y + reloadMeter.getRegionHeight() * UI_SCALE + size.y / 2;
-		
-		//render player ui
-		if (playerData.getCurrentTool().isReloading()) {
-			
-			//Calculate reload progress
-			reloadDelayed = Math.min(1.0f, reloadDelayed + (reloadPercent - reloadDelayed) * 0.25f);
-			
-			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * UI_SCALE * reloadDelayed, reloadBar.getRegionHeight() * UI_SCALE);
-			HadalGame.FONT_SPRITE.draw(batch, UIText.RELOADING.text(), textX + 12, textY + reloadMeter.getRegionHeight() * UI_SCALE);
-			batch.draw(reloadMeter, textX, textY, reloadMeter.getRegionWidth() * UI_SCALE, reloadMeter.getRegionHeight() * UI_SCALE);
-			
-			if (reloadDelayed > reloadPercent) {
-				reloadDelayed = 0.0f;
-			}
-		} else {
-			reloadDelayed = 0.0f;
-		}
-		
-		if (playerData.getCurrentTool().isCharging()) {
-			
-			//Calculate charge progress
-			chargeDelayed = Math.min(1.0f, chargeDelayed + (chargePercent - chargeDelayed) * 0.25f);
-			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * UI_SCALE * chargeDelayed, reloadBar.getRegionHeight() * UI_SCALE);
-			HadalGame.FONT_SPRITE.draw(batch, playerData.getCurrentTool().getChargeText(), textX + 12, textY + reloadMeter.getRegionHeight() * UI_SCALE);
-			batch.draw(reloadMeter, textX, textY, reloadMeter.getRegionWidth() * UI_SCALE, reloadMeter.getRegionHeight() * UI_SCALE);
-		} else {
-			chargeDelayed = 0.0f;
-		}
-		
-		//render "out of ammo"
-		if (playerData.getCurrentTool().isOutofAmmo()) {
-			HadalGame.FONT_SPRITE.draw(batch, UIText.OUT_OF_AMMO.text(), textX + 12, textY + reloadMeter.getRegionHeight() * UI_SCALE);
-		}
-		
+
 		boolean visible = false;
 		
 		//draw hp and fuel bar if using certain effects, looking at self/ally, or in spectator mode
-		if (state.isSpectatorMode() || hitboxfilter == state.getPlayer().hitboxfilter) {
+		if (state.isSpectatorMode() || hitboxFilter == state.getPlayer().hitboxFilter) {
 			visible = true;
 		} else {
 			if (state.getPlayer().getPlayerData() != null) {
@@ -760,97 +416,18 @@ public class Player extends PhysicsSchmuck {
 				}
 			}
 		}
-
-		float hpX, hpRatio, fuelRatio, fuelCutoffRatio;
-		if (visible) {
-			if (barRight) {
-				hpX = playerLocation.x + BAR_X;
-				if (attackAngle > 180 - FLIP_RANGE || attackAngle < -180 + FLIP_RANGE) {
-					barRight = false;
-				}
-			} else {
-				hpX = playerLocation.x - BAR_X - HP_WIDTH - 5;
-				if (attackAngle < FLIP_RANGE && attackAngle > -FLIP_RANGE) {
-					barRight = true;
-				}
-			}
-
-			if (equals(state.getPlayer())) {
-				if (state.getGsm().getSetting().isDisplayHp()) {
-					hpRatio = state.getUiPlay().getHpRatio();
-					fuelRatio = state.getUiPlay().getFuelRatio();
-					fuelCutoffRatio = state.getUiPlay().getFuelCutoffRatio();
-					if (barRight) {
-						batch.draw(fuelBar, hpX, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT * fuelRatio);
-						batch.draw(hpBarFade, hpX + HP_WIDTH, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT);
-						batch.draw(hpBar, hpX + HP_WIDTH, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT * hpRatio);
-						batch.draw(fuelCutoff, hpX, playerLocation.y + BAR_Y + fuelCutoffRatio * HP_HEIGHT, HP_WIDTH, CUTOFF_THICKNESS);
-					} else {
-						batch.draw(fuelBar, hpX - HP_WIDTH, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT * fuelRatio);
-						batch.draw(hpBarFade, hpX, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT);
-						batch.draw(hpBar, hpX, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT * hpRatio);
-						batch.draw(fuelCutoff, hpX - HP_WIDTH, playerLocation.y + BAR_Y + fuelCutoffRatio * HP_HEIGHT, HP_WIDTH, CUTOFF_THICKNESS);
-					}
-				}
-			} else {
-				hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
-				batch.draw(hpBarFade, hpX, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT);
-				batch.draw(hpBar, hpX, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT * hpRatio);
-			}
-		}
-
-		if (state.getGsm().getSetting().isDisplayNames()) {
-			//draw player name
-			HadalGame.FONT_SPRITE.draw(batch, name,
-				playerLocation.x - size.x / 2,
-				playerLocation.y + size.y / 2 + 25);
-		}
+		uiHelper.render(batch, playerLocation, visible);
 
 		playerData.statusProcTime(new ProcTime.Render(batch, playerLocation, size));
-
-		//display typing bubble if typing
-		if (typingCdCount > 0) {
-			batch.draw(typingBubble.getKeyFrame(animationTime, true), playerLocation.x - 25, playerLocation.y + size.y / 2 + 20, 50, 40);
-		}
 	}
 	
 	@Override
 	public void dispose() {
 		super.dispose();
-
 		spriteHelper.dispose(despawnType);
-
-		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
-		if (!state.isServer()) {
-			playerData.setCurrentHp(0);
-
-			((ClientState) state).removeEntity(hoverBubbles.getEntityID());
-			((ClientState) state).removeEntity(dustCloud.getEntityID());
-		}
+		effectHelper.dispose();
 	}
 	
-	/**
-	 * When the player deals damage, we play this hitsound depending on the amount of damage dealt
-	 */
-	private static final float MAX_DAMAGE_THRESHOLD = 60.0f;
-	public void playHitSound(float damage) {
-
-		if (damage <= 0.0f) { return; }
-
-		if (damage > MAX_DAMAGE_THRESHOLD) {
-			if (hitSoundLargeCdCount < 0) {
-				hitSoundLargeCdCount = HIT_SOUND_CD;
-				hitSoundCdCount = HIT_SOUND_CD;
-				SoundEffect.registerHitSound(state.getGsm(), this, true);
-			}
-		} else {
-			if (hitSoundCdCount < 0) {
-				hitSoundCdCount = HIT_SOUND_CD;
-				SoundEffect.registerHitSound(state.getGsm(), this, false);
-			}
-		}
-	}
-
 	/**
 	 * This is called by the server when the player is created. Sends a packet to clients to instruct them to build a new player
 	 * with the desired name and loadout
@@ -858,7 +435,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public Object onServerCreate(boolean catchup) {
 		return new Packets.CreatePlayer(entityID, connID, getPixelPosition(), name, playerData.getLoadout(),
-				hitboxfilter, scaleModifier, dontMoveCamera);
+				hitboxFilter, scaleModifier, dontMoveCamera);
 	}
 
 	//this is the type of death we have. Send to client so they can process the death on their end.
@@ -875,13 +452,13 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void onServerSync() {
 
-		short statusCode = getStatusCode();
+		short statusCode = getConditionCode();
 
 		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
 				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
-				getMouse().getPosition(), playerData.getCurrentSlot(),
-				playerData.getCurrentTool().isReloading() ? reloadPercent : -1.0f,
-				playerData.getCurrentTool().isCharging() ? chargePercent : -1.0f,
+				mouseHelper.getPosition(), playerData.getCurrentSlot(),
+				playerData.getCurrentTool().isReloading() ? uiHelper.getReloadPercent() : -1.0f,
+				playerData.getCurrentTool().isCharging() ? uiHelper.getChargePercent() : -1.0f,
 				playerData.getCurrentFuel(),
 				statusCode));
 	}
@@ -891,36 +468,22 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-
-		//this processes screen shake for the client when their player (or spectator target) receives damage
-		if (o instanceof PacketsSync.SyncSchmuck p) {
-			float difference = getPlayerData().getCurrentHp() - p.currentHp;
-			if (difference > 0.0f && state.getUiPlay() != null) {
-				if (this.equals(state.getPlayer())) {
-					CameraUtil.inflictTrauma(state.getGsm(), difference);
-				}
-				if (state.getKillFeed() != null) {
-					if (state.isSpectatorMode() || state.getKillFeed().isRespawnSpectator()) {
-						if (this.equals(state.getUiSpectator().getSpectatorTarget())) {
-							CameraUtil.inflictTrauma(state.getGsm(), difference);
-						}
-					}
-				}
-			}
-		}
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayer p) {
-			getMouse().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
+			mouseHelper.setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
+
 			getPlayerData().getCurrentTool().setReloading(p.reloadPercent != -1.0f, true);
-			reloadPercent = p.reloadPercent;
+			uiHelper.setReloadPercent(p.reloadPercent);
+
 			getPlayerData().getCurrentTool().setCharging(p.chargePercent != -1.0f);
-			chargePercent = p.chargePercent;
+			uiHelper.setChargePercent(p.chargePercent);
+
 			getPlayerData().setCurrentFuel(p.currentFuel);
 
-			processStatusCode(p.statusCode);
+			processConditionCode(p.conditionCode);
 
 		} else if (o instanceof Packets.DeletePlayer p) {
 
@@ -931,26 +494,25 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 
-	public void processStatusCode(short statusCode) {
-		grounded = PlayerStatusUtil.codeToGrounded(statusCode);
-		invisible = PlayerStatusUtil.codeToInvisible(statusCode);
-		translucent = PlayerStatusUtil.codeToTranslucent(statusCode);
-		transparent = PlayerStatusUtil.codeToTransparent(statusCode);
-		toggleRunningEffects(PlayerStatusUtil.codeToRunning(statusCode));
-		toggleHoverEffects(PlayerStatusUtil.codeToHovering(statusCode));
-		toggleReloadEffects(PlayerStatusUtil.codeToReloading(statusCode));
+	public void processConditionCode(short statusCode) {
+		grounded = PlayerConditionUtil.codeToCondition(statusCode, Constants.GROUNDED);
+
+		jumpHelper.setJumping(PlayerConditionUtil.codeToCondition(statusCode, Constants.JUMPING));
+
+		effectHelper.toggleRunningEffects(PlayerConditionUtil.codeToCondition(statusCode, Constants.RUNNING));
+		effectHelper.toggleHoverEffects(PlayerConditionUtil.codeToCondition(statusCode, Constants.HOVERING));
+		effectHelper.toggleReloadEffects(PlayerConditionUtil.codeToCondition(statusCode, Constants.RELOADING));
+		effectHelper.setInvisible(PlayerConditionUtil.codeToCondition(statusCode, Constants.INVISIBLE));
+		effectHelper.setTranslucent(PlayerConditionUtil.codeToCondition(statusCode, Constants.TRANSLUCENT));
+		effectHelper.setTransparent(PlayerConditionUtil.codeToCondition(statusCode, Constants.TRANSPARENT));
+
+		uiHelper.setTyping(PlayerConditionUtil.codeToCondition(statusCode, Constants.TYPING));
 	}
 
 	@Override
 	public void clientController(float delta) {
-		playerLocation.set(getPixelPosition());
-		mouseLocation.set(mouse.getPixelPosition());
-		mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
-		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
-
+		processMiscellaneousUniversal(delta);
 		super.clientController(delta);
-
-		typingCdCount -= delta;
 	}
 	
 	private float shortestFraction;
@@ -1004,9 +566,16 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public BodyData getBodyData() { return playerData; }
 
-	public short getStatusCode() {
-		return PlayerStatusUtil.statusToCode(grounded, running, hovering, playerData.getCurrentTool().isReloading(),
-				invisible, translucent, transparent);
+	public short getConditionCode() {
+		return PlayerConditionUtil.conditionToCode(grounded,
+				jumpHelper.isJumping(),
+				effectHelper.isRunning(),
+				effectHelper.isHovering(),
+				effectHelper.isInvisible(),
+				effectHelper.isTranslucent(),
+				effectHelper.isTransparent(),
+				playerData.getCurrentTool().isReloading(),
+				uiHelper.isTyping());
 	}
 
 	public void setScaleModifier(float scaleModifier) {
@@ -1026,29 +595,11 @@ public class Player extends PhysicsSchmuck {
 
 	public void setToolSprite(TextureRegion sprite) { toolSprite = sprite; }
 
-	public Event getCurrentEvent() { return currentEvent; }
-
-	public float getAttackAngle() { return attackAngle; }
-
-	public void setCurrentEvent(Event currentEvent) { this.currentEvent = currentEvent; }
-
-	public void setHoveringAttempt(boolean hoveringAttempt) { this.hoveringAttempt = hoveringAttempt; }
-
-	public boolean isFastFalling() { return fastFalling; }
-
-	public void setFastFalling(boolean fastFalling) { this.fastFalling = fastFalling; }
-
 	public void setShooting(boolean shooting) { this.shooting = shooting; }
-
-	public float getChargePercent() {return chargePercent;}
 
 	public ActionController getController() { return controller; }
 	
 	public Loadout getStartLoadout() { return startLoadout; }
-
-	public MouseTracker getMouse() { return mouse; }
-
-	public void setMouse(MouseTracker mouse) { this.mouse = mouse; }
 
 	public int getConnID() { return connID;	}
 
@@ -1059,24 +610,36 @@ public class Player extends PhysicsSchmuck {
 	public void setUser(User user) { this.user = user; }
 
 	public void setGroundedOverride(boolean groundedOverride) { this.groundedOverride = groundedOverride; }
-	
-	public void setInvisible(boolean invisible) { this.invisible = invisible; }
-
-	public void setTranslucent(boolean translucent) { this.translucent = translucent; }
-
-	public void setTransparent(boolean transparent) { this.transparent = transparent; }
 
 	public void setBlinded(float blinded) { this.blinded = blinded; }
 
 	public float getBlinded() { return blinded; }
 
-	public void startTyping() { this.typingCdCount = 1.0f; }
-	
 	public Event getStart() { return start; }
 
 	public void setStart(Event start) { this.start = start; }
 
 	public PlayerSpriteHelper getSpriteHelper() { return spriteHelper; }
+
+	public PlayerEffectHelper getEffectHelper() { return effectHelper; }
+
+	public PlayerUIHelper getUiHelper() { return uiHelper; }
+
+	public HitsoundHelper getHitsoundHelper() { return hitsoundHelper; }
+
+	public MouseHelper getMouseHelper() { return mouseHelper; }
+
+	public FuelHelper getFuelHelper() { return fuelHelper; }
+
+	public MovementAirblastHelper getAirblastHelper() { return airblastHelper; }
+
+	public MovementFastfallHelper getFastfallHelper() { return fastfallHelper; }
+
+	public MovementJumpHelper getJumpHelper() { return jumpHelper; }
+
+	public EventInteractHelper getEventHelper() { return eventHelper; }
+
+	public PingHelper getPingHelper() { return pingHelper; }
 
 	public void setDespawnType(DespawnType despawnType) { this.despawnType = despawnType; }
 

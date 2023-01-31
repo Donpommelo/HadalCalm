@@ -46,7 +46,7 @@ public class PlusMinus extends ActiveItem {
 
 					SoundEffect.THUNDER.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
 					user.addStatus(new Shocked(state, user, user, CHAIN_DAMAGE, CHAIN_RADIUS, CHAIN_AMOUNT,
-							user.getSchmuck().getHitboxfilter(), DamageSource.PLUS_MINUS));
+							user.getSchmuck().getHitboxFilter(), DamageSource.PLUS_MINUS));
 				}
 				procCdCount += delta;
 			}

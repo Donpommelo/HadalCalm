@@ -40,7 +40,7 @@ public class Scrapripper extends MeleeWeapon {
 	public static Hitbox createScraprip(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.WOOSH.playSourced(state, startPosition, 1.0f);
 
-		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.IMPACT);
 		hbox.setSpriteSize(HITBOX_SPRITE_SIZE);
 		hbox.makeUnreflectable();

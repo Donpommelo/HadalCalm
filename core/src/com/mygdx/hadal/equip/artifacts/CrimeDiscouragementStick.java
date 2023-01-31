@@ -38,7 +38,7 @@ public class CrimeDiscouragementStick extends Artifact {
 				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					startVelo.set(0, grenadeVelocity).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
+					startVelo.set(0, grenadeVelocity).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
 
 					SyncedAttack.STICK_GRENADE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
 							inflicted.getSchmuck().getPixelPosition(), startVelo);

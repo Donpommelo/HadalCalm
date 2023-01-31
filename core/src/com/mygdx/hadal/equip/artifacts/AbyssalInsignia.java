@@ -33,7 +33,7 @@ public class AbyssalInsignia extends Artifact {
 				}
 				float hpPercent = inflicter.getCurrentHp() / inflicter.getStat(Stats.MAX_HP);
 				if (hpPercent < hpThreshold) {
-						p.getPlayer().setShader(Shader.PULSE_RED_HP, shaderCount * 2, false);
+						p.getPlayer().setShader(Shader.PULSE_RED_HP, shaderCount * 2);
 				}
 			}
 

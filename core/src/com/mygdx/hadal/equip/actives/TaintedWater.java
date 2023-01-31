@@ -43,7 +43,7 @@ public class TaintedWater extends ActiveItem {
 		Vector2 startPosition = user.getPlayer().getPixelPosition();
 
 		Hitbox hboxBase = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN,
-			new Vector2(weaponVelo).nor().scl(PROJECTILE_SPEED), user.getPlayer().getHitboxfilter(), false,
+			new Vector2(weaponVelo).nor().scl(PROJECTILE_SPEED), user.getPlayer().getHitboxFilter(), false,
 				false, user.getPlayer(), Sprite.NOTHING);
 
 		hboxBase.addStrategy(new ControllerDefault(state, hboxBase, user));
@@ -58,7 +58,7 @@ public class TaintedWater extends ActiveItem {
 					numPoison++;
 					lastPosition.set(hbox.getPixelPosition());
 					new Poison(state, hbox.getPixelPosition(), new Vector2(POISON_SIZE).add(0, numPoison * POISON_SPREAD),
-							POISON_DAMAGE, POISON_DURATION, user.getSchmuck(),true, user.getSchmuck().getHitboxfilter(), DamageSource.TAINTED_WATER) {
+							POISON_DAMAGE, POISON_DURATION, user.getSchmuck(),true, user.getSchmuck().getHitboxFilter(), DamageSource.TAINTED_WATER) {
 
 						@Override
 						public void create() {

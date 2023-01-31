@@ -50,7 +50,7 @@ public class GrenadeLauncher extends RangedWeapon {
 		SoundEffect.LAUNCHER.playSourced(state, startPosition, 0.25f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hboxBouncy = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hboxBouncy = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, false, user, Sprite.NOTHING);
 		hboxBouncy.setGravity(2.5f);
 		hboxBouncy.setRestitution(0.5f);
@@ -58,7 +58,7 @@ public class GrenadeLauncher extends RangedWeapon {
 		hboxBouncy.addStrategy(new ControllerDefault(state, hboxBouncy, user.getBodyData()));
 		hboxBouncy.addStrategy(new DropThroughPassability(state, hboxBouncy, user.getBodyData()));
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, projSprite);
 		hbox.setSyncDefault(false);
 
@@ -71,7 +71,7 @@ public class GrenadeLauncher extends RangedWeapon {
 				(short) 0, false, DamageSource.GRENADE_LAUNCHER));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f).setSynced(false));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f).setSynced(false));
-		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 
 		if (!state.isServer()) {
 			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);

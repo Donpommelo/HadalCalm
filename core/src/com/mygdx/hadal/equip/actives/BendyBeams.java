@@ -54,7 +54,7 @@ public class BendyBeams extends ActiveItem {
 					
 					startVelo.set(weaponVelo).nor().scl(PROJECTILE_SPEED);
 					for (int i = 0; i < BEAM_NUMBER; i++) {
-						Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), PROJ_SPRITE);
+						Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelo), user.getPlayer().getHitboxFilter(), true, false, user.getPlayer(), PROJ_SPRITE);
 						hbox.addStrategy(new ControllerDefault(state, hbox, user));
 						hbox.addStrategy(new DamageStandard(state, hbox, user, DAMAGE, KNOCKBACK, DamageSource.BENDY_BEAMS, DamageTag.ENERGY));
 						hbox.addStrategy(new ContactUnitDie(state, hbox, user));
@@ -63,7 +63,7 @@ public class BendyBeams extends ActiveItem {
 								.setParticleColor(HadalColor.MALACHITE).setParticleSize(20));
 						hbox.addStrategy(new AdjustAngle(state, hbox, user));
 						hbox.addStrategy(new Curve(state, hbox, user, 90, 180,
-								user.getPlayer().getMouse().getPixelPosition(), PROJECTILE_SPEED, 0.1f));
+								user.getPlayer().getMouseHelper().getPixelPosition(), PROJECTILE_SPEED, 0.1f));
 					}
 				}
 				procCdCount += delta;

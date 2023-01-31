@@ -177,7 +177,7 @@ public class ChargeBeam extends RangedWeapon {
 		final float damageMultiplier2 = damageMultiplier;
 		final float kbMultiplier2 = kbMultiplier;
 
-		Hitbox wallCollider = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox wallCollider = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.NOTHING);
 		wallCollider.setEffectsHit(false);
 		wallCollider.setEffectsMovement(false);
@@ -187,7 +187,7 @@ public class ChargeBeam extends RangedWeapon {
 		wallCollider.addStrategy(new ContactWallDie(state, wallCollider, user.getBodyData()));
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(sizeMultiplier), lifespan, startVelocity,
-				user.getHitboxfilter(), true, true, user, projSprite);
+				user.getHitboxFilter(), true, true, user, projSprite);
 		hbox.setSyncDefault(false);
 		hbox.setDurability(3);
 

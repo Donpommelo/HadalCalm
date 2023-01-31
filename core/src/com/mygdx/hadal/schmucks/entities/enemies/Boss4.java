@@ -232,7 +232,7 @@ public class Boss4 extends EnemyFloating {
 					angle.setAngleDeg(angle.angleDeg() + 360.0f / numShots);
 					
 					Vector2 startVelo = new Vector2(shot1Speed, 0).setAngleDeg(angle.angleDeg());
-					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, projSize.x), projSize, shot1Lifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.LASER_PURPLE);
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, projSize.x), projSize, shot1Lifespan, startVelo, getHitboxFilter(), true, false, enemy, Sprite.LASER_PURPLE);
 					hbox.setSpriteSize(projSpriteSize);
 					hbox.setAdjustAngle(true);
 					
@@ -313,7 +313,7 @@ public class Boss4 extends EnemyFloating {
 				}
 				
 				public void fireball(Vector2 startVelo) {
-					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fireSize.x), fireSize, fireLifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fireSize.x), fireSize, fireLifespan, startVelo, getHitboxFilter(), true, false, enemy, Sprite.NOTHING);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitBurn(state, hbox, getBodyData(), burnDuration, burnDamage, DamageSource.ENEMY_ATTACK));
@@ -349,7 +349,7 @@ public class Boss4 extends EnemyFloating {
 			public void execute() {
 				SoundEffect.DOORBELL.playUniversal(state, getPixelPosition(), 1.0f, 0.6f, false);
 				
-				Hitbox bell = new Hitbox(state, getPixelPosition(), bellSize, bellLifespan, new Vector2(0, bellSpeed), getHitboxfilter(), false, false, enemy, Sprite.ORB_YELLOW);
+				Hitbox bell = new Hitbox(state, getPixelPosition(), bellSize, bellLifespan, new Vector2(0, bellSpeed), getHitboxFilter(), false, false, enemy, Sprite.ORB_YELLOW);
 				bell.setSpriteSize(bellSpriteSize);
 				bell.setRestitution(0.2f);
 				
@@ -370,7 +370,7 @@ public class Boss4 extends EnemyFloating {
 						while (controllerCount >= bellInterval) {
 							controllerCount -= bellInterval;
 							
-							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hbox.getSize(), bellInterval, new Vector2(0, 0), enemy.getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
+							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hbox.getSize(), bellInterval, new Vector2(0, 0), enemy.getHitboxFilter(), true, false, enemy, Sprite.NOTHING);
 							pulse.setSyncDefault(false);
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
@@ -426,7 +426,7 @@ public class Boss4 extends EnemyFloating {
 				@Override
 				public void execute() {
 					
-					Hitbox trail = new RangedHitbox(state, startPosLaser, trailSize, trailLifespan, startVeloTrail, getHitboxfilter(), false, false, enemy, Sprite.NOTHING);
+					Hitbox trail = new RangedHitbox(state, startPosLaser, trailSize, trailLifespan, startVeloTrail, getHitboxFilter(), false, false, enemy, Sprite.NOTHING);
 					trail.makeUnreflectable();
 					trail.setDurability(beamDurability);
 					trail.setRestitution(1.0f);
@@ -452,7 +452,7 @@ public class Boss4 extends EnemyFloating {
 				@Override
 				public void execute() {
 					
-					Hitbox laser = new RangedHitbox(state, startPosLaser, laserSize, trailLifespan, startVeloLaser, getHitboxfilter(), false, false, enemy, Sprite.LASER_BLUE);
+					Hitbox laser = new RangedHitbox(state, startPosLaser, laserSize, trailLifespan, startVeloLaser, getHitboxFilter(), false, false, enemy, Sprite.LASER_BLUE);
 					laser.setSpriteSize(laserSpriteSize);
 					laser.setDurability(beamDurability);
 					laser.setRestitution(1.0f);
@@ -507,7 +507,7 @@ public class Boss4 extends EnemyFloating {
 					
 					Vector2 startPos = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle);
 					Vector2 startVeloCloud = new Vector2(0, cloudSpeed).setAngleDeg(startAngle);
-					Hitbox cloud = new Hitbox(state, getPixelPosition().add(startPos), windupSize, sighLifespan, new Vector2(), getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
+					Hitbox cloud = new Hitbox(state, getPixelPosition().add(startPos), windupSize, sighLifespan, new Vector2(), getHitboxFilter(), true, false, enemy, Sprite.NOTHING);
 
 					cloud.addStrategy(new ControllerDefault(state, cloud, getBodyData()));
 					cloud.addStrategy(new CreateParticles(state, cloud, getBodyData(), Particle.OVERCHARGE, 0.0f, particleLinger).setParticleColor(
@@ -531,7 +531,7 @@ public class Boss4 extends EnemyFloating {
 								while (controllerCount >= cloudDelay + cloudInterval) {
 									controllerCount -= cloudInterval;
 								
-									Hitbox hbox = new RangedHitbox(state, cloud.getPixelPosition(), cloudSize, cloudLifespan, startVeloCloud, getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
+									Hitbox hbox = new RangedHitbox(state, cloud.getPixelPosition(), cloudSize, cloudLifespan, startVeloCloud, getHitboxFilter(), true, false, enemy, Sprite.NOTHING);
 									
 									hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 									hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.ICE_CLOUD, 0.0f, particleLinger).setParticleSize(40.0f));
@@ -589,7 +589,7 @@ public class Boss4 extends EnemyFloating {
 				public void execute() {
 					startVeloLaser.rotateDeg(apocalypseLaserSwivelSpeed);
 					startPositionLaser.set(getPixelPosition()).add(laserOffset.set(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startVeloLaser.angleDeg()));
-					Hitbox laser = new RangedHitbox(state, startPositionLaser, laserSize, trailLifespan, startVeloLaser, getHitboxfilter(), true, false, enemy, Sprite.LASER_BLUE);
+					Hitbox laser = new RangedHitbox(state, startPositionLaser, laserSize, trailLifespan, startVeloLaser, getHitboxFilter(), true, false, enemy, Sprite.LASER_BLUE);
 					laser.setSpriteSize(laserSpriteSize);
 					
 					laser.addStrategy(new ControllerDefault(state, laser, getBodyData()));
@@ -614,7 +614,7 @@ public class Boss4 extends EnemyFloating {
 						public void die() {
 							int randomIndex = MathUtils.random(debrisSprites.length - 1);
 							Sprite projSprite = debrisSprites[randomIndex];
-							Hitbox frag = new Hitbox(state, new Vector2(hbox.getPixelPosition()), rubbleSize, rubbleLifespan, new Vector2(0, rubbleSpeed), getHitboxfilter(), true, false, enemy, projSprite);
+							Hitbox frag = new Hitbox(state, new Vector2(hbox.getPixelPosition()), rubbleSize, rubbleLifespan, new Vector2(0, rubbleSpeed), getHitboxFilter(), true, false, enemy, projSprite);
 							frag.setGravity(1.0f);
 							
 							frag.addStrategy(new ControllerDefault(state, frag, getBodyData()));
@@ -630,7 +630,7 @@ public class Boss4 extends EnemyFloating {
 						}
 						
 						private void createWaveBeam(float startAngle) {
-							Hitbox hbox = new RangedHitbox(state, startPositionLaser, laserSize, trailLifespan, startVeloLaser, getHitboxfilter(), false, false, enemy, Sprite.LASER_BLUE);
+							Hitbox hbox = new RangedHitbox(state, startPositionLaser, laserSize, trailLifespan, startVeloLaser, getHitboxFilter(), false, false, enemy, Sprite.LASER_BLUE);
 							hbox.setSyncDefault(false);
 							hbox.setSyncInstant(true);
 
@@ -691,7 +691,7 @@ public class Boss4 extends EnemyFloating {
 				}
 				
 				private void fireBullet(Sprite sprite, HadalColor color) {
-					RangedHitbox hbox = new RangedHitbox(state, bulletPosition, horizontalBulletSize, horizontalBulletLifespan, bulletSpeed, getHitboxfilter(), true, false, enemy, sprite);
+					RangedHitbox hbox = new RangedHitbox(state, bulletPosition, horizontalBulletSize, horizontalBulletLifespan, bulletSpeed, getHitboxFilter(), true, false, enemy, sprite);
 					hbox.setSpriteSize(horizontalBulletSpriteSize);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
@@ -733,7 +733,7 @@ public class Boss4 extends EnemyFloating {
 					SoundEffect.BOTTLE_ROCKET.playUniversal(state, getPixelPosition(), 0.25f, 0.5f, false);
 					
 					Vector2 startVelo = new Vector2(0, willOWispSpeed).setAngleDeg(getAttackAngle());
-					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, willOWispSize.x), willOWispSize, willOWispLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, willOWispSize.x), willOWispSize, willOWispLifespan, startVelo, getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), willOWispDamage, willOWispKB,
@@ -785,7 +785,7 @@ public class Boss4 extends EnemyFloating {
 					float starSpeed = MathUtils.random(starSpeedMin, starSpeedMax);
 					float starDist = MathUtils.random(starDistMin, starDistMax);
 					
-					RangedHitbox hbox = new RangedHitbox(state, new Vector2(), new Vector2(starSize, starSize), starLifespan, new Vector2(), getHitboxfilter(), true, true, enemy, 
+					RangedHitbox hbox = new RangedHitbox(state, new Vector2(), new Vector2(starSize, starSize), starLifespan, new Vector2(), getHitboxFilter(), true, true, enemy,
 							starSprites[MathUtils.random(starSprites.length - 1)]);
 					hbox.makeUnreflectable();
 					hbox.setSpriteSize(new Vector2(starSize * 2.0f, starSize * 2.0f));
@@ -1007,7 +1007,7 @@ public class Boss4 extends EnemyFloating {
 			@Override
 			public void execute() {
 				Vector2 startVelo1 = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle);
-				Hitbox hbox1 = new Hitbox(state, getPixelPosition().add(startVelo1), windupSize, lifespan, new Vector2(), getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
+				Hitbox hbox1 = new Hitbox(state, getPixelPosition().add(startVelo1), windupSize, lifespan, new Vector2(), getHitboxFilter(), true, false, enemy, Sprite.NOTHING);
 
 				hbox1.addStrategy(new ControllerDefault(state, hbox1, getBodyData()));
 				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle, 0.0f, particleLinger).setParticleColor(color).setParticleSize(particleScale));

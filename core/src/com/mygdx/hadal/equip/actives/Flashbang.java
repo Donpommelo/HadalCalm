@@ -49,7 +49,7 @@ public class Flashbang extends ActiveItem {
 	public static Hitbox createFlashbang(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 0.35f);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
 				false, false, user, PROJ_SPRITE);
 		hbox.setGravity(1.0f);
 

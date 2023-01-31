@@ -43,7 +43,7 @@ public class BucketofBatteries extends Artifact {
 
 					if (hbox.isEffectsHit()) {
 						hbox.addStrategy(new ContactUnitShock(state, hbox, p, baseDamage, radius, chainAmount,
-								p.getSchmuck().getHitboxfilter(), DamageSource.BUCKET_OF_BATTERIES));
+								p.getSchmuck().getHitboxFilter(), DamageSource.BUCKET_OF_BATTERIES));
 					}
 					if (hbox.isEffectsVisual()) {
 						hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.LIGHTNING, hbox.getLifeSpan(), 1.0f).setParticleSize(60));

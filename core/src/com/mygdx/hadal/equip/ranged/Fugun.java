@@ -49,7 +49,7 @@ public class Fugun extends RangedWeapon {
 		SoundEffect.LAUNCHER4.playSourced(state, startPosition, 0.25f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

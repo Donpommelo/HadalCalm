@@ -23,7 +23,7 @@ public class Summoned extends Status {
 	
 	@Override
 	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
-		summoner.playHitSound(damage);
+		summoner.getHitsoundHelper().playHitSound(vic, damage);
 		return damage;	
 	}
 	

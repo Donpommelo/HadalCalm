@@ -51,7 +51,7 @@ public class Vajra extends RangedWeapon {
 		SoundEffect.THUNDER.playSourced(state, startPosition, 0.5f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.LIGHTNING);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -59,7 +59,7 @@ public class Vajra extends RangedWeapon {
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitShock(state, hbox, user.getBodyData(), chainDamage, chainRadius, chainAmount,
-				user.getHitboxfilter(), DamageSource.VAJRA));
+				user.getHitboxFilter(), DamageSource.VAJRA));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.VAJRA,
 				DamageTag.LIGHTNING, DamageTag.RANGED));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING_CHARGE, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));

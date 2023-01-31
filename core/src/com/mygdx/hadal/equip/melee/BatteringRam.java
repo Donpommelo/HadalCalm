@@ -123,7 +123,7 @@ public class BatteringRam extends MeleeWeapon {
 		Vector2 push = new Vector2(startVelocity).nor().scl(velocity);
 		user.pushMomentumMitigation(push.x, push.y);
 
-		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
 				true, true, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 

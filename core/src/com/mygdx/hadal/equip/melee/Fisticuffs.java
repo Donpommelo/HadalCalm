@@ -44,7 +44,7 @@ public class Fisticuffs extends MeleeWeapon {
 	public static Hitbox createFist(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		SoundEffect.WOOSH.playSourced(state, startPosition, 0.75f);
 
-		Hitbox hbox = new Hitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new Hitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
 				true, true, user, PROJ_SPRITE);
 		hbox.makeUnreflectable();
 

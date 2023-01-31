@@ -77,23 +77,23 @@ public class PlayerClientOnHost extends Player {
 	public void onClientSync(Object o) {
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
 
-			getMouse().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
+			getMouseHelper().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
-			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
+			setToolSprite(getPlayerData().getCurrentTool().getWeaponSprite().getFrame());
 
 			getPlayerData().getCurrentTool().setReloading(p.reloadPercent != -1.0f, true);
-			reloadPercent = p.reloadPercent;
-			getPlayerData().getCurrentTool().setReloadCd(reloadPercent);
+			getUiHelper().setReloadPercent(p.reloadPercent);
+			getPlayerData().getCurrentTool().setReloadCd(p.reloadPercent);
 
 			getPlayerData().getCurrentTool().setCharging(p.chargePercent != -1.0f);
-			chargePercent = p.chargePercent;
-			getPlayerData().getCurrentTool().setChargeCd(chargePercent);
+			getUiHelper().setChargePercent(p.chargePercent);
+			getPlayerData().getCurrentTool().setChargeCd(p.chargePercent);
 
 			getPlayerData().setCurrentFuel(p.currentFuel);
 
-			processStatusCode(p.statusCode);
+			processConditionCode(p.statusCode);
 
 			if (null != body) {
 				prevPos.set(serverPos);

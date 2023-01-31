@@ -254,7 +254,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 				hbox.makeUnreflectable();
 				
 				if (!permanent) {
@@ -281,7 +281,7 @@ public class EnemyUtils {
 						while (controllerCount >= attackInterval) {
 							controllerCount -= attackInterval;
 							
-							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getHboxSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getHboxSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 							pulse.setSyncDefault(false);
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
@@ -306,7 +306,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Vector2 startVelo = new Vector2(0, 1).setAngleDeg(enemy.getAttackAngle());
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, startVelo, enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 				hbox.setSyncDefault(false);
 				hbox.setSyncInstant(true);
 				
@@ -323,7 +323,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), soundDuration, new Vector2(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), soundDuration, new Vector2(), enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
@@ -339,7 +339,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), false, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
@@ -359,7 +359,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), false, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new ContactUnitBurn(state, hbox, enemy.getBodyData(), fireDuration, fireDamage, DamageSource.ENEMY_ATTACK));
@@ -377,7 +377,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
@@ -394,7 +394,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
+				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, Sprite.ORB_RED);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
@@ -416,7 +416,7 @@ public class EnemyUtils {
 				if (null != ceiling) {
 					Sprite projSprite = debrisSprites[MathUtils.random(debrisSprites.length - 1)];
 					Hitbox hbox = new Hitbox(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
-							new Vector2(size, size), lifespan, new Vector2(), enemy.getHitboxfilter(), true, true, enemy, projSprite);
+							new Vector2(size, size), lifespan, new Vector2(), enemy.getHitboxFilter(), true, true, enemy, projSprite);
 					hbox.setDurability(2);
 					hbox.setGravity(1.0f);
 					
@@ -440,7 +440,7 @@ public class EnemyUtils {
 				Event ceiling = state.getDummyPoint("ceiling");
 				if (null != ceiling) {
 					type.generateEnemy(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
-							enemy.getHitboxfilter(), extraField);
+							enemy.getHitboxFilter(), extraField);
 				}
 			}
 		});

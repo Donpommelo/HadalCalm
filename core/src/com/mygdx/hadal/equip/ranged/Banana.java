@@ -94,7 +94,7 @@ public class Banana extends RangedWeapon {
 		user.recoil(startVelocity, recoil);
 
 		//bouncy hbox is separate so it can pass through drop-through platforms
-		Hitbox hboxBouncy = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hboxBouncy = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, false, user, Sprite.NOTHING);
 		hboxBouncy.setRestitution(0.8f);
 		hboxBouncy.setGravity(3.5f);
@@ -102,7 +102,7 @@ public class Banana extends RangedWeapon {
 		hboxBouncy.addStrategy(new ControllerDefault(state, hboxBouncy, user.getBodyData()));
 		hboxBouncy.addStrategy(new DropThroughPassability(state, hboxBouncy, user.getBodyData()));
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, projSprite);
 		hbox.setSyncDefault(false);
 
@@ -115,7 +115,7 @@ public class Banana extends RangedWeapon {
 				(short) 0, false, DamageSource.BANANA));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SPRING, 0.1f).setSynced(false));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION1, 0.6f).setSynced(false));
-		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f, false));
+		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
 			@Override

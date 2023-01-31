@@ -123,7 +123,7 @@ public class OurGetAlongShirt extends Artifact {
 					for (int i = 0; i < links.length; i++) {
 						final int currentI = i;
 						links[i] = new Hitbox(state, p.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(),
-								p.getSchmuck().getHitboxfilter(), true, false, p.getSchmuck(), chainSprite);
+								p.getSchmuck().getHitboxFilter(), true, false, p.getSchmuck(), chainSprite);
 						
 						links[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 

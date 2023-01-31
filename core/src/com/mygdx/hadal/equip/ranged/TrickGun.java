@@ -71,7 +71,7 @@ public class TrickGun extends RangedWeapon {
 		if (firstClicked) {
 			
 			//we use the player's mouse position rather than the weapons, b/c the weapon's mouse location won't update during its cooldown.
-			pos2.set(((PlayerBodyData) bodyData).getPlayer().getMouse().getPixelPosition());
+			pos2.set(((PlayerBodyData) bodyData).getPlayer().getMouseHelper().getPixelPosition());
 			
 			float powerDiv = pos1.dst(pos2) / projectileSpeed;
 			
@@ -113,7 +113,7 @@ public class TrickGun extends RangedWeapon {
 			pos2.set(extraFields[3], extraFields[4]);
 		}
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

@@ -494,23 +494,6 @@ public class KryoServer {
 						server.sendToUDP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
 					}
 				}
-				
-				/*
-				 * This packet indicates the client is typing, so make a bubble appear above their head.
-				 */
-				else if (o instanceof Packets.SyncTyping) {
-					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.addPacketEffect(() -> {
-								player.startTyping();
-								sendToAllExceptUDP(c.getID(), new Packets.SyncTyping(player.getEntityID()));
-							});
-						}
-					}
-				}
 
 				/*
 				 * The client tried to emote. make them emote, if possible

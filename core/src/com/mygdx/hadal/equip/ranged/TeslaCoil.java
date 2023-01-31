@@ -189,7 +189,7 @@ public class TeslaCoil extends RangedWeapon {
 		for (int i = 0; i < dist - pulseSize.x; i += pulseSize.x) {
 			pulsePosition.add(pulsePath.nor().scl(pulseSize));
 
-			Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), user.getHitboxfilter(),
+			Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), user.getHitboxFilter(),
 					true, true, user, Sprite.NOTHING);
 			pulse.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 			pulse.setSyncDefault(false);
@@ -205,7 +205,7 @@ public class TeslaCoil extends RangedWeapon {
 		}
 
 		Hitbox hboxDamage = new RangedHitbox(state, startPosition, new Vector2(otherPosition.dst(startPosition), pulseSize.y),
-				pulseDuration, new Vector2(), user.getHitboxfilter(), true, true, user, Sprite.NOTHING) {
+				pulseDuration, new Vector2(), user.getHitboxFilter(), true, true, user, Sprite.NOTHING) {
 
 			private final Vector2 newPosition = new Vector2();
 			@Override

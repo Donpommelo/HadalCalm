@@ -46,7 +46,7 @@ public class PortableSentry extends ActiveItem {
 		
 		final boolean faceRight = weaponVelo.x > 0;
 		
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN,  new Vector2(0, -PROJECTILE_SPEED), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), PROJ_SPRITE);
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN,  new Vector2(0, -PROJECTILE_SPEED), user.getPlayer().getHitboxFilter(), false, false, user.getPlayer(), PROJ_SPRITE);
 		hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL));
 		hbox.setGravity(3.0f);
 		

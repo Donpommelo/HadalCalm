@@ -16,20 +16,16 @@ public class FlashShaderNearDeath extends HitboxStrategy {
 	//the hbox will start flashing when its hp falls below this
 	private final float flashLifespan;
 
-	//Does the server notify the client of this flash?
-	private final boolean synced;
-
-	public FlashShaderNearDeath(PlayState state, Hitbox proj, BodyData user, float flashLifespan, boolean synced) {
+	public FlashShaderNearDeath(PlayState state, Hitbox proj, BodyData user, float flashLifespan) {
 		super(state, proj, user);
 		this.flashLifespan = flashLifespan;
-		this.synced = synced;
 	}
 	
 	@Override
 	public void controller(float delta) {
 		if (hbox.getLifeSpan() <= flashLifespan) {
 			if (hbox.getShaderCount() < -Constants.FLASH) {
-				hbox.setShader(Shader.WHITE, Constants.FLASH, synced);
+				hbox.setShader(Shader.WHITE, Constants.FLASH);
 			}
 		}
 	}

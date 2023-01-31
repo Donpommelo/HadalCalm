@@ -50,10 +50,10 @@ public class ActionController {
 			}
 		}
 		else if (action == PlayerAction.JUMP) {
-			player.setHoveringAttempt(false);
+			player.getJumpHelper().setHoveringAttempt(false);
 		}
 		else if (action == PlayerAction.CROUCH) {
-			player.setFastFalling(false);
+			player.getFastfallHelper().setFastFalling(false);
 		}
 		else if (action == PlayerAction.FIRE) {
 			if (!onReset) {
@@ -94,16 +94,16 @@ public class ActionController {
 			}
 		}
 		else if (action == PlayerAction.JUMP) {
-			player.setHoveringAttempt(true);
+			player.getJumpHelper().setHoveringAttempt(true);
 			if (!onReset) {
-				player.jump();
+				player.getJumpHelper().jumpAttempt();
 			}
 		}
 		else if (action == PlayerAction.CROUCH) {
-			player.setFastFalling(true);
+			player.getFastfallHelper().setFastFalling(true);
 		}
 		else if (action == PlayerAction.INTERACT) {
-			player.interact();
+			player.getEventHelper().interact();
 		}
 		else if (action == PlayerAction.ACTIVE_ITEM) {
 			player.activeItem();
@@ -115,7 +115,7 @@ public class ActionController {
 			player.startShooting();
 		}
 		else if (action == PlayerAction.BOOST) {
-			player.airblast();
+			player.getAirblastHelper().airblast();
 		}
 		else if (action == PlayerAction.SWITCH_TO_LAST) {
 			player.getPlayerData().switchToLast();
@@ -139,7 +139,7 @@ public class ActionController {
 			player.getPlayerData().switchDown();
 		}
 		else if (action == PlayerAction.PING) {
-			player.ping();
+			player.getPingHelper().ping();
 		}
 	}
 
@@ -160,9 +160,7 @@ public class ActionController {
 
 			//we want the relative mouse location to get the angle the client is shooting at
 			//this makes high-lag mess with the aim less
-			if (player.getMouse() != null) {
-				player.getMouse().setDesiredLocation(relativeMouse.x, relativeMouse.y);
-			}
+			player.getMouseHelper().setDesiredLocation(relativeMouse.x, relativeMouse.y);
 
 			HashSet<PlayerAction> keysHeldNew = new HashSet<>(Arrays.asList(actions));
 

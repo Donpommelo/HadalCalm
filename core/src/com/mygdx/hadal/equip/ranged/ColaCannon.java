@@ -85,7 +85,7 @@ public class ColaCannon extends RangedWeapon {
 		if (reloading || getClipLeft() == 0) { return; }
 
 		charging = true;
-		mouseLocation.set(((Player) user).getMouse().getPixelPosition());
+		mouseLocation.set(((Player) user).getMouseHelper().getPixelPosition());
 
 		//this prevents initial charge gain dependent on spawn location distance from (0, 0)
 		if (lastMouse.isZero()) {
@@ -111,7 +111,7 @@ public class ColaCannon extends RangedWeapon {
 	public static Hitbox createCola(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 

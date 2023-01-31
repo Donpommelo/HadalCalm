@@ -280,12 +280,7 @@ public class MessageWindow {
             		//if typing, we notify other players that we are typing to display the speech bubble
             		if (typing) {
             			typing = false;
-            			state.getPlayer().startTyping();
-            			if (state.isServer()) {
-            				HadalGame.server.sendToAllUDP(new Packets.SyncTyping(state.getPlayer().getEntityID()));
-            			} else {
-            				HadalGame.client.sendUDP(new Packets.SyncTyping(state.getPlayer().getEntityID()));
-            			}
+            			state.getPlayer().getUiHelper().startTyping();
             		}
             	}
             }

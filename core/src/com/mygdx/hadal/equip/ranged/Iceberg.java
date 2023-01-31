@@ -48,7 +48,7 @@ public class Iceberg extends RangedWeapon {
 		SoundEffect.ICE_IMPACT.playSourced(state, startPosition, 0.9f);
 		user.recoil(startVelocity, recoil);
 
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
 				false, true, user, projSprite);
 		hbox.setGravity(5);
 
