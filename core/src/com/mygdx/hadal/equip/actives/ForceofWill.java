@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
@@ -16,7 +16,7 @@ public class ForceofWill extends ActiveItem {
 	
 	private static final float DURATION = 2.0f;
 	
-	public ForceofWill(Schmuck user) {
+	public ForceofWill(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

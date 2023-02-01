@@ -1,16 +1,16 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * @author Foworth Frogwump
@@ -22,7 +22,7 @@ public class ReservedFuel extends ActiveItem {
 	private static final float DURATION = 5.0f;
 	private static final float POWER = 18.0f;
 	
-	public ReservedFuel(Schmuck user) {
+	public ReservedFuel(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

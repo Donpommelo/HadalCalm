@@ -3,19 +3,20 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Slodged;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -47,14 +48,14 @@ public class Minigun extends RangedWeapon {
 	private SoundEntity fireSound;
 	private ParticleEntity slow;
 
-	public Minigun(Schmuck user) {
+	public Minigun(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
-		super.mouseClicked(delta, state, shooter, faction, mouseLocation);		
+	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mouseLocation) {
+		super.mouseClicked(delta, state, playerData, faction, mouseLocation);
 
 		if (reloading || getClipLeft() == 0) {
 			if (fireSound != null) {
@@ -83,7 +84,7 @@ public class Minigun extends RangedWeapon {
 			}
 		}
 		
-		shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter, Particle.NOTHING));
+		playerData.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, playerData, playerData, Particle.NOTHING));
 
 		if (slow == null) {
 			slow = new ParticleEntity(user.getState(), user, Particle.STUN, 0.0f, 0.0f, false, SyncType.TICKSYNC);
@@ -92,15 +93,15 @@ public class Minigun extends RangedWeapon {
 	}
 
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
+	public void execute(PlayState state, PlayerBodyData playerData) {
 		if (chargeCd >= getChargeTime()) {
 			chargeCd = getChargeTime();
-			super.execute(state, shooter);
+			super.execute(state, playerData);
 		}
 	}
 	
 	@Override
-	public void release(PlayState state, BodyData bodyData) {
+	public void release(PlayState state, PlayerBodyData playerData) {
 		SoundEffect.MINIGUN_DOWN.playUniversal(state, user.getPixelPosition(), 0.5f, false);
 		charging = false;
 		chargeCd = 0;
@@ -115,7 +116,7 @@ public class Minigun extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.MINIGUN_BULLET.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 

@@ -3,14 +3,15 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -23,7 +24,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.Static;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * @author Hedeon Holkner
@@ -39,7 +39,7 @@ public class CallofWalrus extends ActiveItem {
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(400, 400);
 	private static final float DURATION = 0.4f;
 
-	public CallofWalrus(Schmuck user) {
+	public CallofWalrus(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

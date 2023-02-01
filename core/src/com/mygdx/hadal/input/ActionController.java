@@ -57,9 +57,9 @@ public class ActionController {
 		}
 		else if (action == PlayerAction.FIRE) {
 			if (!onReset) {
-				player.release();
+				player.getShootHelper().release();
 			}
-			player.setShooting(false);
+			player.getShootHelper().setShooting(false);
 		}
 	}
 	
@@ -112,7 +112,7 @@ public class ActionController {
 			player.reload();
 		}
 		else if (action == PlayerAction.FIRE) {
-			player.startShooting();
+			player.getShootHelper().startShooting();
 		}
 		else if (action == PlayerAction.BOOST) {
 			player.getAirblastHelper().airblast();

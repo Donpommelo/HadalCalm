@@ -4,21 +4,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.DroneBit;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Temporary;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -44,21 +44,21 @@ public class AssaultBits extends RangedWeapon {
 	//list of bits created
 	private final Array<Enemy> bits = new Array<>();
 
-	public AssaultBits(Schmuck user) {
+	public AssaultBits(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,
 				true, weaponSprite, eventSprite, lifespan, projectileSize.x, summonShootCd);
 	}
 	
 	private final Vector2 realWeaponVelo = new Vector2();
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
-		super.mouseClicked(delta, state, shooter, faction, mousePosition);
+	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mousePosition) {
+		super.mouseClicked(delta, state, playerData, faction, mousePosition);
 		realWeaponVelo.set(weaponVelo);
 	}
 	
 	private final Vector2 bitVelo = new Vector2(0, projectileSpeed);
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
 		if (bits.isEmpty()) { return; }
 
@@ -96,7 +96,7 @@ public class AssaultBits extends RangedWeapon {
 						}
 					};
 					bit.setMoveTarget(user);
-					bit.setOwner((Player) user);
+					bit.setOwner(user);
 					bits.add(bit);
 
 					if (bits.size >= 3) {

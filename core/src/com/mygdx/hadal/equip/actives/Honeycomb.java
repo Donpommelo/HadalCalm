@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -19,7 +19,7 @@ public class Honeycomb extends ActiveItem {
 	private static final float DURATION = 1.5f;
 	private static final float PROC_CD = 0.15f;
 
-	public Honeycomb(Schmuck user) {
+	public Honeycomb(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

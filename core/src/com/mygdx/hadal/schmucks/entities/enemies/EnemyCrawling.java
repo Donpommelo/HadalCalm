@@ -33,7 +33,7 @@ public class EnemyCrawling extends Enemy {
 	//is this enemy moving left or right? what speed? what are the distances that a chasing enemy will attempt to maintain from its target
 	private float moveDirection, moveSpeed, minRange, maxRange;
 	private CrawlingState currentState;
-	
+
 	//feet data used to process enemy groundedness
 	private FeetData feetData;
 	
@@ -75,8 +75,8 @@ public class EnemyCrawling extends Enemy {
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
-		
-		grounded = feetData.getNumContacts() > 0;
+
+		boolean grounded = feetData.getNumContacts() > 0;
 		
 		switch (currentState) {
 		case AVOID_PITS:

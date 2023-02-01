@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.schmucks.entities.Player;
 
@@ -7,6 +8,7 @@ public class MovementAirblastHelper {
 
     private static final float AIRBLAST_CD = 0.25f;
     private static final float AIRBLAST_FUEL_REGEN_CD = 3.0f;
+    private static final int AIRBLAST_COST = 25;
 
     private final Player player;
 
@@ -36,19 +38,21 @@ public class MovementAirblastHelper {
      */
     public void airblast() {
         if (airblastCdCount < 0) {
-            if (player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getAirblastCost()) {
+            if (player.getPlayerData().getCurrentFuel() >= getAirblastCost()) {
 
                 //airblasting sets fuel regen on cooldown
                 if (player.getFuelHelper().getFuelRegenCdCount() < AIRBLAST_FUEL_REGEN_CD) {
                     player.getFuelHelper().setFuelRegenCdCount(AIRBLAST_FUEL_REGEN_CD);
                 }
 
-                player.getPlayerData().fuelSpend(player.getPlayerData().getAirblastCost());
+                player.getPlayerData().fuelSpend(getAirblastCost());
                 airblastCdCount = AIRBLAST_CD;
-                player.useToolStart(0, airblast, player.getHitboxFilter(), player.getMouseHelper().getPixelPosition(), false);
+                player.getShootHelper().shoot(0, airblast, false);
             }
         } else {
             airblastBuffered = true;
         }
     }
+
+    public float getAirblastCost() { return AIRBLAST_COST * (1 + player.getPlayerData().getStat(Stats.BOOST_COST)); }
 }

@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -18,7 +18,7 @@ public class SpiritRelease extends ActiveItem {
 
 	private static final int SPIRIT_NUM = 3;
 
-	public SpiritRelease(Schmuck user) {
+	public SpiritRelease(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

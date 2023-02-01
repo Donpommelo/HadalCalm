@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -19,7 +19,7 @@ public class RadialBarrage extends ActiveItem {
 	private static final float PROC_CD = 0.1f;
 	private static final int TOTAL_SHOTS = 6;
 
-	public RadialBarrage(Schmuck user) {
+	public RadialBarrage(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	
@@ -43,7 +43,7 @@ public class RadialBarrage extends ActiveItem {
 						shotsFired++;
 
 						angle.setAngleDeg(angle.angleDeg() + 360.0f / TOTAL_SHOTS);
-						user.getCurrentTool().fire(state, user.getSchmuck(), user.getSchmuck().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxFilter());
+						user.getCurrentTool().fire(state, user.getPlayer(), user.getPlayer().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxFilter());
 					}
 					procCdCount += delta;
 				}

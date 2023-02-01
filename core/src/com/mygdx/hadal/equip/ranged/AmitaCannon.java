@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -41,13 +42,13 @@ public class AmitaCannon extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_STORMCALLER;
 	private static final Sprite eventSprite = Sprite.P_STORMCALLER;
 
-	public AmitaCannon(Schmuck user) {
+	public AmitaCannon(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,
 				true, weaponSprite, eventSprite, lifespan, projectileSize.x);
 	}
 
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.AMITA.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 

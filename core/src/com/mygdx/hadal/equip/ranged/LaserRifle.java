@@ -8,6 +8,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -48,7 +49,7 @@ public class LaserRifle extends RangedWeapon {
 	
 	private float shortestFraction;
 	
-	public LaserRifle(Schmuck user) {
+	public LaserRifle(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, lifespan, 0);
 	}
@@ -56,7 +57,7 @@ public class LaserRifle extends RangedWeapon {
 	private final Vector2 endPt = new Vector2();
 	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = projectileWidth * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));

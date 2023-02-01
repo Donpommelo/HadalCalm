@@ -8,6 +8,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.battle.SyncedAttack;
@@ -42,7 +43,7 @@ public class AnchorSmash extends ActiveItem {
 
 	private static final Sprite PROJ_SPRITE = Sprite.ANCHOR;
 
-	public AnchorSmash(Schmuck user) {
+	public AnchorSmash(Player user) {
 		super(user, MAX_CHARGE);
 	}
 

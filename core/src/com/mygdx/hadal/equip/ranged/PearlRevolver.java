@@ -3,17 +3,18 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.hitbox.*;
 
 public class PearlRevolver extends RangedWeapon {
@@ -34,21 +35,21 @@ public class PearlRevolver extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_GRENADE;
 	private static final Sprite eventSprite = Sprite.P_GRENADE;
 
-	public PearlRevolver(Schmuck user) {
+	public PearlRevolver(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
 	@Override
-	public void release(PlayState state, BodyData bodyData) {
-		super.release(state, bodyData);
+	public void release(PlayState state, PlayerBodyData playerData) {
+		super.release(state, playerData);
 
 		//Rapidly clicking this weapon incurs no cooldown between shots
-		bodyData.getSchmuck().setShootCdCount(0);
+		playerData.getPlayer().getShootHelper().setShootCdCount(0);
 	}
 
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.PEARL.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 

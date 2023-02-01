@@ -1,10 +1,10 @@
 package com.mygdx.hadal.equip;
 
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.PlayState;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * Melee weapons are weapons that are not affected by ranged weapon modifiers and have no clip/ammo mechanic
@@ -19,11 +19,11 @@ public class MeleeWeapon extends Equippable {
 	 * @param eventSprite: The equip's sprite as a pickup
 	 * @param chargeTime: If a charge weapon, how long does it take to fully charge?
 	 */	
-	public MeleeWeapon(Schmuck user, float useCd, Sprite weaponSprite, Sprite eventSprite, float chargeTime) {
+	public MeleeWeapon(Player user, float useCd, Sprite weaponSprite, Sprite eventSprite, float chargeTime) {
 		super(user, useCd, weaponSprite, eventSprite, chargeTime);
 	}
 	
-	public MeleeWeapon(Schmuck user, float swingcd, Sprite weaponSprite, Sprite eventSprite) {
+	public MeleeWeapon(Player user, float swingcd, Sprite weaponSprite, Sprite eventSprite) {
 		this(user, swingcd, weaponSprite, eventSprite, 1);
 	}
 
@@ -33,7 +33,7 @@ public class MeleeWeapon extends Equippable {
 	 */
 	private final Vector2 playerLocation = new Vector2();
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
+	public void mouseClicked(float delta, PlayState state, PlayerBodyData shooter, short faction, Vector2 mouseLocation) {
 		
 		playerLocation.set(shooter.getSchmuck().getPixelPosition());
 		
@@ -49,7 +49,7 @@ public class MeleeWeapon extends Equippable {
 	 * Here, the stored velo, recoil, filter are used to generate a melee hitbox
 	 */
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
+	public void execute(PlayState state, PlayerBodyData shooter) {
 		fire(state, user, user.getPixelPosition(), weaponVelo, faction);
 	}
 	
@@ -58,7 +58,7 @@ public class MeleeWeapon extends Equippable {
 	 * Override this in charge weapons or other weapons that care about mouse release.
 	 */
 	@Override
-	public void release(PlayState state, BodyData bodyData) {}
+	public void release(PlayState state, PlayerBodyData bodyData) {}
 
 	/**
 	 * Default behaviour for reloading is nothing.

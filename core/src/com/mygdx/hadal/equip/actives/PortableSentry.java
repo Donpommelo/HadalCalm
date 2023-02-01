@@ -5,10 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.TurretFlak;
 import com.mygdx.hadal.schmucks.entities.enemies.TurretVolley;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -21,7 +22,6 @@ import com.mygdx.hadal.statuses.Temporary;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
-import com.mygdx.hadal.constants.Constants;
 
 /**
  * @author Flagful Freatball
@@ -37,7 +37,7 @@ public class PortableSentry extends ActiveItem {
 	
 	private static final Sprite PROJ_SPRITE = Sprite.ORB_BLUE;
 
-	public PortableSentry(Schmuck user) {
+	public PortableSentry(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

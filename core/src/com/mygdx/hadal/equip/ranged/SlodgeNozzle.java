@@ -3,24 +3,20 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.FiringWeapon;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 public class SlodgeNozzle extends RangedWeapon {
 
@@ -45,13 +41,13 @@ public class SlodgeNozzle extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_SLODGEGUN;
 	private static final Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
-	public SlodgeNozzle(Schmuck user) {
+	public SlodgeNozzle(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.SLODGE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 
@@ -75,11 +71,11 @@ public class SlodgeNozzle extends RangedWeapon {
 	}
 
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
+	public void execute(PlayState state, PlayerBodyData playerData) {
 		if (processClip()) {
 			SoundEffect.DARKNESS1.playUniversal(state, user.getPixelPosition(), 0.9f, false);
 
-			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileSize.x, procCd, this));
+			playerData.addStatus(new FiringWeapon(state, fireDuration, playerData, playerData, projectileSpeed, 0, 0, projectileSize.x, procCd, this));
 		}
 	}
 

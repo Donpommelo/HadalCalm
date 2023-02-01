@@ -64,7 +64,7 @@ public class ClawsofFestus extends Artifact {
 						}
 
 						boolean touchingWall = 0 < leftData.getNumContacts() || 0 < rightData.getNumContacts();
-						player.setGroundedOverride(touchingWall);
+						player.getGroundedHelper().setGroundedOverride(touchingWall);
 					}
 				}
 			}

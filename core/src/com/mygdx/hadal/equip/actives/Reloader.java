@@ -1,14 +1,14 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -25,7 +25,7 @@ public class Reloader extends ActiveItem {
 	private static final float BONUS_ATK_SPD_1 = 0.45f;
 	private static final float BONUS_ATK_SPD_2 = 0.3f;
 
-	public Reloader(Schmuck user) {
+	public Reloader(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	
@@ -53,8 +53,8 @@ public class Reloader extends ActiveItem {
 					}
 				}
 
-				float cooldown = inflicter.getSchmuck().getShootCdCount();
-				inflicter.getSchmuck().setShootCdCount(cooldown * (1 - modifiedAttackSpeed));
+				float cooldown = user.getPlayer().getShootHelper().getShootCdCount();
+				user.getPlayer().getShootHelper().setShootCdCount(cooldown * (1 - modifiedAttackSpeed));
 				tool.gainClip(1);
 			}
 		});

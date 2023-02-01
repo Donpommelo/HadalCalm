@@ -6,6 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -37,7 +38,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	//list of hitboxes created
 	private final Queue<Hitbox> bombsLaid = new Queue<>();
 
-	public StickyBombLauncher(Schmuck user) {
+	public StickyBombLauncher(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, false,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
@@ -57,7 +58,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	}
 
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		Hitbox hbox = SyncedAttack.STICKY_BOMB.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 		bombsLaid.addLast(hbox);
 	}

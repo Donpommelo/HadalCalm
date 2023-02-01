@@ -128,7 +128,7 @@ public class UIPlay extends AHadalActor {
 			hpRatio = state.getPlayer().getPlayerData().getCurrentHp() / state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
 			hpMax = state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
 			fuelRatio = state.getPlayer().getPlayerData().getCurrentFuel() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
-			fuelCutoffRatio = state.getPlayer().getPlayerData().getAirblastCost() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
+			fuelCutoffRatio = state.getPlayer().getAirblastHelper().getAirblastCost() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
 			weaponText = state.getPlayer().getPlayerData().getCurrentTool().getText();
 			ammoText = state.getPlayer().getPlayerData().getCurrentTool().getAmmoText();
 			numWeaponSlots = state.getPlayer().getPlayerData().getNumWeaponSlots();

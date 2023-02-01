@@ -20,9 +20,9 @@ public class FuelHelper {
     public void controller(float delta) {
         //process fuel regen. Base fuel regen is canceled upon using fuel.
         if (fuelRegenCdCount > 0.0f) {
-            fuelRegenCdCount -= player.isGrounded() ? delta * GROUND_FUEL_CD_BOOST : delta;
+            fuelRegenCdCount -= player.getGroundedHelper().isGrounded() ? delta * GROUND_FUEL_CD_BOOST : delta;
         } else {
-            player.getPlayerData().fuelGain(player.isGrounded() ? GROUND_FUEL_REGEN_BOOST * FUEL_REGEN * delta : FUEL_REGEN * delta);
+            player.getPlayerData().fuelGain(player.getGroundedHelper().isGrounded() ? GROUND_FUEL_REGEN_BOOST * FUEL_REGEN * delta : FUEL_REGEN * delta);
         }
         player.getPlayerData().fuelGain(player.getPlayerData().getStat(Stats.FUEL_REGEN) * delta);
     }

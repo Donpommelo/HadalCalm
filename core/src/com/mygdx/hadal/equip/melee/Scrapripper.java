@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.battle.SyncedAttack;
@@ -28,12 +29,12 @@ public class Scrapripper extends MeleeWeapon {
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_SCRAPRIPPER;
 	private static final Sprite EVENT_SPRITE = Sprite.P_SCRAPRIPPER;
 
-	public Scrapripper(Schmuck user) {
+	public Scrapripper(Player user) {
 		super(user, SHOOT_CD, WEAPON_SPRITE, EVENT_SPRITE);
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.SCRAPRIP.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 

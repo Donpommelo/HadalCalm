@@ -3,19 +3,19 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.UIText;
@@ -50,13 +50,13 @@ public class ColaCannon extends RangedWeapon {
 	private final Vector2 lastMouse = new Vector2();
 	private float lastNoise;
 
-	public ColaCannon(Schmuck user) {
+	public ColaCannon(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
+	public void execute(PlayState state, PlayerBodyData playerData) {
 		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
 		if (processClip()) {
 			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 0.8f, false);
@@ -64,7 +64,7 @@ public class ColaCannon extends RangedWeapon {
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;
 			final float velocity = projectileSpeed * chargeCd / getChargeTime() + minVelo;
 
-			shooter.addStatus(new FiringWeapon(state, duration, shooter, shooter, velocity, minVelo, veloDeprec, projectileSize.x, procCd, this));
+			playerData.addStatus(new FiringWeapon(state, duration, playerData, playerData, velocity, minVelo, veloDeprec, projectileSize.x, procCd, this));
 
 			charging = false;
 			chargeCd = 0;
@@ -75,7 +75,7 @@ public class ColaCannon extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.COLA.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 
@@ -85,7 +85,7 @@ public class ColaCannon extends RangedWeapon {
 		if (reloading || getClipLeft() == 0) { return; }
 
 		charging = true;
-		mouseLocation.set(((Player) user).getMouseHelper().getPixelPosition());
+		mouseLocation.set(user.getMouseHelper().getPixelPosition());
 
 		//this prevents initial charge gain dependent on spawn location distance from (0, 0)
 		if (lastMouse.isZero()) {

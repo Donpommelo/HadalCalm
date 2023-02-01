@@ -4,10 +4,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -30,7 +30,7 @@ public class SamsonOption extends ActiveItem {
 	private static final float EXPLOSION_DAMAGE = 50.0f;
 	private static final float EXPLOSION_KNOCKBACK = 30.0f;
 	
-	public SamsonOption(Schmuck user) {
+	public SamsonOption(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

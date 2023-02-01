@@ -41,7 +41,7 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  * The player is the entity that the player controls.
  * @author Ningerbread Nicorice
  */
-public class Player extends PhysicsSchmuck {
+public class Player extends Schmuck {
 	
 	private static final int BASE_HP = 100;
 	private static final float PLAYER_DENSITY = 1.0f;
@@ -67,10 +67,13 @@ public class Player extends PhysicsSchmuck {
 	private final PlayerEffectHelper effectHelper;
 	private final HitsoundHelper hitsoundHelper;
 	private final MouseHelper mouseHelper;
+	private final ShootHelper shootHelper;
 	private final FuelHelper fuelHelper;
+	private final PhysicsHelper physicsHelper;
 	private final MovementAirblastHelper airblastHelper;
 	private final MovementFastfallHelper fastfallHelper;
 	private final MovementJumpHelper jumpHelper;
+	private final GroundedHelper groundedHelper;
 	private final EventInteractHelper eventHelper;
 	private final PingHelper pingHelper;
 
@@ -79,24 +82,15 @@ public class Player extends PhysicsSchmuck {
 	//Foot data for checking groundedness
 	private FeetData feetData;
 
-	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.)
-	private boolean groundedOverride;
-
 	//blinded is kept track of this way too b/c it affects visuals
 	private float blinded;
-
-	//does the player have a shoot/jump or boost action buffered? (i.e used when still on cd)
-	private boolean shootBuffered;
 
 	//user data
 	private PlayerBodyData playerData;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
-	private float controllerCount;
+	private float controllerCount, controllerCountUniversal;
 	
-	//Is the player currently shooting/hovering/fastfalling?
-	private boolean shooting;
-
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
 	
@@ -146,10 +140,13 @@ public class Player extends PhysicsSchmuck {
 		this.uiHelper = new PlayerUIHelper(state, this);
 		this.hitsoundHelper = new HitsoundHelper(state, this);
 		this.mouseHelper = new MouseHelper(state, this);
+		this.shootHelper = new ShootHelper(state, this);
 		this.fuelHelper = new FuelHelper(this);
+		this.physicsHelper = new PhysicsHelper(this);
 		this.airblastHelper = new MovementAirblastHelper(this);
 		this.fastfallHelper = new MovementFastfallHelper(this);
 		this.jumpHelper = new MovementJumpHelper(state, this);
+		this.groundedHelper = new GroundedHelper(this);
 		this.eventHelper = new EventInteractHelper(this);
 		this.pingHelper = new PingHelper(state, this);
 	}
@@ -265,11 +262,11 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void controller(float delta) {
+		processMiscellaneousUniversal(delta);
+		processMiscellaneous(delta);
 
 		processMovement(delta);
 		processEquipment(delta);
-		processMiscellaneous(delta);
-		processMiscellaneousUniversal(delta);
 
 		super.controller(delta);
 	}
@@ -283,49 +280,21 @@ public class Player extends PhysicsSchmuck {
 
 			jumpHelper.controllerInterval();
 			fastfallHelper.controllerInterval();
-			effectHelper.toggleRunningEffects((MoveState.MOVE_LEFT.equals(moveState) || MoveState.MOVE_RIGHT.equals(moveState)) && grounded);
+			groundedHelper.controllerInterval();
 		}
 
 		fuelHelper.controller(delta);
 		jumpHelper.controller(delta);
 		fastfallHelper.controller(delta);
 		airblastHelper.controller(delta);
-
-		//Determine if the player is in the air or on ground.
-		grounded = feetData.getNumContacts() > 0 || groundedOverride;
-
-		//player's jumps are refreshed on the ground
-		if (grounded) {
-			playerData.setExtraJumpsUsed(0);
-		}
 	}
 
 	protected void processEquipment(float delta) {
-		if (shooting) {
-			shoot(delta);
-		}
-
-		//If player is reloading, run the reload method of the current equipment.
-		boolean reloading = playerData.getCurrentTool().isReloading();
-
-		effectHelper.toggleReloadEffects(reloading);
-		if (reloading) {
-			playerData.getCurrentTool().reload(delta);
-		}
+		shootHelper.controller(delta);
 
 		//charge active item in all modes except campaign (where items charge by dealing damage).
 		if (!GameMode.CAMPAIGN.equals(state.getMode())) {
 			playerData.getActiveItem().gainCharge(delta);
-		}
-
-		uiHelper.controllerEquip(delta);
-
-		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
-		playerData.getCurrentTool().update(state, delta);
-
-		if (shootBuffered && shootCdCount < 0) {
-			shootBuffered = false;
-			shoot(delta);
 		}
 	}
 
@@ -341,45 +310,25 @@ public class Player extends PhysicsSchmuck {
 	}
 
 	protected void processMiscellaneousUniversal(float delta) {
+		controllerCountUniversal += delta;
+
+		//This line ensures that this runs every 1/60 second regardless of computer speed.
+		while (controllerCountUniversal >= Constants.INTERVAL) {
+			controllerCountUniversal -= Constants.INTERVAL;
+
+			physicsHelper.controllerInterval();
+		}
+
 		jumpHelper.controllerUniversal(delta);
 		mouseHelper.controller();
-	}
-	
-	/**
-	 * Point and shoot
-	 * @param delta: How long has it been since the lst engine tick if the player is holding fire. This is used for charge weapons
-	 */
-	public void shoot(float delta) {
-		if (alive) {
-			useToolStart(delta, playerData.getCurrentTool(), hitboxFilter, mouseHelper.getPixelPosition(), true);
-		}
-	}
-	
-	/**
-	 * This is called when the player clicks the fire button. It is used to buffer fire inputs during weapon cooldowns
-	 */
-	public void startShooting() {
-		shooting = true;
-		if (shootCdCount >= 0) {
-			shootBuffered = true;
-		}
-	}
-	
-	/**
-	 * Player releases mouse. This is used to fire charge weapons.
-	 */
-	public void release() {
-		if (alive && shooting) {
-			useToolRelease(playerData.getCurrentTool());
-		}
 	}
 	
 	/**
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		playerData.getActiveItem().mouseClicked(0, state, getBodyData(), hitboxFilter, mouseHelper.getPixelPosition());
-		playerData.getActiveItem().execute(state, getBodyData());
+		playerData.getActiveItem().mouseClicked(0, state, getPlayerData(), hitboxFilter, mouseHelper.getPixelPosition());
+		playerData.getActiveItem().execute(state, getPlayerData());
 	}
 	
 	/**
@@ -397,7 +346,8 @@ public class Player extends PhysicsSchmuck {
 		boolean batchSet = effectHelper.processInvisibility(batch);
 
 		//render player sprite using sprite helper
-		spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra, grounded, playerLocation,
+		spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
+				groundedHelper.isGrounded(), playerLocation,
 				true, null, true);
 
 		if (batchSet) {
@@ -495,9 +445,8 @@ public class Player extends PhysicsSchmuck {
 	}
 
 	public void processConditionCode(short statusCode) {
-		grounded = PlayerConditionUtil.codeToCondition(statusCode, Constants.GROUNDED);
-
 		jumpHelper.setJumping(PlayerConditionUtil.codeToCondition(statusCode, Constants.JUMPING));
+		groundedHelper.setGrounded(PlayerConditionUtil.codeToCondition(statusCode, Constants.GROUNDED));
 
 		effectHelper.toggleRunningEffects(PlayerConditionUtil.codeToCondition(statusCode, Constants.RUNNING));
 		effectHelper.toggleHoverEffects(PlayerConditionUtil.codeToCondition(statusCode, Constants.HOVERING));
@@ -553,7 +502,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void increaseAnimationTime(float i) { 
 		animationTimeExtra += i;
-		if (grounded) {
+		if (groundedHelper.isGrounded()) {
 			animationTime += i; 
 		} else {
 			animationTime += i * AIR_ANIMATION_SLOW;
@@ -567,7 +516,8 @@ public class Player extends PhysicsSchmuck {
 	public BodyData getBodyData() { return playerData; }
 
 	public short getConditionCode() {
-		return PlayerConditionUtil.conditionToCode(grounded,
+		return PlayerConditionUtil.conditionToCode(
+				groundedHelper.isGrounded(),
 				jumpHelper.isJumping(),
 				effectHelper.isRunning(),
 				effectHelper.isHovering(),
@@ -595,8 +545,6 @@ public class Player extends PhysicsSchmuck {
 
 	public void setToolSprite(TextureRegion sprite) { toolSprite = sprite; }
 
-	public void setShooting(boolean shooting) { this.shooting = shooting; }
-
 	public ActionController getController() { return controller; }
 	
 	public Loadout getStartLoadout() { return startLoadout; }
@@ -608,8 +556,6 @@ public class Player extends PhysicsSchmuck {
 	public User getUser() { return user; }
 
 	public void setUser(User user) { this.user = user; }
-
-	public void setGroundedOverride(boolean groundedOverride) { this.groundedOverride = groundedOverride; }
 
 	public void setBlinded(float blinded) { this.blinded = blinded; }
 
@@ -629,6 +575,8 @@ public class Player extends PhysicsSchmuck {
 
 	public MouseHelper getMouseHelper() { return mouseHelper; }
 
+	public ShootHelper getShootHelper() { return shootHelper; }
+
 	public FuelHelper getFuelHelper() { return fuelHelper; }
 
 	public MovementAirblastHelper getAirblastHelper() { return airblastHelper; }
@@ -636,6 +584,8 @@ public class Player extends PhysicsSchmuck {
 	public MovementFastfallHelper getFastfallHelper() { return fastfallHelper; }
 
 	public MovementJumpHelper getJumpHelper() { return jumpHelper; }
+
+	public GroundedHelper getGroundedHelper() { return groundedHelper; }
 
 	public EventInteractHelper getEventHelper() { return eventHelper; }
 

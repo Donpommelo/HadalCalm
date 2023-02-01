@@ -36,7 +36,7 @@ public class JumpKick extends ActiveItem {
 	private static final float PARTICLE_LIFESPAN = 0.6f;
 	private static final float KNOCKBACK = 90.0f;
 
-	public JumpKick(Schmuck user) {
+	public JumpKick(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

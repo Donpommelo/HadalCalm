@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;
@@ -15,7 +15,7 @@ public class RingofGyges extends ActiveItem {
 	
 	private static final float DURATION = 8.0f;
 	
-	public RingofGyges(Schmuck user) {
+	public RingofGyges(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

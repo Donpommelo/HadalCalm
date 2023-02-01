@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.Scissorfish;
 import com.mygdx.hadal.schmucks.entities.enemies.Spittlefish;
 import com.mygdx.hadal.schmucks.entities.enemies.Torpedofish;
@@ -21,7 +21,7 @@ public class FishGang extends ActiveItem {
 	private static final int NUM_FISH = 5;
 	private static final float FISH_LIFESPAN = 20.0f;
 	
-	public FishGang(Schmuck user) {
+	public FishGang(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

@@ -46,14 +46,14 @@ public class KillerBeat extends RangedWeapon {
 	private static final int[] noteArray = {0, 1, 2, 3, 4, 5, 6};
 	private static final IntArray notes = new IntArray(noteArray);
 
-	public KillerBeat(Schmuck user) {
+	public KillerBeat(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 		setCharging(true);
 	}
 
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
 		if (chargeCd < getChargeTime() * chargeBonusThreshold) {
 			int randNote = MathUtils.random(6);
@@ -161,7 +161,7 @@ public class KillerBeat extends RangedWeapon {
 	@Override
 	public String getChargeText() {
 
-		if (((Player) user).getUiHelper().getChargePercent() < chargeBonusThreshold) {
+		if (user.getUiHelper().getChargePercent() < chargeBonusThreshold) {
 			return "";
 		} else {
 			return UIText.HIT_IT.text();

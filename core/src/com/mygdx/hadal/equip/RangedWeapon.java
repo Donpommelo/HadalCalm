@@ -1,12 +1,12 @@
 package com.mygdx.hadal.equip;
 
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.constants.Stats;
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Sprite;
 
 /**
  * Ranged Weapons are weapons used by clicking somewhere on the screen to probably fire a projectile or whatever in that direction.
@@ -49,9 +49,9 @@ public class RangedWeapon extends Equippable {
 	 * @param chargeTime: The weapon's max charge amount (only used for charge weapons)
 	 * @param projectileSize: The weapon's projectile size. Used to determine projectile starting location offset to avoid wall clipping
 	 */	
-	public RangedWeapon(Schmuck user, int clipSize, int ammoSize, float reloadTime, float projectileSpeed,
-			float shootCd, int reloadAmount, boolean autoreload, Sprite weaponSprite, Sprite eventSprite,
-			float projectileSize, float projectileLifespan, float chargeTime) {
+	public RangedWeapon(Player user, int clipSize, int ammoSize, float reloadTime, float projectileSpeed,
+						float shootCd, int reloadAmount, boolean autoreload, Sprite weaponSprite, Sprite eventSprite,
+						float projectileSize, float projectileLifespan, float chargeTime) {
 		super(user, shootCd, weaponSprite, eventSprite, chargeTime);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
@@ -67,7 +67,7 @@ public class RangedWeapon extends Equippable {
 		this.projectileLifespan = projectileLifespan;
 	}
 	
-	public RangedWeapon(Schmuck user, int clipSize, int ammoSize, float reloadTime, float projectileSpeed, float shootCd, int reloadAmount,
+	public RangedWeapon(Player user, int clipSize, int ammoSize, float reloadTime, float projectileSpeed, float shootCd, int reloadAmount,
 			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize, float projectileLifespan) {
 		this(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,
 				autoreload, weaponSprite, eventSprite, projectileSize, projectileLifespan, 1);
@@ -79,9 +79,9 @@ public class RangedWeapon extends Equippable {
 	 */
 	private final Vector2 playerLocation = new Vector2();
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
+	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mousePosition) {
 		
-		playerLocation.set(shooter.getSchmuck().getPixelPosition());
+		playerLocation.set(playerData.getSchmuck().getPixelPosition());
 		
 		float powerDiv = playerLocation.dst(mousePosition) / projectileSpeed;
 		weaponVelo.set(playerLocation).sub(mousePosition).scl(-1 / powerDiv);
@@ -97,13 +97,13 @@ public class RangedWeapon extends Equippable {
 	 */
 	protected final Vector2 projOrigin = new Vector2();
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
+	public void execute(PlayState state, PlayerBodyData playerData) {
 		
 		//if we are able to fire, shoot gun
 		if (processClip()) {
-			shooter.statusProcTime(new ProcTime.Shoot(this));
+			playerData.statusProcTime(new ProcTime.Shoot(this));
 			
-			projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize));
+			projOrigin.set(playerData.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize));
 			
 			//Shoot			
 			fire(state, user, projOrigin, weaponVelo, faction);
@@ -145,7 +145,7 @@ public class RangedWeapon extends Equippable {
 	 * Override this in charge weapons or other weapons that care about mouse release.
 	 */
 	@Override
-	public void release(PlayState state, BodyData bodyData) {}
+	public void release(PlayState state, PlayerBodyData playerData) {}
 	
 	/**
 	 * This method is run every engine tick when reloading.

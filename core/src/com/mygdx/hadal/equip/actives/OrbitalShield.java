@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -37,7 +38,7 @@ public class OrbitalShield extends ActiveItem {
 	private static final float PROJ_SPEED = 180.0f;
 	private static final float PROJ_RANGE = 5.0f;
 
-	public OrbitalShield(Schmuck user) {
+	public OrbitalShield(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

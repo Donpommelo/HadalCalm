@@ -1,10 +1,10 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
 import static com.mygdx.hadal.equip.ranged.Speargun.nerfedDamage;
@@ -23,13 +23,13 @@ public class SpeargunNerfed extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
 	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
 
-	public SpeargunNerfed(Schmuck user) {
+	public SpeargunNerfed(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.SPEAR_NERFED.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 

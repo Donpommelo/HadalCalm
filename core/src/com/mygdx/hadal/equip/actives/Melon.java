@@ -1,16 +1,16 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Regeneration;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * @author Grurrault Ghineydew
@@ -24,7 +24,7 @@ public class Melon extends ActiveItem {
 
 	private static final float PARTICLE_DURATION = 1.0f;
 
-	public Melon(Schmuck user) {
+	public Melon(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

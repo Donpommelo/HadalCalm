@@ -6,6 +6,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -37,13 +38,13 @@ public class BeeGun extends RangedWeapon {
 
 	private static final int homeRadius = 30;
 
-	public BeeGun(Schmuck user) {
+	public BeeGun(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeedStart, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.BEE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 

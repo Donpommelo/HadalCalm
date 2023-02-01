@@ -4,24 +4,24 @@ package com.mygdx.hadal.equip.melee;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
-import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.constants.Stats;
 
 public class BatteringRam extends MeleeWeapon {
 
@@ -49,12 +49,12 @@ public class BatteringRam extends MeleeWeapon {
 
 	private float innateAttackCdCount;
 
-	public BatteringRam(Schmuck user) {
+	public BatteringRam(Player user) {
 		super(user, SHOOT_CD, WEAPON_SPRITE, EVENT_SPRITE, MAX_CHARGE);
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
+	public void mouseClicked(float delta, PlayState state, PlayerBodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 
 		if (innateAttackCdCount <= 0.0f) {
@@ -68,10 +68,10 @@ public class BatteringRam extends MeleeWeapon {
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData shooter) {}
+	public void execute(PlayState state, PlayerBodyData shooter) {}
 	
 	@Override
-	public void release(PlayState state, BodyData bodyData) {
+	public void release(PlayState state, PlayerBodyData bodyData) {
 		if (innateAttackCdCount <= 0.0f) {
 			super.execute(state, bodyData);
 		}
@@ -80,7 +80,7 @@ public class BatteringRam extends MeleeWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float charge = chargeCd / getChargeTime();
 		SyncedAttack.BATTERING.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge);
 		innateAttackCdCount = INNATE_ATTACK_COOLDOWN * (1 - user.getBodyData().getStat(Stats.TOOL_SPD));

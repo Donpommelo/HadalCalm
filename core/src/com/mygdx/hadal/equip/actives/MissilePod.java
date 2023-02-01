@@ -5,7 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -20,7 +20,7 @@ public class MissilePod extends ActiveItem {
 	private static final float DURATION = 1.2f;
 	private static final float PROC_CD = 0.1f;
 
-	public MissilePod(Schmuck user) {
+	public MissilePod(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

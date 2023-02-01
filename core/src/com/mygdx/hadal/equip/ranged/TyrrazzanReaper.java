@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -54,14 +55,14 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_GRENADE;
 	private static final Sprite eventSprite = Sprite.P_GRENADE;
 
-	public TyrrazzanReaper(Schmuck user) {
+	public TyrrazzanReaper(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeedMax, shootCdMax, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespanMax);
 	}
 
 	private float reloadCounter;
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
 		float effectiveRange = Math.max(Math.min(this.mouseLocation.dst(startPosition), rangeMax), rangeMin);
 		effectiveRange = (effectiveRange - rangeMin) / (rangeMax - rangeMin);
@@ -69,7 +70,7 @@ public class TyrrazzanReaper extends RangedWeapon {
 
 		SyncedAttack.TYRAZZAN_REAPER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, effectiveRange);
 
-		user.setShootCdCount(cooldown);
+		user.getShootHelper().setShootCdCount(cooldown);
 		gainClip(1);
 		reloadCounter += cooldown;
 		while (reloadCounter >= getUseCd()) {

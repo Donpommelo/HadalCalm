@@ -11,6 +11,7 @@ import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -36,12 +37,12 @@ public class Airblaster extends MeleeWeapon {
 	public static final float REFLECT_VELO_MIN = 20.0f;
 	public static final float REFLECT_VELO_MAX = 80.0f;
 
-	public Airblaster(Schmuck user) {
+	public Airblaster(Player user) {
 		super(user, SWING_CD, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.AIRBLAST.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 

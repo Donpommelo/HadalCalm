@@ -26,8 +26,8 @@ public class MuddlingCup extends Artifact {
 				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
 					float projectileSpeed = ranged.getProjectileSpeed();
 					
-					p.getCurrentTool().fire(state, p.getSchmuck(), p.getSchmuck().getProjectileOrigin(projAngle, p.getCurrentTool().getAmmoSize()),
-							projAngle.set(airblastDirection).nor().scl(projectileSpeed), p.getSchmuck().getHitboxFilter());
+					p.getCurrentTool().fire(state, p.getPlayer(), p.getPlayer().getProjectileOrigin(projAngle, p.getCurrentTool().getAmmoSize()),
+							projAngle.set(airblastDirection).nor().scl(projectileSpeed), p.getPlayer().getHitboxFilter());
 				}
 			}
 		});

@@ -6,7 +6,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Poison;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -32,7 +32,7 @@ public class TaintedWater extends ActiveItem {
 	private static final float POISON_DAMAGE = 0.75f;
 	private static final float POISON_DURATION = 2.5f;
 	
-	public TaintedWater(Schmuck user) {
+	public TaintedWater(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

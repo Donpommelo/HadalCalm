@@ -5,6 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.battle.SyncedAttack;
@@ -30,13 +31,13 @@ public class Fisticuffs extends MeleeWeapon {
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_DEFAULT;
 	private static final Sprite EVENT_SPRITE = Sprite.P_DEFAULT;
 
-	public Fisticuffs(Schmuck user) {
+	public Fisticuffs(Player user) {
 		super(user, SWING_CD, WEAPON_SPRITE, EVENT_SPRITE);
 	}
 	
 	private final Vector2 startVelo = new Vector2();
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.FIST.initiateSyncedAttackSingle(state, user, user.getProjectileOrigin(weaponVelo, PROJECTILE_SIZE.x),
 				startVelo.set(startVelocity).nor().scl(PROJECTILE_SPEED));
 	}

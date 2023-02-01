@@ -4,22 +4,23 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.constants.Constants;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -58,14 +59,14 @@ public class VineSower extends RangedWeapon {
 	private static final Vector2 vineSize = new Vector2(40, 20);
 	private static final Vector2 vineSpriteSize = new Vector2(60, 60);
 
-	public VineSower(Schmuck user) {
+	public VineSower(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
-		super.mouseClicked(delta, state, shooter, faction, mousePosition);
+	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mousePosition) {
+		super.mouseClicked(delta, state, playerData, faction, mousePosition);
 
 		if (reloading || getClipLeft() == 0) { return; }
 		
@@ -78,17 +79,17 @@ public class VineSower extends RangedWeapon {
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData shooter) {}
+	public void execute(PlayState state, PlayerBodyData playerData) {}
 	
 	@Override
-	public void release(PlayState state, BodyData bodyData) {
-		super.execute(state, bodyData);
+	public void release(PlayState state, PlayerBodyData playerData) {
+		super.execute(state, playerData);
 		charging = false;
 		chargeCd = 0;
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.WOOSH.playUniversal(state, startPosition, 1.0f, 0.75f, false);
 
 		final int finalVineNum = (int) (chargeCd / getChargeTime() * (maxVineNum - minVineNum) + minVineNum);

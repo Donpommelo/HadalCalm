@@ -60,13 +60,16 @@ public class FiringWeapon extends Status {
 			if (currentVelo > minVelo) {
 				currentVelo -= veloDeprec;
 			}
-			projVelo.set(((Player) inflicted.getSchmuck()).getMouseHelper().getPixelPosition()).sub(inflicted.getSchmuck().getPixelPosition());
-			inflicted.getCurrentTool().setWeaponVelo(projVelo.nor().scl(currentVelo));
 
-			projOrigin.set(inflicted.getSchmuck().getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize));
-			
-			inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
-			inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxFilter());
+			if (inflicted.getSchmuck() instanceof Player player) {
+				projVelo.set(player.getMouseHelper().getPixelPosition()).sub(player.getPixelPosition());
+				inflicted.getCurrentTool().setWeaponVelo(projVelo.nor().scl(currentVelo));
+
+				projOrigin.set(player.getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize));
+
+				inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
+				inflicted.getCurrentTool().fire(state, player, projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxFilter());
+			}
 		}
 		procCdCount += delta;
 	}

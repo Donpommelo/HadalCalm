@@ -9,7 +9,7 @@ public class SinkingFeeling extends Artifact {
 
 	private static final int slotCost = 1;
 	
-	private static final float bonusFastFall = 1.0f;
+	private static final float bonusFastFall = 1.1f;
 	
 	public SinkingFeeling() {
 		super(slotCost);

@@ -9,7 +9,7 @@ import com.mygdx.hadal.event.DestructableBlock;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -24,7 +24,7 @@ public class Terraformer extends ActiveItem {
 	private static final int BLOCK_HP = 250;
 	private static final float BLOCK_SPEED = 8.0f;
 
-	public Terraformer(Schmuck user) {
+	public Terraformer(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

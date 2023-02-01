@@ -38,18 +38,6 @@ import java.util.Arrays;
  */
 public class PlayerBodyData extends BodyData {
 		
-	private static final int NUM_EXTRA_JUMPS = 1;
-	private static final float JUMP_POW = 25.0f;
-	
-	private static final float FAST_FALL_POW = 17.0f;
-
-	private static final int HOVER_COST = 4;
-	private static final float HOVER_POW = 5.0f;
-	
-	private static final int AIRBLAST_COST = 25;
-
-	private int extraJumpsUsed = 0;
-
 	//This is the player's current loadout
 	private Loadout loadout;
 	
@@ -736,22 +724,6 @@ public class PlayerBodyData extends BodyData {
 
 	public Player getPlayer() {	return player;}
 	
-	public int getExtraJumps() { return NUM_EXTRA_JUMPS + (int) getStat(Stats.JUMP_NUM); }
-	
-	public float getJumpPower() { return JUMP_POW * (1 + getStat(Stats.JUMP_POW)); }
-	
-	public float getFastFallPower() { return FAST_FALL_POW * (1 + getStat(Stats.FASTFALL_POW)); }
-	
-	public float getHoverPower() { return HOVER_POW * (1 + getStat(Stats.HOVER_POW)); }
-	
-	public float getHoverCost() { return HOVER_COST * (1 + getStat(Stats.HOVER_COST)); }
-
-	public float getAirblastCost() { return AIRBLAST_COST * (1 + getStat(Stats.BOOST_COST)); }
-	
-	public int getExtraJumpsUsed() { return extraJumpsUsed;	}
-
-	public void setExtraJumpsUsed(int extraJumpsUsed) {	this.extraJumpsUsed = extraJumpsUsed; }
-
 	public Equippable[] getMultitools() { return multitools; }
 	
 	public ActiveItem getActiveItem() {	return activeItem; }

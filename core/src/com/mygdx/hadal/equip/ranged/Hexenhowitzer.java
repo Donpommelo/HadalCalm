@@ -5,29 +5,29 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.MagicGlow;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.constants.Stats;
 
 public class Hexenhowitzer extends RangedWeapon {
 
@@ -57,27 +57,27 @@ public class Hexenhowitzer extends RangedWeapon {
 	private boolean supercharged = false;
 	private Status glowing;
 	
-	public Hexenhowitzer(Schmuck user) {
+	public Hexenhowitzer(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,false,
 				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
+	public void execute(PlayState state, PlayerBodyData playerData) {
 		
 		//this is the same as the super method except we skip the clip size check
-		shooter.statusProcTime(new ProcTime.Shoot(this));
+		playerData.statusProcTime(new ProcTime.Shoot(this));
 		
-		projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize.x));
+		projOrigin.set(playerData.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize.x));
 		
-		user.pushFromLocation(mouseLocation, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
+		user.pushFromLocation(mouseLocation, recoil * (1 + playerData.getStat(Stats.RANGED_RECOIL)));
 		
 		//Shoot			
 		fire(state, user, projOrigin, weaponVelo, faction);
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		Hitbox hbox = SyncedAttack.HEX.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, supercharged ? 1.0f : 0.0f);
 		final Equippable me = this;
 		if (supercharged) {
@@ -93,7 +93,7 @@ public class Hexenhowitzer extends RangedWeapon {
 			}
 
 			//when charged, we have a faster fire rate
-			user.setShootCdCount(superchargedShootCd);
+			user.getShootHelper().setShootCdCount(superchargedShootCd);
  		} else {
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

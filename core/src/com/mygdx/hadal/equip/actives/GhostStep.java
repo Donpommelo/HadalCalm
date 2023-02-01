@@ -10,6 +10,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -30,7 +31,7 @@ public class GhostStep extends ActiveItem {
 	private static final float RECOIL = 75.0f;
 	private static final float LIFESPAN = 0.20f;
 
-	public GhostStep(Schmuck user) {
+	public GhostStep(Player user) {
 		super(user, MAX_CHARGE);
 	}
 

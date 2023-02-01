@@ -18,7 +18,6 @@ import com.mygdx.hadal.schmucks.entities.PlayerClientOnHost;
 import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
@@ -347,23 +346,8 @@ public class BodyData extends HadalData {
 				//play on-hit sounds. pitched up automatically if fatal. No sounds for self or friendly fire.
 				perpData.getPlayer().getHitsoundHelper().playHitSound(this, damage);
 
-				SavedPlayerFieldsExtra field = perpData.getPlayer().getUser().getScoresExtra();
-				if (perp.getSchmuck().getHitboxFilter() != schmuck.getHitboxFilter()) {
-
-					//track perp's damage dealt
-					if (field != null && damage > 0.0f) {
-						field.incrementDamageDealt(damage);
-					}
-
-				} else {
-					if (field != null && damage > 0.0f) {
-						if (perp.getSchmuck().equals(schmuck)) {
-							field.incrementDamageDealtSelf(damage);
-						} else {
-							field.incrementDamageDealtAllies(damage);
-						}
-					}
-				}
+				//increment tracked stats
+				perpData.getPlayer().getUser().getScoresExtra().receiveDamage(perp.getSchmuck(), schmuck, damage);
 			}
 		}
 

@@ -46,8 +46,8 @@ public class BottomoftheBarrel extends Artifact {
 			public void onShoot(Equippable tool) {
 				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
 					if (ranged.getAmmoPercent() <= ammoThreshold) {
-						float cooldown = p.getSchmuck().getShootCdCount();
-						p.getSchmuck().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
+						float cooldown = p.getPlayer().getShootHelper().getShootCdCount();
+						p.getPlayer().getShootHelper().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
 					}
 				}
 			}

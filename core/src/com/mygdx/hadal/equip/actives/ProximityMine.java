@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -17,7 +17,7 @@ public class ProximityMine extends ActiveItem {
 	
 	private static final float EXPLOSION_DAMAGE = 100.0f;
 
-	public ProximityMine(Schmuck user) {
+	public ProximityMine(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

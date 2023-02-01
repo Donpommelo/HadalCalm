@@ -47,9 +47,6 @@ public class PlayerSelfOnClient extends Player {
 		//Apply base hp regen
 		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTag.REGEN);
 
-		//process cooldowns on firing
-		shootCdCount -= delta;
-
 		syncAccumulator += delta;
 		if (syncAccumulator >= SYNC_TIME) {
 			syncAccumulator = 0;

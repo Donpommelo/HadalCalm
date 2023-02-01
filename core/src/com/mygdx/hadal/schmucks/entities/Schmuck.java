@@ -2,17 +2,16 @@ package com.mygdx.hadal.schmucks.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
@@ -34,12 +33,6 @@ public class Schmuck extends HadalEntity {
 	//the enemy's base hp.
     protected float baseHp;
     
-	//Is this schmuck currently standing on a solid surface?
-	protected boolean grounded;
-	
-	//Counter that keeps track of delay between action execution + next action
-	protected float shootCdCount;
-
 	//This particle is triggered upon receiving damage
 	public ParticleEntity impact;
 
@@ -58,7 +51,6 @@ public class Schmuck extends HadalEntity {
 	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, float baseHp) {
 		super(state, startPos, size);
 		this.name = name;
-		this.grounded = false;
 		this.hitboxFilter = hitboxFilter;
 		this.baseHp = baseHp;
 
@@ -82,9 +74,6 @@ public class Schmuck extends HadalEntity {
 		//Apply base hp regen
 		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTag.REGEN);
 		
-		//process cooldowns on firing
-		shootCdCount -= delta;
-
 		//Process statuses
 		getBodyData().statusProcTime(new ProcTime.TimePass(delta));
 	}
@@ -101,41 +90,6 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {}
 
-	/**
-	 * This method is called when a schmuck wants to use a tool.
-	 * @param delta: Time passed since last usage. This is used for Charge tools that keep track of time charged.
-	 * @param tool: Equipment that the schmuck wants to use
-	 * @param hitbox: aka filter. Who will be affected by this equipment? Player or enemy or neutral?
-	 * @param mouseLocation: screen coordinate that represents where the tool is being directed.
-	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast
-	 */
-	public void useToolStart(float delta, Equippable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
-		
-		getBodyData().statusProcTime(new ProcTime.WhileAttack(delta, tool));
-
-		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
-		if ((shootCdCount < 0) || !wait) {
-
-			//Register the tool targeting the input coordinates.
-			tool.mouseClicked(delta, state, getBodyData(), hitbox, mouseLocation);
-			
-			//the schmuck will not register another tool usage for the tool's cd
-			shootCdCount = tool.getUseCd() * (1 - getBodyData().getStat(Stats.TOOL_SPD));
-
-			//execute the tool.
-			tool.execute(state, getBodyData());
-		}
-	}
-	
-	/**
-	 * This method is called after the user releases the button for a tool. Mostly used by charge weapons that execute when releasing
-	 * instead of after pressing.
-	 * @param tool: tool to release
-	 */
-	public void useToolRelease(Equippable tool) {
-		tool.release(state, getBodyData());
-	}	
-	
 	/**
 	 * This is calledregularly to send a packet to the corresponding client schmuck.
 	 * This packet updates MoveState, hp and entity parameters.
@@ -186,10 +140,6 @@ public class Schmuck extends HadalEntity {
 	public MoveState getMoveState() { return moveState; }
 	
 	public void setMoveState(MoveState moveState) { this.moveState = moveState; }
-	
-	public float getShootCdCount() { return shootCdCount; }
-	
-	public void setShootCdCount(float shootCdCount) { this.shootCdCount = shootCdCount; }
 
 	public short getHitboxFilter() { return hitboxFilter; }
 
@@ -198,8 +148,6 @@ public class Schmuck extends HadalEntity {
 	public float getBaseHp() { return baseHp; }
 
 	public void setBaseHp(int baseHp) { this.baseHp = baseHp; }
-
-	public boolean isGrounded() { return grounded; }
 
 	public String getName() { return name; }
 }

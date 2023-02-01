@@ -5,18 +5,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Puffballer extends RangedWeapon {
@@ -55,27 +56,27 @@ public class Puffballer extends RangedWeapon {
 
 	private boolean held = false;
 
-	public Puffballer(Schmuck user) {
+	public Puffballer(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
-		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mouseLocation) {
+		super.mouseClicked(delta, state, playerData, faction, mouseLocation);
 
 		if (reloading || getClipLeft() == 0) { return; }
 		if (!held) {
 			held = true;
-			super.execute(state, shooter);
+			super.execute(state, playerData);
 		}
 	}
 
 	@Override
-	public void execute(PlayState state, BodyData shooter) {}
+	public void execute(PlayState state, PlayerBodyData playerData) {}
 
 	@Override
-	public void release(PlayState state, BodyData bodyData) {
+	public void release(PlayState state, PlayerBodyData playerData) {
 		held = false;
 
 		//upon releasing mouse, detonate all laid bombs
@@ -89,7 +90,7 @@ public class Puffballer extends RangedWeapon {
 
 	private final Vector2 newVelocity = new Vector2();
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float[] fragAngles = new float[sporeFragNumber * 2];
 		for (int i = 0; i < sporeFragNumber; i++) {
 			newVelocity.setToRandomDirection().scl(fragSpeed).scl(MathUtils.random() * fragVeloSpread + 1 - fragVeloSpread / 2);

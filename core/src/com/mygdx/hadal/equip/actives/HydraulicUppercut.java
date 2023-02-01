@@ -36,7 +36,7 @@ public class HydraulicUppercut extends ActiveItem {
 	private static final float RECOIL = 180.0f;
 	private static final float PARTICLE_LIFESPAN = 0.6f;
 
-	public HydraulicUppercut(Schmuck user) { super(user, MAX_CHARGE); }
+	public HydraulicUppercut(Player user) { super(user, MAX_CHARGE); }
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {

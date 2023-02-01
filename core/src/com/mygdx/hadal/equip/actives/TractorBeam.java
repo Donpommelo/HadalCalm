@@ -3,10 +3,11 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.constants.UserDataType;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -14,7 +15,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
@@ -39,7 +39,7 @@ public class TractorBeam extends ActiveItem {
 	private static final Sprite PROJ_SPRITE = Sprite.OPEN_HAND;
 	private static final Sprite PROJ_SPRITE_2 = Sprite.CLOSED_HAND;
 
-	public TractorBeam(Schmuck user) { super(user, MAX_CHARGE); }
+	public TractorBeam(Player user) { super(user, MAX_CHARGE); }
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {

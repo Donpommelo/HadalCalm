@@ -14,14 +14,20 @@ import com.mygdx.hadal.statuses.ProcTime;
 public class MovementJumpHelper {
 
     private static final float HOVER_CD = 0.08f;
-    private static final float JUMP_CD = 0.25f;
+    private static final int HOVER_COST = 4;
+    private static final float HOVER_POW = 5.0f;
     private static final float HOVER_FUEL_REGEN_CD = 1.5f;
+
+    private static final float JUMP_CD = 0.25f;
+    private static final float JUMP_POW = 25.0f;
+    private static final int NUM_EXTRA_JUMPS = 1;
 
     private final PlayState state;
     private final Player player;
 
     private float jumpCdCount, jumpEffectCount;
     private boolean hoveringAttempt, jumpBuffered, jumping;
+    private int extraJumpsUsed = 0;
 
     public MovementJumpHelper(PlayState state, Player player) {
         this.state = state;
@@ -31,8 +37,7 @@ public class MovementJumpHelper {
     public void controllerInterval() {
 
         //if the player is successfully hovering, run hover(). We check if hover is successful so that effects that run when hovering do not activate when not actually hovering (white smoker)
-        if (hoveringAttempt && player.getPlayerData().getExtraJumpsUsed() >= player.getPlayerData().getExtraJumps() &&
-                player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getHoverCost()) {
+        if (hoveringAttempt && extraJumpsUsed >= getExtraJumps() && player.getPlayerData().getCurrentFuel() >= getHoverCost()) {
             if (jumpCdCount < 0) {
                 hover();
             }
@@ -75,10 +80,10 @@ public class MovementJumpHelper {
             }
 
             //Player will continuously do small upwards bursts that cost fuel.
-            player.getPlayerData().fuelSpend(player.getPlayerData().getHoverCost());
+            player.getPlayerData().fuelSpend(getHoverCost());
             jumpCdCount = HOVER_CD;
 
-            hoverDirection.set(0, player.getPlayerData().getHoverPower());
+            hoverDirection.set(0, getHoverPower());
 
             if (player.getPlayerData().getStat(Stats.HOVER_CONTROL) > 0) {
                 hoverDirection.setAngleDeg(player.getMouseHelper().getAttackAngle() + 180);
@@ -98,16 +103,16 @@ public class MovementJumpHelper {
      * Player's jump. Player moves up if they have jumps left.
      */
     public void jumpAttempt() {
-        if (player.isGrounded()) {
+        if (player.getGroundedHelper().isGrounded()) {
             if (jumpCdCount < 0) {
                 jump();
             } else {
                 jumpBuffered = true;
             }
         } else {
-            if (player.getPlayerData().getExtraJumpsUsed() < player.getPlayerData().getExtraJumps()) {
+            if (extraJumpsUsed < getExtraJumps()) {
                 if (jumpCdCount < 0) {
-                    player.getPlayerData().setExtraJumpsUsed(player.getPlayerData().getExtraJumpsUsed() + 1);
+                    extraJumpsUsed++;
                     jump();
                 } else {
                     jumpBuffered = true;
@@ -118,14 +123,14 @@ public class MovementJumpHelper {
 
     private void jump() {
         jumpCdCount = JUMP_CD;
-        player.pushMomentumMitigation(0, player.getPlayerData().getJumpPower());
+        player.pushMomentumMitigation(0, getJumpPower());
         jumping = true;
     }
 
     private void jumpEffect() {
         if (!player.getEffectHelper().isInvisible()) {
             ParticleEntity entity;
-            if (player.isGrounded()) {
+            if (player.getGroundedHelper().isGrounded()) {
 
                 //activate jump particles and sound
                 entity = new ParticleEntity(state, new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2),
@@ -143,9 +148,21 @@ public class MovementJumpHelper {
         }
     }
 
+    public int getExtraJumps() { return NUM_EXTRA_JUMPS + (int) player.getPlayerData().getStat(Stats.JUMP_NUM); }
+
+    public float getJumpPower() { return JUMP_POW * (1 + player.getPlayerData().getStat(Stats.JUMP_POW)); }
+
+    public float getHoverPower() { return HOVER_POW * (1 + player.getPlayerData().getStat(Stats.HOVER_POW)); }
+
+    public float getHoverCost() { return HOVER_COST * (1 + player.getPlayerData().getStat(Stats.HOVER_COST)); }
+
     public void setHoveringAttempt(boolean hoveringAttempt) { this.hoveringAttempt = hoveringAttempt; }
 
     public boolean isJumping() { return jumping; }
 
     public void setJumping(boolean jumping) { this.jumping = jumping; }
+
+    public int getExtraJumpsUsed() { return extraJumpsUsed; }
+
+    public void setExtraJumpsUsed(int extraJumpsUsed) { this.extraJumpsUsed = extraJumpsUsed; }
 }

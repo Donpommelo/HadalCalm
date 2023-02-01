@@ -2,12 +2,12 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Spring;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -22,7 +22,7 @@ public class SpringLoader extends ActiveItem {
 	private static final float SPRING_POWER = 75.0f;
 	private static final float SPRING_DURATION = 6.0f;
 	
-	public SpringLoader(Schmuck user) {
+	public SpringLoader(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	

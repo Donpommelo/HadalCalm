@@ -8,6 +8,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -38,13 +39,13 @@ public class Nematocydearm extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
 	private static final Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	
-	public Nematocydearm(Schmuck user) {
+	public Nematocydearm(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.NEMATOCYTE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 

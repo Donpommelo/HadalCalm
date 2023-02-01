@@ -8,6 +8,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -45,7 +46,7 @@ public class Peppergrinder extends RangedWeapon {
 	private static final int maxSpread = 24;
 	private static final int spreadChange = 8;
 
-	public Peppergrinder(Schmuck user) {
+	public Peppergrinder(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
@@ -54,7 +55,7 @@ public class Peppergrinder extends RangedWeapon {
 	private boolean sweepingUp;
 
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.PEPPER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, spread);
 
 		if (sweepingUp) {

@@ -2,10 +2,10 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.HealingArea;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -21,7 +21,7 @@ public class HealingField extends ActiveItem {
 	private static final float FIELD_HEAL = 0.2f;
 	private static final float HEAL_DURATION = 10.0f;
 	
-	public HealingField(Schmuck user) {
+	public HealingField(Player user) {
 		super(user, MAX_CHARGE);
 	}
 	
