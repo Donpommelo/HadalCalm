@@ -872,7 +872,7 @@ public class KryoClient {
 						pickup = new PickupEquip(cs, p.pos, p.newPickup, p.lifespan);
 					} else {
 						pickup = new PickupEquip(cs, p.pos, "");
-						pickup.setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(p.newPickup,null)));
+						pickup.setEquip(UnlocktoItem.getUnlock(p.newPickup,null));
 					}
 					pickup.serverPos.set(pickup.getStartPos()).scl(1 / PPM);
 

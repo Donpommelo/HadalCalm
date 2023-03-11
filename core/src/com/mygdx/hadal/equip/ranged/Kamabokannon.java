@@ -16,6 +16,7 @@ import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -53,9 +54,6 @@ public class Kamabokannon extends RangedWeapon {
 		weaponVelo.set(aimPointer);
 
 		if (reloading || getClipLeft() == 0) {
-			if (oozeSound != null) {
-				oozeSound.turnOff();
-			}
 			return;
 		}
 
@@ -69,13 +67,6 @@ public class Kamabokannon extends RangedWeapon {
 				super.mouseClicked(delta, state, playerData, faction, mouseLocation);
 				
 				aimPointer.set(weaponVelo);
-				
-				if (oozeSound == null) {
-					oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.0f, 0.8f, 1.0f,
-							true, true, SyncType.TICKSYNC);
-				} else {
-					oozeSound.turnOn();
-				}
 			}
 		}
 	}
@@ -91,6 +82,26 @@ public class Kamabokannon extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.KAMABOKO.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
+	}
+
+	@Override
+	public void processEffects(PlayState state) {
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
+				&& !reloading && getClipLeft() > 0 && user.getUiHelper().getChargePercent() == 1.0f;
+
+		if (shooting) {
+			if (oozeSound == null) {
+				oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.0f, 0.8f, 1.0f,
+						true, true, SyncType.NOSYNC);
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(oozeSound.getEntityID(), oozeSound, false, PlayState.ObjectLayer.EFFECT);
+				}
+			} else {
+				oozeSound.turnOn();
+			}
+		} else if (oozeSound != null) {
+			oozeSound.turnOff();
+		}
 	}
 
 	public static Hitbox createKamaboko(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
@@ -117,10 +128,6 @@ public class Kamabokannon extends RangedWeapon {
 	public void release(PlayState state, PlayerBodyData playerData) {
 		chargeCd = 0;
 		charging = false;
-		
-		if (oozeSound != null) {
-			oozeSound.turnOff();
-		}
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.ranged.SpeargunNerfed;
@@ -14,12 +15,9 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
-
-import java.util.Objects;
 
 /**
  * This event, when interacted with, will give the player a new weapon.
@@ -54,7 +52,7 @@ public class PickupEquip extends Event {
 		this.pool = pool;
 		
 		unlock = UnlockEquip.NOTHING;
-		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
+		setEquip(UnlocktoItem.getUnlock(unlock, null));
 	}
 
 	public PickupEquip(PlayState state, Vector2 startPos, UnlockEquip equip, float lifespan) {
@@ -62,7 +60,7 @@ public class PickupEquip extends Event {
 		this.pool = "";
 		this.drop = true;
 		unlock = equip;
-		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
+		setEquip(UnlocktoItem.getUnlock(unlock, null));
 		setSynced(true);
 		setFlashLifespan(FLASH_LIFESPAN);
 	}
@@ -89,7 +87,7 @@ public class PickupEquip extends Event {
 							standardParticle.turnOn();
 						} else {
 							unlock = UnlockEquip.getRandWeapFromPool(state, msg);
-							setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
+							setEquip(UnlocktoItem.getUnlock(unlock, null));
 						}
 					}
 					return;
@@ -139,7 +137,7 @@ public class PickupEquip extends Event {
 	@Override
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncPickup p) {
-			setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(p.newPickup, null)));
+			setEquip(UnlocktoItem.getUnlock(p.newPickup, null));
 		} else {
 			super.onClientSync(o);
 		}
@@ -150,7 +148,7 @@ public class PickupEquip extends Event {
 	 */
 	public void rollWeapon() {
 		unlock = UnlockEquip.getRandWeapFromPool(state, pool);
-		setEquip(Objects.requireNonNull(UnlocktoItem.getUnlock(unlock, null)));
+		setEquip(UnlocktoItem.getUnlock(unlock, null));
 	}
 	
 	private final Vector2 entityLocation = new Vector2();
@@ -178,7 +176,7 @@ public class PickupEquip extends Event {
 			if (drop) {
 				queueDeletion();
 			} else if (equip instanceof SpeargunNerfed) {
-				this.equip = Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null));
+				this.equip = UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null);
 			}
 		} else {
 			if (standardParticle != null) {

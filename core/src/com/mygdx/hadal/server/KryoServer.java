@@ -26,11 +26,9 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
-import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -343,7 +341,8 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								ps.addPacketEffect(() -> {
 									if (p instanceof PacketsLoadout.SyncEquipClient s) {
-										player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.equip, player)));
+										player.getPlayerData().syncEquip(s.equip);
+										player.getPlayerData().syncServerEquipChangeEcho(c.getID(), s.equip);
 									}
 									else if (p instanceof PacketsLoadout.SyncArtifactAddClient s) {
 										player.getPlayerData().addArtifact(s.artifactAdd, false, s.save);
@@ -352,7 +351,8 @@ public class KryoServer {
 										player.getPlayerData().removeArtifact(s.artifactRemove);
 									}
 									else if (p instanceof PacketsLoadout.SyncActiveClient s) {
-										player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.active, player)));
+										player.getPlayerData().syncActive(s.active);
+										player.getPlayerData().syncServerActiveChangeEcho(c.getID(), s.active);
 									}
 									else if (p instanceof PacketsLoadout.SyncCharacterClient s) {
 										player.getPlayerData().setCharacter(s.character);
@@ -748,6 +748,18 @@ public class KryoServer {
 		}
 	}
 
+	public void sendToAllUDP(Object p) {
+		if (server != null) {
+			server.sendToAllUDP(p);
+		}
+	}
+
+	public void sendToAllExceptTCP(int connID, Object p) {
+		if (server != null) {
+			server.sendToAllExceptTCP(connID, p);
+		}
+	}
+
 	public void sendToAllExceptUDP(int connID, Object p) {
 		if (server != null) {
 			server.sendToAllExceptUDP(connID, p);
@@ -763,12 +775,6 @@ public class KryoServer {
 	public void sendToUDP(int connID, Object p) {
 		if (server != null) {
 			server.sendToUDP(connID, p);
-		}
-	}
-	
-	public void sendToAllUDP(Object p) {
-		if (server != null) {
-			server.sendToAllUDP(p);
 		}
 	}
 

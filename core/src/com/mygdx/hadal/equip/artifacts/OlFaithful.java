@@ -7,8 +7,6 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
-import java.util.Objects;
-
 public class OlFaithful extends Artifact {
 
 	private static final int slotCost = 3;
@@ -36,8 +34,8 @@ public class OlFaithful extends Artifact {
 				}
 				if (savedEquip != null) {
 					if (savedEquip != UnlockEquip.NOTHING) {
-						p.getMultitools()[0] = Objects.requireNonNull(UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null));
-						p.pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(savedEquip, null)));
+						p.getMultitools()[0] = UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null);
+						p.pickup(UnlocktoItem.getUnlock(savedEquip, null));
 					}
 				}
 			}

@@ -60,13 +60,6 @@ public class DiamondCutter extends MeleeWeapon {
 	public void mouseClicked(float delta, PlayState state, PlayerBodyData shooter, short faction, Vector2 mouseLocation) {
 
 		if (innateAttackCdCount <= 0.0f) {
-			if (sawSound == null) {
-				sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.0f, 0.8f, 1.0f, true,
-						true, SyncType.TICKSYNC);
-			} else {
-				sawSound.turnOn();
-			}
-
 			if (!held) {
 				held = true;
 
@@ -79,6 +72,25 @@ public class DiamondCutter extends MeleeWeapon {
 				projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(RANGE);
 				hbox = SyncedAttack.DIAMOND_CUTTER.initiateSyncedAttackSingle(state, user, new Vector2(projOffset), new Vector2());
 			}
+		}
+	}
+
+	@Override
+	public void processEffects(PlayState state) {
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool());
+
+		if (shooting) {
+			if (sawSound == null) {
+				sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.0f, 0.8f, 1.0f, true,
+						true, SyncType.NOSYNC);
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(sawSound.getEntityID(), sawSound, false, PlayState.ObjectLayer.EFFECT);
+				}
+			} else {
+				sawSound.turnOn();
+			}
+		} else if (sawSound != null) {
+			sawSound.turnOff();
 		}
 	}
 
@@ -147,9 +159,6 @@ public class DiamondCutter extends MeleeWeapon {
 		held = false;
 		if (hbox != null) {
 			hbox.die();
-		}
-		if (sawSound != null) {
-			sawSound.turnOff();
 		}
 		if (innateAttackCdCount <= 0.0f) {
 			innateAttackCdCount = INNATE_ATTACK_COOLDOWN * (1 - user.getBodyData().getStat(Stats.TOOL_SPD));

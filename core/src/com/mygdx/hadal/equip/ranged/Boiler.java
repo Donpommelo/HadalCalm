@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -46,41 +46,35 @@ public class Boiler extends RangedWeapon {
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mouseLocation) {
-		super.mouseClicked(delta, state, playerData, faction, mouseLocation);
-		
-		if (reloading || getClipLeft() == 0) {
-			if (fireSound != null) {
-				fireSound.turnOff();
-			}
-			return;
-		}
-		
-		if (fireSound == null) {
-			fireSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.0f, 0.8f, 1.0f, true,
-					true, SyncType.TICKSYNC);
-		} else {
-			fireSound.turnOn();
-		}
-	}
-	
-	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.BOILER_FIRE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
-	
-	@Override
-	public void release(PlayState state, PlayerBodyData playerData) {
-		if (fireSound != null) {
-			fireSound.turnOff();
-		}
-	}
-	
+
 	@Override
 	public void unequip(PlayState state) {
 		if (fireSound != null) {
 			fireSound.terminate();
 			fireSound = null;
+		}
+	}
+
+	@Override
+	public void processEffects(PlayState state) {
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
+				&& !reloading && getClipLeft() > 0;
+
+		if (shooting) {
+			if (fireSound == null) {
+				fireSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.0f, 0.8f, 1.0f, true,
+						true, SyncType.NOSYNC);
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(fireSound.getEntityID(), fireSound, false, PlayState.ObjectLayer.EFFECT);
+				}
+			} else {
+				fireSound.turnOn();
+			}
+		} else if (fireSound != null) {
+			fireSound.turnOff();
 		}
 	}
 

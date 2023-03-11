@@ -30,10 +30,8 @@ HumanityModule extends Artifact {
 			@Override
 			public void afterActiveItem(ActiveItem tool) {
 				ActiveItem item = UnlocktoItem.getUnlock(UnlockActives.getRandItemFromPool(state, ""), null);
-				if (item != null) {
-					p.pickup(item);
-					item.setCurrentCharge(0.0f);
-				}
+				p.pickup(item);
+				item.setCurrentCharge(0.0f);
 			}
 		});
 	}

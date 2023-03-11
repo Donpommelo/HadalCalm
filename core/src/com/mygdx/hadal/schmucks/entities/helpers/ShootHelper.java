@@ -43,6 +43,8 @@ public class ShootHelper {
         //process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
         player.getPlayerData().getCurrentTool().update(state, delta);
 
+
+
         if (shootBuffered && shootCdCount < 0) {
             shootBuffered = false;
             shoot(delta, player.getPlayerData().getCurrentTool(), true);
@@ -50,6 +52,12 @@ public class ShootHelper {
 
         //process cooldowns on firing
         shootCdCount -= delta;
+    }
+
+    public void controllerUniversal(float delta) {
+        for (Equippable equippable : player.getPlayerData().getMultitools()) {
+            equippable.processEffects(state);
+        }
     }
 
     /**
@@ -108,6 +116,8 @@ public class ShootHelper {
     public float getShootCdCount() { return shootCdCount; }
 
     public void setShootCdCount(float shootCdCount) { this.shootCdCount = shootCdCount; }
+
+    public boolean isShooting() { return shooting; }
 
     public void setShooting(boolean shooting) { this.shooting = shooting; }
 }

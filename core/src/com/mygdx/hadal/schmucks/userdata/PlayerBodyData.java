@@ -196,7 +196,7 @@ public class PlayerBodyData extends BodyData {
 	 * @param slot: new weapon slot.
 	 */
 	public void switchWeapon(int slot) {
-		if (getNumWeaponSlots() >= slot) {
+		if (getNumWeaponSlots() >= slot && slot - 1 != currentSlot) {
 			if (!(multitools[slot - 1] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
@@ -276,7 +276,11 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		loadout.multitools[slotToReplace] = unlock;
-		syncServerEquipChange(loadout.multitools);
+		if (player.getState().isServer()) {
+			syncServerEquipChange(loadout.multitools);
+		} else {
+			syncClientEquipChange(loadout.multitools);
+		}
 		return old;
 	}
 	
@@ -299,7 +303,11 @@ public class PlayerBodyData extends BodyData {
 			activeItem.setCurrentChargePercent(getStat(Stats.STARTING_CHARGE));
 		}
 
-		syncServerActiveChange(unlock);
+		if (player.getState().isServer()) {
+			syncServerActiveChange(unlock);
+		} else {
+			syncClientActiveChange(unlock);
+		}
 	}
 	
 	/**
@@ -539,12 +547,28 @@ public class PlayerBodyData extends BodyData {
 		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncEquipServer(player.getConnID(), equip));
 	}
 
+	public void syncServerEquipChangeEcho(int connID, UnlockEquip[] equip) {
+		HadalGame.server.sendToAllExceptTCP(connID, new PacketsLoadout.SyncEquipServer(player.getConnID(), equip));
+	}
+
+	public void syncClientEquipChange(UnlockEquip[] equip) {
+		HadalGame.client.sendTCP(new PacketsLoadout.SyncEquipClient(equip));
+	}
+
 	public void syncServerArtifactChange(UnlockArtifact[] artifact, boolean save) {
 		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncArtifactServer(player.getConnID(), artifact, save));
 	}
 
 	public void syncServerActiveChange(UnlockActives active) {
 		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncActiveServer(player.getConnID(), active));
+	}
+
+	public void syncServerActiveChangeEcho(int connID, UnlockActives active) {
+		HadalGame.server.sendToAllExceptTCP(connID, new PacketsLoadout.SyncActiveServer(player.getConnID(), active));
+	}
+
+	public void syncClientActiveChange(UnlockActives active) {
+		HadalGame.client.sendTCP(new PacketsLoadout.SyncActiveClient(active));
 	}
 
 	public void syncServerCharacterChange(UnlockCharacter character) {

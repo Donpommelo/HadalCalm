@@ -320,6 +320,7 @@ public class Player extends Schmuck {
 		}
 
 		jumpHelper.controllerUniversal(delta);
+		shootHelper.controllerUniversal(delta);
 		mouseHelper.controller();
 	}
 	
@@ -447,6 +448,7 @@ public class Player extends Schmuck {
 	public void processConditionCode(short statusCode) {
 		jumpHelper.setJumping(PlayerConditionUtil.codeToCondition(statusCode, Constants.JUMPING));
 		groundedHelper.setGrounded(PlayerConditionUtil.codeToCondition(statusCode, Constants.GROUNDED));
+		shootHelper.setShooting(PlayerConditionUtil.codeToCondition(statusCode, Constants.SHOOTING));
 
 		effectHelper.toggleRunningEffects(PlayerConditionUtil.codeToCondition(statusCode, Constants.RUNNING));
 		effectHelper.toggleHoverEffects(PlayerConditionUtil.codeToCondition(statusCode, Constants.HOVERING));
@@ -525,6 +527,7 @@ public class Player extends Schmuck {
 				effectHelper.isTranslucent(),
 				effectHelper.isTransparent(),
 				playerData.getCurrentTool().isReloading(),
+				shootHelper.isShooting(),
 				uiHelper.isTyping());
 	}
 

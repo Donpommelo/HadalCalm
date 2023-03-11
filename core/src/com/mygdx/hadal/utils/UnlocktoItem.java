@@ -2,6 +2,8 @@ package com.mygdx.hadal.utils;
 
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.equip.actives.NothingActive;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -23,7 +25,7 @@ public class UnlocktoItem {
 				| NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new NothingWeapon(player);
 	}
 	
 	public static ActiveItem getUnlock(UnlockActives unlock, Player player) {
@@ -35,6 +37,6 @@ public class UnlocktoItem {
 				| NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new NothingActive(player);
 	}
 }

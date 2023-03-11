@@ -41,7 +41,7 @@ public class ChargeBeam extends RangedWeapon {
 
 	private static final float maxCharge = 0.5f;
 	private static final float maxDamageMultiplier = 5.0f;
-	private static final float particleOffset = 1.85f;
+	private static final float particleOffset = -1.85f;
 	private ParticleEntity charge, overcharge;
 
 	public ChargeBeam(Player user) {
@@ -49,7 +49,6 @@ public class ChargeBeam extends RangedWeapon {
 				weaponSprite, eventSprite, projectileSize.x * 3.0f, lifespan, maxCharge);
 	}
 
-	private final Vector2 particleOrigin = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, playerData, faction, mouseLocation);
@@ -57,62 +56,22 @@ public class ChargeBeam extends RangedWeapon {
 		if (reloading || getClipLeft() == 0) {
 			return;
 		}
-		particleOrigin.set(weaponVelo).nor().scl(playerData.getSchmuck().getSize().x * particleOffset);
 		charging = true;
 
 		//while held, build charge until maximum (if not reloading)
 		if (chargeCd < getChargeTime()) {
-			if (charge == null) {
-				charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 1.0f, 0.0f, false, SyncType.TICKSYNC);
-				charge.setScale(0.5f);
-			}
-			charge.setOffset(particleOrigin.x, particleOrigin.y);
-			charge.turnOn();
-
 			setChargeCd(chargeCd + delta);
-		} else {
-			if (overcharge == null) {
-				overcharge = new ParticleEntity(user.getState(), user, Particle.OVERCHARGE, 1.0f, 0.0f, false, SyncType.TICKSYNC);
-				overcharge.setScale(0.5f);
-			}
-			if (charge != null) {
-				charge.turnOff();
-			}
-			overcharge.setOffset(particleOrigin.x, particleOrigin.y);
-			overcharge.turnOn();
 		}
 	}
 
 	@Override
-	public void execute(PlayState state, PlayerBodyData playerData) {
-	}
+	public void execute(PlayState state, PlayerBodyData playerData) {}
 
 	@Override
 	public void release(PlayState state, PlayerBodyData playerData) {
 		super.execute(state, playerData);
 		charging = false;
 		chargeCd = 0;
-
-		if (charge != null) {
-			charge.turnOff();
-		}
-		if (overcharge != null) {
-			overcharge.turnOff();
-		}
-	}
-
-	@Override
-	public boolean reload(float delta) {
-		boolean finished = super.reload(delta);
-
-		if (charge != null) {
-			charge.turnOff();
-		}
-		if (overcharge != null) {
-			overcharge.turnOff();
-		}
-
-		return finished;
 	}
 
 	@Override
@@ -130,6 +89,48 @@ public class ChargeBeam extends RangedWeapon {
 		if (overcharge != null) {
 			overcharge.queueDeletion();
 			overcharge = null;
+		}
+	}
+
+	private final Vector2 particleOrigin = new Vector2(0, 1);
+	@Override
+	public void processEffects(PlayState state) {
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
+				&& !reloading && getClipLeft() > 0;
+
+		boolean charging = shooting && user.getUiHelper().getChargePercent() < 1.0f;
+		boolean overcharging = shooting && user.getUiHelper().getChargePercent() == 1.0f;
+
+		particleOrigin.setAngleDeg(user.getMouseHelper().getAttackAngle()).nor().scl(user.getSize().x * particleOffset);
+
+		if (charging) {
+			if (charge == null) {
+				charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 1.0f, 0.0f, false, SyncType.NOSYNC);
+				charge.setScale(0.6f);
+
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(charge.getEntityID(), charge, false, PlayState.ObjectLayer.EFFECT);
+				}
+			}
+			charge.setOffset(particleOrigin.x, particleOrigin.y);
+			charge.turnOn();
+		} else if (charge != null) {
+			charge.turnOff();
+		}
+
+		if (overcharging) {
+			if (overcharge == null) {
+				overcharge = new ParticleEntity(user.getState(), user, Particle.OVERCHARGE, 1.0f, 0.0f, false, SyncType.NOSYNC);
+				overcharge.setScale(0.6f);
+
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(overcharge.getEntityID(), overcharge, false, PlayState.ObjectLayer.EFFECT);
+				}
+			}
+			overcharge.setOffset(particleOrigin.x, particleOrigin.y);
+			overcharge.turnOn();
+		} else if (overcharge != null) {
+			overcharge.turnOff();
 		}
 	}
 

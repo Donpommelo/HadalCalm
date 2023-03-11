@@ -4,26 +4,25 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.WorldUtil;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
@@ -58,25 +57,6 @@ public class Screecher extends RangedWeapon {
 	public Screecher(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
-	}
-	
-	@Override
-	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mouseLocation) {
-		super.mouseClicked(delta, state, playerData, faction, mouseLocation);
-		
-		if (reloading || getClipLeft() == 0) {
-			if (screechSound != null) {
-				screechSound.turnOff();
-			}
-			return;
-		}
-		
-		if (screechSound == null) {
-			screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.0f, 0.8f, 1.0f, true,
-					true, SyncType.TICKSYNC);
-		} else {
-			screechSound.turnOn();
-		}
 	}
 
 	private final Vector2 endPt = new Vector2();
@@ -121,6 +101,26 @@ public class Screecher extends RangedWeapon {
 		SyncedAttack.SCREECH.initiateSyncedAttackSingle(state, user, newPosition, startVelocity,distance * shortestFraction);
 	}
 
+	@Override
+	public void processEffects(PlayState state) {
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
+				&& !reloading && getClipLeft() > 0;
+
+		if (shooting) {
+			if (screechSound == null) {
+				screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.0f, 0.8f, 1.0f, true,
+						true, SyncType.NOSYNC);
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(screechSound.getEntityID(), screechSound, false, PlayState.ObjectLayer.EFFECT);
+				}
+			} else {
+				screechSound.turnOn();
+			}
+		} else if (screechSound != null) {
+			screechSound.turnOff();
+		}
+	}
+
 	public static Hitbox createScreech(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
 		user.recoil(startVelocity, recoil);
 
@@ -159,13 +159,6 @@ public class Screecher extends RangedWeapon {
 			((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.EFFECT);
 		}
 		return hbox;
-	}
-
-	@Override
-	public void release(PlayState state, PlayerBodyData playerData) {
-		if (screechSound != null) {
-			screechSound.turnOff();
-		}
 	}
 	
 	@Override

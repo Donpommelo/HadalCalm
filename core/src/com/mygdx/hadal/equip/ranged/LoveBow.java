@@ -62,26 +62,14 @@ public class LoveBow extends RangedWeapon {
 		super.mouseClicked(delta, state, playerData, faction, mousePosition);
 
 		if (reloading || getClipLeft() == 0) {
-			if (chargeSound != null) {
-				chargeSound.turnOff();
-			}
 			return;
 		}
 		
 		charging = true;
-		
-		if (chargeCd == 0) {
-			chargeSound = new SoundEntity(state, user, SoundEffect.BOW_STRETCH, 0.0f, 1.0f, 1.0f,
-					true, true, SyncType.TICKSYNC);
-		}
-		
+
 		//while held, build charge until maximum (if not reloading)
 		if (chargeCd < getChargeTime()) {
 			setChargeCd(chargeCd + delta);
-		} else {
-			if (chargeSound != null) {
-				chargeSound.turnOff();
-			}
 		}
 	}
 	
@@ -93,16 +81,31 @@ public class LoveBow extends RangedWeapon {
 		super.execute(state, playerData);
 		charging = false;
 		chargeCd = 0;
-		
-		if (chargeSound != null) {
-			chargeSound.turnOff();
-		}
 	}
 	
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float charge = chargeCd / getChargeTime();
 		SyncedAttack.LOVE_ARROW.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge);
+	}
+
+	@Override
+	public void processEffects(PlayState state) {
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
+				&& !reloading && getClipLeft() > 0 && user.getUiHelper().getChargePercent() < 1.0f;
+
+		if (shooting) {
+			if (chargeSound == null) {
+				chargeSound = new SoundEntity(state, user, SoundEffect.BOW_STRETCH, 0.0f, 1.0f, 1.0f,
+						true, true, SyncType.NOSYNC);
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(chargeSound.getEntityID(), chargeSound, false, PlayState.ObjectLayer.EFFECT);
+				}
+			}
+		} else if (chargeSound != null) {
+			chargeSound.terminate();
+			chargeSound = null;
+		}
 	}
 
 	public static Hitbox createLoveArrow(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] charge) {

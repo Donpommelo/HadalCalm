@@ -1,18 +1,16 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.UnlocktoItem;
-
-import java.util.Objects;
 
 public class SkippersBoxofFun extends Artifact {
 
@@ -40,7 +38,7 @@ public class SkippersBoxofFun extends Artifact {
 					SoundEffect.MAGIC27_EVIL.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.5f, false);
 
 					Equippable equip = UnlocktoItem.getUnlock(UnlockEquip.getRandWeapFromPool(state, ""), null);
-					p.pickup(Objects.requireNonNull(equip));
+					p.pickup(equip);
 					
 					new ParticleEntity(state, p.getSchmuck(), Particle.SMOKE_TOTLC, 1.0f, particleDura, true, SyncType.CREATESYNC);
 				}

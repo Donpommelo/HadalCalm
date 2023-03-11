@@ -55,7 +55,7 @@ public class PacketsLoadout {
     }
 
     public static class SyncEquipClient extends SyncLoadoutClient {
-        public UnlockEquip equip;
+        public UnlockEquip[] equip;
 
         public SyncEquipClient() {}
 
@@ -63,7 +63,7 @@ public class PacketsLoadout {
          * A SyncEquipClient is sent from client to server to inform them that they changed weapon in the hub armory
          * @param equip: An equip to be switched to this client's loadout
          */
-        public SyncEquipClient(UnlockEquip equip) {
+        public SyncEquipClient(UnlockEquip[] equip) {
             this.equip = equip;
         }
     }
@@ -200,7 +200,7 @@ public class PacketsLoadout {
          * @param connID: connection id of the player whose weapons changed
          * @param active: active item to be set in the player's loadout
          */
-        public SyncActiveServer(int connID, UnlockActives active) {
+        public   SyncActiveServer(int connID, UnlockActives active) {
             super(connID);
             this.active = active;
         }
