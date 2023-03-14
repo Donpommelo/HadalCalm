@@ -62,6 +62,7 @@ public class PickupEquip extends Event {
 		unlock = equip;
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
 		setSynced(true);
+		setSyncType(eventSyncTypes.CLIENT);
 		setFlashLifespan(FLASH_LIFESPAN);
 	}
 
@@ -76,7 +77,6 @@ public class PickupEquip extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
 				if (activator != null) {
 					
 					//alt messages can be used to reroll weapon or set it to a specific weapon
@@ -97,6 +97,7 @@ public class PickupEquip extends Event {
 				
 				//If player inventory is full, replace their current weapon.
 				Equippable temp = p.getPlayerData().pickup(equip);
+
 				setEquip(temp);
 			}
 		};

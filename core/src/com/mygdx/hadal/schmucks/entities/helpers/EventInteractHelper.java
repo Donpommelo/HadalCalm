@@ -25,7 +25,7 @@ public class EventInteractHelper {
     public void interact() {
         if (!currentEvents.isEmpty() && interactCdCount < 0) {
             interactCdCount = INTERACT_CD;
-            currentEvents.get(0).getEventData().onInteract(player);
+            currentEvents.get(0).getEventData().preActivate(null, player);
         }
     }
 

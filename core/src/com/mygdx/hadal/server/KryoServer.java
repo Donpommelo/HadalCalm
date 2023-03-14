@@ -567,6 +567,26 @@ public class KryoServer {
 					}
 				}
 
+				else if (o instanceof Packets.ActivateEvent p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						User user = users.get(c.getID());
+						if (user != null) {
+							Player player = user.getPlayer();
+							if (player != null) {
+								ps.addPacketEffect(() -> {
+									HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
+									if (entity != null) {
+										if (entity instanceof Event event) {
+											event.getEventData().preActivate(null, player);
+										}
+									}
+								});
+							}
+						}
+					}
+				}
+
 				else if (o instanceof Packets.RequestStartSyncedEvent p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {

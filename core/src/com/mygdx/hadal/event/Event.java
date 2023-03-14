@@ -366,6 +366,7 @@ public class Event extends HadalEntity {
 		ILLUSION,
 		USER,
 		ALL,
-		SERVER
+		SERVER,
+		CLIENT
 	}
 }
