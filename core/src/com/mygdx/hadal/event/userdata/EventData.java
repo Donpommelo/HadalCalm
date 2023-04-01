@@ -65,7 +65,6 @@ public class EventData extends HadalData {
 	 * @param p: The player that activated this (or started this chain of event activation)
 	 */
 	public void preActivate(EventData activator, Player p) {
-
 		//activation depends on event sync type
 		switch (event.getSyncType()) {
 		case USER:

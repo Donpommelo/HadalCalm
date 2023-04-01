@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="138">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="140">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="HUB"/>
@@ -373,20 +373,23 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="65" name="Dialog" type="Dialog" x="224" y="416" width="32" height="32">
+  <object id="65" name="Dialog" type="Dialog" x="352" y="416" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="textId" value="intro1A"/>
     <property name="triggeredId" value="intro1A"/>
    </properties>
   </object>
   <object id="66" name="Multitrigger" type="Multitrigger" x="160" y="224" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="enterfromcenter"/>
     <property name="triggeringId" value="bounds1,bounds2,cameramain"/>
    </properties>
   </object>
   <object id="67" name="Camera" type="Camera" x="224" y="224" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="cameramain"/>
     <property name="triggeringId" value=""/>
     <property name="zoom" type="float" value="1"/>
@@ -468,7 +471,7 @@
   <object id="81" name="Prefab" type="PrefabAlternator" x="1696" y="1344" width="160" height="320">
    <properties>
     <property name="align" type="int" value="0"/>
-    <property name="event1" value="enterfromcenter"/>
+    <property name="event1" value="enterfromcentersynced"/>
     <property name="event2" value="enterhat"/>
     <property name="prefabId" value="Alternator"/>
     <property name="triggeredId" value=""/>
@@ -480,6 +483,7 @@
     <property name="particle_amb" value="PORTAL"/>
     <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
+    <property name="sync" value="USER"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="toFite"/>
    </properties>
@@ -500,6 +504,7 @@
     <property name="particle_amb" value="PORTAL"/>
     <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
+    <property name="sync" value="USER"/>
     <property name="triggeringId" value="toHub"/>
    </properties>
   </object>
@@ -516,35 +521,41 @@
   </object>
   <object id="88" name="Multitrigger" type="Multitrigger" x="1184" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="toFite"/>
     <property name="triggeringId" value="setFite,moveFite,enterfromfite,toFitePart"/>
    </properties>
   </object>
   <object id="89" name="PlayerMove" type="PlayerMove" x="1248" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="moveFite"/>
     <property name="triggeringId" value="fromFite"/>
    </properties>
   </object>
   <object id="90" name="PlayerAlign" type="PlayerAlign" x="1312" y="1760" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="setFite"/>
    </properties>
   </object>
   <object id="91" name="Multitrigger" type="Multitrigger" x="1184" y="1824" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="toHub"/>
     <property name="triggeringId" value="setHub,moveHub,enterfromcenter"/>
    </properties>
   </object>
   <object id="92" name="PlayerMove" type="PlayerMove" x="1248" y="1824" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="moveHub"/>
     <property name="triggeringId" value="fromHub"/>
    </properties>
   </object>
   <object id="93" name="PlayerAlign" type="PlayerAlign" x="1312" y="1824" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="pvp" type="bool" value="false"/>
     <property name="triggeredId" value="setHub"/>
    </properties>
@@ -571,12 +582,14 @@
   </object>
   <object id="97" name="Multitrigger" type="Multitrigger" x="160" y="352" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="enterfromfite"/>
     <property name="triggeringId" value="bounds1fite,bounds2fite,camerafite"/>
    </properties>
   </object>
   <object id="98" name="Camera" type="Camera" x="224" y="352" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="camerafite"/>
     <property name="triggeringId" value=""/>
     <property name="zoom" type="float" value="1.2"/>
@@ -644,6 +657,7 @@
   <object id="116" name="Particle" type="Particle" x="1376" y="1760" width="32" height="32">
    <properties>
     <property name="duration" type="float" value="1"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="TELEPORT"/>
     <property name="triggeredId" value="toFitePart"/>
     <property name="triggeringId" value="fromFite"/>
@@ -677,47 +691,20 @@
   <object id="124" name="Multitrigger" type="Multitrigger" x="160" y="416" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnincenter"/>
-    <property name="triggeringId" value="enterfromcenter,intro1A"/>
+    <property name="triggeringId" value="enterfromcentersynced,intro1A"/>
    </properties>
   </object>
-  <object id="132" name="Prefab" type="PrefabSpawner" x="1920" y="960" width="96" height="96">
+  <object id="138" name="Camera" type="Camera" x="288" y="416" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="8"/>
-    <property name="power" type="float" value="50"/>
-    <property name="prefabId" value="Spawner"/>
-    <property name="triggeredId" value="fuel1"/>
-    <property name="type" type="int" value="0"/>
+    <property name="triggeredId" value="cameraspawn"/>
+    <property name="triggeringId" value=""/>
+    <property name="zoom" type="float" value="1"/>
    </properties>
   </object>
-  <object id="133" name="Dummy" type="Dummy" x="2368" y="1056" width="32" height="32">
+  <object id="139" name="Multitrigger" type="Multitrigger" x="224" y="416" width="32" height="32">
    <properties>
-    <property name="triggeredId" value="dummy2"/>
-    <property name="triggeringId" value="dummy3"/>
-   </properties>
-  </object>
-  <object id="134" name="Platform" type="Platform" x="1792" y="1056" width="352" height="32">
-   <properties>
-    <property name="triggeredId" value="plat1"/>
-   </properties>
-  </object>
-  <object id="135" name="MovePoint" type="MovePoint" x="1952" y="1056" width="32" height="32">
-   <properties>
-    <property name="connections" value="plat1,fuel1"/>
-    <property name="speed" type="float" value="5"/>
-    <property name="triggeredId" value="move3"/>
-    <property name="triggeringId" value="dummy3"/>
-   </properties>
-  </object>
-  <object id="136" name="Displacer" type="Displacer" x="1800" y="1048" width="336" height="8">
-   <properties>
-    <property name="displaceX" type="float" value="0"/>
-    <property name="triggeringId" value="plat1"/>
-   </properties>
-  </object>
-  <object id="137" name="Dummy" type="Dummy" x="1504" y="1056" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="dummy3"/>
-    <property name="triggeringId" value="dummy2"/>
+    <property name="triggeredId" value="enterfromcentersynced"/>
+    <property name="triggeringId" value="bounds1,bounds2,cameraspawn"/>
    </properties>
   </object>
  </objectgroup>

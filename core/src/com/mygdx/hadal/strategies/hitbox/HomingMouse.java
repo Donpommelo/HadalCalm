@@ -29,11 +29,16 @@ public class HomingMouse extends HitboxStrategy {
 		if (user.getSchmuck() instanceof Player player) {
 			owner = player;
 		}
+
+		hbox.setSynced(true);
+		hbox.setSyncedDelete(true);
 	}
-	
+
 	private final Vector2 homingPush = new Vector2();
 	@Override
-	public void controller(float delta) {					
+	public void controller(float delta) {
+		if (!state.isServer()) { return; }
+
 		controllerCount += delta;
 		while (controllerCount >= Constants.INTERVAL) {
 			controllerCount -= Constants.INTERVAL;

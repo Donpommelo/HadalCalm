@@ -143,7 +143,6 @@ public class VineSower extends RangedWeapon {
 		hbox.makeUnreflectable();
 		hbox.setRestitution(1.0f);
 		hbox.setSyncDefault(false);
-		hbox.setNoSyncedDelete(true);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

@@ -122,7 +122,8 @@ public class BodyData extends HadalData {
 			Status tempStatus = this.statuses.get(0);
 
 			//atm, clients only process stat-changing statuses or specifically designated statuses
-			if (schmuck.getState().isServer() || o instanceof ProcTime.StatCalc || o instanceof ProcTime.Render || tempStatus.isClientIndependent()) {
+			if (schmuck.getState().isServer() || o instanceof ProcTime.StatCalc || o instanceof ProcTime.Render ||
+					o instanceof  ProcTime.TimePass || tempStatus.isClientIndependent()) {
 				finalProcTime = tempStatus.statusProcTime(o);
 			}
 
@@ -317,7 +318,7 @@ public class BodyData extends HadalData {
 				damage += currentHp;
 
 				currentHp = 0;
-				if (schmuck.getState().isServer()) {
+				if (schmuck.getState().isServer() || schmuck instanceof PlayerSelfOnClient) {
 					die(lastDamagedBy, source, tags);
 				}
 			}

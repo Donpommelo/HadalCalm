@@ -122,7 +122,10 @@ public class Hitbox extends HadalEntity {
 	private boolean syncedMulti;
 
 	//does this hbox respond to delete packets from the server? True for hboxes the can be deleted prematurely
-	private boolean syncedDeleteNoDelay, noSyncedDelete;
+	private boolean syncedDeleteNoDelay;
+	private boolean syncedDelete;
+
+	private boolean synced = false;
 
 	//when about to despawn, hboxes can be set to flash. This just skips render cycles, so it doesn't use a strategy
 	private float flashCount;
@@ -307,9 +310,9 @@ public class Hitbox extends HadalEntity {
 			//for catchup packets, resend synced attack packet (otherwise, create packet should already be sent)
 			if (catchup) {
 				if (syncedMulti) {
-					attack.syncAttackMultiServer(startVelo, new Hitbox[] {this}, extraFields, 0, true);
+					attack.syncAttackMultiServer(startVelo, new Hitbox[] {this}, extraFields, 0, synced, true);
 				} else {
-					attack.syncAttackSingleServer(this, extraFields, 0, true);
+					attack.syncAttackSingleServer(this, extraFields, 0, synced, true);
 				}
 			}
 			return null;
@@ -323,7 +326,7 @@ public class Hitbox extends HadalEntity {
 
 	@Override
 	public void onServerSync() {
-		if (body != null && isSyncDefault()) {
+		if (body != null && synced && isSyncDefault()) {
 			float angle = getAngle();
 			if (angle == 0.0f) {
 				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
@@ -337,7 +340,7 @@ public class Hitbox extends HadalEntity {
 
 	@Override
 	public void onServerSyncFast() {
-		if (body != null && isSyncInstant()) {
+		if (body != null && synced && isSyncInstant()) {
 			float angle = getAngle();
 			if (angle == 0.0f) {
 				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
@@ -352,7 +355,7 @@ public class Hitbox extends HadalEntity {
 	@Override
 	public Object onServerDelete() {
 		if (attack != null) {
-			if (noSyncedDelete) {
+			if (!syncedDelete) {
 				return null;
 			}
 		}
@@ -467,11 +470,15 @@ public class Hitbox extends HadalEntity {
 
 	public void setSyncedMulti(boolean syncedMulti) { this.syncedMulti = syncedMulti; }
 
+	public boolean isSynced() { return synced; }
+
+	public void setSynced(boolean synced) { this.synced = synced; }
+
 	public void setExtraFields(float[] extraFields) { this.extraFields = extraFields ;}
 
 	public void setSyncedDeleteNoDelay(boolean syncedDeleteNoDelay) { this.syncedDeleteNoDelay = syncedDeleteNoDelay; }
 
-	public void setNoSyncedDelete(boolean noSyncedDelete) { this.noSyncedDelete = noSyncedDelete; }
+	public void setSyncedDelete(boolean syncedDelete) { this.syncedDelete = syncedDelete; }
 
 	public float getFlashCount() { return flashCount; }
 

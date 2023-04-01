@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
@@ -16,18 +16,17 @@ import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.*;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.PlayerClientOnHost;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
-import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.util.Arrays;
@@ -669,24 +668,37 @@ public class PlayerBodyData extends BodyData {
 			//despawn sprite helper. This triggers death animations
 			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());
 			player.setDespawnType(type);
-			if (type == DespawnType.TELEPORT) {
-				warpAnimation();
-			} else {
-
+			if (type != DespawnType.TELEPORT) {
 				//Send death notification to all players.
+				Object packet;
 				if (perp instanceof PlayerBodyData playerData) {
 					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(playerData.getPlayer().getConnID(), player.getConnID(),
-							null, source, tags));
+					packet = new Packets.SyncKillMessage(playerData.getPlayer().getConnID(), player.getConnID(),
+							null, source, tags);
 				} else if (perp.getSchmuck() instanceof Enemy enemyData) {
 					player.getState().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(), enemyData.getEnemyType(),
-							source, tags));
+					packet = new Packets.SyncKillMessage(-1, player.getConnID(), enemyData.getEnemyType(),
+							source, tags);
 				} else {
 					player.getState().getKillFeed().addMessage(null, player, null, source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(),
-							null, source, tags));
+					packet = new Packets.SyncKillMessage(-1, player.getConnID(),
+							null, source, tags);
 				}
+
+				if (player.getState().isServer()) {
+					if (player instanceof PlayerClientOnHost) {
+						HadalGame.server.sendToAllExceptTCP(player.getConnID(), packet);
+					} else {
+						HadalGame.server.sendToAllTCP(packet);
+					}
+				} else {
+					HadalGame.client.sendTCP(packet);
+				}
+			}
+
+			if (!player.getState().isServer()) {
+				((ClientState) player.getState()).removeEntity(player.getEntityID());
+				HadalGame.client.sendTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source));
 			}
 			
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)
@@ -734,14 +746,6 @@ public class PlayerBodyData extends BodyData {
 			case 4 -> 0.25f;
 			default -> 0.1f;
 		};
-	}
-
-	/**
-	 * This animation is played when disconnecting
-	 */
-	public void warpAnimation() {
-		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT,
-				2.5f, true, SyncType.CREATESYNC).setPrematureOff(1.5f);
 	}
 
 	public ObjectMap<PlayerBodyData, Float> getRecentDamagedBy() { return recentDamagedBy; }

@@ -9,11 +9,14 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -325,11 +328,7 @@ public class PlayerSpriteHelper {
                 createVaporization(playerLocation, playerVelocity);
                 break;
             case TELEPORT:
-
-                //if the player disconnects/becomes a spectator, we dispose of the fbo right away.
-                if (null != fbo) {
-                    fbo.dispose();
-                }
+                createWarpAnimation();
                 break;
         }
     }
@@ -468,6 +467,19 @@ public class PlayerSpriteHelper {
 
         if (!player.getState().isServer()) {
             ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
+        }
+    }
+
+    private void createWarpAnimation() {
+        ParticleEntity particle = new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT,
+                2.5f, true, SyncType.NOSYNC).setPrematureOff(1.5f);
+        if (!player.getState().isServer()) {
+            ((ClientState) player.getState()).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.STANDARD);
+        }
+
+        //if the player disconnects/becomes a spectator, we dispose of the fbo right away.
+        if (null != fbo) {
+            fbo.dispose();
         }
     }
 

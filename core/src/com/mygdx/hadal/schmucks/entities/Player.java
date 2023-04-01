@@ -438,10 +438,14 @@ public class Player extends Schmuck {
 
 		} else if (o instanceof Packets.DeletePlayer p) {
 
-			//delegate to sprite helper for despawn so it can dispose of frame buffer object
-			spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
-			setDespawnType(p.type);
-			((ClientState) state).removeEntity(entityID);
+			if (alive) {
+				alive = false;
+
+				//delegate to sprite helper for despawn so it can dispose of frame buffer object
+				spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
+				setDespawnType(p.type);
+				((ClientState) state).removeEntity(entityID);
+			}
 		}
 	}
 

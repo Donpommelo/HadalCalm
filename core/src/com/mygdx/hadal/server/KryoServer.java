@@ -18,6 +18,8 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsAttacks;
@@ -163,34 +165,74 @@ public class KryoServer {
 					}
 				}
 
-				if (o instanceof final PacketsAttacks.SyncedAttackSingle p) {
+				if (o instanceof final PacketsAttacks.SingleClientIndependent p) {
+
 					final PlayState ps = getPlayState();
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
 							ps.addPacketEffect(() -> {
-								if (p instanceof PacketsAttacks.SyncedAttackSingleExtra p1) {
-									p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p1.extraFields);
+								if (p instanceof PacketsAttacks.SingleClientDependent p1) {
+									Hitbox hbox;
+									if (p instanceof PacketsAttacks.SingleClientDependentExtra p2) {
+										hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p2.extraFields);
+									} else {
+										hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+									}
+									hbox.setEntityID(new UUID(p1.uuidMSB, p1.uuidLSB));
 								} else {
-									p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+									if (p instanceof PacketsAttacks.SingleClientIndependentExtra p1) {
+										p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p1.extraFields);
+									} else {
+										p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+									}
 								}
 							});
 						}
 					}
 				}
 
-				if (o instanceof final PacketsAttacks.SyncedAttackMulti p) {
+				if (o instanceof final PacketsAttacks.MultiClientIndependent p) {
 					final PlayState ps = getPlayState();
 					User user = users.get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
 							ps.addPacketEffect(() -> {
-								if (p instanceof PacketsAttacks.SyncedAttackMultiExtra p1) {
-									p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p1.extraFields);
+								if (p instanceof PacketsAttacks.MultiClientDependent p1) {
+									Hitbox[] hboxes;
+									if (p instanceof PacketsAttacks.MultiClientDependentExtra p2) {
+										hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+									} else {
+										hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+									}
+									for (int i = 0; i < hboxes.length; i++) {
+										hboxes[i].setEntityID(new UUID(p1.uuidMSB[i], p1.uuidLSB[i]));
+									}
 								} else {
-									p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+									if (p instanceof PacketsAttacks.MultiClientIndependentExtra p2) {
+										p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+									} else {
+										p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+									}
+								}
+							});
+						}
+					}
+				}
+
+				if (o instanceof final PacketsAttacks.SyncedAttackNoHbox p) {
+					final PlayState ps = getPlayState();
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
+								if (p instanceof PacketsAttacks.SyncedAttackNoHboxExtra p1) {
+									p.attack.initiateSyncedAttackNoHbox(ps, player, p.pos, c.getID(), false, p.independent, p1.extraFields);
+								} else {
+									p.attack.initiateSyncedAttackNoHbox(ps, player, p.pos, c.getID(), false, p.independent);
 								}
 							});
 						}
@@ -563,6 +605,45 @@ public class KryoServer {
 											player.getPlayerData(), false, null, DamageSource.MISC));
 								}
 							}
+						}
+					}
+				}
+
+				else if (o instanceof final Packets.SyncKillMessage p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						User vic = users.get(p.vicConnID);
+						if (null != vic) {
+							User perp = users.get(p.perpConnID);
+							ps.addPacketEffect(() -> {
+								if (null != perp) {
+									ps.getKillFeed().addMessage(perp.getPlayer(), vic.getPlayer(),
+											p.enemyType, p.source, p.tags);
+								} else {
+									ps.addPacketEffect(() -> ps.getKillFeed().addMessage(null, vic.getPlayer(),
+											p.enemyType, p.source, p.tags));
+								}
+								sendToAllExceptTCP(c.getID(), p);
+							});
+						}
+					}
+				}
+
+				else if (o instanceof final Packets.DeleteClientSelf p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						User vic = users.get(c.getID());
+						if (null != vic) {
+							ps.addPacketEffect(() -> {
+								if (null != vic.getPlayer()) {
+									HadalEntity perp = ps.findEntity(p.uuidMSB, p.uuidLSB);
+									if (perp instanceof Schmuck schmuck) {
+										vic.getPlayer().getPlayerData().die(schmuck.getBodyData(), p.source);
+									} else {
+										vic.getPlayer().getPlayerData().die(ps.getWorldDummy().getBodyData(), p.source);
+									}
+								}
+							});
 						}
 					}
 				}

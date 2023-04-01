@@ -79,7 +79,7 @@ public class Event extends HadalEntity {
 
     //Does this event send a sync packet to client every engine tick?
     //Default is no with the exception of moving platforms and connected events. (+specifically chosen events in the map, like nasu)
-    protected boolean synced = false;
+    protected boolean synced;
 
     //independent events are created on both client and server and never sync. These are usually static events
     protected boolean independent = false;

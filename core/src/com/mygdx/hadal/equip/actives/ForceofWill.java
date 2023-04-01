@@ -1,8 +1,11 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
@@ -22,10 +25,15 @@ public class ForceofWill extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.MAGIC18_BUFF.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
-		user.addStatus(new Invulnerability(state, DURATION, user, user));
+		SyncedAttack.FORCE_OF_WILL.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(), true);
+
 	}
-	
+
+	public static void createForceOfWill(PlayState state, Schmuck user, Vector2 startPosition) {
+		SoundEffect.MAGIC18_BUFF.playSourced(state, startPosition, 0.5f);
+		user.getBodyData().addStatus(new Invulnerability(state, DURATION, user.getBodyData(), user.getBodyData()));
+	}
+
 	@Override
 	public float getUseDuration() { return DURATION; }
 

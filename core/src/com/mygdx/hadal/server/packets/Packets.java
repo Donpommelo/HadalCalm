@@ -432,6 +432,19 @@ public class Packets {
 		}
 	}
 
+	public static class DeleteClientSelf {
+		public long uuidMSB, uuidLSB;
+		public DamageSource source;
+		public DeleteClientSelf() {}
+
+		/**
+		 */
+		public DeleteClientSelf(UUID entityID, DamageSource source) {
+			this.uuidLSB = entityID.getLeastSignificantBits();
+			this.source = source;
+		}
+	}
+
 	public static class CreatePlayer {
 		public long uuidMSB, uuidLSB;
 		public int connID;
@@ -1107,6 +1120,7 @@ public class Packets {
     	kryo.register(CreateEnemy.class);
 		kryo.register(DeleteEntity.class);
 		kryo.register(DeletePlayer.class);
+		kryo.register(DeleteClientSelf.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
     	kryo.register(SyncPickup.class);
@@ -1166,14 +1180,28 @@ public class Packets {
 		kryo.register(PacketsLoadout.SyncTeamServer.class);
 		kryo.register(PacketsLoadout.SyncCosmeticServer.class);
 
-		kryo.register(PacketsAttacks.SyncedAttackSingle.class);
-		kryo.register(PacketsAttacks.SyncedAttackSingleServer.class);
-		kryo.register(PacketsAttacks.SyncedAttackSingleExtra.class);
-		kryo.register(PacketsAttacks.SyncedAttackSingleExtraServer.class);
-		kryo.register(PacketsAttacks.SyncedAttackMulti.class);
-		kryo.register(PacketsAttacks.SyncedAttackMultiServer.class);
-		kryo.register(PacketsAttacks.SyncedAttackMultiExtra.class);
-		kryo.register(PacketsAttacks.SyncedAttackMultiExtraServer.class);
+		kryo.register(PacketsAttacks.SingleClientIndependent.class);
+		kryo.register(PacketsAttacks.SingleClientDependent.class);
+		kryo.register(PacketsAttacks.SingleServerIndependent.class);
+		kryo.register(PacketsAttacks.SingleServerDependent.class);
+		kryo.register(PacketsAttacks.SingleClientIndependentExtra.class);
+		kryo.register(PacketsAttacks.SingleClientDependentExtra.class);
+		kryo.register(PacketsAttacks.SingleServerIndependentExtra.class);
+		kryo.register(PacketsAttacks.SingleClientDependentExtra.class);
+
+		kryo.register(PacketsAttacks.MultiClientIndependent.class);
+		kryo.register(PacketsAttacks.MultiClientDependent.class);
+		kryo.register(PacketsAttacks.MultiServerIndependent.class);
+		kryo.register(PacketsAttacks.MultiServerDependent.class);
+		kryo.register(PacketsAttacks.MultiClientIndependentExtra.class);
+		kryo.register(PacketsAttacks.MultiClientDependentExtra.class);
+		kryo.register(PacketsAttacks.MultiServerIndependentExtra.class);
+		kryo.register(PacketsAttacks.MultiServerDependentExtra.class);
+
+		kryo.register(PacketsAttacks.SyncedAttackNoHbox.class);
+		kryo.register(PacketsAttacks.SyncedAttackNoHboxServer.class);
+		kryo.register(PacketsAttacks.SyncedAttackNoHboxExtra.class);
+		kryo.register(PacketsAttacks.SyncedAttackNoHboxExtraServer.class);
 
 		kryo.register(int[].class);
 		kryo.register(float[].class);

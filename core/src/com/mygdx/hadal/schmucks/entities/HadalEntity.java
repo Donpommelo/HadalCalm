@@ -523,6 +523,8 @@ public abstract class HadalEntity {
 
 	public float getAnimationTime() { return animationTime; }
 
+	public void setAlive(boolean alive) { this.alive = alive; }
+
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null && Float.isFinite(position.x) && Float.isFinite(position.y)) {
 			body.setTransform(position, angle);

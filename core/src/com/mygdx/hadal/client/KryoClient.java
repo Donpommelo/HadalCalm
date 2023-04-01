@@ -38,7 +38,6 @@ import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
@@ -601,7 +600,7 @@ public class KryoClient {
 		/*
 		 * Server tells us to execute a synced attack. Do so with the parameters provided
 		 */
-		if (o instanceof final PacketsAttacks.SyncedAttackSingleServer p) {
+		if (o instanceof final PacketsAttacks.SingleServerIndependent p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
@@ -611,14 +610,25 @@ public class KryoClient {
 					}
 					if (creator instanceof Schmuck schmuck) {
 						Hitbox hbox;
-						if (p instanceof PacketsAttacks.SyncedAttackSingleExtraServer p1) {
-							hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false, p1.extraFields);
+						if (p instanceof PacketsAttacks.SingleServerDependent p1) {
+							if (p instanceof PacketsAttacks.SingleServerDependentExtra p2) {
+								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false, p2.extraFields);
+							} else {
+								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false);
+							}
+							hbox.serverPos.set(p.pos).scl(1 / PPM);
+							hbox.serverVelo.set(p.velo);
+							cs.addEntity(p1.uuidMSB, p1.uuidLSB, hbox, true, ObjectLayer.HBOX);
 						} else {
-							hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false);
+							if (p instanceof PacketsAttacks.SingleServerIndependentExtra p2) {
+								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false, p2.extraFields);
+							} else {
+								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false);
+							}
+							hbox.serverPos.set(p.pos).scl(1 / PPM);
+							hbox.serverVelo.set(p.velo);
+							cs.addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
 						}
-						hbox.serverPos.set(p.pos).scl(1 / PPM);
-						hbox.serverVelo.set(p.velo);
-						cs.addEntity(p.uuidMSB, p.uuidLSB, hbox, true, ObjectLayer.HBOX);
 					}
 				});
 			}
@@ -628,7 +638,7 @@ public class KryoClient {
 		/*
 		 * Server tells us to execute a synced attack that creates multiple hitboxes. Do so with the parameters provided
 		 */
-		if (o instanceof final PacketsAttacks.SyncedAttackMultiServer p) {
+		if (o instanceof final PacketsAttacks.MultiServerIndependent p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
@@ -638,24 +648,63 @@ public class KryoClient {
 					}
 					if (creator instanceof Schmuck schmuck) {
 						Hitbox[] hboxes;
-						if (p instanceof PacketsAttacks.SyncedAttackMultiExtraServer p1) {
-							hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
-									0, false, p1.extraFields);
-						} else {
-							hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
-									0, false);
-						}
 
-						for (int i = 0; i < hboxes.length; i++) {
-							if (p.pos.length > i) {
-								hboxes[i].serverPos.set(p.pos[i]).scl(1 / PPM);
+						if (p instanceof PacketsAttacks.MultiServerDependent p1) {
+							if (p instanceof PacketsAttacks.MultiServerDependentExtra p2) {
+								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
+										0, false, p2.extraFields);
+							} else {
+								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
+										0, false);
 							}
-							if (p.velo.length > i) {
-								hboxes[i].serverVelo.set(p.velo[i]);
+							for (int i = 0; i < hboxes.length; i++) {
+								if (p.pos.length > i) {
+									hboxes[i].serverPos.set(p.pos[i]).scl(1 / PPM);
+								}
+								if (p.velo.length > i) {
+									hboxes[i].serverVelo.set(p.velo[i]);
+								}
+								if (p1.uuidMSB.length > i && p1.uuidLSB.length > i) {
+									cs.addEntity(p1.uuidMSB[i], p1.uuidLSB[i], hboxes[i], true, ObjectLayer.HBOX);
+								}
 							}
-							if (p.uuidMSB.length > i && p.uuidLSB.length > i) {
-								cs.addEntity(p.uuidMSB[i], p.uuidLSB[i], hboxes[i], true, ObjectLayer.HBOX);
+						} else {
+							if (p instanceof PacketsAttacks.MultiServerIndependentExtra p1) {
+								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
+										0, false, p1.extraFields);
+							} else {
+								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
+										0, false);
 							}
+							for (int i = 0; i < hboxes.length; i++) {
+								if (p.pos.length > i) {
+									hboxes[i].serverPos.set(p.pos[i]).scl(1 / PPM);
+								}
+								if (p.velo.length > i) {
+									hboxes[i].serverVelo.set(p.velo[i]);
+								}
+								cs.addEntity(hboxes[i].getEntityID(), hboxes[i], false, ObjectLayer.HBOX);
+							}
+						}
+					}
+				});
+			}
+			return true;
+		}
+
+		if (o instanceof final PacketsAttacks.SyncedAttackNoHboxServer p) {
+			final ClientState cs = getClientState();
+			if (null != cs) {
+				cs.addPacketEffect(() -> {
+					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
+					if (null == creator) {
+						creator = cs.getWorldDummy();
+					}
+					if (creator instanceof Schmuck schmuck) {
+						if (p instanceof PacketsAttacks.SyncedAttackNoHboxExtraServer p1) {
+							p.attack.initiateSyncedAttackNoHbox(cs, schmuck, p.pos, 0, false, true, p1.extraFields);
+						} else {
+							p.attack.initiateSyncedAttackNoHbox(cs, schmuck, p.pos, 0, false, true);
 						}
 					}
 				});

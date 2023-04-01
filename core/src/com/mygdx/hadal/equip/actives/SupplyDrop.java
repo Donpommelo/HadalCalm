@@ -1,6 +1,8 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -24,8 +26,12 @@ public class SupplyDrop extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.MAGIC1_ACTIVE.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
-		new PickupEquip(state, user.getPlayer().getPixelPosition(), UnlockEquip.getRandWeapFromPool(state, ""), EQUIP_DROP_LIFEPAN);
+		SyncedAttack.SUPPLY_DROP.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(), false);
+	}
+
+	public static void createSupplyDrop(PlayState state, Vector2 startPosition) {
+		SoundEffect.MAGIC1_ACTIVE.playSourced(state, startPosition, 1.0f);
+		new PickupEquip(state, startPosition, UnlockEquip.getRandWeapFromPool(state, ""), EQUIP_DROP_LIFEPAN);
 	}
 
 	@Override

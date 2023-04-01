@@ -71,6 +71,7 @@ public class StickyBombLauncher extends RangedWeapon {
 				true, true, user, projSprite);
 		hbox.setSpriteSize(projectileSize);
 		hbox.setSyncedDeleteNoDelay(true);
+		hbox.setSyncedDelete(true);
 
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback,
