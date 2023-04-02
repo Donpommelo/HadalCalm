@@ -38,6 +38,11 @@ public enum SyncedAttack {
                                                  Vector2[] startVelocity, float[] extraFields) {
             return AssaultBits.createAssaultBitsBeam(state, user, startPosition, startVelocity);
         }
+
+        @Override
+        public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
+            AssaultBits.initiateAssaultBitsBeamClient(state, user, startPosition);
+        }
     },
 
     AMITA() {

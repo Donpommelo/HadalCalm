@@ -76,6 +76,7 @@ public class Player extends Schmuck {
 	private final GroundedHelper groundedHelper;
 	private final EventInteractHelper eventHelper;
 	private final PingHelper pingHelper;
+	private final SpecialWeaponHelper specialWeaponHelper;
 
 	private TextureRegion toolSprite;
 
@@ -149,6 +150,7 @@ public class Player extends Schmuck {
 		this.groundedHelper = new GroundedHelper(this);
 		this.eventHelper = new EventInteractHelper(this);
 		this.pingHelper = new PingHelper(state, this);
+		this.specialWeaponHelper = new SpecialWeaponHelper();
 	}
 	
 	/**
@@ -597,6 +599,8 @@ public class Player extends Schmuck {
 	public EventInteractHelper getEventHelper() { return eventHelper; }
 
 	public PingHelper getPingHelper() { return pingHelper; }
+
+	public SpecialWeaponHelper getSpecialWeaponHelper() { return specialWeaponHelper; }
 
 	public void setDespawnType(DespawnType despawnType) { this.despawnType = despawnType; }
 

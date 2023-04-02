@@ -56,7 +56,7 @@ public class ShootHelper {
 
     public void controllerUniversal(float delta) {
         for (Equippable equippable : player.getPlayerData().getMultitools()) {
-            equippable.processEffects(state);
+            equippable.processEffects(state, delta);
         }
     }
 

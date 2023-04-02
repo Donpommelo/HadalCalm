@@ -1,16 +1,15 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -35,32 +34,14 @@ public class StickyBombLauncher extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_STICKYBOMB;
 	private static final Sprite eventSprite = Sprite.P_STICKYBOMB;
 
-	//list of hitboxes created
-	private final Queue<Hitbox> bombsLaid = new Queue<>();
-
 	public StickyBombLauncher(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, false,
 				weaponSprite, eventSprite, projectileSize.x, lifespan);
 	}
 
 	@Override
-	public boolean reload(float delta) {
-
-		//upon reload, detonate all laid bombs
-		for (Hitbox bomb : bombsLaid) {
-			if (bomb.isAlive()) {
-				bomb.die();
-			}
-		}
-		bombsLaid.clear();
-
-		return super.reload(delta);
-	}
-
-	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		Hitbox hbox = SyncedAttack.STICKY_BOMB.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
-		bombsLaid.addLast(hbox);
+		SyncedAttack.STICKY_BOMB.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 
 	public static Hitbox createStickyBomb(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
@@ -80,7 +61,24 @@ public class StickyBombLauncher extends RangedWeapon {
 		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
 		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 
+		if (user instanceof Player player) {
+			player.getSpecialWeaponHelper().getStickyBombs().addLast(hbox);
+		}
+
 		return hbox;
+	}
+
+	@Override
+	public void processEffects(PlayState state, float delta) {
+		if (reloading) {
+			//upon reload, detonate all laid bombs
+			for (Hitbox bomb : user.getSpecialWeaponHelper().getStickyBombs()) {
+				if (bomb.isAlive()) {
+					bomb.die();
+				}
+			}
+			user.getSpecialWeaponHelper().getStickyBombs().clear();
+		}
 	}
 
 	@Override

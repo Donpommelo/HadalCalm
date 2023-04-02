@@ -41,9 +41,6 @@ public class AssaultBits extends RangedWeapon {
 	private static final Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
 	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
-	//list of bits created
-	private final Array<Enemy> bits = new Array<>();
-
 	public AssaultBits(Player user) {
 		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,
 				true, weaponSprite, eventSprite, lifespan, projectileSize.x, summonShootCd);
@@ -56,9 +53,19 @@ public class AssaultBits extends RangedWeapon {
 		realWeaponVelo.set(weaponVelo);
 	}
 	
-	private final Vector2 bitVelo = new Vector2(0, projectileSpeed);
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		realWeaponVelo.setAngleRad(startVelocity.angleRad() - realWeaponVelo.angleRad());
+		if (state.isServer()) {
+			fireAllBits(state, user, realWeaponVelo);
+		} else {
+			SyncedAttack.ASSAULT_BITS_BEAM.initiateSyncedAttackNoHbox(state, user, realWeaponVelo, false);
+		}
+	}
+
+	private static final Vector2 bitVelo = new Vector2(0, projectileSpeed);
+	private static void fireAllBits(PlayState state, Player user, Vector2 realWeaponVelo) {
+		Array<Enemy> bits = user.getSpecialWeaponHelper().getBits();
 
 		if (bits.isEmpty()) { return; }
 
@@ -67,22 +74,31 @@ public class AssaultBits extends RangedWeapon {
 		Vector2[] velocities = new Vector2[bits.size];
 		for (int i = 0; i < bits.size; i++) {
 			positions[i] = bits.get(i).getProjectileOrigin(bitVelo, projectileSize.x);
-			bitVelo.setAngleRad(bits.get(i).getAngle() + startVelocity.angleRad() - realWeaponVelo.angleRad());
+			bitVelo.setAngleRad(bits.get(i).getAngle() + realWeaponVelo.angleRad());
 			velocities[i] = new Vector2(bitVelo);
 		}
-		SyncedAttack.ASSAULT_BITS_BEAM.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities);
+		SyncedAttack.ASSAULT_BITS_BEAM.initiateSyncedAttackMulti(state, user, realWeaponVelo, positions, velocities);
 	}
 
+	private float bitRespawn;
 	@Override
-	public void update(PlayState state, float delta) {
-		if (bits.size < 3) {
-			setCharging(true);
+	public void processEffects(PlayState state, float delta) {
+		if (!state.isServer()) { return; }
 
-			if (chargeCd < getChargeTime()) {
-				chargeCd += delta;
+		Array<Enemy> bits = user.getSpecialWeaponHelper().getBits();
 
-				if (chargeCd >= getChargeTime()) {
-					chargeCd = 0.0f;
+		if (!this.equals(user.getPlayerData().getCurrentTool())) {
+			for (Enemy bit: user.getSpecialWeaponHelper().getBits()) {
+				if (bit.getBodyData() != null) {
+					bit.getBodyData().addStatus(new Temporary(state, 10.0f, bit.getBodyData(), bit.getBodyData(), 0.25f));
+				}
+			}
+		} else if (bits.size < 3) {
+			if (bitRespawn < getChargeTime()) {
+				bitRespawn += delta;
+
+				if (bitRespawn >= getChargeTime()) {
+					bitRespawn = 0.0f;
 
 					SoundEffect.CYBER2.playUniversal(state, user.getPixelPosition(), 0.4f, false);
 
@@ -111,7 +127,7 @@ public class AssaultBits extends RangedWeapon {
 	public void unequip(PlayState state) {
 		
 		//all bits are destroyed when weapon is unequipped
-		for (Enemy bit: bits) {
+		for (Enemy bit: user.getSpecialWeaponHelper().getBits()) {
 			if (bit.getBodyData() != null) {
 				bit.getBodyData().addStatus(new Temporary(state, 10.0f, bit.getBodyData(), bit.getBodyData(), 0.25f));
 			}
@@ -144,6 +160,12 @@ public class AssaultBits extends RangedWeapon {
 			}
 		}
 		return hboxes;
+	}
+
+	public static void initiateAssaultBitsBeamClient(PlayState state, Schmuck user, Vector2 startPosition) {
+		if (user instanceof Player player) {
+			fireAllBits(state, player, startPosition);
+		}
 	}
 
 	@Override
