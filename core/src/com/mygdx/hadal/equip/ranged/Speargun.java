@@ -1,43 +1,32 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.weapon.Spear;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Speargun extends RangedWeapon {
 
-	private static final int clipSize = 8;
-	private static final int ammoSize = 88;
-	private static final float shootCd = 0.2f;
-	private static final float reloadTime = 1.5f;
-	private static final int reloadAmount = 0;
-	private static final float baseDamage = 40.0f;
-	public static final float nerfedDamage = 30.0f;
-	private static final float recoil = 2.5f;
-	private static final float knockback = 15.0f;
-	private static final float projectileSpeed = 35.0f;
-	private static final Vector2 projectileSize = new Vector2(50, 12);
-	private static final float lifespan = 1.0f;
+	private static final int CLIP_SIZE = 8;
+	private static final int AMMO_SIZE = 88;
+	private static final float SHOOT_CD = 0.2f;
+	private static final float RELOAD_TIME = 1.5f;
+	private static final int RELOAD_AMOUNT = 0;
+	private static final float PROJECTILE_SPEED = 35.0f;
 
-	private static final Sprite projSprite = Sprite.HARPOON;
-	private static final Sprite weaponSprite = Sprite.MT_SPEARGUN;
-	private static final Sprite eventSprite = Sprite.P_SPEARGUN;
+	private static final Vector2 PROJECTILE_SIZE = Spear.PROJECTILE_SIZE;
+	private static final float LIFESPAN = Spear.LIFESPAN;
+	private static final float BASE_DAMAGE = Spear.BASE_DAMAGE;
+
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_SPEARGUN;
+	private static final Sprite EVENT_SPRITE = Sprite.P_SPEARGUN;
 	
 	public Speargun(Player user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
-				weaponSprite, eventSprite, projectileSize.x, lifespan);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
 	}
 	
 	@Override
@@ -45,34 +34,13 @@ public class Speargun extends RangedWeapon {
 		SyncedAttack.SPEAR.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
 	}
 
-	public static Hitbox createSpear(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, boolean nerfed) {
-		SoundEffect.SPIKE.playSourced(state, startPosition, 0.5f);
-		user.recoil(startVelocity, recoil);
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
-				true, true, user, projSprite);
-		hbox.setGravity(1.0f);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), nerfed ? nerfedDamage : baseDamage, knockback,
-				DamageSource.SPEARGUN, DamageTag.POKING, DamageTag.RANGED));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.8f, true).setSynced(false));
-		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.6f).setSynced(false));
-
-		return hbox;
-	}
-
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage),
-				String.valueOf(clipSize),
-				String.valueOf(ammoSize),
-				String.valueOf(reloadTime),
-				String.valueOf(shootCd)};
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf(CLIP_SIZE),
+				String.valueOf(AMMO_SIZE),
+				String.valueOf(RELOAD_TIME),
+				String.valueOf(SHOOT_CD)};
 	}
 }

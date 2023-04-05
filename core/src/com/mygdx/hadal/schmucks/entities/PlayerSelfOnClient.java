@@ -42,7 +42,6 @@ public class PlayerSelfOnClient extends Player {
 		processMovement(delta);
 		processEquipment(delta);
 		processMiscellaneous(delta);
-		processMiscellaneousUniversal(delta);
 
 		//Apply base hp regen
 		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTag.REGEN);

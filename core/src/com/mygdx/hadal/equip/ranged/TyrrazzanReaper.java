@@ -1,72 +1,47 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.weapon.TyrazzanReaperProjectile;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.strategies.hitbox.*;
 
 public class TyrrazzanReaper extends RangedWeapon {
 
-	private static final int clipSize = 10;
-	private static final int ammoSize = 70;
-	private static final float reloadTime = 1.4f;
-	private static final int reloadAmount = 0;
-	private static final float recoil = 4.5f;
-	private static final Vector2 projectileSize = new Vector2(45, 15);
+	private static final int CLIP_SIZE = 10;
+	private static final int AMMO_SIZE = 70;
+	private static final float RELOAD_TIME = 1.4f;
+	private static final int RELOAD_AMOUNT = 0;
 
-	private static final float rangeMin = 40.0f;
-	private static final float rangeMax = 1200.0f;
+	private static final float RANGE_MIN = 40.0f;
+	private static final float RANGE_MAX = 1200.0f;
 
-	private static final float sizeMax = 2.5f;
-	private static final float sizeMin = 1.0f;
+	private static final float SHOOT_CD_MAX = 0.6f;
+	private static final float SHOOT_CD_MIN = 0.15f;
 
-	private static final float shootCdMax = 0.6f;
-	private static final float shootCdMin = 0.15f;
+	private static final Vector2 PROJECTILE_SIZE = TyrazzanReaperProjectile.PROJECTILE_SIZE;
+	private static final float PROJECTILE_SPEED_MAX = TyrazzanReaperProjectile.PROJECTILE_SPEED_MAX;
+	private static final float LIFESPAN_MAX = TyrazzanReaperProjectile.LIFESPAN_MAX;
+	private static final float BASE_DAMAGE_MAX = TyrazzanReaperProjectile.BASE_DAMAGE_MAX;
+	private static final float BASE_DAMAGE_MIN = TyrazzanReaperProjectile.BASE_DAMAGE_MIN;
 
-	private static final float lifespanMax = 0.8f;
-	private static final float lifespanMin = 0.4f;
-
-	private static final float particleSizeMax = 90.0f;
-	private static final float particleSizeMin = 60.0f;
-
-	private static final float baseDamageMax = 55.0f;
-	private static final float baseDamageMin = 25.0f;
-
-	private static final float knockbackMax = 19.0f;
-	private static final float knockbackMin = 6.0f;
-
-	private static final float projectileSpeedMax = 60.0f;
-	private static final float projectileSpeedMin = 30.0f;
-
-	private static final float spreadMax = 25.0f;
-
-	private static final Sprite projSprite = Sprite.DIATOM_SHOT_B;
-	private static final Sprite weaponSprite = Sprite.MT_GRENADE;
-	private static final Sprite eventSprite = Sprite.P_GRENADE;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_GRENADE;
+	private static final Sprite EVENT_SPRITE = Sprite.P_GRENADE;
 
 	public TyrrazzanReaper(Player user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeedMax, shootCdMax, reloadAmount, true,
-				weaponSprite, eventSprite, projectileSize.x, lifespanMax);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED_MAX, SHOOT_CD_MAX, RELOAD_AMOUNT, true,
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN_MAX);
 	}
 
 	private float reloadCounter;
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
-		float effectiveRange = Math.max(Math.min(this.mouseLocation.dst(startPosition), rangeMax), rangeMin);
-		effectiveRange = (effectiveRange - rangeMin) / (rangeMax - rangeMin);
-		float cooldown = effectiveRange * (shootCdMax - shootCdMin) + shootCdMin;
+		float effectiveRange = Math.max(Math.min(this.mouseLocation.dst(startPosition), RANGE_MAX), RANGE_MIN);
+		effectiveRange = (effectiveRange - RANGE_MIN) / (RANGE_MAX - RANGE_MIN);
+		float cooldown = effectiveRange * (SHOOT_CD_MAX - SHOOT_CD_MIN) + SHOOT_CD_MIN;
 
 		SyncedAttack.TYRAZZAN_REAPER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, effectiveRange);
 
@@ -79,49 +54,15 @@ public class TyrrazzanReaper extends RangedWeapon {
 		}
 	}
 
-	public static Hitbox createTyrrazzanReaper(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
-		SoundEffect.MAGIC3_BURST.playSourced(state, startPosition, 0.5f, 0.75f);
-		user.recoil(startVelocity, recoil);
-
-		float effectiveRange = 0.0f;
-		if (extraFields.length > 0) {
-			effectiveRange = extraFields[0];
-		}
-		float size = effectiveRange * (sizeMax - sizeMin) + sizeMin;
-		float velocity = effectiveRange * (projectileSpeedMax - projectileSpeedMin) + projectileSpeedMin;
-		float damage = effectiveRange * (baseDamageMax - baseDamageMin) + baseDamageMin;
-		float knockback = effectiveRange * (knockbackMax - knockbackMin) + knockbackMin;
-		float lifespan = effectiveRange * (lifespanMax - lifespanMin) + lifespanMin;
-		float particleSize = effectiveRange * (particleSizeMax - particleSizeMin) + particleSizeMin;
-		int spread = (int) ((1 - effectiveRange) * spreadMax);
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(size), lifespan,
-				startVelocity.nor().scl(velocity), user.getHitboxFilter(), true, true, user, projSprite);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL)
-				.setParticleSize(particleSize).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback, DamageSource.TYRRAZZAN_REAPER,
-				DamageTag.BULLET, DamageTag.RANGED));
-		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.5f).setSynced(false));
-		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
-
-		return hbox;
-	}
-
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamageMin),
-				String.valueOf((int) baseDamageMax),
-				String.valueOf(clipSize),
-				String.valueOf(ammoSize),
-				String.valueOf(reloadTime),
-				String.valueOf(shootCdMin),
-				String.valueOf(shootCdMax)};
+				String.valueOf((int) BASE_DAMAGE_MIN),
+				String.valueOf((int) BASE_DAMAGE_MAX),
+				String.valueOf(CLIP_SIZE),
+				String.valueOf(AMMO_SIZE),
+				String.valueOf(RELOAD_TIME),
+				String.valueOf(SHOOT_CD_MIN),
+				String.valueOf(SHOOT_CD_MAX)};
 	}
 }

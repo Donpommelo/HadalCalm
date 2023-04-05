@@ -1,120 +1,62 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.weapon.Pepper;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Peppergrinder extends RangedWeapon {
 
-	private static final int clipSize = 60;
-	private static final int ammoSize = 360;
-	private static final float shootCd = 0.06f;
-	private static final float reloadTime = 1.5f;
-	private static final int reloadAmount = 0;
-	private static final float baseDamage = 19.0f;
-	private static final float recoil = 2.5f;
-	private static final float knockback = 10.0f;
-	private static final float projectileSpeed = 31.5f;
-	private static final Vector2 projectileSize = new Vector2(40, 20);
-	private static final float lifespan = 2.0f;
+	private static final int CLIP_SIZE = 60;
+	private static final int AMMO_SIZE = 360;
+	private static final float SHOOT_CD = 0.06f;
+	private static final float RELOAD_TIME = 1.5f;
+	private static final int RELOAD_AMOUNT = 0;
+	private static final float PROJECTILE_SPEED = 31.5f;
+	private static final int MAX_SPREAD = 24;
+	private static final int SPREAD_CHANGE = 8;
 
-	private static final Sprite projSprite = Sprite.LASER_GREEN;
-	private static final Sprite weaponSprite = Sprite.MT_BOILER;
-	private static final Sprite eventSprite = Sprite.P_BOILER;
+	private static final Vector2 PROJECTILE_SIZE = Pepper.PROJECTILE_SIZE;
+	private static final float LIFESPAN = Pepper.LIFESPAN;
+	private static final float BASE_DAMAGE = Pepper.BASE_DAMAGE;
 
-	private static final int maxSpread = 24;
-	private static final int spreadChange = 8;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_BOILER;
+	private static final Sprite EVENT_SPRITE = Sprite.P_BOILER;
 
 	public Peppergrinder(Player user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, true,
-				weaponSprite, eventSprite, projectileSize.x, lifespan);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
 	}
 
 	private int spread;
 	private boolean sweepingUp;
-
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.PEPPER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, spread);
 
 		if (sweepingUp) {
-			spread += spreadChange;
-			if (spread >= maxSpread) {
+			spread += SPREAD_CHANGE;
+			if (spread >= MAX_SPREAD) {
 				sweepingUp = false;
 			}
 		} else {
-			spread -= spreadChange;
-			if (spread <= -maxSpread) {
+			spread -= SPREAD_CHANGE;
+			if (spread <= -MAX_SPREAD) {
 				sweepingUp = true;
 			}
 		}
 	}
 
-	public static Hitbox createPepper(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
-		SoundEffect.LASER2.playSourced(state, user.getPixelPosition(), 0.25f);
-		user.recoil(startVelocity, recoil);
-
-		float spread = 0.0f;
-		if (extraFields.length > 0) {
-			spread = extraFields[0];
-		}
-		float finalSpread = spread;
-
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
-				true, true, user, projSprite);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.PEPPERGRINDER,
-				DamageTag.ENERGY, DamageTag.RANGED));
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-				HadalColor.PALE_GREEN).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-				HadalColor.PALE_GREEN).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.25f, true).setSynced(false));
-		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-
-			@Override
-			public void create() {
-				float newDegrees = hbox.getStartVelo().angleDeg() + finalSpread;
-				hbox.setLinearVelocity(hbox.getLinearVelocity().setAngleDeg(newDegrees));
-			}
-		});
-
-		return hbox;
-	}
-
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage),
-				String.valueOf(clipSize),
-				String.valueOf(ammoSize),
-				String.valueOf(reloadTime),
-				String.valueOf(shootCd)};
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf(CLIP_SIZE),
+				String.valueOf(AMMO_SIZE),
+				String.valueOf(RELOAD_TIME),
+				String.valueOf(SHOOT_CD)};
 	}
 }

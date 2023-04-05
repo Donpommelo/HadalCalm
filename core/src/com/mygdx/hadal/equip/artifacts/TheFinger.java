@@ -1,10 +1,10 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.attacks.special.Emote;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.constants.Stats;
 
 public class TheFinger extends Artifact {
 
@@ -24,6 +24,6 @@ public class TheFinger extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) WeaponUtils.EMOTE_EXPLODE_DAMAGE)};
+				String.valueOf((int) Emote.EMOTE_EXPLODE_DAMAGE)};
 	}
 }

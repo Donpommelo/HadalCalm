@@ -2,51 +2,37 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.attacks.weapon.Flounder;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Flounderbuss extends RangedWeapon {
 
-	private static final int clipSize = 1;
-	private static final int ammoSize = 15;
-	private static final float shootCd = 0.0f;
-	private static final float reloadTime = 0.8f;
-	private static final int reloadAmount = 0;
-	private static final float baseDamage = 15.0f;
-	private static final float recoil = 30.0f;
-	private static final float knockback = 12.0f;
-	private static final float projectileSpeed = 30.0f;
-	private static final Vector2 projectileSize = new Vector2(36, 30);
-	private static final float lifespan = 2.0f;
-	
-	private static final Sprite[] projSprites = {Sprite.FLOUNDER_A, Sprite.FLOUNDER_B};
-	private static final Sprite weaponSprite = Sprite.MT_SHOTGUN;
-	private static final Sprite eventSprite = Sprite.P_SHOTGUN;
-	
-	private static final float maxCharge = 0.5f;
-	private static final float veloSpread = 0.6f;
+	private static final int CLIP_SIZE = 1;
+	private static final int AMMO_SIZE = 15;
+	private static final float SHOOT_CD = 0.0f;
+	private static final float RELOAD_TIME = 0.8f;
+	private static final int RELOAD_AMOUNT = 0;
+	private static final float PROJECTILE_SPEED = 30.0f;
+	private static final float MAX_CHARGE = 0.5f;
+	private static final float VELO_SPREAD = 0.6f;
+	private static final int BASE_NUM_PROJ = 3;
+	private static final int MAX_NUM_PROJ = 13;
 
-	private static final int baseNumProj = 3;
-	private static final int maxNumProj = 13;
-	private static final float pitchSpread = 0.4f;
-	private static final int spread = 20;
-	
+	private static final Vector2 PROJECTILE_SIZE = Flounder.PROJECTILE_SIZE;
+	private static final float LIFESPAN = Flounder.LIFESPAN;
+	private static final float BASE_DAMAGE = Flounder.BASE_DAMAGE;
+
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_SHOTGUN;
+	private static final Sprite EVENT_SPRITE = Sprite.P_SHOTGUN;
+
 	public Flounderbuss(Player user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,true,
-				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 	
 	@Override
@@ -77,62 +63,27 @@ public class Flounderbuss extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		//amount of projectiles scales to charge percent
-		int numProj = (int) (maxNumProj * chargeCd / getChargeTime() + baseNumProj);
+		int numProj = (int) (MAX_NUM_PROJ * chargeCd / getChargeTime() + BASE_NUM_PROJ);
 		Vector2[] positions = new Vector2[numProj];
 		Vector2[] velocities = new Vector2[numProj];
 		velocities[0] = startVelocity;
 		for (int i = 0; i < numProj; i++) {
-			newVelocity.set(startVelocity).scl((MathUtils.random() * veloSpread + 1 - veloSpread / 2));
+			newVelocity.set(startVelocity).scl((MathUtils.random() * VELO_SPREAD + 1 - VELO_SPREAD / 2));
 			positions[i] = startPosition;
 			velocities[i] = new Vector2(newVelocity);
 		}
 		SyncedAttack.FLOUNDER.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities);
 	}
 
-	public static Hitbox[] createFlounder(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition, Vector2[] startVelocity) {
-		Hitbox[] hboxes = new Hitbox[startPosition.length];
-		if (startPosition.length != 0) {
-			SoundEffect.SHOTGUN.playSourced(state, startPosition[0], 0.75f, 0.75f);
-			user.recoil(weaponVelocity, recoil);
-
-			for (int i = 0; i < startPosition.length; i++) {
-
-				int randomIndex = MathUtils.random(projSprites.length - 1);
-				Sprite projSprite = projSprites[randomIndex];
-
-				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, new Vector2(startVelocity[i]),
-						user.getHitboxFilter(), true, true, user, projSprite);
-				hbox.setGravity(1.5f);
-				hbox.setDurability(2);
-
-				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
-				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback,
-						DamageSource.FLOUNDERBUSS, DamageTag.RANGED));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.25f, true)
-						.setPitchSpread(pitchSpread).setSynced(false));
-				hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WET_SPLAT, 0.25f)
-						.setPitchSpread(pitchSpread).setSynced(false));
-				hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
-
-				hboxes[i] = hbox;
-			}
-		}
-		return hboxes;
-	}
-
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage),
-				String.valueOf(baseNumProj),
-				String.valueOf(maxNumProj),
-				String.valueOf(clipSize),
-				String.valueOf(ammoSize),
-				String.valueOf(reloadTime),
-				String.valueOf(maxCharge)};
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf(BASE_NUM_PROJ),
+				String.valueOf(MAX_NUM_PROJ),
+				String.valueOf(CLIP_SIZE),
+				String.valueOf(AMMO_SIZE),
+				String.valueOf(RELOAD_TIME),
+				String.valueOf(MAX_CHARGE)};
 	}
 }

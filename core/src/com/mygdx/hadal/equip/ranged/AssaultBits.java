@@ -3,47 +3,37 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.effects.HadalColor;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.attacks.weapon.AssaultBitBeam;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.DroneBit;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Temporary;
-import com.mygdx.hadal.strategies.hitbox.*;
 
 public class AssaultBits extends RangedWeapon {
 
-	private static final int clipSize = 40;
-	private static final int ammoSize = 200;
-	private static final float shootCd = 0.3f;
-	private static final float reloadTime = 1.1f;
-	private static final int reloadAmount = 0;
-	private static final float projectileSpeed = 45.0f;
-	private static final Vector2 projectileSize = new Vector2(40, 20);
-	private static final float lifespan = 1.0f;
-	
-	private static final float summonShootCd = 1.0f;
-	private static final float baseDamage = 15.0f;
-	private static final float knockback = 14.0f;
+	private static final int CLIP_SIZE = 40;
+	private static final int AMMO_SIZE = 200;
+	private static final float SHOOT_CD = 0.3f;
+	private static final float RELOAD_TIME = 1.1f;
+	private static final int RELOAD_AMOUNT = 0;
+	private static final float PROJECTILE_SPEED = 45.0f;
+	private static final float SUMMON_SHOOT_CD = 1.0f;
 
-	private static final Sprite projSprite = Sprite.LASER_PURPLE;
-	private static final Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
-	private static final Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
+	private static final Vector2 PROJECTILE_SIZE = AssaultBitBeam.PROJECTILE_SIZE;
+	private static final float LIFESPAN = AssaultBitBeam.LIFESPAN;
+	private static final float BASE_DAMAGE = AssaultBitBeam.BASE_DAMAGE;
+
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_CHAINLIGHTNING;
+	private static final Sprite EVENT_SPRITE = Sprite.P_CHAINLIGHTNING;
 	
 	public AssaultBits(Player user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,
-				true, weaponSprite, eventSprite, lifespan, projectileSize.x, summonShootCd);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,
+				true, WEAPON_SPRITE, EVENT_SPRITE, LIFESPAN, PROJECTILE_SIZE.x, SUMMON_SHOOT_CD);
 	}
 	
 	private final Vector2 realWeaponVelo = new Vector2();
@@ -63,8 +53,8 @@ public class AssaultBits extends RangedWeapon {
 		}
 	}
 
-	private static final Vector2 bitVelo = new Vector2(0, projectileSpeed);
-	private static void fireAllBits(PlayState state, Player user, Vector2 realWeaponVelo) {
+	private static final Vector2 bitVelo = new Vector2(0, PROJECTILE_SPEED);
+	public static void fireAllBits(PlayState state, Player user, Vector2 realWeaponVelo) {
 		Array<Enemy> bits = user.getSpecialWeaponHelper().getBits();
 
 		if (bits.isEmpty()) { return; }
@@ -73,7 +63,7 @@ public class AssaultBits extends RangedWeapon {
 		Vector2[] positions = new Vector2[bits.size];
 		Vector2[] velocities = new Vector2[bits.size];
 		for (int i = 0; i < bits.size; i++) {
-			positions[i] = bits.get(i).getProjectileOrigin(bitVelo, projectileSize.x);
+			positions[i] = bits.get(i).getProjectileOrigin(bitVelo, PROJECTILE_SIZE.x);
 			bitVelo.setAngleRad(bits.get(i).getAngle() + realWeaponVelo.angleRad());
 			velocities[i] = new Vector2(bitVelo);
 		}
@@ -134,49 +124,15 @@ public class AssaultBits extends RangedWeapon {
 		}
 	}
 
-	public static Hitbox[] createAssaultBitsBeam(PlayState state, Schmuck user, Vector2[] startPosition, Vector2[] startVelocity) {
-		Hitbox[] hboxes = new Hitbox[startVelocity.length];
-
-		if (startPosition.length != 0) {
-			SoundEffect.SHOOT2.playSourced(state, startPosition[0], 0.6f);
-			for (int i = 0; i < startPosition.length; i++) {
-				Hitbox hbox = new RangedHitbox(state, startPosition[i], projectileSize, lifespan, startVelocity[i],
-						user.getHitboxFilter(), true,true, user, projSprite);
-
-				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback,
-						DamageSource.ASSAULT_BITS, DamageTag.BULLET, DamageTag.RANGED));
-				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-						HadalColor.VIOLET).setSyncType(SyncType.NOSYNC));
-				hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-						HadalColor.VIOLET).setSyncType(SyncType.NOSYNC));
-				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true)
-						.setSynced(false));
-				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-
-				hboxes[i] = hbox;
-			}
-		}
-		return hboxes;
-	}
-
-	public static void initiateAssaultBitsBeamClient(PlayState state, Schmuck user, Vector2 startPosition) {
-		if (user instanceof Player player) {
-			fireAllBits(state, player, startPosition);
-		}
-	}
-
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage),
-				String.valueOf((int) summonShootCd),
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf((int) SUMMON_SHOOT_CD),
 				String.valueOf(DroneBit.baseHp),
-				String.valueOf(clipSize),
-				String.valueOf(ammoSize),
-				String.valueOf(reloadTime),
-				String.valueOf(shootCd)};
+				String.valueOf(CLIP_SIZE),
+				String.valueOf(AMMO_SIZE),
+				String.valueOf(RELOAD_TIME),
+				String.valueOf(SHOOT_CD)};
 	}
 }

@@ -1,71 +1,38 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.weapon.StickyBomb;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.*;
 
 public class StickyBombLauncher extends RangedWeapon {
 
-	private static final int clipSize = 6;
-	private static final int ammoSize = 36;
-	private static final float shootCd = 0.35f;
-	private static final float reloadTime = 1.25f;
-	private static final int reloadAmount = 0;
-	private static final float recoil = 2.0f;
-	private static final float projectileSpeed = 40.0f;
-	private static final Vector2 projectileSize = new Vector2(50, 50);
-	private static final Vector2 stickySize = new Vector2(20, 20);
-	private static final float lifespan = 5.0f;
+	private static final int CLIP_SIZE = 6;
+	private static final int AMMO_SIZE = 36;
+	private static final float SHOOT_CD = 0.35f;
+	private static final float RELOAD_TIME = 1.25f;
+	private static final int RELOAD_AMOUNT = 0;
+	private static final float PROJECTILE_SPEED = 40.0f;
 
-	private static final int explosionRadius = 200;
-	private static final float explosionDamage = 55.0f;
-	private static final float explosionKnockback = 25.0f;
+	private static final Vector2 PROJECTILE_SIZE = StickyBomb.PROJECTILE_SIZE;
+	private static final float LIFESPAN = StickyBomb.LIFESPAN;
+	private static final float EXPLOSION_DAMAGE = StickyBomb.EXPLOSION_DAMAGE;
 
-	private static final Sprite projSprite = Sprite.STICKYBOMB;
-	private static final Sprite weaponSprite = Sprite.MT_STICKYBOMB;
-	private static final Sprite eventSprite = Sprite.P_STICKYBOMB;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_STICKYBOMB;
+	private static final Sprite EVENT_SPRITE = Sprite.P_STICKYBOMB;
 
 	public StickyBombLauncher(Player user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount, false,
-				weaponSprite, eventSprite, projectileSize.x, lifespan);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, false,
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
 	}
 
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.STICKY_BOMB.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
-	}
-
-	public static Hitbox createStickyBomb(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
-		SoundEffect.LAUNCHER.playSourced(state, startPosition, 0.25f);
-		user.recoil(startVelocity, recoil);
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, user.getHitboxFilter(),
-				true, true, user, projSprite);
-		hbox.setSpriteSize(projectileSize);
-		hbox.setSyncedDeleteNoDelay(true);
-		hbox.setSyncedDelete(true);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback,
-				(short) 0, false, DamageSource.STICKYBOMB_LAUNCHER));
-		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.25f).setSynced(false));
-		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
-		hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
-
-		if (user instanceof Player player) {
-			player.getSpecialWeaponHelper().getStickyBombs().addLast(hbox);
-		}
-
-		return hbox;
 	}
 
 	@Override
@@ -84,10 +51,10 @@ public class StickyBombLauncher extends RangedWeapon {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) explosionDamage),
-				String.valueOf(clipSize),
-				String.valueOf(ammoSize),
-				String.valueOf(reloadTime),
-				String.valueOf(shootCd)};
+				String.valueOf((int) EXPLOSION_DAMAGE),
+				String.valueOf(CLIP_SIZE),
+				String.valueOf(AMMO_SIZE),
+				String.valueOf(RELOAD_TIME),
+				String.valueOf(SHOOT_CD)};
 	}
 }

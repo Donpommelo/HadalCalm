@@ -1,24 +1,19 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.weapon.Hex;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
-import com.mygdx.hadal.effects.HadalColor;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -26,40 +21,36 @@ import com.mygdx.hadal.statuses.MagicGlow;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.text.UIText;
 
 public class Hexenhowitzer extends RangedWeapon {
 
-	private static final int clipSize = 1;
-	private static final int ammoSize = 1;
-	private static final float shootCd = 0.35f;
-	private static final float reloadTime = 1.0f;
-	private static final int reloadAmount = 0;
-	private static final float baseDamage = 27.0f;
-	private static final float recoil = 4.5f;
-	private static final float knockback = 20.0f;
-	private static final float projectileSpeed = 40.0f;
-	private static final Vector2 projectileSize = new Vector2(50, 25);
-	private static final float lifespan = 1.5f;
-	
-	private static final float maxCharge = 72.0f;
-	private static final float chargeLostPerShot = 2.8f;
+	private static final int CLIP_SIZE = 1;
+	private static final int AMMO_SIZE = 1;
+	private static final float SHOOT_CD = 0.35f;
+	private static final float RELOAD_TIME = 1.0f;
+	private static final int RELOAD_AMOUNT = 0;
+	private static final float PROJECTILE_SPEED = 40.0f;
+	private static final float MAX_CHARGE = 72.0f;
+	private static final float CHARGE_LOST_PER_SHOT = 2.8f;
+	private static final float SUPERCHARGED_SHOOT_CD = 0.07f;
+	private static final float ENEMY_CHARGE_MULTIPLIER = 0.2f;
 
-	private static final Sprite weaponSprite = Sprite.MT_TORPEDO;
-	private static final Sprite eventSprite = Sprite.P_TORPEDO;
-	
-	private static final float pitchSpread = 0.4f;
-	
-	private static final float superchargedShootCd = 0.07f;
-	private static final float enemyChargeMultiplier = 0.2f;
-	private static final int spread = 14;
+	private static final Vector2 PROJECTILE_SIZE = Hex.PROJECTILE_SIZE;
+	private static final float LIFESPAN = Hex.LIFESPAN;
+	private static final float BASE_DAMAGE = Hex.BASE_DAMAGE;
+	private static final float RECOIL = 4.5f;
+	private static final float KNOCKBACK = 20.0f;
+
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_TORPEDO;
+	private static final Sprite EVENT_SPRITE = Sprite.P_TORPEDO;
+
 	private boolean supercharged = false;
 	private Status glowing;
 	
 	public Hexenhowitzer(Player user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,false,
-				weaponSprite, eventSprite, projectileSize.x, lifespan, maxCharge);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,false,
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 	
 	@Override
@@ -68,9 +59,9 @@ public class Hexenhowitzer extends RangedWeapon {
 		//this is the same as the super method except we skip the clip size check
 		playerData.statusProcTime(new ProcTime.Shoot(this));
 		
-		projOrigin.set(playerData.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize.x));
+		projOrigin.set(playerData.getSchmuck().getProjectileOrigin(weaponVelo, PROJECTILE_SIZE.x));
 		
-		user.pushFromLocation(mouseLocation, recoil * (1 + playerData.getStat(Stats.RANGED_RECOIL)));
+		user.pushFromLocation(mouseLocation, RECOIL * (1 + playerData.getStat(Stats.RANGED_RECOIL)));
 		
 		//Shoot			
 		fire(state, user, projOrigin, weaponVelo, faction);
@@ -82,7 +73,7 @@ public class Hexenhowitzer extends RangedWeapon {
 		final Equippable me = this;
 		if (supercharged) {
 			//when charged we deplete charge when shooting and remove visual effect when empty
-			me.setChargeCd(me.getChargeCd() - chargeLostPerShot);
+			me.setChargeCd(me.getChargeCd() - CHARGE_LOST_PER_SHOT);
 			if (me.getChargeCd() <= 0.0f) {
 				supercharged = false;
 				charging = false;
@@ -93,7 +84,7 @@ public class Hexenhowitzer extends RangedWeapon {
 			}
 
 			//when charged, we have a faster fire rate
-			user.getShootHelper().setShootCdCount(superchargedShootCd);
+			user.getShootHelper().setShootCdCount(SUPERCHARGED_SHOOT_CD);
  		} else {
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
@@ -107,8 +98,8 @@ public class Hexenhowitzer extends RangedWeapon {
 								damaged.add(fixB);
 
 								//gain charge based on the amount of damage dealt by this weapon's projectiles
-								float damage = fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(),
-										hbox.getLinearVelocity().nor().scl(knockback), creator, true, hbox, DamageSource.HEXENHOWITZER,
+								float damage = fixB.receiveDamage(BASE_DAMAGE * hbox.getDamageMultiplier(),
+										hbox.getLinearVelocity().nor().scl(KNOCKBACK), creator, true, hbox, DamageSource.HEXENHOWITZER,
 										DamageTag.MAGIC, DamageTag.RANGED);
 
 								me.setCharging(true);
@@ -116,7 +107,7 @@ public class Hexenhowitzer extends RangedWeapon {
 								if (fixB instanceof PlayerBodyData) {
 									me.setChargeCd(me.getChargeCd() + damage);
 								} else {
-									me.setChargeCd(me.getChargeCd() + damage * enemyChargeMultiplier);
+									me.setChargeCd(me.getChargeCd() + damage * ENEMY_CHARGE_MULTIPLIER);
 								}
 
 								//if fully charged, get a visual effect
@@ -133,45 +124,6 @@ public class Hexenhowitzer extends RangedWeapon {
 				}
 			});
 		}
-	}
-
-	public static Hitbox createHex(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
-		float pitch = (MathUtils.random() - 0.5f) * pitchSpread;
-		SoundEffect.BOTTLE_ROCKET.playSourced(state, startPosition, 0.4f, 1.0f + pitch);
-		user.recoil(startVelocity, recoil);
-
-		boolean supercharged = false;
-		if (extraFields.length > 0) {
-			if (extraFields[0] == 1.0f) {
-				supercharged = true;
-			}
-		}
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxFilter(),
-				true, true, user, Sprite.NOTHING);
-		hbox.setGravity(1.0f);
-
-		if (supercharged) {
-			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.HEXENHOWITZER,
-					DamageTag.MAGIC, DamageTag.RANGED));
-			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
-		} else {
-			//for clients, we don't do the charging so we add this to register kb and damage flashes
-			if (!state.isServer()) {
-				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.HEXENHOWITZER,
-						DamageTag.MAGIC, DamageTag.RANGED));
-			}
-		}
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT, 0.0f, 1.0f).setParticleColor(
-				HadalColor.RANDOM).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-
-		return hbox;
 	}
 
 	//this is to avoid resetting the charge status when reequipping this weapon
@@ -209,10 +161,10 @@ public class Hexenhowitzer extends RangedWeapon {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage),
-				String.valueOf((int) maxCharge),
-				String.valueOf(shootCd),
-				String.valueOf(superchargedShootCd),
-				String.valueOf((int) (maxCharge / chargeLostPerShot))};
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf((int) MAX_CHARGE),
+				String.valueOf(SHOOT_CD),
+				String.valueOf(SUPERCHARGED_SHOOT_CD),
+				String.valueOf((int) (MAX_CHARGE / CHARGE_LOST_PER_SHOT))};
 	}
 }

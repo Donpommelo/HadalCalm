@@ -2,11 +2,10 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.weapon.Bomb;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-
-import static com.mygdx.hadal.battle.WeaponUtils.BOMB_EXPLOSION_DAMAGE;
 
 public class AnarchistsCookbook extends Artifact {
 
@@ -38,6 +37,6 @@ public class AnarchistsCookbook extends Artifact {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf((int) procCd),
-				String.valueOf((int) BOMB_EXPLOSION_DAMAGE)};
+				String.valueOf((int) Bomb.BOMB_EXPLOSION_DAMAGE)};
 	}
 }

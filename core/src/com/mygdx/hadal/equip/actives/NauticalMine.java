@@ -2,13 +2,11 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.active.NauticalMineProjectile;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-
-import static com.mygdx.hadal.battle.WeaponUtils.NAUTICAL_MINE_EXPLOSION_DAMAGE;
-import static com.mygdx.hadal.battle.WeaponUtils.NAUTICAL_MINE_LIFESPAN;
 
 /**
  * @author Froginald Frugwump
@@ -33,7 +31,7 @@ public class NauticalMine extends ActiveItem {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf((int) MAX_CHARGE),
-				String.valueOf((int) NAUTICAL_MINE_EXPLOSION_DAMAGE),
-				String.valueOf((int) NAUTICAL_MINE_LIFESPAN)};
+				String.valueOf((int) NauticalMineProjectile.NAUTICAL_MINE_EXPLOSION_DAMAGE),
+				String.valueOf((int) NauticalMineProjectile.NAUTICAL_MINE_LIFESPAN)};
 	}
 }

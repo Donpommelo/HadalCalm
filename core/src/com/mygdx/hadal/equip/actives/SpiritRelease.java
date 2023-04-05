@@ -2,12 +2,11 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.active.VengefulSpirit;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-
-import static com.mygdx.hadal.battle.WeaponUtils.SPIRIT_DEFAULT_DAMAGE;
 
 /**
  * @author Lothdoof Lepomelo
@@ -37,6 +36,6 @@ public class SpiritRelease extends ActiveItem {
 		return new String[] {
 				String.valueOf((int) MAX_CHARGE),
 				String.valueOf(SPIRIT_NUM),
-				String.valueOf((int) SPIRIT_DEFAULT_DAMAGE)};
+				String.valueOf((int) VengefulSpirit.SPIRIT_DEFAULT_DAMAGE)};
 	}
 }

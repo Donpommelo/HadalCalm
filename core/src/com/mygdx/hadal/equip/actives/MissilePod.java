@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.attacks.active.HomingMissile;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -52,6 +52,6 @@ public class MissilePod extends ActiveItem {
 		return new String[] {
 				String.valueOf((int) MAX_CHARGE),
 				String.valueOf((int) (DURATION / PROC_CD)),
-				String.valueOf((int) WeaponUtils.TORPEDO_EXPLOSION_DAMAGE)};
+				String.valueOf((int) HomingMissile.TORPEDO_EXPLOSION_DAMAGE)};
 	}
 }

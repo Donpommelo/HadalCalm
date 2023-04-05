@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.attacks.active.ProximityMineProjectile;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -31,7 +31,7 @@ public class ProximityMine extends ActiveItem {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf((int) MAX_CHARGE),
-				String.valueOf((int) WeaponUtils.PRIME_TIME),
+				String.valueOf((int) ProximityMineProjectile.PRIME_TIME),
 				String.valueOf((int) EXPLOSION_DAMAGE)};
 	}
 }

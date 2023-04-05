@@ -317,7 +317,7 @@ public class Hitbox extends HadalEntity {
 			}
 			return null;
 		}
-		if (isSyncDefault() || isSyncInstant()) {
+		if ((isSyncDefault() || isSyncInstant()) && synced) {
 			return new Packets.CreateEntity(entityID, spriteSize, getPixelPosition(), getAngle(), sprite,
 					true, isSyncInstant(), ObjectLayer.HBOX, alignType.HITBOX);
 		}
