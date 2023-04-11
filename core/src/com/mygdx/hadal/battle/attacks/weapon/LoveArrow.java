@@ -94,7 +94,7 @@ public class LoveArrow extends SyncedAttacker {
 
                         if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxFilter() == user.getHitboxFilter())) {
                             ((BodyData) fixB).regainHp(heal, creator, true);
-                            SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
+                            SoundEffect.COIN3.playSourced(state, hbox.getPixelPosition(), 0.5f);
                             ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
                                     true, SyncType.NOSYNC);
                             if (!state.isServer()) {

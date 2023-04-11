@@ -50,8 +50,7 @@ public class JumpKickProjectile extends SyncedAttacker {
             }
         }
 
-        user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData())
-                .setClientIndependent(true));
+        user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData()));
         Vector2 push = new Vector2(startVelocity).nor().scl(RECOIL);
         user.pushMomentumMitigation(push.x, push.y);
 

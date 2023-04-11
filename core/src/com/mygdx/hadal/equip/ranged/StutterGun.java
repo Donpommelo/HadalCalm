@@ -18,8 +18,9 @@ public class StutterGun extends RangedWeapon {
 	private static final float RELOAD_TIME = 1.0f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 45.0f;
-	private static final float procCd = 0.09f;
-	private static final float fireDuration = 0.5f;
+	private static final float PROC_CD = 0.09f;
+	private static final float FIRE_DURATION = 0.5f;
+	private static final int SHOT_NUMBER = 5;
 
 	private static final Vector2 PROJECTILE_SIZE = StutterLaser.PROJECTILE_SIZE;
 	private static final float LIFESPAN = StutterLaser.LIFESPAN;
@@ -41,7 +42,7 @@ public class StutterGun extends RangedWeapon {
 	@Override
 	public void execute(PlayState state, PlayerBodyData playerData) {
 		if (processClip()) {
-			playerData.addStatus(new FiringWeapon(state, fireDuration, playerData, playerData, PROJECTILE_SPEED, 0, 0, PROJECTILE_SIZE.x, procCd, this));
+			playerData.addStatus(new FiringWeapon(state, FIRE_DURATION, playerData, playerData, PROJECTILE_SIZE.x, PROC_CD, SHOT_NUMBER, this));
 		}
 	}
 
@@ -49,7 +50,7 @@ public class StutterGun extends RangedWeapon {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf((int) BASE_DAMAGE),
-				String.valueOf((int) (fireDuration / procCd)),
+				String.valueOf((int) (FIRE_DURATION / PROC_CD)),
 				String.valueOf(CLIP_SIZE),
 				String.valueOf(AMMO_SIZE),
 				String.valueOf(RELOAD_TIME),

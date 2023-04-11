@@ -122,8 +122,7 @@ public class BodyData extends HadalData {
 			Status tempStatus = this.statuses.get(0);
 
 			//atm, clients only process stat-changing statuses or specifically designated statuses
-			if (schmuck.getState().isServer() || o instanceof ProcTime.StatCalc || o instanceof ProcTime.Render ||
-					o instanceof  ProcTime.TimePass || tempStatus.isClientIndependent()) {
+			if (schmuck.getState().isServer() || !tempStatus.isServerOnly()) {
 				finalProcTime = tempStatus.statusProcTime(o);
 			}
 
@@ -363,8 +362,6 @@ public class BodyData extends HadalData {
 	 * @param tags: varargs of damage tags
 	 */
 	public void regainHp(float baseheal, BodyData perp, Boolean procEffects, DamageTag... tags) {
-		if (!schmuck.getState().isServer()) { return; }
-
 		float heal = baseheal;
 		
 		if (procEffects) {

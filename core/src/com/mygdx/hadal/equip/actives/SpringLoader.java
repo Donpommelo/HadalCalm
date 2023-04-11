@@ -1,12 +1,8 @@
 package com.mygdx.hadal.equip.actives;
 
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.active.SpringLoaderUse;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.event.Spring;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -18,9 +14,7 @@ public class SpringLoader extends ActiveItem {
 
 	private static final float MAX_CHARGE = 3.0f;
 	
-	private static final Vector2 SPRING_RADIUS = new Vector2(96, 16);
-	private static final float SPRING_POWER = 75.0f;
-	private static final float SPRING_DURATION = 6.0f;
+	private static final float SPRING_DURATION = SpringLoaderUse.SPRING_DURATION;
 	
 	public SpringLoader(Player user) {
 		super(user, MAX_CHARGE);
@@ -28,9 +22,8 @@ public class SpringLoader extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.SPRING.playUniversal(state, user.getPlayer().getMouseHelper().getPixelPosition(), 0.4f, false);
-		new Spring(state, user.getPlayer().getMouseHelper().getPixelPosition(), SPRING_RADIUS, new Vector2(0, SPRING_POWER), SPRING_DURATION);
-		new ParticleEntity(state, user.getPlayer().getMouseHelper().getPixelPosition(), Particle.MOMENTUM, 1.0f, true, SyncType.CREATESYNC);
+		SyncedAttack.SPRING.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getMouseHelper().getPixelPosition(),
+				true);
 	}
 
 	@Override

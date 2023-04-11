@@ -7,6 +7,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.constants.Constants;
 
@@ -16,31 +17,21 @@ import com.mygdx.hadal.constants.Constants;
  */
 public class Impermeable extends Status {
 
-	//fade time determines the window of time where the player can attack before the invisibility status is removed
-	private static final float FADE_TIME = 0.5f;
-	private float fadeCount;
-
 	public Impermeable(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, SyncType.CREATESYNC)
-				.setScale(0.2f);
+
+		ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f,
+				true, SyncType.NOSYNC).setScale(0.4f);
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+		}
 		
 		//set unit's invisibility to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().getEffectHelper().setTransparent(true);
 		}
-		
-		fadeCount = FADE_TIME;
 	}
-	
-	@Override
-	public void timePassing(float delta) {
-		super.timePassing(delta);
-		if (fadeCount >= 0) {
-			fadeCount -= delta;
-		}
-	}
-	
+
 	@Override
 	public void onInflict() {
 		if (inflicted.getSchmuck().getMainFixture() != null) {
@@ -52,8 +43,12 @@ public class Impermeable extends Status {
 	
 	@Override
 	public void onRemove() {
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, SyncType.CREATESYNC).setScale(0.4f);
-		
+		ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f,
+				true, SyncType.NOSYNC).setScale(0.4f);
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+		}
+
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().getEffectHelper().setTransparent(false);
 		}

@@ -1,12 +1,9 @@
 package com.mygdx.hadal.statuses;
 
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.MeleeWeapon;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -24,8 +21,7 @@ public class Invisibility extends Status {
 	
 	public Invisibility(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, SyncType.CREATESYNC).setScale(0.4f);
-		
+
 		//set unit's invisibility to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().getEffectHelper().setInvisible(true);
@@ -43,17 +39,9 @@ public class Invisibility extends Status {
 	}
 	
 	@Override
-	public void onInflict() {
-		SoundEffect.MAGIC27_EVIL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 1.0f, false);
-	}
-	
-	@Override
 	public void onRemove() {
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, SyncType.CREATESYNC).setScale(0.4f);
-		
-		if (inflicted instanceof PlayerBodyData playerData) {
-			playerData.getPlayer().getEffectHelper().setInvisible(false);
-		}
+		SyncedAttack.INVISIBILITY_OFF.initiateSyncedAttackNoHbox(state, inflicted.getSchmuck(),
+				inflicted.getSchmuck().getPixelPosition(),true);
 	}
 	
 	@Override

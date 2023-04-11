@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
@@ -21,11 +22,18 @@ public class Cola extends SyncedAttacker {
     private static final float RECOIL = 1.2f;
     private static final float KNOCKBACK = 7.5f;
 
+
     private static final Sprite PROJ_SPRITE = Sprite.COLA;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
+        if (extraFields.length > 0) {
+            if (extraFields[0] == 1) {
+                SoundEffect.POPTAB.playSourced(state, user.getPixelPosition(), 0.8f);
+            }
+        }
+
         user.recoil(startVelocity, RECOIL);
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),

@@ -17,13 +17,6 @@ public class FiringWeapon extends Status {
 	private final float procCd;
 	private float procCdCount;
 
-	//The velocity of newly created hboxes
-	private float currentVelo;
-	
-	//The min value of velocity of hboxes and the rate that the velocity decreases to this min value
-	private final float minVelo;
-	private final float veloDeprec;
-	
 	//size of projectile (used to determine the projectile spawn origin)
 	private final float projSize;
 	private final Vector2 projOrigin = new Vector2();
@@ -31,15 +24,15 @@ public class FiringWeapon extends Status {
 	
 	//tool used to fire this status
 	private final Equippable tool;
-	
-	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projVelo, float minVelo, float veloDeprec, float projSize, float procCd, Equippable tool) {
+
+	private final int shotNum;
+	private int shotsFired;
+
+	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projSize, float procCd, int shotNum, Equippable tool) {
 		super(state, i, false, p, v);
-		this.minVelo = minVelo;
-		this.veloDeprec = veloDeprec;
 		this.projSize = projSize;
 		this.procCd = procCd;
-		
-		this.currentVelo = projVelo;
+		this.shotNum = shotNum;
 		this.tool = tool;
 	}
 	
@@ -57,18 +50,19 @@ public class FiringWeapon extends Status {
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
 			
-			if (currentVelo > minVelo) {
-				currentVelo -= veloDeprec;
-			}
-
 			if (inflicted.getSchmuck() instanceof Player player) {
-				projVelo.set(player.getMouseHelper().getPixelPosition()).sub(player.getPixelPosition());
-				inflicted.getCurrentTool().setWeaponVelo(projVelo.nor().scl(currentVelo));
+				shotsFired++;
+				player.getSpecialWeaponHelper().setSprayWeaponShotNumber(shotsFired);
 
-				projOrigin.set(player.getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize));
+				if (shotsFired <= shotNum) {
+					projVelo.set(player.getMouseHelper().getPixelPosition()).sub(player.getPixelPosition());
 
-				inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
-				inflicted.getCurrentTool().fire(state, player, projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxFilter());
+					projOrigin.set(player.getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize));
+
+					inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
+					inflicted.getCurrentTool().fire(state, player, projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxFilter());
+
+				}
 			}
 		}
 		procCdCount += delta;

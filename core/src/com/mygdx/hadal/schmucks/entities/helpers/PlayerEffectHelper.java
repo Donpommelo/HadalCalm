@@ -82,31 +82,28 @@ public class PlayerEffectHelper {
         }
     }
 
-    public boolean processInvisibility(SpriteBatch batch) {
+    public float processInvisibility(SpriteBatch batch) {
         //process player invisibility. Completely invisible players are partially transparent to allies
-        float transparency;
-        boolean batchSet = false;
+        float transparency = 1.0f;
         if (transparent) {
-            return false;
+            return 0.0f;
         }
 
         if (invisible) {
             if (state.getPlayer().getHitboxFilter() == player.getHitboxFilter()) {
                 transparency = 0.3f;
                 batch.setColor(1.0f,  1.0f, 1.0f, transparency);
-                batchSet = true;
             } else {
-                return false;
+                return 0.0f;
             }
         }
         if (translucent) {
             if (state.getPlayer().getHitboxFilter() != player.getHitboxFilter()) {
                 transparency = 0.3f;
                 batch.setColor(1.0f,  1.0f, 1.0f, transparency);
-                batchSet = true;
             }
         }
-        return batchSet;
+        return transparency;
     }
 
     public void dispose() {

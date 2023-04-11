@@ -58,6 +58,6 @@ public class ObligeLaMort extends Artifact {
 					p.getPlayer().applyLinearImpulse(push);
 				}
 			}
-		}.setClientIndependent(true);
+		};
 	}
 }

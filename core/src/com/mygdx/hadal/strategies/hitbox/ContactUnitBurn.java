@@ -29,7 +29,7 @@ public class ContactUnitBurn extends HitboxStrategy {
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (fixB instanceof BodyData bodyData && state.isServer()) {
+		if (fixB instanceof BodyData bodyData) {
 			bodyData.addStatus(new Ablaze(state, duration, creator, bodyData, damage, source));
 		}
 	}

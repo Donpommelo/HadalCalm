@@ -37,7 +37,7 @@ public class JelloFellowCosplay extends Artifact {
 			public void statChanges() {
 				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + bonusHp);
 			}
-		}.setClientIndependent(true);
+		};
 	}
 
 	@Override

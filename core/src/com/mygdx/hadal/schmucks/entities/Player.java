@@ -346,14 +346,17 @@ public class Player extends Schmuck {
 	public void render(SpriteBatch batch) {
 		playerLocation.set(getPixelPosition());
 
-		boolean batchSet = effectHelper.processInvisibility(batch);
+		float transparency = effectHelper.processInvisibility(batch);
 
-		//render player sprite using sprite helper
-		spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
-				groundedHelper.isGrounded(), playerLocation,
-				true, null, true);
+		if (0.0f != transparency) {
+			//render player sprite using sprite helper
+			spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
+					groundedHelper.isGrounded(), playerLocation,
+					true, null, true);
+		}
 
-		if (batchSet) {
+		//we need to reset batch if sprite is partially transparent (instead of unchanged or completely not rendered
+		if (0.0f != transparency && 1.0f != transparency) {
 			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
@@ -369,7 +372,9 @@ public class Player extends Schmuck {
 				}
 			}
 		}
-		uiHelper.render(batch, playerLocation, visible);
+		if (0.0f != transparency) {
+			uiHelper.render(batch, playerLocation, visible);
+		}
 
 		playerData.statusProcTime(new ProcTime.Render(batch, playerLocation, size));
 	}

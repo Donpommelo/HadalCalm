@@ -43,10 +43,8 @@ public class Fugu extends SyncedAttacker {
         hbox.addStrategy(new DieRagdoll(state, hbox, user.getBodyData(), false));
         hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DEFLATE, 0.25f).setSynced(false));
 
-        if (state.isServer()) {
-            hbox.addStrategy(new DiePoison(state, hbox, user.getBodyData(), POISON_RADIUS, POISON_DAMAGE, POISON_DURATION,
-                    (short) 0, DamageSource.FUGUN));
-        }
+        hbox.addStrategy(new DiePoison(state, hbox, user.getBodyData(), POISON_RADIUS, POISON_DAMAGE, POISON_DURATION,
+                (short) 0, DamageSource.FUGUN));
 
         return hbox;
     }

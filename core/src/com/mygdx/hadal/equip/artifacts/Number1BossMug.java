@@ -1,16 +1,12 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.event.HealingArea;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.SoundEntity;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
 import static com.mygdx.hadal.constants.Constants.PRIORITY_PROC;
@@ -21,7 +17,7 @@ public class Number1BossMug extends Artifact {
 	
 	private static final float procCd = 10.0f;
 
-	private static final Vector2 fieldSize = new Vector2(280, 280);
+	private static final float fieldSize = 280.0f;
 	private static final float fieldHeal = 0.2f;
 	private static final float healDuration = 5.0f;
 
@@ -47,8 +43,8 @@ public class Number1BossMug extends Artifact {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
 
-					new SoundEntity(state, new HealingArea(state, p.getSchmuck().getPixelPosition(), fieldSize, fieldHeal, healDuration, p.getSchmuck(), (short) 0),
-							SoundEffect.MAGIC21_HEAL, healDuration, 0.25f, 1.0f, true, true, SyncType.CREATESYNC);
+					SyncedAttack.HEALING_FIELD.initiateSyncedAttackNoHbox(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(), true,
+							fieldSize, fieldHeal, healDuration);
 				}
 				return damage;
 			}

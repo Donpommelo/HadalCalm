@@ -19,6 +19,7 @@ public class Summoned extends Status {
 	public Summoned(PlayState state, BodyData i, Player summoner) {
 		super(state, i);
 		this.summoner = summoner;
+		this.setServerOnly(true);
 	}
 	
 	@Override

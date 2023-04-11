@@ -11,6 +11,9 @@ public class SpecialWeaponHelper {
     private final Array<Hitbox> teslaCoils = new Array<>();
     private final Array<Enemy> bits = new Array<>();
     private Hitbox diamondCutterHbox;
+    private Hitbox morningStarBase, morningStar;
+
+    private int sprayWeaponShotNumber;
 
     public SpecialWeaponHelper() {}
 
@@ -23,4 +26,16 @@ public class SpecialWeaponHelper {
     public Hitbox getDiamondCutterHbox() { return diamondCutterHbox; }
 
     public void setDiamondCutterHbox(Hitbox diamondCutterHbox) { this.diamondCutterHbox = diamondCutterHbox; }
+
+    public Hitbox getMorningStarBase() { return morningStarBase; }
+
+    public void setMorningStarBase(Hitbox morningStarBase) { this.morningStarBase = morningStarBase; }
+
+    public Hitbox getMorningStar() { return morningStar; }
+
+    public void setMorningStar(Hitbox morningStar) { this.morningStar = morningStar; }
+
+    public int getSprayWeaponShotNumber() { return sprayWeaponShotNumber; }
+
+    public void setSprayWeaponShotNumber(int sprayWeaponShotNumber) { this.sprayWeaponShotNumber = sprayWeaponShotNumber; }
 }

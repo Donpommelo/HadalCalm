@@ -11,6 +11,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.text.UIText;
@@ -24,10 +25,11 @@ public class ColaCannon extends RangedWeapon {
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 55.0f;
 	private static final float MAX_CHARGE = 12000.0f;
-	private static final float NOISE_THRESHOLD = 1800.0f;
+	private static final float NOISE_THRESHOLD = 0.15f;
 
 	private static final float PROC_CD = .05f;
 	private static final float FIRE_DURATION = 2.0f;
+	private static final int SHOT_NUMBER = 50;
 	private static final float VELO_DEPREC = 1.0f;
 	private static final float MIN_VELO = 10.0f;
 	private static final float MIN_DURATION = 0.5f;
@@ -47,20 +49,19 @@ public class ColaCannon extends RangedWeapon {
 				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 
+	private float lastVelocity;
 	@Override
 	public void execute(PlayState state, PlayerBodyData playerData) {
 		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
 		if (processClip()) {
-			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 0.8f, false);
 
-			final float duration = FIRE_DURATION * chargeCd / getChargeTime() + MIN_DURATION;
-			final float velocity = PROJECTILE_SPEED * chargeCd / getChargeTime() + MIN_VELO;
+			float duration = FIRE_DURATION * chargeCd / getChargeTime() + MIN_DURATION;
+			lastVelocity = PROJECTILE_SPEED * chargeCd / getChargeTime() + MIN_VELO;
 
-			playerData.addStatus(new FiringWeapon(state, duration, playerData, playerData, velocity, MIN_VELO, VELO_DEPREC, PROJECTILE_SIZE.x, PROC_CD, this));
+			playerData.addStatus(new FiringWeapon(state, duration, playerData, playerData, PROJECTILE_SIZE.x, PROC_CD, SHOT_NUMBER, this));
 
 			charging = false;
 			chargeCd = 0;
-			lastNoise = 0;
 
 			setReloadCd(RELOAD_TIME - duration);
 		}
@@ -68,7 +69,9 @@ public class ColaCannon extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SyncedAttack.COLA.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
+		int shotNum = user.getSpecialWeaponHelper().getSprayWeaponShotNumber();
+		float velocity = Math.max(MIN_VELO, lastVelocity - VELO_DEPREC * shotNum);
+		SyncedAttack.COLA.initiateSyncedAttackSingle(state, user, startPosition, startVelocity.nor().scl(velocity),	shotNum);
 	}
 
 	@Override
@@ -90,14 +93,31 @@ public class ColaCannon extends RangedWeapon {
 			if (chargeCd >= getChargeTime()) {
 				chargeCd = getChargeTime();
 			}
-
-			if (chargeCd > lastNoise + NOISE_THRESHOLD) {
-				lastNoise += NOISE_THRESHOLD;
-				SoundEffect.SHAKE.playUniversal(state, user.getPixelPosition(), 1.0f, false);
-				new ParticleEntity(state, new Vector2(user.getPixelPosition()), Particle.COLA_IMPACT, 1.0f, true, SyncType.CREATESYNC);
-			}
 		}
 		lastMouse.set(mouseLocation);
+	}
+
+	@Override
+	public void processEffects(PlayState state, float delta) {
+		boolean charging = this.equals(user.getPlayerData().getCurrentTool()) && !reloading && getClipLeft() > 0;
+
+		if (charging && user.getUiHelper().getChargePercent() > lastNoise + NOISE_THRESHOLD) {
+
+			if (lastNoise != 0.0f || user.getUiHelper().getChargePercent() + NOISE_THRESHOLD < 1.0f) {
+				lastNoise += NOISE_THRESHOLD;
+				if (lastNoise + NOISE_THRESHOLD >= 1.0f) {
+					lastNoise = 0.0f;
+				}
+
+				SoundEffect.SHAKE.playSourced(state, user.getPixelPosition(), 1.0f);
+				ParticleEntity particle = new ParticleEntity(state, new Vector2(user.getPixelPosition()), Particle.COLA_IMPACT, 1.0f,
+						true, SyncType.NOSYNC);
+
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+				}
+			}
+		}
 	}
 
 	@Override

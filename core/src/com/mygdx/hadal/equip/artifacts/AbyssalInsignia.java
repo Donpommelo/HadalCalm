@@ -46,7 +46,7 @@ public class AbyssalInsignia extends Artifact {
 					p.getPlayer().getShootHelper().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
 				}
 			}
-		}.setClientIndependent(true);
+		};
 	}
 
 	@Override

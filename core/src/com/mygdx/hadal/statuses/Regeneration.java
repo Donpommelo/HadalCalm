@@ -6,6 +6,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.constants.Stats;
 
@@ -29,10 +30,15 @@ public class Regeneration extends Status {
 	@Override
 	public void onInflict() {
 		//the sound and particles attached to the status
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, LINGER, duration + LINGER,
-				true, SyncType.CREATESYNC).setPrematureOff(LINGER);
-		new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, duration, 0.25f, 1.0f,
-				true, true, SyncType.CREATESYNC);
+		ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, LINGER, duration + LINGER,
+				true, SyncType.NOSYNC).setPrematureOff(LINGER);
+		SoundEntity sound = new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, duration, 0.25f, 1.0f,
+				true, true, SyncType.NOSYNC);
+
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.EFFECT);
+		}
 	}
 
 	@Override

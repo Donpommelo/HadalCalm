@@ -61,7 +61,7 @@ public class BottomoftheBarrel extends Artifact {
 				}
 				return damage;
 			}
-		}.setClientIndependent(true);
+		};
 	}
 
 	@Override

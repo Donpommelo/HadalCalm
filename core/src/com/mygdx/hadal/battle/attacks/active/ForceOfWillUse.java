@@ -7,7 +7,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 
-public class ForceInvulnerability extends SyncedAttacker {
+public class ForceOfWillUse extends SyncedAttacker {
 
     public static final float DURATION = 2.0f;
 

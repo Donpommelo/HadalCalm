@@ -35,7 +35,7 @@ public class RiftSplit extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.4f, false);
+        SoundEffect.METAL_IMPACT_1.playSourced(state, startPosition, 0.4f);
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 false, true, user, PROJ_SPRITE);

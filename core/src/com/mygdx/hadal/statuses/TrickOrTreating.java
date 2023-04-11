@@ -47,6 +47,7 @@ public class TrickOrTreating extends Status {
 		player.getUser().getScores().setExtraModeScore(candyCount);
 
 		this.candyIcon = Sprite.CANDY_A.getFrame();
+		this.setServerOnly(true);
 	}
 
 	private float controllerCount;

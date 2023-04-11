@@ -8,7 +8,7 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
-public class Weapon extends SyncedAttacker {
+public class SupplyDropUse extends SyncedAttacker {
 
     private static final float EQUIP_DROP_LIFEPAN = 10.0f;
 

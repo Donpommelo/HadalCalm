@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.attacks.active.ForceInvulnerability;
+import com.mygdx.hadal.battle.attacks.active.ForceOfWillUse;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -14,7 +14,7 @@ public class ForceofWill extends ActiveItem {
 
 	private static final float MAX_CHARGE = 15.0f;
 	
-	private static final float DURATION = ForceInvulnerability.DURATION;
+	private static final float DURATION = ForceOfWillUse.DURATION;
 	
 	public ForceofWill(Player user) {
 		super(user, MAX_CHARGE);

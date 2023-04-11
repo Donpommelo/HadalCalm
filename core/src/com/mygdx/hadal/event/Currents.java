@@ -1,23 +1,20 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
-import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -54,6 +51,8 @@ public class Currents extends Event {
 		super(state, startPos, size, duration);
 		this.vec.set(vec);
 		spawnTimerLimit = 2560 / (size.x * size.y);
+
+		setIndependent(true);
 	}
 	
 	@Override
@@ -132,23 +131,5 @@ public class Currents extends Event {
 			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ObjectLayer.STANDARD);
 			((ClientState) state).addEntity(bubbles.getEntityID(), bubbles, false, ObjectLayer.EFFECT);
 		}
-	}
-		
-	/**
-	 * When server creates current, clients are told to create the current in their own worlds
-	 */
-	@Override
-	public Object onServerCreate(boolean catchup) {
-		if (independent) { return null; }
-		if (blueprint == null) {
-			entityLocation.set(getPixelPosition());
-
-			blueprint = new RectangleMapObject(entityLocation.x - size.x / 2, entityLocation.y - size.y / 2, size.x, size.y);
-			blueprint.setName("CurrentTemp");
-			blueprint.getProperties().put("currentX", vec.x);
-			blueprint.getProperties().put("currentY", vec.y);
-			blueprint.getProperties().put("duration", duration);
-		}
-		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}
 }

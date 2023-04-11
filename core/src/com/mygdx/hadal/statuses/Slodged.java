@@ -4,6 +4,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.constants.Stats;
 
@@ -25,16 +26,16 @@ public class Slodged extends Status {
 		super(state, i, false, p, v);
 		this.slow = slow;
 		this.particle = particle;
-
-		//need to set this to independent so its duration decrements for clients
-		setClientIndependent(true);
 	}
 
 	@Override
 	public void onInflict() {
-		if (!Particle.NOTHING.equals(particle) && state.isServer()) {
-			new ParticleEntity(state, inflicted.getSchmuck(), particle, LINGER, duration + LINGER,
-					true, SyncType.CREATESYNC).setPrematureOff(LINGER);
+		if (!Particle.NOTHING.equals(particle)) {
+			ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), particle, LINGER, duration + LINGER,
+					true, SyncType.NOSYNC).setPrematureOff(LINGER);
+			if (!state.isServer()) {
+				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+			}
 		}
 	}
 

@@ -104,11 +104,22 @@ public enum SyncedAttack {
     PROXIMITY_MINE_BOOK(new ProximityMineProjectile(DamageSource.BOOK_OF_BURIAL)),
     STICK_GRENADE(new StickGrenade()),
 
-    FORCE_OF_WILL(new ForceInvulnerability()),
-    SUPPLY_DROP(new Weapon()),
-
+    CALL_OF_WALRUS(new CallofWalrusUse()),
+    DEPTH_CHARGE(new DepthChargeUse()),
+    FORCE_OF_WILL(new ForceOfWillUse()),
+    HEALING_FIELD(new HealingFieldUse()),
+    IMMOLATION(new Immolation()),
+    MELON(new MelonUse()),
+    MERIDIAN_MAKER(new MeridianMakerProjectile()),
+    RELOADER(new ReloaderUse()),
+    RESERVED_FUEL(new ReservedFuelUse()),
+    SPRING(new SpringLoaderUse()),
+    SUPPLY_DROP(new SupplyDropUse()),
     VENGEFUL_SPIRIT(new VengefulSpirit(DamageSource.SPIRIT_RELEASE)),
     VENGEFUL_SPIRIT_PEACHWOOD(new VengefulSpirit(DamageSource.PEACHWOOD_SWORD)),
+
+    INVISIBILITY_ON(new InvisibilityOn()),
+    INVISIBILITY_OFF(new InvisibilityOff()),
 
     PICKUP(new Pickup()),
     EGGPLANT(new Eggplant()),
@@ -325,6 +336,7 @@ public enum SyncedAttack {
 
     public void initiateSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, int connID,
                                            boolean origin, boolean independent, float... extraFields) {
+
         if (independent || state.isServer()) {
             syncedAttacker.performSyncedAttackNoHbox(state, user, startPosition, extraFields);
         }

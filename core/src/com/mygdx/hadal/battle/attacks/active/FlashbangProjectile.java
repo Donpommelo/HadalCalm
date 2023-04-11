@@ -62,18 +62,15 @@ public class FlashbangProjectile extends SyncedAttacker {
                 hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION, 0.0f, 0.2f)
                         .setParticleSize(25).setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
-                if (state.isServer()) {
-                    hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-
-                        @Override
-                        public void onHit(HadalData fixB) {
-                            if (fixB instanceof BodyData bodyData) {
-                                bodyData.addStatus(new Blinded(state, BLIND_DURATION, creator, bodyData, true));
-                            }
+                    @Override
+                    public void onHit(HadalData fixB) {
+                        if (fixB instanceof BodyData bodyData) {
+                            bodyData.addStatus(new Blinded(state, BLIND_DURATION, creator, bodyData, true));
                         }
-                    });
-                }
+                    }
+                });
 
                 if (!state.isServer()) {
                     ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.EFFECT);

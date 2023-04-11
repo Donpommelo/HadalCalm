@@ -1,18 +1,16 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -43,6 +41,7 @@ public class Spring extends Event {
 		super(state, startPos, size, duration);
 		this.vec.set(vec);
 		setEventSprite(Sprite.SPRING);
+		setIndependent(true);
 	}
 	
 	@Override
@@ -54,13 +53,17 @@ public class Spring extends Event {
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
 					fixB.getEntity().pushMomentumMitigation(vec.x, vec.y);
-					
+
 					if (procCdCount >= PROC_CD) {
 						procCdCount = 0;
 
-						SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.25f, false);
-						if (state.isServer()) {
-							new ParticleEntity(state, getPixelPosition(), Particle.MOMENTUM, 1.0f, true, SyncType.CREATESYNC);
+						SoundEffect.SPRING.playSourced(state, getPixelPosition(), 0.25f);
+						ParticleEntity particleEntity = new ParticleEntity(state, getPixelPosition(), Particle.MOMENTUM,
+								1.0f, true, SyncType.NOSYNC);
+
+						if (!state.isServer()) {
+							((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false,
+									ClientState.ObjectLayer.EFFECT);
 						}
 					}
 				}
@@ -83,21 +86,7 @@ public class Spring extends Event {
 	
 	@Override
 	public void clientController(float delta) {
-		super.controller(delta);
-	}
-	
-	@Override
-	public Object onServerCreate(boolean catchup) {
-		if (independent) { return null; }
-
-		if (blueprint == null) {
-			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
-			blueprint.setName("SpringTemp");
-			blueprint.getProperties().put("springX", vec.x);
-			blueprint.getProperties().put("springY", vec.y);
-			blueprint.getProperties().put("duration", duration);
-		}
-		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
+		this.controller(delta);
 	}
 	
 	@Override

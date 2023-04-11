@@ -1,10 +1,10 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Invisibility;
 
 /**
  * @author Mobourne Manfosteen
@@ -21,7 +21,8 @@ public class RingofGyges extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		user.addStatus(new Invisibility(state, DURATION, user, user));
+		SyncedAttack.INVISIBILITY_ON.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(),
+				true, DURATION);
 	}
 	
 	@Override

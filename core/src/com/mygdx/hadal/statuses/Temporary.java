@@ -16,6 +16,7 @@ public class Temporary extends Status {
 	public Temporary(PlayState state, float i, BodyData p, BodyData v, float duration) {
 		super(state, i, false, p, v);
 		this.duration = duration;
+		this.setServerOnly(true);
 	}
 	
 	@Override

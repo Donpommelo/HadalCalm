@@ -56,6 +56,8 @@ public class Shocked extends Status {
 		this.chainAmount = chainAmount;
 		this.filter = filter;
 		this.source = source;
+
+		this.setServerOnly(true);
 	}
 	
 	@Override

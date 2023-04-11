@@ -39,7 +39,7 @@ public class FeelingofBeingWatched extends Artifact {
 				}
 			}
 
-		}.setClientIndependent(true);
+		};
 	}
 
 	@Override

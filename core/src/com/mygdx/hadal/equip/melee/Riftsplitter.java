@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.melee;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.RiftSplit;
 import com.mygdx.hadal.effects.Sprite;
@@ -12,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 
 public class Riftsplitter extends MeleeWeapon {
 
-	private static final float SHOOT_CD = 0.4f;
+	private static final float SHOOT_CD = 0.6f;
 	private static final float PROJECTILE_SPEED = 33.0f;
 
 	private static final Vector2 PROJECTILE_SIZE = RiftSplit.PROJECTILE_SIZE;
@@ -30,7 +29,6 @@ public class Riftsplitter extends MeleeWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, PlayerBodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
-		SoundEffect.WOOSH.playUniversal(state, shooter.getSchmuck().getPixelPosition(), 1.0f, false);
 	}
 	
 	private final Vector2 startVelo = new Vector2();

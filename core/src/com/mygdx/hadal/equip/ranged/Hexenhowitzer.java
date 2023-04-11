@@ -75,12 +75,7 @@ public class Hexenhowitzer extends RangedWeapon {
 			//when charged we deplete charge when shooting and remove visual effect when empty
 			me.setChargeCd(me.getChargeCd() - CHARGE_LOST_PER_SHOT);
 			if (me.getChargeCd() <= 0.0f) {
-				supercharged = false;
 				charging = false;
-
-				if (glowing != null) {
-					user.getBodyData().removeStatus(glowing);
-				}
 			}
 
 			//when charged, we have a faster fire rate
@@ -109,20 +104,34 @@ public class Hexenhowitzer extends RangedWeapon {
 								} else {
 									me.setChargeCd(me.getChargeCd() + damage * ENEMY_CHARGE_MULTIPLIER);
 								}
-
-								//if fully charged, get a visual effect
-								if (me.getChargeCd() >= getChargeTime() && !supercharged) {
-									supercharged = true;
-									glowing = new MagicGlow(state, user.getBodyData());
-									user.getBodyData().addStatus(glowing);
-
-									SoundEffect.MAGIC25_SPELL.playUniversal(state, startPosition, 0.5f, false);
-								}
 							}
 						}
 					}
 				}
 			});
+		}
+	}
+
+	@Override
+	public void processEffects(PlayState state, float delta) {
+		boolean charging = this.equals(user.getPlayerData().getCurrentTool()) && !reloading && getClipLeft() > 0;
+
+		if (charging) {
+			//if fully charged, get a visual effect
+			if (user.getUiHelper().getChargePercent() >= 1.0f && !supercharged) {
+				supercharged = true;
+				glowing = new MagicGlow(state, user.getBodyData());
+				user.getBodyData().addStatus(glowing);
+
+				SoundEffect.MAGIC25_SPELL.playSourced(state, user.getPixelPosition(), 0.5f);
+			}
+			if (user.getUiHelper().getChargePercent() <= 0.0f && supercharged) {
+				supercharged = false;
+
+				if (glowing != null) {
+					user.getBodyData().removeStatus(glowing);
+				}
+			}
 		}
 	}
 

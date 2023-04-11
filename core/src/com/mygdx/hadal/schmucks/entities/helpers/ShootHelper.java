@@ -43,8 +43,6 @@ public class ShootHelper {
         //process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
         player.getPlayerData().getCurrentTool().update(state, delta);
 
-
-
         if (shootBuffered && shootCdCount < 0) {
             shootBuffered = false;
             shoot(delta, player.getPlayerData().getCurrentTool(), true);

@@ -26,7 +26,7 @@ public class GhostStepProjectile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.WOOSH.playUniversal(state, user.getPixelPosition(), 1.0f, false);
+        SoundEffect.WOOSH.playSourced(state, user.getPixelPosition(), 1.0f);
 
         int direction;
         if (MoveState.MOVE_LEFT.equals(user.getMoveState())) {
@@ -39,10 +39,9 @@ public class GhostStepProjectile extends SyncedAttacker {
             direction = -1;
         }
 
-        user.getBodyData().addStatus(new Impermeable(state, LIFESPAN, user.getBodyData(), user.getBodyData())
-                .setClientIndependent(true));
-        user.getBodyData().addStatus(new ResetVelocity(state, LIFESPAN, user.getBodyData(), user.getBodyData(), user.getLinearVelocity())
-                .setClientIndependent(true));
+        user.getBodyData().addStatus(new Impermeable(state, LIFESPAN, user.getBodyData(), user.getBodyData()));
+        user.getBodyData().addStatus(new ResetVelocity(state, LIFESPAN, user.getBodyData(), user.getBodyData(),
+                user.getLinearVelocity()));
 
         user.setLinearVelocity(RECOIL * direction, 0);
 

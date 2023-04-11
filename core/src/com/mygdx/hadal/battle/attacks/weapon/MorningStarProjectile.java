@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.equip.melee.MorningStar;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -34,6 +36,7 @@ public class MorningStarProjectile extends SyncedAttacker {
 
     public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                              Vector2[] startVelocity, float[] extraFields) {
+
         Hitbox[] links = new Hitbox[CHAIN_NUM];
         Hitbox[] hboxes = new Hitbox[2];
 
@@ -43,7 +46,8 @@ public class MorningStarProjectile extends SyncedAttacker {
         base.setDensity(1.0f);
         base.makeUnreflectable();
         base.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-        base.setSyncedDeleteNoDelay(true);
+        base.setSynced(true);
+        base.setSyncedDelete(true);
 
         base.addStrategy(new HitboxStrategy(state, base, user.getBodyData()) {
 
@@ -89,7 +93,6 @@ public class MorningStarProjectile extends SyncedAttacker {
             links[i] = new Hitbox(state, user.getPixelPosition(), CHAIN_SIZE, 0, new Vector2(),user.getHitboxFilter(),
                     true, false, user, CHAIN_SPRITE);
             links[i].setDensity(1.0f);
-            links[i].setSyncDefault(false);
             links[i].makeUnreflectable();
             links[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
@@ -148,11 +151,14 @@ public class MorningStarProjectile extends SyncedAttacker {
         star.setGravity(1.0f);
         star.setDensity(0.1f);
         star.makeUnreflectable();
+        star.setSynced(true);
+        star.setSyncedDelete(true);
 
         star.addStrategy(new DamageStandard(state, star, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.MORNING_STAR,
                 DamageTag.WHACKING, DamageTag.MELEE).setRepeatable(true));
         star.addStrategy(new ContactWallSound(state, star, user.getBodyData(), SoundEffect.WALL_HIT1, 0.25f));
-        star.addStrategy(new ContactUnitSound(state, star, user.getBodyData(), SoundEffect.SLAP, 0.25f, true).setPitch(0.5f));
+        star.addStrategy(new ContactUnitSound(state, star, user.getBodyData(), SoundEffect.SLAP, 0.25f, true)
+                .setPitch(0.5f).setSynced(false));
         star.addStrategy(new HomingMouse(state, star, user.getBodyData(), HOME_POWER));
 
         star.addStrategy(new HitboxStrategy(state, star, user.getBodyData()) {
@@ -185,5 +191,12 @@ public class MorningStarProjectile extends SyncedAttacker {
         hboxes[0] = base;
         hboxes[1] = star;
         return hboxes;
+    }
+
+    @Override
+    public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
+        if (user instanceof Player player && state.isServer()) {
+            MorningStar.createMorningStar(state, player, startPosition);
+        }
     }
 }
