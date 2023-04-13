@@ -35,6 +35,13 @@ public class HomingMissile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
+
+        if (extraFields.length > 0) {
+            if (extraFields[0] == 1) {
+                SoundEffect.DEFLATE.playSourced(state, user.getPixelPosition(), 1.0f);
+            }
+        }
+
         Hitbox hbox = new RangedHitbox(state, startPosition, TORPEDO_SIZE, TORPEDO_LIFESPAN, startVelocity, user.getHitboxFilter(),
                 true, false, user, MISSILE_SPRITE);
 

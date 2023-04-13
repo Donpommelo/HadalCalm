@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -20,7 +21,6 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.WorldUtil;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -68,94 +68,26 @@ public class WeaponUtils {
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f).setParticleSize(40.0f).setParticleColor(
-			HadalColor.HOT_PINK));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
+				.setParticleSize(40.0f).setParticleColor(HadalColor.HOT_PINK).setSyncType(SyncType.NOSYNC));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback,
 				user.getHitboxFilter(), true, source));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 	}
-	
-	private static final Sprite[] PROJ_SPRITES = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D,
-			Sprite.METEOR_E, Sprite.METEOR_F};
-	private static final Vector2 METEOR_SIZE = new Vector2(75, 75);
-	private static final float METEOR_SPEED = 50.0f;
-	private static final float RANGE = 1500.0f;
-	private static final float LIFESPAN = 5.0f;
-	
-	public static void createMeteors(PlayState state, Vector2 startPos, Schmuck user, float meteorDuration, float meteorInterval,
-									 float spread, float baseDamage, DamageSource source) {
-		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(1, 1), meteorDuration, new Vector2(),
-			(short) 0, false, false, user, Sprite.NOTHING);
-		hbox.makeUnreflectable();
-		hbox.setSyncDefault(false);
-		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-			
-			private float shortestFraction;
-			private final Vector2 originPt = new Vector2();
-			private final Vector2 endPt = new Vector2();
-			
-			private float procCdCount;
-			private float meteorCount;
-			@Override
-			public void controller(float delta) {
-				procCdCount += delta;
 
-				if (procCdCount >= meteorInterval) {
-					procCdCount -= meteorInterval;
+	public static void createMeteors(PlayState state, Schmuck user, Vector2 startPosition, int meteorNumber,
+									 float meteorInterval, float baseDamage, float spread) {
+		float[] extraFields = new float[3 + meteorNumber];
+		extraFields[0] = meteorInterval;
+		extraFields[1] = baseDamage;
+		extraFields[2] = meteorNumber;
 
-					meteorCount++;
-					
-					if (0 == meteorCount % 3) {
-						hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.FALLING, 0.5f, false));
-					}
-					
-					originPt.set(startPos).add((MathUtils.random() -  0.5f) * spread, 0);
-					endPt.set(originPt).add(0, -RANGE);
-					shortestFraction = 1.0f;
+		for (int i = 0; i < meteorNumber; i++) {
+			extraFields[i + 3] = (MathUtils.random() -  0.5f) * spread;
+		}
 
-					if (WorldUtil.preRaycastCheck(originPt, endPt)) {
-						state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-							if (Constants.BIT_WALL == fixture.getFilterData().categoryBits && fraction < shortestFraction) {
-								shortestFraction = fraction;
-								return fraction;
-						}
-						return -1.0f;
-						}, originPt, endPt);
-					}
-					
-					endPt.set(originPt).add(0, -RANGE * shortestFraction).scl(PPM);
-					originPt.set(endPt).add(0, RANGE);
-					
-					int randomIndex = MathUtils.random(PROJ_SPRITES.length - 1);
-					Sprite projSprite = PROJ_SPRITES[randomIndex];
-
-					Hitbox hbox = new Hitbox(state, new Vector2(originPt), METEOR_SIZE, LIFESPAN, new Vector2(0, -METEOR_SPEED), user.getHitboxFilter(), true, false, user, projSprite);
-					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-
-					hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, 0.0f,
-							source, DamageTag.FIRE, DamageTag.MAGIC));
-					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-						
-						private final Vector2 floor = new Vector2(endPt);
-						@Override
-						public void controller(float delta) {
-							if (hbox.getPixelPosition().y - hbox.getSize().y / 2 <= floor.y) {
-								hbox.setLinearVelocity(0, 0);
-								hbox.die();
-							}
-						}
-					});
-					
-					hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 1.0f));
-					hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BOULDER_BREAK).setParticleSize(90));
-				}
-			}
-		});
+		SyncedAttack.METEOR_STRIKE.initiateSyncedAttackSingle(state, user, startPosition, new Vector2(), extraFields);
 	}
 
 	private static final Sprite[] VINE_SPRITES = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};

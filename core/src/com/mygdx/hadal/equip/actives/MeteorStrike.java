@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -19,7 +18,7 @@ public class MeteorStrike extends ActiveItem {
 
 	private static final float BASE_DAMAGE = 28.0f;
 
-	private static final float METEOR_DURATION = 3.5f;
+	private static final int METEOR_NUMBER = 18;
 	private static final float METEOR_INTERVAL = 0.2f;
 	private static final float SPREAD = 15.0f;
 	
@@ -29,19 +28,19 @@ public class MeteorStrike extends ActiveItem {
 
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		WeaponUtils.createMeteors(state, new Vector2(mouseLocation).scl(1 / PPM), user.getPlayer(), METEOR_DURATION,
-				METEOR_INTERVAL, SPREAD, BASE_DAMAGE, DamageSource.METEOR_STRIKE);
+		WeaponUtils.createMeteors(state, user.getPlayer(), new Vector2(mouseLocation).scl(1 / PPM), METEOR_NUMBER, METEOR_INTERVAL,
+				BASE_DAMAGE, SPREAD);
 	}
 	
 	@Override
-	public float getUseDuration() { return METEOR_DURATION; }
+	public float getUseDuration() { return METEOR_INTERVAL * METEOR_NUMBER; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf((int) MAX_CHARGE),
-				String.valueOf(METEOR_DURATION),
-				String.valueOf((int) (METEOR_DURATION / METEOR_INTERVAL)),
+				String.valueOf(METEOR_INTERVAL * METEOR_NUMBER),
+				String.valueOf(METEOR_NUMBER),
 				String.valueOf((int) BASE_DAMAGE)};
 	}
 }

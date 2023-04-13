@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.active.HomingMissile;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -26,18 +25,20 @@ public class MissilePod extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.DEFLATE.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
-		
 		user.addStatus(new Status(state, DURATION, false, user, user) {
 			
 			private float procCdCount;
+			private int missileNum;
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
 				if (procCdCount >= PROC_CD) {
 					procCdCount -= PROC_CD;
+					missileNum++;
+
 					SyncedAttack.HOMING_MISSILE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
-							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 5));
+							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 5), missileNum);
+
 				}
 				procCdCount += delta;
 			}

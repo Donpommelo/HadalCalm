@@ -55,7 +55,6 @@ public class ReticleStrikeProjectile extends SyncedAttacker {
 
                     Hitbox reticle = new RangedHitbox(state, lastPosition, new Vector2(RETICLE_SIZE, RETICLE_SIZE), RETICLE_LIFESPAN,
                             new Vector2(), user.getHitboxFilter(), true, true, user, Sprite.CROSSHAIR);
-                    reticle.setSyncDefault(false);
                     reticle.setEffectsMovement(false);
                     reticle.setEffectsHit(false);
                     reticle.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
@@ -65,7 +64,8 @@ public class ReticleStrikeProjectile extends SyncedAttacker {
                             .setParticleSize(40.0f).setParticleColor(HadalColor.HOT_PINK).setSyncType(SyncType.NOSYNC));
                     reticle.addStrategy(new DieExplode(state, reticle, user.getBodyData(), EXPLOSION_RADIUS, EXPLOSION_DAMAGE,
                             EXPLOSION_KNOCKBACK, user.getHitboxFilter(), false, DamageSource.RETICLE_STRIKE));
-                    reticle.addStrategy(new DieSound(state, reticle, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
+                    reticle.addStrategy(new DieSound(state, reticle, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f)
+                            .setSynced(false));
                     reticle.addStrategy(new Static(state, reticle, user.getBodyData()));
 
                     if (!state.isServer()) {

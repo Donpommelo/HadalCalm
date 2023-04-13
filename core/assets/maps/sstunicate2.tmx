@@ -535,7 +535,6 @@
   </object>
   <object id="90" name="PlayerAlign" type="PlayerAlign" x="1312" y="1760" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="setFite"/>
    </properties>
   </object>
@@ -555,7 +554,6 @@
   </object>
   <object id="93" name="PlayerAlign" type="PlayerAlign" x="1312" y="1824" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="pvp" type="bool" value="false"/>
     <property name="triggeredId" value="setHub"/>
    </properties>

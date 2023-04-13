@@ -105,7 +105,12 @@ public class HealingArea extends Event {
 			currCrossSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, PARTICLE_LIFESPAN, true, SyncType.NOSYNC);
+			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, PARTICLE_LIFESPAN,
+					true, SyncType.NOSYNC);
+
+			if (!state.isServer()) {
+				((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.EFFECT);
+			}
 		}
 	}
 	
@@ -114,18 +119,6 @@ public class HealingArea extends Event {
 	 */
 	@Override
 	public void clientController(float delta) {
-		super.controller(delta);
-
-		entityLocation.set(getPixelPosition());
-		
-		//spawn particles periodically
-		currCrossSpawnTimer += delta;
-		while (currCrossSpawnTimer >= spawnTimerLimit) {
-			currCrossSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
-			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, 1.5f, true, SyncType.NOSYNC);
-			((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.EFFECT);
-		}
+		controller(delta);
 	}
 }

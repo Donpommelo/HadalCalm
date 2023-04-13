@@ -79,11 +79,19 @@ public class EventData extends HadalData {
 			}
 			break;
 		case ALL:
-			onActivate(activator, p);
-			if (p == null) {
-				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
+			if (event.getState().isServer()) {
+				onActivate(activator, p);
+				if (p == null) {
+					HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
+				} else {
+					HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
+				}
 			} else {
-				HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
+				if (p == null) {
+					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
+				} else {
+					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
+				}
 			}
 			break;
 		case CLIENT:
