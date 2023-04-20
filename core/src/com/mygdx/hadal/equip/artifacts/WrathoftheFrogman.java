@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.attacks.active.HomingMissile;
+import com.mygdx.hadal.battle.attacks.general.HomingMissile;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;

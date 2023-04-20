@@ -9,16 +9,16 @@ import com.mygdx.hadal.constants.Stats;
 
 public class AbyssalInsignia extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float hpThreshold = 0.5f;
-	private static final float bonusAttackSpeedMax = 0.5f;
-	private static final float bonusAttackSpeedMin = 0.1f;
+	private static final float HP_THRESHOLD = 0.5f;
+	private static final float BONUS_ATTACK_SPEED_MAX = 0.5f;
+	private static final float BONUS_ATTACK_SPEED_MIN = 0.1f;
 
-	private static final float shaderCount = 0.5f;
+	private static final float SHADER_COUNT = 0.5f;
 
 	public AbyssalInsignia() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -28,20 +28,21 @@ public class AbyssalInsignia extends Artifact {
 			private float procCdCount;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount < shaderCount) {
+				if (procCdCount < SHADER_COUNT) {
 					procCdCount += delta;
 				}
 				float hpPercent = inflicter.getCurrentHp() / inflicter.getStat(Stats.MAX_HP);
-				if (hpPercent < hpThreshold) {
-						p.getPlayer().setShader(Shader.PULSE_RED_HP, shaderCount * 2);
+
+				if (hpPercent < HP_THRESHOLD) {
+					p.getPlayer().setShader(Shader.PULSE_RED_HP, SHADER_COUNT * 2);
 				}
 			}
 
 			@Override
 			public void onShoot(Equippable tool) {
 				float hpPercent = inflicter.getCurrentHp() / inflicter.getStat(Stats.MAX_HP);
-				if (hpPercent < hpThreshold) {
-					float bonusAttackSpeed = bonusAttackSpeedMax - hpPercent / hpThreshold * (bonusAttackSpeedMax - bonusAttackSpeedMin);
+				if (hpPercent < HP_THRESHOLD) {
+					float bonusAttackSpeed = BONUS_ATTACK_SPEED_MAX - hpPercent / HP_THRESHOLD * (BONUS_ATTACK_SPEED_MAX - BONUS_ATTACK_SPEED_MIN);
 					float cooldown = p.getPlayer().getShootHelper().getShootCdCount();
 					p.getPlayer().getShootHelper().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
 				}
@@ -52,8 +53,8 @@ public class AbyssalInsignia extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusAttackSpeedMin * 100)),
-				String.valueOf((int) (hpThreshold * 100)),
-				String.valueOf((int) (bonusAttackSpeedMax * 100))};
+				String.valueOf((int) (BONUS_ATTACK_SPEED_MIN * 100)),
+				String.valueOf((int) (HP_THRESHOLD * 100)),
+				String.valueOf((int) (BONUS_ATTACK_SPEED_MAX * 100))};
 	}
 }

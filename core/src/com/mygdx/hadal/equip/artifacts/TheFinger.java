@@ -8,17 +8,17 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 
 public class TheFinger extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final int pingDamage = 1;
+	private static final int PING_DAMAGE = 1;
 	
 	public TheFinger() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatChangeStatus(state, Stats.PING_DAMAGE, pingDamage, p);
+		enchantment = new StatChangeStatus(state, Stats.PING_DAMAGE, PING_DAMAGE, p);
 	}
 
 	@Override

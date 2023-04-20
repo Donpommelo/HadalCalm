@@ -9,12 +9,13 @@ import com.mygdx.hadal.constants.Stats;
 
 public class HeartofSperos extends Artifact {
 
-	private static final int slotCost = 3;
+	private static final int SLOT_COST = 3;
 	
-	private static final float costReduction = 0.6f;
-	
+	private static final float COST_REDUCTION = 0.6f;
+	private static final float FUEL_CD = 0.5f;
+
 	public HeartofSperos() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -24,11 +25,12 @@ public class HeartofSperos extends Artifact {
 			
 			@Override
 			public void onShoot(Equippable tool) {
-				float fuelCost = p.getStat(Stats.MAX_FUEL) / tool.getClipSize() * costReduction;
+				float fuelCost = p.getStat(Stats.MAX_FUEL) / tool.getClipSize() * COST_REDUCTION;
 				
 				if (fuelCost <= p.getCurrentFuel()) {
 					tool.gainClip(1);
 					p.fuelSpend(fuelCost);
+					p.getPlayer().getFuelHelper().setFuelRegenCdCount(FUEL_CD);
 				}
 			}
 		});
@@ -37,6 +39,6 @@ public class HeartofSperos extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (costReduction * 100))};
+				String.valueOf((int) (COST_REDUCTION * 100))};
 	}
 }

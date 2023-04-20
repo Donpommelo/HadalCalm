@@ -1,4 +1,4 @@
-package com.mygdx.hadal.battle.attacks.active;
+package com.mygdx.hadal.battle.attacks.general;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;

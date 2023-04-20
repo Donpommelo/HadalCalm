@@ -121,8 +121,17 @@ public class BodyData extends HadalData {
 		while (!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
 
+			boolean proc = true;
+			if (tempStatus.isServerOnly()) {
+				proc = schmuck.getState().isServer();
+			}
+
+			if (tempStatus.isUserOnly()) {
+				proc = schmuck.isOrigin();
+			}
+
 			//atm, clients only process stat-changing statuses or specifically designated statuses
-			if (schmuck.getState().isServer() || !tempStatus.isServerOnly()) {
+			if (proc) {
 				finalProcTime = tempStatus.statusProcTime(o);
 			}
 
@@ -273,6 +282,19 @@ public class BodyData extends HadalData {
 							   DamageSource source, DamageTag... tags) {
 		if (!schmuck.isAlive()) { return 0.0f; }
 
+		//calculate damage
+		float damage = baseDamage;
+
+		damage -= baseDamage * (getStat(Stats.DAMAGE_RES));
+		damage += baseDamage * (perp.getStat(Stats.DAMAGE_AMP));
+		damage += baseDamage * (-DAMAGE_VARIANCE + MathUtils.random() * 2 * DAMAGE_VARIANCE);
+
+		//proc effects and inflict damage
+		if (procEffects) {
+			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, source, tags))).damage;
+			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, source, tags))).damage;
+		}
+
 		boolean processDamageEffects = true;
 		if (schmuck.getState().isServer()) {
 			if (schmuck instanceof PlayerClientOnHost) {
@@ -284,20 +306,8 @@ public class BodyData extends HadalData {
 			}
 		}
 
-		//calculate damage
-		float damage = baseDamage;
-
 		if (processDamageEffects) {
 
-			damage -= baseDamage * (getStat(Stats.DAMAGE_RES));
-			damage += baseDamage * (perp.getStat(Stats.DAMAGE_AMP));
-			damage += baseDamage * (-DAMAGE_VARIANCE + MathUtils.random() * 2 * DAMAGE_VARIANCE);
-
-			//proc effects and inflict damage
-			if (procEffects) {
-				damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, source, tags))).damage;
-				damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, source, tags))).damage;
-			}
 			currentHp -= damage;
 
 			//apply knockback

@@ -200,7 +200,7 @@ public class PacketsLoadout {
          * @param connID: connection id of the player whose weapons changed
          * @param active: active item to be set in the player's loadout
          */
-        public   SyncActiveServer(int connID, UnlockActives active) {
+        public SyncActiveServer(int connID, UnlockActives active) {
             super(connID);
             this.active = active;
         }

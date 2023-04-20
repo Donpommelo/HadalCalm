@@ -80,11 +80,11 @@ public class PlayerChanger extends Event {
 				}				
 				
 				if (hp < 0) {
+					SoundEffect.DAMAGE5.playSourced(state, p.getPixelPosition(), 0.4f);
+
 					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false,
 							null, DamageSource.MAP_FALL);
 					activated = true;
-					
-					SoundEffect.DAMAGE5.playUniversal(state, p.getPixelPosition(), 0.3f, false);
 				}
 				
 				if (ammo < 0) {

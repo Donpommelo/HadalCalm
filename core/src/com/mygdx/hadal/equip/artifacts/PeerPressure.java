@@ -72,6 +72,6 @@ public class PeerPressure extends Artifact {
 					}
 				}
 			}
-		};
+		}.setServerOnly(true);
 	}
 }

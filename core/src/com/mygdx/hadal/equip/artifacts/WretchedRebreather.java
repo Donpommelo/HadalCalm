@@ -11,13 +11,13 @@ import com.mygdx.hadal.constants.Stats;
 
 public class WretchedRebreather extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 
-	private static final float MagicRegen = 1.0f;
-	private static final float FuelRegen = 6.0f;
+	private static final float MAGIC_REGEN = 1.0f;
+	private static final float FUEL_REGEN = 6.0f;
 
 	public WretchedRebreather() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -31,11 +31,11 @@ public class WretchedRebreather extends Artifact {
 				boolean activated = false;
 				if (p.getCurrentFuel() == p.getStat(Stats.MAX_FUEL) && p.getActiveItem().chargePercent() != 1.0f) {
 					activated = true;
-					p.getActiveItem().gainCharge(delta * MagicRegen);
+					p.getActiveItem().gainCharge(delta * MAGIC_REGEN);
 				}
 				if (p.getActiveItem().chargePercent() == 1.0f && p.getCurrentFuel() != p.getStat(Stats.MAX_FUEL)) {
 					activated = true;
-					p.fuelGain(FuelRegen * delta);
+					p.fuelGain(FUEL_REGEN * delta);
 				}
 				setActivated(activated);
 			}
@@ -51,7 +51,7 @@ public class WretchedRebreather extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) MagicRegen),
-				String.valueOf((int) FuelRegen)};
+				String.valueOf((int) MAGIC_REGEN),
+				String.valueOf((int) FUEL_REGEN)};
 	}
 }

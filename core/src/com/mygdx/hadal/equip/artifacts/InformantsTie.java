@@ -11,28 +11,29 @@ import com.mygdx.hadal.constants.Stats;
 
 public class InformantsTie extends Artifact {
 
-	private static final int slotCost = 3;
-	private static final float projSpdReduction = -0.5f;
-	private static final float bonusProjLifespan = 0.5f;
-	private static final float homePower = 60.0f;
-	private static final int homeRadius = 50;
+	private static final int SLOT_COST = 3;
+
+	private static final float PROJ_SPD_REDUCTION = -0.5f;
+	private static final float BONUS_PROJ_LIFESPAN = 0.5f;
+	private static final float HOME_POWER = 60.0f;
+	private static final int HOME_RADIUS = 50;
 
 	public InformantsTie() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, projSpdReduction, p),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, bonusProjLifespan, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, PROJ_SPD_REDUCTION, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, BONUS_PROJ_LIFESPAN, p),
 				new Status(state, p) {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsMovement()) { return; }
 				
-				hbox.addStrategy(new HomingUnit(state, hbox, p, homePower, homeRadius));
+				hbox.addStrategy(new HomingUnit(state, hbox, p, HOME_POWER, HOME_RADIUS));
 				hbox.setGravity(0.0f);
 			}
 		});

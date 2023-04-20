@@ -12,43 +12,43 @@ import com.mygdx.hadal.constants.Stats;
 
 public class LuminousEsca extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float bonusLight = 0.25f;
-	private static final float radius = 10.0f;
-	private static final float procCd = 0.5f;
-	private static final float blindDuration = 0.5f;
+	private static final float BONUS_LIGHT = 0.25f;
+	private static final float RADIUS = 10.0f;
+	private static final float PROC_CD = 0.5f;
+	private static final float BLIND_DURATION = 0.5f;
 
 	public LuminousEsca() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-			new StatChangeStatus(state, Stats.LIGHT_RADIUS, bonusLight, p),
+			new StatChangeStatus(state, Stats.LIGHT_RADIUS, BONUS_LIGHT, p),
 			new Status(state, p) {
 
-				private float procCdCount = procCd;
+				private float procCdCount = PROC_CD;
 				private final Vector2 entityLocation = new Vector2();
 				@Override
 				public void timePassing(float delta) {
-					if (procCdCount < procCd) {
+					if (procCdCount < PROC_CD) {
 						procCdCount += delta;
 					}
-					if (procCdCount >= procCd) {
-						procCdCount -= procCd;
+					if (procCdCount >= PROC_CD) {
+						procCdCount -= PROC_CD;
 						entityLocation.set(p.getSchmuck().getPosition());
 						state.getWorld().QueryAABB(fixture -> {
 									if (fixture.getUserData() instanceof BodyData bodyData) {
 										if (bodyData.getSchmuck().getHitboxFilter() != p.getSchmuck().getHitboxFilter()) {
-											bodyData.addStatus(new Blinded(state, blindDuration, p, bodyData, false));
+											bodyData.addStatus(new Blinded(state, BLIND_DURATION, p, bodyData, false));
 										}
 									}
 									return true;
 								},
-						entityLocation.x - radius, entityLocation.y - radius,
-						entityLocation.x + radius, entityLocation.y + radius);
+						entityLocation.x - RADIUS, entityLocation.y - RADIUS,
+						entityLocation.x + RADIUS, entityLocation.y + RADIUS);
 					}
 				}
 			});

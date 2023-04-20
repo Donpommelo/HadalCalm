@@ -25,15 +25,14 @@ public class ReloaderUse extends SyncedAttacker {
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
         SoundEffect.RELOAD.playSourced(state, user.getPixelPosition(), 0.4f);
-
         ParticleEntity pickupParticle = new ParticleEntity(state, user, Particle.PICKUP_AMMO, 1.0f, DURATION, true,
                 SyncType.NOSYNC);
 
-        ParticleEntity ambientPrticle = new ParticleEntity(state, user, Particle.BRIGHT, 1.0f, DURATION, true,
+        ParticleEntity ambientParticle = new ParticleEntity(state, user, Particle.BRIGHT, 1.0f, DURATION, true,
                 SyncType.NOSYNC).setColor(HadalColor.RED);
         if (!state.isServer()) {
             ((ClientState) state).addEntity(pickupParticle.getEntityID(), pickupParticle, false, ClientState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(ambientPrticle.getEntityID(), ambientPrticle, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, ClientState.ObjectLayer.EFFECT);
         }
 
         if (user instanceof Player player) {

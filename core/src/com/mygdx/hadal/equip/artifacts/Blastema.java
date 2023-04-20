@@ -14,20 +14,20 @@ import static com.mygdx.hadal.constants.Constants.PRIORITY_PROC;
 
 public class Blastema extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private static final float regenCd = 4.0f;
-	private static final float regen = 0.025f;
+	private static final float REGEN_CD = 4.0f;
+	private static final float REGEN = 0.025f;
 	
 	public Blastema() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 			
-			private final float procCd = regenCd;
+			private final float procCd = REGEN_CD;
 			private float procCdCount = procCd;
 			@Override
 			public void timePassing(float delta) {
@@ -40,8 +40,7 @@ public class Blastema extends Artifact {
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount -= procCd;
-					
-					p.addStatus(new Regeneration(state, regenCd, p, p,regen * inflicted.getStat(Stats.MAX_HP)));
+					p.addStatus(new Regeneration(state, REGEN_CD, p, p, REGEN * inflicted.getStat(Stats.MAX_HP)));
 				}
 				return damage;
 			}
@@ -51,7 +50,7 @@ public class Blastema extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) regenCd),
-				String.valueOf(regen * 100)};
+				String.valueOf((int) REGEN_CD),
+				String.valueOf(REGEN * 100)};
 	}
 }

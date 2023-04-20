@@ -362,27 +362,6 @@ public class KryoClient {
 		}
 
 		/*
-		 * We have received a kill message from the server.
-		 * Display the message
-		 */
-		else if (o instanceof final Packets.SyncKillMessage p) {
-			final ClientState cs = getClientState();
-			if (null != cs) {
-				User vic = users.get(p.vicConnID);
-				if (null != vic) {
-					User perp = users.get(p.perpConnID);
-					if (null != perp) {
-						cs.addPacketEffect(() -> cs.getKillFeed().addMessage(perp.getPlayer(), vic.getPlayer(),
-							p.enemyType, p.source, p.tags));
-					} else {
-						cs.addPacketEffect(() -> cs.getKillFeed().addMessage(null, vic.getPlayer(),
-							p.enemyType, p.source, p.tags));
-					}
-				}
-			}
-		}
-
-		/*
 		Server sends a notification to the client. Display it
 		 */
 		else if (o instanceof final Packets.SyncNotification p) {
@@ -508,6 +487,7 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					AlignmentFilter.currentTeams = p.teams;
 					AlignmentFilter.teamScores = p.scores;
+					cs.getUiExtra().setMaxTimer(p.maxTimer);
 					cs.getUiExtra().setTimer(p.timer);
 					cs.getUiExtra().setTimerIncr(p.timerIncr);
 				});

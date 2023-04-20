@@ -15,15 +15,15 @@ import static com.mygdx.hadal.constants.Constants.PRIORITY_SCALE;
 
 public class LampreyIdol extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private static final float lifestealPlayer = 0.1f;
-	private static final float lifestealEnemy = 0.02f;
-	private static final float damage = 2.5f;
-	private static final float hpThreshold = 0.5f;
+	private static final float LIFESTEAL_PLAYER = 0.1f;
+	private static final float LIFESTEAL_ENEMY = 0.02f;
+	private static final float DAMAGE = 2.5f;
+	private static final float HP_THRESHOLD = 0.5f;
 	
 	public LampreyIdol() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -38,8 +38,8 @@ public class LampreyIdol extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					if ((p.getCurrentHp() / p.getStat(Stats.MAX_HP)) >= hpThreshold) {
-						p.receiveDamage(damage, new Vector2(), p, true, null, DamageSource.LAMPREY_IDOL);
+					if ((p.getCurrentHp() / p.getStat(Stats.MAX_HP)) >= HP_THRESHOLD) {
+						p.receiveDamage(DAMAGE, new Vector2(), p, true, null, DamageSource.LAMPREY_IDOL);
 					}
 				}
 				procCdCount += delta;
@@ -48,9 +48,9 @@ public class LampreyIdol extends Artifact {
 			@Override
 			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (vic instanceof PlayerBodyData) {
-					p.regainHp(lifestealPlayer * damage, p, true, DamageTag.LIFESTEAL);
+					p.regainHp(LIFESTEAL_PLAYER * damage, p, true, DamageTag.LIFESTEAL);
 				} else {
-					p.regainHp(lifestealEnemy * damage, p, true, DamageTag.LIFESTEAL);
+					p.regainHp(LIFESTEAL_ENEMY * damage, p, true, DamageTag.LIFESTEAL);
 				}
 				return damage;
 			}
@@ -60,9 +60,9 @@ public class LampreyIdol extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (lifestealPlayer * 100)),
-				String.valueOf((int) (lifestealEnemy * 100)),
-				String.valueOf((int) (hpThreshold * 100)),
-				String.valueOf(damage)};
+				String.valueOf((int) (LIFESTEAL_PLAYER * 100)),
+				String.valueOf((int) (LIFESTEAL_ENEMY * 100)),
+				String.valueOf((int) (HP_THRESHOLD * 100)),
+				String.valueOf(DAMAGE)};
 	}
 }

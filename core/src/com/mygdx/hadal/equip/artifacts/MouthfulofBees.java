@@ -14,14 +14,14 @@ import static com.mygdx.hadal.constants.Constants.PRIORITY_SCALE;
 
 public class MouthfulofBees extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float beeSpeed = 15.0f;
-	private static final float damagePerBee = 20.0f;
-	private static final int beesOnDeath = 5;
+	private static final float BEE_SPEED = 15.0f;
+	private static final float DAMAGE_PER_BEE = 20.0f;
+	private static final int BEES_ON_DEATH = 5;
 
 	public MouthfulofBees() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -31,10 +31,10 @@ public class MouthfulofBees extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (damage > 0) {
-					int numBees = (int) (damage / damagePerBee);
+					int numBees = (int) (damage / DAMAGE_PER_BEE);
 					for (int i = 0; i < numBees; i++) {
 						SyncedAttack.BEE_MOUTHFUL.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
-								new Vector2(0, beeSpeed));
+								new Vector2(0, BEE_SPEED));
 					}
 				}
 				return damage;
@@ -42,18 +42,18 @@ public class MouthfulofBees extends Artifact {
 			
 			@Override
 			public void onDeath(BodyData perp, DamageSource source) {
-				for (int i = 0; i < beesOnDeath; i++) {
+				for (int i = 0; i < BEES_ON_DEATH; i++) {
 					SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
-							new Vector2(0, beeSpeed));
+							new Vector2(0, BEE_SPEED));
 				}
 			}
-		}.setPriority(PRIORITY_SCALE);
+		}.setPriority(PRIORITY_SCALE).setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) damagePerBee),
-				String.valueOf(beesOnDeath)};
+				String.valueOf((int) DAMAGE_PER_BEE),
+				String.valueOf(BEES_ON_DEATH)};
 	}
 }

@@ -13,18 +13,18 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 public class
 HumanityModule extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float bonusActiveCharge = 0.5f;
+	private static final float BONUS_ACTIVE_CHARGE = 0.5f;
 	
 	public HumanityModule() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, bonusActiveCharge, p),
+				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, BONUS_ACTIVE_CHARGE, p),
 				new Status(state, p) {
 			
 			@Override
@@ -39,6 +39,6 @@ HumanityModule extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusActiveCharge * 100))};
+				String.valueOf((int) (BONUS_ACTIVE_CHARGE * 100))};
 	}
 }

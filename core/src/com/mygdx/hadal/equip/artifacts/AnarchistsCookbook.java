@@ -9,12 +9,12 @@ import com.mygdx.hadal.statuses.Status;
 
 public class AnarchistsCookbook extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float procCd = 3.0f;
+	private static final float PROC_CD = 3.0f;
 	
 	public AnarchistsCookbook() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -24,19 +24,20 @@ public class AnarchistsCookbook extends Artifact {
 			private float procCdCount;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
+
 					SyncedAttack.BOMB.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(), new Vector2());
 				}
 				procCdCount += delta;
 			}
-		};
+		}.setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) procCd),
+				String.valueOf((int) PROC_CD),
 				String.valueOf((int) Bomb.BOMB_EXPLOSION_DAMAGE)};
 	}
 }

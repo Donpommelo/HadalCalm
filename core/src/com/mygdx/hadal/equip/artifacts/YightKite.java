@@ -12,20 +12,20 @@ import com.mygdx.hadal.constants.Stats;
 
 public class YightKite extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private static final float projSpdReduction = -0.5f;
-	private static final float bonusProjLifespan = 0.5f;
+	private static final float PROJ_SPD_REDUCTION = -0.5f;
+	private static final float BONUS_PROJ_LIFESPAN = 0.5f;
 	
 	public YightKite() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, projSpdReduction, p),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, bonusProjLifespan, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, PROJ_SPD_REDUCTION, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, BONUS_PROJ_LIFESPAN, p),
 				new Status(state, p) {
 			
 			@Override

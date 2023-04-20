@@ -10,10 +10,10 @@ import com.mygdx.hadal.strategies.hitbox.RemoveStrategy;
 
 public class MachineGhost extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
 	public MachineGhost() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override

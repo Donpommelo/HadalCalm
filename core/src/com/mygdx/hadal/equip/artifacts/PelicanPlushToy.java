@@ -8,12 +8,12 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PelicanPlushToy extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private final float amount = 0.5f;
+	private static final float AMOUNT = 0.5f;
 	
 	public PelicanPlushToy() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class PelicanPlushToy extends Artifact {
 			
 			@Override
 			public float onHeal(float damage, BodyData perp, DamageTag... tags) {
-				return damage * (1.0f + amount);
+				return damage * (1.0f + AMOUNT);
 			}
 		};
 	}
@@ -30,6 +30,6 @@ public class PelicanPlushToy extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (amount * 100))};
+				String.valueOf((int) (AMOUNT * 100))};
 	}
 }

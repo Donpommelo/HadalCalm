@@ -9,13 +9,13 @@ import com.mygdx.hadal.statuses.Status;
 
 public class JuryRiggedBindings extends Artifact {
 
-	private static final int slotCost = 3;
+	private static final int SLOT_COST = 3;
 
-	private static final float fireRateMultiplier = 0.2f;
-	private static final float baseFireRate = 0.5f;
+	private static final float FIRE_RATE_MULTIPLIER = 0.2f;
+	private static final float BASE_FIRE_RATE = 0.5f;
 
 	public JuryRiggedBindings() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -33,21 +33,19 @@ public class JuryRiggedBindings extends Artifact {
 			@Override
 			public void whileAttacking(float delta, Equippable tool) {
 				
-				if (tool.isReloading()) {
-					return;
-				}
+				if (tool.isReloading()) { return; }
 
 				float procCd = -1;
 				for (int i = 0; i < p.getNumWeaponSlots(); i++) {
 					if (p.getMultitools()[(p.getCurrentSlot() + lastFiredIndex + 1) % p.getNumWeaponSlots()] instanceof RangedWeapon ranged) {
-						procCd = ranged.getUseCd() / fireRateMultiplier + baseFireRate;
+						procCd = ranged.getUseCd() / FIRE_RATE_MULTIPLIER + BASE_FIRE_RATE;
 						break;
 					}
 					lastFiredIndex = (lastFiredIndex + 1) % (p.getNumWeaponSlots() - 1);
 				}
 
 				if (procCdCount >= procCd && procCd != -1) {
-					procCdCount -= procCd;
+					procCdCount = 0.0f;
 
 					Equippable extraFire = p.getMultitools()[(p.getCurrentSlot() + lastFiredIndex + 1) % p.getNumWeaponSlots()];
 					if (extraFire instanceof RangedWeapon ranged) {
@@ -64,6 +62,6 @@ public class JuryRiggedBindings extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (fireRateMultiplier * 100))};
+				String.valueOf((int) (FIRE_RATE_MULTIPLIER * 100))};
 	}
 }

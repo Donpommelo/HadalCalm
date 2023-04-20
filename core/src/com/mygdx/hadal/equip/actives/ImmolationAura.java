@@ -24,7 +24,7 @@ public class ImmolationAura extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SyncedAttack.IMMOLATION.initiateSyncedAttackSingle(state, user.getPlayer(), user.getPlayer().getPixelPosition(), weaponVelo);
+		SyncedAttack.IMMOLATION.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(), true);
 	}
 
 	@Override

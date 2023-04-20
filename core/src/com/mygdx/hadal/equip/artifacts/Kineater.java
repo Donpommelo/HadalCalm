@@ -8,11 +8,12 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Kineater extends Artifact {
 
-	private static final int slotCost = 1;
-	private final float hpDrainPercent = 0.15f;
+	private static final int SLOT_COST = 1;
+
+	private static final float HP_DRAIN_PERCENT = 0.15f;
 	
 	public Kineater() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -22,14 +23,14 @@ public class Kineater extends Artifact {
 			@Override
 			public void afterBossSpawn(Enemy boss) { 
 				SoundEffect.MAGIC27_EVIL.playUniversal(state, boss.getPixelPosition(), 1.0f, false);
-				boss.getBodyData().setCurrentHp(boss.getBodyData().getCurrentHp() * (1.0f - hpDrainPercent));
+				boss.getBodyData().setCurrentHp(boss.getBodyData().getCurrentHp() * (1.0f - HP_DRAIN_PERCENT));
 			}
-		};
+		}.setServerOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (hpDrainPercent * 100))};
+				String.valueOf((int) (HP_DRAIN_PERCENT * 100))};
 	}
 }

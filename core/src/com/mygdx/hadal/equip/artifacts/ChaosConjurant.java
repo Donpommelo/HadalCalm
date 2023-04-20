@@ -49,7 +49,7 @@ public class ChaosConjurant extends Artifact {
 				}
 				return damage;
 			}
-		}.setPriority(PRIORITY_PROC);
+		}.setPriority(PRIORITY_PROC).setUserOnly(true);
 	}
 
 	@Override

@@ -11,41 +11,41 @@ import com.mygdx.hadal.constants.Stats;
 
 public class FisheyeCataract extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float visionReduction = -0.5f;
-	private static final float minDistance = 200.0f;
-	private static final float maxDistance = 1200.0f;
-	private static final float minDamageReduction = 0.25f;
-	private static final float maxDamageReduction = 0.75f;
+	private static final float VISION_REDUCTION = -0.5f;
+	private static final float MIN_DISTANCE = 200.0f;
+	private static final float MAX_DISTANCE = 1200.0f;
+	private static final float MIN_DAMAGE_REDUCTION = 0.25f;
+	private static final float MAX_DAMAGE_REDUCTION = 0.75f;
 
 	public FisheyeCataract() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatChangeStatus(state, Stats.VISION_RADIUS, visionReduction, p) {
+		enchantment = new StatChangeStatus(state, Stats.VISION_RADIUS, VISION_REDUCTION, p) {
 
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (perp != null) {
 					float dstSquared = perp.getSchmuck().getPosition().dst2(p.getSchmuck().getPosition());
-					if (dstSquared >= minDistance) {
-						float diff = (Math.min(dstSquared, maxDistance) - minDistance) / (maxDistance - minDistance);
-						return damage * (1.0f - (diff * (maxDamageReduction - minDamageReduction) + minDamageReduction));
+					if (dstSquared >= MIN_DISTANCE) {
+						float diff = (Math.min(dstSquared, MAX_DISTANCE) - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE);
+						return damage * (1.0f - (diff * (MAX_DAMAGE_REDUCTION - MIN_DAMAGE_REDUCTION) + MIN_DAMAGE_REDUCTION));
 					}
 				}
 				return damage;
 			}
-		};
+		}.setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) -(visionReduction * 100)),
-				String.valueOf((int) (minDamageReduction * 100)),
-				String.valueOf((int) (maxDamageReduction * 100))};
+				String.valueOf((int) -(VISION_REDUCTION * 100)),
+				String.valueOf((int) (MIN_DAMAGE_REDUCTION * 100)),
+				String.valueOf((int) (MAX_DAMAGE_REDUCTION * 100))};
 	}
 }

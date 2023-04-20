@@ -8,32 +8,32 @@ import com.mygdx.hadal.statuses.Status;
 
 public class ObligeLaMort extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float pushSpeed = 3.2f;
-	private static final float pushSpeedAir = 1.8f;
-	private static final float pushSlow = 3.5f;
-	private static final float pushSlowAir = 1.5f;
-	private static final float maxSpeed = 20.0f;
+	private static final float PUSH_SPEED = 3.2f;
+	private static final float PUSH_SPEED_AIR = 1.8f;
+	private static final float PUSH_SLOW = 3.5f;
+	private static final float PUSH_SLOW_AIR = 1.5f;
+	private static final float MAX_SPEED = 20.0f;
 
-	private static final float procCd = 1 / 60.0f;
+	private static final float PROC_CD = 1 / 60.0f;
 
 	public ObligeLaMort() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 			
-			private float procCdCount = procCd;
+			private float procCdCount = PROC_CD;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount < procCd) {
+				if (procCdCount < PROC_CD) {
 					procCdCount += delta;
 				}
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 
 					boolean flip = Math.abs(p.getPlayer().getMouseHelper().getAttackAngle()) > 90;
 
@@ -47,17 +47,17 @@ public class ObligeLaMort extends Artifact {
 
 			private final Vector2 push = new Vector2();
 			private void applyPush(boolean speedUp, boolean direction, boolean grounded) {
-				if (Math.abs(p.getPlayer().getLinearVelocity().x) < maxSpeed) {
+				if (Math.abs(p.getPlayer().getLinearVelocity().x) < MAX_SPEED) {
 					if (speedUp) {
-						float speed = grounded ? pushSpeed  : pushSpeedAir;
+						float speed = grounded ? PUSH_SPEED : PUSH_SPEED_AIR;
 						push.set(direction ? speed : -speed, 0.0f);
 					} else {
-						float speed = grounded ? pushSlow  : pushSlowAir;
+						float speed = grounded ? PUSH_SLOW : PUSH_SLOW_AIR;
 						push.set(direction ? -speed : speed, 0.0f);
 					}
 					p.getPlayer().applyLinearImpulse(push);
 				}
 			}
-		};
+		}.setUserOnly(true);
 	}
 }

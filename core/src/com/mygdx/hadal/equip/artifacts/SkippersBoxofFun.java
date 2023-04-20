@@ -1,26 +1,20 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.equip.Equippable;
-import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.utils.UnlocktoItem;
 
 public class SkippersBoxofFun extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float procCd = 10.0f;
-	private static final float particleDura = 1.0f;
-	
+	private static final float PROC_CD = 10.0f;
+
 	public SkippersBoxofFun() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -32,15 +26,10 @@ public class SkippersBoxofFun extends Artifact {
 			@Override
 			public void timePassing(float delta) {
 				
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 
-					SoundEffect.MAGIC27_EVIL.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.5f, false);
-
-					Equippable equip = UnlocktoItem.getUnlock(UnlockEquip.getRandWeapFromPool(state, ""), null);
-					p.pickup(equip);
-					
-					new ParticleEntity(state, p.getSchmuck(), Particle.SMOKE_TOTLC, 1.0f, particleDura, true, SyncType.CREATESYNC);
+					SyncedAttack.SKIPPERS_BOX_OF_FUN.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 				}
 				procCdCount += delta;
 			}
@@ -50,6 +39,6 @@ public class SkippersBoxofFun extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) procCd)};
+				String.valueOf((int) PROC_CD)};
 	}
 }

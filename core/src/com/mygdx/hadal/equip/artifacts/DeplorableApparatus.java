@@ -11,26 +11,26 @@ import static com.mygdx.hadal.constants.Constants.PRIORITY_PROC;
 
 public class DeplorableApparatus extends Artifact {
 
-	private static final int slotCost = 3;
+	private static final int SLOT_COST = 3;
 	
-	private static final float hpRegen = 13.0f;
-	private static final float procCd = 2.0f;
+	private static final float HP_REGEN = 13.0f;
+	private static final float PROC_CD = 2.0f;
 	
 	public DeplorableApparatus() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new ParticleToggleable(state, p, Particle.REGEN) {
 
-			private float procCdCount = procCd;
+			private float procCdCount = PROC_CD;
 			private float lastHp;
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
 
-				if (procCdCount < procCd) {
+				if (procCdCount < PROC_CD) {
 					procCdCount += delta;
 				}
 
@@ -39,20 +39,20 @@ public class DeplorableApparatus extends Artifact {
 				}
 				lastHp = p.getCurrentHp();
 
-				boolean activated = procCdCount >= procCd && p.getCurrentHp() < p.getStat(Stats.MAX_HP);
+				boolean activated = procCdCount >= PROC_CD && p.getCurrentHp() < p.getStat(Stats.MAX_HP);
 				setActivated(activated);
 
 				if (activated) {
-					p.regainHp(hpRegen * delta, p, true, DamageTag.REGEN);
+					p.regainHp(HP_REGEN * delta, p, true, DamageTag.REGEN);
 				}
 			}
-		}.setPriority(PRIORITY_PROC);
+		}.setPriority(PRIORITY_PROC).setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) hpRegen),
-				String.valueOf((int) procCd)};
+				String.valueOf((int) HP_REGEN),
+				String.valueOf((int) PROC_CD)};
 	}
 }

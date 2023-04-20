@@ -11,27 +11,27 @@ import com.mygdx.hadal.constants.Stats;
 
 public class TomeOfPhilopatry extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float bonusProjLifespan = 0.5f;
-	private static final float bonusProjDurability = 1.0f;
-	private static final float returnAmp = 4.0f;
+	private static final float BONUS_PROJ_LIFESPAN = 0.5f;
+	private static final float BONUS_PROJ_DURABILITY = 1.0f;
+	private static final float RETURN_AMP = 4.0f;
 	
 	public TomeOfPhilopatry() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, bonusProjLifespan, p),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, bonusProjDurability, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, BONUS_PROJ_LIFESPAN, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, BONUS_PROJ_DURABILITY, p),
 				new Status(state, p) {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (hbox.isEffectsMovement()) {
-					hbox.addStrategy(new ReturnToUser(state, hbox, p, hbox.getStartVelo().len() * returnAmp));
+					hbox.addStrategy(new ReturnToUser(state, hbox, p, hbox.getStartVelo().len() * RETURN_AMP));
 					hbox.setGravity(0.0f);
 				}
 			}

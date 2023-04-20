@@ -8,26 +8,26 @@ import com.mygdx.hadal.constants.Stats;
 
 public class DayattheFair extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float bonusKnockbackRes = -1.5f;
-	private static final float bonusHp = 0.45f;
+	private static final float BONUS_KNOCKBACK_RES = -1.5f;
+	private static final float BONUS_HP = 0.45f;
 
 	public DayattheFair() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-			new StatChangeStatus(state, Stats.KNOCKBACK_RES, bonusKnockbackRes, p),
-			new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, p));
+			new StatChangeStatus(state, Stats.KNOCKBACK_RES, BONUS_KNOCKBACK_RES, p),
+			new StatChangeStatus(state, Stats.MAX_HP_PERCENT, BONUS_HP, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusHp * 100)),
-				String.valueOf((int) -(bonusKnockbackRes * 100))};
+				String.valueOf((int) (BONUS_HP * 100)),
+				String.valueOf((int) -(BONUS_KNOCKBACK_RES * 100))};
 	}
 }

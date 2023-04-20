@@ -10,23 +10,23 @@ import com.mygdx.hadal.statuses.Status;
 
 public class CrimeDiscouragementStick extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 
-	private static final float procCd = 1.25f;
-	private static final float grenadeVelocity = 25.0f;
+	private static final float PROC_CD = 1.25f;
+	private static final float GRENADE_VELOCITY = 25.0f;
 
 	public CrimeDiscouragementStick() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 			
-			private float procCdCount = procCd;
+			private float procCdCount = PROC_CD;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount < procCd) {
+				if (procCdCount < PROC_CD) {
 					procCdCount += delta;
 				}
 			}
@@ -36,9 +36,9 @@ public class CrimeDiscouragementStick extends Artifact {
 			public void whileAttacking(float delta, Equippable tool) {
 				if (tool.isReloading()) { return; }
 				
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
-					startVelo.set(0, grenadeVelocity).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
+					startVelo.set(0, GRENADE_VELOCITY).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
 
 					SyncedAttack.STICK_GRENADE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
 							inflicted.getSchmuck().getPixelPosition(), startVelo);
@@ -50,7 +50,7 @@ public class CrimeDiscouragementStick extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf(procCd),
+				String.valueOf(PROC_CD),
 				String.valueOf((int) StickGrenade.STICK_GRENADE_EXPLOSION_DAMAGE)};
 	}
 }

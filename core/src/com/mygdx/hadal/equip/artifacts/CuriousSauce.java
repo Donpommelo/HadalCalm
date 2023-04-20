@@ -39,6 +39,7 @@ public class CuriousSauce extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (hbox.isEffectsMovement()) {
+
 					hbox.addStrategy(new RemoveStrategy(state, hbox, p, ContactWallDie.class));
 					hbox.setSensor(false);
 

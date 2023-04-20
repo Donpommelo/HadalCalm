@@ -53,6 +53,7 @@ public class PickupEquip extends Event {
 		
 		unlock = UnlockEquip.NOTHING;
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
+		setSyncType(eventSyncTypes.CLIENT);
 	}
 
 	public PickupEquip(PlayState state, Vector2 startPos, UnlockEquip equip, float lifespan) {

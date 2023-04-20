@@ -7,16 +7,17 @@ import com.mygdx.hadal.constants.Stats;
 
 public class LoamskinLocket extends Artifact {
 
-	private static final int slotCost = 1;
-	private static final float bonusHp = 0.6f;
+	private static final int SLOT_COST = 1;
+
+	private static final float BONUS_HP = 0.6f;
 	
 	public LoamskinLocket() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatChangeStatus(state, Stats.MAX_HP_PERCENT, bonusHp, p) {
+		enchantment = new StatChangeStatus(state, Stats.MAX_HP_PERCENT, BONUS_HP, p) {
 			
 			private float previousHealth;
 			private boolean activated;
@@ -27,7 +28,7 @@ public class LoamskinLocket extends Artifact {
 			
 			@Override
 			public void onRemove() {
-				p.setCurrentHp(p.getCurrentHp() + bonusHp);
+				p.setCurrentHp(p.getCurrentHp() + BONUS_HP);
 			}
 			
 			@Override
@@ -43,6 +44,6 @@ public class LoamskinLocket extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusHp * 100))};
+				String.valueOf((int) (BONUS_HP * 100))};
 	}
 }

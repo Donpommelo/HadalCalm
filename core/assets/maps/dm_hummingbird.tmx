@@ -173,6 +173,7 @@
   </object>
   <object id="4" name="Sensor" type="Sensor" x="3232" y="3360" width="1344" height="96">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeringId" value="outOfBounds"/>
    </properties>
   </object>
@@ -190,6 +191,7 @@
   <object id="13" name="Player" type="Player" x="3104" y="3616" width="32" height="32">
    <properties>
     <property name="hp" type="float" value="-1000"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="outOfBounds"/>
    </properties>
   </object>

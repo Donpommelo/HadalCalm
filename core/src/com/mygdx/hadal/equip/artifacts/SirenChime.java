@@ -8,23 +8,23 @@ import com.mygdx.hadal.constants.Stats;
 
 public class SirenChime extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float knockbackReduction = -2.5f;
+	private static final float KNOCKBACK_REDUCTION = -2.5f;
 	
 	public SirenChime() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.KNOCKBACK_AMP, knockbackReduction, p));
+				new StatChangeStatus(state, Stats.KNOCKBACK_AMP, KNOCKBACK_REDUCTION, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) -(knockbackReduction * 100))};
+				String.valueOf((int) -(KNOCKBACK_REDUCTION * 100))};
 	}
 }

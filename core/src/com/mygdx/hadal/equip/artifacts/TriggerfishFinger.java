@@ -8,26 +8,26 @@ import com.mygdx.hadal.constants.Stats;
 
 public class TriggerfishFinger extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private static final float bonusAtkSpd = 0.2f;
-	private static final float bonusReloadSpd = 0.4f;
+	private static final float BONUS_ATK_SPD = 0.2f;
+	private static final float BONUS_RELOAD_SPD = 0.4f;
 	
 	public TriggerfishFinger() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.TOOL_SPD, bonusAtkSpd, p),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p));
+				new StatChangeStatus(state, Stats.TOOL_SPD, BONUS_ATK_SPD, p),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, BONUS_RELOAD_SPD, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusAtkSpd * 100)),
-				String.valueOf((int) (bonusReloadSpd * 100))};
+				String.valueOf((int) (BONUS_ATK_SPD * 100)),
+				String.valueOf((int) (BONUS_RELOAD_SPD * 100))};
 	}
 }

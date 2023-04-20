@@ -7,6 +7,8 @@ import com.mygdx.hadal.states.PlayState;
 
 public class SyncedAttacker {
 
+    private SyncedAttack syncedAttack;
+
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) { return null; }
 
@@ -15,4 +17,7 @@ public class SyncedAttacker {
 
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {}
 
+    public SyncedAttack getSyncedAttack() { return syncedAttack; }
+
+    public void setSyncedAttack(SyncedAttack syncedAttack) { this.syncedAttack = syncedAttack; }
 }

@@ -126,7 +126,15 @@ public class Schmuck extends HadalEntity {
 	 * @return the vector2 position of where the bullet should be spawned relative to the schmuck
 	 */
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {	return getPixelPosition(); }
-	
+
+	public boolean isOrigin() {
+		if (state.isServer()) {
+			return !(this instanceof PlayerClientOnHost);
+		} else {
+			return this instanceof PlayerSelfOnClient;
+		}
+	}
+
 	@Override
 	public void increaseAnimationTime(float i) { animationTime += i; }
 	

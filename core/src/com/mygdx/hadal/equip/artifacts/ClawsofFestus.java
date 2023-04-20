@@ -13,10 +13,10 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 public class ClawsofFestus extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
 	public ClawsofFestus() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override

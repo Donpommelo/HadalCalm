@@ -11,21 +11,21 @@ import com.mygdx.hadal.constants.Stats;
 
 public class EmaudelinesPrism extends Artifact {
 
-	private static final int slotCost = 3;
+	private static final int SLOT_COST = 3;
 	
-	private static final int spread = 30;
-	private static final float atkSpdReduction = -0.75f;
-	private static final float reloadSpdReduction = -0.5f;
+	private static final int SPREAD = 30;
+	private static final float ATK_SPD_REDUCTION = -0.75f;
+	private static final float RELOAD_SPD_REDUCTION = -0.5f;
 	
 	public EmaudelinesPrism() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, atkSpdReduction, p),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, reloadSpdReduction, p),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, ATK_SPD_REDUCTION, p),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, RELOAD_SPD_REDUCTION, p),
 				new Status(state, p) {
 			
 			private final Vector2 projVelo = new Vector2();
@@ -34,8 +34,8 @@ public class EmaudelinesPrism extends Artifact {
 			@Override
 			public void onShoot(Equippable tool) {
 				projVelo.set(tool.getWeaponVelo());
-				projAngle1.set(projVelo).setAngleDeg(projVelo.angleDeg() + spread);
-				projAngle2.set(projVelo).setAngleDeg(projVelo.angleDeg() - spread);
+				projAngle1.set(projVelo).setAngleDeg(projVelo.angleDeg() + SPREAD);
+				projAngle2.set(projVelo).setAngleDeg(projVelo.angleDeg() - SPREAD);
 				inflicted.getCurrentTool().fire(state, p.getPlayer(), p.getPlayer().getProjectileOrigin(projAngle1, tool.getAmmoSize()), projAngle1, p.getSchmuck().getHitboxFilter());
 				inflicted.getCurrentTool().fire(state, p.getPlayer(), p.getPlayer().getProjectileOrigin(projAngle2, tool.getAmmoSize()), projAngle2, p.getSchmuck().getHitboxFilter());
 			}
@@ -45,7 +45,7 @@ public class EmaudelinesPrism extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) -(atkSpdReduction * 100)),
-				String.valueOf((int) -(reloadSpdReduction * 100))};
+				String.valueOf((int) -(ATK_SPD_REDUCTION * 100)),
+				String.valueOf((int) -(RELOAD_SPD_REDUCTION * 100))};
 	}
 }

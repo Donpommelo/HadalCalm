@@ -50,6 +50,9 @@ public class HomingUnit extends HitboxStrategy {
 		super(state, proj, user);
 		this.homePower = homePower;
 		this.homeRadius = homeRadius;
+
+		hbox.setSynced(true);
+		hbox.setSyncedDelete(true);
 	}
 
 	private final Vector2 center = new Vector2();

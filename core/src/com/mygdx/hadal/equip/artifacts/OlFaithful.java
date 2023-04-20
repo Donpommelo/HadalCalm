@@ -9,10 +9,10 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 
 public class OlFaithful extends Artifact {
 
-	private static final int slotCost = 3;
+	private static final int SLOT_COST = 3;
 
 	public OlFaithful() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override

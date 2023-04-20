@@ -143,12 +143,14 @@
   </object>
   <object id="10" name="Sensor" type="Sensor" x="0" y="3328" width="5184" height="128">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeringId" value="outOfBounds"/>
    </properties>
   </object>
   <object id="11" name="Player" type="Player" x="4896" y="3520" width="32" height="32">
    <properties>
     <property name="hp" type="float" value="-1000"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="outOfBounds"/>
    </properties>
   </object>

@@ -599,8 +599,8 @@ public class PlayState extends GameState {
 		tmr.setView(camera);
 		tmr.render();
 
-		//Render debug lines for box2d objects.
-		if (debugHitbox) {
+		//Render debug lines for box2d objects. THe 0 check prevents debug outlines from appearing in the freeze-frame
+		if (debugHitbox && 0.0f != delta) {
 			b2dr.render(world, camera.combined.scl(PPM));
 			camera.combined.scl(1.0f / PPM);
 		}

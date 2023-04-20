@@ -34,6 +34,9 @@ public class OriginCoil extends Artifact {
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsMovement()) { return; }
 
+				hbox.setSynced(true);
+				hbox.setSyncedDelete(true);
+
 				startVelo.set(hbox.getStartVelo()).scl(boostMultiplier);
 				hbox.getStartVelo().scl(slow);
 				hbox.setLifeSpan(hbox.getLifeSpan() + delay);

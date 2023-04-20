@@ -11,33 +11,33 @@ import com.mygdx.hadal.constants.Stats;
 
 public class EightBall extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final int spread = 20;
-	private static final float damageAmp = 0.3f;
+	private static final int SPREAD = 20;
+	private static final float DAMAGE_AMP = 0.3f;
 	
 	public EightBall() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, damageAmp, p),
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, DAMAGE_AMP, p),
 				new Status(state, p) {
 					
 					@Override
 					public void onShoot(Equippable tool) {
-						float newDegrees = tool.getWeaponVelo().angleDeg() + (MathUtils.random(-spread, spread + 1));
+						float newDegrees = tool.getWeaponVelo().angleDeg() + (MathUtils.random(-SPREAD, SPREAD + 1));
 						tool.setWeaponVelo(tool.getWeaponVelo().setAngleDeg(newDegrees));
 					}
-				});
+				}).setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (damageAmp * 100)),
-				String.valueOf(spread)};
+				String.valueOf((int) (DAMAGE_AMP * 100)),
+				String.valueOf(SPREAD)};
 	}
 }

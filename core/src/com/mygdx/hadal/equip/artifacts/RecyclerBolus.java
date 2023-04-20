@@ -9,13 +9,13 @@ import com.mygdx.hadal.constants.Stats;
 
 public class RecyclerBolus extends Artifact {
 
-	private static final int slotCost = 3;
+	private static final int SLOT_COST = 3;
 	
-	private final float hpBuff = 0.05f;
-	private final int maxStacks = 30;
+	private static final float HP_BUFF = 0.05f;
+	private static final int MAX_STACKS = 30;
 	
 	public RecyclerBolus() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class RecyclerBolus extends Artifact {
 			private int currentStacks;
 			@Override
 			public void scrapPickup() {
-				if (currentStacks < maxStacks) {
+				if (currentStacks < MAX_STACKS) {
 					currentStacks++;
 					p.calcStats();
 				}
@@ -39,7 +39,7 @@ public class RecyclerBolus extends Artifact {
 			
 			@Override
 			public void statChanges() {
-				p.setStat(Stats.MAX_HP, p.getStat(Stats.MAX_HP_PERCENT) + currentStacks * hpBuff);
+				p.setStat(Stats.MAX_HP, p.getStat(Stats.MAX_HP_PERCENT) + currentStacks * HP_BUFF);
 			}
 		};
 	}
@@ -47,7 +47,7 @@ public class RecyclerBolus extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (hpBuff * 100)),
-				String.valueOf((int) (maxStacks * hpBuff * 100))};
+				String.valueOf((int) (HP_BUFF * 100)),
+				String.valueOf((int) (MAX_STACKS * HP_BUFF * 100))};
 	}
 }

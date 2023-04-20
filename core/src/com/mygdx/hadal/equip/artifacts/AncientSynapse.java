@@ -13,14 +13,14 @@ import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST_LAST;
 
 public class AncientSynapse extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 
-	private static final float baseDegen = 1.0f;
-	private static final float degen = 0.15f;
-	private static final float procCd = 0.02f;
+	private static final float BASE_DEGEN = 1.0f;
+	private static final float DEGEN = 0.15f;
+	private static final float PROC_CD = 0.02f;
 	
 	public AncientSynapse() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -31,10 +31,10 @@ public class AncientSynapse extends Artifact {
 			private float damageLeft;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 					if (damageLeft > 0.0f) {
-						float damage = procCd * (baseDegen + degen * damageLeft);
+						float damage = PROC_CD * (BASE_DEGEN + DEGEN * damageLeft);
 						p.receiveDamage(damage, new Vector2(), p, false, null, DamageSource.ANCIENT_SYNAPSE);
 						damageLeft -= damage;
 					}
@@ -53,7 +53,7 @@ public class AncientSynapse extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDegen),
-				String.valueOf((int) (degen * 100))};
+				String.valueOf((int) BASE_DEGEN),
+				String.valueOf((int) (DEGEN * 100))};
 	}
 }

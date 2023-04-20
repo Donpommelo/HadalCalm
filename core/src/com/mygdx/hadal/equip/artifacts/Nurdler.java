@@ -1,45 +1,33 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.artifact.NurdlerActivate;
 import com.mygdx.hadal.equip.Equippable;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Nurdler extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float procCd = 0.2f;
-	
-	private static final Vector2 projectileSize = new Vector2(18, 18);
-	private static final float lifespan = 0.5f;
-	private static final Sprite projSprite = Sprite.ORB_BLUE;
-	
-	private static final float baseDamage = 15.0f;
-	private static final float knockback = 2.5f;
-	private static final int spread = 30;
-	
-	private static final float projSpeed = 30.0f;
-	
+	private static final float PROC_CD = 0.2f;
+	private static final float PROJ_SPEED = 30.0f;
+	private static final float BASE_DAMAGE = NurdlerActivate.BASE_DAMAGE;
+
 	public Nurdler() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 			
-			private float procCdCount = procCd;
+			private float procCdCount = PROC_CD;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount < procCd) {
+				if (procCdCount < PROC_CD) {
 					procCdCount += delta;
 				}
 			}
@@ -49,18 +37,11 @@ public class Nurdler extends Artifact {
 			public void whileAttacking(float delta, Equippable tool) {
 				if (tool.isReloading()) { return; }
 
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 
-					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
-					Hitbox hbox = new RangedHitbox(state, p.getSchmuck().getPixelPosition(), projectileSize, lifespan,
-							startVelo, p.getSchmuck().getHitboxFilter(),true, true, p.getSchmuck(), projSprite);
-					
-					hbox.addStrategy(new ControllerDefault(state, hbox, p));
-					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, p));
-					hbox.addStrategy(new ContactWallDie(state, hbox, p));
-					hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageSource.NURDLER, DamageTag.RANGED));
-					hbox.addStrategy(new Spread(state, hbox, p, spread));
+					startVelo.set(0, PROJ_SPEED).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
+					SyncedAttack.NURDLER.initiateSyncedAttackSingle(state, p.getPlayer(), p.getSchmuck().getPixelPosition(), startVelo);
 				}
 			}
 		};
@@ -69,7 +50,7 @@ public class Nurdler extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf(procCd),
-				String.valueOf((int) baseDamage)};
+				String.valueOf(PROC_CD),
+				String.valueOf((int) BASE_DAMAGE)};
 	}
 }

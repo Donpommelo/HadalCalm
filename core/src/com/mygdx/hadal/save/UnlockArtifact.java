@@ -123,7 +123,7 @@ public enum UnlockArtifact {
 	CRIME_DISCOURAGEMENT_STICK(new CrimeDiscouragementStick(),
 			GameText.CRIME_DISCOURAGEMENT_STICK, GameText.CRIME_DISCOURAGEMENT_STICK_DESC, GameText.CRIME_DISCOURAGEMENT_STICK_DESC_LONG,
 			false, false, UnlockTag.OFFENSE),
-	CROWN_OF_THORNS(new CrownofThorns(),
+	CROWN_OF_THORNS(new CrownOfThorns(),
 			GameText.CROWN_OF_THORNS, GameText.CROWN_OF_THORNS_DESC, GameText.CROWN_OF_THORNS_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.PASSIVE_DAMAGE),
 	CURIOUS_SAUCE(new CuriousSauce(),

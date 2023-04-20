@@ -13,6 +13,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -29,8 +30,7 @@ public class Immolation extends SyncedAttacker {
     private static final float RECOIL = 3.0f;
 
     @Override
-    public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
-                                            float[] extraFields) {
+    public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
         SoundEffect.WOOSH.playSourced(state, user.getPixelPosition(), 1.0f);
 
         user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 6.0f, user.getBodyData(), user.getBodyData()));
@@ -75,6 +75,8 @@ public class Immolation extends SyncedAttacker {
             }
         });
 
-        return hbox;
+        if (!state.isServer()) {
+            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+        }
     }
 }

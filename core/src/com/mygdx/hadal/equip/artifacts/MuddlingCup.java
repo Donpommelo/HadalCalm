@@ -9,10 +9,10 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class MuddlingCup extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
 	public MuddlingCup() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -30,6 +30,6 @@ public class MuddlingCup extends Artifact {
 							projAngle.set(airblastDirection).nor().scl(projectileSpeed), p.getPlayer().getHitboxFilter());
 				}
 			}
-		});
+		}).setUserOnly(true);
 	}
 }

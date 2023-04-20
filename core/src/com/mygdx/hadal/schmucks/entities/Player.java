@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
@@ -26,7 +28,6 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
@@ -34,6 +35,8 @@ import com.mygdx.hadal.utils.PlayerConditionUtil;
 import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+
+import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -397,9 +400,12 @@ public class Player extends Schmuck {
 	}
 
 	//this is the type of death we have. Send to client so they can process the death on their end.
+	private UUID perpID;
+	private DamageSource damageSource = DamageSource.MISC;
+	private DamageTag[] damageTags = new DamageTag[] {};
 	private DespawnType despawnType = DespawnType.LEVEL_TRANSITION;
 	@Override
-	public Object onServerDelete() { return new Packets.DeletePlayer(entityID, state.getTimer(), despawnType); }
+	public Object onServerDelete() { return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
 
 	/**
 	 * This is called every engine tick. 
@@ -435,9 +441,11 @@ public class Player extends Schmuck {
 
 			getPlayerData().getCurrentTool().setReloading(p.reloadPercent != -1.0f, true);
 			uiHelper.setReloadPercent(p.reloadPercent);
+			getPlayerData().getCurrentTool().setReloadCd(p.reloadPercent);
 
 			getPlayerData().getCurrentTool().setCharging(p.chargePercent != -1.0f);
 			uiHelper.setChargePercent(p.chargePercent);
+			getPlayerData().getCurrentTool().setChargeCd(p.chargePercent);
 
 			getPlayerData().setCurrentFuel(p.currentFuel);
 
@@ -445,13 +453,13 @@ public class Player extends Schmuck {
 
 		} else if (o instanceof Packets.DeletePlayer p) {
 
-			if (alive) {
-				alive = false;
-
-				//delegate to sprite helper for despawn so it can dispose of frame buffer object
-				spriteHelper.despawn(p.type, getPixelPosition(), getLinearVelocity());
-				setDespawnType(p.type);
-				((ClientState) state).removeEntity(entityID);
+			if (!(this instanceof PlayerSelfOnClient)) {
+				HadalEntity entity = state.findEntity(p.uuidMSBPerp, p.uuidLSBPerp);
+				if (entity instanceof Schmuck perp) {
+					getPlayerData().die(perp.getBodyData(), p.source, p.tags);
+				} else {
+					getPlayerData().die(state.getWorldDummy().getBodyData(), p.source, p.tags);
+				}
 			}
 		}
 	}
@@ -606,6 +614,12 @@ public class Player extends Schmuck {
 	public PingHelper getPingHelper() { return pingHelper; }
 
 	public SpecialWeaponHelper getSpecialWeaponHelper() { return specialWeaponHelper; }
+
+	public void setPerpID(UUID perpID) { this.perpID = perpID; }
+
+	public void setDamageSource(DamageSource damageSource) { this.damageSource = damageSource; }
+
+	public void setDamageTags(DamageTag[] damageTags) { this.damageTags = damageTags; }
 
 	public void setDespawnType(DespawnType despawnType) { this.despawnType = despawnType; }
 

@@ -8,24 +8,24 @@ import com.mygdx.hadal.constants.Stats;
 
 public class FensClippedWings extends Artifact {
 
-	private static final int slotCost = 2;
-	private static final int bonusJumpNum = 1;
-	private static final float bonusJumpPow = 0.2f;
+	private static final int SLOT_COST = 2;
+	private static final int BONUS_JUMP_NUM = 1;
+	private static final float BONUS_JUMP_POW = 0.2f;
 	
 	public FensClippedWings() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.JUMP_POW, bonusJumpPow, p),
-				new StatChangeStatus(state, Stats.JUMP_NUM, bonusJumpNum, p));
+				new StatChangeStatus(state, Stats.JUMP_POW, BONUS_JUMP_POW, p),
+				new StatChangeStatus(state, Stats.JUMP_NUM, BONUS_JUMP_NUM, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusJumpPow * 100))};
+				String.valueOf((int) (BONUS_JUMP_POW * 100))};
 	}
 }

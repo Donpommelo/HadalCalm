@@ -10,13 +10,13 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PeachwoodSword extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float spiritDamageEnemy = 15.0f;
-	private static final float spiritDamagePlayer = 50.0f;
+	private static final float SPIRIT_DAMAGE_ENEMY = 15.0f;
+	private static final float SPIRIT_DAMAGE_PLAYER = 50.0f;
 
 	public PeachwoodSword() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -28,11 +28,11 @@ public class PeachwoodSword extends Artifact {
 				if (vic instanceof PlayerBodyData) {
 					SyncedAttack.VENGEFUL_SPIRIT_PEACHWOOD.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
 							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {},
-							0.0f, 0.0f, spiritDamagePlayer);
+							0.0f, 0.0f, SPIRIT_DAMAGE_PLAYER);
 				} else {
 					SyncedAttack.VENGEFUL_SPIRIT_PEACHWOOD.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
 							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {},
-							0.0f, 0.0f, spiritDamageEnemy);
+							0.0f, 0.0f, SPIRIT_DAMAGE_ENEMY);
 				}
 			}
 			
@@ -40,15 +40,15 @@ public class PeachwoodSword extends Artifact {
 			public void onDeath(BodyData perp, DamageSource source) {
 				SyncedAttack.VENGEFUL_SPIRIT_PEACHWOOD.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
 						new Vector2[] {p.getSchmuck().getPixelPosition()}, new Vector2[] {},
-						0.0f, 0.0f, spiritDamagePlayer);
+						0.0f, 0.0f, SPIRIT_DAMAGE_PLAYER);
 			}
-		};
+		}.setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) spiritDamagePlayer),
-				String.valueOf((int) spiritDamageEnemy)};
+				String.valueOf((int) SPIRIT_DAMAGE_PLAYER),
+				String.valueOf((int) SPIRIT_DAMAGE_ENEMY)};
 	}
 }

@@ -8,25 +8,25 @@ import com.mygdx.hadal.statuses.Status;
 
 public class ClockwiseCage extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private static final float procCd = 2.0f;
-	private static final float echoCd = 0.2f;
+	private static final float PROC_CD = 2.0f;
+	private static final float ECHO_CD = 0.2f;
 	
-	public ClockwiseCage() { super(slotCost); }
+	public ClockwiseCage() { super(SLOT_COST); }
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 			
-			private float procCdCount = procCd;
+			private float procCdCount = PROC_CD;
 			private boolean echoing;
 			private float echoCdCount;
 			private Equippable echoTool;
 			private final Vector2 angle = new Vector2();
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount < procCd) {
+				if (procCdCount < PROC_CD) {
 					procCdCount += delta;
 				}
 				if (echoing) {
@@ -42,10 +42,10 @@ public class ClockwiseCage extends Artifact {
 
 			@Override
 			public void onShoot(Equippable tool) {
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
 					echoing = true;
-					echoCdCount = echoCd;
+					echoCdCount = ECHO_CD;
 					echoTool = tool;
 					angle.set(tool.getWeaponVelo());
 				}
@@ -56,6 +56,6 @@ public class ClockwiseCage extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) procCd)};
+				String.valueOf((int) PROC_CD)};
 	}
 }

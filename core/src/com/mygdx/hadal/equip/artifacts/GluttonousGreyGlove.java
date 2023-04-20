@@ -11,13 +11,14 @@ import com.mygdx.hadal.constants.Constants;
 
 public class GluttonousGreyGlove extends Artifact {
 
-	private static final int slotCost = 2;
-	private static final float heal = 0.25f;
-	private static final float chancePlayer = 1.0f;
-	private static final float chanceMonster = 0.2f;
+	private static final int SLOT_COST = 2;
+
+	private static final float HEAL = 0.25f;
+	private static final float CHANCE_PLAYER = 1.0f;
+	private static final float CHANCE_MONSTER = 0.2f;
 
 	public GluttonousGreyGlove() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -26,22 +27,22 @@ public class GluttonousGreyGlove extends Artifact {
 			
 			@Override
 			public void onKill(BodyData vic, DamageSource source) {
-				if (MathUtils.randomBoolean(chancePlayer) && vic instanceof PlayerBodyData) {
+				if (MathUtils.randomBoolean(CHANCE_PLAYER) && vic instanceof PlayerBodyData) {
 					SyncedAttack.PICKUP.initiateSyncedAttackSingle(state, vic.getSchmuck(), vic.getSchmuck().getPixelPosition(),
-							vic.getSchmuck().getLinearVelocity(), Constants.PICKUP_HEALTH, heal);
-				} else if (MathUtils.randomBoolean(chanceMonster)) {
+							vic.getSchmuck().getLinearVelocity(), Constants.PICKUP_HEALTH, HEAL);
+				} else if (MathUtils.randomBoolean(CHANCE_MONSTER)) {
 					SyncedAttack.PICKUP.initiateSyncedAttackSingle(state, vic.getSchmuck(), vic.getSchmuck().getPixelPosition(),
-							vic.getSchmuck().getLinearVelocity(), Constants.PICKUP_HEALTH, heal);
+							vic.getSchmuck().getLinearVelocity(), Constants.PICKUP_HEALTH, HEAL);
 				}
 			}
-		};
+		}.setServerOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (chancePlayer * 100)),
-				String.valueOf((int) (chanceMonster * 100)),
-				String.valueOf((int) (heal * 100))};
+				String.valueOf((int) (CHANCE_PLAYER * 100)),
+				String.valueOf((int) (CHANCE_MONSTER * 100)),
+				String.valueOf((int) (HEAL * 100))};
 	}
 }

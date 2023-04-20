@@ -10,15 +10,15 @@ import com.mygdx.hadal.constants.Stats;
 
 public class BenthicDesires extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float speedThreshold = 2.0f;
-	private static final float moveCooldown = 1.0f;
-	private static final float hpRegen = 9.0f;
-	private static final float fuelRegen = 14.0f;
+	private static final float SPEED_THRESHOLD = 2.0f;
+	private static final float MOVE_COOLDOWN = 1.0f;
+	private static final float HP_REGEN = 9.0f;
+	private static final float FUEL_REGEN = 14.0f;
 
 	public BenthicDesires() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class BenthicDesires extends Artifact {
 			public void timePassing(float delta) {
 				super.timePassing(delta);
 
-				if (p.getSchmuck().getLinearVelocity().len2() >= speedThreshold) {
-					count = moveCooldown;
+				if (p.getSchmuck().getLinearVelocity().len2() >= SPEED_THRESHOLD) {
+					count = MOVE_COOLDOWN;
 				}
 				count -= delta;
 
@@ -40,11 +40,11 @@ public class BenthicDesires extends Artifact {
 
 				if (!GameMode.CAMPAIGN.equals(state.getMode()) && !GameMode.BOSS.equals(state.getMode())) {
 					if (activated) {
-						p.regainHp(hpRegen * delta, p, false, DamageTag.REGEN);
+						p.regainHp(HP_REGEN * delta, p, false, DamageTag.REGEN);
 					}
 				}
 				if (activated) {
-					p.fuelGain(fuelRegen * delta);
+					p.fuelGain(FUEL_REGEN * delta);
 				}
 			}
 		};
@@ -53,8 +53,8 @@ public class BenthicDesires extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) moveCooldown),
-				String.valueOf((int) hpRegen),
-				String.valueOf((int) fuelRegen)};
+				String.valueOf((int) MOVE_COOLDOWN),
+				String.valueOf((int) HP_REGEN),
+				String.valueOf((int) FUEL_REGEN)};
 	}
 }

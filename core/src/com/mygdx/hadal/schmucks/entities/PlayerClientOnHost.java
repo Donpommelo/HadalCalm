@@ -95,6 +95,8 @@ public class PlayerClientOnHost extends Player {
 
 			processConditionCode(p.statusCode);
 
+			getBodyData().setCurrentHp(p.currentHp);
+
 			if (null != body) {
 				prevPos.set(serverPos);
 				serverPos.set(p.pos);

@@ -12,13 +12,13 @@ import java.util.Arrays;
 
 public class LochShield extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float fireRes = 0.4f;
-	private static final float explosiveRes = 0.4f;
+	private static final float FIRE_RES = 0.4f;
+	private static final float EXPLOSIVE_RES = 0.4f;
 
 	public LochShield() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -28,10 +28,10 @@ public class LochShield extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (Arrays.asList(tags).contains(DamageTag.FIRE)) {
-					return damage * (1.0f - fireRes);
+					return damage * (1.0f - FIRE_RES);
 				}
 				if (Arrays.asList(tags).contains(DamageTag.EXPLOSIVE)) {
-					return damage * (1.0f - explosiveRes);
+					return damage * (1.0f - EXPLOSIVE_RES);
 				}
 				return damage;
 			}
@@ -41,7 +41,7 @@ public class LochShield extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (fireRes * 100)),
-				String.valueOf((int) (explosiveRes * 100))};
+				String.valueOf((int) (FIRE_RES * 100)),
+				String.valueOf((int) (EXPLOSIVE_RES * 100))};
 	}
 }

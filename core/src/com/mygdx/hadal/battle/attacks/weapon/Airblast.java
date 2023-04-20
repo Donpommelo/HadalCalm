@@ -7,6 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -41,7 +42,7 @@ public class Airblast extends SyncedAttacker {
         SoundEffect.AIRBLAST.playUniversal(state, startPosition, 0.4f, false);
         user.push(startVelocity.x, startVelocity.y, - MOMENTUM * (1 + user.getBodyData().getStat(Stats.BOOST_RECOIL)));
 
-        Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, SWING_CD, new Vector2(), user.getHitboxFilter(),
+        Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, SWING_CD, startVelocity, user.getHitboxFilter(),
                 true, false, user, Sprite.NOTHING);
         hbox.setScale(1 + user.getBodyData().getStat(Stats.BOOST_SIZE));
         hbox.makeUnreflectable();
@@ -52,7 +53,7 @@ public class Airblast extends SyncedAttacker {
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(startVelocity),
                 startVelocity.nor().scl(HITBOX_SIZE.x / 2 / PPM)));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_BLAST, 0.0f, 2.0f)
-                .setParticleVelocity(startVelocity.angleRad() + 180 * MathUtils.degRad));
+                .setParticleVelocity(startVelocity.angleRad() + 180 * MathUtils.degRad).setSyncType(SyncType.NOSYNC));
 
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

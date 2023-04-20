@@ -1,6 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -25,12 +25,13 @@ public class ContactUnitShock extends HitboxStrategy {
 	private final short filter;
 
 	//this is the effect/item/weapon source of the shock
-	private final DamageSource source;
+	private final SyncedAttack source;
 
 	//has this strategy activated yet? This makes sure we do not activate the effect multiple times
 	private boolean shocked;
 	
-	public ContactUnitShock(PlayState state, Hitbox proj, BodyData user, float damage, int radius, int chain, short filter, DamageSource source) {
+	public ContactUnitShock(PlayState state, Hitbox proj, BodyData user, float damage, int radius, int chain, short filter,
+							SyncedAttack source) {
 		super(state, proj, user);
 		this.damage = damage;
 		this.radius = radius;

@@ -1259,21 +1259,25 @@
   <object id="34" name="Player" type="Player" x="6624" y="4608" width="32" height="32">
    <properties>
     <property name="hp" type="float" value="-1000"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="outOfBounds"/>
    </properties>
   </object>
   <object id="35" name="Sensor" type="Sensor" x="2464" y="4768" width="1792" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeringId" value="outOfBounds"/>
    </properties>
   </object>
   <object id="36" name="Sensor" type="Sensor" x="6240" y="4768" width="480" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeringId" value="outOfBounds"/>
    </properties>
   </object>
   <object id="37" name="Sensor" type="Sensor" x="0" y="4768" width="480" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeringId" value="outOfBounds"/>
    </properties>
   </object>

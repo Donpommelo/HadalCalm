@@ -17,7 +17,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.PlayerClientOnHost;
+import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -360,7 +360,7 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * Remove a designated artifact. 
 	 */
-	public void removeArtifact(UnlockArtifact artifact) {
+	public void removeArtifact(UnlockArtifact artifact, boolean override) {
 		
 		if (UnlockArtifact.NOTHING.equals(artifact)) { return; }
 		
@@ -385,7 +385,7 @@ public class PlayerBodyData extends BodyData {
 			loadout.artifacts[Loadout.MAX_ARTIFACT_SLOTS - 1] = UnlockArtifact.NOTHING;
 		}
 
-		syncArtifacts(true, true);
+		syncArtifacts(override, true);
 	}
 	
 	/**
@@ -396,7 +396,7 @@ public class PlayerBodyData extends BodyData {
 		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 			if (slotsUsed > getNumArtifactSlots()) {
-				removeArtifact(loadout.artifacts[i]);
+				removeArtifact(loadout.artifacts[i], true);
 			}
 		}
 	}
@@ -649,8 +649,13 @@ public class PlayerBodyData extends BodyData {
 
 	@Override
 	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
+		//set death info to be sent to clients once death is processed
+		player.setDamageSource(source);
+		player.setDamageTags(tags);
+		player.setPerpID(perp.getSchmuck().getEntityID());
+
 		if (player.isAlive()) {
-			
+
 			DespawnType type = DespawnType.GIB;
 
 			//in the case of a disconnect, this is a special death with teleport particles instead of frags
@@ -668,37 +673,20 @@ public class PlayerBodyData extends BodyData {
 			//despawn sprite helper. This triggers death animations
 			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());
 			player.setDespawnType(type);
+
 			if (type != DespawnType.TELEPORT) {
-				//Send death notification to all players.
-				Object packet;
 				if (perp instanceof PlayerBodyData playerData) {
 					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, source, tags);
-					packet = new Packets.SyncKillMessage(playerData.getPlayer().getConnID(), player.getConnID(),
-							null, source, tags);
 				} else if (perp.getSchmuck() instanceof Enemy enemyData) {
 					player.getState().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), source, tags);
-					packet = new Packets.SyncKillMessage(-1, player.getConnID(), enemyData.getEnemyType(),
-							source, tags);
 				} else {
 					player.getState().getKillFeed().addMessage(null, player, null, source, tags);
-					packet = new Packets.SyncKillMessage(-1, player.getConnID(),
-							null, source, tags);
-				}
-
-				if (player.getState().isServer()) {
-					if (player instanceof PlayerClientOnHost) {
-						HadalGame.server.sendToAllExceptTCP(player.getConnID(), packet);
-					} else {
-						HadalGame.server.sendToAllTCP(packet);
-					}
-				} else {
-					HadalGame.client.sendTCP(packet);
 				}
 			}
 
-			if (!player.getState().isServer()) {
+			if (!player.getState().isServer() && this.getPlayer() instanceof PlayerSelfOnClient) {
 				((ClientState) player.getState()).removeEntity(player.getEntityID());
-				HadalGame.client.sendTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source));
+				HadalGame.client.sendTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source, tags));
 			}
 			
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)

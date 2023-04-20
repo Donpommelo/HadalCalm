@@ -342,6 +342,8 @@ public class UIExtra extends AHadalActor {
 
 	public void setTimerIncr(float timerIncr) { this.timerIncr = timerIncr; }
 
+	public void setMaxTimer(float maxTimer) { this.maxTimer = maxTimer; }
+
 	public float getMaxTimer() { return maxTimer; }
 
 	public String getDisplayedTimer() { return displayedTimer; }

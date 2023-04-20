@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -42,7 +43,7 @@ public class VajraProjectile extends SyncedAttacker {
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitShock(state, hbox, user.getBodyData(), CHAIN_DAMAGE, CHAIN_RADIUS, CHAIN_AMOUNT,
-                user.getHitboxFilter(), DamageSource.VAJRA));
+                user.getHitboxFilter(), SyncedAttack.SHOCK_VAJRA));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.VAJRA,
                 DamageTag.LIGHTNING, DamageTag.RANGED));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING_CHARGE, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));

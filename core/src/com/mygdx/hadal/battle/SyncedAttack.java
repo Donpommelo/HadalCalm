@@ -3,9 +3,11 @@ package com.mygdx.hadal.battle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.attacks.active.*;
+import com.mygdx.hadal.battle.attacks.artifact.*;
 import com.mygdx.hadal.battle.attacks.event.Candy;
 import com.mygdx.hadal.battle.attacks.event.Eggplant;
 import com.mygdx.hadal.battle.attacks.event.Pickup;
+import com.mygdx.hadal.battle.attacks.general.*;
 import com.mygdx.hadal.battle.attacks.special.Emote;
 import com.mygdx.hadal.battle.attacks.special.Ping;
 import com.mygdx.hadal.battle.attacks.weapon.*;
@@ -83,11 +85,11 @@ public enum SyncedAttack {
     VAJRA(new VajraProjectile()),
     VINE_SEED(new VineSeed()),
     VINE(new Vine()),
-
     WAVE_BEAM(new WaveBeamProjectile()),
     X_BOMB(new XBomb()),
 
     ANCHOR(new Anchor()),
+    EXPLODING_RETICLE(new ExplodingReticle(DamageSource.VESTIGIAL_CHAMBER)),
     FLASHBANG(new FlashbangProjectile()),
     GHOST_STEP(new GhostStepProjectile()),
     JUMP_KICK(new JumpKickProjectile()),
@@ -111,6 +113,10 @@ public enum SyncedAttack {
     IMMOLATION(new Immolation()),
     MERIDIAN_MAKER(new MeridianMakerProjectile()),
     SAMSON_OPTION(new SamsonOptionUse()),
+    SHOCK_VAJRA(new Shock(DamageSource.VAJRA)),
+    SHOCK_BUCKET(new Shock(DamageSource.BUCKET_OF_BATTERIES)),
+    SHOCK_DERMIS(new Shock(DamageSource.VOLATILE_DERMIS)),
+    SHOCK_PLUS_MINUS(new Shock(DamageSource.PLUS_MINUS)),
     TAINTED_WATER(new TaintedWaterProjectile()),
     VENGEFUL_SPIRIT(new VengefulSpirit(DamageSource.SPIRIT_RELEASE)),
     VENGEFUL_SPIRIT_PEACHWOOD(new VengefulSpirit(DamageSource.PEACHWOOD_SWORD)),
@@ -120,12 +126,31 @@ public enum SyncedAttack {
     SUPPLY_DROP(new SupplyDropUse()),
     TERRAFORM(new Terraform()),
 
-    FORCE_OF_WILL(new ForceOfWillUse()),
+    INVINCIBILITY(new InvulnerabilityInflict()),
     INVISIBILITY_ON(new InvisibilityOn()),
     INVISIBILITY_OFF(new InvisibilityOff()),
     MELON(new MelonUse()),
+    PLUS_MINUS(new PlusMinusUse()),
     RELOADER(new ReloaderUse()),
     RESERVED_FUEL(new ReservedFuelUse()),
+
+    ARTIFACT_AMMO_ACTIVATE(new ArtifactAmmoActivate()),
+    ARTIFACT_FUEL_ACTIVATE(new ArtifactFuelActivate()),
+    ARTIFACT_MAGIC_ACTIVATE(new ArtifactMagicActivate()),
+    AMDALHS_LOTUS(new AmdhalsLotusActivate()),
+    BRITTLING_POWDER(new BrittlingPowderActivate()),
+    COMMUTERS_PARASOL(new CommuterParasolActivate()),
+    CROWN_OF_THORNS(new CrownOfThornsActivate()),
+    FRACTURE_PLATE(new FracturePlateActivate()),
+    GOMEZS_AMYGDALA(new GomezsAmygdalaActivate()),
+    KUMQUAT(new KumquatActivate()),
+    NURDLER(new NurdlerActivate()),
+    OUR_GET_ALONG_SHIRT(new OurGetAlongShirtActivate()),
+    PEER_PRESSURE(new PeerPressureSummonAttack()),
+    PEPPER_ARTIFACT(new PepperActivate()),
+    SKIPPERS_BOX_OF_FUN(new SkippersBoxOfFunActivate()),
+    VOLATILE_DERMIS(new VolatileDermisActivate()),
+    WHITE_SMOKER(new WhiteSmokerActivate()),
 
     PICKUP(new Pickup()),
     EGGPLANT(new Eggplant()),
@@ -140,6 +165,7 @@ public enum SyncedAttack {
 
     SyncedAttack(SyncedAttacker syncedAttacker) {
         this.syncedAttacker = syncedAttacker;
+        this.syncedAttacker.setSyncedAttack(this);
     }
 
     /**

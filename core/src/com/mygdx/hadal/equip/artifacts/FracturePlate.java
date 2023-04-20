@@ -1,32 +1,29 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.constants.Stats;
 
 import static com.mygdx.hadal.constants.Constants.PRIORITY_MULT_SCALE;
 
 public class FracturePlate extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
+	private static final float CD = 4.0f;
 	private float procCdCount = 0;
-	private static final float cd = 4.0f;
-	
-	private static final float particleDura = 1.0f;
-	private static final float maxShield = 0.2f;
+
+	private static final float MAX_SHIELD = 0.2f;
 	private float shield;
 	
 	public FracturePlate() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -39,9 +36,9 @@ public class FracturePlate extends Artifact {
 					procCdCount -= delta;
 				}
 				
-				if (procCdCount < 0 && shield != maxShield * p.getStat(Stats.MAX_HP)) {
-					shield = maxShield * p.getStat(Stats.MAX_HP);
-					new ParticleEntity(state, p.getSchmuck(), Particle.SHIELD, 1.0f, particleDura, true, SyncType.CREATESYNC);
+				if (procCdCount < 0 && shield != MAX_SHIELD * p.getStat(Stats.MAX_HP)) {
+					shield = MAX_SHIELD * p.getStat(Stats.MAX_HP);
+					SyncedAttack.FRACTURE_PLATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), p.getPlayer().getPixelPosition(), true, 1.0f);
 				}
 			}
 			
@@ -49,7 +46,7 @@ public class FracturePlate extends Artifact {
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				float finalDamage = damage;
 				if (damage > 0 && shield > 0) {
-					procCdCount = cd;
+					procCdCount = CD;
 					if (shield > damage) {
 						shield -= damage;
 						finalDamage = 0;
@@ -57,17 +54,17 @@ public class FracturePlate extends Artifact {
 						finalDamage = damage - shield;
 						shield = 0;
 					}
-					new ParticleEntity(state, p.getSchmuck(), Particle.BOULDER_BREAK, 0.0f, particleDura, true, SyncType.CREATESYNC);
+					SyncedAttack.FRACTURE_PLATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), p.getPlayer().getPixelPosition(), true, 0.0f);
 				}
 				return finalDamage;
 			}
-		}.setPriority(PRIORITY_MULT_SCALE);
+		}.setPriority(PRIORITY_MULT_SCALE).setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) cd),
-				String.valueOf((int) (maxShield * 100))};
+				String.valueOf((int) CD),
+				String.valueOf((int) (MAX_SHIELD * 100))};
 	}
 }

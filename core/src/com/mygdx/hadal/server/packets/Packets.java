@@ -416,32 +416,44 @@ public class Packets {
 	}
 
 	public static class DeletePlayer extends DeleteEntity {
-		public DespawnType type;
+		public long uuidMSBPerp, uuidLSBPerp;
+		public DamageSource source;
+		public DamageTag[] tags;
 		public DeletePlayer() {}
 
 		/**
 		 * A DeletePlayer is sent from the Server to the Client to tell the Client to delete a player.
 		 * This is separate from delete entity to pass along info about the type of death.
 		 * @param entityID: ID of the entity to be deleted.
+		 * @param perpID: ID of the perp that killed this entity.
 		 * @param timestamp: when this deletion occurred. Used to handle the possibility of packet loss.
-		 * @param type: type of deletion for animation purpose (death, disconnect teleport etc)
+		 * @param source: source of fatal damage (for death message)
+		 * @param tags: tags associated with fatal damage (for death message
 		 */
-		public DeletePlayer(UUID entityID, float timestamp, DespawnType type) {
+		public DeletePlayer(UUID entityID, UUID perpID, float timestamp, DamageSource source, DamageTag[] tags) {
 			super(entityID, timestamp);
-			this.type = type;
+			if (null != perpID) {
+				this.uuidMSBPerp = perpID.getMostSignificantBits();
+				this.uuidLSBPerp = perpID.getLeastSignificantBits();
+			}
+			this.source = source;
+			this.tags = tags;
 		}
 	}
 
 	public static class DeleteClientSelf {
 		public long uuidMSB, uuidLSB;
 		public DamageSource source;
+		public DamageTag[] tags;
 		public DeleteClientSelf() {}
 
 		/**
 		 */
-		public DeleteClientSelf(UUID entityID, DamageSource source) {
+		public DeleteClientSelf(UUID entityID, DamageSource source, DamageTag[] tags) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
+			this.uuidMSB = entityID.getMostSignificantBits();
 			this.source = source;
+			this.tags = tags;
 		}
 	}
 
@@ -748,6 +760,7 @@ public class Packets {
 	}
 	
 	public static class SyncUI {
+		public float maxTimer;
 		public float timer;
 		public float timerIncr;
 		public AlignmentFilter[] teams;
@@ -757,12 +770,14 @@ public class Packets {
 		/**
 		 * A SyncUI is sent from the Server to the Client whenever the ui is updated.
 		 * The client updates their ui to represent the changes.
-		 * @param timer: what to set the global game timer to
+		 * @param maxTimer: what to set the global game timer to (max)
+		 * @param timer: what to set the global game timer to (current)
 		 * @param timerIncr: How much should the timer be incrementing by (probably +-1 or 0)
 		 * @param teams: the list of teams currently active for the match
 		 * @param scores: list of scores for each team
 		 */
-		public SyncUI(float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
+		public SyncUI(float maxTimer, float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
+			this.maxTimer = maxTimer;
 			this.timer = timer;
 			this.timerIncr = timerIncr;
 			this.teams = teams;
@@ -1023,33 +1038,6 @@ public class Packets {
 		}
 	}
 
-	public static class SyncKillMessage {
-		public int perpConnID;
-		public int vicConnID;
-		public EnemyType enemyType;
-		public DamageSource source;
-		public DamageTag[] tags;
-
-		public SyncKillMessage() {}
-
-		/**
-		 * A SyncKillMessage is sent from the server to the client when a player dies.
-		 * This provides the client with the needed information to display a kill message in their feed
-		 * @param perpConnID: the connID of the perp (-1 if no player perp)
-		 * @param vicConnID: the connID of the vic
-		 * @param enemyType: the type of enemy that killed the player (null if not an enemy kill)
-		 * @param source: damage source of the last instance of damage.
-		 * @param tags: damage tags of the last instance of damage.
-		 */
-		public SyncKillMessage(int perpConnID, int vicConnID, EnemyType enemyType, DamageSource source, DamageTag... tags) {
-			this.perpConnID = perpConnID;
-			this.vicConnID = vicConnID;
-			this.enemyType = enemyType;
-			this.source = source;
-			this.tags = tags;
-		}
-	}
-
 	public static class SyncNotification {
 		public String message;
 
@@ -1149,7 +1137,6 @@ public class Packets {
 		kryo.register(RemoveScore.class);
 		kryo.register(ClientYeet.class);
 		kryo.register(SyncEmote.class);
-		kryo.register(SyncKillMessage.class);
 		kryo.register(SyncNotification.class);
 		kryo.register(SyncObjectiveMarker.class);
 

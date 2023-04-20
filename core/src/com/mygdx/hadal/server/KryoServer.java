@@ -344,8 +344,8 @@ public class KryoServer {
 							}
 
 							//sync client ui elements
-							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr(),
-								AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
+							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getMaxTimer(), ps.getUiExtra().getTimer(),
+									ps.getUiExtra().getTimerIncr(),	AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
 							sendToTCP(c.getID(), new Packets.SyncSharedSettings(ps.getGsm().getSharedSetting()));
 						});
 					}
@@ -390,7 +390,7 @@ public class KryoServer {
 										player.getPlayerData().addArtifact(s.artifactAdd, false, s.save);
 									}
 									else if (p instanceof PacketsLoadout.SyncArtifactRemoveClient s) {
-										player.getPlayerData().removeArtifact(s.artifactRemove);
+										player.getPlayerData().removeArtifact(s.artifactRemove, false);
 									}
 									else if (p instanceof PacketsLoadout.SyncActiveClient s) {
 										player.getPlayerData().syncActive(s.active);
@@ -605,26 +605,6 @@ public class KryoServer {
 											player.getPlayerData(), false, null, DamageSource.MISC));
 								}
 							}
-						}
-					}
-				}
-
-				else if (o instanceof final Packets.SyncKillMessage p) {
-					final PlayState ps = getPlayState();
-					if (null != ps) {
-						User vic = users.get(p.vicConnID);
-						if (null != vic) {
-							User perp = users.get(p.perpConnID);
-							ps.addPacketEffect(() -> {
-								if (null != perp) {
-									ps.getKillFeed().addMessage(perp.getPlayer(), vic.getPlayer(),
-											p.enemyType, p.source, p.tags);
-								} else {
-									ps.addPacketEffect(() -> ps.getKillFeed().addMessage(null, vic.getPlayer(),
-											p.enemyType, p.source, p.tags));
-								}
-								sendToAllExceptTCP(c.getID(), p);
-							});
 						}
 					}
 				}

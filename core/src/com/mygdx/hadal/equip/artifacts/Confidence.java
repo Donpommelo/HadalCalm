@@ -15,13 +15,13 @@ import com.mygdx.hadal.constants.Stats;
 
 public class Confidence extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 
-	private static final float bonusDamage = 0.5f;
-	private static final float hpThreshold = 0.9f;
+	private static final float BONUS_DAMAGE = 0.5f;
+	private static final float HP_THRESHOLD = 0.9f;
 
 	public Confidence() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class Confidence extends Artifact {
 
 			@Override
 			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
-				if (p.getCurrentHp() >= p.getStat(Stats.MAX_HP) * hpThreshold) {
-					return damage * (1.0f + bonusDamage);
+				if (p.getCurrentHp() >= p.getStat(Stats.MAX_HP) * HP_THRESHOLD) {
+					return damage * (1.0f + BONUS_DAMAGE);
 				}
 				return damage;
 			}
@@ -39,7 +39,7 @@ public class Confidence extends Artifact {
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
-				boolean activated = p.getCurrentHp() >= p.getStat(Stats.MAX_HP) * hpThreshold;
+				boolean activated = p.getCurrentHp() >= p.getStat(Stats.MAX_HP) * HP_THRESHOLD;
 				setActivated(activated);
 			}
 
@@ -54,7 +54,7 @@ public class Confidence extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (hpThreshold * 100)),
-				String.valueOf((int) (bonusDamage * 100))};
+				String.valueOf((int) (HP_THRESHOLD * 100)),
+				String.valueOf((int) (BONUS_DAMAGE * 100))};
 	}
 }

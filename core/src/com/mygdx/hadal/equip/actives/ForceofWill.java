@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.attacks.active.ForceOfWillUse;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -14,7 +13,7 @@ public class ForceofWill extends ActiveItem {
 
 	private static final float MAX_CHARGE = 15.0f;
 	
-	private static final float DURATION = ForceOfWillUse.DURATION;
+	private static final float DURATION = 2.0f;
 	
 	public ForceofWill(Player user) {
 		super(user, MAX_CHARGE);
@@ -22,7 +21,8 @@ public class ForceofWill extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SyncedAttack.FORCE_OF_WILL.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(), true);
+		SyncedAttack.INVINCIBILITY.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(),
+				true, DURATION);
 	}
 
 	@Override
