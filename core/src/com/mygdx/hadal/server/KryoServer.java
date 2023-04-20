@@ -618,9 +618,9 @@ public class KryoServer {
 								if (null != vic.getPlayer()) {
 									HadalEntity perp = ps.findEntity(p.uuidMSB, p.uuidLSB);
 									if (perp instanceof Schmuck schmuck) {
-										vic.getPlayer().getPlayerData().die(schmuck.getBodyData(), p.source);
+										vic.getPlayer().getPlayerData().die(schmuck.getBodyData(), p.source, p.tags);
 									} else {
-										vic.getPlayer().getPlayerData().die(ps.getWorldDummy().getBodyData(), p.source);
+										vic.getPlayer().getPlayerData().die(ps.getWorldDummy().getBodyData(), p.source, p.tags);
 									}
 								}
 							});

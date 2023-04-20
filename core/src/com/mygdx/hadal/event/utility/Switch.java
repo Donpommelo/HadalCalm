@@ -34,7 +34,6 @@ public class Switch extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
-					System.out.println();
 					event.getConnectedEvent().getEventData().preActivate(this, p);
 					
 					if (standardParticle != null) {
