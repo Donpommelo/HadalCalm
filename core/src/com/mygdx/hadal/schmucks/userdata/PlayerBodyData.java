@@ -358,7 +358,8 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * Remove a designated artifact. 
+	 * Remove a designated artifact.
+	 * use override to abide by artifact slot costs
 	 */
 	public void removeArtifact(UnlockArtifact artifact, boolean override) {
 		
@@ -649,6 +650,7 @@ public class PlayerBodyData extends BodyData {
 
 	@Override
 	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
+
 		//set death info to be sent to clients once death is processed
 		player.setDamageSource(source);
 		player.setDamageTags(tags);
@@ -674,6 +676,7 @@ public class PlayerBodyData extends BodyData {
 			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());
 			player.setDespawnType(type);
 
+			//process kill feed messages (unless "dead" player is just disconnected)
 			if (type != DespawnType.TELEPORT) {
 				if (perp instanceof PlayerBodyData playerData) {
 					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, source, tags);
@@ -684,6 +687,7 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 
+			//for the client's own player, death is processed and signalled to server
 			if (!player.getState().isServer() && this.getPlayer() instanceof PlayerSelfOnClient) {
 				((ClientState) player.getState()).removeEntity(player.getEntityID());
 				HadalGame.client.sendTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source, tags));

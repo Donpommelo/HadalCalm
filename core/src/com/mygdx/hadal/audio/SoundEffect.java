@@ -210,7 +210,6 @@ public enum SoundEffect {
 		getSound().setPitch(soundId, pitch);
 		
 		updateSoundLocation(state, worldPos, volume, soundId);
-
 		return soundId;
 	}
 	
@@ -287,7 +286,12 @@ public enum SoundEffect {
 	private final Vector2 playerPosition = new Vector2();
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
 		Player player = state.getPlayer();
-		if (null == player) { return; }
+
+		//this avoids playing sounds at default volume if player has not loaded in yet
+		if (null == player) {
+			getSound().setPan(soundId, 0.0f, volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
+			return;
+		}
 
 		//check if player exists and is alive (to avoid sudden sound change on death)
 		if (null != player.getBody() && player.isAlive()) {
@@ -323,6 +327,7 @@ public enum SoundEffect {
 		} else {
 			newVolume = (MAX_DIST - dist) / MAX_DIST;
 		}
+
 		getSound().setPan(soundId, pan, newVolume * volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
 	}
 }

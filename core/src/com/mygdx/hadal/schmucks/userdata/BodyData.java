@@ -295,6 +295,7 @@ public class BodyData extends HadalData {
 			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, source, tags))).damage;
 		}
 
+		//damage effects should be processed for all characters except clients on server who process them themselves
 		boolean processDamageEffects = true;
 		if (schmuck.getState().isServer()) {
 			if (schmuck instanceof PlayerClientOnHost) {
@@ -327,7 +328,9 @@ public class BodyData extends HadalData {
 				damage += currentHp;
 
 				currentHp = 0;
-				if (schmuck.getState().isServer() || schmuck instanceof PlayerSelfOnClient) {
+
+				//server processes death for all characters except clients who process it for themselves (and only themselves)
+				if (schmuck.isOrigin()) {
 					die(lastDamagedBy, source, tags);
 				}
 			}

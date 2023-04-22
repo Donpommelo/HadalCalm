@@ -38,6 +38,7 @@ public class Status implements Comparable<Status> {
 	//Status priority determins the order in which multiple statuses will proc their effects (small number = goes first)
 	private int priority = PRIORITY_DEFAULT;
 
+	//does this status activate for the server only? for the player's own character only?
 	private boolean serverOnly, userOnly;
 
 	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v) {

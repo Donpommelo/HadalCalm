@@ -267,8 +267,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 				hbox.addStrategy((new HitboxStrategy(state, hbox, enemy.getBodyData()) {
 				
-					private float controllerCount = 0;
-				
+					private float controllerCount;
 					@Override
 					public void controller(float delta) {
 						

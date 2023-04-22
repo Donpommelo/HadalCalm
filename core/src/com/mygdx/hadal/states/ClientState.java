@@ -200,7 +200,6 @@ public class ClientState extends PlayState {
 		while (!sync.isEmpty()) {
 			SyncPacket p = sync.removeIndex(0);
 		 	if (p != null) {
-
 				HadalEntity entity = hitboxes.get(p.entityID);
 		 		if (entity != null) {
 		 			entity.onReceiveSync(p.packet, p.timestamp);

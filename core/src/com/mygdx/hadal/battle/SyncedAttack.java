@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.attacks.active.*;
 import com.mygdx.hadal.battle.attacks.artifact.*;
+import com.mygdx.hadal.battle.attacks.enemy.*;
 import com.mygdx.hadal.battle.attacks.event.Candy;
 import com.mygdx.hadal.battle.attacks.event.Eggplant;
 import com.mygdx.hadal.battle.attacks.event.Pickup;
@@ -23,8 +24,9 @@ import java.util.UUID;
  * A SyncedAttack represents an "attack" sent from server to client containing information about hitboxes produced, hitbox strategies,
  * sound, particles etc. This is used to only send one packet when an attack is executed rather than multiple for each
  * part of the attack. Additionally, this allows for more specific hbox behavior that would be difficult to synchronize
- * with client illusions
+ * with client illusions.
  *
+ * As of 1.0.8, these also send info from client to server and can send hitbox-less packets.
  */
 public enum SyncedAttack {
 
@@ -110,8 +112,10 @@ public enum SyncedAttack {
 
     CALL_OF_WALRUS(new CallofWalrusUse()),
     DEPTH_CHARGE(new DepthChargeUse()),
+    FISH_GANG(new FishGangUse()),
     IMMOLATION(new Immolation()),
     MERIDIAN_MAKER(new MeridianMakerProjectile()),
+    PORTABLE_SENTRY(new PortableSentryUse()),
     SAMSON_OPTION(new SamsonOptionUse()),
     SHOCK_VAJRA(new Shock(DamageSource.VAJRA)),
     SHOCK_BUCKET(new Shock(DamageSource.BUCKET_OF_BATTERIES)),
@@ -157,10 +161,17 @@ public enum SyncedAttack {
     CANDY(new Candy()),
 
     PING(new Ping()),
-    EMOTE(new Emote())
+    EMOTE(new Emote()),
+
+    SCISSORFISH_ATTACK(new ScissorfishAttack()),
+    SPITTLEFISH_ATTACK(new SpittleFishAttack()),
+    TORPEDOFISH_ATTACK(new TorpedoFishAttack()),
+    TURRET_FLAK_ATTACK(new TurretFlakAttack()),
+    TURRET_VOLLEY_ATTACK(new TurretVolleyAttack())
 
     ;
 
+    //the synced attacker responsible for creating this attack.
     private final SyncedAttacker syncedAttacker;
 
     SyncedAttack(SyncedAttacker syncedAttacker) {
@@ -174,6 +185,8 @@ public enum SyncedAttack {
      * @param user: User that is executing this attack
      * @param startPosition: Starting position of the hitbox produced by this attack
      * @param startVelocity: Starting velocity of the hitbox produced by this attack
+     * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitbox that this attack produces
      */
@@ -187,6 +200,10 @@ public enum SyncedAttack {
         if (state.isServer()) {
             syncAttackSingleServer(hbox, extraFields, connID, hbox.isSynced(), false);
         } else {
+
+            //If this client is the originator of this attack, execute it.
+            //Otherwise, we are receiving it from the server and do not need to echo
+            // Also do not need to add entity (as that is handled when the packet is received)
             if (origin) {
                 syncAttackSingleClient(hbox, extraFields, hbox.isSynced());
                 ((ClientState) state).addEntity(hbox.getEntityID(), hbox, hbox.isSynced(), PlayState.ObjectLayer.HBOX);
@@ -203,6 +220,8 @@ public enum SyncedAttack {
      * Syncs an executed attack with the client by sending them a packet
      * @param hbox: Hitbox that is being synced
      * @param extraFields: Any extra fields of the synced attack
+     * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param synced: Does this attack create a synced hitbox?
      * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
      */
     public void syncAttackSingleServer(Hitbox hbox, float[] extraFields, int connID, boolean synced, boolean catchup) {
@@ -230,6 +249,7 @@ public enum SyncedAttack {
             }
         }
 
+        //0 connID indicates a server-created attack. If client created, we don't need to send the packet to the creator.
         if (0 == connID) {
             HadalGame.server.sendToAllUDP(packet);
         } else {
@@ -237,6 +257,12 @@ public enum SyncedAttack {
         }
     }
 
+    /**
+     * Syncs an executed attack with the server by sending them a packet
+     * @param hbox: Hitbox that is being synced
+     * @param extraFields: Any extra fields of the synced attack
+     * @param synced: Does this attack create a synced hitbox?
+     */
     public void syncAttackSingleClient(Hitbox hbox, float[] extraFields, boolean synced) {
         if (synced) {
             if (0 == extraFields.length) {
@@ -259,15 +285,17 @@ public enum SyncedAttack {
                         hbox.getStartVelo(), extraFields, this));
             }
         }
-
     }
 
     /**
      * This initiates a synced attack that produces multiple hitboxes
      * @param state: Current playstate
      * @param user: User that is executing this attack
+     * @param weaponVelocity: Where is the weapon pointing? Distinct from startVelocities in the case of spread weapons.
      * @param startPosition: Starting positions of each hitbox produced by this attack
      * @param startVelocity: Starting velocities of each hitbox produced by this attack
+     * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitboxes that this attack produces
      */
@@ -366,13 +394,27 @@ public enum SyncedAttack {
         }
     }
 
+    /**
+     * Syncs an attack that does not produce a hitbox.
+     *
+     * @param state: Current playstate
+     * @param user: User that is executing this attack
+     * @param startPosition: Starting position of the hitbox produced by this attack
+     * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
+     * @param independent: Is this processed independently between server and client?
+     * @param extraFields: Any extra information required for client to replicate this attack
+     */
     public void initiateSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, int connID,
                                            boolean origin, boolean independent, float... extraFields) {
 
+        //independent attacks are processed immediately
+        //clients do not process dependent attacks; instead they wait for thte server to run them.
         if (independent || state.isServer()) {
             syncedAttacker.performSyncedAttackNoHbox(state, user, startPosition, extraFields);
         }
 
+        //clients relay the attack if they are the creator
         if (state.isServer()) {
             syncAttackNoHboxServer(user, startPosition, independent, extraFields, connID);
         } else if (origin) {

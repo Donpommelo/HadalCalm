@@ -1,22 +1,12 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.constants.MoveState;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
@@ -36,60 +26,41 @@ public class TurretFlak extends Turret {
 		moveState = MoveState.DEFAULT;
 	}
 	
-	private static final float attackWindup1 = 0.6f;
-	private static final float attackWindup2 = 0.2f;
-	private static final float attackAnimation = 0.2f;
+	private static final float ATTACK_WINDUP_1 = 0.6f;
+	private static final float ATTACK_WINDUP_2 = 0.2f;
+	private static final float ATTACK_ANIMATION = 0.2f;
 
-	private static final int numProj = 6;
-	private static final int spread = 10;
-	
-	private static final float baseDamage = 6.0f;
-	private static final float projectileSpeed = 25.0f;
-	private static final float knockback = 15.0f;
-	private static final Vector2 projectileSize = new Vector2(24, 24);
-	private static final float projLifespan = 4.0f;
-	
-	private final Vector2 startVelo = new Vector2();
-	private final Vector2 spreadVelo = new Vector2();
+	private static final int NUM_PROJ = 6;
+	private static final float PROJECTILE_SPEED = 25.0f;
+
+	private final Vector2 startVelocity = new Vector2();
+	private final Vector2 startPosition = new Vector2();
 	@Override
 	public void attackInitiate() {
 
 		if (attackTarget != null) {
-			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, HadalColor.RED, 80.0f);
+			EnemyUtils.windupParticles(state, this, ATTACK_WINDUP_1, Particle.CHARGING, HadalColor.RED, 80.0f);
 			EnemyUtils.changeTurretState(this, TurretState.FREE, 0.0f, 0.0f);
-			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, HadalColor.RED, 80.0f);
+			EnemyUtils.windupParticles(state, this, ATTACK_WINDUP_2, Particle.OVERCHARGE, HadalColor.RED, 80.0f);
 			
-			EnemyUtils.changeMoveState(this, MoveState.ANIM1, attackAnimation);
+			EnemyUtils.changeMoveState(this, MoveState.ANIM1, ATTACK_ANIMATION);
 			animationTime = 0;
-			
-			for (int i = 0; i < numProj; i++) {
-				
-				final int index = i;
-				
-				getActions().add(new EnemyAction(this, 0.0f) {
-					
-					@Override
-					public void execute() {
-						
-						if (index == 0) {
-							SoundEffect.SHOTGUN.playUniversal(state, enemy.getPixelPosition(), 0.75f, 0.75f, false);
-						}
-						
-						startVelo.set(projectileSpeed, projectileSpeed).setAngleDeg(getAttackAngle());
 
-						float newDegrees = startVelo.angleDeg() + MathUtils.random(-spread, spread + 1);
-						spreadVelo.set(startVelo.setAngleDeg(newDegrees));
-						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(spreadVelo, size.x), projectileSize, projLifespan, spreadVelo, getHitboxFilter(), true, true, enemy, Sprite.ORB_RED);
-						hbox.setGravity(3.0f);
-						
-						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-						hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
-						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, getBodyData()));
-						hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback,
-								DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
+			getActions().add(new EnemyAction(this, 0.0f) {
+
+				@Override
+				public void execute() {
+					startVelocity.set(PROJECTILE_SPEED, PROJECTILE_SPEED).setAngleDeg(getAttackAngle());
+					startPosition.set(enemy.getProjectileOrigin(startVelocity, size.x));
+					Vector2[] positions = new Vector2[NUM_PROJ];
+					Vector2[] velocities = new Vector2[NUM_PROJ];
+					for (int i = 0; i < NUM_PROJ; i++) {
+						positions[i] = startPosition;
+						velocities[i] = startVelocity;
 					}
-				});
-			}
+					SyncedAttack.TURRET_FLAK_ATTACK.initiateSyncedAttackMulti(state, enemy, startVelocity, positions, velocities);
+				}
+			});
 
 			EnemyUtils.changeMoveState(this, MoveState.DEFAULT, 0.0f);
 			EnemyUtils.changeTurretState(this, TurretState.TRACKING, 0.0f, 0.0f);

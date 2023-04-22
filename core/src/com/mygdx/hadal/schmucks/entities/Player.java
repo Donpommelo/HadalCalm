@@ -315,13 +315,14 @@ public class Player extends Schmuck {
 	}
 
 	protected void processMiscellaneousUniversal(float delta) {
-		controllerCountUniversal += delta;
-
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
-		while (controllerCountUniversal >= Constants.INTERVAL) {
-			controllerCountUniversal -= Constants.INTERVAL;
+		if (this.isOrigin()) {
+			controllerCountUniversal += delta;
+			while (controllerCountUniversal >= Constants.INTERVAL) {
+				controllerCountUniversal -= Constants.INTERVAL;
 
-			physicsHelper.controllerInterval();
+				physicsHelper.controllerInterval();
+			}
 		}
 
 		jumpHelper.controllerUniversal(delta);
@@ -426,7 +427,7 @@ public class Player extends Schmuck {
 				playerData.getCurrentFuel(),
 				statusCode));
 	}
-	
+
 	/**
 	 * The client Player receives the packet sent above and updates the provided fields.
 	 */
@@ -450,9 +451,9 @@ public class Player extends Schmuck {
 			getPlayerData().setCurrentFuel(p.currentFuel);
 
 			processConditionCode(p.conditionCode);
-
 		} else if (o instanceof Packets.DeletePlayer p) {
 
+			//if the client is told to delete another player, process their death.
 			if (!(this instanceof PlayerSelfOnClient)) {
 				HadalEntity entity = state.findEntity(p.uuidMSBPerp, p.uuidLSBPerp);
 				if (entity instanceof Schmuck perp) {
@@ -464,6 +465,9 @@ public class Player extends Schmuck {
 		}
 	}
 
+	/**
+	 * Converts a short into a series of status booleans
+	 */
 	public void processConditionCode(short statusCode) {
 		jumpHelper.setJumping(PlayerConditionUtil.codeToCondition(statusCode, Constants.JUMPING));
 		groundedHelper.setGrounded(PlayerConditionUtil.codeToCondition(statusCode, Constants.GROUNDED));

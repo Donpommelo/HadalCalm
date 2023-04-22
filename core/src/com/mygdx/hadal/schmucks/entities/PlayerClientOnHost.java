@@ -26,6 +26,7 @@ public class PlayerClientOnHost extends Player {
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
+
 		//process each buffered snapshot starting from the oldest to the most recent
 		while (!bufferedTimestamps.isEmpty()) {
 			if (state.getTimer() >= nextTimeStamp) {
@@ -76,6 +77,7 @@ public class PlayerClientOnHost extends Player {
 	@Override
 	public void onClientSync(Object o) {
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
+			moveState = p.moveState;
 
 			getMouseHelper().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 

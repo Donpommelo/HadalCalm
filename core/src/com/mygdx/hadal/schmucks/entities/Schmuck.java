@@ -127,6 +127,10 @@ public class Schmuck extends HadalEntity {
 	 */
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {	return getPixelPosition(); }
 
+	/**
+	 *
+	 * @return is this schmuck the character being controlled by the player?
+	 */
 	public boolean isOrigin() {
 		if (state.isServer()) {
 			return !(this instanceof PlayerClientOnHost);

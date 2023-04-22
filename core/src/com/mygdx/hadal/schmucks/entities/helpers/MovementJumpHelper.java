@@ -135,11 +135,11 @@ public class MovementJumpHelper {
                 //activate jump particles and sound
                 entity = new ParticleEntity(state, new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2),
                         Particle.WATER_BURST, 1.0f, true, SyncType.NOSYNC);
-                SoundEffect.JUMP.playUniversal(state, player.getPixelPosition(), 0.2f, false);
+                SoundEffect.JUMP.playSourced(state, player.getPixelPosition(), 0.2f);
             } else {
                 //activate double-jump particles and sound
                 entity = new ParticleEntity(state, player, Particle.SPLASH, 0.0f, 0.75f, true, SyncType.NOSYNC);
-                SoundEffect.DOUBLEJUMP.playUniversal(state, player.getPixelPosition(), 0.2f, false);
+                SoundEffect.DOUBLEJUMP.playSourced(state, player.getPixelPosition(), 0.2f);
             }
 
             if (!state.isServer()) {
