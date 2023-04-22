@@ -8,26 +8,26 @@ import com.mygdx.hadal.constants.Stats;
 
 public class CodexofSalvorsLaw extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float bonusMaxFuel = 20.0f;
-	private static final float bonusReflectDamage = 0.75f;
+	private static final float BONUS_MAX_FUEL = 20.0f;
+	private static final float BONUS_REFLECT_DAMAGE = 0.75f;
 	
 	public CodexofSalvorsLaw() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.MAX_FUEL, bonusMaxFuel, p),
-				new StatChangeStatus(state, Stats.REFLECT_DAMAGE, bonusReflectDamage, p));
+				new StatChangeStatus(state, Stats.MAX_FUEL, BONUS_MAX_FUEL, p),
+				new StatChangeStatus(state, Stats.REFLECT_DAMAGE, BONUS_REFLECT_DAMAGE, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) bonusMaxFuel),
-				String.valueOf((int) (bonusReflectDamage * 100))};
+				String.valueOf((int) BONUS_MAX_FUEL),
+				String.valueOf((int) (BONUS_REFLECT_DAMAGE * 100))};
 	}
 }

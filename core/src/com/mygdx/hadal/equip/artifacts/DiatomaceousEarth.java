@@ -1,27 +1,25 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.constants.Stats;
 
 public class DiatomaceousEarth extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 
-	private static final float durationMultiplier = 0.5f;
-	private static final float damageResistance = 0.75f;
-	private static final float knockbackResistance = 0.9f;
+	private static final float DURATION_MULTIPLIER = 0.5f;
+	private static final float DAMAGE_RESISTANCE = 0.75f;
+	private static final float KNOCKBACK_RESISTANCE = 0.9f;
 
 	public DiatomaceousEarth() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -30,14 +28,13 @@ public class DiatomaceousEarth extends Artifact {
 			
 			@Override
 			public void afterActiveItem(ActiveItem tool) {
-				SoundEffect.MAGIC1_ACTIVE.playUniversal(p.getSchmuck().getState(), p.getSchmuck().getPixelPosition(), 0.4f, false);
+				SyncedAttack.ARTIFACT_MAGIC_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 
-				float dura = tool.getMaxCharge() * durationMultiplier;
-				new ParticleEntity(state, p.getSchmuck(), Particle.RING, 1.0f, dura, true, SyncType.CREATESYNC).setScale(0.4f);
+				float dura = tool.getMaxCharge() * DURATION_MULTIPLIER;
 
 				p.addStatus(new StatusComposite(state, dura, false, p, p,
-					new StatChangeStatus(state, Stats.DAMAGE_RES, damageResistance, p),
-					new StatChangeStatus(state, Stats.KNOCKBACK_RES, knockbackResistance, p)));
+					new StatChangeStatus(state, Stats.DAMAGE_RES, DAMAGE_RESISTANCE, p),
+					new StatChangeStatus(state, Stats.KNOCKBACK_RES, KNOCKBACK_RESISTANCE, p)));
 			}
 		};
 	}
@@ -45,8 +42,8 @@ public class DiatomaceousEarth extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (durationMultiplier * 100)),
-				String.valueOf((int) (damageResistance * 100)),
-				String.valueOf((int) (knockbackResistance * 100))};
+				String.valueOf((int) (DURATION_MULTIPLIER * 100)),
+				String.valueOf((int) (DAMAGE_RESISTANCE * 100)),
+				String.valueOf((int) (KNOCKBACK_RESISTANCE * 100))};
 	}
 }

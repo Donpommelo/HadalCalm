@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -11,13 +12,13 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 
 public class RedTideTalisman extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float fireDuration = 4.0f;
-	private static final float fireDamage = 3.0f;
+	private static final float FIRE_DURATION = 4.0f;
+	private static final float FIRE_DAMAGE = 3.0f;
 	
 	public RedTideTalisman() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -27,10 +28,11 @@ public class RedTideTalisman extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (hbox.isEffectsHit()) {
-					hbox.addStrategy(new ContactUnitBurn(state, hbox, p, fireDuration, fireDamage, DamageSource.RED_TIDE_TALISMAN));
+					hbox.addStrategy(new ContactUnitBurn(state, hbox, p, FIRE_DURATION, FIRE_DAMAGE, DamageSource.RED_TIDE_TALISMAN));
 				}
 				if (hbox.isEffectsVisual()) {
-					hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.FIRE, hbox.getLifeSpan(), 1.0f).setParticleSize(50));
+					hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.FIRE, hbox.getLifeSpan(), 1.0f)
+							.setParticleSize(50).setSyncType(SyncType.NOSYNC));
 				}
 			}
 		};
@@ -39,7 +41,7 @@ public class RedTideTalisman extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) fireDuration),
-				String.valueOf((int) fireDamage)};
+				String.valueOf((int) FIRE_DURATION),
+				String.valueOf((int) FIRE_DAMAGE)};
 	}
 }

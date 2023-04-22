@@ -10,12 +10,12 @@ import com.mygdx.hadal.statuses.Status;
 
 public class DasBoot extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float res = 0.55f;
+	private static final float DAMAGE_RESISTANCE = 0.55f;
 	
 	public DasBoot() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class DasBoot extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (p.getCurrentTool().isReloading() && damage > 0) {
-					return damage * res;
+					return damage * DAMAGE_RESISTANCE;
 				}
 				return damage;
 			}
@@ -35,6 +35,6 @@ public class DasBoot extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (res * 100))};
+				String.valueOf((int) (DAMAGE_RESISTANCE * 100))};
 	}
 }

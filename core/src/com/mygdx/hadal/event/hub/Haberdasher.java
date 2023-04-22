@@ -13,7 +13,7 @@ import com.mygdx.hadal.actors.HubOptionPlayer;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
-import com.mygdx.hadal.effects.PlayerSpriteHelper;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;

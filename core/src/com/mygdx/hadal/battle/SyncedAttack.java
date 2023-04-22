@@ -2,12 +2,20 @@ package com.mygdx.hadal.battle;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.equip.actives.*;
-import com.mygdx.hadal.equip.melee.*;
-import com.mygdx.hadal.equip.ranged.*;
+import com.mygdx.hadal.battle.attacks.active.*;
+import com.mygdx.hadal.battle.attacks.artifact.*;
+import com.mygdx.hadal.battle.attacks.enemy.*;
+import com.mygdx.hadal.battle.attacks.event.Candy;
+import com.mygdx.hadal.battle.attacks.event.Eggplant;
+import com.mygdx.hadal.battle.attacks.event.Pickup;
+import com.mygdx.hadal.battle.attacks.general.*;
+import com.mygdx.hadal.battle.attacks.special.Emote;
+import com.mygdx.hadal.battle.attacks.special.Ping;
+import com.mygdx.hadal.battle.attacks.weapon.*;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsAttacks;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.UUID;
@@ -16,581 +24,160 @@ import java.util.UUID;
  * A SyncedAttack represents an "attack" sent from server to client containing information about hitboxes produced, hitbox strategies,
  * sound, particles etc. This is used to only send one packet when an attack is executed rather than multiple for each
  * part of the attack. Additionally, this allows for more specific hbox behavior that would be difficult to synchronize
- * with client illusions
+ * with client illusions.
  *
+ * As of 1.0.8, these also send info from client to server and can send hitbox-less packets.
  */
 public enum SyncedAttack {
 
-    ASSAULT_BITS_BEAM() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return AssaultBits.createAssaultBitsBeam(state, user, startPosition, startVelocity);
-        }
-    },
-
-    AMITA() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return AmitaCannon.createAmita(state, user, startPosition, startVelocity);
-        }
-    },
-
-    BANANA() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Banana.createBanana(state, user, startPosition, startVelocity);
-        }
-    },
-
-    BATTERING() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return BatteringRam.createBattering(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    BEE() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return BeeGun.createBee(state, user, startPosition, startVelocity, source);
-        }
-    },
-
-    BOILER_FIRE() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Boiler.createBoilerFire(state, user, startPosition, startVelocity);
-        }
-    },
-
-    BOMB() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return WeaponUtils.createBomb(state, user, startPosition, startVelocity, DamageSource.ANARCHISTS_COOKBOOK);
-        }
-    },
-
-    BOOMERANG() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Boomerang.createBoomerang(state, user, startPosition, startVelocity);
-        }
-    },
-
-    BOUNCING_BLADE() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return BouncingBlade.createBouncingBlade(state, user, startPosition, startVelocity);
-        }
-    },
-
-    CHARGE_BEAM() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return ChargeBeam.createChargeBeam(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    COLA() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return ColaCannon.createCola(state, user, startPosition, startVelocity);
-        }
-    },
-
-    CR4P() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return CR4PCannon.createCR4P(state, user, weaponVelocity, startPosition, startVelocity);
-        }
-    },
-
-    DEEP_SMELT() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return DeepSeaSmelter.createDeepSmelt(state, user, startPosition, startVelocity);
-        }
-    },
-
-    DIAMOND_CUTTER() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return DiamondCutter.createDiamondCutter(state, user);
-        }
-    },
-
-    DUELING_CORK() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return DuelingCorkgun.createDuelingCork(state, user, startPosition, startVelocity);
-        }
-    },
-
-    FIST() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Fisticuffs.createFist(state, user, startPosition, startVelocity);
-        }
-    },
-
-    FLOUNDER() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return Flounderbuss.createFlounder(state, user, weaponVelocity, startPosition, startVelocity);
-        }
-    },
-
-    FUGU() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Fugun.createFugu(state, user, startPosition, startVelocity);
-        }
-    },
-
-    GRENADE() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return GrenadeLauncher.createGrenade(state, user, startPosition, startVelocity);
-        }
-    },
-
-    HEX() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Hexenhowitzer.createHex(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    ICEBERG() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Iceberg.createIceberg(state, user, startPosition, startVelocity);
-        }
-    },
-
-    IRON_BALL() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return IronBallLauncher.createIronBall(state, user, startPosition, startVelocity);
-        }
-    },
-
-    KAMABOKO() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Kamabokannon.createKamaboko(state, user, startPosition, startVelocity);
-        }
-    },
-
-    KILLER_NOTES() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return KillerBeat.createKillerNotes(state, user, weaponVelocity, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    LASER() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return LaserRifle.createLaser(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    LASER_GUIDED_ROCKET() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return LaserGuidedRocket.createLaserGuidedRocket(state, user, startPosition, startVelocity);
-        }
-    },
-
-    LOVE_ARROW() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return LoveBow.createLoveArrow(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    MACHINE_GUN_BULLET() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Machinegun.createMachineGunBullet(state, user, startPosition, startVelocity);
-        }
-    },
-
-    MAELSTROM() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Maelstrom.createMaelstrom(state, user, startPosition, startVelocity);
-        }
-    },
-
-    MINIGUN_BULLET() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Minigun.createMinigunBullet(state, user, startPosition, startVelocity);
-        }
-    },
-
-    MORAY() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return Moraygun.createMoray(state, user, weaponVelocity, startPosition, extraFields);
-        }
-    },
-
-    MORNING_STAR() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return MorningStar.createMorningStar(state, user);
-        }
-    },
-
-    NEMATOCYTE() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Nematocydearm.createNematocyte(state, user, startPosition, startVelocity);
-        }
-    },
-
-    PEARL() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return PearlRevolver.createPearl(state, user, startPosition, startVelocity);
-        }
-    },
-
-    PEPPER() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Peppergrinder.createPepper(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    POPPER() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return PartyPopper.createPopper(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    PUFFBALL() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Puffballer.createPuffball(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    RETICLE_STRIKE() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return ReticleStrike.createReticleStrike(state, user, startPosition, startVelocity);
-        }
-    },
-
-    RIFT_SPLIT() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Riftsplitter.createRiftSplit(state, user, startPosition, startVelocity);
-        }
-    },
-
-    SCRAPRIP() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Scrapripper.createScraprip(state, user, startPosition, startVelocity);
-        }
-    },
-
-    SCREECH() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Screecher.createScreech(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    SLODGE() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return SlodgeNozzle.createSlodge(state, user, startPosition, startVelocity);
-        }
-    },
-
-    SNIPER_BULLET() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return SniperRifle.createSniperBullet(state, user, startPosition, startVelocity);
-        }
-    },
-
-    SPEAR() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Speargun.createSpear(state, user, startPosition, startVelocity, false);
-        }
-    },
-
-    SPEAR_NERFED() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Speargun.createSpear(state, user, startPosition, startVelocity, true);
-        }
-    },
-
-    STICKY_BOMB() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return StickyBombLauncher.createStickyBomb(state, user, startPosition, startVelocity);
-        }
-    },
-
-    STUTTER_LASER() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return StutterGun.createStutterLaser(state, user, startPosition, startVelocity);
-        }
-    },
-
-    TESLA_ACTIVATION() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return TeslaCoil.createTeslaActivation(state, user, startPosition, extraFields);
-        }
-    },
-
-    TORPEDO() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return TorpedoLauncher.createTorpedo(state, user, startPosition, startVelocity);
-        }
-    },
-
-    TRICK_SHOT() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return TrickGun.createTrickShot(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    TYRAZZAN_REAPER() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return TyrrazzanReaper.createTyrrazzanReaper(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    UNDERMINER_DRILL() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return Underminer.createUndermineDrills(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    VAJRA() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Vajra.createVajra(state, user, startPosition, startVelocity);
-        }
-    },
-
-    VINE() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return VineSower.createVine(state, user, startPosition, startVelocity, extraFields, true);
-        }
-    },
-
-    WAVE_BEAM() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return WaveBeam.createWaveBeam(state, user, startPosition, startVelocity);
-        }
-    },
-
-    X_BOMB() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return XBomber.createXBomb(state, user, startPosition, startVelocity);
-        }
-    },
-
-    ANCHOR() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return AnchorSmash.createAnchor(state, user, startPosition, extraFields);
-        }
-    },
-
-    FLASHBANG() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return Flashbang.createFlashbang(state, user, startPosition, startVelocity);
-        }
-    },
-
-    GHOST_STEP() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return GhostStep.createDematerialization(state, user, startPosition, startVelocity);
-        }
-    },
-
-    JUMP_KICK() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return JumpKick.createJumpkick(state, user, startPosition, startVelocity);
-        }
-    },
-
-    HYDRAUlIC_UPPERCUT() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return HydraulicUppercut.createHydraulicUppercut(state, user, startPosition, startVelocity);
-        }
-    },
-
-    NAUTICAL_MINE() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return WeaponUtils.createNauticalMine(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    MARINE_SNOW() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return MarineSnowglobe.createMarineSnow(state, user, startPosition);
-        }
-    },
-
-    HOMING_MISSILE() {
-
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return WeaponUtils.createHomingMissile(state, user, startPosition, startVelocity, source);
-        }
-    },
-
-    ORBITAL_STAR() {
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return OrbitalShield.createOrbitals(state, user);
-        }
-    },
-
-    PROXIMITY_MINE() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return WeaponUtils.createProximityMine(state, user, startPosition, source, extraFields);
-        }
-    },
-
-    STICK_GRENADE() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return WeaponUtils.createStickGrenade(state, user, startPosition, startVelocity);
-        }
-    },
-
-    VENGEFUL_SPIRIT() {
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return WeaponUtils.createVengefulSpirits(state, user, startPosition, source, extraFields);
-        }
-    },
-
-    PICKUP() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return PickupUtils.createPickup(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    EGGPLANT() {
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return PickupUtils.createScrap(state, user, startPosition, startVelocity, extraFields);
-        }
-    },
-
-    CANDY() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return PickupUtils.createCandy(state, user, new Vector2[] {startPosition}, new Vector2[] {startVelocity})[0];
-        }
-
-        @Override
-        public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                                 Vector2[] startVelocity, DamageSource source, float[] extraFields) {
-            return PickupUtils.createCandy(state, user, startPosition, startVelocity);
-        }
-    },
-
-    PING() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return WeaponUtils.createPing(state, user, startPosition);
-        }
-    },
-
-    EMOTE() {
-        @Override
-        public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, DamageSource source, float[] extraFields) {
-            return WeaponUtils.createEmote(state, user, extraFields);
-        }
-    }
+    AIRBLAST(new Airblast()),
+    ASSAULT_BITS_BEAM(new AssaultBitBeam()),
+    AMITA(new Amita()),
+    BANANA(new BananaProjectile()),
+    BATTERING(new Batter()),
+    BEE(new Bee(DamageSource.BEE_GUN)),
+    BOILER_FIRE(new BoilerFire()),
+    BOMB(new Bomb(DamageSource.ANARCHISTS_COOKBOOK)),
+    BOOMERANG(new BoomerangProjectile()),
+    BOUNCING_BLADE(new BouncingBladeProjectile()),
+    CHARGE_BEAM(new ChargeBeamProjectile()),
+    COLA(new Cola()),
+    CR4P(new CR4P()),
+    DEEP_SMELT(new DeepSmelt()),
+    DIAMOND_CUTTER(new DiamondCutterProjectile()),
+    DUELING_CORK(new DuelingCork()),
+    FIST(new Fist()),
+    FLOUNDER(new Flounder()),
+    FUGU(new Fugu()),
+    GRENADE(new Grenade()),
+    HEX(new Hex()),
+    ICEBERG(new IcebergProjectile()),
+    IRON_BALL(new IronBall()),
+    KAMABOKO(new Kamaboko()),
+    KILLER_NOTES(new KillerNotes()),
+    LASER(new Laser()),
+    LASER_GUIDED_ROCKET(new LaserGuidedRocketProjectile()),
+    LOVE_ARROW(new LoveArrow()),
+    MACHINE_GUN_BULLET(new MachineGunBullet()),
+    MAELSTROM(new MaelstromProjectile()),
+    MINIGUN_BULLET(new MinigunBullet()),
+    MORAY(new Moray()),
+    MORNING_STAR(new MorningStarProjectile()),
+    NEMATOCYTE(new Nematocyte()),
+    PEARL(new Pearl()),
+    PEPPER(new Pepper()),
+    POPPER(new Popper()),
+    PUFFBALL(new Puffball()),
+    RETICLE_STRIKE(new ReticleStrikeProjectile()),
+    RIFT_SPLIT(new RiftSplit()),
+    SCRAPRIP(new Scraprip()),
+    SCREECH(new Screech()),
+    SLODGE(new Slodge()),
+    SNIPER_BULLET(new SniperBullet()),
+    SPEAR(new Spear(false)),
+    SPEAR_NERFED(new Spear(true)),
+    STICKY_BOMB(new StickyBomb()),
+    STUTTER_LASER(new StutterLaser()),
+    TESLA_COIL(new TeslaCoilProjectile()),
+    TESLA_ACTIVATION(new TeslaActivation()),
+    TORPEDO(new Torpedo()),
+    TRICK_SHOT(new TrickShot()),
+    TYRAZZAN_REAPER(new TyrazzanReaperProjectile()),
+    UNDERMINER_DRILL(new UnderminerDrill()),
+    VAJRA(new VajraProjectile()),
+    VINE_SEED(new VineSeed()),
+    VINE(new Vine()),
+    WAVE_BEAM(new WaveBeamProjectile()),
+    X_BOMB(new XBomb()),
+
+    ANCHOR(new Anchor()),
+    EXPLODING_RETICLE(new ExplodingReticle(DamageSource.VESTIGIAL_CHAMBER)),
+    FLASHBANG(new FlashbangProjectile()),
+    GHOST_STEP(new GhostStepProjectile()),
+    JUMP_KICK(new JumpKickProjectile()),
+    HYDRAUlIC_UPPERCUT(new HydraulicUppercutProjectile()),
+    NAUTICAL_MINE(new NauticalMineProjectile()),
+    MARINE_SNOW(new MarineSnow()),
+    METEOR_STRIKE(new Meteors(DamageSource.METEOR_STRIKE)),
+    METEOR_CONJURANT(new Meteors(DamageSource.CHAOS_CONJURANT)),
+    BEE_HONEYCOMB(new Bee(DamageSource.HONEYCOMB)),
+    BEE_FORAGER(new Bee(DamageSource.FORAGERS_HIVE)),
+    BEE_MOUTHFUL(new Bee(DamageSource.MOUTHFUL_OF_BEES)),
+    HOMING_MISSILE(new HomingMissile(DamageSource.MISSILE_POD)),
+    HOMING_MISSILE_FROGMAN(new HomingMissile(DamageSource.WRATH_OF_THE_FROGMAN)),
+    ORBITAL_STAR(new OrbitalStar()),
+    PROXIMITY_MINE(new ProximityMineProjectile(DamageSource.PROXIMITY_MINE)),
+    PROXIMITY_MINE_BOOK(new ProximityMineProjectile(DamageSource.BOOK_OF_BURIAL)),
+    STICK_GRENADE(new StickGrenade()),
+
+    CALL_OF_WALRUS(new CallofWalrusUse()),
+    DEPTH_CHARGE(new DepthChargeUse()),
+    FISH_GANG(new FishGangUse()),
+    IMMOLATION(new Immolation()),
+    MERIDIAN_MAKER(new MeridianMakerProjectile()),
+    PORTABLE_SENTRY(new PortableSentryUse()),
+    SAMSON_OPTION(new SamsonOptionUse()),
+    SHOCK_VAJRA(new Shock(DamageSource.VAJRA)),
+    SHOCK_BUCKET(new Shock(DamageSource.BUCKET_OF_BATTERIES)),
+    SHOCK_DERMIS(new Shock(DamageSource.VOLATILE_DERMIS)),
+    SHOCK_PLUS_MINUS(new Shock(DamageSource.PLUS_MINUS)),
+    TAINTED_WATER(new TaintedWaterProjectile()),
+    VENGEFUL_SPIRIT(new VengefulSpirit(DamageSource.SPIRIT_RELEASE)),
+    VENGEFUL_SPIRIT_PEACHWOOD(new VengefulSpirit(DamageSource.PEACHWOOD_SWORD)),
+
+    HEALING_FIELD(new HealingFieldUse()),
+    SPRING(new SpringLoaderUse()),
+    SUPPLY_DROP(new SupplyDropUse()),
+    TERRAFORM(new Terraform()),
+
+    INVINCIBILITY(new InvulnerabilityInflict()),
+    INVISIBILITY_ON(new InvisibilityOn()),
+    INVISIBILITY_OFF(new InvisibilityOff()),
+    MELON(new MelonUse()),
+    PLUS_MINUS(new PlusMinusUse()),
+    RELOADER(new ReloaderUse()),
+    RESERVED_FUEL(new ReservedFuelUse()),
+
+    ARTIFACT_AMMO_ACTIVATE(new ArtifactAmmoActivate()),
+    ARTIFACT_FUEL_ACTIVATE(new ArtifactFuelActivate()),
+    ARTIFACT_MAGIC_ACTIVATE(new ArtifactMagicActivate()),
+    AMDALHS_LOTUS(new AmdhalsLotusActivate()),
+    BRITTLING_POWDER(new BrittlingPowderActivate()),
+    COMMUTERS_PARASOL(new CommuterParasolActivate()),
+    CROWN_OF_THORNS(new CrownOfThornsActivate()),
+    FRACTURE_PLATE(new FracturePlateActivate()),
+    GOMEZS_AMYGDALA(new GomezsAmygdalaActivate()),
+    KUMQUAT(new KumquatActivate()),
+    NURDLER(new NurdlerActivate()),
+    OUR_GET_ALONG_SHIRT(new OurGetAlongShirtActivate()),
+    PEER_PRESSURE(new PeerPressureSummonAttack()),
+    PEPPER_ARTIFACT(new PepperActivate()),
+    SKIPPERS_BOX_OF_FUN(new SkippersBoxOfFunActivate()),
+    VOLATILE_DERMIS(new VolatileDermisActivate()),
+    WHITE_SMOKER(new WhiteSmokerActivate()),
+
+    PICKUP(new Pickup()),
+    EGGPLANT(new Eggplant()),
+    CANDY(new Candy()),
+
+    PING(new Ping()),
+    EMOTE(new Emote()),
+
+    SCISSORFISH_ATTACK(new ScissorfishAttack()),
+    SPITTLEFISH_ATTACK(new SpittleFishAttack()),
+    TORPEDOFISH_ATTACK(new TorpedoFishAttack()),
+    TURRET_FLAK_ATTACK(new TurretFlakAttack()),
+    TURRET_VOLLEY_ATTACK(new TurretVolleyAttack())
 
     ;
+
+    //the synced attacker responsible for creating this attack.
+    private final SyncedAttacker syncedAttacker;
+
+    SyncedAttack(SyncedAttacker syncedAttacker) {
+        this.syncedAttacker = syncedAttacker;
+        this.syncedAttacker.setSyncedAttack(this);
+    }
 
     /**
      * This initiates a synced attack that produces a single hitbox
@@ -598,46 +185,105 @@ public enum SyncedAttack {
      * @param user: User that is executing this attack
      * @param startPosition: Starting position of the hitbox produced by this attack
      * @param startVelocity: Starting velocity of the hitbox produced by this attack
+     * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitbox that this attack produces
      */
     public Hitbox initiateSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
-                                             DamageSource source, float... extraFields) {
-        Hitbox hbox = performSyncedAttackSingle(state, user, startPosition, startVelocity, source, extraFields);
+                                             int connID, boolean origin, float... extraFields) {
+
+        Hitbox hbox = syncedAttacker.performSyncedAttackSingle(state, user, startPosition, startVelocity, extraFields);
         hbox.setAttack(this);
         hbox.setSyncedMulti(false);
         hbox.setExtraFields(extraFields);
         if (state.isServer()) {
-            syncAttackSingle(hbox, extraFields, false);
+            syncAttackSingleServer(hbox, extraFields, connID, hbox.isSynced(), false);
+        } else {
+
+            //If this client is the originator of this attack, execute it.
+            //Otherwise, we are receiving it from the server and do not need to echo
+            // Also do not need to add entity (as that is handled when the packet is received)
+            if (origin) {
+                syncAttackSingleClient(hbox, extraFields, hbox.isSynced());
+                ((ClientState) state).addEntity(hbox.getEntityID(), hbox, hbox.isSynced(), PlayState.ObjectLayer.HBOX);
+            }
         }
         return hbox;
     }
 
     public Hitbox initiateSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float... extraFields) {
-        return initiateSyncedAttackSingle(state, user, startPosition, startVelocity, DamageSource.MISC, extraFields);
+        return initiateSyncedAttackSingle(state, user, startPosition, startVelocity, 0, true, extraFields);
     }
-
-    /**
-     * This performs the actual attack and is overridden in each SyncedAttack that produces a single hitbox
-     */
-    public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
-                                            DamageSource source, float[] extraFields) { return null; }
 
     /**
      * Syncs an executed attack with the client by sending them a packet
      * @param hbox: Hitbox that is being synced
      * @param extraFields: Any extra fields of the synced attack
+     * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param synced: Does this attack create a synced hitbox?
      * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
      */
-    public void syncAttackSingle(Hitbox hbox, float[] extraFields, boolean catchup) {
-        if (0 == extraFields.length) {
-            HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackSingle(hbox.getEntityID(), hbox.getCreator().getEntityID(),
-                    catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
-                    catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), this));
+    public void syncAttackSingleServer(Hitbox hbox, float[] extraFields, int connID, boolean synced, boolean catchup) {
+        Object packet;
+
+        if (synced) {
+            if (0 == extraFields.length) {
+                packet = new PacketsAttacks.SingleServerDependent(hbox.getEntityID(), hbox.getCreator().getEntityID(),
+                        catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
+                        catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), this);
+            } else {
+                packet = new PacketsAttacks.SingleServerDependentExtra(hbox.getEntityID(), hbox.getCreator().getEntityID(),
+                        catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
+                        catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), extraFields, this);
+            }
         } else {
-            HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackSingleExtra(hbox.getEntityID(), hbox.getCreator().getEntityID(),
-                    catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
-                    catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), extraFields, this));
+            if (0 == extraFields.length) {
+                packet = new PacketsAttacks.SingleServerIndependent(hbox.getCreator().getEntityID(),
+                        catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
+                        catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), this);
+            } else {
+                packet = new PacketsAttacks.SingleServerIndependentExtra(hbox.getCreator().getEntityID(),
+                        catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
+                        catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), extraFields, this);
+            }
+        }
+
+        //0 connID indicates a server-created attack. If client created, we don't need to send the packet to the creator.
+        if (0 == connID) {
+            HadalGame.server.sendToAllUDP(packet);
+        } else {
+            HadalGame.server.sendToAllExceptUDP(connID, packet);
+        }
+    }
+
+    /**
+     * Syncs an executed attack with the server by sending them a packet
+     * @param hbox: Hitbox that is being synced
+     * @param extraFields: Any extra fields of the synced attack
+     * @param synced: Does this attack create a synced hitbox?
+     */
+    public void syncAttackSingleClient(Hitbox hbox, float[] extraFields, boolean synced) {
+        if (synced) {
+            if (0 == extraFields.length) {
+                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientDependent(hbox.getEntityID(),
+                        hbox.getStartPos(),
+                        hbox.getStartVelo(), this));
+            } else {
+                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientDependentExtra(hbox.getEntityID(),
+                        hbox.getStartPos(),
+                        hbox.getStartVelo(), extraFields, this));
+            }
+        } else {
+            if (0 == extraFields.length) {
+                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientIndependent(
+                        hbox.getStartPos(),
+                        hbox.getStartVelo(), this));
+            } else {
+                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientIndependentExtra(
+                        hbox.getStartPos(),
+                        hbox.getStartVelo(), extraFields, this));
+            }
         }
     }
 
@@ -645,34 +291,43 @@ public enum SyncedAttack {
      * This initiates a synced attack that produces multiple hitboxes
      * @param state: Current playstate
      * @param user: User that is executing this attack
+     * @param weaponVelocity: Where is the weapon pointing? Distinct from startVelocities in the case of spread weapons.
      * @param startPosition: Starting positions of each hitbox produced by this attack
      * @param startVelocity: Starting velocities of each hitbox produced by this attack
+     * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitboxes that this attack produces
      */
     public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-            Vector2[] startVelocity, DamageSource source, float... extraFields) {
-        Hitbox[] hboxes = performSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, source, extraFields);
+            Vector2[] startVelocity, int connID, boolean origin, float... extraFields) {
+        Hitbox[] hboxes = syncedAttacker.performSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, extraFields);
         for (Hitbox hbox : hboxes) {
             hbox.setAttack(this);
             hbox.setSyncedMulti(true);
             hbox.setExtraFields(extraFields);
         }
-        if (state.isServer() && 0 != hboxes.length) {
-            syncAttackMulti(weaponVelocity, hboxes, extraFields, false);
+        if (0 != hboxes.length) {
+            boolean isSynced = hboxes[0].isSynced();
+
+            if (state.isServer()) {
+                syncAttackMultiServer(weaponVelocity, hboxes, extraFields, connID, isSynced, false);
+            } else {
+                if (origin) {
+                    syncAttackMultiClient(weaponVelocity, hboxes, extraFields, isSynced);
+                    for (Hitbox hbox : hboxes) {
+                        ((ClientState) state).addEntity(hbox.getEntityID(), hbox, isSynced, PlayState.ObjectLayer.HBOX);
+                    }
+                }
+            }
         }
         return hboxes;
     }
 
     public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                               Vector2[] startVelocity, float... extraFields) {
-        return initiateSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, DamageSource.MISC, extraFields);
+        return initiateSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, 0, true, extraFields);
     }
-    /**
-     * This performs the actual attack and is overridden in each SyncedAttack that produces multiple hitbox
-     */
-    public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-                                             Vector2[] startVelocity, DamageSource source, float[] extraFields) { return null; }
 
     /**
      * Syncs an executed attack with the client by sending them a packet
@@ -680,7 +335,7 @@ public enum SyncedAttack {
      * @param extraFields: Any extra fields of the synced attack
      * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
      */
-    public void syncAttackMulti(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, boolean catchup) {
+    public void syncAttackMultiServer(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, int connID, boolean isSynced, boolean catchup) {
         UUID[] hboxID = new UUID[hboxes.length];
         Vector2[] positions = new Vector2[hboxes.length];
         Vector2[] velocities = new Vector2[hboxes.length];
@@ -689,12 +344,107 @@ public enum SyncedAttack {
             positions[i] = catchup ? hboxes[i].getPixelPosition() : hboxes[i].getStartPos();
             velocities[i] = catchup ? hboxes[i].getLinearVelocity() : hboxes[i].getStartVelo();
         }
-        if (0 == extraFields.length) {
-            HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackMulti(hboxID, hboxes[0].getCreator().getEntityID(),
-                    weaponVelocity, positions, velocities, this));
+        Object packet;
+        if (isSynced) {
+            if (0 == extraFields.length) {
+                packet = new PacketsAttacks.MultiServerDependent(hboxID, hboxes[0].getCreator().getEntityID(),
+                        weaponVelocity, positions, velocities, this);
+            } else {
+                packet = new PacketsAttacks.MultiServerDependentExtra(hboxID, hboxes[0].getCreator().getEntityID(),
+                        weaponVelocity, positions, velocities, extraFields, this);
+            }
         } else {
-            HadalGame.server.sendToAllUDP(new Packets.CreateSyncedAttackMultiExtra(hboxID, hboxes[0].getCreator().getEntityID(),
-                    weaponVelocity, positions, velocities, extraFields, this));
+            if (0 == extraFields.length) {
+                packet = new PacketsAttacks.MultiServerIndependent(hboxes[0].getCreator().getEntityID(),
+                        weaponVelocity, positions, velocities, this);
+            } else {
+                packet = new PacketsAttacks.MultiServerIndependentExtra(hboxes[0].getCreator().getEntityID(),
+                        weaponVelocity, positions, velocities, extraFields, this);
+            }
+        }
+
+        if (0 == connID) {
+            HadalGame.server.sendToAllUDP(packet);
+        } else {
+            HadalGame.server.sendToAllExceptUDP(connID, packet);
+        }
+    }
+
+    public void syncAttackMultiClient(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, boolean isSynced) {
+        UUID[] hboxID = new UUID[hboxes.length];
+        Vector2[] positions = new Vector2[hboxes.length];
+        Vector2[] velocities = new Vector2[hboxes.length];
+        for (int i = 0; i < hboxes.length; i++) {
+            hboxID[i] = hboxes[i].getEntityID();
+            positions[i] = hboxes[i].getStartPos();
+            velocities[i] = hboxes[i].getStartVelo();
+        }
+        if (isSynced) {
+            if (0 == extraFields.length) {
+                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientDependent(hboxID, weaponVelocity, positions, velocities, this));
+            } else {
+                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientDependentExtra(hboxID, weaponVelocity, positions, velocities, extraFields, this));
+            }
+        } else {
+            if (0 == extraFields.length) {
+                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientIndependent(weaponVelocity, positions, velocities, this));
+            } else {
+                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientIndependentExtra(weaponVelocity, positions, velocities, extraFields, this));
+            }
+        }
+    }
+
+    /**
+     * Syncs an attack that does not produce a hitbox.
+     *
+     * @param state: Current playstate
+     * @param user: User that is executing this attack
+     * @param startPosition: Starting position of the hitbox produced by this attack
+     * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
+     * @param independent: Is this processed independently between server and client?
+     * @param extraFields: Any extra information required for client to replicate this attack
+     */
+    public void initiateSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, int connID,
+                                           boolean origin, boolean independent, float... extraFields) {
+
+        //independent attacks are processed immediately
+        //clients do not process dependent attacks; instead they wait for thte server to run them.
+        if (independent || state.isServer()) {
+            syncedAttacker.performSyncedAttackNoHbox(state, user, startPosition, extraFields);
+        }
+
+        //clients relay the attack if they are the creator
+        if (state.isServer()) {
+            syncAttackNoHboxServer(user, startPosition, independent, extraFields, connID);
+        } else if (origin) {
+            syncAttackNoHboxClient(startPosition, independent, extraFields);
+        }
+    }
+
+    public void initiateSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, boolean independent, float... extraFields) {
+        initiateSyncedAttackNoHbox(state, user, startPosition, 0, true, independent, extraFields);
+    }
+
+    public void syncAttackNoHboxServer(Schmuck user, Vector2 startPos, boolean independent, float[] extraFields, int connID) {
+        Object packet;
+        if (0 == extraFields.length) {
+            packet = new PacketsAttacks.SyncedAttackNoHboxServer(user.getEntityID(), startPos, this);
+        } else {
+            packet = new PacketsAttacks.SyncedAttackNoHboxExtraServer(user.getEntityID(), startPos, extraFields, this);
+        }
+        if (0 == connID || !independent) {
+            HadalGame.server.sendToAllUDP(packet);
+        } else {
+            HadalGame.server.sendToAllExceptUDP(connID, packet);
+        }
+    }
+
+    public void syncAttackNoHboxClient(Vector2 startPos, boolean independent, float[] extraFields) {
+        if (0 == extraFields.length) {
+            HadalGame.client.sendUDP(new PacketsAttacks.SyncedAttackNoHbox(startPos, independent, this));
+        } else {
+            HadalGame.client.sendUDP(new PacketsAttacks.SyncedAttackNoHboxExtra(startPos, independent, extraFields, this));
         }
     }
 }

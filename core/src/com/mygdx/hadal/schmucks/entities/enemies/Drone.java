@@ -110,7 +110,7 @@ public class Drone extends EnemySwimming {
 					if (startVelo.len2() < range * range) {
 						startVelo.nor().scl(projectileSpeed);
 						
-						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
+						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, projSprite);
 						
 						hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, enemy.getBodyData()));

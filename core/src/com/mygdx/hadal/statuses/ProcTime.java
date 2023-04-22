@@ -252,15 +252,15 @@ public abstract class ProcTime {
 	}
 
 	public static class Airblast extends ProcTime {
-		public final Equippable tool;
-		
-		public Airblast(Equippable tool) {
-			this.tool = tool;
+		public final Vector2 airblastDirection;
+
+		public Airblast(Vector2 airblastDirection) {
+			this.airblastDirection = airblastDirection;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			status.onAirBlast(tool);
+			status.onAirBlast(airblastDirection);
 			return this;
 		}
 	}

@@ -1,10 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.audio.SoundEffect;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -12,14 +10,13 @@ import com.mygdx.hadal.statuses.Status;
 
 public class MatterUniversalizer extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private final float amountEnemy = 25.0f;
-	private final float amountPlayer = 75.0f;
-	private final float particleDura = 1.5f;
-	
+	private static final float AMOUNT_ENEMY = 25.0f;
+	private static final float AMOUNT_PLAYER = 75.0f;
+
 	public MatterUniversalizer() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -28,22 +25,21 @@ public class MatterUniversalizer extends Artifact {
 
 			@Override
 			public void onKill(BodyData vic, DamageSource source) {
-				SoundEffect.MAGIC2_FUEL.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.4f, false);
-				new ParticleEntity(state, p.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, particleDura, true, SyncType.CREATESYNC);
+				SyncedAttack.ARTIFACT_FUEL_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 
 				if (vic instanceof PlayerBodyData) {
-					p.fuelGain(amountPlayer);
+					p.fuelGain(AMOUNT_PLAYER);
 				} else {
-					p.fuelGain(amountEnemy);
+					p.fuelGain(AMOUNT_ENEMY);
 				}
 			}
-		};
+		}.setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) amountPlayer),
-				String.valueOf((int) amountEnemy)};
+				String.valueOf((int) AMOUNT_PLAYER),
+				String.valueOf((int) AMOUNT_ENEMY)};
 	}
 }

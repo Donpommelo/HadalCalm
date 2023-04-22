@@ -8,27 +8,27 @@ import com.mygdx.hadal.constants.Stats;
 
 public class TempestTeapot extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float bonusBoostSize = 0.75f;
-	private static final float bonusBoostPow = 0.5f;
+	private static final float BONUS_BOOST_SIZE = 0.75f;
+	private static final float BONUS_BOOST_POW = 0.5f;
 	
 	public TempestTeapot() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.BOOST_POW, bonusBoostPow, p),
-				new StatChangeStatus(state, Stats.BOOST_SIZE, bonusBoostSize, p)
+				new StatChangeStatus(state, Stats.BOOST_POW, BONUS_BOOST_POW, p),
+				new StatChangeStatus(state, Stats.BOOST_SIZE, BONUS_BOOST_SIZE, p)
 		);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusBoostPow * 100)),
-				String.valueOf((int) (bonusBoostSize * 100))};
+				String.valueOf((int) (BONUS_BOOST_POW * 100)),
+				String.valueOf((int) (BONUS_BOOST_SIZE * 100))};
 	}
 }

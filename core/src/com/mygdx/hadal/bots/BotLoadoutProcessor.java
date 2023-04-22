@@ -224,10 +224,10 @@ public class BotLoadoutProcessor {
 
         //bot's mouse lerps towards the predicted position
         mouseTarget.scl(PPM);
-        mousePosition.set(player.getMouse().getPixelPosition());
+        mousePosition.set(player.getMouseHelper().getPixelPosition());
         mousePosition.x = mousePosition.x + (mouseTarget.x - mousePosition.x) * player.getMouseAimSpeed();
         mousePosition.y = mousePosition.y + (mouseTarget.y - mousePosition.y) * player.getMouseAimSpeed();
-        player.getMouse().setDesiredLocation(mousePosition.x, mousePosition.y);
+        player.getMouseHelper().setDesiredLocation(mousePosition.x, mousePosition.y);
     }
 
     /**

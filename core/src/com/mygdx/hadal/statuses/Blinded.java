@@ -7,6 +7,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 
@@ -26,8 +27,13 @@ public class Blinded extends Status {
 
 	@Override
 	public void onInflict() {
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
-				true, SyncType.CREATESYNC).setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+		ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
+				true, SyncType.NOSYNC);
+		particleEntity.setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+		}
 	}
 
 	public static final float BLIND_INTERPOLATION = 0.05f;
@@ -91,8 +97,13 @@ public class Blinded extends Status {
 		//reset fade timer so stacking blind doesn't make it flicker
 		fadeTimer = FADE_COOLDOWN;
 
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
-				true, SyncType.CREATESYNC).setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+		ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
+				true, SyncType.NOSYNC);
+		particleEntity.setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+		}
 	}
 
 	@Override

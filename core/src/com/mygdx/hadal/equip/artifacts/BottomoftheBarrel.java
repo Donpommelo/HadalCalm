@@ -37,7 +37,7 @@ public class BottomoftheBarrel extends Artifact {
 				}
 				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
 					if (procCdCount >= shaderCount && ranged.getAmmoPercent() <= ammoThreshold) {
-						p.getPlayer().setShader(Shader.PULSE_RED, shaderCount * 2, false);
+						p.getPlayer().setShader(Shader.PULSE_RED, shaderCount * 2);
 					}
 				}
 			}
@@ -46,8 +46,8 @@ public class BottomoftheBarrel extends Artifact {
 			public void onShoot(Equippable tool) {
 				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
 					if (ranged.getAmmoPercent() <= ammoThreshold) {
-						float cooldown = p.getSchmuck().getShootCdCount();
-						p.getSchmuck().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
+						float cooldown = p.getPlayer().getShootHelper().getShootCdCount();
+						p.getPlayer().getShootHelper().setShootCdCount(cooldown * (1 - bonusAttackSpeed));
 					}
 				}
 			}
@@ -61,7 +61,7 @@ public class BottomoftheBarrel extends Artifact {
 				}
 				return damage;
 			}
-		}.setClientIndependent(true);
+		};
 	}
 
 	@Override

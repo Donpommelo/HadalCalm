@@ -19,6 +19,7 @@ public class Botting extends Status {
 	public Botting(PlayState state, PlayerBot bot) {
 		super(state, bot.getBodyData());
 		this.bot = bot;
+		this.setServerOnly(true);
 	}
 
 	@Override

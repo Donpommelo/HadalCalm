@@ -1,4 +1,4 @@
-package com.mygdx.hadal.effects;
+package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,15 +9,20 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.PlayerMiscUtil;
 
 /**
  * The PlayerSpriteHelper helps draw the player sprite. Each player has a PlayerSpriteHelper.
@@ -254,7 +259,7 @@ public class PlayerSpriteHelper {
         } else {
             bodyRunSprite.setPlayMode(Animation.PlayMode.LOOP);
             batch.draw(grounded ? bodyStillSprite.getKeyFrame(animationTime, true) :
-                    bodyRunSprite.getKeyFrame(player.getFreezeFrame(false)), bodyX, bodyY, 0, 0,
+                    bodyRunSprite.getKeyFrame(PlayerMiscUtil.getFreezeFrame(player.getLinearVelocity(), false)), bodyX, bodyY, 0, 0,
                 (flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
         }
 
@@ -323,11 +328,7 @@ public class PlayerSpriteHelper {
                 createVaporization(playerLocation, playerVelocity);
                 break;
             case TELEPORT:
-
-                //if the player disconnects/becomes a spectator, we dispose of the fbo right away.
-                if (null != fbo) {
-                    fbo.dispose();
-                }
+                createWarpAnimation();
                 break;
         }
     }
@@ -395,8 +396,9 @@ public class PlayerSpriteHelper {
 
         //render player
         player.getState().getBatch().begin();
-        render(player.getState().getBatch(), player.getAttackAngle(), player.getMoveState(), 0.0f, 0.0f,
-                false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f), true, null, false);
+        render(player.getState().getBatch(), player.getMouseHelper().getAttackAngle(), player.getMoveState(),
+                0.0f, 0.0f,false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f),
+                true, null, false);
         player.getState().getBatch().end();
 
         ragdollBuffer.end();
@@ -465,6 +467,19 @@ public class PlayerSpriteHelper {
 
         if (!player.getState().isServer()) {
             ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
+        }
+    }
+
+    private void createWarpAnimation() {
+        ParticleEntity particle = new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT,
+                2.5f, true, SyncType.NOSYNC).setPrematureOff(1.5f);
+        if (!player.getState().isServer()) {
+            ((ClientState) player.getState()).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.STANDARD);
+        }
+
+        //if the player disconnects/becomes a spectator, we dispose of the fbo right away.
+        if (null != fbo) {
+            fbo.dispose();
         }
     }
 

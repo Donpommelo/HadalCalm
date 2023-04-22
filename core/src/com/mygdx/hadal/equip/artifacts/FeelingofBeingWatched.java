@@ -9,44 +9,43 @@ import com.mygdx.hadal.constants.Stats;
 
 public class FeelingofBeingWatched extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float fuelThreshold = 5.0f;
-	private static final float damageBuff = 0.4f;
-	private static final float buffDuration = 3.0f;
-	private static final float buffCooldown = 6.0f;
+	private static final float FUEL_THRESHOLD = 5.0f;
+	private static final float DAMAGE_BUFF = 0.4f;
+	private static final float BUFF_DURATION = 3.0f;
+	private static final float BUFF_COOLDOWN = 6.0f;
 
 	public FeelingofBeingWatched() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 
-			private float procCdCount = buffCooldown;
+			private float procCdCount = BUFF_COOLDOWN;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount < buffCooldown) {
+				if (procCdCount < BUFF_COOLDOWN) {
 					procCdCount += delta;
 				}
 
-				if (procCdCount >= buffCooldown && p.getCurrentFuel() <= fuelThreshold) {
-					procCdCount -= buffCooldown;
+				if (procCdCount >= BUFF_COOLDOWN && p.getCurrentFuel() <= FUEL_THRESHOLD) {
+					procCdCount -= BUFF_COOLDOWN;
 
-					p.getPlayer().setShader(Shader.PULSE_RED, buffDuration, false);
-					p.addStatus(new StatChangeStatus(state, Stats.DAMAGE_AMP, damageBuff, p));
+					p.getPlayer().setShader(Shader.PULSE_RED, BUFF_DURATION);
+					p.addStatus(new StatChangeStatus(state, BUFF_DURATION, Stats.DAMAGE_AMP, DAMAGE_BUFF, p, p));
 				}
 			}
-
-		}.setClientIndependent(true);
+		};
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (damageBuff * 100)),
-				String.valueOf((int) buffDuration),
-				String.valueOf((int) buffCooldown) };
+				String.valueOf((int) (DAMAGE_BUFF * 100)),
+				String.valueOf((int) BUFF_DURATION),
+				String.valueOf((int) BUFF_COOLDOWN) };
 	}
 }

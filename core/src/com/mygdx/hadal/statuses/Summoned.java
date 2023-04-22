@@ -19,11 +19,12 @@ public class Summoned extends Status {
 	public Summoned(PlayState state, BodyData i, Player summoner) {
 		super(state, i);
 		this.summoner = summoner;
+		this.setServerOnly(true);
 	}
 	
 	@Override
 	public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
-		summoner.playHitSound(damage);
+		summoner.getHitsoundHelper().playHitSound(vic, damage);
 		return damage;	
 	}
 	

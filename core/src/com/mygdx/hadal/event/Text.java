@@ -50,9 +50,4 @@ public class Text extends Event {
 		HadalGame.FONT_UI.getData().setScale(scale);
 		HadalGame.FONT_UI.draw(batch, text, entityLocation.x, entityLocation.y);
 	}
-	
-	@Override
-	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.ALL);
-	}
 }

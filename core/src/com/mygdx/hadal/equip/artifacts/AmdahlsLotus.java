@@ -1,26 +1,21 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.artifact.AmdhalsLotusActivate;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.constants.Stats;
 
 public class AmdahlsLotus extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float timeThreshold = 0.2f;
-	private static final float hpRegenBuff = 40.0f;
-	private static final float fuelRegenBuff = 15.0f;
+	private static final float TIME_THRESHOLD = 0.95f;
+	private static final float HP_REGEN_BUFF = AmdhalsLotusActivate.HP_REGEN_BUFF;
+	private static final float FUEL_REGEN_BUFF = AmdhalsLotusActivate.FUEL_REGEN_BUFF;
 
 	public AmdahlsLotus() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -29,38 +24,26 @@ public class AmdahlsLotus extends Artifact {
 
 			private boolean activated;
 			@Override
-			public void playerCreate() {
-				if (activated) {
-					activateBuff();
-				}
-			}
-
-			@Override
 			public void timePassing(float delta) {
-				if (!activated && state.getUiExtra().getMaxTimer() > 0) {
-					if (state.getUiExtra().getTimer() <= state.getUiExtra().getMaxTimer() * timeThreshold) {
-						activated = true;
-						activateBuff();
-					}
-				}
+				activateBuff();
 			}
 
 			private void activateBuff() {
-				SoundEffect.MAGIC18_BUFF.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.5f, false);
-				new ParticleEntity(state, p.getSchmuck(), Particle.RING, 1.0f, 1.0f, true, SyncType.CREATESYNC).setScale(0.4f);
-
-				p.addStatus(new StatusComposite(state, state.getUiExtra().getTimer(), false, p, p,
-					new StatChangeStatus(state, Stats.FUEL_REGEN, fuelRegenBuff, p),
-					new StatChangeStatus(state, Stats.HP_REGEN, hpRegenBuff, p)));
+				if (!activated && state.getUiExtra().getMaxTimer() > 0) {
+					if (state.getUiExtra().getTimer() <= state.getUiExtra().getMaxTimer() * TIME_THRESHOLD) {
+						activated = true;
+						SyncedAttack.AMDALHS_LOTUS.initiateSyncedAttackNoHbox(state, p.getPlayer(), p.getPlayer().getPixelPosition(), true);
+					}
+				}
 			}
-		};
+		}.setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (timeThreshold * 100)),
-				String.valueOf((int) hpRegenBuff),
-				String.valueOf((int) fuelRegenBuff)};
+				String.valueOf((int) (TIME_THRESHOLD * 100)),
+				String.valueOf((int) HP_REGEN_BUFF),
+				String.valueOf((int) FUEL_REGEN_BUFF)};
 	}
 }

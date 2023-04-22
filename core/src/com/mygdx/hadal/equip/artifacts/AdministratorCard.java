@@ -11,11 +11,11 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class AdministratorCard extends Artifact {
 
-	private static final int slotCost = 3;
-	private static final int numArtifacts = 3;
+	private static final int SLOT_COST = 3;
+	private static final int NUM_ARTIFACTS = 3;
 	
 	public AdministratorCard() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class AdministratorCard extends Artifact {
 				
 				int artifactsAdded = 0;
 
-				while (artifactsAdded < numArtifacts) {
+				while (artifactsAdded < NUM_ARTIFACTS) {
 					UnlockArtifact artifact = UnlockArtifact.getRandArtfFromPool(state, "");
 					if (p.addArtifact(artifact, true, false)) {
 						unlocks.add(artifact);
@@ -42,10 +42,10 @@ public class AdministratorCard extends Artifact {
 			@Override
 			public void onDeath(BodyData perp, DamageSource source) {
 				for (UnlockArtifact unlock : unlocks) {
-					p.removeArtifact(unlock);
+					p.removeArtifact(unlock, true);
 				}
 				unlocks.clear();
 			}
-		});
+		}).setServerOnly(true);
 	}
 }

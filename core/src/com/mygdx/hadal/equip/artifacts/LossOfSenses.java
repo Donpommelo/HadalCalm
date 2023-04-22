@@ -14,13 +14,13 @@ import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST;
 
 public class LossOfSenses extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float bonusHpMin = 0.25f;
-	private static final float bonusHpMax = 1.0f;
+	private static final float BONUS_HP_MIN = 0.25f;
+	private static final float BONUS_HP_MAX = 1.0f;
 
 	public LossOfSenses() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class LossOfSenses extends Artifact {
 			private float bonusHp;
 			@Override
 			public void onInflict() {
-				bonusHp = MathUtils.random(bonusHpMin, bonusHpMax);
+				bonusHp = MathUtils.random(BONUS_HP_MIN, BONUS_HP_MAX);
 			}
 
 			@Override
@@ -59,7 +59,7 @@ public class LossOfSenses extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusHpMin * 100)),
-				String.valueOf((int) (bonusHpMax * 100))};
+				String.valueOf((int) (BONUS_HP_MIN * 100)),
+				String.valueOf((int) (BONUS_HP_MAX * 100))};
 	}
 }

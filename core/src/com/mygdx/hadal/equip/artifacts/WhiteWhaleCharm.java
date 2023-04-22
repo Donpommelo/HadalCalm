@@ -8,30 +8,30 @@ import com.mygdx.hadal.constants.Stats;
 
 public class WhiteWhaleCharm extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private static final float bonusProjectileSize = 0.4f;
-	private static final float attackSpdReduction = -0.5f;
-	private static final float bonusDamage = 0.4f;
+	private static final float BONUS_PROJECTILE_SIZE = 0.4f;
+	private static final float ATTACK_SPD_REDUCTION = -0.5f;
+	private static final float BONUS_DAMAGE = 0.4f;
 	
 	public WhiteWhaleCharm() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, bonusDamage, p),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, bonusProjectileSize, p),
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, attackSpdReduction, p)
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, BONUS_DAMAGE, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, BONUS_PROJECTILE_SIZE, p),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, ATTACK_SPD_REDUCTION, p)
 		);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusProjectileSize * 100)),
-				String.valueOf((int) (bonusDamage * 100)),
-				String.valueOf((int) -(attackSpdReduction * 100))};
+				String.valueOf((int) (BONUS_PROJECTILE_SIZE * 100)),
+				String.valueOf((int) (BONUS_DAMAGE * 100)),
+				String.valueOf((int) -(ATTACK_SPD_REDUCTION * 100))};
 	}
 }

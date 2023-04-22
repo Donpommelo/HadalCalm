@@ -13,10 +13,10 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 public class ClawsofFestus extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
 	public ClawsofFestus() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ClawsofFestus extends Artifact {
 									new Vector2(-player.getSize().x / 2, 0.5f),
 									new Vector2(player.getSize().x / 8, player.getSize().y - 2),
 									true, 0, 0, 0, 0,
-									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxfilter());
+									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxFilter());
 
 							leftSensor.setUserData(leftData);
 
@@ -58,13 +58,13 @@ public class ClawsofFestus extends Artifact {
 									new Vector2(player.getSize().x / 2,  0.5f),
 									new Vector2(player.getSize().x / 8, player.getSize().y - 2),
 									true, 0, 0, 0, 0,
-									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxfilter());
+									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxFilter());
 
 							rightSensor.setUserData(rightData);
 						}
 
 						boolean touchingWall = 0 < leftData.getNumContacts() || 0 < rightData.getNumContacts();
-						player.setGroundedOverride(touchingWall);
+						player.getGroundedHelper().setGroundedOverride(touchingWall);
 					}
 				}
 			}

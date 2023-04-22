@@ -219,7 +219,7 @@ public abstract class HadalEntity {
 	public boolean copyServerInstantly;
 	
 	//this is a list of the most recent packets that sync this entity as well as their timestamps
-	private final Array<Object[]> bufferedTimestamps = new Array<>();
+	protected final Array<Object[]> bufferedTimestamps = new Array<>();
 	/**
 	 * When we receive a packet from the server, we store it alongside its timestamp
 	 * @param o: the packet object we are receiving from the server
@@ -237,7 +237,7 @@ public abstract class HadalEntity {
 	 */
 	public void onClientSync(Object o) {
 		if (o instanceof PacketsSync.SyncEntity p) {
-			if (body != null) {
+			if (null != body) {
 
 				float angle = 0;
 				if (o instanceof PacketsSync.SyncEntityAngled a) {
@@ -268,7 +268,7 @@ public abstract class HadalEntity {
 	//this vector is used to calculate linear interpolation
 	public final Vector2 angleAsVector = new Vector2(0, 1);
 	
-	private float clientSyncAccumulator;
+	protected float clientSyncAccumulator;
 	
 	//this extra vector is used b/c interpolation updates the start vector
 	public final Vector2 lerpPos = new Vector2();
@@ -430,18 +430,12 @@ public abstract class HadalEntity {
 	 * Set this entity's shader (this will be used when rendering this entity)
 	 * @param shader: shader to use
 	 * @param shaderCount: how long does this shader last?
-	 * @param synced: does the server need to tell the client to reflect this shader change?
 	 */
-	public void setShader(Shader shader, float shaderCount, boolean synced) {
+	public void setShader(Shader shader, float shaderCount) {
 		shader.loadShader();
 		this.shader = shader;
 		this.shaderDuration = shaderCount;
 		this.shaderCount = shaderCount;
-
-		//The server tells the client to also display the shader
-		if (state.isServer() && synced) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityID, shader, shaderCount));
-		}
 	}
 	
 	public void decreaseShaderCount(float i) {
@@ -526,6 +520,10 @@ public abstract class HadalEntity {
 	public boolean isBotModePickup() { return botModePickup; }
 
 	public void setBotModePickup(boolean botModePickup) { this.botModePickup = botModePickup; }
+
+	public float getAnimationTime() { return animationTime; }
+
+	public void setAlive(boolean alive) { this.alive = alive; }
 
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null && Float.isFinite(position.x) && Float.isFinite(position.y)) {

@@ -1,29 +1,30 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.audio.SoundEffect;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.constants.Stats;
 
 public class CelestialAnointment extends Artifact {
 
-	private static final int slotCost = 3;
+	private static final int SLOT_COST = 3;
 	
-	private static final float bonusActiveCharge = -0.15f;
-	private static final float baseDelay = 0.5f;
+	private static final float BONUS_ACTIVE_CHARGE = -0.15f;
+	private static final float BASE_DELAY = 0.5f;
 	
 	public CelestialAnointment() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, bonusActiveCharge, p),
+				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, BONUS_ACTIVE_CHARGE, p),
 				new Status(state, p) {
 			
 			private boolean echoing;
@@ -36,8 +37,8 @@ public class CelestialAnointment extends Artifact {
 					
 					if (delay <= 0 && item != null) {
 						echoing = false;
-						
-						SoundEffect.MAGIC1_ACTIVE.playUniversal(p.getSchmuck().getState(), p.getSchmuck().getPixelPosition(), 0.4f, false);
+
+						SyncedAttack.ARTIFACT_MAGIC_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 						item.useItem(state, p);
 					}
 				}
@@ -46,15 +47,15 @@ public class CelestialAnointment extends Artifact {
 			@Override
 			public void afterActiveItem(ActiveItem tool) {
 				item = tool;
-				delay = item.getUseDuration() + baseDelay;
+				delay = item.getUseDuration() + BASE_DELAY;
 				echoing = true;
 			}
-		});
+		}).setUserOnly(true);
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) -(bonusActiveCharge * 100))};
+				String.valueOf((int) -(BONUS_ACTIVE_CHARGE * 100))};
 	}
 }

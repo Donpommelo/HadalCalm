@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="71">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="71">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
@@ -49,11 +49,7 @@
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="19" name="Dropthrough" type="Dropthrough" x="800" y="512" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="800" y="512" width="288" height="8"/>
   <object id="22" name="Prefab" type="PrefabSpawner" x="896" y="416" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="25"/>
@@ -72,16 +68,8 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="28" name="Dropthrough" type="Dropthrough" x="256" y="928" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="29" name="Dropthrough" type="Dropthrough" x="1344" y="928" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="256" y="928" width="288" height="8"/>
+  <object id="29" name="Dropthrough" type="Dropthrough" x="1344" y="928" width="288" height="8"/>
   <object id="30" name="Buzzsaw" type="Buzzsaw" x="592" y="1264" width="128" height="128">
    <properties>
     <property name="damage" type="float" value="5"/>
@@ -92,7 +80,7 @@
    <properties>
     <property name="connections" value="saw1"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move2"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
@@ -154,7 +142,7 @@
    <properties>
     <property name="connections" value="saw2"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move10"/>
     <property name="triggeringId" value="dummy10"/>
    </properties>
   </object>
@@ -210,7 +198,7 @@
    <properties>
     <property name="connections" value="saw3"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move13"/>
     <property name="triggeringId" value="dummy13"/>
    </properties>
   </object>

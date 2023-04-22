@@ -28,7 +28,7 @@ public class SpawnerObjective extends Event {
 	//How frequently will this event spawn eggplants/candy in eggplant hunt/trick or treat?
 	private static final float EGGPLANT_INTERVAL = 2.0f;
 
-	private static final float CANDY_INTERVAL = 10.0f;
+	private static final float CANDY_INTERVAL = 20.0f;
 
 	private final static float PARTICLE_DURATION = 5.0f;
 

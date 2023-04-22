@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -34,8 +35,11 @@ public class Ablaze extends Status {
 
 	@Override
 	public void onInflict() {
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, LINGER, duration + LINGER,
-				true, SyncType.CREATESYNC).setPrematureOff(LINGER);
+		ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, LINGER, duration + LINGER,
+				true, SyncType.NOSYNC).setPrematureOff(LINGER);
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+		}
 	}
 
 	private static final float PROC_CD = 0.5f;

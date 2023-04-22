@@ -8,15 +8,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.schmucks.entities.MouseTracker;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
 
 import java.util.PriorityQueue;
@@ -253,7 +252,7 @@ public class BotManager {
                 int teamIndex = parent.getConnections().get(neighbor).teamIndex();
                 if (-1 != teamIndex) {
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
-                        if (bot.getHitboxfilter() != AlignmentFilter.currentTeams[teamIndex].getFilter()) {
+                        if (bot.getHitboxFilter() != AlignmentFilter.currentTeams[teamIndex].getFilter()) {
                             neighbor.setVisited(true);
                             continue;
                         }
@@ -275,10 +274,10 @@ public class BotManager {
             parent.setVisited(true);
         }
 
-        if (!start.getShortestPaths().containsKey((int) bot.getHitboxfilter())) {
-            start.getShortestPaths().put((int) bot.getHitboxfilter(), new ObjectMap<>());
+        if (!start.getShortestPaths().containsKey((int) bot.getHitboxFilter())) {
+            start.getShortestPaths().put((int) bot.getHitboxFilter(), new ObjectMap<>());
         }
-        start.getShortestPaths().get((int) bot.getHitboxfilter()).put(end, null);
+        start.getShortestPaths().get((int) bot.getHitboxFilter()).put(end, null);
 
         return null;
     }
@@ -356,7 +355,7 @@ public class BotManager {
         if (WorldUtil.preRaycastCheck(sourceLocation, endLocation)) {
             targeter.getWorld().rayCast((fixture1, point, normal, fraction) -> {
                 if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL &&
-                        fixture1.getFilterData().groupIndex != targeter.getHitboxfilter() &&
+                        fixture1.getFilterData().groupIndex != targeter.getHitboxFilter() &&
                         ((fixture1.getFilterData().maskBits | mask) == fixture1.getFilterData().maskBits)) {
                     if (fraction < shortestFraction) {
                         shortestFraction = fraction;
@@ -380,8 +379,6 @@ public class BotManager {
         Player newPlayer = state.createPlayer(null, user.getScores().getName(), user.getScoresExtra().getLoadout(),
                 null, user.getScores().getConnID(), user, true, false, false,
                 user.getHitBoxFilter().getFilter());
-        MouseTracker newMouse = new MouseTracker(state, false);
-        newPlayer.setMouse(newMouse);
         user.setPlayer(newPlayer);
         user.setSpectator(false);
     }

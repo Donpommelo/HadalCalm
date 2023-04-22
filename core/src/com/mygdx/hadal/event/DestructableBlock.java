@@ -53,7 +53,6 @@ public class DestructableBlock extends Event {
 			@Override
 			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
 									   DamageSource source, DamageTag... tags) {
-				if (!state.isServer()) { return basedamage; }
 
 				hp -= basedamage;
 				
@@ -62,10 +61,10 @@ public class DestructableBlock extends Event {
 					if (standardParticle != null) {
 						standardParticle.onForBurst(0.5f);
 					}
-					event.setShader(Shader.WHITE, Constants.FLASH, true);
+					event.setShader(Shader.WHITE, Constants.FLASH);
 				}
 				
-				if (hp <= 0) {
+				if (hp <= 0 && state.isServer()) {
 					event.queueDeletion();
 					
 					new ParticleEntity(state, new Vector2(event.getPixelPosition()), Particle.BOULDER_BREAK, 3.0f,

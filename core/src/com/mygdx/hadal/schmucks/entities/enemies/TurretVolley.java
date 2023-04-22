@@ -2,21 +2,12 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.constants.MoveState;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
@@ -42,11 +33,7 @@ public class TurretVolley extends Turret {
 	private static final float attackWindup2 = 0.2f;
 	private static final float attackAnimation = 0.2f;
 	
-	private static final float baseDamage = 14.0f;
 	private static final float projectileSpeed = 35.0f;
-	private static final float knockback = 15.0f;
-	private static final Vector2 projectileSize = new Vector2(40, 40);
-	private static final float projLifespan = 4.0f;
 	private static final float projInterval = 0.25f;
 	
 	private final Vector2 startVelo = new Vector2();
@@ -69,20 +56,8 @@ public class TurretVolley extends Turret {
 					
 					@Override
 					public void execute() {
-						
-						if (index == 0) {
-							SoundEffect.AR15.playUniversal(state, enemy.getPixelPosition(), 0.75f, false);
-						}
-						
 						startVelo.set(projectileSpeed, projectileSpeed).setAngleDeg(getAttackAngle());
-
-						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, projLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
-						
-						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-						hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
-						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, getBodyData()));
-						hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback,
-								DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
+						SyncedAttack.TURRET_VOLLEY_ATTACK.initiateSyncedAttackSingle(state, enemy, enemy.getProjectileOrigin(startVelo, size.x), startVelo, index);
 					}
 				});
 			}

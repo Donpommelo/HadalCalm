@@ -1,18 +1,16 @@
 package com.mygdx.hadal.schmucks.entities;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.client.ClientPredictionFrame;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
 
 /**
@@ -117,7 +115,7 @@ public class PlayerClient extends Player {
 								}
 							}
 							if (fixture.getFilterData().categoryBits == Constants.BIT_PLAYER) {
-								if (fraction < shortestFraction && ((PlayerBodyData) fixture.getUserData()).getPlayer().getHitboxfilter() != hitboxfilter) {
+								if (fraction < shortestFraction && ((PlayerBodyData) fixture.getUserData()).getPlayer().getHitboxFilter() != hitboxFilter) {
 									shortestFraction = fraction;
 									return fraction;
 								}
@@ -143,48 +141,11 @@ public class PlayerClient extends Player {
 	private final Vector2 playerVelocity = new Vector2();
 	private final Vector2 playerWorldLocation = new Vector2();
 	private final Vector2 newPredictedPosition = new Vector2();
-	private final Vector2 newPosition = new Vector2();
 	private float predictionCount;
 	private float shortestFraction;
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-
-		controllerCount += delta;
-		while (controllerCount >= Constants.INTERVAL) {
-			controllerCount -= Constants.INTERVAL;
-			
-			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
-				playerData.getCurrentFuel() >= playerData.getHoverCost()) {
-				if (jumpCdCount < 0) {
-					hover();
-				}
-			}
-			
-			if (fastFalling) {
-				fastFall();
-			}
-		}
-		
-		grounded = feetData.getNumContacts() > 0;
-		
-		if (grounded) {
-			playerData.setExtraJumpsUsed(0);
-		}
-		
-		jumpCdCount -= delta;
-		fastFallCdCount -= delta;
-		airblastCdCount -= delta;
-
-		if (jumpBuffered && jumpCdCount < 0) {
-			jumpBuffered = false;
-			jump();
-		}
-		
-		if (airblastBuffered && airblastCdCount < 0) {
-			airblastBuffered = false;
-			airblast();
-		}
 		
 		//for the server's own player, the sprite's arm should exactly match their mouse
 		playerLocation.set(getPixelPosition());
@@ -227,7 +188,7 @@ public class PlayerClient extends Player {
 								}
 							}
 							if (fixture.getFilterData().categoryBits == Constants.BIT_PLAYER) {
-								if (fraction < shortestFraction && ((PlayerBodyData) fixture.getUserData()).getPlayer().getHitboxfilter() != hitboxfilter) {
+								if (fraction < shortestFraction && ((PlayerBodyData) fixture.getUserData()).getPlayer().getHitboxFilter() != hitboxFilter) {
 									shortestFraction = fraction;
 									return fraction;
 								}
@@ -249,58 +210,9 @@ public class PlayerClient extends Player {
 			}
 			lastPosition.set(getPosition());
 		}
-
-		newPosition.set(getPixelPosition());
-		mouseAngle.set(newPosition.x, newPosition.y)
-				.sub(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
-		attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
 	}
 
 	//because we predict, we never want to do standard interpolation
 	@Override
 	public void clientInterpolation() {}
-
-	@Override
-	public void hover() {
-		if (jumpCdCount < 0) {
-			
-			//Player will continuously do small upwards bursts that cost fuel.
-			jumpCdCount = HOVER_CD;
-			pushMomentumMitigation(0, playerData.getHoverPower());
-		}
-	}
-	
-	@Override
-	public void jump() {
-		if (grounded) {
-			if (jumpCdCount < 0) {
-				
-				jumpCdCount = JUMP_CD;
-				pushMomentumMitigation(0, playerData.getJumpPower());
-			} else {
-				jumpBuffered = true;
-			}
-		} else if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
-			if (jumpCdCount < 0) {
-				jumpCdCount = JUMP_CD;
-				playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
-				pushMomentumMitigation(0, playerData.getJumpPower());
-			} else {
-				jumpBuffered = true;
-			}
-		}
-	}
-	
-	private final Vector2 mousePos = new Vector2();
-	@Override
-	public void airblast() {
-		if (airblastCdCount < 0) {
-			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
-				mousePos.set(((ClientState) state).getMousePosition().x, ((ClientState) state).getMousePosition().y);
-				pushFromLocation(mousePos, Airblaster.MOMENTUM);
-			}
-		} else {
-			airblastBuffered = true;
-		}
-	}
 }

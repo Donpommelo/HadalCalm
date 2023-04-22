@@ -1,0 +1,90 @@
+package com.mygdx.hadal.battle.attacks.weapon;
+
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
+import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.strategies.hitbox.*;
+
+import static com.mygdx.hadal.constants.Constants.PPM;
+
+public class TeslaActivation extends SyncedAttacker {
+
+    public static final float PULSE_DAMAGE = 40.0f;
+    private static final Vector2 PULSE_SIZE = new Vector2(75, 75);
+    private static final float PULSE_DURATION = 0.5f;
+    private static final float PULSE_KNOCKBACK = 20.0f;
+
+    @Override
+    public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
+                                            float[] extraFields) {
+        SoundEffect.ZAP.playSourced(state, startPosition, 0.4f);
+
+        //draw a path of hitboxes between the 2 activated coils that damage enemies that pass through
+        Vector2 pulsePosition = new Vector2(startPosition);
+        Vector2 otherPosition = new Vector2();
+        Vector2 pulsePath = new Vector2();
+        if (extraFields.length >= 2) {
+            otherPosition.set(extraFields[0], extraFields[1]);
+            pulsePath.set(otherPosition).sub(pulsePosition);
+        }
+
+        float dist = pulsePath.len();
+        for (int i = 0; i < dist - PULSE_SIZE.x; i += PULSE_SIZE.x) {
+            pulsePosition.add(pulsePath.nor().scl(PULSE_SIZE));
+
+            Hitbox pulse = new RangedHitbox(state, pulsePosition, PULSE_SIZE, PULSE_DURATION, new Vector2(), user.getHitboxFilter(),
+                    true, true, user, Sprite.NOTHING);
+            pulse.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+            pulse.setSyncDefault(false);
+            pulse.setEffectsHit(false);
+
+            pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
+            pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE, 0.0f, 0.1f)
+                    .setParticleSize(50).setSyncType(SyncType.NOSYNC));
+
+            if (!state.isServer()) {
+                ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
+            }
+        }
+
+        Hitbox hboxDamage = new RangedHitbox(state, startPosition, new Vector2(otherPosition.dst(startPosition), PULSE_SIZE.y),
+                PULSE_DURATION, new Vector2(), user.getHitboxFilter(), true, true, user, Sprite.NOTHING) {
+
+            private final Vector2 newPosition = new Vector2();
+            @Override
+            public void create() {
+                super.create();
+
+                //this makes the laser hbox's lifespan unmodifiable
+                setLifeSpan(PULSE_DURATION);
+
+                //Rotate hitbox to match angle of fire.
+                newPosition.set(otherPosition).sub(startPosition);
+                float newAngle = MathUtils.atan2(newPosition.y , newPosition.x);
+
+                newPosition.set(startPosition).add(otherPosition).scl(0.5f);
+                setTransform(newPosition.x / PPM, newPosition.y / PPM, newAngle);
+            }
+        };
+        hboxDamage.setEffectsVisual(false);
+
+        hboxDamage.addStrategy(new ControllerDefault(state, hboxDamage, user.getBodyData()));
+        hboxDamage.addStrategy(new DamageStandard(state, hboxDamage, user.getBodyData(), PULSE_DAMAGE, PULSE_KNOCKBACK,
+                DamageSource.TESLA_COIL, DamageTag.ENERGY, DamageTag.RANGED).setStaticKnockback(true));
+        hboxDamage.addStrategy(new Static(state, hboxDamage, user.getBodyData()));
+
+        return hboxDamage;
+    }
+}

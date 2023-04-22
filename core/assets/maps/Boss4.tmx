@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="233">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="233">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="BOSS_SHADOW_OF_THE_FALSE_SUN"/>
@@ -75,7 +75,7 @@
    <properties>
     <property name="connections" value="plat1,f3"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move2"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
@@ -94,7 +94,7 @@
    <properties>
     <property name="connections" value="plat2"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move3"/>
     <property name="triggeringId" value="dummy3"/>
    </properties>
   </object>
@@ -113,7 +113,7 @@
    <properties>
     <property name="connections" value="plat3,f2"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move4"/>
     <property name="triggeringId" value="dummy4"/>
    </properties>
   </object>
@@ -132,7 +132,7 @@
    <properties>
     <property name="connections" value="plat4"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move5"/>
     <property name="triggeringId" value="dummy5"/>
    </properties>
   </object>
@@ -151,7 +151,7 @@
    <properties>
     <property name="connections" value="plat5,f1"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move6"/>
     <property name="triggeringId" value="dummy6"/>
    </properties>
   </object>
@@ -170,7 +170,7 @@
    <properties>
     <property name="connections" value="plat6"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move7"/>
     <property name="triggeringId" value="dummy7"/>
    </properties>
   </object>
@@ -189,7 +189,7 @@
    <properties>
     <property name="connections" value="plat7,hp1"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move8"/>
     <property name="triggeringId" value="dummy8"/>
    </properties>
   </object>
@@ -208,7 +208,7 @@
    <properties>
     <property name="connections" value="plat8"/>
     <property name="speed" type="float" value="3"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move1"/>
     <property name="triggeringId" value="dummy1"/>
    </properties>
   </object>
@@ -346,11 +346,13 @@
   <object id="229" name="Dummy" type="Dummy" x="320" y="2272" width="1952" height="32">
    <properties>
     <property name="dummyId" value="floor"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="230" name="Dummy" type="Dummy" x="320" y="864" width="1952" height="32">
    <properties>
     <property name="dummyId" value="ceiling"/>
+    <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
   <object id="231" name="Timer" type="Timer" x="2208" y="2464" width="32" height="32">

@@ -1,67 +1,37 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.attacks.weapon.BoomerangProjectile;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.*;
 
 public class Boomerang extends RangedWeapon {
 
-	private static final int clipSize = 3;
-	private static final int ammoSize = 24;
-	private static final float shootCd = 0.75f;
-	private static final float shootDelay = 0;
-	private static final float reloadTime = 0.75f;
-	private static final int reloadAmount = 1;
-	private static final float baseDamage = 35.0f;
-	private static final float knockback = 30.0f;
-	private static final float projectileSpeed = 70.0f;
-	private static final Vector2 projectileSize = new Vector2(60, 60);
-	private static final float lifespan = 2.0f;
-	private static final float returnAmp = 5.0f;
-	private static final float boomerangRotationSpeed = 10.0f;
+	private static final int CLIP_SIZE = 3;
+	private static final int AMMO_SIZE = 24;
+	private static final float SHOOT_CD = 0.75f;
+	private static final float RELOAD_TIME = 0.75f;
+	private static final int RELOAD_AMOUNT = 1;
+	private static final float PROJECTILE_SPEED = 70.0f;
 
-	private static final Sprite projSprite = Sprite.BOOMERANG;
-	private static final Sprite weaponSprite = Sprite.MT_BOOMERANG;
-	private static final Sprite eventSprite = Sprite.P_BOOMERANG;
+	private static final Vector2 PROJECTILE_SIZE = BoomerangProjectile.PROJECTILE_SIZE;
+	private static final float LIFESPAN = BoomerangProjectile.LIFESPAN;
+	private static final float BASE_DAMAGE = BoomerangProjectile.BASE_DAMAGE;
 
-	public Boomerang(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
-				weaponSprite, eventSprite, projectileSize.x, lifespan);
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_BOOMERANG;
+	private static final Sprite EVENT_SPRITE = Sprite.P_BOOMERANG;
+
+	public Boomerang(Player user) {
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
 	}
 
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SyncedAttack.BOOMERANG.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
-	}
-
-	public static Hitbox createBoomerang(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity) {
-		SoundEffect.BOOMERANG_WHIZ.playSourced(state, startPosition, 1.0f);
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
-				false, true, user, projSprite);
-		hbox.setRestitution(0.0f);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.BOOMERANG,
-				DamageTag.WHACKING, DamageTag.RANGED).setRepeatable(true));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new ReturnToUser(state, hbox, user.getBodyData(), hbox.getStartVelo().len() * returnAmp));
-		hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.WOOSH, 0.5f, true).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.75f, true).setSynced(false));
-		hbox.addStrategy(new RotationConstant(state, hbox, user.getBodyData(), boomerangRotationSpeed));
-
-		return hbox;
 	}
 
 	@Override
@@ -72,10 +42,10 @@ public class Boomerang extends RangedWeapon {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage),
-				String.valueOf(clipSize),
-				String.valueOf(ammoSize),
-				String.valueOf(reloadTime),
-				String.valueOf(shootCd)};
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf(CLIP_SIZE),
+				String.valueOf(AMMO_SIZE),
+				String.valueOf(RELOAD_TIME),
+				String.valueOf(SHOOT_CD)};
 	}
 }

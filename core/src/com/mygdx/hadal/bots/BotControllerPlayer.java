@@ -94,8 +94,8 @@ public class BotControllerPlayer extends BotController {
      * This is run continuously to make the bot interact with weapon pickup events, if they are touching one
      */
     private void processBotPickup() {
-        if (null != player.getCurrentEvent()) {
-            if (player.getCurrentEvent() instanceof PickupEquip pickup) {
+        if (!player.getEventHelper().getCurrentEvents().isEmpty()) {
+            if (player.getEventHelper().getCurrentEvents().get(0) instanceof PickupEquip pickup) {
                 BotLoadoutProcessor.processWeaponPickup(player, pickup);
             }
         }
@@ -150,8 +150,8 @@ public class BotControllerPlayer extends BotController {
     public void performMovement() {
         //if distance to target is above threshold, use boost
         if (distSquared * collision > player.getBoostDesireMultiplier() && 0.0f >= boostDesireCount && 0 < thisLocation.y &&
-                player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getAirblastCost()) {
-            player.getMouse().setDesiredLocation((
+                player.getPlayerData().getCurrentFuel() >= player.getAirblastHelper().getAirblastCost()) {
+            player.getMouseHelper().setDesiredLocation((
                     predictedSelfLocation.x - thisLocation.x) * PPM,(predictedSelfLocation.y - thisLocation.y) * PPM);
             boostDesired = true;
         }
@@ -169,12 +169,12 @@ public class BotControllerPlayer extends BotController {
         //if moving upwards, bot will use jumps if available and hover otherwise
         if (0 < thisLocation.y) {
             if (0 >= jumpDesireCount) {
-                if (player.getPlayerData().getExtraJumpsUsed() < player.getPlayerData().getExtraJumps()) {
+                if (player.getJumpHelper().getExtraJumpsUsed() < player.getJumpHelper().getExtraJumps()) {
                     player.getController().keyDown(PlayerAction.JUMP);
                     player.getController().keyUp(PlayerAction.JUMP);
                     jumpDesireCount = JUMP_DESIRE_COOLDOWN;
                 } else {
-                    if (player.getPlayerData().getCurrentFuel() >= player.getPlayerData().getHoverCost()) {
+                    if (player.getPlayerData().getCurrentFuel() >= player.getJumpHelper().getHoverCost()) {
                         if (0 >= noFuelWaitCount) {
                             player.getController().keyDown(PlayerAction.JUMP);
                             jumpDesireCount = JUMP_DESIRE_COOLDOWN;
@@ -189,7 +189,7 @@ public class BotControllerPlayer extends BotController {
         }
 
         //in appropriate situations, bots will use fastfall
-        if (((-FASTFALL_DIST_THRESHOLD > thisLocation.y && !player.isGrounded()) ||
+        if (((-FASTFALL_DIST_THRESHOLD > thisLocation.y && !player.getGroundedHelper().isGrounded()) ||
                 (0 > thisLocation.y && !player.getFeetData().getTerrain().isEmpty()))
                 && FASTFALL_VELO_THRESHOLD < player.getLinearVelocity().y) {
             player.getController().keyDown(PlayerAction.CROUCH);

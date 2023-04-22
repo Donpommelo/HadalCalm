@@ -11,13 +11,13 @@ import com.mygdx.hadal.statuses.ParticleToggleable;
 
 public class Clepsydrae extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float MagicStoreMultiplier = 0.8f;
-	private static final float SpendDuration = 0.5f;
+	private static final float MAGIC_STORE_MULTIPLIER = 0.8f;
+	private static final float SPEND_DURATION = 0.5f;
 
 	public Clepsydrae() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class Clepsydrae extends Artifact {
 				}
 				if (p.getActiveItem().chargePercent() == 1.0f) {
 					if (storedCharge <= p.getActiveItem().getMaxCharge()) {
-						storedCharge += (delta * MagicStoreMultiplier);
+						storedCharge += (delta * MAGIC_STORE_MULTIPLIER);
 					}
 					activated = true;
 				}
@@ -49,8 +49,8 @@ public class Clepsydrae extends Artifact {
 			@Override
 			public void afterActiveItem(ActiveItem tool) {
 				if (storedCharge > 0.0f) {
-					chargeSpend = SpendDuration;
-					spentRate = storedCharge / SpendDuration;
+					chargeSpend = SPEND_DURATION;
+					spentRate = storedCharge / SPEND_DURATION;
 					storedCharge = 0.0f;
 				}
 			}
@@ -66,7 +66,7 @@ public class Clepsydrae extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (MagicStoreMultiplier * 100)),
-				String.valueOf(SpendDuration)};
+				String.valueOf((int) (MAGIC_STORE_MULTIPLIER * 100)),
+				String.valueOf(SPEND_DURATION)};
 	}
 }

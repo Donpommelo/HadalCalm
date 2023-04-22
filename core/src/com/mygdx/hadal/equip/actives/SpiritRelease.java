@@ -1,28 +1,24 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.active.VengefulSpirit;
+import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-
-import static com.mygdx.hadal.battle.WeaponUtils.SPIRIT_DEFAULT_DAMAGE;
 
 /**
  * @author Lothdoof Lepomelo
  */
 public class SpiritRelease extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 10.0f;
 
 	private static final int SPIRIT_NUM = 3;
 
-	public SpiritRelease(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+	public SpiritRelease(Player user) {
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override
@@ -32,7 +28,7 @@ public class SpiritRelease extends ActiveItem {
 		positions[1] = new Vector2(user.getPlayer().getPixelPosition()).add(100, 0);
 		positions[2] = new Vector2(user.getPlayer().getPixelPosition()).add(-100, 0);
 		SyncedAttack.VENGEFUL_SPIRIT.initiateSyncedAttackMulti(state, user.getPlayer(), new Vector2(), positions,
-				new Vector2[]{}, DamageSource.SPIRIT_RELEASE);
+				new Vector2[]{});
 	}
 
 	@Override
@@ -40,6 +36,6 @@ public class SpiritRelease extends ActiveItem {
 		return new String[] {
 				String.valueOf((int) MAX_CHARGE),
 				String.valueOf(SPIRIT_NUM),
-				String.valueOf((int) SPIRIT_DEFAULT_DAMAGE)};
+				String.valueOf((int) VengefulSpirit.SPIRIT_DEFAULT_DAMAGE)};
 	}
 }

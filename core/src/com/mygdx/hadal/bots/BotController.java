@@ -213,7 +213,7 @@ public class BotController {
             if (null != user.getPlayer()) {
 
                 //we don't want to target dead, invisible or invincible players
-                if (user.getPlayer().isAlive() && bot.getHitboxfilter() != user.getPlayer().getHitboxfilter() &&
+                if (user.getPlayer().isAlive() && bot.getHitboxFilter() != user.getPlayer().getHitboxFilter() &&
                         null == user.getPlayer().getPlayerData().getStatus(Invisibility.class) &&
                         null == user.getPlayer().getPlayerData().getStatus(Invulnerability.class)) {
 
@@ -257,7 +257,7 @@ public class BotController {
         //an additional check to find non-player targets (with decreased multiplier)
         bot.getWorld().QueryAABB((fixture -> {
             if (fixture.getUserData() instanceof final BodyData bodyData) {
-                if (bodyData.getSchmuck().getHitboxfilter() != bot.getHitboxfilter() &&
+                if (bodyData.getSchmuck().getHitboxFilter() != bot.getHitboxFilter() &&
                         bodyData.getSchmuck() instanceof Enemy enemy) {
                     targetLocation.set(enemy.getPosition());
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);

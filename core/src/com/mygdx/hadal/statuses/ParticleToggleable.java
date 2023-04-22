@@ -22,7 +22,6 @@ public class ParticleToggleable extends Status {
 	public ParticleToggleable(PlayState state, BodyData p, Particle particle) {
 		super(state, p);
 		this.particleType = particle;
-		setClientIndependent(true);
 	}
 
 	public ParticleToggleable(PlayState state, BodyData p) {

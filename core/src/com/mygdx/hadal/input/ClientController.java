@@ -2,7 +2,6 @@ package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -48,35 +47,6 @@ public class ClientController implements InputProcessor {
 				buttonsJustPressed.add(action);
 			}
 		}
-		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			leftDown = true;
-			if (!rightDown) {
-				player.setMoveState(MoveState.MOVE_LEFT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			rightDown = true;
-			if (!leftDown) {
-				player.setMoveState(MoveState.MOVE_RIGHT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		else if (keycode == PlayerAction.JUMP.getKey()) {
-			player.setHoveringAttempt(true);
-			player.jump();
-		}
-		else if (keycode == PlayerAction.CROUCH.getKey()) {
-			player.setFastFalling(true);
-		}
-		else if (keycode == PlayerAction.BOOST.getKey()) {
-			player.airblast();
-		}
-		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
-			state.getChatWheel().setVisibility(true);
-		}
 		return false;
 	}
 
@@ -97,31 +67,6 @@ public class ClientController implements InputProcessor {
 					buttonsHeld.remove(action);
 				}
 			}
-		}
-		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			leftDown = false;
-			if (rightDown) {
-				player.setMoveState(MoveState.MOVE_RIGHT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			rightDown = false;
-			if (leftDown) {
-				player.setMoveState(MoveState.MOVE_LEFT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		else if (keycode == PlayerAction.JUMP.getKey()) {
-			player.setHoveringAttempt(false);
-		}
-		else if (keycode == PlayerAction.CROUCH.getKey()) {
-			player.setFastFalling(false);
-		}
-		else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
-			state.getChatWheel().setVisibility(false);
 		}
 		return false;
 	}

@@ -38,8 +38,9 @@ public class Status implements Comparable<Status> {
 	//Status priority determins the order in which multiple statuses will proc their effects (small number = goes first)
 	private int priority = PRIORITY_DEFAULT;
 
-	private boolean clientIndependent;
-	
+	//does this status activate for the server only? for the player's own character only?
+	private boolean serverOnly, userOnly;
+
 	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v) {
 		this.state = state;
 		this.duration = i;
@@ -114,7 +115,7 @@ public class Status implements Comparable<Status> {
 	
 	public void scrapPickup() {}
 	
-	public void onAirBlast(Equippable tool) {}
+	public void onAirBlast(Vector2 airblastDirection) {}
 
 	public void whileHover(Vector2 hoverDirection) {}
 
@@ -132,7 +133,9 @@ public class Status implements Comparable<Status> {
 
 	public void setArtifact(UnlockArtifact artifact) { this.artifact = artifact; }
 
-	public boolean isClientIndependent() { return clientIndependent; }
+	public boolean isServerOnly() { return serverOnly; }
+
+	public boolean isUserOnly() { return userOnly; }
 
 	/**
 	 * This determines the behavior is this status is added to a schmuck who already has it.
@@ -145,8 +148,13 @@ public class Status implements Comparable<Status> {
 		return this;
 	}
 
-	public Status setClientIndependent(boolean clientIndependent) {
-		this.clientIndependent = clientIndependent;
+	public Status setServerOnly(boolean serverOnly) {
+		this.serverOnly = serverOnly;
+		return this;
+	}
+
+	public Status setUserOnly(boolean userOnly) {
+		this.userOnly = userOnly;
 		return this;
 	}
 

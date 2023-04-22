@@ -11,13 +11,14 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Kermungler extends Artifact {
 
-	private static final int slotCost = 1;
-	private static final float damageVariance = 0.5f;
-	private static final float damageAmp = 0.1f;
-	private static final float damageRes = 0.1f;
+	private static final int SLOT_COST = 1;
+
+	private static final float DAMAGE_VARIANCE = 0.5f;
+	private static final float DAMAGE_AMP = 0.1f;
+	private static final float DAMAGE_RES = 0.1f;
 	
 	public Kermungler() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -27,16 +28,16 @@ public class Kermungler extends Artifact {
 			@Override
 			public float onDealDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				float finalDamage = damage;
-				finalDamage += damage * damageAmp;
-				finalDamage += damage * (-damageVariance + MathUtils.random() * 2 * damageVariance);
+				finalDamage += damage * DAMAGE_AMP;
+				finalDamage += damage * (-DAMAGE_VARIANCE + MathUtils.random() * 2 * DAMAGE_VARIANCE);
 				return finalDamage;
 			}
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				float finalDamage = damage;
-				finalDamage -= damage * damageRes;
-				finalDamage += damage * (-damageVariance + MathUtils.random() * 2 * damageVariance);
+				finalDamage -= damage * DAMAGE_RES;
+				finalDamage += damage * (-DAMAGE_VARIANCE + MathUtils.random() * 2 * DAMAGE_VARIANCE);
 				return finalDamage;
 			}
 		};
@@ -45,8 +46,8 @@ public class Kermungler extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (damageVariance * 100)),
-				String.valueOf((int) (damageAmp * 100)),
-				String.valueOf((int) (damageRes * 100))};
+				String.valueOf((int) (DAMAGE_VARIANCE * 100)),
+				String.valueOf((int) (DAMAGE_AMP * 100)),
+				String.valueOf((int) (DAMAGE_RES * 100))};
 	}
 }

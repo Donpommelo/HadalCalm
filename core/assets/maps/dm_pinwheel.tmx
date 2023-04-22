@@ -374,12 +374,14 @@
   </object>
   <object id="108" name="Sensor" type="Sensor" x="256" y="2048" width="2528" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeringId" value="outOfBounds"/>
    </properties>
   </object>
   <object id="109" name="Player" type="Player" x="288" y="1760" width="32" height="32">
    <properties>
     <property name="hp" type="float" value="-1000"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="outOfBounds"/>
    </properties>
   </object>
@@ -390,10 +392,9 @@
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat1"/>
    </properties>
   </object>
@@ -411,10 +412,9 @@
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat2"/>
    </properties>
   </object>
@@ -432,10 +432,9 @@
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat4"/>
    </properties>
   </object>
@@ -453,10 +452,9 @@
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
+    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat3"/>
    </properties>
   </object>
@@ -504,6 +502,7 @@
   </object>
   <object id="131" name="Timer" type="Timer" x="288" y="96" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
@@ -511,6 +510,7 @@
   </object>
   <object id="132" name="Multitrigger" type="Multitrigger" x="352" y="96" width="32" height="32">
    <properties>
+    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="onceAtStart"/>
     <property name="triggeringId" value="startTimer,rotate1,rotate2,rotate3,rotate4"/>
    </properties>
@@ -535,11 +535,7 @@
    </properties>
   </object>
   <object id="178" name="PickupDelete" type="PickupDelete" x="256" y="2048" width="2528" height="32"/>
-  <object id="179" name="Dropthrough" type="Dropthrough" x="1376" y="1248" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="179" name="Dropthrough" type="Dropthrough" x="1376" y="1248" width="256" height="8"/>
  </objectgroup>
  <objectgroup id="4" name="objective">
   <object id="136" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1488" y="384" width="32" height="32">

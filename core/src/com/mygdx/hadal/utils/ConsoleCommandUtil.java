@@ -16,11 +16,10 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TextFilterUtil;
+import com.mygdx.hadal.text.UIText;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * This utility manages the players console commands
@@ -222,12 +221,12 @@ public class ConsoleCommandUtil {
 
 		UnlockEquip equip = UnlockEquip.getByName(command.toUpperCase());
 		if (state.getPlayer().isAlive()) {
-			state.getPlayer().getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(equip, state.getPlayer())));
+			state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(equip, state.getPlayer()));
 		}
 
 		UnlockActives active = UnlockActives.getByName(command.toUpperCase());
 		if (state.getPlayer().isAlive()) {
-			state.getPlayer().getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(active, state.getPlayer())));
+			state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(active, state.getPlayer()));
 		}
 		
 		return -1;

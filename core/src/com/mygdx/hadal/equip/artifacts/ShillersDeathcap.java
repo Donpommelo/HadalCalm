@@ -9,26 +9,26 @@ import com.mygdx.hadal.strategies.hitbox.PoisonTrail;
 
 public class ShillersDeathcap extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 
-	private static final int poisonRadius = 100;
-	private static final Vector2 poisonSize = new Vector2(100, 100);
-	private static final float poisonDamage = 15 / 60f;
-	private static final float poisonDuration = 1.0f;
-	private static final float procCd = 1.0f;
+	private static final int POISON_RADIUS = 100;
+	private static final Vector2 POISON_SIZE = new Vector2(100, 100);
+	private static final float POISON_DAMAGE = 15 / 60f;
+	private static final float POISON_DURATION = 1.0f;
+	private static final float PROC_CD = 1.0f;
 	
 	public ShillersDeathcap() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 			
-			private float procCdCount = procCd;
+			private float procCdCount = PROC_CD;
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount < procCd) {
+				if (procCdCount < PROC_CD) {
 					procCdCount += delta;
 				}
 			}
@@ -36,10 +36,10 @@ public class ShillersDeathcap extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsHit()) { return; }
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
-					hbox.addStrategy(new PoisonTrail(state, hbox, p, poisonSize, poisonRadius, poisonDamage, poisonDuration,
-							p.getSchmuck().getHitboxfilter()));
+				if (procCdCount >= PROC_CD) {
+					procCdCount -= PROC_CD;
+					hbox.addStrategy(new PoisonTrail(state, hbox, p, POISON_SIZE, POISON_RADIUS, POISON_DAMAGE, POISON_DURATION,
+							p.getSchmuck().getHitboxFilter()));
 				}
 			}
 		};
@@ -48,7 +48,7 @@ public class ShillersDeathcap extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) procCd),
-				String.valueOf((int) (poisonDamage * 60))};
+				String.valueOf((int) PROC_CD),
+				String.valueOf((int) (POISON_DAMAGE * 60))};
 	}
 }

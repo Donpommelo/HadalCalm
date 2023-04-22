@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="95" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="97">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="95" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="97">
  <properties>
   <property name="music" value="LEVEL_WRECK"/>
   <property name="startUI" value="SCRAP"/>
@@ -35,11 +35,7 @@
     <property name="triggeringId" value="warp0"/>
    </properties>
   </object>
-  <object id="5" name="Dropthrough" type="Dropthrough" x="288" y="2528" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="5" name="Dropthrough" type="Dropthrough" x="288" y="2528" width="160" height="8"/>
   <object id="6" name="Timer" type="Timer" x="352" y="672" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="0"/>
@@ -93,17 +89,26 @@
   </object>
   <object id="14" name="Platform" type="Platform" x="3040" y="2528" width="288" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="elevatorfloor"/>
    </properties>
   </object>
   <object id="15" name="Platform" type="Platform" x="3040" y="2240" width="288" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="elevatorceiling"/>
    </properties>
   </object>
   <object id="16" name="MovePoint" type="MovePoint" x="3168" y="2528" width="32" height="32">
    <properties>
     <property name="connections" value="elevatorfloor,elevatorceiling,switchdown,start1"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="12"/>
     <property name="triggeredId" value="elevatormove"/>
    </properties>
@@ -148,17 +153,26 @@
   </object>
   <object id="36" name="Platform" type="Platform" x="2464" y="864" width="288" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="elevatorfloorb"/>
    </properties>
   </object>
   <object id="37" name="Platform" type="Platform" x="2464" y="576" width="288" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="elevatorceilingb"/>
    </properties>
   </object>
   <object id="38" name="MovePoint" type="MovePoint" x="2592" y="864" width="32" height="32">
    <properties>
     <property name="connections" value="elevatorfloorb,elevatorceilingb,switchup,start3"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="12"/>
     <property name="triggeredId" value="elevatormoveb"/>
    </properties>
@@ -201,16 +215,8 @@
     <property name="triggeringId" value="elevatormoveb"/>
    </properties>
   </object>
-  <object id="47" name="Dropthrough" type="Dropthrough" x="1088" y="1920" width="1024" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="48" name="Dropthrough" type="Dropthrough" x="1376" y="1664" width="448" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="47" name="Dropthrough" type="Dropthrough" x="1088" y="1920" width="1024" height="8"/>
+  <object id="48" name="Dropthrough" type="Dropthrough" x="1376" y="1664" width="448" height="8"/>
   <object id="49" name="Displacer" type="Displacer" x="3048" y="2520" width="272" height="8">
    <properties>
     <property name="displaceX" type="float" value="0"/>
@@ -223,11 +229,7 @@
     <property name="triggeringId" value="elevatorfloorb"/>
    </properties>
   </object>
-  <object id="51" name="Dropthrough" type="Dropthrough" x="736" y="1920" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="51" name="Dropthrough" type="Dropthrough" x="736" y="1920" width="256" height="8"/>
   <object id="52" name="Sensor" type="Sensor" x="1248" y="1248" width="32" height="1088">
    <properties>
     <property name="triggeredId" value=""/>
@@ -250,12 +252,18 @@
   </object>
   <object id="55" name="Platform" type="Platform" x="576" y="384" width="96" height="288">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door2"/>
    </properties>
   </object>
   <object id="56" name="Platform" type="Platform" x="288" y="288" width="96" height="288">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door1"/>
    </properties>
@@ -334,11 +342,7 @@
     <property name="triggeringId" value="tofloor1b"/>
    </properties>
   </object>
-  <object id="69" name="Dropthrough" type="Dropthrough" x="2752" y="1472" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="69" name="Dropthrough" type="Dropthrough" x="2752" y="1472" width="224" height="8"/>
   <object id="70" name="Prefab" type="PrefabSpawnerTriggered" x="1536" y="2240" width="96" height="96">
    <properties>
     <property name="power" type="float" value="50"/>
@@ -382,14 +386,12 @@
   </object>
   <object id="81" name="Text" type="Text" x="448" y="2176" width="96" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="TEXT_WEAPON_SWITCH"/>
    </properties>
   </object>
   <object id="82" name="Text" type="Text" x="2336" y="2048" width="96" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="TEXT_RELOAD"/>
    </properties>
@@ -451,16 +453,8 @@
     <property name="triggeredId" value="elevatordialog0"/>
    </properties>
   </object>
-  <object id="92" name="Dropthrough" type="Dropthrough" x="736" y="2176" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="93" name="Dropthrough" type="Dropthrough" x="1376" y="2144" width="448" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="92" name="Dropthrough" type="Dropthrough" x="736" y="2176" width="256" height="8"/>
+  <object id="93" name="Dropthrough" type="Dropthrough" x="1376" y="2144" width="448" height="8"/>
   <object id="94" name="Prefab" type="PrefabSpawner" x="2816" y="1760" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="3"/>

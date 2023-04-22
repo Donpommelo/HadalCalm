@@ -8,25 +8,25 @@ import com.mygdx.hadal.constants.Stats;
 
 public class CompoundVitreous extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float hpVisibility = 1.0f;
-	private static final float visionBonus = 0.3f;
+	private static final float HP_VISIBILITY = 1.0f;
+	private static final float VISION_BONUS = 0.3f;
 
 	public CompoundVitreous() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.VISION_RADIUS, visionBonus, p),
-				new StatChangeStatus(state, Stats.HEALTH_VISIBILITY, hpVisibility, p));
+				new StatChangeStatus(state, Stats.VISION_RADIUS, VISION_BONUS, p),
+				new StatChangeStatus(state, Stats.HEALTH_VISIBILITY, HP_VISIBILITY, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (visionBonus * 100))};
+				String.valueOf((int) (VISION_BONUS * 100))};
 	}
 }

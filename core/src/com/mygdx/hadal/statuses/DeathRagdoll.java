@@ -24,6 +24,7 @@ public class DeathRagdoll extends Status {
 		super(state, p);
 		this.sprite = sprite;
 		this.size.set(size);
+		this.setServerOnly(true);
 	}
 	
 	@Override

@@ -8,26 +8,26 @@ import com.mygdx.hadal.constants.Stats;
 
 public class SwordofSyzygy extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float bonusProjDurability = 3.0f;
-	private static final float bonusDamageAmp = 0.15f;
+	private static final float BONUS_PROJ_DURABILITY = 3.0f;
+	private static final float BONUS_DAMAGE_AMP = 0.15f;
 	
 	public SwordofSyzygy() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, bonusProjDurability, p),
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, bonusDamageAmp, p));
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, BONUS_PROJ_DURABILITY, p),
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, BONUS_DAMAGE_AMP, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) bonusProjDurability),
-				String.valueOf((int) (bonusDamageAmp * 100))};
+				String.valueOf((int) BONUS_PROJ_DURABILITY),
+				String.valueOf((int) (BONUS_DAMAGE_AMP * 100))};
 	}
 }

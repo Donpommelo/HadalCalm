@@ -19,6 +19,9 @@ public class ReturnToUser extends HitboxStrategy {
 	public ReturnToUser(PlayState state, Hitbox proj, BodyData user, float returnAmp) {
 		super(state, proj, user);
 		this.returnAmp = returnAmp;
+
+		hbox.setSynced(true);
+		hbox.setSyncedDelete(true);
 	}
 	
 	private float controllerCount;

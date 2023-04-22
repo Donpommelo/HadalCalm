@@ -1,21 +1,16 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
-import com.mygdx.hadal.constants.Stats;
 
 public class Spittlefish extends EnemySwimming {
 
@@ -40,8 +35,6 @@ public class Spittlefish extends EnemySwimming {
 
 	private static final Sprite sprite = Sprite.FISH_SPITTLE;
 
-	private static final Sprite projSprite = Sprite.SPIT;
-	
 	public Spittlefish(PlayState state, Vector2 startPos, float startAngle, short filter) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SPITTLEFISH, startAngle, filter, baseHp, attackCd, scrapDrop);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
@@ -59,11 +52,7 @@ public class Spittlefish extends EnemySwimming {
 	
 	private static final float attackWindup = 0.4f;
 	
-	private static final float baseDamage = 7.5f;
-	private static final float knockback = 6.0f;
 	private static final float projectileSpeed = 15.0f;
-	private static final Vector2 projectileSize = new Vector2(30, 20);
-	private static final float lifespan = 3.0f;
 	private static final float range = 900.0f;
 	
 	private final Vector2 startVelo = new Vector2();
@@ -87,18 +76,7 @@ public class Spittlefish extends EnemySwimming {
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
-					SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 0.8f, false);
-					
-					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
-					
-					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new AdjustAngle(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.BUBBLE_IMPACT));
-					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
-							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-					hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.5f, true));
+					SyncedAttack.SPITTLEFISH_ATTACK.initiateSyncedAttackSingle(state, enemy, enemy.getPixelPosition(), startVelo);
 				}
 			}
 		});

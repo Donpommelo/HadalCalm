@@ -11,24 +11,24 @@ import com.mygdx.hadal.constants.Stats;
 
 public class SimpleMind extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float bonusClipSize = 0.5f;
-	private static final float bonusAtkSpd = 0.5f;
-	private static final float bonusReloadSpd = 0.5f;
-	private static final float bonusAmmo = 0.5f;
+	private static final float BONUS_CLIP_SIZE = 0.5f;
+	private static final float BONUS_ATK_SPD = 0.5f;
+	private static final float BONUS_RELOAD_SPD = 0.5f;
+	private static final float BONUS_AMMO = 0.5f;
 	
 	public SimpleMind() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClipSize, p),
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, p),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, p),
-				new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, p),
+				new StatChangeStatus(state, Stats.RANGED_CLIP, BONUS_CLIP_SIZE, p),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, BONUS_ATK_SPD, p),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, BONUS_RELOAD_SPD, p),
+				new StatChangeStatus(state, Stats.AMMO_CAPACITY, BONUS_AMMO, p),
 				new Status(state, p) {
 			
 			@Override

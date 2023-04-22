@@ -29,6 +29,6 @@ public class PlayerBounce extends Artifact {
 			public void onRemove() {
 				p.getSchmuck().setRestitution(0.0f);
 			}
-		}.setClientIndependent(true);
+		};
 	}
 }

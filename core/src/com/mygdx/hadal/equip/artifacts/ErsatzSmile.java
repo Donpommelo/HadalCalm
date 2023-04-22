@@ -12,12 +12,12 @@ import com.mygdx.hadal.statuses.Status;
 
 public class ErsatzSmile extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 
-	private static final float damageAmp = 0.8f;
+	private static final float DAMAGE_AMP = 0.8f;
 
 	public ErsatzSmile() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -33,25 +33,25 @@ public class ErsatzSmile extends Artifact {
 						flip = Math.abs(e.getAttackAngle()) > 90;
 
 					} else if (vic.getSchmuck() instanceof Player p) {
-						flip = Math.abs(p.getAttackAngle()) > 90;
+						flip = Math.abs(p.getMouseHelper().getAttackAngle()) > 90;
 					}
 					if (damaging.isPositionBasedOnUser()) {
 						if (flip) {
 							if ((p.getSchmuck().getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) < vic.getSchmuck().getSize().x / 2) {
-								return damage * (1.0f + damageAmp);
+								return damage * (1.0f + DAMAGE_AMP);
 							}
 						} else {
 							if ((p.getSchmuck().getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) > vic.getSchmuck().getSize().x / 2) {
-								return damage * (1.0f + damageAmp);
+								return damage * (1.0f + DAMAGE_AMP);
 							}
 						}
 					} else {
 						if (flip) {
 							if ((damaging.getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) < vic.getSchmuck().getSize().x / 2) {
-								return damage * (1.0f + damageAmp);							}
+								return damage * (1.0f + DAMAGE_AMP);							}
 						} else {
 							if ((damaging.getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) > vic.getSchmuck().getSize().x / 2) {
-								return damage * (1.0f + damageAmp);
+								return damage * (1.0f + DAMAGE_AMP);
 							}
 						}
 					}
@@ -64,6 +64,6 @@ public class ErsatzSmile extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (damageAmp * 100))};
+				String.valueOf((int) (DAMAGE_AMP * 100))};
 	}
 }

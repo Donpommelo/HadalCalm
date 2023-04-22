@@ -7,15 +7,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 
 public class DroneBit extends EnemySwimming {
 
@@ -57,6 +58,7 @@ public class DroneBit extends EnemySwimming {
 		getSwimStrategy().setMoveSpeed(2.0f);
 		getSwimStrategy().setCurrentState(SwimmingState.OTHER);
 		getSwimStrategy().setNoiseRadius(noiseRadius);
+		getFloatStrategy().setCurrentState(FloatingState.FREE);
 		getFloatStrategy().setTrackSpeed(trackSpeed);
 	}
 	
@@ -78,6 +80,9 @@ public class DroneBit extends EnemySwimming {
 
 	private static final float tetherRange = 4.0f;
 	private static final Vector2 tether = new Vector2(0, 1);
+	private float floatCount;
+	private final Vector2 entityWorldLocation = new Vector2();
+	private final Vector2 targetWorldLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 
@@ -88,7 +93,7 @@ public class DroneBit extends EnemySwimming {
 
 				//the bit moves towards a position offset by the player's mouse
 				getSwimStrategy().getMoveDirection().set(getPosition()).sub(getMoveTarget().getPosition())
-						.add(tether.setAngleDeg(owner.getAttackAngle()).nor().scl(tetherRange));
+						.add(tether.setAngleDeg(owner.getMouseHelper().getAttackAngle()).nor().scl(tetherRange));
 
 				float dist = getSwimStrategy().getMoveDirection().len2();
 
@@ -96,6 +101,16 @@ public class DroneBit extends EnemySwimming {
 					getSwimStrategy().getMoveDirection().scl(-1.0f);
 				} else if (dist < maxRange * maxRange && dist > minRange * minRange) {
 					getSwimStrategy().setMoveSpeed(0.0f);
+				}
+
+				floatCount += delta;
+				while (floatCount >= Constants.INTERVAL) {
+					floatCount -= Constants.INTERVAL;
+					entityWorldLocation.set(getPosition());
+					targetWorldLocation.set(owner.getMouseHelper().getPosition());
+					setDesiredAngle(MathUtils.atan2(
+							targetWorldLocation.y - entityWorldLocation.y ,
+							targetWorldLocation.x - entityWorldLocation.x) * 180 / MathUtils.PI);
 				}
 			}
 		}

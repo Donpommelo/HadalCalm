@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
@@ -17,18 +18,18 @@ import com.mygdx.hadal.constants.Constants;
 
 public class BrigglesBladedBoot extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float baseDamage = 80.0f;
-	private static final float knockback = 15.0f;
+	private static final float BASE_DAMAGE = 80.0f;
+	private static final float KNOCKBACK = 15.0f;
 
-	private static final float recoil = 40.0f;
+	private static final float RECOIL = 30.0f;
 
-	private static final Vector2 size = new Vector2(28, 5);
-	private static final Vector2 position = new Vector2(0, -1.5f);
+	private static final Vector2 SIZE = new Vector2(28, 10);
+	private static final Vector2 POSITION = new Vector2(0, -1.5f);
 	
 	public BrigglesBladedBoot() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -52,29 +53,37 @@ public class BrigglesBladedBoot extends Artifact {
 				if (!created) {
 					created = true;
 					
-					hbox = new Hitbox(state, p.getSchmuck().getPixelPosition(), size, 0, new Vector2(),
-							p.getSchmuck().getHitboxfilter(), true, false, p.getSchmuck(), Sprite.NOTHING);
-					hbox.setSyncDefault(false);
+					hbox = new Hitbox(state, p.getSchmuck().getPixelPosition(), SIZE, 0, new Vector2(),
+							p.getSchmuck().getHitboxFilter(), true, false, p.getSchmuck(), Sprite.NOTHING);
 					hbox.makeUnreflectable();
 					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
-					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), position));
-					hbox.addStrategy(new DamageStandard(state, hbox, p, baseDamage, knockback, DamageSource.BRIGGLES_BLADED_BOOT,
+					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), POSITION));
+					hbox.addStrategy(new DamageStandard(state, hbox, p, BASE_DAMAGE, KNOCKBACK, DamageSource.BRIGGLES_BLADED_BOOT,
 							DamageTag.WHACKING, DamageTag.MELEE)
 						.setStaticKnockback(true).setRepeatable(true));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {
 						
 						@Override
 						public void onHit(HadalData fixB) {
-							SoundEffect.KICK1.playUniversal(state, p.getSchmuck().getPixelPosition(), 0.3f, false);
-							p.getSchmuck().pushMomentumMitigation(0, recoil);
+							SoundEffect.KICK1.playSourced(state, p.getSchmuck().getPixelPosition(), 0.3f);
+							p.getSchmuck().pushMomentumMitigation(0, RECOIL);
 						}
 						
 						@Override
 						public void die() {
-							hbox.queueDeletion();
+							if (hbox.getState().isServer()) {
+								hbox.queueDeletion();
+							} else {
+								hbox.setAlive(false);
+								((ClientState) state).removeEntity(hbox.getEntityID());
+							}
 						}
 					});
+
+					if (!state.isServer()) {
+						((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+					}
 				}
 			}
 		};
@@ -83,6 +92,6 @@ public class BrigglesBladedBoot extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage)};
+				String.valueOf((int) BASE_DAMAGE)};
 	}
 }

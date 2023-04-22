@@ -6,6 +6,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -48,9 +49,13 @@ public class PoisonTrail extends HitboxStrategy {
 		entityLocation.set(hbox.getPixelPosition());
 		if (lastPosition.dst2(entityLocation) > poisonRadius * poisonRadius) {
 			lastPosition.set(entityLocation);
-			new Poison(state, entityLocation, poisonSize, poisonDamage, poisonDuration, creator.getSchmuck(), true,
+			Poison poison = new Poison(state, entityLocation, poisonSize, poisonDamage, poisonDuration, creator.getSchmuck(), true,
 					filter, DamageSource.SHILLERS_DEATHCAP)
 				.setParticle(particle).setParticleLifespan(lifespan).setParticleInterval(interval);
+
+			if (!state.isServer()) {
+				((ClientState) state).addEntity(poison.getEntityID(), poison, false, ClientState.ObjectLayer.EFFECT);
+			}
 		}
 	}
 

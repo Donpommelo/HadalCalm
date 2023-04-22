@@ -3,16 +3,16 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -21,8 +21,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
  */
 public class BendyBeams extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 8.0f;
 	
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(60, 20);
@@ -36,8 +34,8 @@ public class BendyBeams extends ActiveItem {
 
 	private static final Sprite PROJ_SPRITE = Sprite.NOTHING;
 
-	public BendyBeams(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+	public BendyBeams(Player user) {
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override
@@ -56,7 +54,7 @@ public class BendyBeams extends ActiveItem {
 					
 					startVelo.set(weaponVelo).nor().scl(PROJECTILE_SPEED);
 					for (int i = 0; i < BEAM_NUMBER; i++) {
-						Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), PROJ_SPRITE);
+						Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelo), user.getPlayer().getHitboxFilter(), true, false, user.getPlayer(), PROJ_SPRITE);
 						hbox.addStrategy(new ControllerDefault(state, hbox, user));
 						hbox.addStrategy(new DamageStandard(state, hbox, user, DAMAGE, KNOCKBACK, DamageSource.BENDY_BEAMS, DamageTag.ENERGY));
 						hbox.addStrategy(new ContactUnitDie(state, hbox, user));
@@ -65,7 +63,7 @@ public class BendyBeams extends ActiveItem {
 								.setParticleColor(HadalColor.MALACHITE).setParticleSize(20));
 						hbox.addStrategy(new AdjustAngle(state, hbox, user));
 						hbox.addStrategy(new Curve(state, hbox, user, 90, 180,
-								user.getPlayer().getMouse().getPixelPosition(), PROJECTILE_SPEED, 0.1f));
+								user.getPlayer().getMouseHelper().getPixelPosition(), PROJECTILE_SPEED, 0.1f));
 					}
 				}
 				procCdCount += delta;

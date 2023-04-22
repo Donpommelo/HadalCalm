@@ -17,18 +17,20 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.MouseTracker;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.utils.UnlocktoItem;
+import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -130,6 +132,19 @@ public class KryoServer {
 			@Override
 			public void received(final Connection c, Object o) {
 
+
+				if (o instanceof final PacketsSync.SyncClientSnapshot p) {
+					final PlayState ps = getPlayState();
+
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							player.onReceiveSync(p, p.timestamp);
+						}
+					}
+				}
+
 				/*
 				 * This packet is sent periodically to inform the server of the client's inputs
 				 * this includes what buttons the client is holding as well as their mouse position
@@ -149,7 +164,81 @@ public class KryoServer {
 						}
 					}
 				}
-				
+
+				if (o instanceof final PacketsAttacks.SingleClientIndependent p) {
+
+					final PlayState ps = getPlayState();
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
+								if (p instanceof PacketsAttacks.SingleClientDependent p1) {
+									Hitbox hbox;
+									if (p instanceof PacketsAttacks.SingleClientDependentExtra p2) {
+										hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p2.extraFields);
+									} else {
+										hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+									}
+									hbox.setEntityID(new UUID(p1.uuidMSB, p1.uuidLSB));
+								} else {
+									if (p instanceof PacketsAttacks.SingleClientIndependentExtra p1) {
+										p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p1.extraFields);
+									} else {
+										p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+									}
+								}
+							});
+						}
+					}
+				}
+
+				if (o instanceof final PacketsAttacks.MultiClientIndependent p) {
+					final PlayState ps = getPlayState();
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
+								if (p instanceof PacketsAttacks.MultiClientDependent p1) {
+									Hitbox[] hboxes;
+									if (p instanceof PacketsAttacks.MultiClientDependentExtra p2) {
+										hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+									} else {
+										hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+									}
+									for (int i = 0; i < hboxes.length; i++) {
+										hboxes[i].setEntityID(new UUID(p1.uuidMSB[i], p1.uuidLSB[i]));
+									}
+								} else {
+									if (p instanceof PacketsAttacks.MultiClientIndependentExtra p2) {
+										p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+									} else {
+										p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+									}
+								}
+							});
+						}
+					}
+				}
+
+				if (o instanceof final PacketsAttacks.SyncedAttackNoHbox p) {
+					final PlayState ps = getPlayState();
+					User user = users.get(c.getID());
+					if (user != null && ps != null) {
+						Player player = user.getPlayer();
+						if (player != null) {
+							ps.addPacketEffect(() -> {
+								if (p instanceof PacketsAttacks.SyncedAttackNoHboxExtra p1) {
+									p.attack.initiateSyncedAttackNoHbox(ps, player, p.pos, c.getID(), false, p.independent, p1.extraFields);
+								} else {
+									p.attack.initiateSyncedAttackNoHbox(ps, player, p.pos, c.getID(), false, p.independent);
+								}
+							});
+						}
+					}
+				}
+
 				/*
 				 * The Client has connected.
 				 * Notify clients and create a new player for the client. Also, tell the new client what level to load
@@ -255,8 +344,8 @@ public class KryoServer {
 							}
 
 							//sync client ui elements
-							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr(),
-								AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
+							sendToTCP(c.getID(), new Packets.SyncUI(ps.getUiExtra().getMaxTimer(), ps.getUiExtra().getTimer(),
+									ps.getUiExtra().getTimerIncr(),	AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
 							sendToTCP(c.getID(), new Packets.SyncSharedSettings(ps.getGsm().getSharedSetting()));
 						});
 					}
@@ -294,16 +383,18 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								ps.addPacketEffect(() -> {
 									if (p instanceof PacketsLoadout.SyncEquipClient s) {
-										player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.equip, player)));
+										player.getPlayerData().syncEquip(s.equip);
+										player.getPlayerData().syncServerEquipChangeEcho(c.getID(), s.equip);
 									}
 									else if (p instanceof PacketsLoadout.SyncArtifactAddClient s) {
 										player.getPlayerData().addArtifact(s.artifactAdd, false, s.save);
 									}
 									else if (p instanceof PacketsLoadout.SyncArtifactRemoveClient s) {
-										player.getPlayerData().removeArtifact(s.artifactRemove);
+										player.getPlayerData().removeArtifact(s.artifactRemove, false);
 									}
 									else if (p instanceof PacketsLoadout.SyncActiveClient s) {
-										player.getPlayerData().pickup(Objects.requireNonNull(UnlocktoItem.getUnlock(s.active, player)));
+										player.getPlayerData().syncActive(s.active);
+										player.getPlayerData().syncServerActiveChangeEcho(c.getID(), s.active);
 									}
 									else if (p instanceof PacketsLoadout.SyncCharacterClient s) {
 										player.getPlayerData().setCharacter(s.character);
@@ -445,23 +536,6 @@ public class KryoServer {
 						server.sendToUDP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
 					}
 				}
-				
-				/*
-				 * This packet indicates the client is typing, so make a bubble appear above their head.
-				 */
-				else if (o instanceof Packets.SyncTyping) {
-					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.addPacketEffect(() -> {
-								player.startTyping();
-								sendToAllExceptUDP(c.getID(), new Packets.SyncTyping(player.getEntityID()));
-							});
-						}
-					}
-				}
 
 				/*
 				 * The client tried to emote. make them emote, if possible
@@ -534,6 +608,60 @@ public class KryoServer {
 						}
 					}
 				}
+
+				else if (o instanceof final Packets.DeleteClientSelf p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						User vic = users.get(c.getID());
+						if (null != vic) {
+							ps.addPacketEffect(() -> {
+								if (null != vic.getPlayer()) {
+									HadalEntity perp = ps.findEntity(p.uuidMSB, p.uuidLSB);
+									if (perp instanceof Schmuck schmuck) {
+										vic.getPlayer().getPlayerData().die(schmuck.getBodyData(), p.source, p.tags);
+									} else {
+										vic.getPlayer().getPlayerData().die(ps.getWorldDummy().getBodyData(), p.source, p.tags);
+									}
+								}
+							});
+						}
+					}
+				}
+
+				else if (o instanceof Packets.ActivateEvent p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						User user = users.get(c.getID());
+						if (user != null) {
+							Player player = user.getPlayer();
+							if (player != null) {
+								ps.addPacketEffect(() -> {
+									HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
+									if (entity != null) {
+										if (entity instanceof Event event) {
+											event.getEventData().preActivate(null, player);
+										}
+									}
+								});
+							}
+						}
+					}
+				}
+
+				else if (o instanceof Packets.RequestStartSyncedEvent p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
+							if (null != event) {
+								Object packet = event.onServerSyncInitial();
+								if (null != packet) {
+									sendToTCP(c.getID(), packet);
+								}
+							}
+						});
+					}
+				}
 			}
 		};
 		
@@ -590,8 +718,6 @@ public class KryoServer {
 				//Create a new player with the designated fields and give them a mouse pointer.
 				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connID, user, reset, false, justJoined,
 						user.getHitBoxFilter().getFilter());
-				MouseTracker newMouse = new MouseTracker(ps, false);
-				newPlayer.setMouse(newMouse);
 
 				user.setPlayer(newPlayer);
 				user.setSpectator(false);
@@ -703,6 +829,18 @@ public class KryoServer {
 		}
 	}
 
+	public void sendToAllUDP(Object p) {
+		if (server != null) {
+			server.sendToAllUDP(p);
+		}
+	}
+
+	public void sendToAllExceptTCP(int connID, Object p) {
+		if (server != null) {
+			server.sendToAllExceptTCP(connID, p);
+		}
+	}
+
 	public void sendToAllExceptUDP(int connID, Object p) {
 		if (server != null) {
 			server.sendToAllExceptUDP(connID, p);
@@ -718,12 +856,6 @@ public class KryoServer {
 	public void sendToUDP(int connID, Object p) {
 		if (server != null) {
 			server.sendToUDP(connID, p);
-		}
-	}
-	
-	public void sendToAllUDP(Object p) {
-		if (server != null) {
-			server.sendToAllUDP(p);
 		}
 	}
 

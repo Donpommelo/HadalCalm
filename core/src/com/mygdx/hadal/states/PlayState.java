@@ -66,6 +66,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
@@ -91,9 +92,6 @@ public class PlayState extends GameState {
 	//world manages the Box2d world and physics. b2dr renders debug lines for testing
 	protected final Box2DDebugRenderer b2dr;
 	protected final World world;
-
-	//This holds the mouse location
-	private final MouseTracker mouse;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
@@ -255,9 +253,6 @@ public class PlayState extends GameState {
 		worldDummy = new WorldDummy(this);
 		anchor = new AnchorPoint(this);
 		
-		//The mouse tracker is the player's mouse position
-		mouse = new MouseTracker(this, true);
-
 		PlayState me = this;
 		//load map. We override the render so that we can apply a shader to the tileset
 		map = new TmxMapLoader().load(level.getMap());
@@ -451,7 +446,6 @@ public class PlayState extends GameState {
 	}
 	
 	//these control the frequency that we process world physics.
-	private static final float PHYSICS_TIME = 0.005f;
 	private float physicsAccumulator;
 
 	//these control the frequency that we send sync packets for world entities.
@@ -605,8 +599,8 @@ public class PlayState extends GameState {
 		tmr.setView(camera);
 		tmr.render();
 
-		//Render debug lines for box2d objects.
-		if (debugHitbox) {
+		//Render debug lines for box2d objects. THe 0 check prevents debug outlines from appearing in the freeze-frame
+		if (debugHitbox && 0.0f != delta) {
 			b2dr.render(world, camera.combined.scl(PPM));
 			camera.combined.scl(1.0f / PPM);
 		}
@@ -1023,11 +1017,19 @@ public class PlayState extends GameState {
 		Player p;
 		if (connID < 0) {
 			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
-		} else if (!client) {
-			p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+		} else if (isServer()) {
+			if (0 == connID) {
+				p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			} else {
+				p = new PlayerClientOnHost(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			}
 		} else {
-			//clients always spawn at (0,0), then move when the server tells them to.
-			p = new PlayerClient(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
+			if (!client) {
+				p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			} else {
+				//clients always spawn at (0,0), then move when the server tells them to.
+				p = new PlayerSelfOnClient(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
+			}
 		}
 		
 		//teleportation particles for reset players (indicates returning to hub)
@@ -1619,8 +1621,6 @@ public class PlayState extends GameState {
 	public void setSpectatorBounded(boolean spectatorBounded) { this.spectatorBounded = spectatorBounded; }
 
 	public boolean isSpectatorBounded() { return spectatorBounded; }
-
-	public MouseTracker getMouse() { return mouse; }
 
 	public InputProcessor getController() { return controller; }
 

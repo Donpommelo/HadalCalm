@@ -11,24 +11,24 @@ import com.mygdx.hadal.constants.Stats;
 
 public class UnbreathingMembrane extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float spdReduction = -0.75f;
-	private static final float bonusClip = 1.0f;
-	private static final float bonusRecoil = 3.0f;
+	private static final float SPD_REDUCTION = -0.75f;
+	private static final float BONUS_CLIP = 1.0f;
+	private static final float BONUS_RECOIL = 3.0f;
 	
 	public UnbreathingMembrane() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.GROUND_SPD, spdReduction, p),
-				new StatChangeStatus(state, Stats.AIR_SPD, spdReduction, p),
-				new StatChangeStatus(state, Stats.JUMP_POW, spdReduction, p),
-				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClip, p),
-				new StatChangeStatus(state, Stats.RANGED_RECOIL, bonusRecoil, p),
+				new StatChangeStatus(state, Stats.GROUND_SPD, SPD_REDUCTION, p),
+				new StatChangeStatus(state, Stats.AIR_SPD, SPD_REDUCTION, p),
+				new StatChangeStatus(state, Stats.JUMP_POW, SPD_REDUCTION, p),
+				new StatChangeStatus(state, Stats.RANGED_CLIP, BONUS_CLIP, p),
+				new StatChangeStatus(state, Stats.RANGED_RECOIL, BONUS_RECOIL, p),
 				new Status(state, p) {
 			
 					@Override

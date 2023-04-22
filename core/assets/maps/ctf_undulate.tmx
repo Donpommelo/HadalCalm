@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="320" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="447">
  <tileset firstgid="1" source="main_0.tsx"/>
- <tileset firstgid="25" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="320" height="120">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -84,8 +83,8 @@
 0,0,0,0,0,0,0,0,4,15,15,15,15,13,3,3,3,3,3,3,3,8,0,0,0,7,3,3,3,3,3,3,3,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,3,3,3,3,3,3,3,8,0,0,0,7,3,3,3,3,3,3,14,15,15,15,15,9,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,4,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,9,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,4,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,9,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,4,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,9,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,15,13,3,3,3,3,3,3,3,3,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,44,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,10,10,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,10,10,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,43,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,3,3,3,3,3,3,3,3,3,3,14,15,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,4,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,9,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,15,13,3,3,3,3,3,3,3,3,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,10,10,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,10,10,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,3,3,3,3,3,3,3,3,3,3,14,15,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,14,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,3,3,3,3,3,3,3,3,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,3,3,3,3,3,3,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,19,6,0,0,0,0,0,0,0,0,0,0,0,0,5,10,10,10,10,10,10,10,10,10,10,20,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,15,15,15,15,15,15,15,19,10,10,10,10,10,10,10,10,10,10,6,0,0,0,0,0,0,0,0,0,0,0,0,5,20,15,15,15,15,15,15,15,15,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,15,9,0,0,0,0,0,0,0,0,
@@ -1160,7 +1159,7 @@
    <properties>
     <property name="connections" value="plat1,plat2"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move9"/>
     <property name="triggeringId" value="dummy0"/>
    </properties>
   </object>
@@ -1180,7 +1179,7 @@
    <properties>
     <property name="connections" value="plat3,plat4"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move8"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
@@ -1200,7 +1199,7 @@
    <properties>
     <property name="connections" value="plat5,plat6"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move7"/>
     <property name="triggeringId" value="dummy4"/>
    </properties>
   </object>
@@ -1220,7 +1219,7 @@
    <properties>
     <property name="connections" value="plat7,plat8,w7"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move6"/>
     <property name="triggeringId" value="dummy6"/>
    </properties>
   </object>
@@ -1240,7 +1239,7 @@
    <properties>
     <property name="connections" value="plat9"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move5"/>
     <property name="triggeringId" value="dummy9"/>
    </properties>
   </object>
@@ -1260,7 +1259,7 @@
    <properties>
     <property name="connections" value="plat11,plat12,w8"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move4"/>
     <property name="triggeringId" value="dummy11"/>
    </properties>
   </object>
@@ -1280,7 +1279,7 @@
    <properties>
     <property name="connections" value="plat13,plat14"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move3"/>
     <property name="triggeringId" value="dummy13"/>
    </properties>
   </object>
@@ -1300,7 +1299,7 @@
    <properties>
     <property name="connections" value="plat15,plat16"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move2"/>
     <property name="triggeringId" value="dummy15"/>
    </properties>
   </object>
@@ -1320,7 +1319,7 @@
    <properties>
     <property name="connections" value="plat17,plat18"/>
     <property name="speed" type="float" value="1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="move1"/>
     <property name="triggeringId" value="dummy16"/>
    </properties>
   </object>
@@ -1336,166 +1335,90 @@
     <property name="triggeringId" value="dummy17"/>
    </properties>
   </object>
-  <object id="98" name="Dropthrough" type="Dropthrough" x="4992" y="1728" width="96" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="99" name="Dropthrough" type="Dropthrough" x="5184" y="1728" width="96" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="100" name="Dropthrough" type="Dropthrough" x="4448" y="1216" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="101" name="Dropthrough" type="Dropthrough" x="5600" y="1216" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="102" name="Dropthrough" type="Dropthrough" x="2528" y="2208" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="103" name="Dropthrough" type="Dropthrough" x="7456" y="2208" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="104" name="Dropthrough" type="Dropthrough" x="832" y="2784" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="105" name="Dropthrough" type="Dropthrough" x="352" y="2784" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="106" name="Dropthrough" type="Dropthrough" x="672" y="2624" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="107" name="Dropthrough" type="Dropthrough" x="9568" y="2784" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="108" name="Dropthrough" type="Dropthrough" x="9120" y="2784" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="109" name="Dropthrough" type="Dropthrough" x="9440" y="2624" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="98" name="Dropthrough" type="Dropthrough" x="4992" y="1728" width="96" height="8"/>
+  <object id="99" name="Dropthrough" type="Dropthrough" x="5184" y="1728" width="96" height="8"/>
+  <object id="100" name="Dropthrough" type="Dropthrough" x="4448" y="1216" width="224" height="8"/>
+  <object id="101" name="Dropthrough" type="Dropthrough" x="5600" y="1216" width="224" height="8"/>
+  <object id="102" name="Dropthrough" type="Dropthrough" x="2528" y="2208" width="288" height="8"/>
+  <object id="103" name="Dropthrough" type="Dropthrough" x="7456" y="2208" width="288" height="8"/>
+  <object id="104" name="Dropthrough" type="Dropthrough" x="832" y="2784" width="320" height="8"/>
+  <object id="105" name="Dropthrough" type="Dropthrough" x="352" y="2784" width="320" height="8"/>
+  <object id="106" name="Dropthrough" type="Dropthrough" x="672" y="2624" width="160" height="8"/>
+  <object id="107" name="Dropthrough" type="Dropthrough" x="9568" y="2784" width="320" height="8"/>
+  <object id="108" name="Dropthrough" type="Dropthrough" x="9120" y="2784" width="320" height="8"/>
+  <object id="109" name="Dropthrough" type="Dropthrough" x="9440" y="2624" width="160" height="8"/>
   <object id="110" name="Current" type="Current" x="992" y="1600" width="96" height="800">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="6"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="111" name="Current" type="Current" x="704" y="2400" width="96" height="96">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="6"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="112" name="Current" type="Current" x="704" y="2240" width="288" height="160">
    <properties>
     <property name="currentX" type="float" value="6"/>
     <property name="currentY" type="float" value="0"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="113" name="Current" type="Current" x="9184" y="1600" width="96" height="800">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="6"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="114" name="Current" type="Current" x="9472" y="2400" width="96" height="96">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="6"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="115" name="Current" type="Current" x="9280" y="2240" width="288" height="160">
    <properties>
     <property name="currentX" type="float" value="-6"/>
     <property name="currentY" type="float" value="0"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="117" name="Spring" type="Spring" x="3712" y="2576" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
   <object id="118" name="Spring" type="Spring" x="2336" y="2736" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
   <object id="119" name="Spring" type="Spring" x="7840" y="2736" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
   <object id="120" name="Spring" type="Spring" x="6464" y="2576" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
-  <object id="121" name="Dropthrough" type="Dropthrough" x="7840" y="1504" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="122" name="Dropthrough" type="Dropthrough" x="7840" y="1888" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="123" name="Dropthrough" type="Dropthrough" x="2176" y="1504" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="124" name="Dropthrough" type="Dropthrough" x="2176" y="1888" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="121" name="Dropthrough" type="Dropthrough" x="7840" y="1504" width="256" height="8"/>
+  <object id="122" name="Dropthrough" type="Dropthrough" x="7840" y="1888" width="256" height="8"/>
+  <object id="123" name="Dropthrough" type="Dropthrough" x="2176" y="1504" width="256" height="8"/>
+  <object id="124" name="Dropthrough" type="Dropthrough" x="2176" y="1888" width="256" height="8"/>
   <object id="125" name="Spring" type="Spring" x="2256" y="1872" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
   <object id="126" name="Spring" type="Spring" x="7920" y="1872" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
@@ -1638,31 +1561,20 @@
   </object>
   <object id="326" name="Spring" type="Spring" x="3744" y="1712" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
   <object id="327" name="Spring" type="Spring" x="6432" y="1712" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
   </object>
-  <object id="401" name="Dropthrough" type="Dropthrough" x="5056" y="1856" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="402" name="Dropthrough" type="Dropthrough" x="5056" y="2080" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="401" name="Dropthrough" type="Dropthrough" x="5056" y="1856" width="160" height="8"/>
+  <object id="402" name="Dropthrough" type="Dropthrough" x="5056" y="2080" width="160" height="8"/>
   <object id="403" name="Spring" type="Spring" x="5088" y="2064" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
    </properties>
@@ -1833,7 +1745,6 @@
   <object id="60" name="ParticleField" type="ParticleField" x="1280" y="2688" width="32" height="288">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="BRIGHT_TRAIL"/>
     <property name="speed" type="float" value="1"/>
     <property name="team" type="int" value="0"/>
@@ -1844,7 +1755,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="0"/>
@@ -1855,7 +1765,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="-1"/>
@@ -1864,7 +1773,6 @@
   <object id="64" name="ParticleField" type="ParticleField" x="8960" y="2688" width="32" height="288">
    <properties>
     <property name="duration" type="float" value="5"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="particle" value="BRIGHT_TRAIL"/>
     <property name="speed" type="float" value="1"/>
     <property name="team" type="int" value="1"/>
@@ -1875,7 +1783,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="1"/>
@@ -1886,7 +1793,6 @@
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
     <property name="teamIndex" type="int" value="-1"/>
@@ -1991,13 +1897,11 @@
   <object id="399" name="Heal" type="Heal" x="800" y="2880" width="224" height="96">
    <properties>
     <property name="heal" type="float" value="0.5"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="400" name="Heal" type="Heal" x="9216" y="2880" width="224" height="96">
    <properties>
     <property name="heal" type="float" value="0.5"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

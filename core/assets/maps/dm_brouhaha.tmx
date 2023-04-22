@@ -448,28 +448,24 @@
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="4.5"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="12" name="Current" type="Current" x="2208" y="1216" width="96" height="288">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="4.5"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="13" name="Current" type="Current" x="1312" y="1792" width="96" height="288">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="4.5"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="14" name="Current" type="Current" x="864" y="672" width="96" height="576">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="4.5"/>
-    <property name="independent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="15" name="Bounds" type="Bounds" x="352" y="256" width="32" height="32">
@@ -490,21 +486,9 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="19" name="Dropthrough" type="Dropthrough" x="1728" y="1664" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="20" name="Dropthrough" type="Dropthrough" x="480" y="2624" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="21" name="Dropthrough" type="Dropthrough" x="2912" y="664" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="1728" y="1664" width="192" height="8"/>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="480" y="2624" width="224" height="8"/>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="2912" y="664" width="224" height="8"/>
   <object id="22" name="Prefab" type="PrefabWeapon" x="2976" y="568" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
@@ -547,19 +531,10 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="28" name="Dropthrough" type="Dropthrough" x="2760" y="1312" width="344" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="29" name="Dropthrough" type="Dropthrough" x="512" y="1976" width="352" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="2760" y="1312" width="344" height="8"/>
+  <object id="29" name="Dropthrough" type="Dropthrough" x="512" y="1976" width="352" height="8"/>
   <object id="30" name="Spring" type="Spring" x="992" y="2800" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
@@ -607,7 +582,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="3" name="collision-layer" visible="0">
+ <objectgroup id="3" name="collision-layer">
   <object id="1" x="576" y="2944">
    <polyline points="0,0 160,0 224,-64 288,-64 352,-128 576,-128 672,-224 800,-224 864,-288 1600,-288 1664,-224 2080,-224 2176,-320 2176,-896 2080,-992 2080,-1024 2432,-1024 2528,-1120 2528,-1632 2624,-1728 2624,-1888 2528,-1984 2400,-1984 2400,-2016 2560,-2176 2560,-2496 2464,-2592 2304,-2592 2240,-2528 2176,-2528 2112,-2464 1888,-2464 1792,-2368 1664,-2368 1600,-2304 864,-2304 800,-2368 384,-2368 288,-2272 288,-1696 384,-1600 384,-1568 32,-1568 -64,-1472 -64,-960 -160,-864 -160,-704 -64,-608 64,-608 64,-576 -96,-416 -96,-96 0,0"/>
   </object>
@@ -618,7 +593,7 @@
    <polyline points="0,0 224,0 288,-64 416,-64 480,0 544,0 608,64 800,64 800,-320 896,-416 896,-448 640,-448 544,-352 160,-352 0,-192 0,0"/>
   </object>
  </objectgroup>
- <objectgroup id="6" name="objective" visible="0">
+ <objectgroup id="6" name="objective">
   <object id="36" name="Dummy" type="Dummy" x="2496" y="2368" width="32" height="32">
    <properties>
     <property name="triggeredId" value="egg3"/>
@@ -658,7 +633,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="dm" visible="0"/>
+ <objectgroup id="4" name="dm"/>
  <objectgroup id="5" name="arena">
   <object id="52" name="WaveSpawn" type="WaveSpawn" x="1792" y="1120" width="32" height="32">
    <properties>

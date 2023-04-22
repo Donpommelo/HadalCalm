@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -10,10 +9,10 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class MuddlingCup extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
 	public MuddlingCup() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -22,15 +21,15 @@ public class MuddlingCup extends Artifact {
 			
 			private final Vector2 projAngle = new Vector2();
 			@Override
-			public void onAirBlast(Equippable tool) {
+			public void onAirBlast(Vector2 airblastDirection) {
 
 				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
 					float projectileSpeed = ranged.getProjectileSpeed();
 					
-					p.getCurrentTool().fire(state, p.getSchmuck(), p.getSchmuck().getProjectileOrigin(projAngle, tool.getAmmoSize()),
-							projAngle.set(tool.getWeaponVelo()).nor().scl(projectileSpeed),	p.getSchmuck().getHitboxfilter());
+					p.getCurrentTool().fire(state, p.getPlayer(), p.getPlayer().getProjectileOrigin(projAngle, p.getCurrentTool().getAmmoSize()),
+							projAngle.set(airblastDirection).nor().scl(projectileSpeed), p.getPlayer().getHitboxFilter());
 				}
 			}
-		});
+		}).setUserOnly(true);
 	}
 }

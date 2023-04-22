@@ -12,12 +12,12 @@ import static com.mygdx.hadal.constants.Constants.PRIORITY_SCALE;
 
 public class PainScale extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private final float amount = 0.2f;
+	private static final float AMOUNT = 0.2f;
 	
 	public PainScale() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class PainScale extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (damage > 0) {
-					p.getActiveItem().gainCharge(damage * amount);
+					p.getActiveItem().gainCharge(damage * AMOUNT);
 				}
 				return damage;
 			}
@@ -37,6 +37,6 @@ public class PainScale extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (1.0f / amount))};
+				String.valueOf((int) (1.0f / AMOUNT))};
 	}
 }

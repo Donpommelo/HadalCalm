@@ -245,7 +245,7 @@ public class Boss6 extends EnemyFloating {
 				@Override
 				public void execute() {
 					Hitbox hbox = new Hitbox(state, getPixelPosition(), getHboxSize(),
-						chargeDuration * finalSquaresTraveled, new Vector2(), getHitboxfilter(),
+						chargeDuration * finalSquaresTraveled, new Vector2(), getHitboxFilter(),
 						true, false, enemy, Sprite.NOTHING);
 					hbox.makeUnreflectable();
 
@@ -275,12 +275,12 @@ public class Boss6 extends EnemyFloating {
 	private void crossBomb() {
 
 		Hitbox bomb = new RangedHitbox(state, new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition()),
-			bombSize, bombLifespan, new Vector2(), getHitboxfilter(),true, false, this, Sprite.NAVAL_MINE);
+			bombSize, bombLifespan, new Vector2(), getHitboxFilter(),true, false, this, Sprite.NAVAL_MINE);
 		bomb.makeUnreflectable();
 
 		bomb.addStrategy(new ControllerDefault(state, bomb, getBodyData()));
 		bomb.addStrategy(new CreateParticles(state, bomb, getBodyData(), Particle.RING, 0.0f, particleLinger));
-		bomb.addStrategy(new FlashShaderNearDeath(state, bomb, getBodyData(), 1.0f, true));
+		bomb.addStrategy(new FlashShaderNearDeath(state, bomb, getBodyData(), 1.0f));
 		bomb.addStrategy(new HitboxStrategy(state, bomb, getBodyData()) {
 
 			@Override
@@ -288,7 +288,7 @@ public class Boss6 extends EnemyFloating {
 				SoundEffect.EXPLOSION9.playUniversal(state, hbox.getPixelPosition(), 0.5f, 0.5f, false);
 
 				WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance, creator.getSchmuck(),
-						bombDamage, bombKB, creator.getSchmuck().getHitboxfilter(), true, DamageSource.ENEMY_ATTACK);
+						bombDamage, bombKB, creator.getSchmuck().getHitboxFilter(), true, DamageSource.ENEMY_ATTACK);
 				explode(0);
 				explode(90);
 				explode(180);
@@ -298,7 +298,7 @@ public class Boss6 extends EnemyFloating {
 			private void explode(float startAngle) {
 				Hitbox wave = new RangedHitbox(state, new Vector2(bomb.getPixelPosition()).add(new Vector2(0, gridDistance).setAngleDeg(startAngle)),
 					waveSize, trailLifespan, new Vector2(0, waveSpeed).setAngleDeg(startAngle),
-					getHitboxfilter(),true, false, creator.getSchmuck(), Sprite.NOTHING);
+					getHitboxFilter(),true, false, creator.getSchmuck(), Sprite.NOTHING);
 				wave.makeUnreflectable();
 
 				wave.addStrategy(new ControllerDefault(state, wave, getBodyData()));
@@ -315,7 +315,7 @@ public class Boss6 extends EnemyFloating {
 						if (lastPosition.dst2(entityLocation) > gridDistance * gridDistance) {
 							lastPosition.set(entityLocation);
 							WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance,
-								creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxfilter(),
+								creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxFilter(),
 									true, DamageSource.ENEMY_ATTACK);
 						}
 					}
@@ -366,7 +366,7 @@ public class Boss6 extends EnemyFloating {
 
 	private void singleBeam(float startAngle) {
 		Hitbox laser = new RangedHitbox(state, new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition()), laserSize, trailLifespan,
-			new Vector2(0, laserSpeed).setAngleDeg(startAngle), getHitboxfilter(), true, false, this, Sprite.DIATOM_B);
+			new Vector2(0, laserSpeed).setAngleDeg(startAngle), getHitboxFilter(), true, false, this, Sprite.DIATOM_B);
 
 		laser.addStrategy(new ControllerDefault(state, laser, getBodyData()));
 		laser.addStrategy(new AdjustAngle(state, laser, getBodyData()));
@@ -414,7 +414,7 @@ public class Boss6 extends EnemyFloating {
 	private void spiralSingle(float angle, int clockwise) {
 
 		Hitbox spiral = new RangedHitbox(state, new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition()), spiralSize, spiralLifespan,
-			new Vector2(0, spiralSpeed).setAngleDeg(angle), getHitboxfilter(),true, false, this, Sprite.DIATOM_D);
+			new Vector2(0, spiralSpeed).setAngleDeg(angle), getHitboxFilter(),true, false, this, Sprite.DIATOM_D);
 		spiral.makeUnreflectable();
 
 		spiral.addStrategy(new ControllerDefault(state, spiral, getBodyData()));
@@ -449,7 +449,7 @@ public class Boss6 extends EnemyFloating {
 					pulseCount -= pulseInterval;
 
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hbox.getSize(), pulseInterval,
-						new Vector2(0, 0), getHitboxfilter(), true, false, creator.getSchmuck(), Sprite.NOTHING);
+						new Vector2(0, 0), getHitboxFilter(), true, false, creator.getSchmuck(), Sprite.NOTHING);
 					pulse.setSyncDefault(false);
 					pulse.makeUnreflectable();
 
@@ -498,7 +498,7 @@ public class Boss6 extends EnemyFloating {
 				public void execute() {
 					createTrailInDirection(getPixelPosition(), direction ? 270 : 0);
 
-					Hitbox spawner = new Hitbox(state, getPixelPosition(), spawnerSize, spawnerLifespan, new Vector2(), getHitboxfilter(),
+					Hitbox spawner = new Hitbox(state, getPixelPosition(), spawnerSize, spawnerLifespan, new Vector2(), getHitboxFilter(),
 						true, false, enemy, Sprite.DIATOM_C);
 
 					spawner.addStrategy(new ControllerDefault(state, spawner, getBodyData()));
@@ -524,7 +524,7 @@ public class Boss6 extends EnemyFloating {
 										.add(MathUtils.random(-pillarSpread, pillarSpread + 1),	MathUtils.random(-pillarSpread, pillarSpread + 1));
 
 									Hitbox hbox = new RangedHitbox(state, positionOffset, pillarSize, spawnerLifespan,
-										new Vector2(0, pillarSpeed).setAngleDeg(direction ? 270 : 0), getHitboxfilter(),
+										new Vector2(0, pillarSpeed).setAngleDeg(direction ? 270 : 0), getHitboxFilter(),
 										true, false, enemy, Sprite.SPORE);
 
 									hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
@@ -560,7 +560,7 @@ public class Boss6 extends EnemyFloating {
 
 				Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngleDeg(new Vector2(endPosition).sub(startPosition).angleDeg());
 
-				Hitbox trail = new RangedHitbox(state, startPosition, trailSize, trailLifespan, startVeloTrail, getHitboxfilter(),
+				Hitbox trail = new RangedHitbox(state, startPosition, trailSize, trailLifespan, startVeloTrail, getHitboxFilter(),
 					true, false, enemy, Sprite.NOTHING);
 				trail.makeUnreflectable();
 
@@ -576,7 +576,7 @@ public class Boss6 extends EnemyFloating {
 
 		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngleDeg(startAngle);
 
-		Hitbox trail = new RangedHitbox(state, startPosition, trailSize, trailLifespan, startVeloTrail, getHitboxfilter(),
+		Hitbox trail = new RangedHitbox(state, startPosition, trailSize, trailLifespan, startVeloTrail, getHitboxFilter(),
 			true, false, this, Sprite.NOTHING);
 		trail.makeUnreflectable();
 

@@ -50,19 +50,19 @@ public class PlayerMover extends Event {
 					
 					players.clear();
 					
-					if (state.isServer()) {
 						if (all) {
-							
-							//go through all players
-							for (User user : HadalGame.server.getUsers().values()) {
-								Player playerLeft = user.getPlayer();
-								if (playerLeft != null) {
-									//warp player if they are a different player (or we have exclude turned off)
-									if (!exclude || !p.equals(playerLeft)) {
-										players.add(playerLeft);
-									}
-									if (updateRespawn) {
-										playerLeft.setStart(this.getEvent().getConnectedEvent());
+							if (state.isServer()) {
+								//go through all players
+								for (User user : HadalGame.server.getUsers().values()) {
+									Player playerLeft = user.getPlayer();
+									if (playerLeft != null) {
+										//warp player if they are a different player (or we have exclude turned off)
+										if (!exclude || !p.equals(playerLeft)) {
+											players.add(playerLeft);
+										}
+										if (updateRespawn) {
+											playerLeft.setStart(this.getEvent().getConnectedEvent());
+										}
 									}
 								}
 							}
@@ -72,7 +72,6 @@ public class PlayerMover extends Event {
 								p.setStart(this.getEvent().getConnectedEvent());
 							}
 						}
-					}
 					if (getConnectedEvent().getStandardParticle() != null && !players.isEmpty()) {
 						getConnectedEvent().getStandardParticle().onForBurst(1.0f);
 					}
@@ -97,5 +96,10 @@ public class PlayerMover extends Event {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void clientController(float delta) {
+		controller(delta);
 	}
 }

@@ -50,6 +50,9 @@ public class HomingUnit extends HitboxStrategy {
 		super(state, proj, user);
 		this.homePower = homePower;
 		this.homeRadius = homeRadius;
+
+		hbox.setSynced(true);
+		hbox.setSyncedDelete(true);
 	}
 
 	private final Vector2 center = new Vector2();
@@ -102,7 +105,7 @@ public class HomingUnit extends HitboxStrategy {
 									  return fraction;
 								  }
 							  } else if (fixture1.getUserData() instanceof BodyData targetData) {
-								  if (targetData.getSchmuck().getHitboxfilter() != hbox.getFilter()) {
+								  if (targetData.getSchmuck().getHitboxFilter() != hbox.getFilter()) {
 									  if (fraction < shortestFraction) {
 										  shortestFraction = fraction;
 										  closestFixture = fixture1;

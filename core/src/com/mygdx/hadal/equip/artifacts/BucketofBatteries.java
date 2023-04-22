@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -43,10 +44,11 @@ public class BucketofBatteries extends Artifact {
 
 					if (hbox.isEffectsHit()) {
 						hbox.addStrategy(new ContactUnitShock(state, hbox, p, baseDamage, radius, chainAmount,
-								p.getSchmuck().getHitboxfilter(), DamageSource.BUCKET_OF_BATTERIES));
+								p.getSchmuck().getHitboxFilter(), SyncedAttack.SHOCK_BUCKET));
 					}
 					if (hbox.isEffectsVisual()) {
-						hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.LIGHTNING, hbox.getLifeSpan(), 1.0f).setParticleSize(60));
+						hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.LIGHTNING, hbox.getLifeSpan(), 1.0f)
+								.setParticleSize(60).setSyncType(SyncType.NOSYNC));
 					}
 				}
 			}

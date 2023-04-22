@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="125" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="275">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="125" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="275">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -775,46 +775,14 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="19" name="Dropthrough" type="Dropthrough" x="3808" y="2112" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="21" name="Dropthrough" type="Dropthrough" x="3520" y="2400" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="22" name="Dropthrough" type="Dropthrough" x="3808" y="2688" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="23" name="Dropthrough" type="Dropthrough" x="3072" y="2944" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="24" name="Dropthrough" type="Dropthrough" x="1248" y="2944" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="25" name="Dropthrough" type="Dropthrough" x="512" y="2112" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="26" name="Dropthrough" type="Dropthrough" x="800" y="2400" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="27" name="Dropthrough" type="Dropthrough" x="512" y="2688" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="3808" y="2112" width="288" height="8"/>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="3520" y="2400" width="288" height="8"/>
+  <object id="22" name="Dropthrough" type="Dropthrough" x="3808" y="2688" width="288" height="8"/>
+  <object id="23" name="Dropthrough" type="Dropthrough" x="3072" y="2944" width="288" height="8"/>
+  <object id="24" name="Dropthrough" type="Dropthrough" x="1248" y="2944" width="288" height="8"/>
+  <object id="25" name="Dropthrough" type="Dropthrough" x="512" y="2112" width="288" height="8"/>
+  <object id="26" name="Dropthrough" type="Dropthrough" x="800" y="2400" width="288" height="8"/>
+  <object id="27" name="Dropthrough" type="Dropthrough" x="512" y="2688" width="288" height="8"/>
   <object id="28" name="Prefab" type="PrefabSpawner" x="3904" y="2592" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="8"/>
@@ -842,11 +810,7 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="31" name="Dropthrough" type="Dropthrough" x="1088" y="1024" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="31" name="Dropthrough" type="Dropthrough" x="1088" y="1024" width="288" height="8"/>
   <object id="33" name="Prefab" type="PrefabSpawner" x="3328" y="928" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="8"/>
@@ -856,79 +820,55 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="34" name="Dropthrough" type="Dropthrough" x="3232" y="1024" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="34" name="Dropthrough" type="Dropthrough" x="3232" y="1024" width="288" height="8"/>
   <object id="35" name="Prefab" type="PrefabWeapon" x="2256" y="1056" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
    </properties>
   </object>
-  <object id="36" name="Dropthrough" type="Dropthrough" x="2216" y="1152" width="168" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="36" name="Dropthrough" type="Dropthrough" x="2216" y="1152" width="168" height="8"/>
   <object id="38" name="Prefab" type="PrefabWeapon" x="3088" y="1888" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="39" name="Dropthrough" type="Dropthrough" x="3048" y="1984" width="168" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="39" name="Dropthrough" type="Dropthrough" x="3048" y="1984" width="168" height="8"/>
   <object id="40" name="Prefab" type="PrefabWeapon" x="3072" y="3424" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w4"/>
    </properties>
   </object>
-  <object id="41" name="Dropthrough" type="Dropthrough" x="3616" y="3232" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="41" name="Dropthrough" type="Dropthrough" x="3616" y="3232" width="288" height="8"/>
   <object id="42" name="Prefab" type="PrefabWeapon" x="1440" y="3424" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w3"/>
    </properties>
   </object>
-  <object id="43" name="Dropthrough" type="Dropthrough" x="704" y="3232" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="43" name="Dropthrough" type="Dropthrough" x="704" y="3232" width="288" height="8"/>
   <object id="44" name="Spring" type="Spring" x="800" y="3216" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
   <object id="45" name="Spring" type="Spring" x="3712" y="3216" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
   <object id="46" name="Spring" type="Spring" x="3904" y="2096" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
   </object>
   <object id="47" name="Spring" type="Spring" x="608" y="2096" width="96" height="16">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="100"/>
    </properties>
@@ -942,11 +882,7 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="49" name="Dropthrough" type="Dropthrough" x="2208" y="336" width="192" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="49" name="Dropthrough" type="Dropthrough" x="2208" y="336" width="192" height="8"/>
  </objectgroup>
  <objectgroup id="4" name="objective">
   <object id="50" name="MovePoint" type="MovePoint" x="2288" y="1936" width="32" height="32">

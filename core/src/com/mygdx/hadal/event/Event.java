@@ -75,9 +75,11 @@ public class Event extends HadalEntity {
     //This particle is turned on when the event is interacted with in a specific way (differs for each event)
     protected ParticleEntity standardParticle;
 
+    protected String triggeredID;
+
     //Does this event send a sync packet to client every engine tick?
     //Default is no with the exception of moving platforms and connected events. (+specifically chosen events in the map, like nasu)
-    protected boolean synced = false;
+    protected boolean synced;
 
     //independent events are created on both client and server and never sync. These are usually static events
     protected boolean independent = false;
@@ -265,7 +267,7 @@ public class Event extends HadalEntity {
 		//independent events do not send a create packet when created, b/c the client creates it themselves
 		if (independent) { return null; }
 
-		switch(syncType) {
+		switch (syncType) {
 		case ILLUSION:
 		case SERVER:
 			if (body != null && !Sprite.NOTHING.equals(sprite)) {
@@ -319,6 +321,10 @@ public class Event extends HadalEntity {
 		}
 	}
 
+	public Object onServerSyncInitial() { return null; }
+
+	public void onClientSyncInitial(float timer, Event target, Vector2 position, Vector2 velocity) {}
+
 	@Override
 	public HadalData getHadalData() { return eventData; }
 	
@@ -352,10 +358,15 @@ public class Event extends HadalEntity {
 
 	public void setFlashLifespan(float flashLifespan) { this.flashLifespan = flashLifespan; }
 
+	public String getTriggeredID() { return triggeredID; }
+
+	public void setTriggeredID(String triggeredID) { this.triggeredID = triggeredID; }
+
 	public enum eventSyncTypes {
 		ILLUSION,
 		USER,
 		ALL,
-		SERVER
+		SERVER,
+		CLIENT
 	}
 }

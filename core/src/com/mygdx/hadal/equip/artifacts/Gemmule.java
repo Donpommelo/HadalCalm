@@ -7,11 +7,12 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Gemmule extends Artifact {
 
-	private static final int slotCost = 1;
-	private static final float bonusInvulnerability = 8.0f;
+	private static final int SLOT_COST = 1;
+
+	private static final float BONUS_INVULNERABILITY = 8.0f;
 	
 	public Gemmule() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class Gemmule extends Artifact {
 			
 			@Override
 			public void playerCreate() {
-				p.addStatus(new Invulnerability(state, bonusInvulnerability, p, p));
+				p.addStatus(new Invulnerability(state, BONUS_INVULNERABILITY, p, p));
 			}
 		};
 	}
@@ -28,6 +29,6 @@ public class Gemmule extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) bonusInvulnerability)};
+				String.valueOf((int) BONUS_INVULNERABILITY)};
 	}
 }

@@ -3,89 +3,58 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.HadalColor;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.weapon.Screech;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.WorldUtil;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
 public class Screecher extends RangedWeapon {
 
-	private static final int clipSize = 60;
-	private static final int ammoSize = 240;
-	private static final float shootCd = 0.15f;
-	private static final float shootDelay = 0;
-	private static final float reloadTime = 1.2f;
-	private static final int reloadAmount = 0;
-	private static final float baseDamage = 12.0f;
-	private static final float recoil = 1.5f;
-	private static final float knockback = 6.0f;
-	private static final float projectileSpeed = 12.0f;
-	private static final int range = 24;
-	private static final Vector2 projectileSize = new Vector2(120, 120);
-	private static final float lifespan = 0.3f;
-	private static final int spread = 1;
-	
-	private static final Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private static final Sprite eventSprite = Sprite.P_DEFAULT;
+	private static final int CLIP_SIZE = 60;
+	private static final int AMMO_SIZE = 240;
+	private static final float SHOOT_CD = 0.15f;
+	private static final float RELOAD_TIME = 1.2f;
+	private static final int RELOAD_AMOUNT = 0;
+	private static final float PROJECTILE_SPEED = 12.0f;
+	private static final int SPREAD = 1;
+
+	private static final Vector2 PROJECTILE_SIZE = Screech.PROJECTILE_SIZE;
+	private static final int RANGE = Screech.RANGE;
+	private static final float LIFESPAN = Screech.LIFESPAN;
+	private static final float BASE_DAMAGE = Screech.BASE_DAMAGE;
+
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_DEFAULT;
+	private static final Sprite EVENT_SPRITE = Sprite.P_DEFAULT;
 	
 	private SoundEntity screechSound;
 
-	private static final Vector2 trailSize = new Vector2(30, 30);
-	private static final float trailSpeed = 120.0f;
-	private static final float trailLifespan = 3.0f;
-
 	private float shortestFraction;
 	
-	public Screecher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, shootDelay, reloadAmount, true,
-				weaponSprite, eventSprite, projectileSize.x, lifespan);
-	}
-	
-	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
-		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
-		
-		if (reloading || getClipLeft() == 0) {
-			if (screechSound != null) {
-				screechSound.turnOff();
-			}
-			return;
-		}
-		
-		if (screechSound == null) {
-			screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.0f, 0.8f, 1.0f, true,
-					true, SyncType.TICKSYNC);
-		} else {
-			screechSound.turnOn();
-		}
+	public Screecher(Player user) {
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
 	}
 
 	private final Vector2 endPt = new Vector2();
 	private final Vector2 newPosition = new Vector2();
 	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
-		float distance = range * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
+		float distance = RANGE * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
 		
 		entityLocation.set(user.getPosition());
 		endPt.set(entityLocation).add(new Vector2(startVelocity).nor().scl(distance));
@@ -103,7 +72,7 @@ public class Screecher extends RangedWeapon {
 				} else {
 					if (fixture.getUserData() instanceof HadalData) {
 						if (fixture.getUserData() instanceof BodyData && fraction < shortestFraction) {
-							if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
+							if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxFilter() != filter) {
 								shortestFraction = fraction;
 								return fraction;
 							}
@@ -116,57 +85,30 @@ public class Screecher extends RangedWeapon {
 
 		//create explosions around the point we raycast towards
 		newPosition.set(user.getPixelPosition()).add(new Vector2(startVelocity).nor().scl(distance * shortestFraction * PPM));
-		newPosition.add(MathUtils.random(-spread, spread + 1), MathUtils.random(-spread, spread + 1));
+		newPosition.add(MathUtils.random(-SPREAD, SPREAD + 1), MathUtils.random(-SPREAD, SPREAD + 1));
 		SyncedAttack.SCREECH.initiateSyncedAttackSingle(state, user, newPosition, startVelocity,distance * shortestFraction);
 	}
 
-	public static Hitbox createScreech(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float[] extraFields) {
-		user.recoil(startVelocity, recoil);
-
-		float distance = range;
-		if (extraFields.length >= 1) {
-			distance = extraFields[0];
-		}
-
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, user.getHitboxfilter(),
-				true, true, user, Sprite.NOTHING);
-
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.POLYGON, 0.0f, 1.0f).setParticleColor(
-				HadalColor.RANDOM).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageSource.SCREECHER,
-				DamageTag.SOUND, DamageTag.RANGED)
-				.setConstantKnockback(true, startVelocity));
-
-		//the trail creates particles along the projectile's length
-		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed),
-				user.getHitboxfilter(), true, true, user, Sprite.NOTHING);
-		trail.setSyncDefault(false);
-		trail.setEffectsHit(false);
-		trail.setEffectsMovement(false);
-		trail.makeUnreflectable();
-
-		trail.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-
-		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
-		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance));
-		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.POLYGON, 0.0f, 1.0f)
-				.setParticleColor(HadalColor.RANDOM).setParticleSize(60).setSyncType(SyncType.NOSYNC));
-
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.EFFECT);
-		}
-		return hbox;
-	}
-
 	@Override
-	public void release(PlayState state, BodyData bodyData) {
-		if (screechSound != null) {
+	public void processEffects(PlayState state, float delta) {
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
+				&& !reloading && getClipLeft() > 0;
+
+		if (shooting) {
+			if (screechSound == null) {
+				screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.0f, 0.8f, 1.0f, true,
+						true, SyncType.NOSYNC);
+				if (!state.isServer()) {
+					((ClientState) state).addEntity(screechSound.getEntityID(), screechSound, false, PlayState.ObjectLayer.EFFECT);
+				}
+			} else {
+				screechSound.turnOn();
+			}
+		} else if (screechSound != null) {
 			screechSound.turnOff();
 		}
 	}
-	
+
 	@Override
 	public void unequip(PlayState state) {
 		if (screechSound != null) {
@@ -176,15 +118,15 @@ public class Screecher extends RangedWeapon {
 	}
 
 	@Override
-	public float getBotRangeMax() { return range; }
+	public float getBotRangeMax() { return RANGE; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage),
-				String.valueOf(clipSize),
-				String.valueOf(ammoSize),
-				String.valueOf(reloadTime),
-				String.valueOf(shootCd)};
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf(CLIP_SIZE),
+				String.valueOf(AMMO_SIZE),
+				String.valueOf(RELOAD_TIME),
+				String.valueOf(SHOOT_CD)};
 	}
 }

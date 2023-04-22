@@ -6,11 +6,11 @@ import com.mygdx.hadal.statuses.Status;
 
 public class ViseOfShame extends Artifact {
 
-	private static final int slotCost = 2;
-	private static final float sizeModifier = -0.6f;
+	private static final int SLOT_COST = 2;
+	private static final float SIZE_MODIFIER = -0.6f;
 
 	public ViseOfShame() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class ViseOfShame extends Artifact {
 			@Override
 			public void onInflict() {
 				if (p.getPlayer().getBody() == null) {
-					p.getPlayer().setScaleModifier(sizeModifier);
+					p.getPlayer().setScaleModifier(SIZE_MODIFIER);
 				}
 			}
 		};
@@ -29,6 +29,6 @@ public class ViseOfShame extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) -(sizeModifier * 100))};
+				String.valueOf((int) -(SIZE_MODIFIER * 100))};
 	}
 }

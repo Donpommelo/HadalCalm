@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="310" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="103">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="310" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="103">
  <properties>
   <property name="music" value="LEVEL_PLENUM_CHAMBER"/>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
@@ -56,12 +56,17 @@
   </object>
   <object id="8" name="Platform" type="Platform" x="1280" y="800" width="960" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="platformtop"/>
    </properties>
   </object>
   <object id="10" name="MovePoint" type="MovePoint" x="1584" y="800" width="32" height="32">
    <properties>
     <property name="connections" value="platformtop,platformtopceiling,platformtopwall,camerashaftpoint,ea1,ea2,ea3,ea4,ea5,ea6,ea7"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="6"/>
     <property name="triggeredId" value="movetop"/>
    </properties>
@@ -113,6 +118,10 @@
   </object>
   <object id="18" name="Platform" type="Platform" x="1280" y="192" width="960" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="platformtopceiling"/>
    </properties>
   </object>
@@ -125,6 +134,9 @@
   </object>
   <object id="20" name="Platform" type="Platform" x="256" y="64" width="96" height="224">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door1"/>
    </properties>
@@ -214,6 +226,10 @@
   </object>
   <object id="34" name="Platform" type="Platform" x="2208" y="224" width="32" height="576">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="platformtopwall"/>
    </properties>
   </object>
@@ -280,6 +296,9 @@
   </object>
   <object id="44" name="Platform" type="Platform" x="352" y="0" width="96" height="288">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door2"/>
    </properties>
@@ -293,16 +312,28 @@
   </object>
   <object id="46" name="Platform" type="Platform" x="960" y="9472" width="960" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="platformbot"/>
    </properties>
   </object>
   <object id="47" name="Platform" type="Platform" x="960" y="8864" width="960" height="32">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="platformbotceiling"/>
    </properties>
   </object>
   <object id="48" name="Platform" type="Platform" x="1888" y="8896" width="32" height="576">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="platformbotwall"/>
    </properties>
   </object>
@@ -343,6 +374,7 @@
   <object id="54" name="MovePoint" type="MovePoint" x="1584" y="9472" width="32" height="32">
    <properties>
     <property name="connections" value="platformbot,platformbotceiling,platformbotwall,camerashaftpoint"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="speed" type="float" value="6"/>
     <property name="triggeredId" value="movebot"/>
    </properties>
@@ -392,11 +424,7 @@
     <property name="triggeredId" value="warp2"/>
    </properties>
   </object>
-  <object id="64" name="Dropthrough" type="Dropthrough" x="448" y="9568" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="64" name="Dropthrough" type="Dropthrough" x="448" y="9568" width="224" height="8"/>
   <object id="65" name="Pusher" type="Pusher" x="640" y="9824" width="32" height="32">
    <properties>
     <property name="triggeredId" value="push1"/>

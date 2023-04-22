@@ -1,6 +1,7 @@
 package com.mygdx.hadal.server;
 
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.schmucks.entities.Schmuck;
 
 /**
  * This class contains all the fields that are tracked during a match.
@@ -17,7 +18,26 @@ public class SavedPlayerFieldsExtra {
 	private Loadout loadout;
 
 	public SavedPlayerFieldsExtra() {}
-	
+
+	public void receiveDamage(Schmuck perp, Schmuck vic, float damage) {
+		if (perp.getHitboxFilter() != vic.getHitboxFilter()) {
+
+			//track perp's damage dealt
+			if (damage > 0.0f) {
+				incrementDamageDealt(damage);
+			}
+
+		} else {
+			if (damage > 0.0f) {
+				if (perp.equals(vic)) {
+					incrementDamageDealtSelf(damage);
+				} else {
+					incrementDamageDealtAllies(damage);
+				}
+			}
+		}
+	}
+
 	public void newLevelReset() {
 		damageDealtEnemies = 0.0f;
 		damageDealtAllies = 0.0f;

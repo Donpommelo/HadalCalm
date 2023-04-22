@@ -4,15 +4,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -21,8 +21,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
  */
 public class Fafrotskies extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.1f;
 	private static final float MAX_CHARGE = 15.0f;
 	
 	private static final Vector2 PROJECTILE_SIZE = new Vector2(200, 50);
@@ -36,8 +34,8 @@ public class Fafrotskies extends ActiveItem {
 
 	private static final Sprite PROJ_SPRITE = Sprite.ORB_BLUE;
 
-	public Fafrotskies(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+	public Fafrotskies(Player user) {
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override
@@ -60,7 +58,7 @@ public class Fafrotskies extends ActiveItem {
 					controllerCount -= RAIN_INTERVAL;
 					
 					Hitbox rain = new Hitbox(state, new Vector2(hbox.getPixelPosition()).add((MathUtils.random() -  0.5f) * hbox.getSize().x, 0), RAIN_SIZE, LIFESPAN, new Vector2(0, -RAIN_SPEED),
-							user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.SPIT);
+							user.getPlayer().getHitboxFilter(), true, false, user.getPlayer(), Sprite.SPIT);
 					
 					rain.addStrategy(new ControllerDefault(state, rain, user));
 					rain.addStrategy(new DamageStandard(state, rain, user, RAIN_DAMAGE, RAIN_KNOCKBACK, DamageSource.FAFROTSKIES,

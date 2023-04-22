@@ -26,7 +26,6 @@ public class EventAlternatorZone extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		
 		String sensor1Id = TiledObjectUtil.getPrefabTriggerId();
 		String sensor2Id = TiledObjectUtil.getPrefabTriggerId();
 		String set1Id = TiledObjectUtil.getPrefabTriggerId();

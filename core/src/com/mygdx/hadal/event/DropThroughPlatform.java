@@ -51,7 +51,7 @@ public class DropThroughPlatform extends Event {
 						
 						//let a fastfalling player drop through without stopping
 						if (entity instanceof Player p) {
-							if (p.isFastFalling()) { return; }
+							if (p.getFastfallHelper().isFastFalling()) { return; }
 						}
 						Filter filter = entity.getMainFixture().getFilterData();
 						filter.maskBits = (short) (filter.maskBits | Constants.BIT_DROPTHROUGHWALL);
@@ -102,6 +102,5 @@ public class DropThroughPlatform extends Event {
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_RELOAD_BAR);
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
-		setSyncType(eventSyncTypes.ALL);
 	}
 }

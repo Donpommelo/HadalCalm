@@ -2,9 +2,11 @@ package com.mygdx.hadal.utils;
 
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.equip.actives.NothingActive;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -14,27 +16,27 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class UnlocktoItem {
 
-	public static Equippable getUnlock(UnlockEquip unlock, Schmuck schmuck) {
+	public static Equippable getUnlock(UnlockEquip unlock, Player player) {
 		try {
-			Equippable newWeapon = unlock.getWeapon().getConstructor(Schmuck.class).newInstance(schmuck);
+			Equippable newWeapon = unlock.getWeapon().getConstructor(Player.class).newInstance(player);
 			newWeapon.setName(unlock.getName());
 			return newWeapon;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new NothingWeapon(player);
 	}
 	
-	public static ActiveItem getUnlock(UnlockActives unlock, Schmuck schmuck) {
+	public static ActiveItem getUnlock(UnlockActives unlock, Player player) {
 		try {
-			ActiveItem newActive = unlock.getActive().getConstructor(Schmuck.class).newInstance(schmuck);
+			ActiveItem newActive = unlock.getActive().getConstructor(Player.class).newInstance(player);
 			newActive.setName(unlock.getName());
 			return newActive;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new NothingActive(player);
 	}
 }

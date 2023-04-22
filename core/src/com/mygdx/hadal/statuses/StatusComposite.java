@@ -12,16 +12,14 @@ public class StatusComposite extends Status {
 	//these are the statuses that are contained in this status.
 	private final Status[] statuses;
 	
-	public StatusComposite(PlayState state, float i, boolean perm, BodyData p, BodyData v, Status...statuses){
+	public StatusComposite(PlayState state, float i, boolean perm, BodyData p, BodyData v, Status...statuses) {
 		super(state, i, perm, p, v);
 		this.statuses = statuses;
-		setClientIndependent(true);
 	}
 	
-	public StatusComposite(PlayState state, BodyData i, Status...statuses){
+	public StatusComposite(PlayState state, BodyData i, Status...statuses) {
 		super(state, i);
 		this.statuses = statuses;
-		setClientIndependent(true);
 	}
 	
 	@Override
@@ -31,7 +29,7 @@ public class StatusComposite extends Status {
 		ProcTime finalProcTime = o;
 		
 		for (Status s : statuses) {
-			if (state.isServer() || o instanceof ProcTime.StatCalc || o instanceof ProcTime.Render ||s.isClientIndependent()) {
+			if (state.isServer() || !s.isServerOnly()) {
 				finalProcTime = s.statusProcTime(o);
 			}
 		}

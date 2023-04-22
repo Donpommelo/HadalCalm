@@ -3,6 +3,7 @@ package com.mygdx.hadal.event.utility;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -31,8 +32,7 @@ public class Switch extends Event {
 		this.eventData = new InteractableEventData(this) {
 			
 			@Override
-			public void onInteract(Player p) {
-				
+			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
 					event.getConnectedEvent().getEventData().preActivate(this, p);
 					

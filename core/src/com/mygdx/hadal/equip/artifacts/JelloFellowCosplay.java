@@ -7,12 +7,13 @@ import com.mygdx.hadal.constants.Stats;
 
 public class JelloFellowCosplay extends Artifact {
 
-	private static final int slotCost = 1;
-	private static final float bounce = 1.0f;
-	private static final float bonusHp = 0.4f;
+	private static final int SLOT_COST = 1;
+
+	private static final float BOUNCE = 1.0f;
+	private static final float BONUS_HP = 0.4f;
 	
 	public JelloFellowCosplay() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -22,9 +23,9 @@ public class JelloFellowCosplay extends Artifact {
 			@Override
 			public void onInflict() {
 				if (p.getPlayer().getBody() != null) {
-					p.getSchmuck().setRestitution(bounce);
+					p.getSchmuck().setRestitution(BOUNCE);
 				} else {
-					p.getPlayer().setRestitutionModifier(bounce);
+					p.getPlayer().setRestitutionModifier(BOUNCE);
 				}
 			}
 			
@@ -35,14 +36,14 @@ public class JelloFellowCosplay extends Artifact {
 			
 			@Override
 			public void statChanges() {
-				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + bonusHp);
+				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + BONUS_HP);
 			}
-		}.setClientIndependent(true);
+		};
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusHp * 100))};
+				String.valueOf((int) (BONUS_HP * 100))};
 	}
 }

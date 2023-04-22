@@ -12,7 +12,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
-import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -23,6 +23,8 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.UUID;
+
+import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 
 /**
  * This is a version of the playstate that is provided for Clients.
@@ -67,9 +69,10 @@ public class ClientState extends PlayState {
 		entityLists.add(entities);
 		entityLists.add(effects);
 
-		//client processes collisions
+		//client processes collisions and certain events
 		TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
 		TiledObjectUtil.parseTiledEventLayerClient(this, map.getLayers().get("event-layer").getObjects());
+		TiledObjectUtil.parseTiledTriggerLayer();
 
 		//parse map-specific event layers (used for different modes in the same map)
 		for (String layer : mode.getExtraLayers()) {
@@ -85,7 +88,6 @@ public class ClientState extends PlayState {
 		//client still needs anchor points, world dummies and mouse tracker
 		addEntity(getAnchor().getEntityID(), getAnchor(), false, ObjectLayer.STANDARD);
 		addEntity(getWorldDummy().getEntityID(), getWorldDummy(), false, ObjectLayer.STANDARD);
-		addEntity(getMouse().getEntityID(), getMouse(), false, ObjectLayer.STANDARD);
 	}
 	
 	@Override
@@ -102,13 +104,13 @@ public class ClientState extends PlayState {
 				inputMultiplexer.addProcessor(stage);
 				inputMultiplexer.addProcessor(controller);
 				inputMultiplexer.addProcessor(new CommonController(this));
+				inputMultiplexer.addProcessor(new PlayerController(player));
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
 		}
 	}
 	
 	//these control the frequency that we process world physics.
-	private static final float PHYSICS_TIME = 1 / 200f;
 	private float physicsAccumulator;
 
 	//these control the frequency that we send latency checking packets to the server.
@@ -118,8 +120,6 @@ public class ClientState extends PlayState {
 
 	private static final float INPUT_SYNC_TIME = 1 / 60f;
 	private float inputAccumulator;
-
-	private final Vector3 lastMouseLocation = new Vector3();
 
 	//separate timer used to calculate latency
 	private float clientPingTimer;
@@ -133,26 +133,6 @@ public class ClientState extends PlayState {
 			//The box2d world takes a step. This handles collisions + physics stuff.
 			world.step(PHYSICS_TIME, 8, 3);
 		}
-
-		//repeatedly send client inputs and mouse position to server
-		inputAccumulator += delta;
-		while (inputAccumulator >= INPUT_SYNC_TIME) {
-			inputAccumulator -= INPUT_SYNC_TIME;
-
-			if (controller != null) {
-				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-				HadalGame.viewportCamera.unproject(mousePosition);
-
-				if (player != null) {
-					playerPosition.set(player.getPixelPosition());
-				}
-
-				HadalGame.client.sendUDP(new Packets.SyncKeyStrokes(mousePosition.x, mousePosition.y, playerPosition.x, playerPosition.y,
-						((ClientController) controller).getButtonsHeld().toArray(new PlayerAction[0]), getTimer()));
-				((ClientController) controller).postKeystrokeSync();
-			}
-		}
-		lastMouseLocation.set(mousePosition);
 
 		//All entities that are set to be created are created and assigned their entityID
 		for (CreatePacket packet : createListClient) {
@@ -220,7 +200,6 @@ public class ClientState extends PlayState {
 		while (!sync.isEmpty()) {
 			SyncPacket p = sync.removeIndex(0);
 		 	if (p != null) {
-
 				HadalEntity entity = hitboxes.get(p.entityID);
 		 		if (entity != null) {
 		 			entity.onReceiveSync(p.packet, p.timestamp);

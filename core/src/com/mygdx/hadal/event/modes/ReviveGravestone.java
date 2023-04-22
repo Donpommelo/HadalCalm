@@ -160,7 +160,7 @@ public class ReviveGravestone extends Event {
 			numReturning = 0;
 			state.getWorld().QueryAABB(fixture -> {
 						if (fixture.getUserData() instanceof PlayerBodyData playerData) {
-							if (playerData.getPlayer().getHitboxfilter() == user.getPlayer().getHitboxfilter()) {
+							if (playerData.getPlayer().getHitboxFilter() == user.getPlayer().getHitboxFilter()) {
 								lastReviver = playerData.getPlayer();
 								numReturning++;
 							}

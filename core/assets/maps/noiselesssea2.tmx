@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="63">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="63">
  <properties>
   <property name="music" value="LEVEL_NOISELESS_SEA"/>
   <property name="startUI" value="NOISELESS SEA,EMPTY,SCRAP"/>
@@ -50,16 +50,8 @@
     <property name="triggeringId" value="startTimer,hp1,w1,w2,unlock1"/>
    </properties>
   </object>
-  <object id="7" name="Dropthrough" type="Dropthrough" x="1376" y="1024" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="8" name="Dropthrough" type="Dropthrough" x="1856" y="1024" width="256" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="7" name="Dropthrough" type="Dropthrough" x="1376" y="1024" width="256" height="8"/>
+  <object id="8" name="Dropthrough" type="Dropthrough" x="1856" y="1024" width="256" height="8"/>
   <object id="9" name="Bounds" type="Bounds" x="288" y="960" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
@@ -155,14 +147,20 @@
   </object>
   <object id="21" name="Platform" type="Platform" x="544" y="64" width="32" height="192">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="prefabId" value="Door"/>
+    <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door2"/>
    </properties>
   </object>
   <object id="22" name="Platform" type="Platform" x="416" y="32" width="32" height="288">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="prefabId" value="Door"/>
+    <property name="sync" value="ALL"/>
     <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door1"/>
    </properties>
@@ -243,11 +241,7 @@
     <property name="triggeringId" value="entercenter"/>
    </properties>
   </object>
-  <object id="49" name="Dropthrough" type="Dropthrough" x="2624" y="1144" width="96" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="49" name="Dropthrough" type="Dropthrough" x="2624" y="1144" width="96" height="8"/>
   <object id="50" name="Prefab" type="PrefabSpawnerUnlock" x="2624" y="1048" width="96" height="96">
    <properties>
     <property name="name" value="TRIGGERFISH_FINGER"/>

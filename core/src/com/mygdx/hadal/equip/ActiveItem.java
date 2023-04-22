@@ -2,14 +2,12 @@ package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * An active item is an item displayed in the lower right corner. They can be used with the spacebar and have a cooldown or some other charging mechanic.
@@ -26,8 +24,8 @@ public class ActiveItem extends Equippable {
 	protected final float maxCharge;
 	protected float currentCharge;
 
-	public ActiveItem(Schmuck user, float usecd, float usedelay, float maxCharge) {
-		super(user, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+	public ActiveItem(Player user, float maxCharge) {
+		super(user, 0.0f, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 		this.maxCharge = maxCharge;
 	}
 	
@@ -37,7 +35,7 @@ public class ActiveItem extends Equippable {
 	 */
 	private final Vector2 playerLocation = new Vector2();
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
+	public void mouseClicked(float delta, PlayState state, PlayerBodyData shooter, short faction, Vector2 mousePosition) {
 
 		playerLocation.set(shooter.getSchmuck().getPixelPosition());
 		
@@ -53,13 +51,13 @@ public class ActiveItem extends Equippable {
 	 * Here, the stored properties are used to use the item
 	 */
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
+	public void execute(PlayState state, PlayerBodyData shooter) {
 		
 		user.getBodyData().statusProcTime(new ProcTime.BeforeActiveUse(this));
 		
 		if (currentCharge >= maxCharge) {
 			currentCharge = 0;
-			useItem(state, (PlayerBodyData) shooter);
+			useItem(state, shooter);
 			
 			user.getBodyData().statusProcTime(new ProcTime.AfterActiveUse(this));
 		}
@@ -92,7 +90,7 @@ public class ActiveItem extends Equippable {
 			currentCharge = maxCharge;
 			
 			if (uncharged) {
-				SoundEffect.MAGIC1_ACTIVE.playExclusive(user.getState(), user.getPixelPosition(), (Player) user, 0.4f, false);
+				SoundEffect.MAGIC1_ACTIVE.playExclusive(user.getState(), user.getPixelPosition(), user, 0.4f, false);
 			}
 		}
 	}
@@ -111,7 +109,7 @@ public class ActiveItem extends Equippable {
 			currentCharge = maxCharge;
 			
 			if (uncharged) {
-				SoundEffect.MAGIC1_ACTIVE.playExclusive(user.getState(), user.getPixelPosition(), (Player) user, 0.4f, false);
+				SoundEffect.MAGIC1_ACTIVE.playExclusive(user.getState(), user.getPixelPosition(), user, 0.4f, false);
 			}
 		}
 	}
@@ -121,7 +119,7 @@ public class ActiveItem extends Equippable {
 	 * Override this in charge weapons or other weapons that care about mouse release.
 	 */
 	@Override
-	public void release(PlayState state, BodyData bodyData) {}
+	public void release(PlayState state, PlayerBodyData bodyData) {}
 
 	@Override
 	public boolean reload(float delta) { 

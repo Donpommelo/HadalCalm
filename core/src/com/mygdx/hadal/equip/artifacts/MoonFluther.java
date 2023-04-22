@@ -8,26 +8,26 @@ import com.mygdx.hadal.constants.Stats;
 
 public class MoonFluther extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private static final float bonusHoverPow = 0.25f;
-	private static final float hoverCostReduction = -0.25f;
+	private static final float BONUS_HOVER_POW = 0.25f;
+	private static final float HOVER_COST_REDUCTION = -0.25f;
 	
 	public MoonFluther() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.HOVER_POW, bonusHoverPow, p),
-				new StatChangeStatus(state, Stats.HOVER_COST, hoverCostReduction, p));
+				new StatChangeStatus(state, Stats.HOVER_POW, BONUS_HOVER_POW, p),
+				new StatChangeStatus(state, Stats.HOVER_COST, HOVER_COST_REDUCTION, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusHoverPow * 100)),
-				String.valueOf((int) -(hoverCostReduction * 100))};
+				String.valueOf((int) (BONUS_HOVER_POW * 100)),
+				String.valueOf((int) -(HOVER_COST_REDUCTION * 100))};
 	}
 }

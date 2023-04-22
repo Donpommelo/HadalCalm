@@ -254,4 +254,6 @@ public class SoundEntity extends HadalEntity {
 	}
 
 	public void setAttachedID(UUID attachedID) { this.attachedID = attachedID; }
+
+	public boolean isOn() { return on; }
 }

@@ -238,36 +238,12 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="38" name="Dropthrough" type="Dropthrough" x="1280" y="1088" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="39" name="Dropthrough" type="Dropthrough" x="2368" y="1088" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="40" name="Dropthrough" type="Dropthrough" x="2912" y="864" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="41" name="Dropthrough" type="Dropthrough" x="768" y="864" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="42" name="Dropthrough" type="Dropthrough" x="2368" y="576" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="43" name="Dropthrough" type="Dropthrough" x="1280" y="576" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="38" name="Dropthrough" type="Dropthrough" x="1280" y="1088" width="288" height="8"/>
+  <object id="39" name="Dropthrough" type="Dropthrough" x="2368" y="1088" width="288" height="8"/>
+  <object id="40" name="Dropthrough" type="Dropthrough" x="2912" y="864" width="288" height="8"/>
+  <object id="41" name="Dropthrough" type="Dropthrough" x="768" y="864" width="288" height="8"/>
+  <object id="42" name="Dropthrough" type="Dropthrough" x="2368" y="576" width="288" height="8"/>
+  <object id="43" name="Dropthrough" type="Dropthrough" x="1280" y="576" width="288" height="8"/>
   <object id="44" name="Prefab" type="PrefabWeapon" x="2008" y="768" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>

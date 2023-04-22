@@ -36,7 +36,6 @@ public class Sensor extends Event {
     private final short filter;
     private final boolean collision;
     private final float cooldown;
-
     private float cooldownCount;
 
     public Sensor(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy,

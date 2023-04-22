@@ -24,8 +24,6 @@ public class DropThroughPassability extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		super.create();
-
 		if (hbox.getBody() != null) {
 			FeetData feetData = new FeetData(UserDataType.FEET, hbox);
 			Fixture	feet = FixtureBuilder.createFixtureDef(hbox.getBody(), new Vector2(1.0f / 2,  - hbox.getSize().y / 2),

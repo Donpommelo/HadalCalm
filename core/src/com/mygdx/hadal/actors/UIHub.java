@@ -21,6 +21,7 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_TOTAL;
 import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION_SLOW;
@@ -361,7 +362,7 @@ public class UIHub {
 						@Override
 						public void clicked(InputEvent e, float x, float y) {
 							if (state.isServer()) {
-								state.getPlayer().getPlayerData().removeArtifact(newTag.getArtifact());
+								state.getPlayer().getPlayerData().removeArtifact(newTag.getArtifact(), false);
 							} else {
 								HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactRemoveClient(newTag.getArtifact()));
 							}
@@ -495,7 +496,7 @@ public class UIHub {
 	 * This removes problematic characters from search queries
 	 */
 	private String sanitizeSearchInput(String input) {
-		return input.toLowerCase().replace("\\","\\\\");
+		return TextUtil.removeNonAlphaNumeric(input.toLowerCase());
 	}
 
 	public boolean isActive() { return active; }

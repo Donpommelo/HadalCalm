@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
@@ -16,18 +16,17 @@ import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.*;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
-import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.util.Arrays;
@@ -38,18 +37,6 @@ import java.util.Arrays;
  */
 public class PlayerBodyData extends BodyData {
 		
-	private static final int NUM_EXTRA_JUMPS = 1;
-	private static final float JUMP_POW = 25.0f;
-	
-	private static final float FAST_FALL_POW = 17.0f;
-
-	private static final int HOVER_COST = 4;
-	private static final float HOVER_POW = 5.0f;
-	
-	private static final int AIRBLAST_COST = 25;
-
-	private int extraJumpsUsed = 0;
-
 	//This is the player's current loadout
 	private Loadout loadout;
 	
@@ -208,7 +195,7 @@ public class PlayerBodyData extends BodyData {
 	 * @param slot: new weapon slot.
 	 */
 	public void switchWeapon(int slot) {
-		if (getNumWeaponSlots() >= slot) {
+		if (getNumWeaponSlots() >= slot && slot - 1 != currentSlot) {
 			if (!(multitools[slot - 1] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
@@ -221,14 +208,12 @@ public class PlayerBodyData extends BodyData {
 	 * Player switches to last used weapon slot
 	 */
 	public void switchToLast() {
-		if (schmuck.getShootDelayCount() <= 0) {
-			if (lastSlot < getNumWeaponSlots()) {
-				if (!(multitools[lastSlot] instanceof NothingWeapon)) {
-					int tempSlot = lastSlot;
-					lastSlot = currentSlot;
-					currentSlot = tempSlot;
-					setEquip();
-				}
+		if (lastSlot < getNumWeaponSlots()) {
+			if (!(multitools[lastSlot] instanceof NothingWeapon)) {
+				int tempSlot = lastSlot;
+				lastSlot = currentSlot;
+				currentSlot = tempSlot;
+				setEquip();
 			}
 		}
 	}
@@ -290,7 +275,11 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		loadout.multitools[slotToReplace] = unlock;
-		syncServerEquipChange(loadout.multitools);
+		if (player.getState().isServer()) {
+			syncServerEquipChange(loadout.multitools);
+		} else {
+			syncClientEquipChange(loadout.multitools);
+		}
 		return old;
 	}
 	
@@ -313,7 +302,11 @@ public class PlayerBodyData extends BodyData {
 			activeItem.setCurrentChargePercent(getStat(Stats.STARTING_CHARGE));
 		}
 
-		syncServerActiveChange(unlock);
+		if (player.getState().isServer()) {
+			syncServerActiveChange(unlock);
+		} else {
+			syncClientActiveChange(unlock);
+		}
 	}
 	
 	/**
@@ -365,9 +358,10 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * Remove a designated artifact. 
+	 * Remove a designated artifact.
+	 * use override to abide by artifact slot costs
 	 */
-	public void removeArtifact(UnlockArtifact artifact) {
+	public void removeArtifact(UnlockArtifact artifact, boolean override) {
 		
 		if (UnlockArtifact.NOTHING.equals(artifact)) { return; }
 		
@@ -392,7 +386,7 @@ public class PlayerBodyData extends BodyData {
 			loadout.artifacts[Loadout.MAX_ARTIFACT_SLOTS - 1] = UnlockArtifact.NOTHING;
 		}
 
-		syncArtifacts(true, true);
+		syncArtifacts(override, true);
 	}
 	
 	/**
@@ -403,7 +397,7 @@ public class PlayerBodyData extends BodyData {
 		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 			if (slotsUsed > getNumArtifactSlots()) {
-				removeArtifact(loadout.artifacts[i]);
+				removeArtifact(loadout.artifacts[i], true);
 			}
 		}
 	}
@@ -553,12 +547,28 @@ public class PlayerBodyData extends BodyData {
 		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncEquipServer(player.getConnID(), equip));
 	}
 
+	public void syncServerEquipChangeEcho(int connID, UnlockEquip[] equip) {
+		HadalGame.server.sendToAllExceptTCP(connID, new PacketsLoadout.SyncEquipServer(player.getConnID(), equip));
+	}
+
+	public void syncClientEquipChange(UnlockEquip[] equip) {
+		HadalGame.client.sendTCP(new PacketsLoadout.SyncEquipClient(equip));
+	}
+
 	public void syncServerArtifactChange(UnlockArtifact[] artifact, boolean save) {
 		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncArtifactServer(player.getConnID(), artifact, save));
 	}
 
 	public void syncServerActiveChange(UnlockActives active) {
 		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncActiveServer(player.getConnID(), active));
+	}
+
+	public void syncServerActiveChangeEcho(int connID, UnlockActives active) {
+		HadalGame.server.sendToAllExceptTCP(connID, new PacketsLoadout.SyncActiveServer(player.getConnID(), active));
+	}
+
+	public void syncClientActiveChange(UnlockActives active) {
+		HadalGame.client.sendTCP(new PacketsLoadout.SyncActiveClient(active));
 	}
 
 	public void syncServerCharacterChange(UnlockCharacter character) {
@@ -590,7 +600,6 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public void fuelGain(float fuelRegen) {
-		if (!schmuck.getState().isServer()) { return; }
 		currentFuel += fuelRegen;
 		if (currentFuel > getStat(Stats.MAX_FUEL)) {
 			currentFuel = getStat(Stats.MAX_FUEL);
@@ -609,7 +618,7 @@ public class PlayerBodyData extends BodyData {
 		float damage = baseDamage * getGroupDamageReduction(recentDamagedBy.size);
 		damage = super.receiveDamage(damage, knockback, perp, procEffects, hbox, source, tags);
 
-		if (perp.schmuck.getHitboxfilter() != player.getHitboxfilter()) {
+		if (perp.schmuck.getHitboxFilter() != player.getHitboxFilter()) {
 			if (perp instanceof PlayerBodyData playerData) {
 				recentDamagedBy.put(playerData, recentDamagedBy.get(playerData, 0.0f) + damage);
 			}
@@ -641,8 +650,14 @@ public class PlayerBodyData extends BodyData {
 
 	@Override
 	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
+
+		//set death info to be sent to clients once death is processed
+		player.setDamageSource(source);
+		player.setDamageTags(tags);
+		player.setPerpID(perp.getSchmuck().getEntityID());
+
 		if (player.isAlive()) {
-			
+
 			DespawnType type = DespawnType.GIB;
 
 			//in the case of a disconnect, this is a special death with teleport particles instead of frags
@@ -660,29 +675,22 @@ public class PlayerBodyData extends BodyData {
 			//despawn sprite helper. This triggers death animations
 			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());
 			player.setDespawnType(type);
-			if (type == DespawnType.TELEPORT) {
-				warpAnimation();
-			} else {
 
-				//Send death notification to all players.
+			//process kill feed messages (unless "dead" player is just disconnected)
+			if (type != DespawnType.TELEPORT) {
 				if (perp instanceof PlayerBodyData playerData) {
 					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(playerData.getPlayer().getConnID(), player.getConnID(),
-							null, source, tags));
 				} else if (perp.getSchmuck() instanceof Enemy enemyData) {
 					player.getState().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(), enemyData.getEnemyType(),
-							source, tags));
 				} else {
 					player.getState().getKillFeed().addMessage(null, player, null, source, tags);
-					HadalGame.server.sendToAllTCP(new Packets.SyncKillMessage(-1, player.getConnID(),
-							null, source, tags));
 				}
 			}
-			
-			//delete the player's mouse pointer
-			if (player.getMouse() != player.getState().getMouse()) {
-				player.getMouse().queueDeletion();
+
+			//for the client's own player, death is processed and signalled to server
+			if (!player.getState().isServer() && this.getPlayer() instanceof PlayerSelfOnClient) {
+				((ClientState) player.getState()).removeEntity(player.getEntityID());
+				HadalGame.client.sendTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source, tags));
 			}
 			
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)
@@ -732,34 +740,10 @@ public class PlayerBodyData extends BodyData {
 		};
 	}
 
-	/**
-	 * This animation is played when disconnecting
-	 */
-	public void warpAnimation() {
-		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT,
-				2.5f, true, SyncType.CREATESYNC).setPrematureOff(1.5f);
-	}
-
 	public ObjectMap<PlayerBodyData, Float> getRecentDamagedBy() { return recentDamagedBy; }
 
 	public Player getPlayer() {	return player;}
 	
-	public int getExtraJumps() { return NUM_EXTRA_JUMPS + (int)getStat(Stats.JUMP_NUM); }
-	
-	public float getJumpPower() { return JUMP_POW * (1 + getStat(Stats.JUMP_POW)); }
-	
-	public float getFastFallPower() { return FAST_FALL_POW * (1 + getStat(Stats.FASTFALL_POW)); }
-	
-	public float getHoverPower() { return HOVER_POW * (1 + getStat(Stats.HOVER_POW)); }
-	
-	public float getHoverCost() { return HOVER_COST * (1 + getStat(Stats.HOVER_COST)); }
-
-	public float getAirblastCost() { return AIRBLAST_COST * (1 + getStat(Stats.BOOST_COST)); }
-	
-	public int getExtraJumpsUsed() { return extraJumpsUsed;	}
-
-	public void setExtraJumpsUsed(int extraJumpsUsed) {	this.extraJumpsUsed = extraJumpsUsed; }
-
 	public Equippable[] getMultitools() { return multitools; }
 	
 	public ActiveItem getActiveItem() {	return activeItem; }

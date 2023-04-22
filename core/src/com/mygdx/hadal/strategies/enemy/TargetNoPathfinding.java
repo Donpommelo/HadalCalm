@@ -52,7 +52,7 @@ public class TargetNoPathfinding extends EnemyStrategy {
                                         return fraction;
                                     }
                                 } else if (fixture1.getUserData() instanceof final BodyData bodyData2) {
-                                    if (bodyData2.getSchmuck().getHitboxfilter() != enemy.getHitboxfilter()) {
+                                    if (bodyData2.getSchmuck().getHitboxFilter() != enemy.getHitboxFilter()) {
                                         if (fraction < shortestFraction) {
 
                                             //enemies will not see invisible units

@@ -2,17 +2,16 @@ package com.mygdx.hadal.schmucks.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
@@ -34,21 +33,11 @@ public class Schmuck extends HadalEntity {
 	//the enemy's base hp.
     protected float baseHp;
     
-	//Is this schmuck currently standing on a solid surface?
-	protected boolean grounded;
-	
-	//Counters that keep track of delay between action initiation + action execution and action execution + next action
-	protected float shootCdCount;
-	protected float shootDelayCount;
-	
-	//The last used tool. This is used to process equipment with a delay between using and executing.
-	protected Equippable usedTool;
-	
 	//This particle is triggered upon receiving damage
 	public ParticleEntity impact;
 
 	//This is the filter of this unit and hitboxes it spawns
-	protected short hitboxfilter;
+	protected short hitboxFilter;
 
 	/**
 	 * This constructor is called when a Schmuck is made.
@@ -62,13 +51,10 @@ public class Schmuck extends HadalEntity {
 	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, float baseHp) {
 		super(state, startPos, size);
 		this.name = name;
-		this.grounded = false;
-		this.hitboxfilter = hitboxFilter;
+		this.hitboxFilter = hitboxFilter;
 		this.baseHp = baseHp;
 
-		if (state.isServer()) {
-			impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, SyncType.TICKSYNC);
-		}
+		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, SyncType.NOSYNC);
 	}
 
 	@Override
@@ -86,15 +72,6 @@ public class Schmuck extends HadalEntity {
 		//Apply base hp regen
 		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTag.REGEN);
 		
-		//process cooldowns on firing
-		shootCdCount -= delta;
-		shootDelayCount -= delta;
-		
-		//If the delay on using a tool just ended, use the tool.
-		if (shootDelayCount <= 0 && usedTool != null) {
-			useToolEnd();
-		}
-		
 		//Process statuses
 		getBodyData().statusProcTime(new ProcTime.TimePass(delta));
 	}
@@ -111,56 +88,6 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {}
 
-	/**
-	 * This method is called when a schmuck wants to use a tool.
-	 * @param delta: Time passed since last usage. This is used for Charge tools that keep track of time charged.
-	 * @param tool: Equipment that the schmuck wants to use
-	 * @param hitbox: aka filter. Who will be affected by this equipment? Player or enemy or neutral?
-	 * @param mouseLocation: screen coordinate that represents where the tool is being directed.
-	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast
-	 */
-	public void useToolStart(float delta, Equippable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
-		
-		getBodyData().statusProcTime(new ProcTime.WhileAttack(delta, tool));
-
-		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
-		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
-
-			//Register the tool targeting the input coordinates.
-			tool.mouseClicked(delta, state, getBodyData(), hitbox, mouseLocation);
-			
-			//set the tool that will be executed after delay to input tool.
-			usedTool = tool;
-			
-			//account for the tool's use delay.
-			shootDelayCount = tool.getUseDelay();
-		}
-	}
-	
-	/**
-	 * This method is called after a tool is used following the tool's delay.
-	 */
-	public void useToolEnd() {
-		
-		//the schmuck will not register another tool usage for the tool's cd
-		shootCdCount = usedTool.getUseCd() * (1 - getBodyData().getStat(Stats.TOOL_SPD));
-		
-		//execute the tool.
-		usedTool.execute(state, getBodyData());
-		
-		//clear the used tool field.
-		usedTool = null;
-	}
-	
-	/**
-	 * This method is called after the user releases the button for a tool. Mostly used by charge weapons that execute when releasing
-	 * instead of after pressing.
-	 * @param tool: tool to release
-	 */
-	public void useToolRelease(Equippable tool) {
-		tool.release(state, getBodyData());
-	}	
-	
 	/**
 	 * This is calledregularly to send a packet to the corresponding client schmuck.
 	 * This packet updates MoveState, hp and entity parameters.
@@ -199,7 +126,19 @@ public class Schmuck extends HadalEntity {
 	 * @return the vector2 position of where the bullet should be spawned relative to the schmuck
 	 */
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {	return getPixelPosition(); }
-	
+
+	/**
+	 *
+	 * @return is this schmuck the character being controlled by the player?
+	 */
+	public boolean isOrigin() {
+		if (state.isServer()) {
+			return !(this instanceof PlayerClientOnHost);
+		} else {
+			return this instanceof PlayerSelfOnClient;
+		}
+	}
+
 	@Override
 	public void increaseAnimationTime(float i) { animationTime += i; }
 	
@@ -211,22 +150,14 @@ public class Schmuck extends HadalEntity {
 	public MoveState getMoveState() { return moveState; }
 	
 	public void setMoveState(MoveState moveState) { this.moveState = moveState; }
-	
-	public float getShootCdCount() { return shootCdCount; }
-	
-	public void setShootCdCount(float shootCdCount) { this.shootCdCount = shootCdCount; }
 
-	public float getShootDelayCount() { return shootDelayCount; }
-	
-	public short getHitboxfilter() { return hitboxfilter; }
+	public short getHitboxFilter() { return hitboxFilter; }
 
-	public void setHitboxfilter(short hitboxfilter) { this.hitboxfilter = hitboxfilter; }
+	public void setHitboxFilter(short hitboxFilter) { this.hitboxFilter = hitboxFilter; }
 
 	public float getBaseHp() { return baseHp; }
 
 	public void setBaseHp(int baseHp) { this.baseHp = baseHp; }
-
-	public boolean isGrounded() { return grounded; }
 
 	public String getName() { return name; }
 }

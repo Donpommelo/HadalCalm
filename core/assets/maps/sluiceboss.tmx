@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="61">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="61">
  <properties>
   <property name="music" value="BOSS_PLENUM_CHAMBER"/>
  </properties>
@@ -35,11 +35,7 @@
     <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
-  <object id="5" name="Dropthrough" type="Dropthrough" x="672" y="1568" width="288" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="5" name="Dropthrough" type="Dropthrough" x="672" y="1568" width="288" height="8"/>
   <object id="6" name="Dummy" type="Dummy" x="736" y="1952" width="32" height="32">
    <properties>
     <property name="dummyId" value="0"/>
@@ -95,16 +91,8 @@
     <property name="dummyId" value="floor"/>
    </properties>
   </object>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="736" y="2272" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="18" name="Dropthrough" type="Dropthrough" x="1312" y="2272" width="320" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="736" y="2272" width="320" height="8"/>
+  <object id="18" name="Dropthrough" type="Dropthrough" x="1312" y="2272" width="320" height="8"/>
   <object id="19" name="Sensor" type="Sensor" x="1440" y="1792" width="32" height="864">
    <properties>
     <property name="triggeredId" value=""/>
@@ -229,13 +217,21 @@
   </object>
   <object id="36" name="Platform" type="Platform" x="1024" y="576" width="96" height="160">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="prefabId" value="Door"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door2"/>
    </properties>
   </object>
   <object id="37" name="Platform" type="Platform" x="608" y="640" width="288" height="96">
    <properties>
+    <property name="default" type="bool" value="false"/>
+    <property name="independent" type="bool" value="false"/>
     <property name="prefabId" value="Door"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door1"/>
    </properties>
   </object>

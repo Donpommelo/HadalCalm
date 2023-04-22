@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="180" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="62">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="180" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="62">
  <properties>
   <property name="music" value="LEVEL_PLENUM_CHAMBER"/>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
@@ -160,26 +160,10 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="27" name="Dropthrough" type="Dropthrough" x="1024" y="2368" width="224" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="28" name="Dropthrough" type="Dropthrough" x="736" y="3200" width="128" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="29" name="Dropthrough" type="Dropthrough" x="1248" y="3992" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="30" name="Dropthrough" type="Dropthrough" x="1696" y="4256" width="160" height="8">
-   <properties>
-    <property name="independent" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="27" name="Dropthrough" type="Dropthrough" x="1024" y="2368" width="224" height="8"/>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="736" y="3200" width="128" height="8"/>
+  <object id="29" name="Dropthrough" type="Dropthrough" x="1248" y="3992" width="160" height="8"/>
+  <object id="30" name="Dropthrough" type="Dropthrough" x="1696" y="4256" width="160" height="8"/>
   <object id="31" name="Prefab" type="PrefabAlternator" x="2080" y="1632" width="96" height="192">
    <properties>
     <property name="align" type="int" value="0"/>

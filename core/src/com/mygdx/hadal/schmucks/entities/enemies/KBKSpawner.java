@@ -89,14 +89,14 @@ public class KBKSpawner extends EnemySwimming {
 					startVelo.nor().scl(projectileSpeed);
 					SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 1.0f, 0.60f, false);
 					
-					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
+					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, projSprite);
 					hbox.setGravity(1.0f);
 					
 					hbox.addStrategy(new HitboxStrategy(state, hbox, enemy.getBodyData()) {
 						
 						@Override
 						public void die() {
-							EnemyType.CRAWLER1.generateEnemy(state, hbox.getPixelPosition(), getHitboxfilter(), 0.0f);
+							EnemyType.CRAWLER1.generateEnemy(state, hbox.getPixelPosition(), getHitboxFilter(), 0.0f);
 						}
 					});
 					

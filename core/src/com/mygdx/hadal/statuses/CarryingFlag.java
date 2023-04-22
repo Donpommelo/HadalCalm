@@ -21,6 +21,7 @@ public class CarryingFlag extends Status {
 
 	public CarryingFlag(PlayState state, BodyData i) {
 		super(state, i);
+		this.setServerOnly(true);
 	}
 
 	@Override

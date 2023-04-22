@@ -8,22 +8,22 @@ import com.mygdx.hadal.constants.Stats;
 
 public class ExtraRowofTeeth extends Artifact {
 
-	private static final int slotCost = 2;
+	private static final int SLOT_COST = 2;
 	
-	private static final float bonusClipSize = 0.3f;
+	private static final float BONUS_CLIP_SIZE = 0.3f;
 	
 	public ExtraRowofTeeth() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatusComposite(state, p, new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClipSize, p));
+		enchantment = new StatusComposite(state, p, new StatChangeStatus(state, Stats.RANGED_CLIP, BONUS_CLIP_SIZE, p));
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusClipSize * 100))};
+				String.valueOf((int) (BONUS_CLIP_SIZE * 100))};
 	}
 }

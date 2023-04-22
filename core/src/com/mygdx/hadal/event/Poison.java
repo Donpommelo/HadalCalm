@@ -1,23 +1,20 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -69,14 +66,20 @@ public class Poison extends Event {
 		
 		randomParticles = size.x > 100;
 		
-		if (!randomParticles && draw && state.isServer()) {
-			new ParticleEntity(state, this, poisonParticle, 0, 0, true, SyncType.CREATESYNC);
+		if (!randomParticles && draw) {
+			ParticleEntity particleEntity = new ParticleEntity(state, this, poisonParticle, 0, 0,
+					true, SyncType.NOSYNC);
+			if (!state.isServer()) {
+				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
+			}
 		}
 	}
 
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, float duration, Schmuck perp, boolean draw,
 				  short filter, DamageSource source) {
 		this(state, startPos, size, "POISON", dps, duration, perp, draw, filter, source);
+
+		setIndependent(true);
 	}
 	/**
 	 * This constructor is used for when this event is created temporarily.
@@ -95,7 +98,7 @@ public class Poison extends Event {
 			this.perp = perp;
 
 			//this prevents team killing using poison in the hub
-			if (perp.getHitboxfilter() == Constants.PLAYER_HITBOX && state.getMode().isHub()) {
+			if (perp.getHitboxFilter() == Constants.PLAYER_HITBOX && state.getMode().isHub()) {
 				this.filter = Constants.PLAYER_HITBOX;
 			}
 		}
@@ -106,8 +109,12 @@ public class Poison extends Event {
 		
 		randomParticles = size.x > 100;
 		
-		if (!randomParticles && draw && state.isServer()) {
-			new ParticleEntity(state, this, poisonParticle, particleLifespan, 0, true, SyncType.CREATESYNC);
+		if (!randomParticles && draw) {
+			ParticleEntity particleEntity = new ParticleEntity(state, this, poisonParticle, particleLifespan, 0,
+					true, SyncType.NOSYNC);
+			if (!state.isServer()) {
+				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
+			}
 		}
 	}
 	
@@ -185,24 +192,6 @@ public class Poison extends Event {
 				}
 			}
 		}
-	}
-	
-	/**
-	 * When server creates poison, clients are told to create the poison in their own worlds
-	 */
-	@Override
-	public Object onServerCreate(boolean catchup) {
-		if (independent) { return null; }
-		if (blueprint == null) {
-			entityLocation.set(getPixelPosition());
-			
-			blueprint = new RectangleMapObject(entityLocation.x - size.x / 2, entityLocation.y - size.y / 2, size.x, size.y);
-			blueprint.setName("PoisonTemp");
-			blueprint.getProperties().put("particle", poisonParticle.toString());
-			blueprint.getProperties().put("duration", duration);
-			blueprint.getProperties().put("source", source.toString());
-		}
-		return new Packets.CreateEvent(entityID, new EventDto(blueprint), synced);
 	}
 
 	public Poison setParticle(Particle particle) {

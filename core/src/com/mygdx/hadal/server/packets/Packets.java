@@ -7,19 +7,20 @@ import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.PlayerSpriteHelper.DespawnType;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.*;
-import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -27,7 +28,6 @@ import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
-import com.mygdx.hadal.battle.DamageTag;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -369,100 +369,6 @@ public class Packets {
         }
 	}
 
-	public static class CreateSyncedAttackSingle {
-		public long uuidMSB, uuidLSB;
-		public long uuidMSBCreator, uuidLSBCreator;
-		public Vector2 pos, velo;
-		public SyncedAttack attack;
-
-		public CreateSyncedAttackSingle() {}
-
-		/**
-		 * A CreateSyncedAttackSingle is sent from server to client to inform them that an attack was executed
-		 * For most weapons, this packages multiple fields of a single attack to send fewer packets
-		 * @param entityID: The entityID of the hitbox this attack will create
-		 * @param creatorID: The entityID of the player that is executing the attack
-		 * @param pos: The starting position of the hbox this attack will create
-		 * @param velo: The starting velocity/trajectory of the hbox this attack will create
-		 * @param attack: the type of attack that is being executed
-		 */
-		public CreateSyncedAttackSingle(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-			this.uuidLSBCreator = creatorID.getLeastSignificantBits();
-			this.uuidMSBCreator = creatorID.getMostSignificantBits();
-			this.pos = pos;
-			this.velo = velo;
-			this.attack = attack;
-		}
-	}
-
-	public static class CreateSyncedAttackSingleExtra extends CreateSyncedAttackSingle {
-		public float[] extraFields;
-
-		public CreateSyncedAttackSingleExtra() {}
-
-		/**
-		 * A CreateSyncedAttackSingleExtra is like a CreateSyncedAttackSingle except it carries extra information
-		 * so the client can process things like charge levels
-		 * @param extraFields: extra information needed to execute this specific attack
-		 */
-		public CreateSyncedAttackSingleExtra(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
-			super(entityID, creatorID, pos, velo, attack);
-			this.extraFields = extraFields;
-		}
-	}
-
-	public static class CreateSyncedAttackMulti {
-		public long[] uuidMSB, uuidLSB;
-		public long uuidMSBCreator, uuidLSBCreator;
-		public Vector2 weaponVelo;
-		public Vector2[] pos, velo;
-		public SyncedAttack attack;
-
-		public CreateSyncedAttackMulti() {}
-
-		/**
-		 * A CreateSyncedAttackMulti is like a CreateSyncedAttackSingle except it executes an attack that creates several
-		 * hitboxes like the flounderbuss or party popper.
-		 * @param entityID: The entityID of the hitbox this attack will create
-		 * @param creatorID: The entityID of the player that is executing the attack
-		 * @param pos: The starting positions of the hboxes this attack will create
-		 * @param velo: The starting velocities/trajectories of the hboxes this attack will create
-		 * @param attack: the type of attack that is being executed
-		 */
-		public CreateSyncedAttackMulti(UUID[] entityID, UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
-			this.uuidLSB = new long[entityID.length];
-			this.uuidMSB = new long[entityID.length];
-			for (int i = 0; i < entityID.length; i++) {
-				uuidLSB[i] = entityID[i].getLeastSignificantBits();
-				uuidMSB[i] = entityID[i].getMostSignificantBits();
-			}
-			this.uuidLSBCreator = creatorID.getLeastSignificantBits();
-			this.uuidMSBCreator = creatorID.getMostSignificantBits();
-			this.weaponVelo = weaponVelo;
-			this.pos = pos;
-			this.velo = velo;
-			this.attack = attack;
-		}
-	}
-
-	public static class CreateSyncedAttackMultiExtra extends CreateSyncedAttackMulti {
-		public float[] extraFields;
-
-		public CreateSyncedAttackMultiExtra() {}
-
-		/**
-		 * A CreateSyncedAttackMultiExtra is like a CreateSyncedAttackMulti except it carries extra information
-		 * so thee client can process things like charge levels
-		 * @param extraFields: extra information needed to execute this specific attack
-		 */
-		public CreateSyncedAttackMultiExtra(UUID[] entityID, UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
-			super(entityID, creatorID, weaponVelo, pos, velo, attack);
-			this.extraFields = extraFields;
-		}
-	}
-
 	public static class CreateEnemy {
 		public long uuidMSB, uuidLSB;
 		public Vector2 pos;
@@ -510,19 +416,44 @@ public class Packets {
 	}
 
 	public static class DeletePlayer extends DeleteEntity {
-		public DespawnType type;
+		public long uuidMSBPerp, uuidLSBPerp;
+		public DamageSource source;
+		public DamageTag[] tags;
 		public DeletePlayer() {}
 
 		/**
 		 * A DeletePlayer is sent from the Server to the Client to tell the Client to delete a player.
 		 * This is separate from delete entity to pass along info about the type of death.
 		 * @param entityID: ID of the entity to be deleted.
+		 * @param perpID: ID of the perp that killed this entity.
 		 * @param timestamp: when this deletion occurred. Used to handle the possibility of packet loss.
-		 * @param type: type of deletion for animation purpose (death, disconnect teleport etc)
+		 * @param source: source of fatal damage (for death message)
+		 * @param tags: tags associated with fatal damage (for death message
 		 */
-		public DeletePlayer(UUID entityID, float timestamp, DespawnType type) {
+		public DeletePlayer(UUID entityID, UUID perpID, float timestamp, DamageSource source, DamageTag[] tags) {
 			super(entityID, timestamp);
-			this.type = type;
+			if (null != perpID) {
+				this.uuidMSBPerp = perpID.getMostSignificantBits();
+				this.uuidLSBPerp = perpID.getLeastSignificantBits();
+			}
+			this.source = source;
+			this.tags = tags;
+		}
+	}
+
+	public static class DeleteClientSelf {
+		public long uuidMSB, uuidLSB;
+		public DamageSource source;
+		public DamageTag[] tags;
+		public DeleteClientSelf() {}
+
+		/**
+		 */
+		public DeleteClientSelf(UUID entityID, DamageSource source, DamageTag[] tags) {
+			this.uuidLSB = entityID.getLeastSignificantBits();
+			this.uuidMSB = entityID.getMostSignificantBits();
+			this.source = source;
+			this.tags = tags;
 		}
 	}
 
@@ -801,8 +732,35 @@ public class Packets {
 			this.returnMaxTimer = returnMaxTimer;
 		}
 	}
+
+	public static class RequestStartSyncedEvent {
+		public String triggeredID;
+
+		public RequestStartSyncedEvent() {}
+
+		public RequestStartSyncedEvent(String triggeredID) {
+			this.triggeredID = triggeredID;
+		}
+	}
+
+	public static class CreateStartSyncedEvent {
+		public float timer;
+		public String triggeredID, targetTriggeredID;
+		public Vector2 pos, velo;
+
+		public CreateStartSyncedEvent() {}
+
+		public CreateStartSyncedEvent(float timer, String triggeredID, String targetTriggeredID, Vector2 pos, Vector2 velo) {
+			this.timer = timer;
+			this.triggeredID = triggeredID;
+			this.targetTriggeredID = targetTriggeredID;
+			this.pos = pos;
+			this.velo = velo;
+		}
+	}
 	
 	public static class SyncUI {
+		public float maxTimer;
 		public float timer;
 		public float timerIncr;
 		public AlignmentFilter[] teams;
@@ -812,36 +770,18 @@ public class Packets {
 		/**
 		 * A SyncUI is sent from the Server to the Client whenever the ui is updated.
 		 * The client updates their ui to represent the changes.
-		 * @param timer: what to set the global game timer to
+		 * @param maxTimer: what to set the global game timer to (max)
+		 * @param timer: what to set the global game timer to (current)
 		 * @param timerIncr: How much should the timer be incrementing by (probably +-1 or 0)
 		 * @param teams: the list of teams currently active for the match
 		 * @param scores: list of scores for each team
 		 */
-		public SyncUI(float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
+		public SyncUI(float maxTimer, float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
+			this.maxTimer = maxTimer;
 			this.timer = timer;
 			this.timerIncr = timerIncr;
 			this.teams = teams;
 			this.scores = scores;
-		}
-	}
-	
-	public static class SyncShader {
-		public long uuidMSB, uuidLSB;
-		public Shader shader;
-		public float shaderCount;
-		public SyncShader() {}
-		
-		/**
-		 * A SyncShader is sent from the Server to the Client whenever a new shader is implemented.
-		 * @param entityID: schmuck whose shader to change. (if null, change shader for whole playstate)
-		 * @param shader: enum of the new shader
-		 * @param shaderCount: duration of shader
-		 */
-		public SyncShader(UUID entityID, Shader shader, float shaderCount) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-			this.shader = shader;
-			this.shaderCount = shaderCount;
 		}
 	}
 	
@@ -938,19 +878,6 @@ public class Packets {
 			this.on = on;
 			this.age = age;
 			this.timestamp = timestamp;
-		}
-	}
-	
-	public static class SyncHitSound {
-		public boolean large;
-		public SyncHitSound() {}
-
-		/**
-		 * A SyncHitSound is a simple packet that just tells the client to play their hitsound.
-		 * @param large: is this hitsound pitched up as a result of high damage or being fatal?
-		 */
-		public SyncHitSound(boolean large) {
-			this.large = large;
 		}
 	}
 	
@@ -1072,22 +999,6 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncTyping {
-		public long uuidMSB, uuidLSB;
-		
-		public SyncTyping() {}
-		
-		/**
-		 * A LatencyAck is sent from the client to the server when they type in the message window.
-		 * This is also sent from the server to the client to indicate which players are currently typing.
-		 * @param entityID: this is the id of the player that is currently typing.
-		 */
-		public SyncTyping(UUID entityID) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-		}
-	}
-
 	public static class RemoveScore {
 		public int connID;
 
@@ -1124,33 +1035,6 @@ public class Packets {
 		 */
 		public SyncEmote(int emoteIndex) {
 			this.emoteIndex = emoteIndex;
-		}
-	}
-
-	public static class SyncKillMessage {
-		public int perpConnID;
-		public int vicConnID;
-		public EnemyType enemyType;
-		public DamageSource source;
-		public DamageTag[] tags;
-
-		public SyncKillMessage() {}
-
-		/**
-		 * A SyncKillMessage is sent from the server to the client when a player dies.
-		 * This provides the client with the needed information to display a kill message in their feed
-		 * @param perpConnID: the connID of the perp (-1 if no player perp)
-		 * @param vicConnID: the connID of the vic
-		 * @param enemyType: the type of enemy that killed the player (null if not an enemy kill)
-		 * @param source: damage source of the last instance of damage.
-		 * @param tags: damage tags of the last instance of damage.
-		 */
-		public SyncKillMessage(int perpConnID, int vicConnID, EnemyType enemyType, DamageSource source, DamageTag... tags) {
-			this.perpConnID = perpConnID;
-			this.vicConnID = vicConnID;
-			this.enemyType = enemyType;
-			this.source = source;
-			this.tags = tags;
 		}
 	}
 
@@ -1224,12 +1108,9 @@ public class Packets {
     	kryo.register(CreateEnemy.class);
 		kryo.register(DeleteEntity.class);
 		kryo.register(DeletePlayer.class);
+		kryo.register(DeleteClientSelf.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
-		kryo.register(CreateSyncedAttackSingle.class);
-		kryo.register(CreateSyncedAttackSingleExtra.class);
-		kryo.register(CreateSyncedAttackMulti.class);
-		kryo.register(CreateSyncedAttackMultiExtra.class);
     	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
@@ -1237,14 +1118,14 @@ public class Packets {
 		kryo.register(CreateFlag.class);
 		kryo.register(CreateCrown.class);
 		kryo.register(CreateGrave.class);
+		kryo.register(RequestStartSyncedEvent.class);
+		kryo.register(CreateStartSyncedEvent.class);
     	kryo.register(CreateRagdoll.class);
 
     	kryo.register(SyncUI.class);
-    	kryo.register(SyncShader.class);
     	kryo.register(SyncSoundSingle.class);
     	kryo.register(CreateSound.class);
     	kryo.register(SyncSound.class);
-    	kryo.register(SyncHitSound.class);
     	kryo.register(MissedCreate.class);
     	kryo.register(MissedDelete.class);
     	kryo.register(StartSpectate.class);
@@ -1253,11 +1134,9 @@ public class Packets {
     	kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);
     	kryo.register(SyncExtraResultsInfo.class);
-		kryo.register(SyncTyping.class);
 		kryo.register(RemoveScore.class);
 		kryo.register(ClientYeet.class);
 		kryo.register(SyncEmote.class);
-		kryo.register(SyncKillMessage.class);
 		kryo.register(SyncNotification.class);
 		kryo.register(SyncObjectiveMarker.class);
 
@@ -1266,6 +1145,7 @@ public class Packets {
 		kryo.register(PacketsSync.SyncSchmuck.class);
 		kryo.register(PacketsSync.SyncSchmuckAngled.class);
 		kryo.register(PacketsSync.SyncPlayer.class);
+		kryo.register(PacketsSync.SyncClientSnapshot.class);
 		kryo.register(PacketsSync.SyncParticles.class);
 		kryo.register(PacketsSync.SyncParticlesExtra.class);
 		kryo.register(PacketsSync.SyncFlag.class);
@@ -1286,6 +1166,29 @@ public class Packets {
 		kryo.register(PacketsLoadout.SyncCharacterServer.class);
 		kryo.register(PacketsLoadout.SyncTeamServer.class);
 		kryo.register(PacketsLoadout.SyncCosmeticServer.class);
+
+		kryo.register(PacketsAttacks.SingleClientIndependent.class);
+		kryo.register(PacketsAttacks.SingleClientDependent.class);
+		kryo.register(PacketsAttacks.SingleServerIndependent.class);
+		kryo.register(PacketsAttacks.SingleServerDependent.class);
+		kryo.register(PacketsAttacks.SingleClientIndependentExtra.class);
+		kryo.register(PacketsAttacks.SingleClientDependentExtra.class);
+		kryo.register(PacketsAttacks.SingleServerIndependentExtra.class);
+		kryo.register(PacketsAttacks.SingleClientDependentExtra.class);
+
+		kryo.register(PacketsAttacks.MultiClientIndependent.class);
+		kryo.register(PacketsAttacks.MultiClientDependent.class);
+		kryo.register(PacketsAttacks.MultiServerIndependent.class);
+		kryo.register(PacketsAttacks.MultiServerDependent.class);
+		kryo.register(PacketsAttacks.MultiClientIndependentExtra.class);
+		kryo.register(PacketsAttacks.MultiClientDependentExtra.class);
+		kryo.register(PacketsAttacks.MultiServerIndependentExtra.class);
+		kryo.register(PacketsAttacks.MultiServerDependentExtra.class);
+
+		kryo.register(PacketsAttacks.SyncedAttackNoHbox.class);
+		kryo.register(PacketsAttacks.SyncedAttackNoHboxServer.class);
+		kryo.register(PacketsAttacks.SyncedAttackNoHboxExtra.class);
+		kryo.register(PacketsAttacks.SyncedAttackNoHboxExtraServer.class);
 
 		kryo.register(int[].class);
 		kryo.register(float[].class);

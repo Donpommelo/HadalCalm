@@ -1,12 +1,10 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.battle.attacks.general.HomingMissile;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -16,31 +14,31 @@ import com.mygdx.hadal.statuses.Status;
  */
 public class MissilePod extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 15.0f;
 	
 	private static final float DURATION = 1.2f;
 	private static final float PROC_CD = 0.1f;
 
-	public MissilePod(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+	public MissilePod(Player user) {
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.DEFLATE.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
-		
 		user.addStatus(new Status(state, DURATION, false, user, user) {
 			
 			private float procCdCount;
+			private int missileNum;
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
 				if (procCdCount >= PROC_CD) {
 					procCdCount -= PROC_CD;
+					missileNum++;
+
 					SyncedAttack.HOMING_MISSILE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
-							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 5), DamageSource.MISSILE_POD);
+							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 5), missileNum);
+
 				}
 				procCdCount += delta;
 			}
@@ -55,6 +53,6 @@ public class MissilePod extends ActiveItem {
 		return new String[] {
 				String.valueOf((int) MAX_CHARGE),
 				String.valueOf((int) (DURATION / PROC_CD)),
-				String.valueOf((int) WeaponUtils.TORPEDO_EXPLOSION_DAMAGE)};
+				String.valueOf((int) HomingMissile.TORPEDO_EXPLOSION_DAMAGE)};
 	}
 }

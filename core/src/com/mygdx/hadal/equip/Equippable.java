@@ -1,12 +1,12 @@
 package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * An equippable is anything that takes up an equip slot. This includes melee and ranged weapons
@@ -15,7 +15,7 @@ import com.mygdx.hadal.constants.Stats;
 public abstract class Equippable {
 	
 	//The Schmuck that is using this tool
-	protected Schmuck user;
+	protected Player user;
 	
 	//The name of this tool
 	protected String name;
@@ -23,9 +23,6 @@ public abstract class Equippable {
 	//The delay in seconds after using this tool before you can use a tool again.
 	protected final float useCd;
 	
-	//The delay in seconds between pressing the button for this tool and it activating. 
-	protected final float useDelay;
-
 	//Whether this tool is currently in the process of reloading or not.
 	protected boolean reloading;
 	
@@ -57,15 +54,13 @@ public abstract class Equippable {
 	 * Equippables are constructed when creating tool spawns or default schmuck loadouts
 	 * @param user: Schmuck that is using this tool.
 	 * @param useCd: The delay after using this tool before you can use a tool again.
-	 * @param useDelay: The delay between pressing the button for this tool and it activating. 
 	 * @param equipSprite: The equip's sprite when equipped
 	 * @param eventSprite: The equip's sprite as a pickup
 	 * @param chargeTime: If a charge weapon, how long does it take to fully charge?
 	 */
-	public Equippable(Schmuck user, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite, float chargeTime) {
+	public Equippable(Player user, float useCd, Sprite equipSprite, Sprite eventSprite, float chargeTime) {
 		this.user = user;
 		this.useCd = useCd;
-		this.useDelay = useDelay;
 		this.reloading = false;
 		this.charging = false;
 		this.chargeTime = chargeTime;
@@ -77,8 +72,8 @@ public abstract class Equippable {
 	/**
 	 * Default charge time is 0 for non-charge weapons
 	 */
-	public Equippable(Schmuck user, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
-		this(user, useCd, useDelay, equipSprite, eventSprite, 0);
+	public Equippable(Player user, float useCd, Sprite equipSprite, Sprite eventSprite) {
+		this(user, useCd, equipSprite, eventSprite, 0);
 	}
 	
 	/**
@@ -90,7 +85,7 @@ public abstract class Equippable {
 	 * @param faction: Filter of the tool. (player, enemy, neutral)
 	 * @param mouseLocation: screen coordinates of the target
 	 */
-	public abstract void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation);
+	public abstract void mouseClicked(float delta, PlayState state, PlayerBodyData shooter, short faction, Vector2 mouseLocation);
 	
 	/**
 	 * This method is called useDelay seconds after mouseClicked(). (unless overridden)
@@ -99,7 +94,7 @@ public abstract class Equippable {
 	 * @param state: The play state
 	 * @param bodyData: user data of he schmuck using this tool
 	 */
-	public abstract void execute(PlayState state, BodyData bodyData);
+	public abstract void execute(PlayState state, PlayerBodyData bodyData);
 	
 	/**
 	 * This method is called when the player releases the mouse button for using this tool.
@@ -107,7 +102,7 @@ public abstract class Equippable {
 	 * @param state: The play state
 	 * @param bodyData: user data of he schmuck using this tool
 	 */
-	abstract public void release(PlayState state, BodyData bodyData);
+	abstract public void release(PlayState state, PlayerBodyData bodyData);
 	
 	/**
 	 * This method will be called every engine tick if the player is reloading.
@@ -126,7 +121,7 @@ public abstract class Equippable {
 	 * @param startVelocity: The starting directional velocity of a projectile spawned. Typically vector pointing to mouse.
 	 * @param filter: this is the hitbox filter that decides who gets hit by this
 	 */
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {}
+	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {}
 	
 	/**
 	 * This is run when this equippable is unequipped
@@ -147,7 +142,9 @@ public abstract class Equippable {
 	 * This is run every engine tick for weapons that have an effect that activates over time.
 	 */
 	public void update(PlayState state, float delta) {}
-	
+
+	public void processEffects(PlayState state, float delta) {}
+
 	/**
 	 * @return the string representing the weapon in the ui.
 	 */
@@ -178,8 +175,6 @@ public abstract class Equippable {
 	
 	public float getUseCd() { return useCd;	}
 	
-	public float getUseDelay() { return useDelay; }
-	
 	public Sprite getWeaponSprite() { return equipSprite; }
 	
 	public Sprite getEventSprite() { return eventSprite; }
@@ -188,7 +183,7 @@ public abstract class Equippable {
 	
 	public void setName(String name) { this.name = name; }
 
-	public void setUser(Schmuck user) {	this.user = user; }
+	public void setUser(Player user) {	this.user = user; }
 
 	public boolean isReloading() { return reloading; }
 

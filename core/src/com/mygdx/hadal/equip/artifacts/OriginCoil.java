@@ -34,6 +34,9 @@ public class OriginCoil extends Artifact {
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsMovement()) { return; }
 
+				hbox.setSynced(true);
+				hbox.setSyncedDelete(true);
+
 				startVelo.set(hbox.getStartVelo()).scl(boostMultiplier);
 				hbox.getStartVelo().scl(slow);
 				hbox.setLifeSpan(hbox.getLifeSpan() + delay);
@@ -55,11 +58,9 @@ public class OriginCoil extends Artifact {
 						if (!activated) {
 							while (controllerCount >= boostInterval) {
 								if (count > 0) {
-									if (p.getPlayer().getMouse() != null) {
-										lastPush.set(p.getPlayer().getMouse().getPosition()).sub(hbox.getPosition()).nor().scl(hbox.getMass() * trackBoost);
-										lastPush.add(hbox.getStartVelo().nor().scl(hbox.getMass() * trackBoost));
-										hbox.applyForceToCenter(lastPush);
-									}
+									lastPush.set(p.getPlayer().getMouseHelper().getPosition()).sub(hbox.getPosition()).nor().scl(hbox.getMass() * trackBoost);
+									lastPush.add(hbox.getStartVelo().nor().scl(hbox.getMass() * trackBoost));
+									hbox.applyForceToCenter(lastPush);
 								} else {
 									hbox.getBody().setLinearVelocity(lastPush.nor().scl(startVelo.len()));
 									activated = true;

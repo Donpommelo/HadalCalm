@@ -11,28 +11,28 @@ import com.mygdx.hadal.constants.Stats;
 
 public class KinesisLens extends Artifact {
 
-	private static final int slotCost = 3;
+	private static final int SLOT_COST = 3;
 	
-	private static final float projSpdReduction = -0.4f;
-	private static final float bonusProjLifespan = 0.4f;
-	private static final float homePower = 120.0f;
+	private static final float PROJ_SPD_REDUCTION = -0.4f;
+	private static final float BONUS_PROJ_LIFESPAN = 0.4f;
+	private static final float HOME_POWER = 120.0f;
 
 	public KinesisLens() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, projSpdReduction, p),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, bonusProjLifespan, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, PROJ_SPD_REDUCTION, p),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, BONUS_PROJ_LIFESPAN, p),
 				new Status(state, p) {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsMovement()) { return; }
 				
-				hbox.addStrategy(new HomingMouse(state, hbox, p, homePower));
+				hbox.addStrategy(new HomingMouse(state, hbox, p, HOME_POWER));
 				hbox.setGravity(0.0f);
 			}
 		});

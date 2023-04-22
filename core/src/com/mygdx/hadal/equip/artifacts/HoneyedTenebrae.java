@@ -12,12 +12,12 @@ import java.util.Arrays;
 
 public class HoneyedTenebrae extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 
-	private static final float res = 0.8f;
+	private static final float DAMAGE_RESISTANCE = 0.8f;
 
 	public HoneyedTenebrae() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class HoneyedTenebrae extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (Arrays.asList(tags).contains(DamageTag.BEES)) {
-					return damage * (1.0f - res);
+					return damage * (1.0f - DAMAGE_RESISTANCE);
 				}
 				return damage;
 			}
@@ -37,6 +37,6 @@ public class HoneyedTenebrae extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (res * 100))};
+				String.valueOf((int) (DAMAGE_RESISTANCE * 100))};
 	}
 }

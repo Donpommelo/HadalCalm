@@ -1,10 +1,9 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.battle.attacks.general.HomingMissile;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -40,9 +39,9 @@ public class WrathoftheFrogman extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 
-					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getAttackAngle() + 180);
-					SyncedAttack.HOMING_MISSILE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
-							inflicted.getSchmuck().getPixelPosition(), startVelo, DamageSource.WRATH_OF_THE_FROGMAN);
+					startVelo.set(0, projSpeed).setAngleDeg(p.getPlayer().getMouseHelper().getAttackAngle() + 180);
+					SyncedAttack.HOMING_MISSILE_FROGMAN.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
+							inflicted.getSchmuck().getPixelPosition(), startVelo);
 				}
 			}
 		};
@@ -52,6 +51,6 @@ public class WrathoftheFrogman extends Artifact {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf(procCd),
-				String.valueOf((int) WeaponUtils.TORPEDO_EXPLOSION_DAMAGE)};
+				String.valueOf((int) HomingMissile.TORPEDO_EXPLOSION_DAMAGE)};
 	}
 }

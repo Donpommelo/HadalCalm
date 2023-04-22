@@ -1,33 +1,30 @@
 package com.mygdx.hadal.equip.actives;
 
-import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.entities.Schmuck;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Invulnerability;
 
 /**
  * @author Fibbadon Flabitha
  */
 public class ForceofWill extends ActiveItem {
 
-	private static final float USECD = 0.0f;
-	private static final float USEDELAY = 0.0f;
 	private static final float MAX_CHARGE = 15.0f;
 	
 	private static final float DURATION = 2.0f;
 	
-	public ForceofWill(Schmuck user) {
-		super(user, USECD, USEDELAY, MAX_CHARGE);
+	public ForceofWill(Player user) {
+		super(user, MAX_CHARGE);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.MAGIC18_BUFF.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
-		user.addStatus(new Invulnerability(state, DURATION, user, user));
+		SyncedAttack.INVINCIBILITY.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(),
+				true, DURATION);
 	}
-	
+
 	@Override
 	public float getUseDuration() { return DURATION; }
 

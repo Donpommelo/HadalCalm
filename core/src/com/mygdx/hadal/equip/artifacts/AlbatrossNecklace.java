@@ -7,12 +7,12 @@ import com.mygdx.hadal.constants.Stats;
 
 public class AlbatrossNecklace extends Artifact {
 
-	private static final int slotCost = 1;
-	private static final float bonusHp = 0.75f;
-	private static final float gravityScale = 0.6f;
+	private static final int SLOT_COST = 1;
+	private static final float BONUS_HP = 0.75f;
+	private static final float GRAVITY_SCALE = 0.6f;
 	
 	public AlbatrossNecklace() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -21,10 +21,10 @@ public class AlbatrossNecklace extends Artifact {
 			
 			@Override
 			public void onInflict() {
-				if (p.getPlayer().getBody() != null) {
-					p.getSchmuck().setGravityScale(1.0f + gravityScale);
+				if (null != p.getPlayer().getBody()) {
+					p.getSchmuck().setGravityScale(1.0f + GRAVITY_SCALE);
 				} else {
-					p.getPlayer().setGravityModifier(1.0f + gravityScale);
+					p.getPlayer().setGravityModifier(1.0f + GRAVITY_SCALE);
 				}
 			}
 			
@@ -35,15 +35,15 @@ public class AlbatrossNecklace extends Artifact {
 			
 			@Override
 			public void statChanges() {
-				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + bonusHp);
+				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + BONUS_HP);
 			}
-		}.setClientIndependent(true);
+		};
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusHp * 100)),
-				String.valueOf((int) (gravityScale * 100))};
+				String.valueOf((int) (BONUS_HP * 100)),
+				String.valueOf((int) (GRAVITY_SCALE * 100))};
 	}
 }

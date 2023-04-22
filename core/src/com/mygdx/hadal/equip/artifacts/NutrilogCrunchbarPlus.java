@@ -9,13 +9,14 @@ import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST_LAST;
 
 public class NutrilogCrunchbarPlus extends Artifact {
 
-	private static final int slotCost = 1;
-	private static final float sizeModifier = 0.8f;
-	private static final float bonusHp = 1.0f;
-	private static final float bonusKnockbackRes = 0.5f;
+	private static final int SLOT_COST = 1;
+
+	private static final float SIZE_MODIFIER = 0.8f;
+	private static final float BONUS_HP = 1.0f;
+	private static final float BONUS_KNOCKBACK_RES = 0.5f;
 
 	public NutrilogCrunchbarPlus() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
@@ -27,14 +28,14 @@ public class NutrilogCrunchbarPlus extends Artifact {
 			@Override
 			public void onInflict() {
 				if (p.getPlayer().getBody() == null) {
-					p.getPlayer().setScaleModifier(sizeModifier);
+					p.getPlayer().setScaleModifier(SIZE_MODIFIER);
 				}
 			}
 			
 			@Override
 			public void statChanges() {
-				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + bonusHp);
-				p.setStat(Stats.KNOCKBACK_RES, p.getStat(Stats.KNOCKBACK_RES) + bonusKnockbackRes);
+				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + BONUS_HP);
+				p.setStat(Stats.KNOCKBACK_RES, p.getStat(Stats.KNOCKBACK_RES) + BONUS_KNOCKBACK_RES);
 			}
 		}.setPriority(PRIORITY_LAST_LAST);
 	}
@@ -42,8 +43,8 @@ public class NutrilogCrunchbarPlus extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusHp * 100)),
-				String.valueOf((int) (bonusKnockbackRes * 100)),
-				String.valueOf((int) (sizeModifier * 100))};
+				String.valueOf((int) (BONUS_HP * 100)),
+				String.valueOf((int) (BONUS_KNOCKBACK_RES * 100)),
+				String.valueOf((int) (SIZE_MODIFIER * 100))};
 	}
 }

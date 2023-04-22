@@ -5,6 +5,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -44,8 +45,7 @@ public class CarlocsThesis extends Artifact {
 					created = true;
 					
 					hbox = new Hitbox(state, p.getSchmuck().getPixelPosition(), size, 0, new Vector2(),
-							p.getSchmuck().getHitboxfilter(), true, false, p.getSchmuck(), Sprite.NOTHING);
-					hbox.setSyncDefault(false);
+							p.getSchmuck().getHitboxFilter(), true, false, p.getSchmuck(), Sprite.NOTHING);
 					hbox.makeUnreflectable();
 					hbox.setPassability(Constants.BIT_PROJECTILE);
 					
@@ -76,6 +76,10 @@ public class CarlocsThesis extends Artifact {
 							hbox.queueDeletion();
 						}
 					});
+
+					if (!state.isServer()) {
+						((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+					}
 				}
 			}
 		};
