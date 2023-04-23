@@ -523,10 +523,11 @@
     <property name="triggeringId" value="egg1"/>
    </properties>
   </object>
-  <object id="77" name="MovePoint" type="MovePoint" x="2624" y="1088" width="32" height="32">
+  <object id="77" name="MovePoint" type="MovePoint" x="2624" y="1088" width="32" height="32" visible="0">
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>
     <property name="speed" type="float" value="2.5"/>
+    <property name="syncConnected" type="bool" value="true"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="egg1"/>
    </properties>

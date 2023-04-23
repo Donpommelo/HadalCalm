@@ -210,7 +210,7 @@ public class BotController {
         float shortestDistanceSquared = -1;
         boolean unobtructedTargetFound = false;
         for (User user : HadalGame.server.getUsers().values()) {
-            if (null != user.getPlayer()) {
+            if (null != user.getPlayer() && null != user.getPlayer().getPlayerData()) {
 
                 //we don't want to target dead, invisible or invincible players
                 if (user.getPlayer().isAlive() && bot.getHitboxFilter() != user.getPlayer().getHitboxFilter() &&

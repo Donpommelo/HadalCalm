@@ -1648,6 +1648,7 @@
    <properties>
     <property name="connections" value="EGGPLANT_SPAWNER"/>
     <property name="speed" type="float" value="2.5"/>
+    <property name="syncConnected" type="bool" value="true"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="egg13"/>
    </properties>

@@ -74,7 +74,6 @@ public class TeslaCoilProjectile extends SyncedAttacker {
                         hbox.setLinearVelocity(0, 0);
                         hbox.getBody().setType(BodyDef.BodyType.StaticBody);
                     }
-
                     SoundEffect.METAL_IMPACT_1.playSourced(state, startPosition, 0.5f);
                 }
 
@@ -109,7 +108,7 @@ public class TeslaCoilProjectile extends SyncedAttacker {
                 }
 
                 //After reaching the location clicked, the coil is marked as planted
-                if (startLocation.dst2(hbox.getPixelPosition()) >= distance * distance) {
+                if (!planted && startLocation.dst2(hbox.getPixelPosition()) >= distance * distance) {
                     firstPlanted = true;
                     controllerCount = PULSE_INTERVAL;
                 }

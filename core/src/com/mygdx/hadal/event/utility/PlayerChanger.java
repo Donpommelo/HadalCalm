@@ -53,7 +53,6 @@ public class PlayerChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
 				PlayerBodyData data = p.getPlayerData();
 				boolean activated = false;
 				
@@ -61,7 +60,7 @@ public class PlayerChanger extends Event {
 					data.fuelGain(fuel);
 					activated = true;
 					
-					SoundEffect.MAGIC2_FUEL.playUniversal(state, p.getPixelPosition(), 0.3f, false);
+					SoundEffect.MAGIC2_FUEL.playSourced(state, p.getPixelPosition(), 0.3f);
 				}
 				
 				if (data.getCurrentHp() < data.getStat(Stats.MAX_HP) && hp > 0) {
@@ -69,7 +68,7 @@ public class PlayerChanger extends Event {
 							DamageTag.MEDPAK);
 					activated = true;
 					
-					SoundEffect.MAGIC21_HEAL.playUniversal(state, p.getPixelPosition(), 0.3f, false);
+					SoundEffect.MAGIC21_HEAL.playSourced(state, p.getPixelPosition(), 0.3f);
 				}
 				
 				if (data.getCurrentTool().getAmmoLeft() < data.getCurrentTool().getAmmoSize() && ammo > 0) {

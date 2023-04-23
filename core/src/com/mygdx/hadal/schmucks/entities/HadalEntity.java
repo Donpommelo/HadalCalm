@@ -294,15 +294,17 @@ public abstract class HadalEntity {
 		while (!bufferedTimestamps.isEmpty()) {
 			if (state.getTimer() >= nextTimeStamp) {
 				Object[] o = bufferedTimestamps.removeIndex(0);
-				
-				//check timestamp in case snapshots are sent out of order
-				if ((float) o[1] > nextTimeStamp) {
-					prevTimeStamp = nextTimeStamp;
-					nextTimeStamp = (float) o[1];
-				}
 
-				//its ok to sync out of order packets, b/c the interpolation won't do anything
-				onClientSync(o[0]);
+				if (null != o) {
+					//check timestamp in case snapshots are sent out of order
+					if ((float) o[1] > nextTimeStamp) {
+						prevTimeStamp = nextTimeStamp;
+						nextTimeStamp = (float) o[1];
+					}
+
+					//its ok to sync out of order packets, b/c the interpolation won't do anything
+					onClientSync(o[0]);
+				}
 			} else {
 				break;
 			}
