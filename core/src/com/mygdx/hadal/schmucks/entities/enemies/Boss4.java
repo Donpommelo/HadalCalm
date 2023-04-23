@@ -92,7 +92,7 @@ public class Boss4 extends EnemyFloating {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 		
 		//this boss continuously damages players that contact it
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
 	}
 
 	private float scalingAccumulator;

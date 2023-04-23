@@ -163,6 +163,12 @@ public enum SyncedAttack {
     PING(new Ping()),
     EMOTE(new Emote()),
 
+    CONTACT_DAMAGE(new ContactDamageContinuous()),
+    CRAWLER_MELEE(new CrawlerMelee()),
+    CRAWLER_RANGED(new CrawlerRanged()),
+    DRONE_LASER(new DroneLaser()),
+    ENEMY_KAMABOKO_SPAWN(new KamabokoSpawn()),
+    ENEMY_KAMABOKO_SPRAY(new KamabokoSpray()),
     SCISSORFISH_ATTACK(new ScissorfishAttack()),
     SPITTLEFISH_ATTACK(new SpittleFishAttack()),
     TORPEDOFISH_ATTACK(new TorpedoFishAttack()),
@@ -251,9 +257,9 @@ public enum SyncedAttack {
 
         //0 connID indicates a server-created attack. If client created, we don't need to send the packet to the creator.
         if (0 == connID) {
-            HadalGame.server.sendToAllUDP(packet);
+            HadalGame.server.sendToAllTCP(packet);
         } else {
-            HadalGame.server.sendToAllExceptUDP(connID, packet);
+            HadalGame.server.sendToAllExceptTCP(connID, packet);
         }
     }
 
@@ -266,21 +272,21 @@ public enum SyncedAttack {
     public void syncAttackSingleClient(Hitbox hbox, float[] extraFields, boolean synced) {
         if (synced) {
             if (0 == extraFields.length) {
-                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientDependent(hbox.getEntityID(),
+                HadalGame.client.sendTCP(new PacketsAttacks.SingleClientDependent(hbox.getEntityID(),
                         hbox.getStartPos(),
                         hbox.getStartVelo(), this));
             } else {
-                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientDependentExtra(hbox.getEntityID(),
+                HadalGame.client.sendTCP(new PacketsAttacks.SingleClientDependentExtra(hbox.getEntityID(),
                         hbox.getStartPos(),
                         hbox.getStartVelo(), extraFields, this));
             }
         } else {
             if (0 == extraFields.length) {
-                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientIndependent(
+                HadalGame.client.sendTCP(new PacketsAttacks.SingleClientIndependent(
                         hbox.getStartPos(),
                         hbox.getStartVelo(), this));
             } else {
-                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientIndependentExtra(
+                HadalGame.client.sendTCP(new PacketsAttacks.SingleClientIndependentExtra(
                         hbox.getStartPos(),
                         hbox.getStartVelo(), extraFields, this));
             }
@@ -364,9 +370,9 @@ public enum SyncedAttack {
         }
 
         if (0 == connID) {
-            HadalGame.server.sendToAllUDP(packet);
+            HadalGame.server.sendToAllTCP(packet);
         } else {
-            HadalGame.server.sendToAllExceptUDP(connID, packet);
+            HadalGame.server.sendToAllExceptTCP(connID, packet);
         }
     }
 
@@ -381,15 +387,15 @@ public enum SyncedAttack {
         }
         if (isSynced) {
             if (0 == extraFields.length) {
-                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientDependent(hboxID, weaponVelocity, positions, velocities, this));
+                HadalGame.client.sendTCP(new PacketsAttacks.MultiClientDependent(hboxID, weaponVelocity, positions, velocities, this));
             } else {
-                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientDependentExtra(hboxID, weaponVelocity, positions, velocities, extraFields, this));
+                HadalGame.client.sendTCP(new PacketsAttacks.MultiClientDependentExtra(hboxID, weaponVelocity, positions, velocities, extraFields, this));
             }
         } else {
             if (0 == extraFields.length) {
-                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientIndependent(weaponVelocity, positions, velocities, this));
+                HadalGame.client.sendTCP(new PacketsAttacks.MultiClientIndependent(weaponVelocity, positions, velocities, this));
             } else {
-                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientIndependentExtra(weaponVelocity, positions, velocities, extraFields, this));
+                HadalGame.client.sendTCP(new PacketsAttacks.MultiClientIndependentExtra(weaponVelocity, positions, velocities, extraFields, this));
             }
         }
     }
@@ -434,9 +440,9 @@ public enum SyncedAttack {
             packet = new PacketsAttacks.SyncedAttackNoHboxExtraServer(user.getEntityID(), startPos, extraFields, this);
         }
         if (0 == connID || !independent) {
-            HadalGame.server.sendToAllUDP(packet);
+            HadalGame.server.sendToAllTCP(packet);
         } else {
-            HadalGame.server.sendToAllExceptUDP(connID, packet);
+            HadalGame.server.sendToAllExceptTCP(connID, packet);
         }
     }
 

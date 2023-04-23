@@ -59,7 +59,14 @@ public class KBKMedium extends EnemySwimming {
 				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);
 			}
 		});
-		
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
+	}
+
+	private boolean attackStarted;
+	@Override
+	public void attackInitiate() {
+		if (!attackStarted) {
+			attackStarted = true;
+			EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
+		}
 	}
 }

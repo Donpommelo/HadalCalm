@@ -40,7 +40,14 @@ public class KBKCrawler extends EnemyCrawling {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
+	}
 
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
+	private boolean attackStarted;
+	@Override
+	public void attackInitiate() {
+		if (!attackStarted) {
+			attackStarted = true;
+			EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
+		}
 	}
 }

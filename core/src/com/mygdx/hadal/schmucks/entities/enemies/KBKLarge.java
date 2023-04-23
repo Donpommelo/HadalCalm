@@ -3,12 +3,12 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.enemy.KamabokoBody;
-import com.mygdx.hadal.constants.Stats;
 
 public class KBKLarge extends EnemySwimming {
 
@@ -44,7 +44,6 @@ public class KBKLarge extends EnemySwimming {
 	private static final int charge1Damage = 15;
 	private static final float attackInterval = 1.0f;
 	private static final int defaultMeleeKB = 35;
-	
 	@Override
 	public void create() {
 		super.create();
@@ -57,7 +56,14 @@ public class KBKLarge extends EnemySwimming {
 				EnemyType.SPLITTER_MEDIUM.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);
 			}
 		});
-		
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
+	}
+
+	private boolean attackStarted;
+	@Override
+	public void attackInitiate() {
+		if (!attackStarted) {
+			attackStarted = true;
+			EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
+		}
 	}
 }

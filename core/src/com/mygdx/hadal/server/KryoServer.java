@@ -132,7 +132,6 @@ public class KryoServer {
 			@Override
 			public void received(final Connection c, Object o) {
 
-
 				if (o instanceof final PacketsSync.SyncClientSnapshot p) {
 					final PlayState ps = getPlayState();
 

@@ -1,24 +1,17 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.enemy.KamabokoBody;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
-import com.mygdx.hadal.constants.Stats;
 
 public class KBKSpawner extends EnemySwimming {
 
@@ -39,7 +32,6 @@ public class KBKSpawner extends EnemySwimming {
 	private static final float noiseRadius = 2.0f;
 
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
-	private static final Sprite projSprite = Sprite.ORB_RED;
 
 	public KBKSpawner(PlayState state, Vector2 startPos, float startAngle, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.SPAWNER, startAngle, filter, baseHp, attackCd, scrapDrop);
@@ -62,8 +54,6 @@ public class KBKSpawner extends EnemySwimming {
 	private static final float maxRange = 10.0f;
 	
 	private static final float projectileSpeed = 25.0f;
-	private static final Vector2 projectileSize = new Vector2(50, 50);
-	private static final float lifespan = 3.0f;
 	private static final float range = 900.0f;
 	@Override
 	public void attackInitiate() {
@@ -87,23 +77,7 @@ public class KBKSpawner extends EnemySwimming {
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
-					SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 1.0f, 0.60f, false);
-					
-					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, projSprite);
-					hbox.setGravity(1.0f);
-					
-					hbox.addStrategy(new HitboxStrategy(state, hbox, enemy.getBodyData()) {
-						
-						@Override
-						public void die() {
-							EnemyType.CRAWLER1.generateEnemy(state, hbox.getPixelPosition(), getHitboxFilter(), 0.0f);
-						}
-					});
-					
-					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
+					SyncedAttack.ENEMY_KAMABOKO_SPAWN.initiateSyncedAttackSingle(state, enemy, enemy.getPixelPosition(), startVelo);
 				}
 			}
 		});

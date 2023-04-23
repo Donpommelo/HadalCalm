@@ -53,10 +53,17 @@ public class Swimmer1 extends EnemySwimming {
 		super.create();
 		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
-		
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd, true);
 	}
-	
+
+	private boolean attackStarted;
+	@Override
+	public void attackInitiate() {
+		if (!attackStarted) {
+			attackStarted = true;
+			EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
+		}
+	}
+
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {

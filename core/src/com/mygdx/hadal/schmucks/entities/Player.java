@@ -435,6 +435,7 @@ public class Player extends Schmuck {
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayer p) {
+
 			mouseHelper.setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);

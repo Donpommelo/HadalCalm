@@ -3,11 +3,12 @@ package com.mygdx.hadal.battle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.enemies.*;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyCrawling.CrawlingState;
@@ -15,11 +16,9 @@ import com.mygdx.hadal.schmucks.entities.enemies.Turret.TurretState;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.constants.Constants;
 
 /**
  * This contains several static helper methods for creating enemy attack patterns
@@ -242,54 +241,17 @@ public class EnemyUtils {
 			}
 		});
 	}
-
-	public static void meleeAttackContinuous(final PlayState state, Enemy boss, final float damage, final float attackInterval, final float knockback, final float duration) {
-		meleeAttackContinuous(state, boss, damage, attackInterval, knockback, duration, false);
-	}
 	
-	public static void meleeAttackContinuous(final PlayState state, Enemy boss, final float damage, final float attackInterval, final float knockback, final float duration, boolean permanent) {
+	public static void meleeAttackContinuous(final PlayState state, Enemy boss, final float damage, final float attackInterval, final float knockback, final float duration) {
 		
 		boss.getActions().add(new EnemyAction(boss, 0) {
 			
 			@Override
 			public void execute() {
-				
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
-				hbox.makeUnreflectable();
-				
-				if (!permanent) {
-					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				}
-				
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), damage, knockback,
-						DamageSource.ENEMY_ATTACK, DamageTag.MELEE).setStaticKnockback(true));
-				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-				hbox.addStrategy((new HitboxStrategy(state, hbox, enemy.getBodyData()) {
-				
-					private float controllerCount;
-					@Override
-					public void controller(float delta) {
-						
-						if (!enemy.isAlive()) {
-							hbox.queueDeletion();
-						}
-						
-						controllerCount += delta;
-						
-						while (controllerCount >= attackInterval) {
-							controllerCount -= attackInterval;
-							
-							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getHboxSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
-							pulse.setSyncDefault(false);
-							pulse.makeUnreflectable();
-							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
-							pulse.addStrategy(new DamageStandard(state, pulse, enemy.getBodyData(), damage, knockback,
-									DamageSource.ENEMY_ATTACK, DamageTag.MELEE).setStaticKnockback(true));
-							pulse.addStrategy(new FixedToEntity(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
-						}
-					}
-				}));
+
+				//we intentionally send hbox size here instead of position, b/c its attached to the user
+				SyncedAttack.CONTACT_DAMAGE.initiateSyncedAttackSingle(state, enemy, enemy.getHboxSize(), new Vector2(),
+						duration, damage, knockback, attackInterval);
 			}
 		});
 	}
@@ -331,23 +293,6 @@ public class EnemyUtils {
 		});
 	}
 
-	public static void projectile(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, Particle particle) {
-		
-		boss.getActions().add(new EnemyAction(boss, duration) {
-			
-			@Override
-			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), false, true, enemy, Sprite.NOTHING);
-				
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
-						DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger));
-			}
-		});
-	}
-	
 	private static final float fireLinger = 1.0f;
 	private static final float laserLinger = 0.01f;
 	public static void fireball(final PlayState state, Enemy boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,

@@ -75,7 +75,7 @@ public class PlayerChanger extends Event {
 					data.getCurrentTool().gainAmmo(ammo);
 					activated = true;
 					
-					SoundEffect.LOCKANDLOAD.playUniversal(state, p.getPixelPosition(), 0.8f, false);
+					SoundEffect.LOCKANDLOAD.playSourced(state, p.getPixelPosition(), 0.8f);
 				}				
 				
 				if (hp < 0) {
