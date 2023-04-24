@@ -29,7 +29,7 @@ public class DroneLaser extends SyncedAttacker {
                                             float[] extraFields) {
         SoundEffect.LASER2.playSourced(state, startPosition, 0.25f);
 
-        Hitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(startVelocity, user.getSize().x), PROJECTILE_SIZE,
+        Hitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(startVelocity, PROJECTILE_SIZE.x), PROJECTILE_SIZE,
                 LIFESPAN, startVelocity, user.getHitboxFilter(), true, true, user, PROJ_SPRITE);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

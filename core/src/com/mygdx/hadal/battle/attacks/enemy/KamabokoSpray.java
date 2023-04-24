@@ -33,7 +33,7 @@ public class KamabokoSpray extends SyncedAttacker {
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
 
-        RangedHitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(startVelocity, user.getSize().x),
+        RangedHitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(startVelocity, PROJECTILE_SIZE.x),
                 PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(), true, true, user, Sprite.NOTHING);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

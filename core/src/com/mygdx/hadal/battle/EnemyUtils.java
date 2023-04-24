@@ -285,6 +285,8 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), soundDuration, new Vector2(), enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
+				hbox.setSynced(true);
+				hbox.setSyncedDelete(true);
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
@@ -295,21 +297,14 @@ public class EnemyUtils {
 
 	private static final float fireLinger = 1.0f;
 	private static final float laserLinger = 0.01f;
-	public static void fireball(final PlayState state, Enemy boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,
-			final float lifespan, final float fireDuration, final float duration, Particle particle) {
+	public static void fireball(final PlayState state, Enemy boss, final float projSpeed, final float duration, final float extraField) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
 				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), false, true, enemy, Sprite.NOTHING);
-				
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitBurn(state, hbox, enemy.getBodyData(), fireDuration, fireDamage, DamageSource.ENEMY_ATTACK));
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
-						DamageSource.ENEMY_ATTACK, DamageTag.RANGED, DamageTag.FIRE));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger));
+				SyncedAttack.BOSS_FIRE_BREATH.initiateSyncedAttackSingle(state, enemy, enemy.getPixelPosition(), startVelo, extraField);
 			}
 		});
 	}
@@ -349,8 +344,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	private static final Sprite[] debrisSprites = {Sprite.METEOR_A, Sprite.METEOR_B, Sprite.METEOR_C, Sprite.METEOR_D, Sprite.METEOR_E, Sprite.METEOR_F};
-	public static void fallingDebris(final PlayState state, Enemy boss, final float baseDamage, final int size, final float knockback, final float lifespan, final float duration) {
+	public static void fallingDebris(final PlayState state, Enemy boss, final float duration) {
 		
 		boss.getSecondaryActions().add(new EnemyAction(boss, duration) {
 			
@@ -358,19 +352,9 @@ public class EnemyUtils {
 			public void execute() {
 				Event ceiling = state.getDummyPoint("ceiling");
 				if (null != ceiling) {
-					Sprite projSprite = debrisSprites[MathUtils.random(debrisSprites.length - 1)];
-					Hitbox hbox = new Hitbox(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
-							new Vector2(size, size), lifespan, new Vector2(), enemy.getHitboxFilter(), true, true, enemy, projSprite);
-					hbox.setDurability(2);
-					hbox.setGravity(1.0f);
-					
-					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
-							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-					hbox.addStrategy(new ContactWallLoseDurability(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new ContactWallParticles(state, hbox, enemy.getBodyData(), Particle.SPARKS));
-					hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-					hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.WALL_HIT1, 0.4f));
+					SyncedAttack.BOSS_FALLING_DEBRIS.initiateSyncedAttackSingle(state, enemy,
+							new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
+							new Vector2());
 				}
 			}
 		});

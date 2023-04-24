@@ -173,7 +173,20 @@ public enum SyncedAttack {
     SPITTLEFISH_ATTACK(new SpittleFishAttack()),
     TORPEDOFISH_ATTACK(new TorpedoFishAttack()),
     TURRET_FLAK_ATTACK(new TurretFlakAttack()),
-    TURRET_VOLLEY_ATTACK(new TurretVolleyAttack())
+    TURRET_VOLLEY_ATTACK(new TurretVolleyAttack()),
+
+    BOSS_BOUNCY_BALL(new BossBouncyBall()),
+    BOSS_FALLING_DEBRIS(new BossFallingDebris()),
+    BOSS_FIRE_BREATH(new BossFireBreath()),
+    BOSS_POISON_CLOUD(new BossPoisonCloud()),
+    BOSS_ROTATING_BEAM(new BossRotatingBeam()),
+    BOSS_SWEEPING_BEAM(new BossSweepingBeam()),
+    BOSS_SWEEPING_EXPLOSION(new BossSweepingExplosion()),
+    BOSS_TRACKING_BEAM(new BossTrackingBeam()),
+    KING_KAMABOKO_POISON(new KingKamabokoPoison()),
+    KING_KAMABOKO_SHOT(new KingKamabokoShot()),
+    KING_KAMABOKO_SLODGE(new KingKamabokoSlodge())
+
 
     ;
 

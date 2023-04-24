@@ -29,7 +29,7 @@ public class KamabokoSpawn extends SyncedAttacker {
                                             float[] extraFields) {
         SoundEffect.SPIT.playSourced(state, startPosition, 1.0f, 0.60f);
 
-        Hitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(startVelocity, user.getSize().x),
+        Hitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(startVelocity, PROJECTILE_SIZE.x),
                 PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(), true, true, user, PROJ_SPRITE);
         hbox.setGravity(1.0f);
 

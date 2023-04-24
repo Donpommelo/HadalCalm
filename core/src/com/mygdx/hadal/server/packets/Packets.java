@@ -1174,7 +1174,7 @@ public class Packets {
 		kryo.register(PacketsAttacks.SingleClientIndependentExtra.class);
 		kryo.register(PacketsAttacks.SingleClientDependentExtra.class);
 		kryo.register(PacketsAttacks.SingleServerIndependentExtra.class);
-		kryo.register(PacketsAttacks.SingleClientDependentExtra.class);
+		kryo.register(PacketsAttacks.SingleServerDependentExtra.class);
 
 		kryo.register(PacketsAttacks.MultiClientIndependent.class);
 		kryo.register(PacketsAttacks.MultiClientDependent.class);
