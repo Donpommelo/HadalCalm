@@ -183,6 +183,19 @@ public enum SyncedAttack {
     BOSS_SWEEPING_BEAM(new BossSweepingBeam()),
     BOSS_SWEEPING_EXPLOSION(new BossSweepingExplosion()),
     BOSS_TRACKING_BEAM(new BossTrackingBeam()),
+
+    FALSE_SUN_APOCALYPSE(new FalseSunApocalypse()),
+    FALSE_SUN_BELL(new FalseSunBell()),
+    FALSE_SUN_BULLETS(new FalseSunBullets()),
+    FALSE_SUN_FIRE_SPIN(new FalseSunFireSpin()),
+    FALSE_SUN_LASER_TRAIL(new FalseSunLaserTrail()),
+    FALSE_SUN_LASER(new FalseSunLaser()),
+    FALSE_SUN_RADIAL(new FalseSunRadial()),
+    FALSE_SUN_RETICLE(new FalseSunReticle()),
+    FALSE_SUN_SIGH(new FalseSunSigh()),
+    FALSE_SUN_STAR_ORBIT(new FalseSunStarOrbit()),
+    FALSE_SUN_WILL_O_WISP(new FalseSunWillOWisp()),
+
     KING_KAMABOKO_POISON(new KingKamabokoPoison()),
     KING_KAMABOKO_SHOT(new KingKamabokoShot()),
     KING_KAMABOKO_SLODGE(new KingKamabokoSlodge())

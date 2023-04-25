@@ -14,7 +14,6 @@ import com.mygdx.hadal.schmucks.entities.enemies.*;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyCrawling.CrawlingState;
 import com.mygdx.hadal.schmucks.entities.enemies.Turret.TurretState;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
@@ -305,24 +304,6 @@ public class EnemyUtils {
 			public void execute() {
 				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
 				SyncedAttack.BOSS_FIRE_BREATH.initiateSyncedAttackSingle(state, enemy, enemy.getPixelPosition(), startVelo, extraField);
-			}
-		});
-	}
-	
-	public static void fireLaser(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final Particle particle) {
-		
-		boss.getActions().add(new EnemyAction(boss, duration) {
-			
-			@Override
-			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, Sprite.NOTHING);
-				
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
-						DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, laserLinger));
 			}
 		});
 	}

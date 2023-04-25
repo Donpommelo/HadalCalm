@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -59,22 +58,6 @@ public class WeaponUtils {
 		if (!state.isServer()) {
 			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
 		}
-	}
-
-	public static void createExplodingReticle(PlayState state, Vector2 startPos, Schmuck user, float reticleSize,
-											  float reticleLifespan, float explosionDamage, float explosionKnockback,
-											  int explosionRadius, DamageSource source) {
-		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(reticleSize, reticleSize), reticleLifespan,
-			new Vector2(), user.getHitboxFilter(), true, false, user, Sprite.CROSSHAIR);
-		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
-				.setParticleSize(40.0f).setParticleColor(HadalColor.HOT_PINK).setSyncType(SyncType.NOSYNC));
-		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback,
-				user.getHitboxFilter(), true, source));
-		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
-		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 	}
 
 	public static void createMeteors(PlayState state, Schmuck user, Vector2 startPosition, int meteorNumber,
