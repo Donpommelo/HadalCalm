@@ -125,15 +125,8 @@ public class Boss4 extends EnemyFloating {
 	}
 	
 	private int attackNum;
-	private boolean attackStarted;
 	@Override
 	public void attackInitiate() {
-
-		//this boss continuously damages players that contact it
-		if (!attackStarted) {
-			attackStarted = true;
-			EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
-		}
 
 		attackNum++;
 		if (phase == 1) {
@@ -159,6 +152,8 @@ public class Boss4 extends EnemyFloating {
 	private final IntArray attacks1 = new IntArray();
 	private final IntArray attacks2 = new IntArray();
 	private void phase1Attack() {
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, aiAttackCd);
+
 		if (attacks1.isEmpty()) {
 			for (int i = 0; i < phase1NumAttacks; i++) {
 				attacks1.add(i);
@@ -189,6 +184,8 @@ public class Boss4 extends EnemyFloating {
 	
 	
 	private void phase2Attack() {
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, aiAttackCd2);
+
 		if (attacks1.isEmpty()) {
 			for (int i = 0; i < phase2NumAttacks; i++) {
 				attacks1.add(i);

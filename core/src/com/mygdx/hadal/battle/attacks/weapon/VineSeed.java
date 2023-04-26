@@ -1,12 +1,8 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.battle.*;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -30,9 +26,6 @@ public class VineSeed extends SyncedAttacker {
     private static final float VINE_SPEED = 27.0f;
     private static final int MIN_VINE_NUM = 4;
     private static final int MAX_VINE_NUM = 7;
-
-    private static final int VINE_BEND_SPREAD_MIN = 15;
-    private static final int VINE_BEND_SPREAD_MAX = 30;
 
     private static final Sprite PROJ_SPRITE = Sprite.SEED;
 
@@ -63,18 +56,9 @@ public class VineSeed extends SyncedAttacker {
 
             @Override
             public void die() {
-                if (state.isServer()) {
-                    Vector2 finalVelo = new Vector2(hbox.getLinearVelocity()).nor().scl(VINE_SPEED);
-                    float[] extraFields = new float[8 + finalVineNum * 3];
-                    extraFields[0] = finalVineNum;
-                    extraFields[1] = 1;
-                    extraFields[2] = 0;
-                    for (int i = 2; i < 7 + finalVineNum * 3; i++) {
-                        extraFields[i] = MathUtils.random(VINE_BEND_SPREAD_MIN, VINE_BEND_SPREAD_MAX);
-                    }
-
-                    SyncedAttack.VINE.initiateSyncedAttackSingle(state, user, hbox.getPixelPosition(), finalVelo, extraFields);
-                }
+                if (!state.isServer()) { return;}
+                Vector2 finalVelo = new Vector2(hbox.getLinearVelocity()).nor().scl(VINE_SPEED);
+                WeaponUtils.createVine(state, user, hbox.getPixelPosition(), finalVelo, finalVineNum, 1, SyncedAttack.VINE);
             }
 
             @Override

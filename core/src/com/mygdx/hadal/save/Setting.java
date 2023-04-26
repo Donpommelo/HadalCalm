@@ -68,17 +68,19 @@ public class Setting {
 	/**
 	 * This sets display settings, changing screen size/vsync/framerate
 	 */
-	public void setDisplay(HadalGame game, PlayState state) {
+	public void setDisplay(HadalGame game, PlayState state, boolean screenChanged) {
 		Monitor currMonitor = Gdx.graphics.getMonitor();
     	DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
 
-    	//set fullscreen + vsync. No vsync is used if not in fullscreen
-    	if (fullscreen) {
-    		Gdx.graphics.setFullscreenMode(displayMode);
-			Gdx.graphics.setVSync(vsync);
-		} else {
-    		indexToResolution();
-			Gdx.graphics.setVSync(false);
+		if (screenChanged) {
+			//set fullscreen + vsync. No vsync is used if not in fullscreen
+			if (fullscreen) {
+				Gdx.graphics.setFullscreenMode(displayMode);
+				Gdx.graphics.setVSync(vsync);
+			} else {
+				indexToResolution();
+				Gdx.graphics.setVSync(false);
+			}
 		}
 
 		Gdx.graphics.setForegroundFPS(indexToFramerate());
@@ -89,8 +91,8 @@ public class Setting {
     		state.toggleVisibleHitboxes(debugHitbox);
     	}
 
-    	//resizing here (possibly) deals with some fullscreen camera issues on certain devices?
-    	game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//resizing here (possibly) deals with some fullscreen camera issues on certain devices?
+		game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	/**

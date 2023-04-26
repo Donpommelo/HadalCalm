@@ -317,7 +317,6 @@ public class SettingState extends GameState {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				saveSettings();
-				gsm.getSetting().setDisplay(gsm.getApp(), playState);
 			}
 		};
 
@@ -693,6 +692,10 @@ public class SettingState extends GameState {
 		switch (currentTab) {
 			case CONTROLS -> PlayerAction.saveKeys();
 			case DISPLAY -> {
+				boolean screenChanged = (gsm.getSetting().getResolution() != resolutionOptions.getSelectedIndex()
+						|| gsm.getSetting().isFullscreen() != fullscreen.isChecked()
+						|| gsm.getSetting().isVSync() != vsync.isChecked());
+
 				gsm.getSetting().setResolution(resolutionOptions.getSelectedIndex());
 				gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
 				gsm.getSetting().setFullscreen(fullscreen.isChecked());
@@ -703,7 +706,7 @@ public class SettingState extends GameState {
 				gsm.getSetting().setDisplayHp(displayHp.isChecked());
 				gsm.getSetting().setMouseCameraTrack(mouseCameraTrack.isChecked());
 				gsm.getSetting().setScreenShake(screenShake.isChecked());
-				gsm.getSetting().setDisplay(gsm.getApp(), playState);
+				gsm.getSetting().setDisplay(gsm.getApp(), playState, screenChanged);
 				gsm.getSetting().saveSetting();
 			}
 			case AUDIO -> {
@@ -742,7 +745,7 @@ public class SettingState extends GameState {
 	private void resetSettings() {
 		PlayerAction.resetKeys();
 		gsm.getSetting().resetDisplay();
-		gsm.getSetting().setDisplay(gsm.getApp(), playState);
+		gsm.getSetting().setDisplay(gsm.getApp(), playState, true);
 		gsm.getSetting().resetAudio();
 		gsm.getSetting().setAudio();
 		gsm.getSetting().resetServer();

@@ -4,24 +4,20 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.*;
-
-import static com.mygdx.hadal.constants.Constants.PPM;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.ExplosionDefault;
+import com.mygdx.hadal.strategies.hitbox.Static;
 
 /**
  * This util contains several shortcuts for hitbox-spawning effects for weapons or other items.
@@ -74,111 +70,17 @@ public class WeaponUtils {
 		SyncedAttack.METEOR_STRIKE.initiateSyncedAttackSingle(state, user, startPosition, new Vector2(), extraFields);
 	}
 
-	private static final Sprite[] VINE_SPRITES = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};
 	public static void createVine(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelo,
-								  int vineNum, float lifespan, float vineDamage, float vineKB, int spreadMin,
-								  int spreadMax, int bendLength, int bendSpread,  Vector2 vineInvisSize,
-								  Vector2 vineSize, Vector2 vineSpriteSize, int splitNum) {
-		SoundEffect.ATTACK1.playUniversal(state, user.getPixelPosition(), 0.4f, 0.5f, false);
+								  int vineNum, int splitNum, SyncedAttack syncedAttack) {
 
-		//create an invisible hitbox that makes the vines as it moves
-		RangedHitbox hbox = new RangedHitbox(state, startPosition, vineInvisSize, lifespan, startVelo, user.getHitboxFilter(),
-			false, false, user, Sprite.NOTHING);
-		hbox.setSyncDefault(false);
-		hbox.makeUnreflectable();
-		hbox.setRestitution(1.0f);
+		float[] extraFields = new float[3 + vineNum];
+		extraFields[0] = vineNum;
+		extraFields[1] = splitNum;
+		for (int i = 0; i < vineNum; i++) {
+			extraFields[i + 2] = MathUtils.random();
+		}
 
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-
-			private final Vector2 lastPosition = new Vector2();
-			private final Vector2 lastPositionTemp = new Vector2();
-			private final Vector2 entityLocation = new Vector2();
-			private int vineCount, vineCountTotal, nextBend;
-			private boolean bendRight;
-			private float displacement;
-			private final Vector2 angle = new Vector2();
-			@Override
-			public void controller(float delta) {
-				entityLocation.set(hbox.getPixelPosition());
-
-				displacement += lastPosition.dst(entityLocation);
-				lastPositionTemp.set(lastPosition);
-				lastPosition.set(entityLocation);
-
-				//after moving distance equal to a vine, the hbox spawns a vine with random sprite
-				if (vineSize.x < displacement) {
-					if (lastPositionTemp.isZero()) {
-						lastPosition.set(entityLocation);
-					} else {
-						lastPosition.add(new Vector2(lastPosition).sub(lastPositionTemp).nor().scl((displacement - vineSize.x) / PPM));
-					}
-					displacement = 0.0f;
-
-					int randomIndex = MathUtils.random(VINE_SPRITES.length - 1);
-					Sprite projSprite = VINE_SPRITES[randomIndex];
-
-					RangedHitbox vine = new RangedHitbox(state, lastPosition, vineSize, lifespan, new Vector2(),
-						user.getHitboxFilter(), true, true, creator.getSchmuck(),
-						vineCountTotal == vineNum && splitNum == 0 ? Sprite.VINE_B : projSprite) {
-
-						private final Vector2 newPosition = new Vector2();
-						@Override
-						public void create() {
-							super.create();
-
-							//vines match hbox velocity but are drawn at an offset so they link together better
-							float newAngle = MathUtils.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x);
-							newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
-							setTransform(newPosition.x, newPosition.y, newAngle);
-						}
-					};
-					vine.setSpriteSize(vineSpriteSize);
-					vine.setEffectsMovement(false);
-
-					vine.addStrategy(new ControllerDefault(state, vine, user.getBodyData()));
-					vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true));
-					vine.addStrategy(new DamageStandard(state, vine, user.getBodyData(), vineDamage, vineKB,
-							DamageSource.ENEMY_ATTACK , DamageTag.RANGED).setStaticKnockback(true));
-					vine.addStrategy(new CreateParticles(state, vine, user.getBodyData(), Particle.DANGER_RED, 0.0f, 1.0f).setParticleSize(90.0f));
-					vine.addStrategy(new DieParticles(state, vine, user.getBodyData(), Particle.PLANT_FRAG));
-					vine.addStrategy(new Static(state, vine, user.getBodyData()));
-
-					vineCount++;
-					vineCountTotal++;
-					if (vineCount >= nextBend) {
-
-						//hbox's velocity changes randomly to make vine wobble
-						hbox.setLinearVelocity(hbox.getLinearVelocity().rotateDeg((bendRight ? -1 : 1) * MathUtils.random(spreadMin, spreadMax)));
-						bendRight = !bendRight;
-						vineCount = 0;
-						nextBend = bendLength + (MathUtils.random(-bendSpread, bendSpread + 1));
-					}
-					if (vineCountTotal > vineNum) {
-						hbox.die();
-					}
-				}
-			}
-
-			@Override
-			public void die() {
-
-				if (0 < splitNum) {
-					//when vine dies, it creates 2 vines that branch in separate directions
-					float newDegrees = hbox.getLinearVelocity().angleDeg() + (MathUtils.random(spreadMin, spreadMax));
-					angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
-					WeaponUtils.createVine(state, user, hbox.getPixelPosition(), angle, vineNum, lifespan,
-						vineDamage, vineKB, spreadMin, spreadMax, 2, 1,
-						vineInvisSize, vineSize, vineSpriteSize, splitNum - 1);
-
-					newDegrees = hbox.getLinearVelocity().angleDeg() - (MathUtils.random(spreadMin, spreadMax));
-					angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
-					WeaponUtils.createVine(state, user, hbox.getPixelPosition(), angle, vineNum, lifespan,
-						vineDamage, vineKB, spreadMin, spreadMax, 2, 1,
-						vineInvisSize, vineSize, vineSpriteSize, splitNum - 1);
-				}
-			}
-		});
+		syncedAttack.initiateSyncedAttackSingle(state, user, startPosition, startVelo, extraFields);
 	}
 
 	/**

@@ -86,7 +86,7 @@ public enum SyncedAttack {
     UNDERMINER_DRILL(new UnderminerDrill()),
     VAJRA(new VajraProjectile()),
     VINE_SEED(new VineSeed()),
-    VINE(new Vine()),
+    VINE(new Vine(DamageSource.VINE_SOWER)),
     WAVE_BEAM(new WaveBeamProjectile()),
     X_BOMB(new XBomb()),
 
@@ -195,6 +195,15 @@ public enum SyncedAttack {
     FALSE_SUN_SIGH(new FalseSunSigh()),
     FALSE_SUN_STAR_ORBIT(new FalseSunStarOrbit()),
     FALSE_SUN_WILL_O_WISP(new FalseSunWillOWisp()),
+
+    NEPTUNE_ORBITAL(new NeptuneOrbital()),
+    NEPTUNE_POISON(new NeptunePoison()),
+    NEPTUNE_RADIAL(new NeptuneRadial()),
+    NEPTUNE_SCYTHE(new NeptuneScythe()),
+    NEPTUNE_SEED(new NeptuneSeed()),
+    NEPTUNE_SHADOW(new NeptuneShadow()),
+    NEPTUNE_SPOREBURST(new NeptuneSporeburst()),
+    NEPTUNE_VINE(new Vine(DamageSource.ENEMY_ATTACK)),
 
     KING_KAMABOKO_POISON(new KingKamabokoPoison()),
     KING_KAMABOKO_SHOT(new KingKamabokoShot()),
