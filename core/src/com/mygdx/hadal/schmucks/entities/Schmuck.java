@@ -34,7 +34,7 @@ public class Schmuck extends HadalEntity {
     protected float baseHp;
     
 	//This particle is triggered upon receiving damage
-	public ParticleEntity impact;
+	public final ParticleEntity impact;
 
 	//This is the filter of this unit and hitboxes it spawns
 	protected short hitboxFilter;

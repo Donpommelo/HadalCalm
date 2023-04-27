@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -98,13 +97,12 @@ public class ClientState extends PlayState {
 			if (gsm.getStates().peek() instanceof PlayState) {
 
 				//Whenever the controller is reset, the client gets a new client controller.
-				controller = new ClientController(player, this);
+				controller = new PlayerController(player);
 				
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
 				inputMultiplexer.addProcessor(stage);
 				inputMultiplexer.addProcessor(controller);
 				inputMultiplexer.addProcessor(new CommonController(this));
-				inputMultiplexer.addProcessor(new PlayerController(player));
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
 		}

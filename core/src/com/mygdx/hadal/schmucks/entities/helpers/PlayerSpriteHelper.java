@@ -321,15 +321,9 @@ public class PlayerSpriteHelper {
      */
     public void despawn(DespawnType type, Vector2 playerLocation, Vector2 playerVelocity) {
         switch (type) {
-            case GIB:
-                createGibs(playerLocation, playerVelocity);
-                break;
-            case VAPORIZE:
-                createVaporization(playerLocation, playerVelocity);
-                break;
-            case TELEPORT:
-                createWarpAnimation();
-                break;
+            case GIB -> createGibs(playerLocation, playerVelocity);
+            case VAPORIZE -> createVaporization(playerLocation, playerVelocity);
+            case TELEPORT -> createWarpAnimation();
         }
     }
 

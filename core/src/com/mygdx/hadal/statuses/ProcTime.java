@@ -109,9 +109,9 @@ public abstract class ProcTime {
 	}
 
 	public static class Render extends ProcTime {
-		public SpriteBatch batch;
-		public Vector2 playerLocation;
-		public Vector2 playerSize;
+		public final SpriteBatch batch;
+		public final Vector2 playerLocation;
+		public final Vector2 playerSize;
 
 		public Render(SpriteBatch batch, Vector2 playerLocation, Vector2 playerSize) {
 			this.batch = batch;

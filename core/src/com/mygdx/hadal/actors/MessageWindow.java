@@ -17,7 +17,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
@@ -25,8 +24,8 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TextFilterUtil;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_MESSAGE_LENGTH;
@@ -151,11 +150,7 @@ public class MessageWindow {
 
 			//sync controller to avoid sticky keys (set all keys to current held position)
 			if (null != state.getController()) {
-				if (state.isServer()) {
-					((PlayerController) state.getController()).syncController();
-				} else {
-					((ClientController) state.getController()).syncController();
-				}
+				((PlayerController) state.getController()).syncController();
 			}
 			fadeOut();
 		} else {
@@ -168,11 +163,7 @@ public class MessageWindow {
 
 			//reset controller to avoid sticky keys (releases all held keys)
 			if (null != state.getController()) {
-				if (state.isServer()) {
-					((PlayerController) state.getController()).resetController();
-				} else {
-					((ClientController) state.getController()).resetController();
-				}
+				((PlayerController) state.getController()).resetController();
 			}
 			fadeIn();
 		}

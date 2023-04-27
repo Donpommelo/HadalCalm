@@ -207,7 +207,14 @@ public enum SyncedAttack {
 
     KING_KAMABOKO_POISON(new KingKamabokoPoison()),
     KING_KAMABOKO_SHOT(new KingKamabokoShot()),
-    KING_KAMABOKO_SLODGE(new KingKamabokoSlodge())
+    KING_KAMABOKO_SLODGE(new KingKamabokoSlodge()),
+
+    SERAPH_BOMB(new SeraphBomb()),
+    SERAPH_CHARGE(new SeraphCharge()),
+    SERAPH_CROSS(new SeraphCross()),
+    SERAPH_LOTUS(new SeraphLotus()),
+    SERAPH_SPIRAL(new SeraphSpiral()),
+    SERAPH_TRAIL(new SeraphTrail())
 
 
     ;

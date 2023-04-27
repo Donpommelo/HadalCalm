@@ -3,27 +3,16 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntArray;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.effects.HadalColor;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
-import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.constants.Stats;
-
-import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * This is a boss in the game
@@ -200,7 +189,8 @@ public class Boss6 extends EnemyFloating {
 			@Override
 			public void execute() {
 				if (chaseNum % bombInterval == 0) {
-					crossBomb();
+					SyncedAttack.SERAPH_BOMB.initiateSyncedAttackSingle(state, enemy,
+							state.getDummyPoint(zones[currentX][currentY]).getPixelPosition(), new Vector2());
 				}
 				if (chaseNum - 1 <= 0) {
 					EnemyUtils.changeFloatingState((EnemyFloating) enemy, FloatingState.TRACKING_PLAYER, 0, 0.0f);
@@ -214,9 +204,7 @@ public class Boss6 extends EnemyFloating {
 
 	private static final float charge1Windup = 1.0f;
 	private static final int charge1Speed = 120;
-	private static final float chargeDamage = 35.0f;
 	private static final float chargeDuration = 0.09f;
-	private static final int chargeKnockback = 25;
 
 	private void charge(int chargeNum, boolean horizontal) {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, charge1Windup);
@@ -244,20 +232,10 @@ public class Boss6 extends EnemyFloating {
 
 				@Override
 				public void execute() {
-					Hitbox hbox = new Hitbox(state, getPixelPosition(), getHboxSize(),
-						chargeDuration * finalSquaresTraveled, new Vector2(), getHitboxFilter(),
-						true, false, enemy, Sprite.NOTHING);
-					hbox.makeUnreflectable();
-
-					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), chargeDamage, chargeKnockback,
-							DamageSource.ENEMY_ATTACK, DamageTag.MELEE)
-						.setStaticKnockback(true).setRepeatable(true));
-					hbox.addStrategy(new FixedToEntity(state, hbox, getBodyData(), new Vector2(), new Vector2()).setRotate(true));
-					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+					SyncedAttack.SERAPH_CHARGE.initiateSyncedAttackSingle(state, enemy, new Vector2(), new Vector2(),
+							finalSquaresTraveled * chargeDuration, enemy.getHboxSize().x, enemy.getHboxSize().y);
 
 					Event dummy = state.getDummyPoint(nextMove);
-
 					if (dummy != null) {
 						enemy.setMovementTarget(dummy, charge1Speed);
 					}
@@ -266,63 +244,6 @@ public class Boss6 extends EnemyFloating {
 		}
 	}
 
-	private static final Vector2 bombSize = new Vector2(120, 120);
-	private static final Vector2 waveSize = new Vector2(20, 20);
-	private static final float bombLifespan = 6.0f;
-	private static final float waveSpeed = 50.0f;
-	private static final float bombDamage = 22.0f;
-	private static final float bombKB = 15.0f;
-	private void crossBomb() {
-
-		Hitbox bomb = new RangedHitbox(state, new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition()),
-			bombSize, bombLifespan, new Vector2(), getHitboxFilter(),true, false, this, Sprite.NAVAL_MINE);
-		bomb.makeUnreflectable();
-
-		bomb.addStrategy(new ControllerDefault(state, bomb, getBodyData()));
-		bomb.addStrategy(new CreateParticles(state, bomb, getBodyData(), Particle.RING, 0.0f, particleLinger));
-		bomb.addStrategy(new FlashShaderNearDeath(state, bomb, getBodyData(), 1.0f));
-		bomb.addStrategy(new HitboxStrategy(state, bomb, getBodyData()) {
-
-			@Override
-			public void die() {
-				SoundEffect.EXPLOSION9.playUniversal(state, hbox.getPixelPosition(), 0.5f, 0.5f, false);
-
-				WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance, creator.getSchmuck(),
-						bombDamage, bombKB, creator.getSchmuck().getHitboxFilter(), true, DamageSource.ENEMY_ATTACK);
-				explode(0);
-				explode(90);
-				explode(180);
-				explode(270);
-			}
-
-			private void explode(float startAngle) {
-				Hitbox wave = new RangedHitbox(state, new Vector2(bomb.getPixelPosition()).add(new Vector2(0, gridDistance).setAngleDeg(startAngle)),
-					waveSize, trailLifespan, new Vector2(0, waveSpeed).setAngleDeg(startAngle),
-					getHitboxFilter(),true, false, creator.getSchmuck(), Sprite.NOTHING);
-				wave.makeUnreflectable();
-
-				wave.addStrategy(new ControllerDefault(state, wave, getBodyData()));
-				wave.addStrategy(new ContactWallDie(state, wave, getBodyData()));
-				wave.addStrategy(new TravelDistanceDie(state, wave, getBodyData(), 3 * gridDistance / PPM / 2));
-				wave.addStrategy(new HitboxStrategy(state, wave, getBodyData()) {
-
-					private final Vector2 lastPosition = new Vector2();
-					private final Vector2 entityLocation = new Vector2();
-
-					@Override
-					public void controller(float delta) {
-						entityLocation.set(hbox.getPixelPosition());
-						if (lastPosition.dst2(entityLocation) > gridDistance * gridDistance) {
-							lastPosition.set(entityLocation);
-							WeaponUtils.createExplosion(state, hbox.getPixelPosition(), gridDistance,
-								creator.getSchmuck(), bombDamage, bombKB, creator.getSchmuck().getHitboxFilter(),
-									true, DamageSource.ENEMY_ATTACK);
-						}
-					}
-				});
-			}
-		});
-	}
 	private static final float beamWindup = 0.75f;
 	private static final int beamNum = 10;
 	private static final float beamInterval = 0.1f;
@@ -345,36 +266,12 @@ public class Boss6 extends EnemyFloating {
 
 				@Override
 				public void execute() {
-
-					if (finalI == 0) {
-						SoundEffect.ROLLING_ROCKET.playUniversal(state, getPixelPosition(), 0.5f, 2.5f, false);
-					}
-
-					singleBeam(0);
-					singleBeam(90);
-					singleBeam(180);
-					singleBeam(270);
+					SyncedAttack.SERAPH_CROSS.initiateSyncedAttackMulti(state, enemy, new Vector2(),
+							new Vector2[] {new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition())},
+							new Vector2[] {}, finalI);
 				}
 			});
 		}
-	}
-
-	private static final Vector2 laserSize = new Vector2(165, 165);
-	private static final float laserSpeed = 60.0f;
-	private static final float laserDamage = 9.0f;
-	private static final float laserKB = 12.0f;
-
-	private void singleBeam(float startAngle) {
-		Hitbox laser = new RangedHitbox(state, new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition()), laserSize, trailLifespan,
-			new Vector2(0, laserSpeed).setAngleDeg(startAngle), getHitboxFilter(), true, false, this, Sprite.DIATOM_B);
-
-		laser.addStrategy(new ControllerDefault(state, laser, getBodyData()));
-		laser.addStrategy(new AdjustAngle(state, laser, getBodyData()));
-		laser.addStrategy(new ContactWallDie(state, laser, getBodyData()));
-		laser.addStrategy(new DieParticles(state, laser, getBodyData(), Particle.LASER_IMPACT).setParticleColor(HadalColor.BLUE));
-		laser.addStrategy(new DamageStandard(state, laser, getBodyData(), laserDamage, laserKB,	DamageSource.ENEMY_ATTACK,
-				DamageTag.RANGED, DamageTag.ENERGY));
-		laser.addStrategy(new ContactUnitSound(state, laser, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 	}
 
 	private static final float spiralWindup = 1.5f;
@@ -392,88 +289,16 @@ public class Boss6 extends EnemyFloating {
 
 			@Override
 			public void execute() {
-				SoundEffect.MAGIC3_BURST.playUniversal(state, getPixelPosition(), 1.1f, 0.75f, false);
-
-				spiralSingle(0, direction ? 1 : -1);
-				spiralSingle(180, direction ? 1 : -1);
-
-				if (bonusWave) {
-					spiralSingle(90, direction ? 1 : -1);
-					spiralSingle(270, direction ? 1 : -1);
-				}
+				SyncedAttack.SERAPH_SPIRAL.initiateSyncedAttackMulti(state, enemy, new Vector2(),
+						new Vector2[] {new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition())},
+						new Vector2[] {}, bonusWave ? 0.0f : 1.0f, direction ? 1.0f : -1.0f);
 			}
 		});
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, spiralCooldown);
 	}
 
-	private static final Vector2 spiralSize = new Vector2(165, 165);
-	private static final float spiralLifespan = 12.0f;
-	private static final float spiralSpeed = 20.0f;
-	private static final float spiralDamage = 6.0f;
-	private static final float spiralKB = 10.0f;
-	private void spiralSingle(float angle, int clockwise) {
-
-		Hitbox spiral = new RangedHitbox(state, new Vector2(state.getDummyPoint(zones[currentX][currentY]).getPixelPosition()), spiralSize, spiralLifespan,
-			new Vector2(0, spiralSpeed).setAngleDeg(angle), getHitboxFilter(),true, false, this, Sprite.DIATOM_D);
-		spiral.makeUnreflectable();
-
-		spiral.addStrategy(new ControllerDefault(state, spiral, getBodyData()));
-		spiral.addStrategy(new HitboxStrategy(state, spiral, getBodyData()) {
-
-			private final Vector2 startLocation = new Vector2();
-			private float distance = gridDistance * 2;
-			private float pulseCount;
-			private boolean firstLoop;
-			private static final float pulseInterval = 0.06f;
-			@Override
-			public void create() { this.startLocation.set(hbox.getPixelPosition()); }
-
-			@Override
-			public void controller(float delta) {
-				if (startLocation.dst2(hbox.getPixelPosition()) >= distance * distance) {
-
-					if (distance >= gridDistance * 8) {
-						hbox.die();
-					} else {
-
-						if (firstLoop) {
-							distance += (gridDistance * 2);
-						}
-						firstLoop = !firstLoop;
-						startLocation.set(hbox.getPixelPosition());
-						hbox.setLinearVelocity(hbox.getLinearVelocity().rotate90(clockwise));
-					}
-				}
-				pulseCount += delta;
-				while (pulseCount >= pulseInterval) {
-					pulseCount -= pulseInterval;
-
-					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hbox.getSize(), pulseInterval,
-						new Vector2(0, 0), getHitboxFilter(), true, false, creator.getSchmuck(), Sprite.NOTHING);
-					pulse.setSyncDefault(false);
-					pulse.makeUnreflectable();
-
-					pulse.addStrategy(new ControllerDefault(state, pulse, getBodyData()));
-					pulse.addStrategy(new DamageStandard(state, pulse, getBodyData(), spiralDamage, spiralKB,
-							DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true));
-					pulse.addStrategy(new FixedToEntity(state, pulse, getBodyData(), spiral, new Vector2(), new Vector2()).setRotate(true));
-					pulse.addStrategy(new ContactUnitSound(state, pulse, getBodyData(), SoundEffect.ZAP, 0.6f, true));
-				}
-			}
-		});
-	}
-
 	private static final float pillarWindup = 1.0f;
 	private static final float pillarCooldown = 2.5f;
-	private static final float spawnerLifespan = 4.0f;
-	private static final Vector2 spawnerSize = new Vector2(150, 150);
-	private static final Vector2 pillarSize = new Vector2(40, 40);
-	private static final float spawnerDelay = 1.0f;
-	private static final float pillarInterval = 0.05f;
-	private static final float pillarSpeed = 60.0f;
-	private static final float pillarDamage = 6.0f;
-	private static final float pillarKB = 5.0f;
-	private static final int pillarSpread = 60;
 
 	private void jesusBeams() {
 		EnemyUtils.moveToDummy(state, this, zones[0][currentY], chase1Speed, moveDurationMax);
@@ -497,45 +322,8 @@ public class Boss6 extends EnemyFloating {
 				@Override
 				public void execute() {
 					createTrailInDirection(getPixelPosition(), direction ? 270 : 0);
-
-					Hitbox spawner = new Hitbox(state, getPixelPosition(), spawnerSize, spawnerLifespan, new Vector2(), getHitboxFilter(),
-						true, false, enemy, Sprite.DIATOM_C);
-
-					spawner.addStrategy(new ControllerDefault(state, spawner, getBodyData()));
-					spawner.addStrategy(new HitboxStrategy(state, spawner, getBodyData()) {
-
-						private float controllerCount;
-						private boolean activated;
-						@Override
-						public void controller(float delta) {
-							controllerCount += delta;
-
-							if (controllerCount > spawnerDelay) {
-
-								if (!activated) {
-									activated = true;
-								}
-
-								//after a delay, each cloud shoots a stream of ice outwards
-								while (controllerCount >= spawnerDelay + pillarInterval) {
-									controllerCount -= pillarInterval;
-
-									Vector2 positionOffset = new Vector2(spawner.getPixelPosition())
-										.add(MathUtils.random(-pillarSpread, pillarSpread + 1),	MathUtils.random(-pillarSpread, pillarSpread + 1));
-
-									Hitbox hbox = new RangedHitbox(state, positionOffset, pillarSize, spawnerLifespan,
-										new Vector2(0, pillarSpeed).setAngleDeg(direction ? 270 : 0), getHitboxFilter(),
-										true, false, enemy, Sprite.SPORE);
-
-									hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-									hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), pillarDamage, pillarKB,
-											DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-									hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
-									hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-								}
-							}
-						}
-					});
+					SyncedAttack.SERAPH_LOTUS.initiateSyncedAttackSingle(state, enemy, getPixelPosition(), new Vector2(),
+							direction ? 0.0f : 1.0f);
 				}
 			});
 		}
@@ -543,47 +331,24 @@ public class Boss6 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, pillarCooldown);
 	}
 
-	private static final float particleLinger = 1.0f;
 
 	private static final float trailInterval = 0.1f;
-
-	private static final Vector2 trailSize = new Vector2(40, 20);
 	private static final float trailSpeed = 200.0f;
-	private static final float trailLifespan = 10.0f;
-
 	private void createTrailBetweenPoints(Vector2 startPosition, Vector2 endPosition) {
 
 		getSecondaryActions().add(new EnemyAction(this, trailInterval) {
 
 			@Override
 			public void execute() {
-
 				Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngleDeg(new Vector2(endPosition).sub(startPosition).angleDeg());
-
-				Hitbox trail = new RangedHitbox(state, startPosition, trailSize, trailLifespan, startVeloTrail, getHitboxFilter(),
-					true, false, enemy, Sprite.NOTHING);
-				trail.makeUnreflectable();
-
-				trail.addStrategy(new ControllerDefault(state, trail, getBodyData()));
-				trail.addStrategy(new AdjustAngle(state, trail, getBodyData()));
-				trail.addStrategy(new CreateParticles(state, trail, getBodyData(), Particle.LASER_TRAIL_SLOW, 0.0f, particleLinger).setParticleSize(15.0f));
-				trail.addStrategy(new TravelDistanceDie(state, trail, getBodyData(), endPosition.dst(startPosition) / PPM));
+				SyncedAttack.SERAPH_TRAIL.initiateSyncedAttackSingle(state, enemy, startPosition, startVeloTrail);
 			}
 		});
 	}
 
 	private void createTrailInDirection(Vector2 startPosition, float startAngle) {
-
 		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngleDeg(startAngle);
-
-		Hitbox trail = new RangedHitbox(state, startPosition, trailSize, trailLifespan, startVeloTrail, getHitboxFilter(),
-			true, false, this, Sprite.NOTHING);
-		trail.makeUnreflectable();
-
-		trail.addStrategy(new ControllerDefault(state, trail, getBodyData()));
-		trail.addStrategy(new AdjustAngle(state, trail, getBodyData()));
-		trail.addStrategy(new ContactWallDie(state, trail, getBodyData()));
-		trail.addStrategy(new CreateParticles(state, trail, getBodyData(), Particle.LASER_TRAIL_SLOW, 0.0f, particleLinger).setParticleSize(15.0f));
+		SyncedAttack.SERAPH_TRAIL.initiateSyncedAttackSingle(state, this, startPosition, startVeloTrail);
 	}
 
 	private int chooseRandomPoint(boolean horizontal) {
