@@ -55,6 +55,7 @@ public class CrownHoldable extends Event {
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setGravity(1.0f);
 		setSynced(true);
+		setReliableCreate(true);
 
 		new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
 				.setColor(HadalColor.GOLDEN_YELLOW);

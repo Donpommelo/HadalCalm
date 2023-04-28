@@ -183,4 +183,7 @@ public class Ragdoll extends HadalEntity {
 			return null;
 		}
 	}
+
+	@Override
+	public Object onServerDelete() { return null; }
 }

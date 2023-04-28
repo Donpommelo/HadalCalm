@@ -498,7 +498,11 @@ public class PlayState extends GameState {
 			//Upon creating an entity, tell the clients so they can follow suit (if the entity calls for it)
 			Object packet = entity.onServerCreate(false);
 			if (packet != null) {
-				HadalGame.server.sendToAllTCP(packet);
+				if (entity.isReliableCreate()) {
+					HadalGame.server.sendToAllTCP(packet);
+				} else {
+					HadalGame.server.sendToAllUDP(packet);
+				}
 			}
 		}
 		createList.clear();
@@ -513,7 +517,11 @@ public class PlayState extends GameState {
 			//Upon deleting an entity, tell the clients so they can follow suit.
 			Object packet = entity.onServerDelete();
 			if (packet != null) {
-				HadalGame.server.sendToAllTCP(packet);
+				if (entity.isReliableCreate()) {
+					HadalGame.server.sendToAllTCP(packet);
+				} else {
+					HadalGame.server.sendToAllUDP(packet);
+				}
 			}
 		}
 		removeList.clear();

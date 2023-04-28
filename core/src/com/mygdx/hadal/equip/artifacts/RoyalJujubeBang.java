@@ -39,7 +39,7 @@ public class RoyalJujubeBang extends Artifact {
 					boost = DIST_DAMAGE_BOOST;
 
 					ParticleEntity particle = new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, 1.0f, PARTICLE_DURA, true,
-							SyncType.CREATESYNC);
+							SyncType.NOSYNC);
 					if (!state.isServer()) {
 						((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
 					}

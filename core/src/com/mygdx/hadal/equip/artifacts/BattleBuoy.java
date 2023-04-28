@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -37,7 +38,7 @@ public class BattleBuoy extends Artifact {
 						float bonusDamage = DamageBoostMin + (float) (clip - ClipMin) / (ClipMax - ClipMin) * (DamageBoostMax - DamageBoostMin);
 
 						hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.ENERGY_CLOUD, 0.0f, 1.0f));
-						hbox.addStrategy(new DieParticles(state, hbox, p, Particle.EXPLOSION));
+						hbox.addStrategy(new DieParticles(state, hbox, p, Particle.EXPLOSION).setSyncType(SyncType.NOSYNC));
 						hbox.setDamageMultiplier(1.0f + bonusDamage);
 					}
 				}

@@ -354,12 +354,11 @@ public class Hitbox extends HadalEntity {
 
 	@Override
 	public Object onServerDelete() {
-		if (attack != null) {
-			if (!syncedDelete) {
-				return null;
-			}
+		if (syncedDelete) {
+			return new Packets.DeleteEntity(entityID, state.getTimer());
+		} else {
+			return null;
 		}
-		return new Packets.DeleteEntity(entityID, state.getTimer());
 	}
 
 	@Override

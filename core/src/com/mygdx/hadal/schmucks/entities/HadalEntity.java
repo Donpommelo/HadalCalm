@@ -60,6 +60,7 @@ public abstract class HadalEntity {
 	
 	//Used by the server. Does this entity send a sync packet periodically (every 1 / 10 sec)? Does this entity send a sync packet at a faster rate? (every 1 / 60 sec) 
 	private boolean syncDefault = true, syncInstant = false;
+	private boolean reliableCreate = false;
 	private ObjectLayer layer = ObjectLayer.STANDARD;
 	
 	/**
@@ -483,6 +484,10 @@ public abstract class HadalEntity {
 	public boolean isSyncDefault() { return syncDefault; }
 	
 	public void setSyncDefault(boolean syncDefault) { this.syncDefault = syncDefault; }
+
+	public boolean isReliableCreate() { return reliableCreate; }
+
+	public void setReliableCreate(boolean reliableCreate) { this.reliableCreate = reliableCreate; }
 
 	public boolean isSyncInstant() { return syncInstant; }
 

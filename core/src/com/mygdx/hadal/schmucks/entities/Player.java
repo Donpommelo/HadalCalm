@@ -154,6 +154,8 @@ public class Player extends Schmuck {
 		this.eventHelper = new EventInteractHelper(this);
 		this.pingHelper = new PingHelper(state, this);
 		this.specialWeaponHelper = new SpecialWeaponHelper();
+
+		setReliableCreate(true);
 	}
 	
 	/**

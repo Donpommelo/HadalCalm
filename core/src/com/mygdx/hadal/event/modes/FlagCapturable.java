@@ -80,6 +80,7 @@ public class FlagCapturable extends Event {
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setGravity(1.0f);
 		setSynced(true);
+		setReliableCreate(true);
 
 		//set flag's color according to team alignment
 		HadalColor color = HadalColor.NOTHING;
