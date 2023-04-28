@@ -133,7 +133,7 @@ public class PickupEquip extends Event {
 			super.onServerSync();
 		}
 		state.getSyncPackets().add(new Packets.SyncPickup(entityID, UnlockEquip.getUnlockFromEquip(equip.getClass()),
-				entityAge, state.getTimer()));
+				state.getTimer()));
 	}
 
 	@Override

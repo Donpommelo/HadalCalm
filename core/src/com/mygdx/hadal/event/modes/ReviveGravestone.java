@@ -199,7 +199,7 @@ public class ReviveGravestone extends Event {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncFlag(entityID, getPosition(), getLinearVelocity(),
-				entityAge, state.getTimer(), returnPercent));
+				state.getTimer(), returnPercent));
 	}
 
 	@Override

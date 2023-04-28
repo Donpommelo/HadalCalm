@@ -299,10 +299,10 @@ public class Event extends HadalEntity {
 			float angle = getAngle();
 			if (angle == 0.0f) {
 				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
-						entityAge, state.getTimer()));
+						state.getTimer()));
 			} else {
 				state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
-						entityAge, state.getTimer(), angle));
+						state.getTimer(), angle));
 			}
 		}
 	}
@@ -313,10 +313,10 @@ public class Event extends HadalEntity {
 			float angle = getAngle();
 			if (angle == 0.0f) {
 				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
-						entityAge, state.getTimer()));
+						state.getTimer()));
 			} else {
 				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
-						entityAge, state.getTimer(), angle));
+						state.getTimer(), angle));
 			}
 		}
 	}

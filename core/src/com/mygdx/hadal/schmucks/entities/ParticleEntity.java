@@ -296,11 +296,10 @@ public class ParticleEntity extends HadalEntity {
 			}
 			//if this particle effect has extra fields (scale and color), sync those as well
 			if (syncExtraFields) {
-				state.getSyncPackets().add(new PacketsSync.SyncParticlesExtra(entityID, newPos, offset, entityAge,
-						state.getTimer(), on, scale, color));
+				state.getSyncPackets().add(new PacketsSync.SyncParticlesExtra(entityID, newPos, offset,	state.getTimer(),
+						on, scale, color));
 			} else {
-				state.getSyncPackets().add(new PacketsSync.SyncParticles(entityID, newPos, offset, entityAge,
-						state.getTimer(), on));
+				state.getSyncPackets().add(new PacketsSync.SyncParticles(entityID, newPos, offset, state.getTimer(), on));
 			}
 		}
 	}

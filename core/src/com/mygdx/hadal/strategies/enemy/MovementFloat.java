@@ -112,10 +112,10 @@ public class MovementFloat extends EnemyStrategy {
     }
 
     @Override
-    public Object onServerSync(float entityAge) {
+    public Object onServerSync() {
         if (enemy.getBody() != null) {
             return new PacketsSync.SyncSchmuckAngled(enemy.getEntityID(), enemy.getPosition(), enemy.getLinearVelocity(),
-                    entityAge, state.getTimer(), enemy.getMoveState(), enemy.getBodyData().getCurrentHp(), enemy.getAngle());
+                    state.getTimer(), enemy.getMoveState(), enemy.getBodyData().getCurrentHp(), enemy.getAngle());
         }
         return null;
     }

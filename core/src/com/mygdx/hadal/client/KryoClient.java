@@ -291,11 +291,7 @@ public class KryoClient {
 					gsm.removeState(AboutState.class, false);
 					gsm.removeState(PauseState.class, false);
 
-					boolean spectator = false;
-					if (null != cs) {
-						spectator = cs.isSpectatorMode();
-					}
-
+					boolean spectator = null != cs ? cs.isSpectatorMode() : false;
 					gsm.removeState(ClientState.class, false);
 
 					//set mode settings according to what the server sends
@@ -306,7 +302,8 @@ public class KryoClient {
 					}
 
 					gsm.addClientPlayState(p.level, p.mode, new Loadout(gsm.getLoadout()), LobbyState.class);
-					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
+					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
+							gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 				});
 			});
 		}
@@ -699,7 +696,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.DeleteEntity p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, 0.0f, p.timestamp));
+				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
 			}
 			return true;
 		}
@@ -940,7 +937,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
+					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp);
 				});
 			}
 			return true;
@@ -950,7 +947,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
+					cs.syncEntity(p.uuidMSB, p.uuidLSB, p,p.timestamp);
 				});
 			}
 			return true;
@@ -960,7 +957,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.age, p.timestamp);
+					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp);
 				});
 			}
 			return true;

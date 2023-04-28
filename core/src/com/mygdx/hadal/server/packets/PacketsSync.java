@@ -16,7 +16,6 @@ public class PacketsSync {
         public long uuidMSB, uuidLSB;
         public Vector2 pos;
         public Vector2 velocity;
-        public float age;
         public float timestamp;
         public SyncEntity() {}
 
@@ -28,15 +27,13 @@ public class PacketsSync {
          * @param entityID: ID of the entity to synchronize
          * @param pos: position of the entity
          * @param velocity: linear velocity of the entity
-         * @param age: age of the entity. (used by client to determine if they missed a packet)
          * @param timestamp: time of sync. Used for client prediction.
          */
-        public SyncEntity(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp) {
+        public SyncEntity(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp) {
             this.uuidLSB = entityID.getLeastSignificantBits();
             this.uuidMSB = entityID.getMostSignificantBits();
             this.pos = pos;
             this.velocity = velocity;
-            this.age = age;
             this.timestamp = timestamp;
         }
     }
@@ -51,8 +48,8 @@ public class PacketsSync {
          *
          * @param angle: angle of the entity's body.
          */
-        public SyncEntityAngled(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, float angle) {
-            super(entityID, pos, velocity, age, timestamp);
+        public SyncEntityAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, float angle) {
+            super(entityID, pos, velocity, timestamp);
             this.angle = angle;
         }
     }
@@ -71,9 +68,9 @@ public class PacketsSync {
          * @param moveState: The State of the Schmuck. Used for animations on the Client's end
          * @param currentHp: The amount of remaining hp this schmuck has.
          */
-        public SyncSchmuck(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
+        public SyncSchmuck(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
                            MoveState moveState, float currentHp) {
-            super(entityID, pos, velocity, age, timestamp);
+            super(entityID, pos, velocity, timestamp);
             this.moveState = moveState;
             this.currentHp = currentHp;
         }
@@ -90,9 +87,9 @@ public class PacketsSync {
          *
          * @param angle: angle of the entity's body.
          */
-        public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp,
+        public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
                                  MoveState moveState, float currentHp, float angle) {
-            super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
+            super(entityID, pos, velocity, timestamp, moveState, currentHp);
             this.angle = angle;
         }
     }
@@ -112,10 +109,10 @@ public class PacketsSync {
          * This packet (and similar packets) just tell the client how to change their version of each Player.
          * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
          */
-        public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
+        public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, MoveState moveState,
                           float currentHp, Vector2 mousePosition, int currentSlot, float reloadPercent,
                           float chargePercent, float currentFuel, short conditionCode) {
-            super(entityID, pos, velocity, age, timestamp, moveState, currentHp);
+            super(entityID, pos, velocity, timestamp, moveState, currentHp);
             this.mousePosition = mousePosition;
             this.currentSlot = currentSlot;
             this.reloadPercent = reloadPercent;
@@ -134,19 +131,17 @@ public class PacketsSync {
         public short statusCode;
         public Vector2 pos;
         public Vector2 velocity;
-        public float age;
         public float timestamp;
         public MoveState moveState;
         public float currentHp;
 
         public SyncClientSnapshot() {}
 
-        public SyncClientSnapshot(Vector2 pos, Vector2 velocity, float age, float timestamp, MoveState moveState,
+        public SyncClientSnapshot(Vector2 pos, Vector2 velocity, float timestamp, MoveState moveState,
                                   float currentHp, Vector2 mousePosition, int currentSlot, float reloadPercent,
                                   float chargePercent, float currentFuel, short statusCode) {
             this.pos = pos;
             this.velocity = velocity;
-            this.age = age;
             this.timestamp = timestamp;
             this.moveState = moveState;
             this.currentHp = currentHp;
@@ -169,8 +164,8 @@ public class PacketsSync {
          *
          * @param on: Is the Server's version of this effect on or off?
          */
-        public SyncParticles(UUID entityID, Vector2 pos, Vector2 offset, float age, float timestamp, boolean on) {
-            super(entityID, pos, offset, age, timestamp);
+        public SyncParticles(UUID entityID, Vector2 pos, Vector2 offset, float timestamp, boolean on) {
+            super(entityID, pos, offset, timestamp);
             this.on = on;
         }
     }
@@ -186,8 +181,8 @@ public class PacketsSync {
          * @param scale: size modification of the particle
          * @param color: if the particle is not using default colors, this is its rgb
          */
-        public SyncParticlesExtra(UUID entityID, Vector2 pos, Vector2 offset, float age, float timestamp, boolean on, float scale, Vector3 color) {
-            super(entityID, pos, offset, age, timestamp, on);
+        public SyncParticlesExtra(UUID entityID, Vector2 pos, Vector2 offset, float timestamp, boolean on, float scale, Vector3 color) {
+            super(entityID, pos, offset, timestamp, on);
             this.scale = scale;
             this.color = color;
         }
@@ -202,8 +197,8 @@ public class PacketsSync {
          * This sync packet is used for the flag event in ctf mode to sync its return timer
          * @param returnPercent: return timer percent
          */
-        public SyncFlag(UUID entityID, Vector2 pos, Vector2 velocity, float age, float timestamp, float returnPercent) {
-            super(entityID, pos, velocity, age, timestamp);
+        public SyncFlag(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, float returnPercent) {
+            super(entityID, pos, velocity, timestamp);
             this.returnPercent = returnPercent;
         }
     }
@@ -217,8 +212,8 @@ public class PacketsSync {
          * This sync packet is used for the flag event in ctf mode when flag is picked up
          * @param attachedID: entityID of the player that is carrying the flag
          */
-        public SyncFlagAttached(UUID entityID, UUID attachedID, Vector2 pos, Vector2 velocity, float age, float timestamp, float returnPercent) {
-            super(entityID, pos, velocity, age, timestamp, returnPercent);
+        public SyncFlagAttached(UUID entityID, UUID attachedID, Vector2 pos, Vector2 velocity, float timestamp, float returnPercent) {
+            super(entityID, pos, velocity, timestamp, returnPercent);
             this.uuidLSBAttached = attachedID.getLeastSignificantBits();
             this.uuidMSBAttached = attachedID.getMostSignificantBits();
         }

@@ -41,7 +41,6 @@ public class SpawnerObjective extends Event {
 
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		System.out.println(independent + " " + getSyncType());
 		return super.onServerCreate(catchup);
 	}
 

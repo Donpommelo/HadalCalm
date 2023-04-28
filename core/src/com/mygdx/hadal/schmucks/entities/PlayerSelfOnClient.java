@@ -52,7 +52,7 @@ public class PlayerSelfOnClient extends Player {
 
 			short statusCode = getConditionCode();
 			HadalGame.client.sendUDP(new PacketsSync.SyncClientSnapshot(getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
+					state.getTimer(), moveState, getBodyData().getCurrentHp(),
 					getMouseHelper().getPosition(), getPlayerData().getCurrentSlot(),
 					getPlayerData().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f,
 					getPlayerData().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f,

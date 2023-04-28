@@ -271,10 +271,10 @@ public class FlagCapturable extends Event {
 	public void onServerSync() {
 		if (captured) {
 			state.getSyncPackets().add(new PacketsSync.SyncFlagAttached(entityID, target.getEntityID(), getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer(), returnPercent));
+					state.getTimer(), returnPercent));
 		} else {
 			state.getSyncPackets().add(new PacketsSync.SyncFlag(entityID, getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer(), returnPercent));
+					state.getTimer(), returnPercent));
 		}
 	}
 

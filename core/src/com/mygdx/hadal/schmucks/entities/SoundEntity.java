@@ -198,7 +198,7 @@ public class SoundEntity extends HadalEntity {
 		if (SyncType.TICKSYNC.equals(sync)) {
 			if (null != attachedEntity) {
 				if (null != attachedEntity.getBody()) {
-					state.getSyncPackets().add(new Packets.SyncSound(entityID, volume, on, entityAge, state.getTimer()));
+					state.getSyncPackets().add(new Packets.SyncSound(entityID, volume, on, state.getTimer()));
 				}
 			}
 		}

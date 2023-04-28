@@ -95,7 +95,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuck(entityID, getPosition(), getLinearVelocity(),
-				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp()));
+				state.getTimer(), moveState, getBodyData().getCurrentHp()));
 	}
 	
 	/**

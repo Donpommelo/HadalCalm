@@ -420,7 +420,7 @@ public class Player extends Schmuck {
 		short statusCode = getConditionCode();
 
 		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
-				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
+				state.getTimer(), moveState, getBodyData().getCurrentHp(),
 				mouseHelper.getPosition(), playerData.getCurrentSlot(),
 				playerData.getCurrentTool().isReloading() ? uiHelper.getReloadPercent() : -1.0f,
 				playerData.getCurrentTool().isCharging() ? uiHelper.getChargePercent() : -1.0f,

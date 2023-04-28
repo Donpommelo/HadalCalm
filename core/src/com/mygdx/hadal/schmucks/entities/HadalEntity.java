@@ -47,12 +47,6 @@ public abstract class HadalEntity {
 	//counter and method to keep up with animation frames. (extra is used for entities that have multiple parts that move at different speeds like the player)
 	protected float animationTime, animationTimeExtra;
 
-	//counter of entity's age. this is sent to the client for syncing purposes.
-	protected float entityAge;
-
-	//Only used by client. this keeps track of time since last sync to detect if we missed a delete packet.
-	protected float timeSinceLastSync;
-	
 	//On the client, do we expect a sync packet from the server regularly
 	protected boolean receivingSyncs;
 
@@ -195,14 +189,14 @@ public abstract class HadalEntity {
 	public void onServerSync() {
 		if (body != null && syncDefault) {
 			state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer()));
+					state.getTimer()));
 		}
 	}
 	
 	public void onServerSyncFast() {
 		if (body != null && syncInstant) {
 			HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer()));
+					state.getTimer()));
 		}
 	}
 	
@@ -456,27 +450,6 @@ public abstract class HadalEntity {
 	}
 	
 	public void increaseAnimationTime(float i) { animationTime += i; }
-	
-	public void increaseEntityAge(float i) { entityAge += i; }
-	
-	/**
-	 * This is run by the client and keeps of track of the time since the last sync received from the server.
-	 * If this time is too great, we may have missed a delete packet
-	 * @param i: the amount of elapsed time
-	 */
-	public void increaseTimeSinceLastSync(float i) { 
-		
-		if (receivingSyncs) {
-			timeSinceLastSync += i;
-			
-			if (timeSinceLastSync > ClientState.MISSED_DELETE_THRESHOLD && state.getTimer() > ClientState.INITIAL_CONNECT_THRESHOLD) {
-				timeSinceLastSync = 0;
-				HadalGame.client.sendUDP(new Packets.MissedDelete(entityID));
-			}
-		}
-	}
-	
-	public void resetTimeSinceLastSync() { timeSinceLastSync = 0; }
 
 	public Vector2 getPosition() {
 		if (body != null) {	return body.getPosition(); }

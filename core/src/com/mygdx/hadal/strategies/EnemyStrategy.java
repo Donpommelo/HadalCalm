@@ -43,5 +43,5 @@ public abstract class EnemyStrategy implements IEnemyStrategy {
     public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) { return null; }
 
     @Override
-    public Object onServerSync(float entityAge) { return null; }
+    public Object onServerSync() { return null; }
 }
