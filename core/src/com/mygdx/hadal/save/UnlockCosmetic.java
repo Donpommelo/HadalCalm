@@ -167,9 +167,6 @@ public enum UnlockCosmetic {
     //does this cosmetic's location depend on the player's head locatioin? or body?
     private final boolean head;
 
-//    //does this cosmetic's location depend on the player's head locatioin? or body?
-//    private final boolean override;
-
     //Blank indicates that the cosmetic will not be rendered, instead representing an empty slot
     private boolean blank;
 

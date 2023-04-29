@@ -47,12 +47,6 @@ public abstract class HadalEntity {
 	//counter and method to keep up with animation frames. (extra is used for entities that have multiple parts that move at different speeds like the player)
 	protected float animationTime, animationTimeExtra;
 
-	//counter of entity's age. this is sent to the client for syncing purposes.
-	protected float entityAge;
-
-	//Only used by client. this keeps track of time since last sync to detect if we missed a delete packet.
-	protected float timeSinceLastSync;
-	
 	//On the client, do we expect a sync packet from the server regularly
 	protected boolean receivingSyncs;
 
@@ -66,6 +60,7 @@ public abstract class HadalEntity {
 	
 	//Used by the server. Does this entity send a sync packet periodically (every 1 / 10 sec)? Does this entity send a sync packet at a faster rate? (every 1 / 60 sec) 
 	private boolean syncDefault = true, syncInstant = false;
+	private boolean reliableCreate = false;
 	private ObjectLayer layer = ObjectLayer.STANDARD;
 	
 	/**
@@ -195,14 +190,14 @@ public abstract class HadalEntity {
 	public void onServerSync() {
 		if (body != null && syncDefault) {
 			state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer()));
+					state.getTimer()));
 		}
 	}
 	
 	public void onServerSyncFast() {
 		if (body != null && syncInstant) {
 			HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer()));
+					state.getTimer()));
 		}
 	}
 	
@@ -294,15 +289,17 @@ public abstract class HadalEntity {
 		while (!bufferedTimestamps.isEmpty()) {
 			if (state.getTimer() >= nextTimeStamp) {
 				Object[] o = bufferedTimestamps.removeIndex(0);
-				
-				//check timestamp in case snapshots are sent out of order
-				if ((float) o[1] > nextTimeStamp) {
-					prevTimeStamp = nextTimeStamp;
-					nextTimeStamp = (float) o[1];
-				}
 
-				//its ok to sync out of order packets, b/c the interpolation won't do anything
-				onClientSync(o[0]);
+				if (null != o) {
+					//check timestamp in case snapshots are sent out of order
+					if ((float) o[1] > nextTimeStamp) {
+						prevTimeStamp = nextTimeStamp;
+						nextTimeStamp = (float) o[1];
+					}
+
+					//its ok to sync out of order packets, b/c the interpolation won't do anything
+					onClientSync(o[0]);
+				}
 			} else {
 				break;
 			}
@@ -454,27 +451,6 @@ public abstract class HadalEntity {
 	}
 	
 	public void increaseAnimationTime(float i) { animationTime += i; }
-	
-	public void increaseEntityAge(float i) { entityAge += i; }
-	
-	/**
-	 * This is run by the client and keeps of track of the time since the last sync received from the server.
-	 * If this time is too great, we may have missed a delete packet
-	 * @param i: the amount of elapsed time
-	 */
-	public void increaseTimeSinceLastSync(float i) { 
-		
-		if (receivingSyncs) {
-			timeSinceLastSync += i;
-			
-			if (timeSinceLastSync > ClientState.MISSED_DELETE_THRESHOLD && state.getTimer() > ClientState.INITIAL_CONNECT_THRESHOLD) {
-				timeSinceLastSync = 0;
-				HadalGame.client.sendUDP(new Packets.MissedDelete(entityID));
-			}
-		}
-	}
-	
-	public void resetTimeSinceLastSync() { timeSinceLastSync = 0; }
 
 	public Vector2 getPosition() {
 		if (body != null) {	return body.getPosition(); }
@@ -508,6 +484,10 @@ public abstract class HadalEntity {
 	public boolean isSyncDefault() { return syncDefault; }
 	
 	public void setSyncDefault(boolean syncDefault) { this.syncDefault = syncDefault; }
+
+	public boolean isReliableCreate() { return reliableCreate; }
+
+	public void setReliableCreate(boolean reliableCreate) { this.reliableCreate = reliableCreate; }
 
 	public boolean isSyncInstant() { return syncInstant; }
 

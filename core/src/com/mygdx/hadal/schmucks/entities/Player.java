@@ -154,6 +154,8 @@ public class Player extends Schmuck {
 		this.eventHelper = new EventInteractHelper(this);
 		this.pingHelper = new PingHelper(state, this);
 		this.specialWeaponHelper = new SpecialWeaponHelper();
+
+		setReliableCreate(true);
 	}
 	
 	/**
@@ -420,7 +422,7 @@ public class Player extends Schmuck {
 		short statusCode = getConditionCode();
 
 		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
-				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp(),
+				state.getTimer(), moveState, getBodyData().getCurrentHp(),
 				mouseHelper.getPosition(), playerData.getCurrentSlot(),
 				playerData.getCurrentTool().isReloading() ? uiHelper.getReloadPercent() : -1.0f,
 				playerData.getCurrentTool().isCharging() ? uiHelper.getChargePercent() : -1.0f,
@@ -435,6 +437,7 @@ public class Player extends Schmuck {
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayer p) {
+
 			mouseHelper.setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);

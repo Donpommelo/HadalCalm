@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -23,16 +23,55 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 
 public class Vine extends SyncedAttacker {
 
-    public static final float VINE_DAMAGE = 16.0f;
     public static final Vector2 SEED_SIZE = new Vector2(45, 30);
     private static final Vector2 VINE_SIZE = new Vector2(40, 20);
     private static final Vector2 VINE_SPRITE_SIZE = new Vector2(60, 60);
     private static final float VINE_LIFESPAN = 1.25f;
+    public static final float VINE_DAMAGE = 16.0f;
     private static final float VINE_KB = 20.0f;
-
     private static final int BEND_LENGTH = 1;
+    private static final int BEND_VARIATION = 0;
+
+    public static final int VINE_BEND_SPREAD_MIN = 15;
+    public static final int VINE_BEND_SPREAD_MAX = 30;
+
+    private static final Vector2 BOSS_VINE_SIZE = new Vector2(80, 40);
+    private static final Vector2 BOSS_VINE_SPRITE_SIZE = new Vector2(120, 120);
+    private static final float BOSS_VINE_LIFESPAN = 5.0f;
+    public static final float BOSS_VINE_DAMAGE = 18.0f;
+    private static final float BOSS_VINE_KB = 24.0f;
+    private static final int BOSS_BEND_LENGTH = 2;
+    private static final int BOSS_BEND_VARIATION = 0;
 
     private static final Sprite[] VINE_SPRITES = {Sprite.VINE_A, Sprite.VINE_C, Sprite.VINE_D};
+
+    private final DamageSource damageSource;
+
+    private final Vector2 vineSize, vineSpriteSize;
+    private final float lifespan, damage, knockback;
+    private final int bendLength, bendVariation;
+
+    public Vine(DamageSource damageSource) {
+        this.damageSource = damageSource;
+
+        if (damageSource.equals(DamageSource.ENEMY_ATTACK)) {
+            vineSize = BOSS_VINE_SIZE;
+            vineSpriteSize = BOSS_VINE_SPRITE_SIZE;
+            lifespan = BOSS_VINE_LIFESPAN;
+            damage = BOSS_VINE_DAMAGE;
+            knockback = BOSS_VINE_KB;
+            bendLength = BOSS_BEND_LENGTH;
+            bendVariation = BOSS_BEND_VARIATION;
+        } else {
+            vineSize = VINE_SIZE;
+            vineSpriteSize = VINE_SPRITE_SIZE;
+            lifespan = VINE_LIFESPAN;
+            damage = VINE_DAMAGE;
+            knockback = VINE_KB;
+            bendLength = BEND_LENGTH;
+            bendVariation = BEND_VARIATION;
+        }
+    }
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -41,10 +80,9 @@ public class Vine extends SyncedAttacker {
 
         final int vineNum = extraFields.length > 1 ? (int) extraFields[0] : 0;
         final int splitNum = extraFields.length > 1 ? (int) extraFields[1] : 0;
-        final boolean synced = extraFields[2] == 0;
 
         //create an invisible hitbox that makes the vines as it moves
-        RangedHitbox hbox = new RangedHitbox(state, startPosition, SEED_SIZE, VINE_LIFESPAN, startVelocity, user.getHitboxFilter(),
+        RangedHitbox hbox = new RangedHitbox(state, startPosition, SEED_SIZE, lifespan, startVelocity, user.getHitboxFilter(),
                 false, false, user, Sprite.NOTHING);
         hbox.setPassability(Constants.BIT_WALL);
         hbox.makeUnreflectable();
@@ -69,18 +107,18 @@ public class Vine extends SyncedAttacker {
                 lastPosition.set(entityLocation);
 
                 //after moving distance equal to a vine, the hbox spawns a vine with random sprite
-                if (displacement > VINE_SIZE.x) {
+                if (displacement > vineSize.x) {
                     if (lastPositionTemp.isZero()) {
                         lastPosition.set(entityLocation);
                     } else {
-                        lastPosition.add(new Vector2(lastPosition).sub(lastPositionTemp).nor().scl((displacement - VINE_SIZE.x) / PPM));
+                        lastPosition.add(new Vector2(lastPosition).sub(lastPositionTemp).nor().scl((displacement - vineSize.x) / PPM));
                     }
                     displacement = 0.0f;
 
                     int randomIndex = MathUtils.random(VINE_SPRITES.length - 1);
                     Sprite projSprite = VINE_SPRITES[randomIndex];
 
-                    RangedHitbox vine = new RangedHitbox(state, lastPosition, VINE_SIZE, VINE_LIFESPAN, new Vector2(),
+                    RangedHitbox vine = new RangedHitbox(state, lastPosition, vineSize, lifespan, new Vector2(),
                             user.getHitboxFilter(), true, true, creator.getSchmuck(),
                             vineCountTotal == vineNum && splitNum == 0 ? Sprite.VINE_B : projSprite) {
 
@@ -91,17 +129,17 @@ public class Vine extends SyncedAttacker {
 
                             //vines match hbox velocity but are drawn at an offset so they link together better
                             float newAngle = MathUtils.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x);
-                            newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(VINE_SIZE.x / 2 / PPM));
+                            newPosition.set(getPosition()).add(new Vector2(hbox.getLinearVelocity()).nor().scl(vineSize.x / 2 / PPM));
                             setTransform(newPosition.x, newPosition.y, newAngle);
                         }
                     };
-                    vine.setSpriteSize(VINE_SPRITE_SIZE);
+                    vine.setSpriteSize(vineSpriteSize);
                     vine.setEffectsMovement(false);
 
                     vine.addStrategy(new ControllerDefault(state, vine, user.getBodyData()));
                     vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
-                    vine.addStrategy(new DamageStandard(state, vine, user.getBodyData(), VINE_DAMAGE, VINE_KB,
-                            DamageSource.VINE_SOWER, DamageTag.RANGED).setStaticKnockback(true));
+                    vine.addStrategy(new DamageStandard(state, vine, user.getBodyData(), damage, knockback,
+                            damageSource, DamageTag.RANGED).setStaticKnockback(true));
                     vine.addStrategy(new CreateParticles(state, vine, user.getBodyData(), Particle.DANGER_RED, 0.0f, 1.0f)
                             .setParticleSize(90.0f).setSyncType(SyncType.NOSYNC));
                     vine.addStrategy(new DieParticles(state, vine, user.getBodyData(), Particle.PLANT_FRAG).setSyncType(SyncType.NOSYNC));
@@ -116,10 +154,13 @@ public class Vine extends SyncedAttacker {
                     if (vineCount >= nextBend) {
                         if (extraFields.length > vineCountTotal + 2) {
                             //hbox's velocity changes randomly to make vine wobble
-                            hbox.setLinearVelocity(hbox.getLinearVelocity().rotateDeg((bendRight ? -1 : 1) * extraFields[vineCountTotal + 2]));
+                            float bendSpread = VINE_BEND_SPREAD_MIN + extraFields[vineCountTotal + 1]
+                                    * (VINE_BEND_SPREAD_MAX - VINE_BEND_SPREAD_MIN);
+                            hbox.setLinearVelocity(hbox.getLinearVelocity().rotateDeg((bendRight ? -1 : 1) * bendSpread));
                             bendRight = !bendRight;
                             vineCount = 0;
-                            nextBend = BEND_LENGTH + (int) (extraFields[vineCountTotal + 2]) % 2 == 0 ? 0 : 1;
+
+                            nextBend = (int) (bendLength - bendVariation + extraFields[vineCountTotal + 1] * 2 * bendVariation);
                         }
                     }
 
@@ -131,35 +172,21 @@ public class Vine extends SyncedAttacker {
 
             @Override
             public void die() {
-
+                if (!state.isServer()) { return;}
                 if (splitNum > 0) {
                     //when vine dies, it creates 2 vines that branch in separate directions
-                    float newDegrees = hbox.getLinearVelocity().angleDeg() + extraFields[5 + vineNum];
-                    float[] extraFields1 = new float[3 + vineNum];
-                    float[] extraFields2 = new float[3 + vineNum];
-                    extraFields1[0] = vineNum;
-                    extraFields2[0] = vineNum;
-                    extraFields1[1] = 0;
-                    extraFields2[1] = 0;
-                    extraFields1[2] = 1;
-                    extraFields2[2] = 1;
-                    for (int i = 0; i < vineNum; i++) {
-                        extraFields1[3 + i] = extraFields[vineNum + 5 + i];
-                        extraFields2[3 + i] = extraFields[vineNum * 2 + 5 + i];
-                    }
-                    angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
-                    SyncedAttack.VINE.initiateSyncedAttackSingle(state, user, hbox.getPixelPosition(), new Vector2(angle), extraFields1);
+                    float splitAngle = MathUtils.random(VINE_BEND_SPREAD_MIN, VINE_BEND_SPREAD_MAX);
+                    float newDegrees = hbox.getLinearVelocity().angleDeg() + splitAngle;
 
-                    newDegrees = hbox.getLinearVelocity().angleDeg() - extraFields[5 + vineNum];
                     angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
-                    SyncedAttack.VINE.initiateSyncedAttackSingle(state, user, hbox.getPixelPosition(), new Vector2(angle), extraFields2);
+                    WeaponUtils.createVine(state, user, hbox.getPixelPosition(), new Vector2(angle), vineNum, splitNum - 1, getSyncedAttack());
+
+                    newDegrees = hbox.getLinearVelocity().angleDeg() - splitAngle;
+                    angle.set(hbox.getLinearVelocity()).setAngleDeg(newDegrees);
+                    WeaponUtils.createVine(state, user, hbox.getPixelPosition(), new Vector2(angle), vineNum, splitNum - 1, getSyncedAttack());
                 }
             }
         });
-
-        if (!state.isServer() && !synced) {
-            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
-        }
 
         return hbox;
     }

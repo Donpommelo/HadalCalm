@@ -34,7 +34,7 @@ public class Schmuck extends HadalEntity {
     protected float baseHp;
     
 	//This particle is triggered upon receiving damage
-	public ParticleEntity impact;
+	public final ParticleEntity impact;
 
 	//This is the filter of this unit and hitboxes it spawns
 	protected short hitboxFilter;
@@ -95,7 +95,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuck(entityID, getPosition(), getLinearVelocity(),
-				entityAge, state.getTimer(), moveState, getBodyData().getCurrentHp()));
+				state.getTimer(), moveState, getBodyData().getCurrentHp()));
 	}
 	
 	/**

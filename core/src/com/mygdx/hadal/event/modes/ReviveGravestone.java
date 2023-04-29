@@ -68,6 +68,7 @@ public class ReviveGravestone extends Event {
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setGravity(1.0f);
 		setSynced(true);
+		setReliableCreate(true);
 
 		//set flag's color according to team alignment
 		HadalColor color = user.getTeamFilter().getPalette().getIcon();
@@ -199,7 +200,7 @@ public class ReviveGravestone extends Event {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncFlag(entityID, getPosition(), getLinearVelocity(),
-				entityAge, state.getTimer(), returnPercent));
+				state.getTimer(), returnPercent));
 	}
 
 	@Override

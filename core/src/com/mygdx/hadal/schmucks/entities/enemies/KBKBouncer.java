@@ -45,8 +45,12 @@ public class KBKBouncer extends EnemyCrawling {
 	private static final int charge1Damage = 10;
 	private static final float attackInterval = 1.0f;
 	private static final int defaultMeleeKB = 20;
+	private boolean attackStarted;
 	@Override
 	public void attackInitiate() {
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
+		if (!attackStarted) {
+			attackStarted = true;
+			EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
+		}
 	}
 }

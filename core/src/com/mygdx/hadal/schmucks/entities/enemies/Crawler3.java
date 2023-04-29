@@ -1,24 +1,15 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.constants.Stats;
 
 public class Crawler3 extends EnemyCrawling {
 
@@ -53,19 +44,14 @@ public class Crawler3 extends EnemyCrawling {
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 500.0f;
 	
-	private static final int numProj = 5;
-	private static final int spread = 10;
-	
+	private static final int NUM_PROJ = 5;
+
 	private static final float attackWindup1 = 0.6f;
 	private static final float attackWindup2 = 0.2f;
-	private static final float baseDamage = 7.0f;
-	private static final float knockback = 12.0f;
-	private static final float projectileSpeed = 20.0f;
-	private static final Vector2 projectileSize = new Vector2(16, 16);
-	private static final float lifespan = 1.2f;
-	
-	private final Vector2 startVelo = new Vector2();
-	private final Vector2 spreadVelo = new Vector2();
+	private static final float PROJECTILE_SPEED = 20.0f;
+
+	private final Vector2 startVelocity = new Vector2();
+	private final Vector2 startPosition = new Vector2();
 	@Override
 	public void attackInitiate() {
 		
@@ -79,35 +65,23 @@ public class Crawler3 extends EnemyCrawling {
 			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, HadalColor.RED, 120.0f);
 			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.0f);
 			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, HadalColor.RED, 120.0f);
-			
-			for (int i = 0; i < numProj; i++) {
-				
-				final int index = i;
-				
-				getActions().add(new EnemyAction(this, 0.0f) {
-					
-					@Override
-					public void execute() {
-						
-						if (index == 0) {
-							SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 0.8f, false);
-						}
-						
-						startVelo.set(getMoveDirection() * projectileSpeed, projectileSpeed / 2);
 
-						float newDegrees = startVelo.angleDeg() + MathUtils.random(-spread, spread + 1);
-						spreadVelo.set(startVelo.setAngleDeg(newDegrees));
-						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(spreadVelo, size.x), projectileSize, lifespan, spreadVelo, getHitboxFilter(), true, true, enemy, Sprite.ORB_RED);
-						hbox.setGravity(3.0f);
-						
-						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-						hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
-						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, getBodyData()));
-						hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback,
-								DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
+			getActions().add(new EnemyAction(this, 0.0f) {
+
+				@Override
+				public void execute() {
+					startVelocity.set(getMoveDirection() * PROJECTILE_SPEED, PROJECTILE_SPEED / 2);
+					startPosition.set(enemy.getProjectileOrigin(startVelocity, size.x));
+					Vector2[] positions = new Vector2[NUM_PROJ];
+					Vector2[] velocities = new Vector2[NUM_PROJ];
+					for (int i = 0; i < NUM_PROJ; i++) {
+						positions[i] = startPosition;
+						velocities[i] = startVelocity;
 					}
-				});
-			}
+					SyncedAttack.CRAWLER_RANGED.initiateSyncedAttackMulti(state, enemy, startVelocity, positions, velocities);
+				}
+			});
+
 			EnemyUtils.setCrawlingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		}
 	}

@@ -3,22 +3,17 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.*;
+import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.event.Poison;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * This is a boss in the game
@@ -304,18 +299,9 @@ public class Boss1 extends EnemyFloating {
 	}
 	
 	private static final float fireWindup = 1.5f;
-
-	private static final int fireballDamage = 4;
-	private static final int burnDamage = 3;
 	private static final int fireSpeed = 13;
-	private static final int fireKB = 10;
-	private static final int fireSize = 50;
-	private static final float fireLifespan = 1.4f;
-	private static final float burnDuration = 4.0f;
-
 	private static final int fireballNumber = 40;
 	private static final float fireballInterval = 0.02f;
-	
 	private void fireBreath() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
@@ -328,15 +314,13 @@ public class Boss1 extends EnemyFloating {
 			case 0 -> {
 				EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
 				for (int i = 0; i < fireballNumber; i++) {
-					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
-						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+					EnemyUtils.fireball(state, this, fireSpeed, fireballInterval, 1);
 				}
 			}
 			case 1 -> {
 				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 				for (int i = 0; i < fireballNumber; i++) {
-					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
-						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+					EnemyUtils.fireball(state, this, fireSpeed, fireballInterval, 1);
 				}
 			}
 		}
@@ -355,39 +339,33 @@ public class Boss1 extends EnemyFloating {
 			case 0 -> {
 				EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
 				for (int i = 0; i < fireballNumber; i++) {
-					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
-						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+					EnemyUtils.fireball(state, this, fireSpeed,  fireballInterval, 1);
 				}
 				EnemyUtils.changeFloatingState(this, FloatingState.FREE, 90.0f, 0.0f);
 				EnemyUtils.createSoundEntity(state,this,0.0f,fireballNumber * fireballInterval * 2,
 					0.6f, 2.0f, SoundEffect.FLAMETHROWER,true);
 				for (int i = 0; i < fireballNumber; i++) {
-					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
-						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+					EnemyUtils.fireball(state, this, fireSpeed,  fireballInterval, 1);
 				}
 				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -60.0f, 0.0f);
 				for (int i = 0; i < fireballNumber; i++) {
-					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
-						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+					EnemyUtils.fireball(state, this, fireSpeed,  fireballInterval, 1);
 				}
 			}
 			case 1 -> {
 				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 				for (int i = 0; i < fireballNumber; i++) {
-					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
-						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+					EnemyUtils.fireball(state, this, fireSpeed,  fireballInterval, 1);
 				}
 				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -270.0f, 0.0f);
 				EnemyUtils.createSoundEntity(state,this,0.0f,fireballNumber * fireballInterval * 2,
 					0.6f, 2.0f, SoundEffect.FLAMETHROWER,true);
 				for (int i = 0; i < fireballNumber; i++) {
-					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
-						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+					EnemyUtils.fireball(state, this, fireSpeed,  fireballInterval, 1);
 				}
 				EnemyUtils.changeFloatingState(this, FloatingState.FREE, -120.0f, 0.0f);
 				for (int i = 0; i < fireballNumber; i++) {
-					EnemyUtils.fireball(state,this, fireballDamage, burnDamage, fireSpeed,	fireKB, fireSize,
-						fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
+					EnemyUtils.fireball(state, this, fireSpeed,  fireballInterval, 1);
 				}
 			}
 		}
@@ -402,12 +380,8 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final float laser1Interval = 0.03f;
 	private static final int laser1Amount = 40;
-	private static final float laser1Damage = 6.0f;
-	private static final float laserKnockback = 5.0f;
 	private static final float laser1Speed = 55.0f;
-	private static final int laserSize = 30;
-	private static final float laserLifespan = 1.2f;
-	
+
 	private void horizontalLaser() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		switch (wall) {
@@ -421,8 +395,14 @@ public class Boss1 extends EnemyFloating {
 				EnemyUtils.createSoundEntity(state,this,0.0f,laser1Amount * laser1Interval,
 					1.0f,2.0f,	SoundEffect.BEAM3,true);
 				for (int i = 0; i < laser1Amount; i++) {
-					EnemyUtils.fireLaser(state,this, laser1Damage, laser1Speed, laserKnockback, laserSize,
-						laserLifespan, laser1Interval, Particle.LASER);
+					getActions().add(new EnemyAction(this, laser1Interval) {
+
+						@Override
+						public void execute() {
+							Vector2 startVelo = new Vector2(laser1Speed, laser1Speed).setAngleDeg(getAttackAngle());
+							SyncedAttack.BOSS_TRACKING_BEAM.initiateSyncedAttackSingle(state, enemy, getPixelPosition(), startVelo);
+						}
+					});
 				}
 			}
 			case 1 -> {
@@ -435,8 +415,14 @@ public class Boss1 extends EnemyFloating {
 				EnemyUtils.createSoundEntity(state,this,0.0f,laser1Amount * laser1Interval,
 					1.0f,2.0f,	SoundEffect.BEAM3,true);
 				for (int i = 0; i < laser1Amount; i++) {
-					EnemyUtils.fireLaser(state,this, laser1Damage, laser1Speed, laserKnockback, laserSize,
-						laserLifespan, laser1Interval, Particle.LASER);
+					getActions().add(new EnemyAction(this, laser1Interval) {
+
+						@Override
+						public void execute() {
+							Vector2 startVelo = new Vector2(laser1Speed, laser1Speed).setAngleDeg(getAttackAngle());
+							SyncedAttack.BOSS_TRACKING_BEAM.initiateSyncedAttackSingle(state, enemy, getPixelPosition(), startVelo);
+						}
+					});
 				}
 			}
 		}
@@ -447,7 +433,6 @@ public class Boss1 extends EnemyFloating {
 	private static final float rotateSpeed = 2.5f;
 	private static final float laser2Interval = 0.02f;
 	private static final int laser2Amount = 100;
-	private static final float laser2Damage = 7.5f;
 	private static final float laser2Speed = 15.0f;
 	
 	private void rotatingLaser() {
@@ -468,19 +453,22 @@ public class Boss1 extends EnemyFloating {
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, laser2Amount * laser2Interval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
 		for (int i = 0; i < laser2Amount; i++) {
-			EnemyUtils.fireLaser(state, this, laser2Damage, laser2Speed, laserKnockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
+			getActions().add(new EnemyAction(this, laser2Interval) {
+
+				@Override
+				public void execute() {
+					Vector2 startVelo = new Vector2(laser2Speed, laser2Speed).setAngleDeg(getAttackAngle());
+					SyncedAttack.BOSS_ROTATING_BEAM.initiateSyncedAttackSingle(state, enemy, getPixelPosition(), startVelo);
+				}
+			});
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 1.0f);
 	}
 
 	private static final float laser3Windup = 0.75f;
 	private static final int laser3Amount = 25;
-	private static final float laser3Damage = 3.5f;
-	private static final float laser3Knockback = 1.0f;
 	private static final float laser3Speed = 55.0f;
 	private static final int explosionNumber = 7;
-	private static final float explosionDamage = 35.0f;
-	private static final float explosionKnockback = 35.0f;
 	private static final float explosionSize = 300;
 	private static final float explosionInterval = 0.25f;
 	
@@ -496,8 +484,14 @@ public class Boss1 extends EnemyFloating {
 				EnemyUtils.createSoundEntity(state,this,0.0f,laser3Amount * laser2Interval,
 					1.0f,2.0f, SoundEffect.BEAM3,true);
 				for (int i = 0; i < laser3Amount; i++) {
-					EnemyUtils.fireLaser(state,this, laser3Damage,	laser3Speed, laser3Knockback, laserSize,
-						laserLifespan, laser2Interval, Particle.LASER_PULSE);
+					getActions().add(new EnemyAction(this, laser2Interval) {
+
+						@Override
+						public void execute() {
+							Vector2 startVelo = new Vector2(laser3Speed, laser3Speed).setAngleDeg(getAttackAngle());
+							SyncedAttack.BOSS_SWEEPING_BEAM.initiateSyncedAttackSingle(state, enemy, getPixelPosition(), startVelo);
+						}
+					});
 				}
 				for (int i = 1; i <= explosionNumber; i++) {
 					final int index = i;
@@ -507,12 +501,9 @@ public class Boss1 extends EnemyFloating {
 
 						@Override
 						public void execute() {
-
 							location.set(EnemyUtils.getLeftSide(state) + index * explosionSize / 2,
 								EnemyUtils.floorHeight(state));
-							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
-							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
-								explosionKnockback,	getHitboxFilter(), true, DamageSource.ENEMY_ATTACK);
+							SyncedAttack.BOSS_SWEEPING_EXPLOSION.initiateSyncedAttackNoHbox(state, enemy, location, true);
 						}
 					});
 				}
@@ -522,23 +513,25 @@ public class Boss1 extends EnemyFloating {
 				EnemyUtils.createSoundEntity(state,this,0.0f,laser3Amount * laser2Interval,
 					1.0f,2.0f, SoundEffect.BEAM3,true);
 				for (int i = 0; i < laser3Amount; i++) {
-					EnemyUtils.fireLaser(state,this, laser3Damage,	laser3Speed, laser3Knockback, laserSize,
-						laserLifespan, laser2Interval, Particle.LASER_PULSE);
+					getActions().add(new EnemyAction(this, laser2Interval) {
+
+						  @Override
+						  public void execute() {
+							  Vector2 startVelo = new Vector2(laser3Speed, laser3Speed).setAngleDeg(getAttackAngle());
+							  SyncedAttack.BOSS_SWEEPING_BEAM.initiateSyncedAttackSingle(state, enemy, getPixelPosition(), startVelo);
+						  }
+				  	});
 				}
 				for (int i = 1; i <= explosionNumber; i++) {
 					final int index = i;
 					getActions().add(new EnemyAction(this, explosionInterval) {
 
 						private final Vector2 location = new Vector2();
-
 						@Override
 						public void execute() {
-
 							location.set(EnemyUtils.getRightSide(state) - index * explosionSize / 2,
 								EnemyUtils.floorHeight(state));
-							SoundEffect.EXPLOSION6.playUniversal(state, location, 0.5f, false);
-							WeaponUtils.createExplosion(state, location, explosionSize, enemy, explosionDamage,
-								explosionKnockback,	getHitboxFilter(), true, DamageSource.ENEMY_ATTACK);
+							SyncedAttack.BOSS_SWEEPING_EXPLOSION.initiateSyncedAttackNoHbox(state, enemy, location, true);
 						}
 					});
 				}
@@ -549,13 +542,8 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final int numBalls = 3;
 	private static final int spread = 15;
-	private static final float ballDamage = 12.0f;
 	private static final float ballSpeed = 10.0f;
-	private static final float ballKnockback = 12.0f;
-	private static final int ballSize = 60;
-	private static final float ballLifespan = 7.5f;
 	private static final float ballInterval= 1.0f;
-	
 	private void bouncyBall() {
 		float baseAngle;
 		if (MathUtils.randomBoolean()) {
@@ -574,18 +562,8 @@ public class Boss1 extends EnemyFloating {
 				
 				@Override
 				public void execute() {
-					SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.5f, 0.8f, false);
-					
 					Vector2 startVelo = new Vector2(ballSpeed, ballSpeed).setAngleDeg(getAttackAngle());
-					Hitbox hbox = new Hitbox(state, getProjectileOrigin(startVelo, ballSize), new Vector2(ballSize, ballSize), ballLifespan, startVelo, getHitboxFilter(), false, true, enemy, Sprite.ORB_RED);
-					hbox.setGravity(10.0f);
-					hbox.setRestitution(1);
-					
-					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), ballDamage, ballKnockback,
-							DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.FIRE, 0.0f, 0.0f));
-					hbox.addStrategy(new ContactWallSound(state, hbox, getBodyData(), SoundEffect.SPRING, 0.1f));
+					SyncedAttack.BOSS_BOUNCY_BALL.initiateSyncedAttackSingle(state, enemy, enemy.getPixelPosition(), startVelo);
 				}
 			});
 		}
@@ -617,10 +595,8 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final int numPoison = 9;
 	private static final float poisonInterval = 0.75f;
-	private static final float poisonDamage= 0.6f;
 	private static final Vector2 poisonSize = new Vector2(150, 280);
-	private static final float poisonDuration = 7.5f;
-	
+
 	private void poisonCloud() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		
@@ -633,8 +609,7 @@ public class Boss1 extends EnemyFloating {
 				
 				@Override
 				public void execute() {
-					SoundEffect.DARKNESS2.playUniversal(state, getPixelPosition(), 0.4f, false);
-					
+
 					for (int i = 0; i < numPoison; i++) {
 						final int index = i;
 						getSecondaryActions().add(new EnemyAction(me, poisonInterval) {
@@ -643,8 +618,7 @@ public class Boss1 extends EnemyFloating {
 							@Override
 							public void execute() {
 								location.set(EnemyUtils.getLeftSide(state) + index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
-								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true,
-										getHitboxFilter(), DamageSource.ENEMY_ATTACK);
+								SyncedAttack.BOSS_POISON_CLOUD.initiateSyncedAttackNoHbox(state, enemy, location, true, index);
 							}
 						});
 					}
@@ -666,8 +640,7 @@ public class Boss1 extends EnemyFloating {
 							@Override
 							public void execute() {
 								location.set(EnemyUtils.getRightSide(state) - index * poisonSize.x, EnemyUtils.floorHeight(state) + poisonSize.y / 2);
-								new Poison(state, location, poisonSize, poisonDamage, poisonDuration, enemy, true,
-										getHitboxFilter(), DamageSource.ENEMY_ATTACK);
+								SyncedAttack.BOSS_POISON_CLOUD.initiateSyncedAttackNoHbox(state, enemy, location, true, index);
 							}
 						});
 					}
@@ -694,24 +667,20 @@ public class Boss1 extends EnemyFloating {
 	private static final int numDebris = 18;
 	private static final int numDebrisPassive = 8;
 	private static final float debrisInterval = 0.25f;
-	private static final float debrisDamage= 9.0f;
-	private static final int debrisSize= 50;
-	private static final float debrisKnockback= 15.0f;
-	private static final float debrisLifespan= 3.0f;
 	private void fallingDebris() {
 		
 		EnemyUtils.createSoundEntity(state, this, 0.0f, 1.0f, 1.0f, 2.0f, SoundEffect.WOOSH, true);
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 1.0f);
 		
 		for (int i = 0; i < numDebris; i++) {
-			EnemyUtils.fallingDebris(state, this, debrisDamage, debrisSize, debrisKnockback, debrisLifespan, debrisInterval);
+			EnemyUtils.fallingDebris(state, this, debrisInterval);
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	private void fallingDebrisPassive() {
 		for (int i = 0; i < numDebrisPassive; i++) {
-			EnemyUtils.fallingDebris(state, this, debrisDamage, debrisSize, debrisKnockback, debrisLifespan, debrisInterval);
+			EnemyUtils.fallingDebris(state, this, debrisInterval);
 		}
 	}
 }

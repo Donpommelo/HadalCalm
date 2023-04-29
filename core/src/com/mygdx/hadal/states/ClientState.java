@@ -3,14 +3,12 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -33,13 +31,6 @@ import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
  */
 public class ClientState extends PlayState {
 	
-	//these variables are used to deal with packet loss.
-	// Windows to determine when a create/delete packet was dropped and when another packet can be requested
-	public static final float MISSED_CREATE_THRESHOLD = 2.0f;
-	public static final float MISSED_DELETE_THRESHOLD = 2.0f;
-	public static final float INITIAL_CONNECT_THRESHOLD = 2.0f;
-	public static final float MISSED_CREATE_COOLDOWN = 0.5f;
-	
 	//This is a set of all non-hitbox entities in the world mapped from their entityID
 	private final OrderedMap<UUID, HadalEntity> entities = new OrderedMap<>();
 	
@@ -57,7 +48,6 @@ public class ClientState extends PlayState {
 
 	//This contains the position of the client's mouse, to be sent to the server
 	private final Vector3 mousePosition = new Vector3();
-	private final Vector2 playerPosition = new Vector2();
 
 	//This is the time since the last missed create packet we send the server. Kept track of to avoid sending too many at once.
 	private final ObjectMap<UUID, Float> timeSinceLastMissedCreate = new ObjectMap<>();
@@ -98,13 +88,12 @@ public class ClientState extends PlayState {
 			if (gsm.getStates().peek() instanceof PlayState) {
 
 				//Whenever the controller is reset, the client gets a new client controller.
-				controller = new ClientController(player, this);
+				controller = new PlayerController(player);
 				
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
 				inputMultiplexer.addProcessor(stage);
 				inputMultiplexer.addProcessor(controller);
 				inputMultiplexer.addProcessor(new CommonController(this));
-				inputMultiplexer.addProcessor(new PlayerController(player));
 				Gdx.input.setInputProcessor(inputMultiplexer);
 			}
 		}
@@ -118,13 +107,12 @@ public class ClientState extends PlayState {
 	private float latencyAccumulator;
 	private float latency;
 
-	private static final float INPUT_SYNC_TIME = 1 / 60f;
-	private float inputAccumulator;
-
 	//separate timer used to calculate latency
 	private float clientPingTimer;
+
 	@Override
 	public void update(float delta) {
+
 		//this makes the physics separate from the game framerate
 		physicsAccumulator += delta;
 		while (physicsAccumulator >= PHYSICS_TIME) {
@@ -203,27 +191,16 @@ public class ClientState extends PlayState {
 				HadalEntity entity = hitboxes.get(p.entityID);
 		 		if (entity != null) {
 		 			entity.onReceiveSync(p.packet, p.timestamp);
-		 			entity.resetTimeSinceLastSync();
 		 		} else {
 					entity = effects.get(p.entityID);
 					if (entity != null) {
 						entity.onReceiveSync(p.packet, p.timestamp);
-						entity.resetTimeSinceLastSync();
 					} else {
 						entity = entities.get(p.entityID);
 
-						//if we have the entity, sync it and reset the time since last sync
+						//if we have the entity, sync it
 						if (entity != null) {
 							entity.onReceiveSync(p.packet, p.timestamp);
-							entity.resetTimeSinceLastSync();
-						} else {
-
-							//if we don't recognize the entity and the entity is of a sufficient age and the client didn't just start up, we may have missed a create packet.
-							if (p.age > MISSED_CREATE_THRESHOLD && getTimer() > INITIAL_CONNECT_THRESHOLD &&
-									!timeSinceLastMissedCreate.containsKey(p.entityID)) {
-								timeSinceLastMissedCreate.put(p.entityID, MISSED_CREATE_COOLDOWN);
-								HadalGame.client.sendUDP(new Packets.MissedCreate(p.entityID));
-							}
 						}
 					}
 				}
@@ -236,7 +213,6 @@ public class ClientState extends PlayState {
 				entity.clientController(delta);
 				entity.decreaseShaderCount(delta);
 				entity.increaseAnimationTime(delta);
-				entity.increaseTimeSinceLastSync(delta);
 			}
 		}
 
@@ -363,11 +339,10 @@ public class ClientState extends PlayState {
 	 * @param uuidMSB: The most-significant bits of the uuid
 	 * @param uuidLSB: The least-significant bits of the uuid
 	 * @param o: The SyncEntity Packet to use to synchronize the object
-	 * @param age: the age of the entity on the server. If we are told to sync an entity we don't have that's old enough, we missed a create packet.
 	 * @param timestamp: the time of the sync on the server.
 	 */
-	public void syncEntity(long uuidMSB, long uuidLSB, Object o, float age, float timestamp) {
-		SyncPacket packet = new SyncPacket(new UUID(uuidMSB, uuidLSB), o, age, timestamp);
+	public void syncEntity(long uuidMSB, long uuidLSB, Object o, float timestamp) {
+		SyncPacket packet = new SyncPacket(new UUID(uuidMSB, uuidLSB), o, timestamp);
 		sync.add(packet);
 	}
 
@@ -418,7 +393,7 @@ public class ClientState extends PlayState {
 	/**
 	 * This record represents a packet telling the client to sync an object
 	 */
-	private record SyncPacket(UUID entityID, Object packet, float age, float timestamp) {}
+	private record SyncPacket(UUID entityID, Object packet, float timestamp) {}
 
 	/**
 	 * This record represents a packet telling the client to create an object

@@ -217,8 +217,8 @@ public class EnemyCrawling extends Enemy {
 	
 	@Override
 	public void onServerSync() {
-		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), currentVel, entityAge,
-				state.getTimer(), moveState, getBodyData().getCurrentHp(), moveDirection));
+		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), currentVel, state.getTimer(),
+				moveState, getBodyData().getCurrentHp(), moveDirection));
 	}
 	
 	@Override

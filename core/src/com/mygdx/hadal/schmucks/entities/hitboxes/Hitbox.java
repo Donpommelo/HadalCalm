@@ -330,10 +330,10 @@ public class Hitbox extends HadalEntity {
 			float angle = getAngle();
 			if (angle == 0.0f) {
 				state.getSyncPackets().add(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
-						entityAge, state.getTimer()));
+						state.getTimer()));
 			} else {
 				state.getSyncPackets().add(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
-						entityAge, state.getTimer(), angle));
+						state.getTimer(), angle));
 			}
 		}
 	}
@@ -344,22 +344,21 @@ public class Hitbox extends HadalEntity {
 			float angle = getAngle();
 			if (angle == 0.0f) {
 				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
-						entityAge, state.getTimer()));
+						state.getTimer()));
 			} else {
 				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
-						entityAge, state.getTimer(), angle));
+						state.getTimer(), angle));
 			}
 		}
 	}
 
 	@Override
 	public Object onServerDelete() {
-		if (attack != null) {
-			if (!syncedDelete) {
-				return null;
-			}
+		if (syncedDelete) {
+			return new Packets.DeleteEntity(entityID, state.getTimer());
+		} else {
+			return null;
 		}
-		return new Packets.DeleteEntity(entityID, state.getTimer());
 	}
 
 	@Override

@@ -592,7 +592,6 @@ public class Packets {
 	public static class SyncPickup {
 		public long uuidMSB, uuidLSB;
         public UnlockEquip newPickup;
-		public float age;
 		public float timestamp;
         public SyncPickup() {}
         
@@ -601,14 +600,12 @@ public class Packets {
          * Clients receiving this adjust their version of the pickup to hold the new pickup
          * @param entityID: ID of the activated Pickup
          * @param newPickup: enum name of the new pickup.
-		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 * @param timestamp: time of sync. Used for client prediction.
          */
-		public SyncPickup(UUID entityID, UnlockEquip newPickup, float age, float timestamp) {
+		public SyncPickup(UUID entityID, UnlockEquip newPickup, float timestamp) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.newPickup = newPickup;
-			this.age = age;
 			this.timestamp = timestamp;
 		}
 	}
@@ -858,7 +855,6 @@ public class Packets {
 		public long uuidMSB, uuidLSB;
 		public float volume;
 		public boolean on;
-		public float age;
 		public float timestamp;
 		
 		public SyncSound() {}
@@ -868,48 +864,14 @@ public class Packets {
 		 * @param entityID: schmuck id of the SoundEntity
 		 * @param volume: new volume of the soundentity
 		 * @param on: is the soundentity on?
-		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 * @param timestamp: time of sync. Used for client prediction.
 		 */
-		public SyncSound(UUID entityID, float volume, boolean on, float age, float timestamp) {
+		public SyncSound(UUID entityID, float volume, boolean on, float timestamp) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
 			this.volume = volume;
 			this.on = on;
-			this.age = age;
 			this.timestamp = timestamp;
-		}
-	}
-	
-	public static class MissedCreate {
-		public long uuidMSB, uuidLSB;
-		
-		public MissedCreate() {}
-		
-		/**
-		 * A MissedCreate is sent from the client to the server when the client is told to sync an object it didn't create.
-		 * The implication is that the client missed a create entity packet from the server.
-		 * @param entityID: the entity id of the entity the client was told to sync
-		 */
-		public MissedCreate(UUID entityID) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-		}
-	}
-	
-	public static class MissedDelete {
-		public long uuidMSB, uuidLSB;
-		
-		public MissedDelete() {}
-		
-		/**
-		 * A MissedDelete is sent from the client to the server when the client has not been told to sync an object that should be receiving syncs.
-		 * The implication is that the client missed a delete entity packet from the server.
-		 * @param entityID: the entity id of the entity the client expected to be synced
-		 */
-		public MissedDelete(UUID entityID) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
 		}
 	}
 	
@@ -1126,8 +1088,6 @@ public class Packets {
     	kryo.register(SyncSoundSingle.class);
     	kryo.register(CreateSound.class);
     	kryo.register(SyncSound.class);
-    	kryo.register(MissedCreate.class);
-    	kryo.register(MissedDelete.class);
     	kryo.register(StartSpectate.class);
 		kryo.register(EndSpectate.class);
     	kryo.register(SyncSharedSettings.class);
@@ -1174,7 +1134,7 @@ public class Packets {
 		kryo.register(PacketsAttacks.SingleClientIndependentExtra.class);
 		kryo.register(PacketsAttacks.SingleClientDependentExtra.class);
 		kryo.register(PacketsAttacks.SingleServerIndependentExtra.class);
-		kryo.register(PacketsAttacks.SingleClientDependentExtra.class);
+		kryo.register(PacketsAttacks.SingleServerDependentExtra.class);
 
 		kryo.register(PacketsAttacks.MultiClientIndependent.class);
 		kryo.register(PacketsAttacks.MultiClientDependent.class);

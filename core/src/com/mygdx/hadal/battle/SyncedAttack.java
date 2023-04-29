@@ -86,7 +86,7 @@ public enum SyncedAttack {
     UNDERMINER_DRILL(new UnderminerDrill()),
     VAJRA(new VajraProjectile()),
     VINE_SEED(new VineSeed()),
-    VINE(new Vine()),
+    VINE(new Vine(DamageSource.VINE_SOWER)),
     WAVE_BEAM(new WaveBeamProjectile()),
     X_BOMB(new XBomb()),
 
@@ -163,11 +163,59 @@ public enum SyncedAttack {
     PING(new Ping()),
     EMOTE(new Emote()),
 
+    CONTACT_DAMAGE(new ContactDamageContinuous()),
+    CRAWLER_MELEE(new CrawlerMelee()),
+    CRAWLER_RANGED(new CrawlerRanged()),
+    DRONE_LASER(new DroneLaser()),
+    ENEMY_KAMABOKO_SPAWN(new KamabokoSpawn()),
+    ENEMY_KAMABOKO_SPRAY(new KamabokoSpray()),
     SCISSORFISH_ATTACK(new ScissorfishAttack()),
     SPITTLEFISH_ATTACK(new SpittleFishAttack()),
     TORPEDOFISH_ATTACK(new TorpedoFishAttack()),
     TURRET_FLAK_ATTACK(new TurretFlakAttack()),
-    TURRET_VOLLEY_ATTACK(new TurretVolleyAttack())
+    TURRET_VOLLEY_ATTACK(new TurretVolleyAttack()),
+
+    BOSS_BOUNCY_BALL(new BossBouncyBall()),
+    BOSS_FALLING_DEBRIS(new BossFallingDebris()),
+    BOSS_FIRE_BREATH(new BossFireBreath()),
+    BOSS_POISON_CLOUD(new BossPoisonCloud()),
+    BOSS_ROTATING_BEAM(new BossRotatingBeam()),
+    BOSS_SWEEPING_BEAM(new BossSweepingBeam()),
+    BOSS_SWEEPING_EXPLOSION(new BossSweepingExplosion()),
+    BOSS_TRACKING_BEAM(new BossTrackingBeam()),
+
+    FALSE_SUN_APOCALYPSE(new FalseSunApocalypse()),
+    FALSE_SUN_BELL(new FalseSunBell()),
+    FALSE_SUN_BULLETS(new FalseSunBullets()),
+    FALSE_SUN_FIRE_SPIN(new FalseSunFireSpin()),
+    FALSE_SUN_LASER_TRAIL(new FalseSunLaserTrail()),
+    FALSE_SUN_LASER(new FalseSunLaser()),
+    FALSE_SUN_RADIAL(new FalseSunRadial()),
+    FALSE_SUN_RETICLE(new FalseSunReticle()),
+    FALSE_SUN_SIGH(new FalseSunSigh()),
+    FALSE_SUN_STAR_ORBIT(new FalseSunStarOrbit()),
+    FALSE_SUN_WILL_O_WISP(new FalseSunWillOWisp()),
+
+    NEPTUNE_ORBITAL(new NeptuneOrbital()),
+    NEPTUNE_POISON(new NeptunePoison()),
+    NEPTUNE_RADIAL(new NeptuneRadial()),
+    NEPTUNE_SCYTHE(new NeptuneScythe()),
+    NEPTUNE_SEED(new NeptuneSeed()),
+    NEPTUNE_SHADOW(new NeptuneShadow()),
+    NEPTUNE_SPOREBURST(new NeptuneSporeburst()),
+    NEPTUNE_VINE(new Vine(DamageSource.ENEMY_ATTACK)),
+
+    KING_KAMABOKO_POISON(new KingKamabokoPoison()),
+    KING_KAMABOKO_SHOT(new KingKamabokoShot()),
+    KING_KAMABOKO_SLODGE(new KingKamabokoSlodge()),
+
+    SERAPH_BOMB(new SeraphBomb()),
+    SERAPH_CHARGE(new SeraphCharge()),
+    SERAPH_CROSS(new SeraphCross()),
+    SERAPH_LOTUS(new SeraphLotus()),
+    SERAPH_SPIRAL(new SeraphSpiral()),
+    SERAPH_TRAIL(new SeraphTrail())
+
 
     ;
 

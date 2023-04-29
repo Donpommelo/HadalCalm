@@ -132,7 +132,6 @@ public class KryoServer {
 			@Override
 			public void received(final Connection c, Object o) {
 
-
 				if (o instanceof final PacketsSync.SyncClientSnapshot p) {
 					final PlayState ps = getPlayState();
 
@@ -430,41 +429,6 @@ public class KryoServer {
 					}
 				}
 
-				/*
-				 * The Client tells us they might have missed a create packet.
-				 * Check if the entity exists and send a catchup create packet if so. 
-				 */
-				else if (o instanceof final Packets.MissedCreate p) {
-					final PlayState ps = getPlayState();
-					if (ps != null) {
-						ps.addPacketEffect(() -> {
-							HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
-							if (entity != null) {
-								Object packet = entity.onServerCreate(true);
-								if (packet != null) {
-									sendToUDP(c.getID(), packet);
-								}
-							}
-						});
-					}
-				}
-				
-				/*
-				 * The Client tells us they might have missed a delete packet.
-				 * Check if the entity exists and send a catchup delete packet if not. 
-				 */
-				else if (o instanceof final Packets.MissedDelete p) {
-					final PlayState ps = getPlayState();
-					if (ps != null) {
-						ps.addPacketEffect(() -> {
-							HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
-							if (entity == null) {
-								sendToUDP(c.getID(), new Packets.DeleteEntity(new UUID(p.uuidMSB, p.uuidLSB), ps.getTimer()));
-							}
-						});
-					}
-				}
-				
 				/*
 				 * A Client has unpaused the game
 				 * Return to the PlayState and inform everyone who unpaused.

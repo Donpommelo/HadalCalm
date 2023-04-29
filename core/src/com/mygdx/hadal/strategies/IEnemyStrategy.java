@@ -22,5 +22,5 @@ public interface IEnemyStrategy {
 
     Vector2 getProjectileOrigin(Vector2 startVelo, float projSize);
 
-    Object onServerSync(float entityAge);
+    Object onServerSync();
 }

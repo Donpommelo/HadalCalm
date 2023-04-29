@@ -176,7 +176,19 @@ public class Poison extends Event {
 	public void clientController(float delta) {
 		if (on) {
 			super.controller(delta);
-			
+
+			controllerCount += delta;
+			while (controllerCount >= Constants.INTERVAL) {
+				controllerCount -= Constants.INTERVAL;
+
+				for (HadalEntity entity : eventData.getSchmucks()) {
+					if (entity instanceof Schmuck schmuck) {
+						schmuck.getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true,
+								null, source, DamageTag.POISON);
+					}
+				}
+			}
+
 			if (randomParticles && draw) {
 				
 				entityLocation.set(getPixelPosition());

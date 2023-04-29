@@ -38,7 +38,12 @@ public class SpawnerObjective extends Event {
 	public SpawnerObjective(PlayState state, Vector2 startPos, Vector2 size) {
 		super(state, startPos, size);
 	}
-	
+
+	@Override
+	public Object onServerCreate(boolean catchup) {
+		return super.onServerCreate(catchup);
+	}
+
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
@@ -109,5 +114,10 @@ public class SpawnerObjective extends Event {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(eventSyncTypes.USER);
 	}
 }

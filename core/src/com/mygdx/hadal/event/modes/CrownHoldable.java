@@ -55,6 +55,7 @@ public class CrownHoldable extends Event {
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setGravity(1.0f);
 		setSynced(true);
+		setReliableCreate(true);
 
 		new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
 				.setColor(HadalColor.GOLDEN_YELLOW);
@@ -163,10 +164,10 @@ public class CrownHoldable extends Event {
 	public void onServerSync() {
 		if (captured) {
 			state.getSyncPackets().add(new PacketsSync.SyncFlagAttached(entityID, target.getEntityID(), getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer(), 0.0f));
+					state.getTimer(), 0.0f));
 		} else {
 			state.getSyncPackets().add(new PacketsSync.SyncFlag(entityID, getPosition(), getLinearVelocity(),
-					entityAge, state.getTimer(), 0.0f));
+					state.getTimer(), 0.0f));
 		}
 	}
 

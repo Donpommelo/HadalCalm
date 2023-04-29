@@ -5,22 +5,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
-import com.mygdx.hadal.constants.Stats;
 
 public class Drone extends EnemySwimming {
 
@@ -41,8 +36,6 @@ public class Drone extends EnemySwimming {
 
 	private static final Sprite sprite = Sprite.DRONE_BODY;
 	
-	private static final Sprite projSprite = Sprite.LASER;
-
 	private final TextureRegion armBackSprite, armFrontSprite;
 	private final Animation<TextureRegion> eyeSprite, dotSprite;
 	
@@ -78,13 +71,9 @@ public class Drone extends EnemySwimming {
 
 	private static final int laserNumber = 6;
 	private static final float laserInterval = 0.05f;
-	private static final float baseDamage = 8.0f;
-	private static final float knockback = 6.0f;
 	private static final float projectileSpeed = 28.0f;
-	private static final Vector2 projectileSize = new Vector2(60, 30);
-	private static final float lifespan = 3.0f;
 	private static final float range = 900.0f;
-	private static final int spread = 12;
+
 	@Override
 	public void attackInitiate() {
 		
@@ -99,8 +88,6 @@ public class Drone extends EnemySwimming {
 				private final Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
-					SoundEffect.LASER2.playUniversal(state, enemy.getPixelPosition(), 0.25f, false);
-					
 					if (attackTarget == null) {
 						return;
 					}
@@ -109,19 +96,7 @@ public class Drone extends EnemySwimming {
 					
 					if (startVelo.len2() < range * range) {
 						startVelo.nor().scl(projectileSpeed);
-						
-						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, projSprite);
-						
-						hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, enemy.getBodyData()));
-						hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-						hbox.addStrategy(new AdjustAngle(state, hbox, enemy.getBodyData()));
-						hbox.addStrategy(new ContactWallParticles(state, hbox, enemy.getBodyData(), Particle.LASER_IMPACT).setOffset(true));
-						hbox.addStrategy(new ContactUnitParticles(state, hbox, enemy.getBodyData(), Particle.LASER_IMPACT).setOffset(true));
-						hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
-								DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-						hbox.addStrategy(new Spread(state, hbox, enemy.getBodyData(), spread));
-						hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+						SyncedAttack.DRONE_LASER.initiateSyncedAttackSingle(state, enemy, enemy.getPixelPosition(), startVelo);
 					}
 				}
 			});

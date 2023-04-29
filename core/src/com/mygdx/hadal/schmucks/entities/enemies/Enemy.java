@@ -252,7 +252,7 @@ public class Enemy extends Schmuck {
 	@Override
 	public void onServerSync() {
 		for (EnemyStrategy s : strategies) {
-			Object packet = s.onServerSync(entityAge);
+			Object packet = s.onServerSync();
 			if (packet != null) {
 				state.getSyncPackets().add(packet);
 				return;

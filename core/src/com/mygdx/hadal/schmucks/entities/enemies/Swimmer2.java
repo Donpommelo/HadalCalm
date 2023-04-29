@@ -4,17 +4,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
-import com.mygdx.hadal.constants.Stats;
 
 public class Swimmer2 extends EnemySwimming {
 
@@ -61,14 +61,10 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float attackWindup = 1.0f;
 	private static final float attackSwingAngle = 30.0f;
 	
-	private static final int fireballDamage = 10;
-	private static final int fireSpeed = 10;
-	private static final int fireKB = 6;
-	private static final int fireSize = 50;
-	private static final float fireLifespan = 1.25f;
-
 	private static final int fireballNumber = 8;
+	private static final int fireSpeed = 10;
 	private static final float fireballInterval = 0.15f;
+
 	@Override
 	public void attackInitiate() {
 		
@@ -78,23 +74,21 @@ public class Swimmer2 extends EnemySwimming {
 		
 		EnemyUtils.changeFloatingTrackSpeed(this, attackTrack, 0.0f);
 		
-		EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval * 2, 0.6f, 2.0f, SoundEffect.OOZE, true);
-		
 		EnemyUtils.changeFloatingFreeAngle(this, attackSwingAngle, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
-			EnemyUtils.projectile(state, this, fireballDamage, fireSpeed, fireKB, fireSize, fireLifespan, fireballInterval, Particle.KAMABOKO_SHOWER);
+			kamabokoSpray(state, this, i);
 		}
 		
 		EnemyUtils.changeFloatingFreeAngle(this, - 2 * attackSwingAngle, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
-			EnemyUtils.projectile(state, this, fireballDamage, fireSpeed, fireKB, fireSize, fireLifespan, fireballInterval, Particle.KAMABOKO_SHOWER);
+			kamabokoSpray(state, this, i + fireballNumber);
 		}
 		
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		EnemyUtils.changeFloatingTrackSpeed(this, defaultTrack, 0.0f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0.0f, 0.0f);
 	}
-	
+
 	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
@@ -115,7 +109,19 @@ public class Swimmer2 extends EnemySwimming {
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 	}
-	
+
+	private void kamabokoSpray(final PlayState state, Enemy boss, int projNum) {
+
+		boss.getActions().add(new EnemyAction(boss, fireballInterval) {
+
+			@Override
+			public void execute() {
+				Vector2 startVelo = new Vector2(fireSpeed, fireSpeed).setAngleDeg(enemy.getAttackAngle());
+				SyncedAttack.ENEMY_KAMABOKO_SPRAY.initiateSyncedAttackSingle(state, enemy, enemy.getPixelPosition(), startVelo, projNum);
+			}
+		});
+	}
+
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {

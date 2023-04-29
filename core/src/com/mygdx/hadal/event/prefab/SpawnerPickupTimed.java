@@ -89,6 +89,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 		effect.setName("Player");
 		effect.getProperties().put("triggeredId", onTouchId);
 		effect.getProperties().put("triggeringId", pickupEffectId);
+		effect.getProperties().put("sync", "ALL");
 
 		RectangleMapObject use = new RectangleMapObject();
 		use.setName("Multitrigger");
