@@ -25,8 +25,6 @@ import com.mygdx.hadal.statuses.FiringWeapon;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.mygdx.hadal.constants.Constants.PPM;
-
 /**
  * BotLoadoutProcessor contains various utility methods for bot players.
  * Most of these methods pertain to loadout management and item usage
@@ -223,8 +221,8 @@ public class BotLoadoutProcessor {
         }
 
         //bot's mouse lerps towards the predicted position
-        mouseTarget.scl(PPM);
-        mousePosition.set(player.getMouseHelper().getPixelPosition());
+        mousePosition.set(player.getMouseHelper().getPosition());
+
         mousePosition.x = mousePosition.x + (mouseTarget.x - mousePosition.x) * player.getMouseAimSpeed();
         mousePosition.y = mousePosition.y + (mouseTarget.y - mousePosition.y) * player.getMouseAimSpeed();
         player.getMouseHelper().setDesiredLocation(mousePosition.x, mousePosition.y);
