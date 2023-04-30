@@ -321,7 +321,6 @@ public class BotManager {
             leadDisplace.set(targetVelocity).scl(t2);
         }
         aimTemp.set(targetLocation).add(leadDisplace);
-
         //if the new aim vector goes through a wall, we want to stop at the wall location
         float fract = BotManager.raycastUtility(targeter, targetLocation, aimTemp, Constants.BIT_PROJECTILE);
         if (fract < 1.0f) {
@@ -338,6 +337,7 @@ public class BotManager {
                         (float) (Math.sin(targeter.getAimWobble().angleRad()) * targeter.getCurrentWobble())));
             }
         }
+
         return aimTemp;
     }
 
