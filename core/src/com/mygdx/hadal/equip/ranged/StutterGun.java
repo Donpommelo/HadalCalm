@@ -36,7 +36,7 @@ public class StutterGun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SyncedAttack.STUTTER_LASER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity);
+		SyncedAttack.STUTTER_LASER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity.nor().scl(PROJECTILE_SPEED));
 	}
 
 	@Override

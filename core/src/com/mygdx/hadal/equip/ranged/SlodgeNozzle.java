@@ -38,7 +38,7 @@ public class SlodgeNozzle extends RangedWeapon {
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
 		int shotNum = user.getSpecialWeaponHelper().getSprayWeaponShotNumber();
-		SyncedAttack.SLODGE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, shotNum);
+		SyncedAttack.SLODGE.initiateSyncedAttackSingle(state, user, startPosition, startVelocity.nor().scl(PROJECTILE_SPEED_MAX), shotNum);
 	}
 
 	@Override
