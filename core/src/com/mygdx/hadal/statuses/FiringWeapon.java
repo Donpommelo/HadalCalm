@@ -57,11 +57,10 @@ public class FiringWeapon extends Status {
 				if (shotsFired <= shotNum) {
 					projVelo.set(player.getMouseHelper().getPixelPosition()).sub(player.getPixelPosition());
 
-					projOrigin.set(player.getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize));
+					projOrigin.set(player.getProjectileOrigin(projVelo, projSize));
 
 					inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
-					inflicted.getCurrentTool().fire(state, player, projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxFilter());
-
+					inflicted.getCurrentTool().fire(state, player, projOrigin, projVelo, inflicted.getSchmuck().getHitboxFilter());
 				}
 			}
 		}
