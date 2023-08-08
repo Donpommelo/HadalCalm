@@ -111,8 +111,9 @@ public class ParticleEntity extends HadalEntity {
 		if (attachedEntity != null) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				this.visualBounds.inf();
-				this.visualBounds.ext(new Vector3(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
-				this.effect.setPosition(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y);
+				attachedLocation.set(attachedEntity.getPixelPosition());
+				this.visualBounds.ext(new Vector3(attachedLocation.x + offset.x, attachedLocation.y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
+				this.effect.setPosition(attachedLocation.x + offset.x, attachedLocation.y + offset.y);
 			} else {
 				this.visualBounds.inf();
 				this.visualBounds.ext(new Vector3(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
@@ -240,7 +241,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 
 	@Override
-	public void render(SpriteBatch batch) {}
+	public void render(SpriteBatch batch, Vector2 entityLocation) {}
 
 	@Override
 	public void dispose() {

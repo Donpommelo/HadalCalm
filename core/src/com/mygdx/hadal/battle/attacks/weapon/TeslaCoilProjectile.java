@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
@@ -115,7 +116,7 @@ public class TeslaCoilProjectile extends SyncedAttacker {
             }
 
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
 
                 //activated coils do nothing when hit.
                 if (planted) {

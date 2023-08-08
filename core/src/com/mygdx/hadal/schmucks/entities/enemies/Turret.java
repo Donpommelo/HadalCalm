@@ -117,16 +117,14 @@ public class Turret extends Enemy {
 		}
 	}
 	
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		boolean flip = Math.abs(attackAngle) > 90;
 
 		float rotationYReal = rotationY;
 		if (flip) {
 			rotationYReal = size.y / scale - rotationY;
 		}
-		entityLocation.set(getPixelPosition());
 		if (MoveState.DEFAULT.equals(moveState)) {
 			batch.draw(turretBarrel.getKeyFrame(0, true),
 					entityLocation.x - getHboxSize().x / 2, 
@@ -146,7 +144,7 @@ public class Turret extends Enemy {
 				entityLocation.y - getHboxSize().y / 2, 
 				0, 0, size.x, size.y, 1, 1, 0.0f);
 		
-		super.render(batch);
+		super.render(batch, entityLocation);
 	}
 	
 	private static final float baseDamage = 20.0f;
@@ -176,11 +174,11 @@ public class Turret extends Enemy {
 			attackAngle = p.angle;
 		}
 	}
-	
+
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			entityLocation.set(getPixelPosition());
+			final Vector2 entityLocation = new Vector2(getPixelPosition());
 			new Ragdoll(state, entityLocation, size, Sprite.TURRET_BASE, getLinearVelocity(), 0.75f, 1.0f,
 					true, false, true, true);
 			new Ragdoll(state, entityLocation, size, turretBarrelSprite, getLinearVelocity(), 0.75f, 1.0f,

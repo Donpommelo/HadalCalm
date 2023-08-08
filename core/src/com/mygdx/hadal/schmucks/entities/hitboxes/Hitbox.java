@@ -110,7 +110,7 @@ public class Hitbox extends HadalEntity {
 
 	//this is the projectile's Sprite and corresponding frames
 	protected Animation<TextureRegion> projectileSprite;
-	private final Sprite sprite;
+	private Sprite sprite;
 	private boolean looping;
 
 	//this is the size of the sprite. Usually drawn to be the size of the hbox, but can be made larger/smaller
@@ -150,16 +150,7 @@ public class Hitbox extends HadalEntity {
 		this.startVelo = new Vector2(startVelo);
 
 		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
-		this.sprite = sprite;
-		if (!Sprite.NOTHING.equals(sprite)) {
-			projectileSprite = new Animation<>(sprite.getAnimationSpeed(), sprite.getFrames());
-			projectileSprite.setPlayMode(sprite.getPlayMode());
-			if (!PlayMode.NORMAL.equals(projectileSprite.getPlayMode())) {
-				looping = true;
-			}
-		}
-		this.spriteSize.set(size);
-
+		setSprite(sprite);
 		setLayer(ObjectLayer.HBOX);
 	}
 
@@ -235,9 +226,8 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 
 		if (!alive) { return; }
 
@@ -245,7 +235,6 @@ public class Hitbox extends HadalEntity {
 		if (flashCount > 0.0f) { return; }
 
 		if (projectileSprite != null) {
-			entityLocation.set(getPixelPosition());
 			batch.draw(projectileSprite.getKeyFrame(animationTime, looping),
 					entityLocation.x - spriteSize.x / 2,
 					entityLocation.y - spriteSize.y / 2,
@@ -386,6 +375,18 @@ public class Hitbox extends HadalEntity {
 		if (durability <= 0) {
 			die();
 		}
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+		if (!Sprite.NOTHING.equals(sprite)) {
+			projectileSprite = new Animation<>(sprite.getAnimationSpeed(), sprite.getFrames());
+			projectileSprite.setPlayMode(sprite.getPlayMode());
+			if (!PlayMode.NORMAL.equals(projectileSprite.getPlayMode())) {
+				looping = true;
+			}
+		}
+		this.spriteSize.set(size);
 	}
 
 	public void setStartVelo(Vector2 startVelo) { this.startVelo = startVelo; }

@@ -39,13 +39,10 @@ public class Text extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false,
 				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
 		body.setType(BodyType.KinematicBody);
-
-		entityLocation.set(getPixelPosition());
 	}
 	
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		batch.setProjectionMatrix(state.getCamera().combined);
 		HadalGame.FONT_UI.getData().setScale(scale);
 		HadalGame.FONT_UI.draw(batch, text, entityLocation.x, entityLocation.y);

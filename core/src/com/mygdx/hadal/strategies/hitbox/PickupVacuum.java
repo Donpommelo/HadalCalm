@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -79,7 +80,7 @@ public class PickupVacuum extends HitboxStrategy {
 	}
 
 	@Override
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (fixB != null) {
 			if (!vacuuming && !vacuumStarted) {
 				if (UserDataType.PICKUP_RADIUS.equals(fixB.getType())) {

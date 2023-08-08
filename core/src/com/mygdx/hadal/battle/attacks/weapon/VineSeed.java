@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.*;
 import com.mygdx.hadal.constants.Constants;
@@ -62,7 +63,7 @@ public class VineSeed extends SyncedAttacker {
             }
 
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
                     if (fixB.getEntity().getMainFixture().getFilterData().categoryBits == Constants.BIT_DROPTHROUGHWALL) {
                         hbox.die();

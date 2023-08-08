@@ -1,5 +1,6 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
@@ -18,7 +19,8 @@ import com.mygdx.hadal.strategies.hitbox.*;
 public class Nematocyte extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(91, 35);
-    public static final float LIFESPAN = 7.0f;
+    public static final float LIFESPAN = 3.0f;
+    public static final float LIFESPAN_STUCK = 70.0f;
     public static final float BASE_DAMAGE = 33.0f;
     private static final float RECOIL = 2.0f;
     private static final float KNOCKBACK = 20.0f;
@@ -40,7 +42,6 @@ public class Nematocyte extends SyncedAttacker {
         hbox.setSpriteSize(PROJECTILE_SIZE);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.NEMATOCYDEARM,
                 DamageTag.POKING, DamageTag.RANGED).setStaticKnockback(true));
@@ -49,7 +50,20 @@ public class Nematocyte extends SyncedAttacker {
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DANGER_BLUE, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
                 HadalColor.SKY_BLUE).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false));
+        hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false) {
+
+            private final Vector2 currentVelo = new Vector2();
+            @Override
+            public void controller(float delta) {
+                super.controller(delta);
+                if (!stuckToTarget) {
+                    currentVelo.set(hbox.getLinearVelocity());
+                    if (hbox.getAngle() != currentVelo.angleDeg()) {
+                        hbox.setTransform(hbox.getPosition(), MathUtils.atan2(currentVelo.y , currentVelo.x));
+                    }
+                }
+            }
+        }.setStuckLifespan(LIFESPAN_STUCK));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
 
         return hbox;

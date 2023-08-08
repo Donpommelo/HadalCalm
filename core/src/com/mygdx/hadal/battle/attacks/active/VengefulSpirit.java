@@ -51,10 +51,9 @@ public class VengefulSpirit extends SyncedAttacker {
                 Hitbox hbox = new RangedHitbox(state, startPosition[i], new Vector2(SPIRIT_SIZE, SPIRIT_SIZE), SPIRIT_LIFESPAN,
                         new Vector2(), user.getHitboxFilter(), true, true, user, Sprite.SKULL) {
 
-                    private final Vector2 entityLocation = new Vector2();
                     private final Vector2 entityVelocity = new Vector2();
                     @Override
-                    public void render(SpriteBatch batch) {
+                    public void render(SpriteBatch batch, Vector2 entityLocation) {
 
                         if (!alive) { return; }
                         entityVelocity.set(getLinearVelocity());
@@ -68,7 +67,6 @@ public class VengefulSpirit extends SyncedAttacker {
                             flip = false;
                         }
 
-                        entityLocation.set(getPixelPosition());
                         batch.draw(projectileSprite.getKeyFrame(animationTime, true),
                                 (flip ? spriteSize.x : 0) + entityLocation.x - spriteSize.x / 2,
                                 entityLocation.y - spriteSize.y / 2,

@@ -36,7 +36,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	}
 
 	@Override
-	public void processEffects(PlayState state, float delta) {
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		if (reloading) {
 			//upon reload, detonate all laid bombs
 			for (Hitbox bomb : user.getSpecialWeaponHelper().getStickyBombs()) {

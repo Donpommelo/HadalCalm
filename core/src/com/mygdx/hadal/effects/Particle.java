@@ -39,6 +39,7 @@ public enum Particle {
 	ENERGY_CLOUD(ParticleType.DEFAULT, "energy_cloud", true),
 	GLITTER(ParticleType.DEFAULT, "glitter", true),
 	GHOST_LIGHT(ParticleType.DEFAULT, "ghostlight", true, true),
+	GRADIENT_TRAIL(ParticleType.DEFAULT, "gradient_trail", true),
 	LASER(ParticleType.DEFAULT, "laser", true),
 	LASER_PULSE(ParticleType.DEFAULT, "laserpulse", true),
 	LASER_TRAIL(ParticleType.DEFAULT, "laser_trail", true),

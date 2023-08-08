@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -43,7 +44,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	}
 
 	@Override
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (fixB != null) {
 			if (UserDataType.BODY.equals(fixB.getType())) {
 
@@ -72,7 +73,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 					}
 					
 					@Override
-					public void onHit(HadalData fixB) {
+					public void onHit(HadalData fixB, Body body) {
 						if (procCdCount > PROC_CD) {
 							if (fixB != null && lastVelo > SPEED_THRESHOLD) {
 

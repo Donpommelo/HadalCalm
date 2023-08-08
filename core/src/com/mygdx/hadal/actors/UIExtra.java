@@ -9,15 +9,17 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.map.ModeGunGame;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.constants.Stats;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_SHORT;
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_SUPER_SHORT;
 
 /**
  * The UIExtra is an extra ui actor displayed in the upper left hand side.
@@ -252,6 +254,7 @@ public class UIExtra extends AHadalActor {
 	}
 
 	private static final int MAX_SCORES = 5;
+	private static final int MAX_CHARACTERS = 26;
 	/**
 	 * For modes with a scoreboard ui tag, we add a sorted list of player scores. List is, at most, 5 names long
 	 * @param text: the stringbuilder we will be appending the scoreboard text to
@@ -261,7 +264,10 @@ public class UIExtra extends AHadalActor {
 			int scoreNum = 0;
 			for (User user : state.getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
-					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ").append(user.getScores().getScore()).append("\n");
+					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ")
+							.append(alignScoreText(user.getScores().getNameShort(), String.valueOf(user.getScores().getScore()),
+									MAX_NAME_LENGTH_SHORT, MAX_CHARACTERS))
+							.append(user.getScores().getScore()).append("\n");
 					scoreNum++;
 					if (MAX_SCORES < scoreNum) {
 						break;
@@ -281,6 +287,8 @@ public class UIExtra extends AHadalActor {
 			rgb.set(AlignmentFilter.currentTeams[i].getPalette().getIcon().getRGB());
 			String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
 			text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
+				.append(alignScoreText(AlignmentFilter.currentTeams[i].getTeamName(), String.valueOf(AlignmentFilter.teamScores[i]),
+							MAX_NAME_LENGTH_SHORT, MAX_CHARACTERS))
 				.append("[]").append(": ").append(AlignmentFilter.teamScores[i]).append("\n");
 			scoreNum++;
 			if (MAX_SCORES < scoreNum) {
@@ -311,6 +319,8 @@ public class UIExtra extends AHadalActor {
 				rgb.set(AlignmentFilter.currentTeams[i].getPalette().getIcon().getRGB());
 				String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
 				text.append("[").append(hex).append("]").append(AlignmentFilter.currentTeams[i].getTeamName())
+						.append(alignScoreText(AlignmentFilter.currentTeams[i].getTeamName(), String.valueOf(numAlive),
+								MAX_NAME_LENGTH_SUPER_SHORT, MAX_CHARACTERS - 1 - UIText.PLAYERS_ALIVE.text().length()))
 						.append("[]").append(": ").append(numAlive).append(" ").append(UIText.PLAYERS_ALIVE.text()).append("\n");
 				scoreNum++;
 				if (MAX_SCORES < scoreNum) {
@@ -318,6 +328,36 @@ public class UIExtra extends AHadalActor {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Sort gun game ui text to display top player progress
+	 */
+	public void sortGunGame(StringBuilder text) {
+		if (state.getScoreWindow() != null) {
+			int scoreNum = 0;
+			for (User user : state.getScoreWindow().getOrderedUsers()) {
+				if (!user.isSpectator()) {
+					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SUPER_SHORT)).append(": ")
+						.append(alignScoreText(user.getScores().getNameShort(), UIText.UI_GUNGAME.text(Integer.toString(user.getScores().getScore()), Integer.toString(ModeGunGame.weaponOrder.length)),
+								MAX_NAME_LENGTH_SUPER_SHORT, MAX_CHARACTERS))
+						.append(UIText.UI_GUNGAME.text(Integer.toString(user.getScores().getScore()), Integer.toString(ModeGunGame.weaponOrder.length))).append("\n");
+					scoreNum++;
+					if (MAX_SCORES < scoreNum) {
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * This creates a string of empty spaces between 2 strings to ensure the total length is a certain number of characters long
+	 */
+	private String alignScoreText(String name, String score, int maxNameLength, int maxTotalLength) {
+		int spaces = maxTotalLength - score.length();
+		spaces -= (name.length() > maxNameLength ? maxNameLength + 1 : name.length());
+		return " ".repeat(Math.max(0, spaces));
 	}
 
 	private static String lastTags = "";

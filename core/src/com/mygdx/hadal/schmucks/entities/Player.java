@@ -267,18 +267,23 @@ public class Player extends Schmuck {
 	/**
 	 * The player's controller currently polls for input.
 	 */
+	protected final Vector2 playerPixelPosition = new Vector2();
+	protected final Vector2 playerVelocity = new Vector2();
 	@Override
 	public void controller(float delta) {
-		processMiscellaneousUniversal(delta);
+		playerPixelPosition.set(getPixelPosition());
+		playerVelocity.set(getLinearVelocity());
+
+		processMiscellaneousUniversal(delta, playerPixelPosition, playerVelocity);
 		processMiscellaneous(delta);
 
-		processMovement(delta);
+		processMovement(delta, playerVelocity);
 		processEquipment(delta);
 
 		super.controller(delta);
 	}
 
-	protected void processMovement(float delta) {
+	protected void processMovement(float delta, Vector2 playerVelocity) {
 		controllerCount += delta;
 
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
@@ -286,7 +291,7 @@ public class Player extends Schmuck {
 			controllerCount -= Constants.INTERVAL;
 
 			jumpHelper.controllerInterval();
-			fastfallHelper.controllerInterval();
+			fastfallHelper.controllerInterval(playerVelocity);
 			groundedHelper.controllerInterval();
 		}
 
@@ -316,20 +321,19 @@ public class Player extends Schmuck {
 		playerData.processRecentDamagedBy(delta);
 	}
 
-	protected void processMiscellaneousUniversal(float delta) {
+	protected void processMiscellaneousUniversal(float delta, Vector2 playerPosition, Vector2 playerVelocity) {
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		if (this.isOrigin()) {
 			controllerCountUniversal += delta;
 			while (controllerCountUniversal >= Constants.INTERVAL) {
 				controllerCountUniversal -= Constants.INTERVAL;
-
-				physicsHelper.controllerInterval();
+				physicsHelper.controllerInterval(playerVelocity);
 			}
 		}
 
-		jumpHelper.controllerUniversal(delta);
-		shootHelper.controllerUniversal(delta);
-		mouseHelper.controller();
+		jumpHelper.controllerUniversal(delta, playerPosition);
+		shootHelper.controllerUniversal(delta, playerPosition);
+		mouseHelper.controller(playerPosition);
 	}
 	
 	/**
@@ -347,17 +351,15 @@ public class Player extends Schmuck {
 		playerData.getCurrentTool().setReloading(true, false);
 	}
 	
-	private final Vector2 playerLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
-		playerLocation.set(getPixelPosition());
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 
 		float transparency = effectHelper.processInvisibility(batch);
 
 		if (0.0f != transparency) {
 			//render player sprite using sprite helper
 			spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
-					groundedHelper.isGrounded(), playerLocation,
+					groundedHelper.isGrounded(), entityLocation,
 					true, null, true);
 		}
 
@@ -379,10 +381,10 @@ public class Player extends Schmuck {
 			}
 		}
 		if (0.0f != transparency) {
-			uiHelper.render(batch, playerLocation, visible);
+			uiHelper.render(batch, entityLocation, visible);
 		}
 
-		playerData.statusProcTime(new ProcTime.Render(batch, playerLocation, size));
+		playerData.statusProcTime(new ProcTime.Render(batch, entityLocation, size));
 	}
 	
 	@Override
@@ -488,7 +490,10 @@ public class Player extends Schmuck {
 
 	@Override
 	public void clientController(float delta) {
-		processMiscellaneousUniversal(delta);
+		playerPixelPosition.set(getPixelPosition());
+		playerVelocity.set(getLinearVelocity());
+
+		processMiscellaneousUniversal(delta, playerPixelPosition, playerVelocity);
 		super.clientController(delta);
 	}
 	

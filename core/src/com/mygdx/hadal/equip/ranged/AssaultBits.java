@@ -72,7 +72,7 @@ public class AssaultBits extends RangedWeapon {
 
 	private float bitRespawn;
 	@Override
-	public void processEffects(PlayState state, float delta) {
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		if (!state.isServer()) { return; }
 
 		Array<Enemy> bits = user.getSpecialWeaponHelper().getBits();
@@ -90,10 +90,10 @@ public class AssaultBits extends RangedWeapon {
 				if (bitRespawn >= getChargeTime()) {
 					bitRespawn = 0.0f;
 
-					SoundEffect.CYBER2.playUniversal(state, user.getPixelPosition(), 0.4f, false);
+					SoundEffect.CYBER2.playUniversal(state, playerPosition, 0.4f, false);
 
 					//bits are removed from the list upon death
-					DroneBit bit = new DroneBit(state, user.getPixelPosition(), 0.0f, user.getHitboxFilter()) {
+					DroneBit bit = new DroneBit(state, playerPosition, 0.0f, user.getHitboxFilter()) {
 
 						@Override
 						public boolean queueDeletion() {

@@ -82,11 +82,8 @@ public class Buzzsaw extends Event {
 	/**
 	 * We draw the sprite a bit larger than normal to make its hitbox feel more generous to players
 	 */
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
-		entityLocation.set(getPixelPosition());
-		
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		batch.draw(eventSprite.getKeyFrame(animationTime),
 				entityLocation.x - size.x / 2 * SPRITE_SCALE,
 				entityLocation.y - size.y / 2 * SPRITE_SCALE,
@@ -98,11 +95,10 @@ public class Buzzsaw extends Event {
 	 * visibility check compensating for the increased sprite size
 	 */
 	@Override
-	public boolean isVisible() {
+	public boolean isVisible(Vector2 entityLocation) {
 		if (body == null) {
 			return false;
 		} else {
-			entityLocation.set(getPixelPosition());
 			return (
 					state.getCamera().frustum.pointInFrustum(entityLocation.x + size.x * SPRITE_SCALE / 2, entityLocation.y + size.y * SPRITE_SCALE / 2, 0) ||
 					state.getCamera().frustum.pointInFrustum(entityLocation.x - size.x * SPRITE_SCALE / 2, entityLocation.y + size.y * SPRITE_SCALE / 2, 0) ||

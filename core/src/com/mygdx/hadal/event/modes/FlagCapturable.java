@@ -240,18 +240,16 @@ public class FlagCapturable extends Event {
 	}
 
 	private static final float UI_SCALE = 0.4f;
-	private final Vector2 flagLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
-		super.render(batch);
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
+		super.render(batch, entityLocation);
 		if (awayFromSpawn && !captured) {
 
 			//draw return meter according to timer
 			returnDelayed = Math.min(1.0f, returnDelayed + (returnPercent - returnDelayed) * 0.25f);
 
-			flagLocation.set(getPixelPosition());
-			float textX = flagLocation.x - returnMeter.getRegionWidth() * UI_SCALE / 2;
-			float textY = flagLocation.y + returnMeter.getRegionHeight() * UI_SCALE + size.y / 2;
+			float textX = entityLocation.x - returnMeter.getRegionWidth() * UI_SCALE / 2;
+			float textY = entityLocation.y + returnMeter.getRegionHeight() * UI_SCALE + size.y / 2;
 
 			batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * UI_SCALE * returnDelayed, returnBar.getRegionHeight() * UI_SCALE);
 			HadalGame.FONT_SPRITE.draw(batch, UIText.CTF_RETURN.text(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);

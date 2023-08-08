@@ -68,15 +68,8 @@ public class KillerBeat extends RangedWeapon {
 
 	private Vector2 setNoteVelocity(int note, Vector2 startVelocity) {
 		Vector2 noteVelo = new Vector2();
-		switch (note) {
-			case 0 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - (NOTE_SPREAD * 3));
-			case 1 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - (NOTE_SPREAD * 2));
-			case 2 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() - NOTE_SPREAD);
-			case 3 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg());
-			case 4 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + NOTE_SPREAD);
-			case 5 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + (NOTE_SPREAD * 2));
-			case 6 -> noteVelo.set(startVelocity).setAngleDeg(startVelocity.angleDeg() + (NOTE_SPREAD * 3));
-		}
+		float angle = startVelocity.angleDeg() - (NOTE_SPREAD * 3) + NOTE_SPREAD * note;
+		noteVelo.set(startVelocity).setAngleDeg(angle);
 		return noteVelo;
 	}
 

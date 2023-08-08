@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.artifact;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.UserDataType;
@@ -33,7 +34,7 @@ public class CommuterParasolActivate extends SyncedAttacker {
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
                     if (UserDataType.HITBOX.equals(fixB.getType())) {
                         if (fixB.getEntity().isAlive()) {

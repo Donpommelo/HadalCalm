@@ -147,9 +147,8 @@ public class Ragdoll extends HadalEntity {
 		}
 	}
 	
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 
 		//make ragdoll begin to fade when lifespan is low enough
 		if (fadeTransparency < 1.0f) {
@@ -157,8 +156,7 @@ public class Ragdoll extends HadalEntity {
 		}
 
 		if (ragdollSprite != null) {
-			entityLocation.set(getPixelPosition());
-			batch.draw(ragdollSprite, 
+			batch.draw(ragdollSprite,
 					entityLocation.x - size.x / 2, 
 					entityLocation.y - size.y / 2, 
 					size.x / 2, size.y / 2,

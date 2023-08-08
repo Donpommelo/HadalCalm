@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.event.modes.FootballGoal;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -26,7 +27,7 @@ public class ContactGoalScore extends HitboxStrategy {
 	}
 	
 	@Override
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (fixB != null) {
 			if (fixB.getEntity() instanceof FootballGoal goal) {
 

@@ -431,10 +431,10 @@ public class PlayerSpriteHelper {
             }
 
             @Override
-            public void render(SpriteBatch batch) {
+            public void render(SpriteBatch batch, Vector2 entityLocation) {
                 batch.setShader(shader.getShaderProgram());
                 shader.shaderDefaultUpdate(progress);
-                super.render(batch);
+                super.render(batch, entityLocation);
                 batch.setShader(null);
             }
 

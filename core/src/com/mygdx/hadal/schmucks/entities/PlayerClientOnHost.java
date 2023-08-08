@@ -62,11 +62,11 @@ public class PlayerClientOnHost extends Player {
 
 	@Override
 	public void onReceiveSync(Object o, float timestamp) {
-		super.onReceiveSync(o, timestamp + 4 * PlayState.SYNC_TIME);
+		super.onReceiveSync(o, timestamp);
 
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
 			HadalGame.server.sendToAllExceptUDP(getConnID(), new PacketsSync.SyncPlayer(entityID, p.pos, p.velocity,
-					timestamp + 2 * PlayState.SYNC_TIME, p.moveState, p.currentHp,
+					state.getTimer(), p.moveState, p.currentHp,
 					p.mousePosition, p.currentSlot,
 					p.reloadPercent,
 					p.chargePercent,

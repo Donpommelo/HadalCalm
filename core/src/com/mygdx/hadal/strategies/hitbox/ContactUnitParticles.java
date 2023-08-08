@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.constants.SyncType;
@@ -45,7 +46,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 	}
 	
 	@Override
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (fixB instanceof BodyData) {
 			
 			if (drawOnSelf) {

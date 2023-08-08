@@ -60,17 +60,20 @@ public class Popper extends SyncedAttacker {
                 hbox.getBody().setLinearDamping(PROJ_DAMPEN);
             }
 
+            private final Vector2 hboxPosition = new Vector2();
             @Override
             public void die() {
                 Vector2 newVelocity = new Vector2();
+                hboxPosition.set(hbox.getPixelPosition());
                 for (float newDegrees : extraFields) {
                     newVelocity.set(0, 1).nor().scl(FRAG_SPEED);
 
                     int randomIndex = MathUtils.random(FRAG_SPRITES.length - 1);
                     Sprite projSprite = FRAG_SPRITES[randomIndex];
 
-                    Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), FRAG_SIZE, FRAG_LIFESPAN,
-                            newVelocity.setAngleDeg(newDegrees), user.getHitboxFilter(), false, true, user, projSprite) {
+                    Hitbox frag = new RangedHitbox(state, hboxPosition, FRAG_SIZE, FRAG_LIFESPAN,
+                            newVelocity.setAngleDeg(newDegrees), user.getHitboxFilter(), false, true,
+                            user, projSprite) {
 
                         @Override
                         public void create() {

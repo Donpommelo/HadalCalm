@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
@@ -55,7 +56,7 @@ public class TractorBeam extends ActiveItem {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			@Override
-			public void onHit(HadalData fixB) {						
+			public void onHit(HadalData fixB, Body body) {
 					
 				if (fixB != null) {
 					if (UserDataType.BODY.equals(fixB.getType())) {
@@ -80,7 +81,7 @@ public class TractorBeam extends ActiveItem {
 						grab.addStrategy(new HitboxStrategy(state, grab, user) {
 							
 							@Override
-							public void onHit(final HadalData fixB) {
+							public void onHit(final HadalData fixB, Body body) {
 								if (track != fixB) {
 
 									if (fixB != null && track.getSchmuck().getBody() != null) {

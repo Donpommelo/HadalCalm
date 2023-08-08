@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
@@ -90,7 +91,7 @@ public class ChargeBeamProjectile extends SyncedAttacker {
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
                     fixB.receiveDamage(BASE_DAMAGE * damageMultiplier2, this.hbox.getLinearVelocity().nor().scl(KNOCKBACK * kbMultiplier2),
                             user.getBodyData(), true, hbox, DamageSource.CHARGE_BEAM, DamageTag.ENERGY, DamageTag.RANGED);

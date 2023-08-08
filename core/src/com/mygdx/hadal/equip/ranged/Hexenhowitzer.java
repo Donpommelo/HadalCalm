@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
@@ -86,7 +87,7 @@ public class Hexenhowitzer extends RangedWeapon {
 				private final Array<HadalData> damaged = new Array<>();
 
 				@Override
-				public void onHit(HadalData fixB) {
+				public void onHit(HadalData fixB, Body body) {
 					if (fixB != null) {
 						if (UserDataType.BODY.equals(fixB.getType())) {
 							if (!damaged.contains(fixB, false)) {
@@ -113,7 +114,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	}
 
 	@Override
-	public void processEffects(PlayState state, float delta) {
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean charging = this.equals(user.getPlayerData().getCurrentTool()) && !reloading && getClipLeft() > 0;
 
 		if (charging) {
@@ -123,7 +124,7 @@ public class Hexenhowitzer extends RangedWeapon {
 				glowing = new MagicGlow(state, user.getBodyData());
 				user.getBodyData().addStatus(glowing);
 
-				SoundEffect.MAGIC25_SPELL.playSourced(state, user.getPixelPosition(), 0.5f);
+				SoundEffect.MAGIC25_SPELL.playSourced(state, playerPosition, 0.5f);
 			}
 			if (user.getUiHelper().getChargePercent() <= 0.0f && supercharged) {
 				supercharged = false;

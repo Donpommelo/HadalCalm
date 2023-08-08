@@ -71,9 +71,11 @@ public class SoundEntity extends HadalEntity {
 
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
 		if (startOn && null != attachedEntity) {
-			this.soundID = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, pitch);
+			attachedLocation.set(attachedEntity.getPixelPosition());
+
+			this.soundID = sound.playSourced(state, attachedLocation, volume, pitch);
 			if (null != attachedEntity.getBody()) {
-				sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundID);
+				sound.updateSoundLocation(state, attachedLocation, volume, soundID);
 			}
 		} else {
 			//otherwise, we just get the sound id and pause it.
@@ -92,6 +94,7 @@ public class SoundEntity extends HadalEntity {
 	//No need to update every tick.
 	private static final float SYNC_TIME = 0.01f;
 	private float syncAccumulator = 0.0f;
+	private final Vector2 attachedLocation = new Vector2();
 	@Override
 	public void controller(float delta) {
 		
@@ -223,7 +226,7 @@ public class SoundEntity extends HadalEntity {
 	}
 	
 	@Override
-	public void render(SpriteBatch batch) {}
+	public void render(SpriteBatch batch, Vector2 entityLocation) {}
 	
 	@Override
 	public void dispose() {

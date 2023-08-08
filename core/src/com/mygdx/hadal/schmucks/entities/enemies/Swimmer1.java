@@ -64,10 +64,9 @@ public class Swimmer1 extends EnemySwimming {
 		}
 	}
 
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
-		super.render(batch);
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
+		super.render(batch, entityLocation);
 
 		boolean flip = true;
 		float realAngle = getAngle() % (MathUtils.PI * 2);
@@ -75,8 +74,7 @@ public class Swimmer1 extends EnemySwimming {
 			flip = false;
 		}
 
-		entityLocation.set(getPixelPosition());
-		batch.draw(faceSprite, 
+		batch.draw(faceSprite,
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 

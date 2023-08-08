@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.mygdx.hadal.map.ModeGunGame;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -91,14 +90,7 @@ public class UITag {
 					uiExtra.sortTeamAlive(text);
 					break;
 				case GUNGAME:
-					int score = user.getScores().getScore();
-					if (score + 1 < ModeGunGame.weaponOrder.length) {
-						text.append(UIText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
-								ModeGunGame.weaponOrder[score + 1].getName()));
-					} else {
-						text.append(UIText.UI_GUNGAME.text(Integer.toString(score), Integer.toString(ModeGunGame.weaponOrder.length),
-								UIText.UI_VICTORY.text()));
-					}
+					uiExtra.sortGunGame(text);
 					break;
 				case EMPTY:
 				default:

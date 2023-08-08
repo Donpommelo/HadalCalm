@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -52,9 +53,9 @@ public class ShootHelper {
         shootCdCount -= delta;
     }
 
-    public void controllerUniversal(float delta) {
+    public void controllerUniversal(float delta, Vector2 playerPosition) {
         for (Equippable equippable : player.getPlayerData().getMultitools()) {
-            equippable.processEffects(state, delta);
+            equippable.processEffects(state, delta, playerPosition);
         }
     }
 

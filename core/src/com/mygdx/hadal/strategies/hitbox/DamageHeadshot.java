@@ -1,5 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -42,7 +43,7 @@ public class DamageHeadshot extends HitboxStrategy {
 	}
 
 	@Override
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (fixB != null) {
 			if (fixB instanceof PlayerBodyData p) {
 				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > HEADSHOT_THRESHOLD * p.getPlayer().getSize().y) {

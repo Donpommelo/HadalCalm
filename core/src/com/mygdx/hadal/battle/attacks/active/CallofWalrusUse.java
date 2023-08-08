@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.active;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
@@ -51,7 +52,7 @@ public class CallofWalrusUse extends SyncedAttacker {
 
             private final Array<HadalData> buffed = new Array<>();
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
                     if (UserDataType.BODY.equals(fixB.getType())) {
                         BodyData ally = (BodyData) fixB;

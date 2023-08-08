@@ -751,15 +751,16 @@ public class PlayState extends GameState {
 	 * This method renders a single entity.
 	 * @param entity: the entity we are rendering
 	 */
+	private final Vector2 entityLocation = new Vector2();
 	public void renderEntity(HadalEntity entity) {
-
-		if (entity.isVisible()) {
+		entityLocation.set(entity.getPixelPosition());
+		if (entity.isVisible(entityLocation)) {
 			if (entity.getShaderCount() > 0 && entity.getShader() != null) {
 				batch.setShader(entity.getShader().getShaderProgram());
 				entity.processShaderController(timer);
 			}
 
-			entity.render(batch);
+			entity.render(batch, entityLocation);
 
 			if (entity.getShaderCount() > 0 && entity.getShader() != null) {
 				batch.setShader(null);

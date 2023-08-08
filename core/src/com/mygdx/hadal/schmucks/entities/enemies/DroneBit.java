@@ -121,17 +121,15 @@ public class DroneBit extends EnemySwimming {
 	@Override
 	public void acquireTarget() {}
 	
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		boolean flip = true;
 		float realAngle = getAngle() % (MathUtils.PI * 2);
 		if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {
 			flip = false;
 		}
 		
-		entityLocation.set(getPixelPosition());
-		batch.draw(armBackSprite, 
+		batch.draw(armBackSprite,
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 
@@ -147,7 +145,7 @@ public class DroneBit extends EnemySwimming {
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		
-		super.render(batch);
+		super.render(batch, entityLocation);
 		
 		batch.draw(armFrontSprite, 
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 

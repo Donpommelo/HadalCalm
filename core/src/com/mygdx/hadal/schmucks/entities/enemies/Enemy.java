@@ -199,9 +199,8 @@ public class Enemy extends Schmuck {
 	/**
 	 * draws enemy
 	 */
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		
 		boolean visible = false;
 		
@@ -215,7 +214,6 @@ public class Enemy extends Schmuck {
 			float hpRatio;
 
 			hpRatio = getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP);
-			entityLocation.set(getPixelPosition());
 			batch.draw(hpSprite, hpX + entityLocation.x - hboxSize.x / 2, hpY + entityLocation.y - hboxSize.y / 2,
 				hpSprite.getRegionWidth() * uiScale * hpRatio, hpSprite.getRegionHeight() * uiScale);
 		}
