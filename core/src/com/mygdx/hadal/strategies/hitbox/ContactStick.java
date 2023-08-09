@@ -58,15 +58,9 @@ public class ContactStick extends HitboxStrategy {
 		if (!stuckToTarget) {
 			if (fixB != null) {
 				if (UserDataType.BODY.equals(fixB.getType()) && stickToDudes) {
-					SoundEffect.SQUISH.playSourced(state, hbox.getPixelPosition(), 0.8f, 1.0f);
-					stuckToTarget = true;
-
 					onStick(fixB.getEntity(), body);
 				}
 				if (UserDataType.WALL.equals(fixB.getType()) && stickToWalls) {
-					SoundEffect.SQUISH.playSourced(state, hbox.getPixelPosition(), 0.8f, 1.0f);
-					stuckToTarget = true;
-
 					if (fixB.getEntity() instanceof Wall) {
 						onStick(state.getAnchor(), body);
 					} else {
@@ -98,6 +92,9 @@ public class ContactStick extends HitboxStrategy {
 	}
 
 	protected void onStick(HadalEntity target, Body body) {
+		SoundEffect.SQUISH.playSourced(state, hbox.getPixelPosition(), 0.8f, 1.0f);
+		stuckToTarget = true;
+
 		this.target = target;
 		this.targetBody = body;
 

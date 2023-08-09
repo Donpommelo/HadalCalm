@@ -7,6 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -21,19 +22,22 @@ public class RecombinantShot extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(30, 30);
     public static final float LIFESPAN = 1.5f;
-    public static final float BASE_DAMAGE = 13.0f;
+    public static final float BASE_DAMAGE = 19.0f;
     private static final float RECOIL = 11.0f;
     private static final float KNOCKBACK = 2.2f;
 
     private static final float PITCH_SPREAD = 0.4f;
     private static final float PROJ_DAMPEN = 5.0f;
+    public static final int DURABILITY = 3;
 
-    private static final float HOME_DELAY = 0.8f;
-    private static final float HOME_INTERVAL = 0.15f;
+    private static final float HOME_DELAY = 0.5f;
+    private static final float HOME_INTERVAL = 0.12f;
     private static final float HOME_SPEED = 55.0f;
 
     private static final Sprite[] PROJ_SPRITES = {Sprite.BEACH_BALL_BLUE, Sprite.BEACH_BALL_GREEN, Sprite.BEACH_BALL_ORANGE,
             Sprite.BEACH_BALL_RED, Sprite.BEACH_BALL_YELLOW};
+    private static final HadalColor[] PROJ_TRAILS = {HadalColor.BLUE, HadalColor.GREEN, HadalColor.ORANGE, HadalColor.RED, HadalColor.YELLOW};
+
     private static final IntArray SPRITES = new IntArray(new int[] {0, 1, 2, 3, 4});
 
     public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
@@ -50,19 +54,22 @@ public class RecombinantShot extends SyncedAttacker {
                 final int projNum = extraFields.length > i ? (int) extraFields[i] : 0;
                 Hitbox hbox = new RangedHitbox(state, startPosition[i], PROJECTILE_SIZE,
                         LIFESPAN + HOME_INTERVAL * projNum, startVelocity[i], user.getHitboxFilter(),
-                        true, true, user, projSprite);
-                hbox.setDurability(2);
+                        false, true, user, projSprite);
+                hbox.setDurability(DURABILITY);
+                hbox.setRestitution(1.0f);
 
                 hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
                 hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+                hbox.addStrategy(new ContactWallLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_BODY_HIT, 0.3f, true)
                         .setPitchSpread(PITCH_SPREAD).setSynced(false));
                 hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_CONCRETE_HIT, 0.3f)
                         .setPitchSpread(PITCH_SPREAD).setSynced(false));
                 hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.CR4P_CANNON,
                         DamageTag.SHRAPNEL, DamageTag.RANGED));
+                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BEACH_BALL_TRAIL, 0.0f, 0.5f)
+                        .setParticleColor(PROJ_TRAILS[SPRITES.get(i)]).setSyncType(SyncType.NOSYNC));
                 hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
                     private float count;

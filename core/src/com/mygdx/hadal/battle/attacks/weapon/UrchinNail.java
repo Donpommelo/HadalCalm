@@ -9,12 +9,18 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.*;
 
 public class UrchinNail extends SyncedAttacker {
@@ -49,6 +55,10 @@ public class UrchinNail extends SyncedAttacker {
                 DamageTag.POKING, DamageTag.RANGED));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.NAIL_TRAIL, 0.0f, 0.5f)
+                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NAIL_IMPACT)
+                .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), false, true) {
 
             private final Vector2 currentVelo = new Vector2();
@@ -71,6 +81,24 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL_STUCK);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
+                if (target instanceof Schmuck schmuck) {
+                    schmuck.getBodyData().addStatus(new Status(state, LIFESPAN_STUCK, false, user.getBodyData(), schmuck.getBodyData()) {
+
+                        @Override
+                        public void onDeath(BodyData perp, DamageSource source) {
+                            ParticleEntity particles = new ParticleEntity(state, new Vector2(), Particle.NAIL_BURST,
+                                    1.0f, true, SyncType.NOSYNC);
+                            if (!state.isServer()) {
+                                ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+                            }
+                        }
+
+                        @Override
+                        public statusStackType getStackType() {
+                            return statusStackType.REPLACE;
+                        }
+                    });
+                }
             }
 
             @Override

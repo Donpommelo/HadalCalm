@@ -25,7 +25,7 @@ public class WorldContactListener implements ContactListener {
 		if (null != fixA) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
 			if (UserDataType.HITBOX.equals(fixA.getType())) {
-				((HitboxData) fixA).onHit(fixB, contact.getFixtureA().getBody());
+				((HitboxData) fixA).onHit(fixB, contact.getFixtureB().getBody());
 			}
 			if (UserDataType.EVENT.equals(fixA.getType())) {
 				((EventData) fixA).onTouch(fixB);

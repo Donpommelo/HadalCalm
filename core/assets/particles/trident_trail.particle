@@ -10,8 +10,8 @@ max: 500
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 500.0
-highMax: 500.0
+highMin: 20.0
+highMax: 20.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -62,12 +62,12 @@ timeline0: 0.0
 - X Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 16.0
-highMax: 16.0
+highMin: 64.0
+highMax: 64.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
-scaling1: 0.0
+scaling1: 0.88235295
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
@@ -78,7 +78,16 @@ active: false
 - Angle - 
 active: false
 - Rotation - 
-active: false
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
 - Wind - 
 active: false
 - Gravity - 
@@ -105,13 +114,13 @@ timeline1: 1.0
 - Options - 
 attached: false
 continuous: true
-aligned: false
+aligned: true
 additive: false
 behind: false
 premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
-gradient_trail.png
+trident_blur.png
 
 
 sparkle
@@ -360,14 +369,12 @@ lowMax: 0.0
 highMin: 1.0
 highMax: 1.0
 relative: false
-scalingCount: 3
-scaling0: 0.47368422
-scaling1: 1.0
-scaling2: 0.0
-timelineCount: 3
+scalingCount: 2
+scaling0: 0.24561404
+scaling1: 0.0
+timelineCount: 2
 timeline0: 0.0
-timeline1: 0.28767124
-timeline2: 1.0
+timeline1: 1.0
 - Options - 
 attached: false
 continuous: true

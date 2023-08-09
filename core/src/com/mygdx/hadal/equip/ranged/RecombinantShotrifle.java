@@ -18,7 +18,7 @@ public class RecombinantShotrifle extends RangedWeapon {
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 70.0f;
 	private static final int NUM_PROJ = 5;
-	private static final int PROJ_SPREAD = 10;
+	private static final int PROJ_SPREAD = 8;
 
 	private static final Vector2 PROJECTILE_SIZE = RecombinantShot.PROJECTILE_SIZE;
 	private static final float LIFESPAN = RecombinantShot.LIFESPAN;

@@ -20,8 +20,9 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 public enum Particle {
 
 	NOTHING(ParticleType.MISC, "", false),
-	
+
 	ARROW_BREAK(ParticleType.DEFAULT, "arrowbreak", false),
+	BEACH_BALL_TRAIL(ParticleType.DEFAULT, "beach_ball_trail", false),
 	BOULDER_BREAK(ParticleType.DEFAULT, "boulderbreak", false),
 	BOW_HEAL(ParticleType.DEFAULT, "bow_heal", true),
 	BOW_HURT(ParticleType.DEFAULT, "bow_hurt", true),
@@ -49,6 +50,9 @@ public enum Particle {
 	LIGHTNING_CHARGE(ParticleType.DEFAULT, "lightning_charge", true),
 	LIGHTNING_BOLT(ParticleType.DEFAULT, "lightning_bolt", true),
 	LIGHTNING_BOLT_BLUE(ParticleType.DEFAULT, "lightning_bolt_blue", true),
+	NAIL_BURST(ParticleType.DEFAULT, "urchin_burst", true),
+	NAIL_IMPACT(ParticleType.DEFAULT, "urchin_impact", true),
+	NAIL_TRAIL(ParticleType.DEFAULT, "urchin_trail", true),
 	NOTE_IMPACT(ParticleType.DEFAULT, "note_impact", true),
 	ORB_IMPACT(ParticleType.DEFAULT, "orb_impact", true),
 	ORB_SWIRL(ParticleType.DEFAULT, "orb_swirl", true),
@@ -102,6 +106,7 @@ public enum Particle {
 	PLANT_FRAG(ParticleType.DEFAULT, "plant_frag", false),
 	TYRRAZZA_TRAIL(ParticleType.DEFAULT, "tyrrazza_trail", true),
 	TRICK(ParticleType.DEFAULT, "trick", true),
+	TRIDENT_TRAIL(ParticleType.DEFAULT, "trident_trail", true),
 	SLODGE(ParticleType.DEFAULT, "slodge", false),
 	SLODGE_STATUS(ParticleType.DEFAULT, "slodge_status", false),
 	BRIGHT(ParticleType.DEFAULT, "bright", true),
