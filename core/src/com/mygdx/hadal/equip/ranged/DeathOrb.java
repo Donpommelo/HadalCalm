@@ -14,6 +14,8 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
+import static com.mygdx.hadal.constants.Constants.PPM;
+
 public class DeathOrb extends MeleeWeapon {
 
 	private static final float SWING_CD = 0.0f;
@@ -52,7 +54,8 @@ public class DeathOrb extends MeleeWeapon {
 				}
 
 				projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(RANGE);
-				SyncedAttack.DEATH_ORB.initiateSyncedAttackSingle(state, user, new Vector2(projOffset), new Vector2());
+				SyncedAttack.DEATH_ORB.initiateSyncedAttackSingle(state, user, new Vector2(projOffset), new Vector2(),
+						mouseLocation.x / PPM, mouseLocation.y/ PPM);
 			}
 		}
 	}
@@ -78,6 +81,11 @@ public class DeathOrb extends MeleeWeapon {
 		} else {
 			if (sawSound != null) {
 				sawSound.turnOff();
+			}
+
+			if (shootingLast && user.getSpecialWeaponHelper().getDeathOrbHbox() != null) {
+				user.getSpecialWeaponHelper().getDeathOrbHbox().die();
+				user.getSpecialWeaponHelper().setDeathOrbHbox(null);
 			}
 		}
 		shootingLast = shooting;

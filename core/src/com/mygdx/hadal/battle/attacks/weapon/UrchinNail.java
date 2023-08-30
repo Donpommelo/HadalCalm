@@ -13,22 +13,18 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.*;
 
 public class UrchinNail extends SyncedAttacker {
 
-    public static final Vector2 PROJECTILE_SIZE = new Vector2(54, 24);
+    public static final Vector2 PROJECTILE_SIZE = new Vector2(40, 18);
     public static final float LIFESPAN = 2.5f;
     public static final float LIFESPAN_STUCK = 20.0f;
-    public static final float BASE_DAMAGE = 9.0f;
+    public static final float BASE_DAMAGE = 16.0f;
     private static final float RECOIL = 0.9f;
     private static final float KNOCKBACK = 1.0f;
     private static final int SPREAD = 1;
@@ -41,7 +37,7 @@ public class UrchinNail extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.ATTACK1.playSourced(state, startPosition, 0.4f);
+        SoundEffect.NAILGUN.playSourced(state, startPosition, 0.7f, 1.2f);
         user.recoil(startVelocity, RECOIL);
 
         Hitbox hbox = new RangedHitbox(state, startPosition, STICKY_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
@@ -58,6 +54,8 @@ public class UrchinNail extends SyncedAttacker {
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.NAIL_TRAIL, 0.0f, 0.5f)
                 .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NAIL_IMPACT)
+                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NAIL_BURST)
                 .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), false, true) {
 
@@ -81,24 +79,6 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL_STUCK);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
-                if (target instanceof Schmuck schmuck) {
-                    schmuck.getBodyData().addStatus(new Status(state, LIFESPAN_STUCK, false, user.getBodyData(), schmuck.getBodyData()) {
-
-                        @Override
-                        public void onDeath(BodyData perp, DamageSource source) {
-                            ParticleEntity particles = new ParticleEntity(state, new Vector2(), Particle.NAIL_BURST,
-                                    1.0f, true, SyncType.NOSYNC);
-                            if (!state.isServer()) {
-                                ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
-                            }
-                        }
-
-                        @Override
-                        public statusStackType getStackType() {
-                            return statusStackType.REPLACE;
-                        }
-                    });
-                }
             }
 
             @Override

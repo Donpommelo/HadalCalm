@@ -12,11 +12,11 @@ import com.mygdx.hadal.states.PlayState;
 public class RecombinantShotrifle extends RangedWeapon {
 
 	private static final int CLIP_SIZE = 1;
-	private static final int AMMO_SIZE = 17;
+	private static final int AMMO_SIZE = 25;
 	private static final float SHOOT_CD = 0.65f;
 	private static final float RELOAD_TIME = 1.5f;
 	private static final int RELOAD_AMOUNT = 0;
-	private static final float PROJECTILE_SPEED = 70.0f;
+	private static final float PROJECTILE_SPEED = 90.0f;
 	private static final int NUM_PROJ = 5;
 	private static final int PROJ_SPREAD = 8;
 

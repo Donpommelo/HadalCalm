@@ -211,6 +211,8 @@ public enum Sprite {
 	NEPTUNE_KING_BODY(SpriteType.NEPTUNE_KING, "terrazza_body"),
 	NEPTUNE_KING_CROWN(SpriteType.NEPTUNE_KING, "terrazza_crown"),
 
+	KRILL(SpriteType.KRILL, "krill"),
+
 	//ui
 	UI_MAIN_OVERLAY(SpriteType.UI, "UI_main_overlay"),
 	UI_MAIN_RELOAD(SpriteType.UI, "UI_main_reloading"),
@@ -377,6 +379,7 @@ public enum Sprite {
 			case NEPTUNE_KING -> HadalGame.assetManager.get(AssetList.NEPTUNE_KING_ATL.toString());
 			case TELEMACHUS_POINT -> HadalGame.assetManager.get(AssetList.TELEMACHUS_POINT.toString());
 			case CHARACTER_EXTRA -> HadalGame.assetManager.get(AssetList.PLAYER_EXTRA_ATL.toString());
+			case KRILL -> HadalGame.assetManager.get(AssetList.KRILL.toString());
 			default -> null;
 		};
 	}
@@ -404,5 +407,6 @@ public enum Sprite {
 		NEPTUNE_KING,
 		TELEMACHUS_POINT,
 		CHARACTER_EXTRA,
+		KRILL,
 	}
 }

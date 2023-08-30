@@ -10,9 +10,9 @@ import com.mygdx.hadal.states.PlayState;
 
 public class UrchinNailgun extends RangedWeapon {
 
-	private static final int CLIP_SIZE = 12;
+	private static final int CLIP_SIZE = 15;
 	private static final int AMMO_SIZE = 72;
-	private static final float SHOOT_CD = 0.35f;
+	private static final float SHOOT_CD = 0.2f;
 	private static final float RELOAD_TIME = 1.75f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 55.0f;

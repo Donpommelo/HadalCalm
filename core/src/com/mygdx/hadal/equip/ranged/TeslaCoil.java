@@ -26,7 +26,6 @@ public class TeslaCoil extends RangedWeapon {
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_STORMCALLER;
 	private static final Sprite EVENT_SPRITE = Sprite.P_STORMCALLER;
 
-	//kep track of all coils laid so far
 	private final Vector2 pos1 = new Vector2();
 
 	public TeslaCoil(Player user) {

@@ -29,7 +29,7 @@ public class TrickShot extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.LASERHARPOON.playSourced(state, startPosition, 0.6f);
+        SoundEffect.FUTURE_GUN17.playSourced(state, startPosition, 0.6f);
         user.recoil(startVelocity, RECOIL);
 
         boolean firstClicked = true;
@@ -84,7 +84,7 @@ public class TrickShot extends SyncedAttacker {
                             }
 
                             hbox.setLinearVelocity(target.nor().scl(PROJECTILE_SPEED_AFTER));
-                            SoundEffect.LASERHARPOON.playSourced(state, startPosition, 0.8f);
+                            SoundEffect.FUTURE_GUN17.playSourced(state, startPosition, 0.8f);
 
                             firstReached = true;
                         }

@@ -137,7 +137,7 @@
   "WEAPON_PEPPERGRINDER_DESC" : "Fires a sweeping spray of lasers.",
   "WEAPON_PEPPERGRINDER_DESC_LONG" : "Laser Damage: <s0>\n\nClip Size: <s1>\nAmmo Capacity: <s2>\nReload Time: <s3> Seconds\nAttack Cooldown: <s4> Second",
   "WEAPON_PUFFBALLER" : "Puffballer",
-  "WEAPON_PUFFBALLER_DESC" : "Fires a spore cluster that bursts when the mouse is released.",
+  "WEAPON_PUFFBALLER_DESC" : "Fires a spore cluster that bursts when target area is reached.",
   "WEAPON_PUFFBALLER_DESC_LONG" : "Cluster Damage: <s0>\nSpore Damage: <s1>\nSpore Number: <s2>\nSpore Lifespan: <s3> Seconds\n\nClip Size: <s4>\nAmmo Capacity: <s5>\nReload Time: <s6> Seconds\nAttack Cooldown: <s7> Second",
   "WEAPON_RECOMBINANT_SHOTRIFLE" : "Recombinant Shotrifle",
   "WEAPON_RECOMBINANT_SHOTRIFLE_DESC" : "Fires a burst of projectiles that stall, then redirect towards your mouse.",

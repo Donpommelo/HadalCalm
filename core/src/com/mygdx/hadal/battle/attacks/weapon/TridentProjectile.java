@@ -25,6 +25,7 @@ public class TridentProjectile extends SyncedAttacker {
     private static final float RECOIL = 13.5f;
     private static final float KNOCKBACK = 19.0f;
     private static final float DISTANCE = 3.3f;
+    private static final float SPEED_MULTIPLIER = 1.33f;
 
     private static final Sprite PROJ_SPRITE = Sprite.TRIDENT_M;
 
@@ -46,11 +47,12 @@ public class TridentProjectile extends SyncedAttacker {
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private final Vector2 hboxPosition = new Vector2();
+            private final Vector2 childVelocity = new Vector2();
             @Override
             public void die() {
                 hboxPosition.set(hbox.getPixelPosition());
-
-                Hitbox center = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, startVelocity, user.getHitboxFilter(),
+                childVelocity.set(startVelocity).scl(SPEED_MULTIPLIER);
+                Hitbox center = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, childVelocity, user.getHitboxFilter(),
                         true, true, user, PROJ_SPRITE);
                 center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
                 center.addStrategy(new AdjustAngle(state, center, user.getBodyData()));
@@ -62,7 +64,7 @@ public class TridentProjectile extends SyncedAttacker {
                 center.addStrategy(new CreateParticles(state, center, user.getBodyData(), Particle.TRIDENT_TRAIL, 0.0f, 1.0f)
                         .setRotate(true).setSyncType(SyncType.NOSYNC));
 
-                Hitbox right = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, startVelocity, user.getHitboxFilter(),
+                Hitbox right = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, childVelocity, user.getHitboxFilter(),
                         true, true, user, Sprite.TRIDENT_R);
                 right.addStrategy(new ControllerDefault(state, right, user.getBodyData()));
                 right.addStrategy(new ContactUnitLoseDurability(state, right, user.getBodyData()));
@@ -74,7 +76,7 @@ public class TridentProjectile extends SyncedAttacker {
                 right.addStrategy(new CreateParticles(state, right, user.getBodyData(), Particle.TRIDENT_TRAIL, 0.0f, 1.0f)
                         .setRotate(true).setSyncType(SyncType.NOSYNC));
 
-                Hitbox left = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, startVelocity, user.getHitboxFilter(),
+                Hitbox left = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, childVelocity, user.getHitboxFilter(),
                         true, true, user, Sprite.TRIDENT_L);
                 left.addStrategy(new ControllerDefault(state, left, user.getBodyData()));
                 left.addStrategy(new ContactUnitLoseDurability(state, left, user.getBodyData()));

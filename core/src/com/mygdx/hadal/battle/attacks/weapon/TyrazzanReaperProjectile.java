@@ -45,7 +45,7 @@ public class TyrazzanReaperProjectile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.MAGIC3_BURST.playSourced(state, startPosition, 0.5f, 0.75f);
+        SoundEffect.FUTURE_GUN15.playSourced(state, startPosition, 0.5f);
         user.recoil(startVelocity, RECOIL);
 
         float effectiveRange = 0.0f;

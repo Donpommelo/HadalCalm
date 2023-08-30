@@ -24,12 +24,13 @@ public class Pepper extends SyncedAttacker {
     private static final float RECOIL = 2.5f;
     private static final float KNOCKBACK = 10.0f;
 
+    private static final float PITCH_CHANGE = 0.02f;
+
     private static final Sprite PROJ_SPRITE = Sprite.LASER_GREEN;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.LASER2.playSourced(state, user.getPixelPosition(), 0.25f);
         user.recoil(startVelocity, RECOIL);
 
         float spread = 0.0f;
@@ -37,6 +38,8 @@ public class Pepper extends SyncedAttacker {
             spread = extraFields[0];
         }
         float finalSpread = spread;
+        float pitch = 1.0f + finalSpread * PITCH_CHANGE;
+        SoundEffect.FUTURE_GUN23.playSourced(state, user.getPixelPosition(), 0.4f, pitch);
 
         RangedHitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 true, true, user, PROJ_SPRITE);
