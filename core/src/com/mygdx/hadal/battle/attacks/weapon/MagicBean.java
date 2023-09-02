@@ -17,7 +17,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
-public class VineSeed extends SyncedAttacker {
+public class MagicBean extends SyncedAttacker {
 
     public static final Vector2 SEED_SIZE = new Vector2(45, 30);
     public static final float LIFESPAN = 5.0f;
@@ -50,7 +50,7 @@ public class VineSeed extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.VINE_SOWER,
+        hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.MAGIC_BEANSTALKER,
                 DamageTag.RANGED));
 
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

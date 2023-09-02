@@ -80,7 +80,9 @@ public enum UnlockLevel {
 			GameMode.DEATHMATCH),
 	SUPREME_CHAMPION("dm_supreme_champion", GameText.SUPREME_CHAMPION, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
-	
+
+	AMERICAN_PIKA("dm_american_pika", GameText.AMERICAN_PIKA, GameText.NOTHING, true, MapSize.SMALL,
+			GameMode.DEATHMATCH),
 	FACING_CRABS("dm_crab", GameText.FACING_CRABS, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
 	GALLERY("dm_gallery", GameText.GALLERY, GameText.NOTHING, true, MapSize.MEDIUM,

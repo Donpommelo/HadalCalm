@@ -82,7 +82,7 @@ public class TridentProjectile extends SyncedAttacker {
                 left.addStrategy(new ContactUnitLoseDurability(state, left, user.getBodyData()));
                 left.addStrategy(new ContactWallDie(state, left, user.getBodyData()));
                 left.addStrategy(new DamageStandard(state, left, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
-                        DamageSource.WAVE_BEAM, DamageTag.ENERGY, DamageTag.RANGED));
+                        DamageSource.TRIDENT, DamageTag.ENERGY, DamageTag.RANGED));
                 left.addStrategy(new LerpEntity(state, left, user.getBodyData(), center, DISTANCE, LIFESPAN_SMALL, -90));
                 left.addStrategy(new CreateParticles(state, left, user.getBodyData(), Particle.TRIDENT_TRAIL, 0.0f, 1.0f)
                         .setRotate(true).setSyncType(SyncType.NOSYNC));

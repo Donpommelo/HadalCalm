@@ -2,13 +2,13 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.attacks.weapon.TyrazzanReaperProjectile;
+import com.mygdx.hadal.battle.attacks.weapon.Diatom;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
-public class TyrrazzanReaper extends RangedWeapon {
+public class DiatomBurst extends RangedWeapon {
 
 	private static final int CLIP_SIZE = 10;
 	private static final int AMMO_SIZE = 70;
@@ -21,16 +21,16 @@ public class TyrrazzanReaper extends RangedWeapon {
 	private static final float SHOOT_CD_MAX = 0.6f;
 	private static final float SHOOT_CD_MIN = 0.15f;
 
-	private static final Vector2 PROJECTILE_SIZE = TyrazzanReaperProjectile.PROJECTILE_SIZE;
-	private static final float PROJECTILE_SPEED_MAX = TyrazzanReaperProjectile.PROJECTILE_SPEED_MAX;
-	private static final float LIFESPAN_MAX = TyrazzanReaperProjectile.LIFESPAN_MAX;
-	private static final float BASE_DAMAGE_MAX = TyrazzanReaperProjectile.BASE_DAMAGE_MAX;
-	private static final float BASE_DAMAGE_MIN = TyrazzanReaperProjectile.BASE_DAMAGE_MIN;
+	private static final Vector2 PROJECTILE_SIZE = Diatom.PROJECTILE_SIZE;
+	private static final float PROJECTILE_SPEED_MAX = Diatom.PROJECTILE_SPEED_MAX;
+	private static final float LIFESPAN_MAX = Diatom.LIFESPAN_MAX;
+	private static final float BASE_DAMAGE_MAX = Diatom.BASE_DAMAGE_MAX;
+	private static final float BASE_DAMAGE_MIN = Diatom.BASE_DAMAGE_MIN;
 
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_GRENADE;
 	private static final Sprite EVENT_SPRITE = Sprite.P_GRENADE;
 
-	public TyrrazzanReaper(Player user) {
+	public DiatomBurst(Player user) {
 		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED_MAX, SHOOT_CD_MAX, RELOAD_AMOUNT, true,
 				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN_MAX);
 	}
@@ -43,7 +43,7 @@ public class TyrrazzanReaper extends RangedWeapon {
 		effectiveRange = (effectiveRange - RANGE_MIN) / (RANGE_MAX - RANGE_MIN);
 		float cooldown = effectiveRange * (SHOOT_CD_MAX - SHOOT_CD_MIN) + SHOOT_CD_MIN;
 
-		SyncedAttack.TYRAZZAN_REAPER.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, effectiveRange);
+		SyncedAttack.DIATOM.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, effectiveRange);
 
 		user.getShootHelper().setShootCdCount(cooldown);
 		gainClip(1);

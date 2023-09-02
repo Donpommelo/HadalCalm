@@ -3,14 +3,14 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.Vine;
-import com.mygdx.hadal.battle.attacks.weapon.VineSeed;
+import com.mygdx.hadal.battle.attacks.weapon.MagicBean;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
-public class VineSower extends RangedWeapon {
+public class MagicBeanstalker extends RangedWeapon {
 
 	private static final int CLIP_SIZE = 2;
 	private static final int AMMO_SIZE = 28;
@@ -20,16 +20,16 @@ public class VineSower extends RangedWeapon {
 	private static final float PROJECTILE_SPEED = 42.0f;
 	private static final float MAX_CHARGE = 0.4f;
 
-	private static final Vector2 SEED_SIZE = VineSeed.SEED_SIZE;
-	private static final float LIFESPAN = VineSeed.LIFESPAN;
-	private static final float BASE_DAMAGE = VineSeed.BASE_DAMAGE;
+	private static final Vector2 SEED_SIZE = MagicBean.SEED_SIZE;
+	private static final float LIFESPAN = MagicBean.LIFESPAN;
+	private static final float BASE_DAMAGE = MagicBean.BASE_DAMAGE;
 
 	private static final float VINE_DAMAGE = Vine.VINE_DAMAGE;
 
 	private static final Sprite weaponSprite = Sprite.MT_SHOTGUN;
 	private static final Sprite eventSprite = Sprite.P_SHOTGUN;
 
-	public VineSower(Player user) {
+	public MagicBeanstalker(Player user) {
 		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
 				weaponSprite, eventSprite, SEED_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
@@ -61,7 +61,7 @@ public class VineSower extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float charge = chargeCd / getChargeTime();
-		SyncedAttack.VINE_SEED.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge);
+		SyncedAttack.MAGIC_BEAN.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge);
 	}
 
 	@Override

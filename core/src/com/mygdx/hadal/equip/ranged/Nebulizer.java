@@ -14,9 +14,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.constants.Constants.PPM;
-
-public class DeathOrb extends MeleeWeapon {
+public class Nebulizer extends MeleeWeapon {
 
 	private static final float SWING_CD = 0.0f;
 	private static final float BASE_DAMAGE = DiamondCutterProjectile.BASE_DAMAGE;
@@ -36,7 +34,7 @@ public class DeathOrb extends MeleeWeapon {
 
 	private float innateAttackCdCount;
 
-	public DeathOrb(Player user) {
+	public Nebulizer(Player user) {
 		super(user, SWING_CD, WEAPON_SPRITE, EVENT_SPRITE);
 	}
 	
@@ -54,8 +52,7 @@ public class DeathOrb extends MeleeWeapon {
 				}
 
 				projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(RANGE);
-				SyncedAttack.DEATH_ORB.initiateSyncedAttackSingle(state, user, new Vector2(projOffset), new Vector2(),
-						mouseLocation.x / PPM, mouseLocation.y/ PPM);
+				SyncedAttack.DEATH_ORB.initiateSyncedAttackSingle(state, user, new Vector2(projOffset), new Vector2());
 			}
 		}
 	}
@@ -63,14 +60,13 @@ public class DeathOrb extends MeleeWeapon {
 	//this indicates whether the button was last held. We need to keep track of this since clients will see the hbox created
 	//prior to the player's "shooting" state being updated.
 	//Using this, we only delete after the hbox is created to avoid skipping the delete
-	private boolean shootingLast;
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool());
 
 		if (shooting) {
 			if (sawSound == null) {
-				sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.0f, 0.8f, 1.0f, true,
+				sawSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.0f, 0.8f, 0.7f, true,
 						true, SyncType.NOSYNC);
 				if (!state.isServer()) {
 					((ClientState) state).addEntity(sawSound.getEntityID(), sawSound, false, PlayState.ObjectLayer.EFFECT);
@@ -82,13 +78,7 @@ public class DeathOrb extends MeleeWeapon {
 			if (sawSound != null) {
 				sawSound.turnOff();
 			}
-
-			if (shootingLast && user.getSpecialWeaponHelper().getDeathOrbHbox() != null) {
-				user.getSpecialWeaponHelper().getDeathOrbHbox().die();
-				user.getSpecialWeaponHelper().setDeathOrbHbox(null);
-			}
 		}
-		shootingLast = shooting;
 	}
 
 	@Override
@@ -105,9 +95,9 @@ public class DeathOrb extends MeleeWeapon {
 	@Override
 	public void unequip(PlayState state) {
 		held = false;
-		if (user.getSpecialWeaponHelper().getDiamondCutterHbox() != null) {
-			user.getSpecialWeaponHelper().getDiamondCutterHbox().die();
-			user.getSpecialWeaponHelper().setDiamondCutterHbox(null);
+		if (user.getSpecialWeaponHelper().getDeathOrbHbox() != null) {
+			user.getSpecialWeaponHelper().getDeathOrbHbox().die();
+			user.getSpecialWeaponHelper().setDeathOrbHbox(null);
 		}
 		if (sawSound != null) {
 			sawSound.terminate();
