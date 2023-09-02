@@ -54,6 +54,7 @@ public class TridentProjectile extends SyncedAttacker {
                 childVelocity.set(startVelocity).scl(SPEED_MULTIPLIER);
                 Hitbox center = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, childVelocity, user.getHitboxFilter(),
                         true, true, user, PROJ_SPRITE);
+                center.setDurability(3);
                 center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
                 center.addStrategy(new AdjustAngle(state, center, user.getBodyData()));
                 center.addStrategy(new ContactUnitLoseDurability(state, center, user.getBodyData()));
@@ -66,6 +67,8 @@ public class TridentProjectile extends SyncedAttacker {
 
                 Hitbox right = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, childVelocity, user.getHitboxFilter(),
                         true, true, user, Sprite.TRIDENT_R);
+                right.setDurability(3);
+
                 right.addStrategy(new ControllerDefault(state, right, user.getBodyData()));
                 right.addStrategy(new ContactUnitLoseDurability(state, right, user.getBodyData()));
                 right.addStrategy(new ContactWallDie(state, right, user.getBodyData()));
@@ -78,6 +81,8 @@ public class TridentProjectile extends SyncedAttacker {
 
                 Hitbox left = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, childVelocity, user.getHitboxFilter(),
                         true, true, user, Sprite.TRIDENT_L);
+                left.setDurability(3);
+
                 left.addStrategy(new ControllerDefault(state, left, user.getBodyData()));
                 left.addStrategy(new ContactUnitLoseDurability(state, left, user.getBodyData()));
                 left.addStrategy(new ContactWallDie(state, left, user.getBodyData()));
