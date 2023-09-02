@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.effects.Sprite;
@@ -65,7 +66,7 @@ public class BrigglesBladedBoot extends Artifact {
 					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {
 						
 						@Override
-						public void onHit(HadalData fixB) {
+						public void onHit(HadalData fixB, Body body) {
 							SoundEffect.KICK1.playSourced(state, p.getSchmuck().getPixelPosition(), 0.3f);
 							p.getSchmuck().pushMomentumMitigation(0, RECOIL);
 						}

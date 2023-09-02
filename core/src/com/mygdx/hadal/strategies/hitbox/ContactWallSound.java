@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -51,7 +52,7 @@ public class ContactWallSound extends HitboxStrategy {
 	}
 	
 	@Override
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (procCdCount >= PROC_CD && hbox.getLinearVelocity().len2() > MIN_VELO) {
 			if (fixB != null) {
 				if (UserDataType.WALL.equals(fixB.getType())) {

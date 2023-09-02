@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
@@ -77,7 +78,7 @@ public class Pickup extends SyncedAttacker {
             }
 
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
                 if (fixB instanceof PlayerBodyData bodyData && 0 >= delay) {
                     if (Constants.PICKUP_HEALTH == type) {
                         if (bodyData.getCurrentHp() < bodyData.getStat(Stats.MAX_HP)) {

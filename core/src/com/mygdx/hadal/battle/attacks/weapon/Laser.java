@@ -41,7 +41,7 @@ public class Laser extends SyncedAttacker {
         if (extraFields.length >= 1) {
             distance = extraFields[0];
         }
-        SoundEffect.LASER2.playSourced(state, startPosition, 0.8f);
+        SoundEffect.FUTURE_GUN12.playSourced(state, startPosition, 0.8f);
         user.recoil(startVelocity, RECOIL);
 
         //Create Hitbox from position to wall using raycast distance. Set angle and position of hitbox and make it static.

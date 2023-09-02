@@ -199,20 +199,18 @@ public class EnemyCrawling extends Enemy {
 		}
 	}
 
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		
 		boolean flip = moveDirection < 0;
 
-		entityLocation.set(getPixelPosition());
 		batch.draw(floatingSprite.getKeyFrame(animationTime, true),
 				(flip ? 0 : size.x) + entityLocation.x - size.x / 2, 
 				entityLocation.y - getHboxSize().y / 2, 
 				size.x / 2,
 				(flip ? 1 : -1) * size.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);
-		super.render(batch);
+		super.render(batch, entityLocation);
 	}
 	
 	@Override

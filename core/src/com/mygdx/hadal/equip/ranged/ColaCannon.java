@@ -98,7 +98,7 @@ public class ColaCannon extends RangedWeapon {
 	}
 
 	@Override
-	public void processEffects(PlayState state, float delta) {
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean charging = this.equals(user.getPlayerData().getCurrentTool()) && !reloading && getClipLeft() > 0;
 
 		if (charging && user.getUiHelper().getChargePercent() > lastNoise + NOISE_THRESHOLD) {
@@ -109,8 +109,8 @@ public class ColaCannon extends RangedWeapon {
 					lastNoise = 0.0f;
 				}
 
-				SoundEffect.SHAKE.playSourced(state, user.getPixelPosition(), 1.0f);
-				ParticleEntity particle = new ParticleEntity(state, new Vector2(user.getPixelPosition()), Particle.COLA_IMPACT, 1.0f,
+				SoundEffect.SHAKE.playSourced(state, playerPosition, 1.0f);
+				ParticleEntity particle = new ParticleEntity(state, new Vector2(playerPosition), Particle.COLA_IMPACT, 1.0f,
 						true, SyncType.NOSYNC);
 
 				if (!state.isServer()) {

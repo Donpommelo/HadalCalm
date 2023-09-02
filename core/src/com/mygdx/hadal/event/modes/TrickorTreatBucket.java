@@ -101,10 +101,8 @@ public class TrickorTreatBucket extends Event {
         }
     }
 
-    private final Vector2 entityLocation = new Vector2();
     @Override
-    public void render(SpriteBatch batch) {
-        entityLocation.set(getPixelPosition());
+    public void render(SpriteBatch batch, Vector2 entityLocation) {
         int enemyCandyCount = AlignmentFilter.teamScores[teamIndex];
         Sprite bucketSprite = 0 < enemyCandyCount ? Sprite.CANDY_STAND : Sprite.CANDY_STAND_EMPTY;
 

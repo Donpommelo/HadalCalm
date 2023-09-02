@@ -81,7 +81,7 @@ public class Minigun extends RangedWeapon {
 	}
 
 	@Override
-	public void processEffects(PlayState state, float delta) {
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
 				&& !reloading && getClipLeft() > 0;
 
@@ -89,7 +89,7 @@ public class Minigun extends RangedWeapon {
 		boolean firing = shooting && user.getUiHelper().getChargePercent() == 1.0f;
 
 		if (!shooting && (chargeSound != null || (fireSound != null && fireSound.isOn()))) {
-			SoundEffect.MINIGUN_DOWN.playSourced(state, user.getPixelPosition(), 0.5f);
+			SoundEffect.MINIGUN_DOWN.playSourced(state, playerPosition, 0.5f);
 		}
 
 		if (shooting) {

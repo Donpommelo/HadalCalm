@@ -198,7 +198,7 @@ public class User {
         String displayedName = scores.getNameShort();
 
         if (displayedName.length() > maxNameLen) {
-            displayedName = displayedName.substring(0, maxNameLen).concat("...");
+            displayedName = displayedName.substring(0, maxNameLen).concat("-");
         }
 
         if (teamFilter.getPalette().getIcon().getRGB().isZero()) {

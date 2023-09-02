@@ -71,10 +71,8 @@ public class Boss5 extends EnemyFloating {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 	}
 
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
-		entityLocation.set(getPixelPosition());
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		batch.draw(coreSprite.getKeyFrame(animationTime, true),
 			entityLocation.x - size.x / 2,entityLocation.y - size.y / 2,
 			size.x / 2, size.y / 2,

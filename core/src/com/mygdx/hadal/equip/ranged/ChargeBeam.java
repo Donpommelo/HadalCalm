@@ -84,7 +84,7 @@ public class ChargeBeam extends RangedWeapon {
 
 	private final Vector2 particleOrigin = new Vector2(0, 1);
 	@Override
-	public void processEffects(PlayState state, float delta) {
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
 				&& !reloading && getClipLeft() > 0;
 

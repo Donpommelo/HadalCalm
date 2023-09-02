@@ -106,9 +106,8 @@ public class Drone extends EnemySwimming {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		
 		boolean flip = true;
 		float realAngle = getAngle() % (MathUtils.PI * 2);
@@ -116,8 +115,7 @@ public class Drone extends EnemySwimming {
 			flip = false;
 		}
 		
-		entityLocation.set(getPixelPosition());
-		batch.draw(armBackSprite, 
+		batch.draw(armBackSprite,
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, 
@@ -144,9 +142,8 @@ public class Drone extends EnemySwimming {
 					(flip ? 0 : 180) + MathUtils.radDeg * getAngle());
 		}
 		
-		
-		super.render(batch);
-		
+		super.render(batch, entityLocation);
+
 		batch.draw(armFrontSprite, 
 				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
 				getPixelPosition().y - size.y / 2, 

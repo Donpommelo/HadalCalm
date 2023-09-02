@@ -10,6 +10,7 @@ public class SpecialWeaponHelper {
     private final Queue<Hitbox> stickyBombs = new Queue<>();
     private final Array<Hitbox> teslaCoils = new Array<>();
     private final Array<Enemy> bits = new Array<>();
+    private Hitbox deathOrbHbox;
     private Hitbox diamondCutterHbox;
     private Hitbox morningStarBase, morningStar;
 
@@ -22,6 +23,10 @@ public class SpecialWeaponHelper {
     public Array<Hitbox> getTeslaCoils() { return teslaCoils; }
 
     public Array<Enemy> getBits() { return bits; }
+
+    public Hitbox getDeathOrbHbox() { return deathOrbHbox; }
+
+    public void setDeathOrbHbox(Hitbox deathOrbHbox) { this.deathOrbHbox = deathOrbHbox; }
 
     public Hitbox getDiamondCutterHbox() { return diamondCutterHbox; }
 

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -51,7 +52,7 @@ public class DamageStandard extends HitboxStrategy {
 	}
 	
 	@Override
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (fixB != null) {
 			if (selfDamageable) {
 				if (fixB == creator) {

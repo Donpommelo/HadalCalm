@@ -124,10 +124,9 @@ public class Boss2 extends EnemyFloating {
 		}
 	}
 	
-	private final Vector2 entityLocation = new Vector2();
 	private final Vector2 linkPosition = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		boolean flip = true;
 		float realAngle = getAngle() % (MathUtils.PI * 2);
 		if ((realAngle > MathUtils.PI / 2 && realAngle < 3 * MathUtils.PI / 2) || (realAngle < -MathUtils.PI / 2 && realAngle > -3 * MathUtils.PI / 2)) {
@@ -144,8 +143,7 @@ public class Boss2 extends EnemyFloating {
 					(flip ? 0 : 180) + MathUtils.radDeg * links[i].getAngle());
 		}
 		
-		entityLocation.set(getPixelPosition());
-		batch.draw(headSprite, 
+		batch.draw(headSprite,
 				(flip ? size.x : 0) + entityLocation.x - size.x / 2, 
 				entityLocation.y - size.y / 2, 
 				(flip ? -1 : 1) * size.x / 2, size.y / 2,
@@ -467,7 +465,7 @@ public class Boss2 extends EnemyFloating {
 
 	//boss is never culled to avoid culling links when head is out of view
 	@Override
-	public boolean isVisible() {
+	public boolean isVisible(Vector2 objectiveLocation) {
 		return true;
 	}
 }

@@ -51,7 +51,7 @@ public class Boiler extends RangedWeapon {
 	}
 
 	@Override
-	public void processEffects(PlayState state, float delta) {
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
 				&& !reloading && getClipLeft() > 0;
 

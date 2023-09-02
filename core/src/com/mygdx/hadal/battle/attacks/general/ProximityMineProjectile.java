@@ -2,7 +2,8 @@ package com.mygdx.hadal.battle.attacks.general;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
@@ -52,10 +53,10 @@ public class ProximityMineProjectile extends SyncedAttacker {
                 (short) 0, false, false, user, Sprite.LAND_MINE) {
 
             @Override
-            public void render(SpriteBatch batch) {
+            public void render(SpriteBatch batch, Vector2 entityLocation) {
                 if (!alive) { return; }
                 if (primed[0]) { return; }
-                super.render(batch);
+                super.render(batch, entityLocation);
             }
         };
         hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL | Constants.BIT_PLAYER));
@@ -73,7 +74,7 @@ public class ProximityMineProjectile extends SyncedAttacker {
             private float targetCheckCount;
             private final Vector2 mineLocation = new Vector2();
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
                 if (null != fixB) {
                     if (UserDataType.WALL.equals(fixB.getType()) || UserDataType.EVENT.equals(fixB.getType())) {
                         floor = fixB.getEntity();
@@ -90,7 +91,7 @@ public class ProximityMineProjectile extends SyncedAttacker {
             public void controller(float delta) {
                 if (planted && null != floor.getBody() && null != hbox.getBody()) {
                     planted = false;
-                    WeldJointDef joint = new WeldJointDef();
+                    RevoluteJointDef joint = new RevoluteJointDef();
                     joint.bodyA = floor.getBody();
                     joint.bodyB = hbox.getBody();
                     joint.localAnchorA.set(new Vector2(hbox.getPosition()).sub(floor.getPosition()));

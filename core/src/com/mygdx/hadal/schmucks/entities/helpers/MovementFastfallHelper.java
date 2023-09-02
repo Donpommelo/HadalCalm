@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.entities.Player;
 
@@ -20,9 +21,9 @@ public class MovementFastfallHelper {
         this.player = player;
     }
 
-    public void controllerInterval() {
+    public void controllerInterval(Vector2 playerVelocity) {
         if (fastFalling) {
-            fastFall();
+            fastFall(playerVelocity);
         }
     }
 
@@ -33,11 +34,11 @@ public class MovementFastfallHelper {
     /**
      * Player falls rapidly if in the air. If grounded, this also interacts with terrain events.
      */
-    public void fastFall() {
+    public void fastFall(Vector2 playerVelocity) {
         if (fastFallCdCount < 0) {
             fastFallCdCount = FAST_FALL_CD;
-            if (getFastFallPower() > 0) {
-                player.push(0, -1, getFastFallPower());
+            if (getFastFallPower(playerVelocity) > 0) {
+                player.push(0, -1, getFastFallPower(playerVelocity));
             }
         }
         if (!player.getFeetData().getTerrain().isEmpty()) {
@@ -45,10 +46,10 @@ public class MovementFastfallHelper {
         }
     }
 
-    public float getFastFallPower() {
+    public float getFastFallPower(Vector2 playerVelocity) {
 
         float modifiedThreshold = FAST_FALL_MAX_THRESHOLD * (1 + player.getPlayerData().getStat(Stats.FASTFALL_POW));
-        float modifiedVelocity = MathUtils.clamp(player.getLinearVelocity().y, modifiedThreshold, 0);
+        float modifiedVelocity = MathUtils.clamp(playerVelocity.y, modifiedThreshold, 0);
 
         float fastFall = FAST_FALL_POW * (1 - modifiedVelocity / FAST_FALL_MAX_THRESHOLD);
 

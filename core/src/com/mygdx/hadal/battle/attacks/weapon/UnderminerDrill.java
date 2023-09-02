@@ -2,6 +2,7 @@ package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
@@ -139,7 +140,7 @@ public class UnderminerDrill extends SyncedAttacker {
             }
 
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
                     if (UserDataType.WALL.equals(fixB.getType())) {
 
@@ -186,7 +187,7 @@ public class UnderminerDrill extends SyncedAttacker {
                 frag.addStrategy(new HitboxStrategy(state, frag, user.getBodyData()) {
 
                     @Override
-                    public void onHit(HadalData fixB) {
+                    public void onHit(HadalData fixB, Body body) {
                         if (fixB != null) {
                             if (UserDataType.WALL.equals(fixB.getType())) {
                                 hbox.die();

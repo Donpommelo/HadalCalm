@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.*;
 import com.mygdx.hadal.constants.Constants;
@@ -16,7 +17,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
-public class VineSeed extends SyncedAttacker {
+public class MagicBean extends SyncedAttacker {
 
     public static final Vector2 SEED_SIZE = new Vector2(45, 30);
     public static final float LIFESPAN = 5.0f;
@@ -49,7 +50,7 @@ public class VineSeed extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.VINE_SOWER,
+        hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.MAGIC_BEANSTALKER,
                 DamageTag.RANGED));
 
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -62,7 +63,7 @@ public class VineSeed extends SyncedAttacker {
             }
 
             @Override
-            public void onHit(HadalData fixB) {
+            public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
                     if (fixB.getEntity().getMainFixture().getFilterData().categoryBits == Constants.BIT_DROPTHROUGHWALL) {
                         hbox.die();

@@ -12,8 +12,8 @@ public class IronBallLauncher extends RangedWeapon {
 
 	private static final int CLIP_SIZE = 1;
 	private static final int AMMO_SIZE = 23;
-	private static final float SHOOT_CD = 0.15f;
-	private static final float RELOAD_TIME = 0.75f;
+	private static final float SHOOT_CD = 0.4f;
+	private static final float RELOAD_TIME = 0.7f;
 	private static final int RELOAD_AMOUNT = 1;
 	private static final float PROJECTILE_SPEED = 60.0f;
 

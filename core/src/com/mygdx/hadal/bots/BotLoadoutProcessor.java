@@ -236,7 +236,7 @@ public class BotLoadoutProcessor {
      */
     public static void processWeaponShooting(PlayerBot player, Equippable weapon, boolean shooting) {
         switch (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass()))) {
-            case BANANA, BATTERING_RAM, CHARGE_BEAM, FLOUNDERBUSS, LOVE_BOW, VINE_SOWER:
+            case BANANA, BATTERING_RAM, CHARGE_BEAM, FLOUNDERBUSS, LOVE_BOW, MAGIC_BEANSTALKER:
                 //when attacking, charge weapons should be held until charged when they are released
                 if (shooting) {
                     if (weapon.getChargeCd() >= weapon.getChargeTime()) {
@@ -379,7 +379,7 @@ public class BotLoadoutProcessor {
 
         //charge weapons and similar weapons are more proaactive
         return switch (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass()))) {
-            case BANANA, BATTERING_RAM, CHARGE_BEAM, COLACANNON, FLOUNDERBUSS, LOVE_BOW, VINE_SOWER -> 5;
+            case BANANA, BATTERING_RAM, CHARGE_BEAM, COLACANNON, FLOUNDERBUSS, LOVE_BOW, MAGIC_BEANSTALKER -> 5;
             case ASSAULT_BITS, DEEP_SEA_SMELTER -> 1;
             default -> 0;
         };

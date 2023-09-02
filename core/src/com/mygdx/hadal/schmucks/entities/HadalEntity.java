@@ -99,7 +99,7 @@ public abstract class HadalEntity {
 	 * Draw the entity
 	 * @param batch: SpriteBatch for rendering
 	 */
-	public abstract void render(SpriteBatch batch);
+	public abstract void render(SpriteBatch batch, Vector2 entityLocation);
 	
 	/**
 	 * Call this method to delete a body. NOT dispose().
@@ -353,11 +353,9 @@ public abstract class HadalEntity {
 	/**
 	 * Is this entity on the screen? Used for frustrum culling to avoid rendering off-screen entities
 	 */
-	private final Vector2 entityLocation = new Vector2();
-	public boolean isVisible() {
+	public boolean isVisible(Vector2 entityLocation) {
 		if (body == null) { return false; }
-		entityLocation.set(getPixelPosition());
-		
+
 		//check the center + 4 corners of the entity to see if we should render this entity
 		if (state.getCamera().frustum.pointInFrustum(entityLocation.x, entityLocation.y, 0)) { return true; }
 		float bodyAngle = getAngle();

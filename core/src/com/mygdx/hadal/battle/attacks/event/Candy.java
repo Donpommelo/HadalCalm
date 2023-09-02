@@ -41,6 +41,8 @@ public class Candy extends SyncedAttacker {
                 hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_SENSOR | Constants.BIT_PICKUP_RADIUS));
                 hbox.setLayer(PlayState.ObjectLayer.STANDARD);
                 hbox.setBotModePickup(true);
+                hbox.setSynced(true);
+                hbox.setSyncedDelete(true);
                 hbox.setGravity(1.0f);
                 hbox.setFriction(1.0f);
 

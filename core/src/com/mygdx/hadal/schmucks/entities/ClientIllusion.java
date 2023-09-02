@@ -57,11 +57,9 @@ public class ClientIllusion extends HadalEntity {
 	@Override
 	public void controller(float delta) {}
 
-	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		if (illusionSprite != null) {
-			entityLocation.set(getPixelPosition());
 			switch (align) {
 			case HITBOX:
 				batch.draw(illusionSprite.getKeyFrame(animationTime, false),

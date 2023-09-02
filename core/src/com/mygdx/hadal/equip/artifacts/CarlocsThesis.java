@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -55,7 +56,7 @@ public class CarlocsThesis extends Artifact {
 						private final Vector2 projectileVelo = new Vector2();
 						private final Vector2 toUserCenter = new Vector2();
 						@Override
-						public void onHit(HadalData fixB) {
+						public void onHit(HadalData fixB, Body body) {
 							if (fixB.getEntity() instanceof Hitbox deflected) {
 								if (deflected.isReflectable()) {
 									projectileVelo.set(deflected.getLinearVelocity());

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.active;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
@@ -65,7 +66,7 @@ public class FlashbangProjectile extends SyncedAttacker {
                 hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
                     @Override
-                    public void onHit(HadalData fixB) {
+                    public void onHit(HadalData fixB, Body body) {
                         if (fixB instanceof BodyData bodyData) {
                             bodyData.addStatus(new Blinded(state, BLIND_DURATION, creator, bodyData, true));
                         }

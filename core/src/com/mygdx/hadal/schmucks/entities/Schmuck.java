@@ -86,7 +86,7 @@ public class Schmuck extends HadalEntity {
 	 * Draw the schmuck
 	 */
 	@Override
-	public void render(SpriteBatch batch) {}
+	public void render(SpriteBatch batch, Vector2 entityLocation) {}
 
 	/**
 	 * This is calledregularly to send a packet to the corresponding client schmuck.

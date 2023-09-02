@@ -86,7 +86,7 @@ public class ObjectiveMarker {
                 batch.setColor(color);
             }
 
-            if (!objectiveTarget.isVisible() && displayObjectiveOffScreen) {
+            if (!objectiveTarget.isVisible(objectiveLocation) && displayObjectiveOffScreen) {
 
                 //identify the angle of the line between the objective and the center of the screen
                 centerPosition.set(HadalGame.CONFIG_WIDTH / 2, HadalGame.CONFIG_HEIGHT / 2, 0);

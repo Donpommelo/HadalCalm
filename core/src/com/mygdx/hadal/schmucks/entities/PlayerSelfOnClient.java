@@ -9,6 +9,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
@@ -39,7 +40,7 @@ public class PlayerSelfOnClient extends Player {
 	public void clientController(float delta) {
 		super.clientController(delta);
 
-		processMovement(delta);
+		processMovement(delta, playerVelocity);
 		processEquipment(delta);
 		processMiscellaneous(delta);
 
@@ -51,8 +52,10 @@ public class PlayerSelfOnClient extends Player {
 			syncAccumulator = 0;
 
 			short statusCode = getConditionCode();
+			float adjustedTime = state.getTimer() + 2 * ((ClientState) state).getLatency() + 4 * PlayState.SYNC_TIME;
+
 			HadalGame.client.sendUDP(new PacketsSync.SyncClientSnapshot(getPosition(), getLinearVelocity(),
-					state.getTimer(), moveState, getBodyData().getCurrentHp(),
+					adjustedTime, moveState, getBodyData().getCurrentHp(),
 					getMouseHelper().getPosition(), getPlayerData().getCurrentSlot(),
 					getPlayerData().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f,
 					getPlayerData().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f,

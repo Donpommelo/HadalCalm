@@ -25,7 +25,7 @@ public class WorldContactListener implements ContactListener {
 		if (null != fixA) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
 			if (UserDataType.HITBOX.equals(fixA.getType())) {
-				((HitboxData) fixA).onHit(fixB);
+				((HitboxData) fixA).onHit(fixB, contact.getFixtureB().getBody());
 			}
 			if (UserDataType.EVENT.equals(fixA.getType())) {
 				((EventData) fixA).onTouch(fixB);
@@ -34,7 +34,7 @@ public class WorldContactListener implements ContactListener {
 		if (null != fixB) {
 			fixB.setNumContacts(fixB.getNumContacts() + 1);
 			if (UserDataType.HITBOX.equals(fixB.getType())) {
-				((HitboxData) fixB).onHit(fixA);
+				((HitboxData) fixB).onHit(fixA, contact.getFixtureA().getBody());
 			}
 			if (UserDataType.EVENT.equals(fixB.getType())) {
 				((EventData) fixB).onTouch(fixA);

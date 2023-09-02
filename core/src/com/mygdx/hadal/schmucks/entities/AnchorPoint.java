@@ -29,7 +29,7 @@ public class AnchorPoint extends HadalEntity {
 	public void controller(float delta) {}
 
 	@Override
-	public void render(SpriteBatch batch) {}
+	public void render(SpriteBatch batch, Vector2 entityLocation) {}
 	
 	//we want this entity to not send any sync packets to the client because it never changes.
 	@Override

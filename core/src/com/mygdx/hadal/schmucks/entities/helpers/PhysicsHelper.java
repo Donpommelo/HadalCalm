@@ -3,6 +3,8 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.entities.Player;
 
+import static com.mygdx.hadal.schmucks.entities.Player.PLAYER_MASS;
+
 /**
  * A Physics schmuck runs custom acceleration physics for their movement.
  * atm, this includes only the player
@@ -17,10 +19,7 @@ public class PhysicsHelper {
     }
 
     private final Vector2 force = new Vector2();
-    private final Vector2 currentVel = new Vector2();
-    public void controllerInterval() {
-
-        currentVel.set(player.getLinearVelocity());
+    public void controllerInterval(Vector2 playerVelocity) {
         boolean grounded = player.getGroundedHelper().isGrounded();
         float desiredXVel = 0.0f;
         float desiredYVel = 0.0f;
@@ -41,22 +40,22 @@ public class PhysicsHelper {
         float accelY;
 
         //Process acceleration based on bodyData stats.
-        if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
+        if (Math.abs(desiredXVel) > Math.abs(playerVelocity.x)) {
             accelX = grounded ? player.getBodyData().getXGroundAccel(): player.getBodyData().getXAirAccel();
         } else {
             accelX = grounded ? player.getBodyData().getXGroundDeaccel() : player.getBodyData().getXAirDeaccel();
         }
-        float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
+        float newX = accelX * desiredXVel + (1 - accelX) * playerVelocity.x;
 
-        if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
+        if (Math.abs(desiredYVel) > Math.abs(playerVelocity.y)) {
             accelY = grounded ? player.getBodyData().getYGroundAccel(): player.getBodyData().getYAirAccel();
         } else {
             accelY = grounded ? player.getBodyData().getYGroundDeaccel() : player.getBodyData().getYAirDeaccel();
         }
-        float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
+        float newY = accelY * desiredYVel + (1 - accelY) * playerVelocity.y;
 
         //apply resulting force
-        force.set(newX - currentVel.x, newY - currentVel.y).scl(player.getMass());
+        force.set(newX - playerVelocity.x, newY - playerVelocity.y).scl(PLAYER_MASS);
         player.applyLinearImpulse(force);
     }
 }

@@ -116,7 +116,7 @@ public class Boss4 extends EnemyFloating {
 	}
 	
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		if (state.isServer()) {
 			body1.getEffect().draw(batch);
 			body2.getEffect().draw(batch);

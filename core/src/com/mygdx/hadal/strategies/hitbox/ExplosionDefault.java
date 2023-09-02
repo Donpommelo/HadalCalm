@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -38,7 +39,7 @@ public class ExplosionDefault extends HitboxStrategy {
 	
 	private final Vector2 kb = new Vector2();
 	@Override
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (fixB != null) {
 			kb.set(fixB.getEntity().getPixelPosition().x - this.hbox.getPixelPosition().x, fixB.getEntity().getPixelPosition().y - this.hbox.getPixelPosition().y);
 			

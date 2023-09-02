@@ -43,13 +43,11 @@ public class MaelstromProjectile extends SyncedAttacker {
         Hitbox storm = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 false, true, user, projSprite) {
 
-            private final Vector2 entityLocation = new Vector2();
             @Override
-            public void render(SpriteBatch batch) {
+            public void render(SpriteBatch batch, Vector2 entityLocation) {
                 if (!alive) { return; }
 
                 if (projectileSprite != null) {
-                    entityLocation.set(getPixelPosition());
                     batch.draw(projectileSprite.getKeyFrame(animationTime, false),
                             entityLocation.x - explosionSize.x / 2 * getScale(),
                             entityLocation.y - explosionSize.y / 2 * getScale(),

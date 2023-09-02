@@ -2,6 +2,7 @@ package com.mygdx.hadal.battle.attacks.active;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -50,7 +51,7 @@ public class PortableSentryUse extends SyncedAttacker {
 
                 private HadalEntity floor;
                 @Override
-                public void onHit(HadalData fixB) {
+                public void onHit(HadalData fixB, Body body) {
                     if (fixB != null) {
                         floor = fixB.getEntity();
                         hbox.die();

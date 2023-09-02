@@ -143,7 +143,7 @@ public abstract class Equippable {
 	 */
 	public void update(PlayState state, float delta) {}
 
-	public void processEffects(PlayState state, float delta) {}
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {}
 
 	/**
 	 * @return the string representing the weapon in the ui.

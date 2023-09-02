@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="40">
+ <layer id="1" name="Tile Layer 1" width="180" height="120">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwbUY8AAQ==
+  </data>
+ </layer>
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="../Images/american_pika.JPG" width="5184" height="3456"/>
+ </imagelayer>
+ <objectgroup id="3" name="bot-layer">
+  <object id="16" name="BotPoint" type="BotPoint" x="3104" y="2528">
+   <polyline points="192,288 -320,128"/>
+  </object>
+  <object id="17" name="BotPoint" type="BotPoint" x="2752" y="2432">
+   <polyline points="32,224 -224,128"/>
+  </object>
+  <object id="23" name="BotPoint" type="BotPoint" x="2624" y="2400">
+   <polyline points="-96,160 32,-96"/>
+  </object>
+  <object id="24" name="BotPoint" type="BotPoint" x="2752" y="2144">
+   <polyline points="-96,160 224,-96"/>
+  </object>
+  <object id="25" name="BotPoint" type="BotPoint" x="2848" y="1856">
+   <polyline points="-128,-64 128,192"/>
+  </object>
+  <object id="26" name="BotPoint" type="BotPoint" x="2624" y="2048">
+   <polyline points="32,256 96,-256"/>
+  </object>
+  <object id="27" name="BotPoint" type="BotPoint" x="2496" y="1408">
+   <polyline points="-96,160 224,384"/>
+  </object>
+  <object id="28" name="BotPoint" type="BotPoint" x="2240" y="1440">
+   <polyline points="-256,0 160,128"/>
+  </object>
+  <object id="29" name="BotPoint" type="BotPoint" x="1792" y="1344">
+   <polyline points="-192,128 192,96"/>
+  </object>
+  <object id="30" name="BotPoint" type="BotPoint" x="1440" y="1504">
+   <polyline points="-96,160 160,-32"/>
+  </object>
+  <object id="31" name="BotPoint" type="BotPoint" x="1152" y="1696">
+   <polyline points="-160,96 192,-32"/>
+  </object>
+  <object id="32" name="BotPoint" type="BotPoint" x="992" y="2176">
+   <polyline points="-32,0 0,-384"/>
+  </object>
+  <object id="33" name="BotPoint" type="BotPoint" x="928" y="2304">
+   <polyline points="-96,160 32,-128"/>
+  </object>
+  <object id="34" name="BotPoint" type="BotPoint" x="608" y="2368">
+   <polyline points="-192,96 224,96"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="collision-layer">
+  <object id="1" x="1240" y="2496">
+   <polyline points="0,0 -59.3333,3.33333 -86.6667,14 -134.667,7.33333 -192.667,14 -332,10 -372.667,1.33333 -488.667,15.3333 -510.667,6.66667 -534.667,10.6667 -607.333,-3.33333 -688.667,6.66667 -803.333,38 -887.333,44 -1018,74 -1114.67,102 -1239.33,160.667 -1240,-2496 2160,-2496"/>
+  </object>
+  <object id="2" x="1240" y="2496">
+   <polyline points="2160,-2496 2140.67,407.333 2092.67,382.667 1992.67,333.333 1850.67,312.667 1828,330 1746.67,322.667 1717.33,278 1607.33,250.667 1575.33,220 1486.67,199.333 1429.33,218.667 1380,216 1336.67,244.667 1244,224.667 1208.67,196.667 1173.33,182 1138.67,128.667 1080.67,88.6667 1056.67,59.3333 1052.67,42.6667 991.333,-11.3333 918.667,-32.6667 916,-58 879.333,-131.333 948,-274 1046,-370 1068.67,-476.667 1213.33,-576 1220,-601.333 1255.33,-619.333 1254,-694 1212,-734.667 1103.33,-855.333 1022,-889.333 971.333,-904.667 790,-987.333 744,-988.667 579.333,-1002.67 502.667,-998.667 443.333,-967.333 416,-922.667 416.667,-892 364.667,-890 292.667,-880.667 213.333,-830.667 126,-785.333 49.3333,-702.667 -26,-574.667 -62.6667,-436 -64.6667,-308.667 -62,-193.333 -24.3333,-95.8333 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="event-layer">
+  <object id="4" name="Bounds" type="Bounds" x="0" y="0" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="5" name="Bounds" type="Bounds" x="3352" y="2904" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="6" name="Multitrigger" type="Multitrigger" x="96" y="3520" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2,w3"/>
+   </properties>
+  </object>
+  <object id="7" name="Prefab" type="PrefabWeapon" x="1928" y="1416" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="8" name="Prefab" type="PrefabWeapon" x="352" y="2448" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="9" name="Prefab" type="PrefabWeapon" x="2720" y="2624" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="10" name="Start" type="Start" x="2368" y="2528" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="11" name="Start" type="Start" x="672" y="2400" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="12" name="Start" type="Start" x="96" y="2528" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="13" name="Start" type="Start" x="3168" y="2752" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="14" name="Start" type="Start" x="1536" y="1536" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="15" name="Start" type="Start" x="2336" y="1568" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="18" name="Dropthrough" type="Dropthrough" x="2560" y="2336" width="224" height="8"/>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="2880" y="2080" width="224" height="8"/>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="2560" y="1824" width="224" height="8"/>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="832" y="2208" width="224" height="8"/>
+  <object id="22" name="Dropthrough" type="Dropthrough" x="832" y="1824" width="224" height="8"/>
+ </objectgroup>
+ <objectgroup id="6" name="objective">
+  <object id="36" name="ObjectiveSpawn" type="ObjectiveSpawn" x="1952" y="1088" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="37" name="Dummy" type="Dummy" x="2624" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="38" name="Dummy" type="Dummy" x="1120" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+  <object id="39" name="MovePoint" type="MovePoint" x="1952" y="1088" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="syncConnected" type="bool" value="true"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

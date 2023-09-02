@@ -37,7 +37,6 @@ public class StickyBomb extends SyncedAttacker {
         hbox.setSpriteSize(PROJECTILE_SIZE);
         hbox.setSyncedDeleteNoDelay(true);
         hbox.setSyncedDelete(true);
-
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), EXPLOSION_RADIUS, EXPLOSION_DAMAGE, EXPLOSION_KNOCKBACK,
                 (short) 0, false, DamageSource.STICKYBOMB_LAUNCHER));

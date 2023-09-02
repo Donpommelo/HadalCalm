@@ -62,7 +62,7 @@ public class DiamondCutter extends MeleeWeapon {
 	//Using this, we only delete after the hbox is created to avoid skipping the delete
 	private boolean shootingLast;
 	@Override
-	public void processEffects(PlayState state, float delta) {
+	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool());
 
 		if (shooting) {

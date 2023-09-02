@@ -52,6 +52,7 @@ public enum AssetList {
 	KAMABOKO_SWIM_ATL("sprites/kamaboko_swim.atlas", TextureAtlas.class),
 	DRONE_ATL("sprites/drone.atlas", TextureAtlas.class),
 	NEPTUNE_KING_ATL("sprites/neptuneking.atlas", TextureAtlas.class),
+	KRILL("sprites/krill.atlas", TextureAtlas.class),
 
 	//UI
 	UIPATCH_ATL("ui/window.atlas", TextureAtlas.class),

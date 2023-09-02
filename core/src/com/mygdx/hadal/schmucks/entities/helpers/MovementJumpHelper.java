@@ -56,11 +56,11 @@ public class MovementJumpHelper {
         }
     }
 
-    public void controllerUniversal(float delta) {
+    public void controllerUniversal(float delta, Vector2 playerPosition) {
         if (jumping) {
             if (jumpEffectCount <= 0.0f) {
                 jumpEffectCount = JUMP_CD;
-                jumpEffect();
+                jumpEffect(playerPosition);
             }
         }
 
@@ -87,9 +87,10 @@ public class MovementJumpHelper {
 
             if (player.getPlayerData().getStat(Stats.HOVER_CONTROL) > 0) {
                 hoverDirection.setAngleDeg(player.getMouseHelper().getAttackAngle() + 180);
+                player.push(hoverDirection);
+            } else {
+                player.pushMomentumMitigation(0, hoverDirection.y);
             }
-
-            player.pushMomentumMitigation(hoverDirection.x, hoverDirection.y);
 
             player.getPlayerData().statusProcTime(new ProcTime.whileHover(hoverDirection));
 
@@ -127,19 +128,19 @@ public class MovementJumpHelper {
         jumping = true;
     }
 
-    private void jumpEffect() {
+    private void jumpEffect(Vector2 playerPosition) {
         if (!player.getEffectHelper().isInvisible()) {
             ParticleEntity entity;
             if (player.getGroundedHelper().isGrounded()) {
 
                 //activate jump particles and sound
-                entity = new ParticleEntity(state, new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2),
+                entity = new ParticleEntity(state, new Vector2(playerPosition).sub(0, player.getSize().y / 2),
                         Particle.WATER_BURST, 1.0f, true, SyncType.NOSYNC);
-                SoundEffect.JUMP.playSourced(state, player.getPixelPosition(), 0.2f);
+                SoundEffect.JUMP.playSourced(state, playerPosition, 0.2f);
             } else {
                 //activate double-jump particles and sound
                 entity = new ParticleEntity(state, player, Particle.SPLASH, 0.0f, 0.75f, true, SyncType.NOSYNC);
-                SoundEffect.DOUBLEJUMP.playSourced(state, player.getPixelPosition(), 0.2f);
+                SoundEffect.DOUBLEJUMP.playSourced(state, playerPosition, 0.2f);
             }
 
             if (!state.isServer()) {

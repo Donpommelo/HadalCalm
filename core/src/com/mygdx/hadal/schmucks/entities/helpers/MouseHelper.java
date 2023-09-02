@@ -17,8 +17,6 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  */
 public class MouseHelper {
 
-    private final Player player;
-
     //this is the mouse's position (instead of body position to avoid transforming)
     private final Vector2 mousePosition = new Vector2();
 
@@ -34,7 +32,6 @@ public class MouseHelper {
     private final boolean self;
 
     public MouseHelper(PlayState state, Player player) {
-        this.player = player;
 
         if (state.isServer()) {
             self = player.getConnID() == 0;
@@ -43,10 +40,9 @@ public class MouseHelper {
         }
     }
 
-    private final Vector2 playerLocation = new Vector2();
     private final Vector2 mouseLocation = new Vector2();
     private final Vector2 mouseAngle = new Vector2();
-    public void controller() {
+    public void controller(Vector2 playerPosition) {
         //server player's mouse sets location constantly. Client's mouse moves to desired location which is set when receiving packets from respective client
         if (self) {
             tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -56,9 +52,8 @@ public class MouseHelper {
             mousePosition.set(desiredLocation.x, desiredLocation.y);
         }
 
-        playerLocation.set(player.getPixelPosition());
         mouseLocation.set(getPixelPosition());
-        mouseAngle.set(playerLocation.x, playerLocation.y).sub(mouseLocation.x, mouseLocation.y);
+        mouseAngle.set(playerPosition.x, playerPosition.y).sub(mouseLocation.x, mouseLocation.y);
 
         attackAngle = MathUtils.atan2(mouseAngle.y, mouseAngle.x) * MathUtils.radDeg;
     }

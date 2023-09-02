@@ -1,12 +1,13 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.constants.Stats;
 
 import java.util.Arrays;
 
@@ -67,12 +68,13 @@ public class HitboxData extends HadalData {
 	/**
 	 * This method is run when the hitbox collides with something.
 	 * @param fixB: The fixture the hitbox collides with.
+	 * @param body: body is passed on for entities with multiple bodies
 	 */
-	public void onHit(HadalData fixB) {
+	public void onHit(HadalData fixB, Body body) {
 		if (!hbox.isAlive()) { return; }
 		
 		for (HitboxStrategy s : hbox.getStrategies()) {
-			s.onHit(fixB);
+			s.onHit(fixB, body);
 		}
 	}
 

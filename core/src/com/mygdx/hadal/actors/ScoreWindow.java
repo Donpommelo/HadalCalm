@@ -165,6 +165,16 @@ public class ScoreWindow {
 		orderedUsers.sort((a, b) -> {
 			int cmp = (a.isSpectator() ? 1 : 0) - (b.isSpectator() ? 1 : 0);
 			if (0 == cmp) { cmp = b.getScores().getScore() - a.getScores().getScore(); }
+
+			//this makes the player always able to see their score at the top of scoreboards
+			if (null != state.getPlayer()) {
+				if (!a.isSpectator() && a.getScores().getConnID() == state.getPlayer().getConnID()) {
+					cmp = -1;
+				}
+				if (!b.isSpectator() && b.getScores().getConnID() == state.getPlayer().getConnID()) {
+					cmp = 1;
+				}
+			}
 			return cmp;
 		});
 

@@ -144,12 +144,11 @@ public class Event extends HadalEntity {
 
 	private final Vector2 entityLocation = new Vector2();
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		//this makes the event flash when its lifespan is low
 		if (flashCount > 0.0f && flashLifespan != 0.0f) { return; }
 
 		if (eventSprite != null) {
-			entityLocation.set(getPixelPosition());
 			switch (scaleAlign) {
 			case CENTER:
 				batch.draw(eventSprite.getKeyFrame(animationTime),
@@ -187,9 +186,9 @@ public class Event extends HadalEntity {
 	}
 	
 	@Override
-	public boolean isVisible() {
+	public boolean isVisible(Vector2 objectiveLocation) {
 		if (cullable) {
-			return super.isVisible();
+			return super.isVisible(objectiveLocation);
 		} else {
 			return true;
 		}

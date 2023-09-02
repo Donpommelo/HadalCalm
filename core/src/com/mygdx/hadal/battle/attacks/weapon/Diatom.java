@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
-public class TyrazzanReaperProjectile extends SyncedAttacker {
+public class Diatom extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(45, 15);
 
@@ -45,7 +45,7 @@ public class TyrazzanReaperProjectile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.MAGIC3_BURST.playSourced(state, startPosition, 0.5f, 0.75f);
+        SoundEffect.FUTURE_GUN15.playSourced(state, startPosition, 0.5f);
         user.recoil(startVelocity, RECOIL);
 
         float effectiveRange = 0.0f;
@@ -70,7 +70,7 @@ public class TyrazzanReaperProjectile extends SyncedAttacker {
                 .setParticleSize(particleSize).setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback, DamageSource.TYRRAZZAN_REAPER,
+        hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback, DamageSource.DIATOM_BURST,
                 DamageTag.BULLET, DamageTag.RANGED));
         hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.5f).setSynced(false));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));

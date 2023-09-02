@@ -76,7 +76,9 @@ public class CreateParticles extends HitboxStrategy {
 			((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
 		}
 	}
-	
+
+	public ParticleEntity getParticles() { return particles; }
+
 	public CreateParticles setRotate(boolean rotate) {
 		this.rotate = rotate;
 		return this;
