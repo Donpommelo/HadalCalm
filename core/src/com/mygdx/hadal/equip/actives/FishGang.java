@@ -22,7 +22,7 @@ public class FishGang extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SyncedAttack.FISH_GANG.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(), true);
+		SyncedAttack.FISH_GANG.initiateSyncedAttackNoHbox(state, user.getPlayer(), user.getPlayer().getPixelPosition(), false);
 	}
 
 	@Override

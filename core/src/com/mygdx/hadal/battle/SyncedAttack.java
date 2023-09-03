@@ -99,6 +99,7 @@ public enum SyncedAttack {
     FLASHBANG(new FlashbangProjectile()),
     GHOST_STEP(new GhostStepProjectile()),
     JUMP_KICK(new JumpKickProjectile()),
+    KRILL_COMMAND(new KrillCommandProjectile()),
     HYDRAUlIC_UPPERCUT(new HydraulicUppercutProjectile()),
     NAUTICAL_MINE(new NauticalMineProjectile()),
     MARINE_SNOW(new MarineSnow()),
@@ -461,7 +462,7 @@ public enum SyncedAttack {
                                            boolean origin, boolean independent, float... extraFields) {
 
         //independent attacks are processed immediately
-        //clients do not process dependent attacks; instead they wait for thte server to run them.
+        //clients do not process dependent attacks; instead they wait for the server to run them.
         if (independent || state.isServer()) {
             syncedAttacker.performSyncedAttackNoHbox(state, user, startPosition, extraFields);
         }

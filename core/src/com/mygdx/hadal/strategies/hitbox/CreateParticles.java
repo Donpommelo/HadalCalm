@@ -40,6 +40,8 @@ public class CreateParticles extends HitboxStrategy {
 	//velocity of particles. Used for things like airblast bubble movement
 	private float velocity;
 
+	private float offsetX, offsetY;
+
 	private SyncType syncType = SyncType.CREATESYNC;
 
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {
@@ -59,6 +61,7 @@ public class CreateParticles extends HitboxStrategy {
 	@Override
 	public void create() {
 		particles = new ParticleEntity(state, hbox, effect, linger, duration, true, syncType);
+		particles.setOffset(offsetX, offsetY);
 		if (particleSize == 0) {
 			particles.setScale(hbox.getScale());
 		} else {
@@ -77,7 +80,11 @@ public class CreateParticles extends HitboxStrategy {
 		}
 	}
 
-	public ParticleEntity getParticles() { return particles; }
+	public CreateParticles setOffset(float offsetX, float offsetY) {
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		return this;
+	}
 
 	public CreateParticles setRotate(boolean rotate) {
 		this.rotate = rotate;

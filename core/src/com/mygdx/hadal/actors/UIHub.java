@@ -285,7 +285,6 @@ public class UIHub {
 		currentVerticalGroup.space(OPTION_PAD);
 
 		currentRow++;
-		System.out.println(currentRow + " " + rowNum);
 		if (rowNum <= currentRow) {
 			currentRow = 0;
 
