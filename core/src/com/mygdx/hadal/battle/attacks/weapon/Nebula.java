@@ -28,7 +28,6 @@ public class Nebula extends SyncedAttacker {
     public static final float BASE_DAMAGE = 2.5f;
     public static final float SPIN_INTERVAL = 0.017f;
 
-    public static final float MIN_RANGE = 10.0f;
     public static final float MAX_RANGE = 400.0f;
     public static final float SPEED_FAST = 18.0f;
     public static final float SPEED_SLOW = 8.0f;
@@ -89,9 +88,6 @@ public class Nebula extends SyncedAttacker {
                         homingSpeed = Math.min(SPEED_FAST, homingSpeed + delta * RECHARGE_SPEED_MULTIPLIER *
                                 (SPEED_FAST - SPEED_SLOW) / SPEED_INTERVAL);
                         hbox.setLinearVelocity(userPosition.sub(hboxPosition).nor().scl(SPEED_FAST));
-                        if (distance < MIN_RANGE) {
-                            hbox.die();
-                        }
                     } else {
                         homingSpeed = Math.max(SPEED_SLOW, homingSpeed - delta * (SPEED_FAST - SPEED_SLOW) / SPEED_INTERVAL);
                         homeDifference.nor().scl(homingSpeed);

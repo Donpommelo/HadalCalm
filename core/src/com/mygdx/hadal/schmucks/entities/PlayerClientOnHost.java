@@ -9,6 +9,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.PacketUtil;
 
 /**
  * A ClientPlayer represents a client's own player.
@@ -86,13 +87,15 @@ public class PlayerClientOnHost extends Player {
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(getPlayerData().getCurrentTool().getWeaponSprite().getFrame());
 
-			getPlayerData().getCurrentTool().setReloading(p.reloadPercent != -1.0f, true);
-			getUiHelper().setReloadPercent(p.reloadPercent);
-			getPlayerData().getCurrentTool().setReloadCd(p.reloadPercent);
+			float reloadPercent = PacketUtil.byteToPercent(p.reloadPercent);
+			getPlayerData().getCurrentTool().setReloading(reloadPercent != -1.0f, true);
+			getUiHelper().setReloadPercent(reloadPercent);
+			getPlayerData().getCurrentTool().setReloadCd(reloadPercent);
 
-			getPlayerData().getCurrentTool().setCharging(p.chargePercent != -1.0f);
-			getUiHelper().setChargePercent(p.chargePercent);
-			getPlayerData().getCurrentTool().setChargeCd(p.chargePercent);
+			float chargePercent = PacketUtil.byteToPercent(p.chargePercent);
+			getPlayerData().getCurrentTool().setCharging(chargePercent != -1.0f);
+			getUiHelper().setChargePercent(chargePercent);
+			getPlayerData().getCurrentTool().setChargeCd(chargePercent);
 
 			getPlayerData().setCurrentFuel(p.currentFuel);
 

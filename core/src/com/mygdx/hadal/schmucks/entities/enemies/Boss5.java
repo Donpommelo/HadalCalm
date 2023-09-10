@@ -405,6 +405,7 @@ public class Boss5 extends EnemyFloating {
 			public void execute() {
 				Hitbox hbox1 = new Hitbox(state, getPixelPosition(), windupSize, lifespan, new Vector2(), getHitboxFilter(), true, false, enemy, Sprite.NOTHING);
 				hbox1.setSynced(true);
+				hbox1.setSyncedDelete(true);
 
 				hbox1.addStrategy(new ControllerDefault(state, hbox1, getBodyData()));
 				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle, 0.0f, particleLinger).setParticleColor(color).setParticleSize(particleScale));

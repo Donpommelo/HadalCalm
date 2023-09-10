@@ -3,6 +3,7 @@ package com.mygdx.hadal.server.packets;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.utils.PacketUtil;
 
 import java.util.UUID;
 
@@ -39,7 +40,7 @@ public class PacketsSync {
     }
 
     public static class SyncEntityAngled extends SyncEntity {
-        public float angle;
+        public short angle;
         public SyncEntityAngled() {}
 
         /**
@@ -50,13 +51,13 @@ public class PacketsSync {
          */
         public SyncEntityAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, float angle) {
             super(entityID, pos, velocity, timestamp);
-            this.angle = angle;
+            this.angle = (short) angle;
         }
     }
 
     public static class SyncSchmuck extends SyncEntity {
         public MoveState moveState;
-        public float currentHp;
+        public short currentHp;
 
         public SyncSchmuck() {}
 
@@ -72,12 +73,12 @@ public class PacketsSync {
                            MoveState moveState, float currentHp) {
             super(entityID, pos, velocity, timestamp);
             this.moveState = moveState;
-            this.currentHp = currentHp;
+            this.currentHp = (short) currentHp;
         }
     }
 
     public static class SyncSchmuckAngled extends SyncSchmuck {
-        public float angle;
+        public short angle;
 
         public SyncSchmuckAngled() {}
 
@@ -90,16 +91,16 @@ public class PacketsSync {
         public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
                                  MoveState moveState, float currentHp, float angle) {
             super(entityID, pos, velocity, timestamp, moveState, currentHp);
-            this.angle = angle;
+            this.angle = (short) angle;
         }
     }
 
     public static class SyncPlayer extends SyncSchmuck {
         public Vector2 mousePosition;
-        public int currentSlot;
-        public float reloadPercent;
-        public float chargePercent;
-        public float currentFuel;
+        public byte currentSlot;
+        public byte reloadPercent;
+        public byte chargePercent;
+        public short currentFuel;
         public short conditionCode;
 
         public SyncPlayer() {}
@@ -114,26 +115,26 @@ public class PacketsSync {
                           float chargePercent, float currentFuel, short conditionCode) {
             super(entityID, pos, velocity, timestamp, moveState, currentHp);
             this.mousePosition = mousePosition;
-            this.currentSlot = currentSlot;
-            this.reloadPercent = reloadPercent;
-            this.chargePercent = chargePercent;
-            this.currentFuel = currentFuel;
+            this.currentSlot = (byte) currentSlot;
+            this.reloadPercent = PacketUtil.percentToByte(reloadPercent);
+            this.chargePercent = PacketUtil.percentToByte(chargePercent);
+            this.currentFuel = (short) currentFuel;
             this.conditionCode = conditionCode;
         }
     }
 
     public static class SyncClientSnapshot {
         public Vector2 mousePosition;
-        public int currentSlot;
-        public float reloadPercent;
-        public float chargePercent;
-        public float currentFuel;
+        public byte currentSlot;
+        public byte reloadPercent;
+        public byte chargePercent;
+        public short currentFuel;
         public short statusCode;
         public Vector2 pos;
         public Vector2 velocity;
         public float timestamp;
         public MoveState moveState;
-        public float currentHp;
+        public short currentHp;
 
         public SyncClientSnapshot() {}
 
@@ -144,12 +145,12 @@ public class PacketsSync {
             this.velocity = velocity;
             this.timestamp = timestamp;
             this.moveState = moveState;
-            this.currentHp = currentHp;
+            this.currentHp = (short) currentHp;
             this.mousePosition = mousePosition;
-            this.currentSlot = currentSlot;
-            this.reloadPercent = reloadPercent;
-            this.chargePercent = chargePercent;
-            this.currentFuel = currentFuel;
+            this.currentSlot = (byte) currentSlot;
+            this.reloadPercent = PacketUtil.percentToByte(reloadPercent);
+            this.chargePercent = PacketUtil.percentToByte(chargePercent);
+            this.currentFuel = (short) currentFuel;
             this.statusCode = statusCode;
         }
     }
@@ -189,7 +190,7 @@ public class PacketsSync {
     }
 
     public static class SyncFlag extends SyncEntity {
-        public float returnPercent;
+        public byte returnPercent;
 
         public SyncFlag() {}
 
@@ -199,7 +200,7 @@ public class PacketsSync {
          */
         public SyncFlag(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, float returnPercent) {
             super(entityID, pos, velocity, timestamp);
-            this.returnPercent = returnPercent;
+            this.returnPercent = PacketUtil.percentToByte(returnPercent);
         }
     }
 

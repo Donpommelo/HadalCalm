@@ -23,6 +23,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -206,7 +207,7 @@ public class ReviveGravestone extends Event {
 		super.onClientSync(o);
 
 		if (o instanceof PacketsSync.SyncFlag p) {
-			returnPercent = p.returnPercent;
+			returnPercent = PacketUtil.byteToPercent(p.returnPercent);
 		}
 	}
 

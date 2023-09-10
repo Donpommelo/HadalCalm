@@ -677,6 +677,7 @@ public class Boss4 extends EnemyFloating {
 				Vector2 startVelo1 = new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngleDeg(startAngle);
 				Hitbox hbox1 = new Hitbox(state, getPixelPosition().add(startVelo1), windupSize, lifespan, new Vector2(), getHitboxFilter(), true, false, enemy, Sprite.NOTHING);
 				hbox1.setSynced(true);
+				hbox1.setSyncedDelete(true);
 
 				hbox1.addStrategy(new ControllerDefault(state, hbox1, getBodyData()));
 				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle, 0.0f, particleLinger)

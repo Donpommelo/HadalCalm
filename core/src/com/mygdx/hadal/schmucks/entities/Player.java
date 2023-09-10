@@ -31,6 +31,7 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
+import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.PlayerConditionUtil;
 import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -445,13 +446,15 @@ public class Player extends Schmuck {
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
 
-			getPlayerData().getCurrentTool().setReloading(p.reloadPercent != -1.0f, true);
-			uiHelper.setReloadPercent(p.reloadPercent);
-			getPlayerData().getCurrentTool().setReloadCd(p.reloadPercent);
+			float reloadPercent = PacketUtil.byteToPercent(p.reloadPercent);
+			getPlayerData().getCurrentTool().setReloading(reloadPercent != -1.0f, true);
+			uiHelper.setReloadPercent(reloadPercent);
+			getPlayerData().getCurrentTool().setReloadCd(reloadPercent);
 
-			getPlayerData().getCurrentTool().setCharging(p.chargePercent != -1.0f);
-			uiHelper.setChargePercent(p.chargePercent);
-			getPlayerData().getCurrentTool().setChargeCd(p.chargePercent);
+			float chargePercent = PacketUtil.byteToPercent(p.chargePercent);
+			getPlayerData().getCurrentTool().setCharging(chargePercent != -1.0f);
+			uiHelper.setChargePercent(chargePercent);
+			getPlayerData().getCurrentTool().setChargeCd(chargePercent);
 
 			getPlayerData().setCurrentFuel(p.currentFuel);
 
