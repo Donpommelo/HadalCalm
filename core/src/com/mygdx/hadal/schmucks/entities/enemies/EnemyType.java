@@ -194,7 +194,15 @@ public enum EnemyType {
 			return new Drone(state, startPos, extraField, filter, extraField);
 		}
 	},
-	
+
+	KRILL("KRILL") {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField) {
+			return new Krill(state, startPos, extraField, filter);
+		}
+	},
+
 	BOSS1("SLIGHTLY LARGER FISH") {
 
 		@Override

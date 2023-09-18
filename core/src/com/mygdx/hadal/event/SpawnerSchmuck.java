@@ -2,13 +2,12 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -99,7 +98,4 @@ public class SpawnerSchmuck extends Event {
 			}
 		}
 	}
-	
-	@Override
-	public void loadDefaultProperties() { setStandardParticle(Particle.RING); }
 }

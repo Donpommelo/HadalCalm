@@ -24,6 +24,8 @@ public class Nebulizer extends MeleeWeapon {
 	//keeps track of attack speed without input buffer doing an extra mouse click
 	private static final float INNATE_ATTACK_COOLDOWN = 0.5f;
 
+	public static final float MIN_RANGE = 10.0f;
+
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_DEFAULT;
 	private static final Sprite EVENT_SPRITE = Sprite.P_DEFAULT;
 
@@ -60,6 +62,9 @@ public class Nebulizer extends MeleeWeapon {
 	//this indicates whether the button was last held. We need to keep track of this since clients will see the hbox created
 	//prior to the player's "shooting" state being updated.
 	//Using this, we only delete after the hbox is created to avoid skipping the delete
+	private boolean shootingLast;
+	private final Vector2 hboxPosition = new Vector2();
+	private final Vector2 userPosition = new Vector2();
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool());
@@ -78,6 +83,23 @@ public class Nebulizer extends MeleeWeapon {
 			if (sawSound != null) {
 				sawSound.turnOff();
 			}
+
+			if (shootingLast && user.getSpecialWeaponHelper().getDeathOrbHbox() != null) {
+				hboxPosition.set(user.getSpecialWeaponHelper().getDeathOrbHbox().getPosition());
+				userPosition.set(user.getPosition());
+				float dist = hboxPosition.dst2(userPosition);
+
+				if (dist < MIN_RANGE) {
+					user.getSpecialWeaponHelper().getDeathOrbHbox().die();
+					user.getSpecialWeaponHelper().setDeathOrbHbox(null);
+				}
+			}
+		}
+		if (shooting && null != user.getSpecialWeaponHelper().getDeathOrbHbox()) {
+			shootingLast = true;
+		}
+		if (null == user.getSpecialWeaponHelper().getDeathOrbHbox()) {
+			shootingLast = false;
 		}
 	}
 

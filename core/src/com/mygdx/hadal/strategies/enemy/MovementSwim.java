@@ -70,11 +70,10 @@ public class MovementSwim extends EnemyStrategy {
         noiseCdCount += delta;
         while (noiseCdCount >= NOISE_CD) {
             noiseCdCount -= NOISE_CD;
-            currentNoise.setToRandomDirection().scl(noiseRadius);
+            currentNoise.setToRandomDirection().nor().scl(noiseRadius);
         }
-        if (!enemy.isApproachTarget()) {
-            moveDirection.add(currentNoise);
-        }
+
+        moveDirection.add(currentNoise);
 
         //process enemy swimming physics
         controllerCount += delta;

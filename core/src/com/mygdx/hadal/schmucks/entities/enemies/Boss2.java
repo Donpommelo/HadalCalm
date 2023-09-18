@@ -22,6 +22,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
+import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -70,7 +71,6 @@ public class Boss2 extends EnemyFloating {
 		setFaceSprite();
 
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1800));
-		addStrategy(new TargetNoPathfinding(state, this, true));
 	}
 
 	@Override
@@ -462,6 +462,12 @@ public class Boss2 extends EnemyFloating {
 			}
 		}
 	}	
+
+	@Override
+	public void setupPathingStrategies() {
+		addStrategy(new TargetNoPathfinding(state, this, true));
+		addStrategy(new FollowRallyPoints(state, this));
+	}
 
 	//boss is never culled to avoid culling links when head is out of view
 	@Override

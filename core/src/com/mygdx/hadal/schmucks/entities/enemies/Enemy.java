@@ -94,12 +94,7 @@ public class Enemy extends Schmuck {
 		this.actions = new Array<>();
 		this.secondaryActions = new Array<>();
 
-		if (!BotManager.rallyPoints.isEmpty() && this instanceof EnemySwimming) {
-			addStrategy(new TargetPathfinding(state, this));
-		} else {
-			addStrategy(new TargetNoPathfinding(state, this, false));
-		}
-		addStrategy(new FollowRallyPoints(state, this));
+		setupPathingStrategies();
 	}
 	
 	@Override
@@ -299,6 +294,15 @@ public class Enemy extends Schmuck {
 			}
 		}
 		return super.getProjectileOrigin(startVelo, projSize);
+	}
+
+	public void setupPathingStrategies() {
+		if (!BotManager.rallyPoints.isEmpty() && this instanceof EnemySwimming) {
+			addStrategy(new TargetPathfinding(state, this));
+		} else {
+			addStrategy(new TargetNoPathfinding(state, this, false));
+		}
+		addStrategy(new FollowRallyPoints(state, this));
 	}
 
 	public Vector2 getMoveVector() { return moveVector; }

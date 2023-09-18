@@ -51,9 +51,7 @@ public class DiamondCutterProjectile extends SyncedAttacker {
             @Override
             public void controller(float delta) {
 
-                if (!user.isAlive()) {
-                    hbox.die();
-                }
+                if (!user.isAlive()) { hbox.die(); }
 
                 projOffset.set(0, RANGE).setAngleDeg(((Player) user).getMouseHelper().getAttackAngle());
                 entityLocation.set(user.getPosition());

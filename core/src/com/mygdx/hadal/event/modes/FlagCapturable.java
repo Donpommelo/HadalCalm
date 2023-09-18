@@ -26,6 +26,7 @@ import com.mygdx.hadal.statuses.CarryingFlag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -282,7 +283,7 @@ public class FlagCapturable extends Event {
 		super.onClientSync(o);
 
 		if (o instanceof PacketsSync.SyncFlag p) {
-			returnPercent = p.returnPercent;
+			returnPercent = PacketUtil.byteToPercent(p.returnPercent);
 			if (o instanceof PacketsSync.SyncFlagAttached p1) {
 				HadalEntity entity = state.findEntity(p1.uuidMSBAttached, p1.uuidLSBAttached);
 				if (null != entity) {

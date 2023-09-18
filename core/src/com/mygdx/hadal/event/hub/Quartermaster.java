@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
-import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.actors.UITag;
@@ -14,7 +14,9 @@ import com.mygdx.hadal.save.ShopInfo;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.UIText;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The Armory is a HubEvent that allows the player to spend Scrap on unlocks.
@@ -32,46 +34,67 @@ public class Quartermaster extends HubEvent {
 
 	@Override
 	public void enter() {
-		super.enter();
+		state.getUiHub().setType(type);
+		state.getUiHub().setTitle(title);
+		state.getUiHub().enter(this);
+		open = true;
+		addOptions(lastSearch, lastSlot, lastTag);
+	}
+
+	@Override
+	public void addOptions(String search, int slots, UnlockManager.UnlockTag tag) {
+		super.addOptions(search, slots, tag);
+		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
 		final Quartermaster me = this;
-		
-		for (final String item : shopInfo.getPrices().keySet()) {
 
+		for (final String item : shopInfo.getPrices().keySet()) {
 			String name = UnlockManager.getName(UnlockType.valueOf(shopInfo.getType()), item);
 			String desc = UnlockManager.getDesc(UnlockType.valueOf(shopInfo.getType()), item);
 			String descLong = UnlockManager.getDescLong(UnlockType.valueOf(shopInfo.getType()), item);
 
 			if (checkUnlock && !UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
-
-				Text itemChoose = new Text(UIText.QUARTERMASTER_COST.text(name,
-						Integer.toString(shopInfo.getPrices().get(item)))).setButton(true);
-				
-				itemChoose.addListener(new ClickListener() {
-					
-					@Override
-			        public void clicked(InputEvent e, float x, float y) {
-			        	if (state.getGsm().getRecord().getScrap() >= shopInfo.getPrices().get(item)) {
-				        	state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
-				        	UnlockManager.setUnlock(state, UnlockType.valueOf(shopInfo.getType()), item, true);
-				        	
-				        	//leave and enter to reset available inventory
-				        	me.leave();
-				        	me.enter();
-				        	state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
-			        	}
-			        }
-					
-					@Override
-					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(name + "\n\n" + desc + "\n\n" + descLong);
+				boolean appear = false;
+				if ("".equals(search)) {
+					appear = true;
+				} else {
+					Matcher matcher = pattern.matcher(name.toLowerCase());
+					if (matcher.find()) {
+						appear = true;
 					}
-			    });
-				itemChoose.setScale(UIHub.OPTIONS_SCALE_SMALL);
-				hub.getTableOptions().add(itemChoose).height(UIHub.OPTION_HEIGHT).pad(UIHub.OPTION_PAD, 0, UIHub.OPTION_PAD, 0).row();
+				}
+
+				if (appear) {
+					HubOption option = new HubOption(name, null);
+
+					option.addListener(new ClickListener() {
+
+						@Override
+						public void clicked(InputEvent e, float x, float y) {
+							if (state.getGsm().getRecord().getScrap() >= shopInfo.getPrices().get(item)) {
+								state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
+								UnlockManager.setUnlock(state, UnlockType.valueOf(shopInfo.getType()), item, true);
+
+								//leave and enter to reset available inventory
+								me.leave();
+								me.enter();
+								state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
+							}
+						}
+
+						@Override
+						public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+							super.enter(event, x, y, pointer, fromActor);
+							hub.setInfo(name + "\n\n" + desc + "\n\n" + descLong);
+						}
+					});
+					hub.addActor(option, option.getWidth(), 4);
+				}
 			}
 		}
-		hub.getTableOptions().add(new Text("")).height(UIHub.OPTION_HEIGHT).row();
+		hub.addActorFinish();
 	}
+
+	@Override
+	public boolean isSearchable() { return true; }
 }

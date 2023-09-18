@@ -142,7 +142,6 @@ public class Event extends HadalEntity {
 		}
 	}
 
-	private final Vector2 entityLocation = new Vector2();
 	@Override
 	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		//this makes the event flash when its lifespan is low
@@ -201,16 +200,18 @@ public class Event extends HadalEntity {
 	public void loadDefaultProperties() {}
 	
 	public void setStandardParticle(Particle particle) {
-		if (state.isServer()) {
-			this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, SyncType.TICKSYNC);
-		}
+		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, SyncType.TICKSYNC);
 	}
 
 	public ParticleEntity getStandardParticle() { return standardParticle; }
 
 	public void addAmbientParticle(Particle particle, float xOffset, float yOffset) {
-		if (state.isServer()) {
-			new ParticleEntity(state, this, particle, 0, 0, true, SyncType.CREATESYNC).setOffset(xOffset, yOffset);
+		ParticleEntity ambientParticle = new ParticleEntity(state, this, particle, 0, 0, true,
+				SyncType.NOSYNC);
+		ambientParticle.setOffset(xOffset, yOffset);
+
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, ObjectLayer.EFFECT);
 		}
 	}
 

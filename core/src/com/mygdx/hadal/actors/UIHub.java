@@ -53,7 +53,6 @@ public class UIHub {
 	private static final int TAB_HEIGHT = 60;
 	private static final int VERTICAL_GROUP_PAD = 8;
 	public static final float OPTIONS_SCALE = 0.3f;
-	public static final float OPTIONS_SCALE_SMALL = 0.25f;
 
 	public static final float ARTIFACT_TAG_SIZE = 50.0f;
 	private static final float ARTIFACT_TAG_OFFSET_X = 10.0f;
