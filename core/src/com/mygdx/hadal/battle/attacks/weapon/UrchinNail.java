@@ -13,9 +13,11 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -51,13 +53,21 @@ public class UrchinNail extends SyncedAttacker {
                 DamageTag.POKING, DamageTag.RANGED));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.NAIL_TRAIL, 0.0f, 0.5f)
-                .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NAIL_IMPACT)
                 .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NAIL_BURST)
                 .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), false, true) {
+
+            private ParticleEntity particles;
+            @Override
+            public void create() {
+                particles = new ParticleEntity(state, hbox, Particle.NAIL_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC);
+                particles.setScale(hbox.getScale());
+                if (!state.isServer()) {
+                    ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+                }
+            }
 
             private final Vector2 currentVelo = new Vector2();
             @Override
@@ -79,6 +89,8 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL_STUCK);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
+
+                particles.turnOff();
             }
 
             @Override
@@ -91,6 +103,8 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
+
+                particles.turnOn();
             }
         }.setStuckLifespan(LIFESPAN_STUCK));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));

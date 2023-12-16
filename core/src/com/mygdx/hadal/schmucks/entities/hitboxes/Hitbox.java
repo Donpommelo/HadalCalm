@@ -231,7 +231,7 @@ public class Hitbox extends HadalEntity {
 
 		if (!alive) { return; }
 
-		//this makes the hbox flash when its lifespan is low (set flash lifespan using strategy
+		//this makes the hbox flash when its lifespan is low (set flash lifespan using strategy)
 		if (flashCount > 0.0f) { return; }
 
 		if (projectileSprite != null) {

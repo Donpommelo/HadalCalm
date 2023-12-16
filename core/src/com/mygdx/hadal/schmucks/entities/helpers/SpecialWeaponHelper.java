@@ -9,6 +9,7 @@ public class SpecialWeaponHelper {
 
     private final Queue<Hitbox> stickyBombs = new Queue<>();
     private final Array<Hitbox> teslaCoils = new Array<>();
+    private final Array<Hitbox> leapFrogs = new Array<>();
     private final Array<Enemy> bits = new Array<>();
     private Hitbox deathOrbHbox;
     private Hitbox diamondCutterHbox;
@@ -21,6 +22,8 @@ public class SpecialWeaponHelper {
     public Queue<Hitbox> getStickyBombs() { return stickyBombs; }
 
     public Array<Hitbox> getTeslaCoils() { return teslaCoils; }
+
+    public Array<Hitbox> getLeapFrogs() { return leapFrogs; }
 
     public Array<Enemy> getBits() { return bits; }
 

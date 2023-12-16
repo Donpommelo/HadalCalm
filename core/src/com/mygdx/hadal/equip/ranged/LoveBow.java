@@ -20,9 +20,9 @@ public class LoveBow extends RangedWeapon {
 	private static final float SHOOT_CD = 0.0f;
 	private static final float RELOAD_TIME = 0.6f;
 	private static final int RELOAD_AMOUNT = 0;
-	private static final float PROJECTILE_SPEED = 15.0f;
-	private static final float maxCharge = 0.25f;
+	private static final float MAX_CHARGE = 0.25f;
 
+	private static final float PROJECTILE_SPEED = LoveArrow.PROJECTILE_SPEED;
 	private static final Vector2 PROJECTILE_SIZE = LoveArrow.PROJECTILE_SIZE;
 	private static final float LIFESPAN = LoveArrow.LIFESPAN;
 	private static final float MIN_DAMAGE = LoveArrow.MIN_DAMAGE;
@@ -37,7 +37,7 @@ public class LoveBow extends RangedWeapon {
 
 	public LoveBow(Player user) {
 		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN, maxCharge);
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 	
 	@Override
@@ -109,6 +109,6 @@ public class LoveBow extends RangedWeapon {
 				String.valueOf(CLIP_SIZE),
 				String.valueOf(AMMO_SIZE),
 				String.valueOf(RELOAD_TIME),
-				String.valueOf(maxCharge)};
+				String.valueOf(MAX_CHARGE)};
 	}
 }

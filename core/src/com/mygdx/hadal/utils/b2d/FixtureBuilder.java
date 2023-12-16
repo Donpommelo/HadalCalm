@@ -1,10 +1,7 @@
 package com.mygdx.hadal.utils.b2d;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -49,6 +46,30 @@ public class FixtureBuilder {
         Fixture fixture = body.createFixture(fixtureDef);
         pShape.dispose();
         
+		return fixture;
+	}
+
+	public static Fixture createFixtureDefCircle(Body body, Vector2 center, float radius, boolean sensor,
+										   float density, float restitution, float friction, short cBits, short mBits, short gIndex) {
+		FixtureDef fixtureDef = new FixtureDef();
+
+		CircleShape pShape = new CircleShape();
+		fixtureDef.shape = pShape;
+
+		pShape.setRadius(radius);
+		pShape.setPosition(center);
+
+		fixtureDef.isSensor = sensor;
+		fixtureDef.density = density;
+		fixtureDef.restitution = restitution;
+		fixtureDef.friction = friction;
+		fixtureDef.filter.categoryBits = cBits;
+		fixtureDef.filter.maskBits = mBits;
+		fixtureDef.filter.groupIndex = gIndex;
+
+		Fixture fixture = body.createFixture(fixtureDef);
+		pShape.dispose();
+
 		return fixture;
 	}
 }
