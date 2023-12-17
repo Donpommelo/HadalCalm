@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 
-public class Haunter extends SyncedAttacker {
+public class SpiritBombProjectile extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(60, 60);
     public static final float LIFESPAN = 9.0f;
@@ -32,7 +32,7 @@ public class Haunter extends SyncedAttacker {
     private static final float EXPLOSION_KNOCKBACK = 20.0f;
     private static final float TARGET_CHECK_CD = 0.2f;
     private static final float TARGET_CHECK_RADIUS = 3.2f;
-    private static final float WARNING_TIME = 0.65f;
+    private static final float WARNING_TIME = 0.5f;
 
     private static final Sprite PROJ_SPRITE = Sprite.ORB_BLUE;
 

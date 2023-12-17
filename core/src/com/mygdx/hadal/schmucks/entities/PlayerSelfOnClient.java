@@ -26,15 +26,6 @@ public class PlayerSelfOnClient extends Player {
 		super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
 	}
 
-	@Override
-	public void onReceiveSync(Object o, float timestamp) {
-		super.onReceiveSync(o, timestamp);
-		
-		if (o instanceof PacketsSync.SyncEntity p) {
-
-		}
-	}
-
 	private float syncAccumulator;
 	@Override
 	public void clientController(float delta) {

@@ -2,30 +2,30 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.attacks.weapon.Haunter;
+import com.mygdx.hadal.battle.attacks.weapon.SpiritBombProjectile;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
-public class EtherealHaunt extends RangedWeapon {
+public class SpiritBomb extends RangedWeapon {
 
 	private static final int CLIP_SIZE = 8;
 	private static final int AMMO_SIZE = 32;
 	private static final float SHOOT_CD = 0.75f;
 	private static final float RELOAD_TIME = 1.4f;
 	private static final int RELOAD_AMOUNT = 0;
-	private static final float PROJECTILE_SPEED = 18.0f;
+	private static final float PROJECTILE_SPEED = 24.0f;
 
-	private static final Vector2 PROJECTILE_SIZE = Haunter.PROJECTILE_SIZE;
-	private static final float LIFESPAN = Haunter.LIFESPAN;
-	private static final float BASE_DAMAGE = Haunter.BASE_DAMAGE;
-	private static final float EXPLOSION_DAMAGE = Haunter.EXPLOSION_DAMAGE;
+	private static final Vector2 PROJECTILE_SIZE = SpiritBombProjectile.PROJECTILE_SIZE;
+	private static final float LIFESPAN = SpiritBombProjectile.LIFESPAN;
+	private static final float BASE_DAMAGE = SpiritBombProjectile.BASE_DAMAGE;
+	private static final float EXPLOSION_DAMAGE = SpiritBombProjectile.EXPLOSION_DAMAGE;
 
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_GRENADE;
 	private static final Sprite EVENT_SPRITE = Sprite.P_GRENADE;
 
-	public EtherealHaunt(Player user) {
+	public SpiritBomb(Player user) {
 		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
 				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
 	}

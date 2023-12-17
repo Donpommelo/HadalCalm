@@ -49,7 +49,7 @@ public enum SyncedAttack {
     DIAMOND_CUTTER(new DiamondCutterProjectile()),
     DIATOM(new Diatom()),
     DUELING_CORK(new DuelingCork()),
-    ETHEREAL_HAUNT(new Haunter()),
+    ETHEREAL_HAUNT(new SpiritBombProjectile()),
     FIST(new Fist()),
     FLOUNDER(new Flounder()),
     FUGU(new Fugu()),

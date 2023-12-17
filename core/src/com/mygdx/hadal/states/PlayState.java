@@ -746,12 +746,12 @@ public class PlayState extends GameState {
 			}
 		}
 	}
-	
+
+	private final Vector2 entityLocation = new Vector2();
 	/**
 	 * This method renders a single entity.
 	 * @param entity: the entity we are rendering
 	 */
-	private final Vector2 entityLocation = new Vector2();
 	public void renderEntity(HadalEntity entity) {
 		entityLocation.set(entity.getPixelPosition());
 		if (entity.isVisible(entityLocation)) {
