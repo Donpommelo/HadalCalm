@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -15,7 +16,6 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
-import com.mygdx.hadal.constants.Constants;
 
 public class BrigglesBladedBoot extends Artifact {
 
@@ -57,7 +57,7 @@ public class BrigglesBladedBoot extends Artifact {
 					hbox = new Hitbox(state, p.getSchmuck().getPixelPosition(), SIZE, 0, new Vector2(),
 							p.getSchmuck().getHitboxFilter(), true, false, p.getSchmuck(), Sprite.NOTHING);
 					hbox.makeUnreflectable();
-					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+					hbox.setPassability((short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 					
 					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), POSITION));
 					hbox.addStrategy(new DamageStandard(state, hbox, p, BASE_DAMAGE, KNOCKBACK, DamageSource.BRIGGLES_BLADED_BOOT,

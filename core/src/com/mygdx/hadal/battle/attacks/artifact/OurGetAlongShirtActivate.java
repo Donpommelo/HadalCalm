@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -45,7 +45,7 @@ public class OurGetAlongShirtActivate extends SyncedAttacker {
                     hboxes[i] = new Hitbox(state, user.getPixelPosition(), chainSize, 0, new Vector2(),
                             user.getHitboxFilter(), true, false, user, chainSprite);
 
-                    hboxes[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+                    hboxes[i].setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 
                     hboxes[i].setDensity(1.0f);
                     hboxes[i].makeUnreflectable();

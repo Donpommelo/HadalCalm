@@ -2,11 +2,12 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Wrapping portal transports players that touch it to a destination but keep the player's x or y coordinate constant.
@@ -31,9 +32,10 @@ public class PortalWrap extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-				Constants.BIT_SENSOR, Constants.BIT_PLAYER, (short) 0, true, eventData);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, BodyConstants.BIT_PLAYER, (short) 0)
+				.setBodyType(BodyDef.BodyType.StaticBody)
+				.addToWorld(world);
 	}
 
 	private final Vector3 newCamera = new Vector3();

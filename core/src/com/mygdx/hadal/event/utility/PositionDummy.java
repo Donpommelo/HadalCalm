@@ -2,13 +2,13 @@ package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A PositionDummy is an event that simply provides a reference to its position. This is used by other events that need to connect
@@ -43,11 +43,11 @@ public class PositionDummy extends Event {
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
-		this.body.setType(BodyType.KinematicBody);
-		
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, (short) 0, (short) 0)
+				.setBodyType(BodyType.KinematicBody)
+				.addToWorld(world);
+
 		if (!"".equals(id)) {
 			state.addDummyPoint(this, id);
 		}

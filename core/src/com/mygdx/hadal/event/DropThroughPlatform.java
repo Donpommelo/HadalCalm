@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
@@ -11,8 +12,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * This event is a solid block that can be passed by hitboxes, but not the player.
@@ -54,7 +54,7 @@ public class DropThroughPlatform extends Event {
 							if (p.getFastfallHelper().isFastFalling()) { return; }
 						}
 						Filter filter = entity.getMainFixture().getFilterData();
-						filter.maskBits = (short) (filter.maskBits | Constants.BIT_DROPTHROUGHWALL);
+						filter.maskBits = (short) (filter.maskBits | BodyConstants.BIT_DROPTHROUGHWALL);
 
 						entity.getMainFixture().setFilterData(filter);
 
@@ -72,7 +72,7 @@ public class DropThroughPlatform extends Event {
 					if (fixB instanceof FeetData feet) {
 						HadalEntity entity = fixB.getEntity();
 						Filter filter = entity.getMainFixture().getFilterData();
-						filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
+						filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_DROPTHROUGHWALL);
 						entity.getMainFixture().setFilterData(filter);
 						
 						feet.getTerrain().removeValue(this.event, false);
@@ -86,17 +86,17 @@ public class DropThroughPlatform extends Event {
 			@Override
 			public void onInteract(Player p) {
 				Filter filter = p.getMainFixture().getFilterData();
-				filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
+				filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_DROPTHROUGHWALL);
 				p.getMainFixture().setFilterData(filter);
 			}
 		};
 
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true,
-			Constants.BIT_DROPTHROUGHWALL, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-				(short) 0, false, eventData);
-		
-		this.body.setType(BodyDef.BodyType.KinematicBody);
-	}	
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_DROPTHROUGHWALL,
+				(short) (BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PLAYER | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_ENEMY), (short) 0)
+				.setBodyType(BodyDef.BodyType.KinematicBody)
+				.setSensor(false)
+				.addToWorld(world);
+	}
 	
 	@Override
 	public void loadDefaultProperties() {

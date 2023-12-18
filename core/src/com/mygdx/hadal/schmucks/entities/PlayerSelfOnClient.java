@@ -11,6 +11,7 @@ import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.PacketUtil;
 
 import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
 
@@ -42,16 +43,17 @@ public class PlayerSelfOnClient extends Player {
 		if (syncAccumulator >= SYNC_TIME) {
 			syncAccumulator = 0;
 
-			short statusCode = getConditionCode();
+			short conditionCode = getConditionCode();
 			float adjustedTime = state.getTimer() + 2 * ((ClientState) state).getLatency() + 4 * PlayState.SYNC_TIME;
 
 			HadalGame.client.sendUDP(new PacketsSync.SyncClientSnapshot(getPosition(), getLinearVelocity(),
-					adjustedTime, moveState, getBodyData().getCurrentHp(),
-					getMouseHelper().getPosition(), getPlayerData().getCurrentSlot(),
-					getPlayerData().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f,
-					getPlayerData().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f,
-					getPlayerData().getCurrentFuel(),
-					statusCode));
+					getMouseHelper().getPosition(),	adjustedTime, moveState,
+					PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+					PacketUtil.percentToByte(getBodyData().getCurrentFuel() / getBodyData().getStat(Stats.MAX_FUEL)),
+					(byte) getPlayerData().getCurrentSlot(),
+					PacketUtil.percentToByte(getPlayerData().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f),
+					PacketUtil.percentToByte(getPlayerData().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f),
+					conditionCode));
 		}
 	}
 

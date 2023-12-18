@@ -2,7 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -34,7 +34,7 @@ public class PickupVacuum extends HitboxStrategy {
 
 	@Override
 	public void create() {
-		hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_SENSOR));
+		hbox.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR));
 	}
 
 	private final Vector2 entityLocation = new Vector2();

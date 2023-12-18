@@ -3,7 +3,7 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -18,7 +18,7 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.TrickOrTreating;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  *
@@ -65,9 +65,10 @@ public class TrickorTreatBucket extends Event {
             }
         };
 
-        this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-            Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_PROJECTILE), (short) 0, true, eventData);
-        this.body.setType(BodyDef.BodyType.KinematicBody);
+        this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR,
+                (short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_PROJECTILE), (short) 0)
+                .setBodyType(BodyDef.BodyType.KinematicBody)
+                .addToWorld(world);
 
         HadalColor color = HadalColor.NOTHING;
         if (teamIndex < AlignmentFilter.currentTeams.length) {

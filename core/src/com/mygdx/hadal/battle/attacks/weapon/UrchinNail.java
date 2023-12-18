@@ -8,7 +8,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -99,7 +99,7 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.setLinearVelocity(currentVelo.setAngleRad(hbox.getAngle()).scl(-1));
 
                 Filter filter = hbox.getMainFixture().getFilterData();
-                filter.maskBits = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
+                filter.maskBits = (short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_SENSOR);
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL);
                 hbox.setSpriteSize(PROJECTILE_SIZE);

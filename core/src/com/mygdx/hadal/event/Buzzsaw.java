@@ -3,14 +3,15 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * This event damages all schmucks inside of it. It can be spawned as a hazard in a map. 
@@ -49,8 +50,9 @@ public class Buzzsaw extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false,
-				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR,
+				(short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY), filter)
+				.addToWorld(world);
 	}
 	
 	@Override

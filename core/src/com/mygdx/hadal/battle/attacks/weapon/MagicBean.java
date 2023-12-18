@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.*;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -44,7 +44,7 @@ public class MagicBean extends SyncedAttacker {
 
         RangedHitbox hbox = new RangedHitbox(state, startPosition, SEED_SIZE, LIFESPAN, new Vector2(startVelocity), user.getHitboxFilter(),
                 true, true, user, PROJ_SPRITE);
-        hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL));
+        hbox.setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_SENSOR | BodyConstants.BIT_DROPTHROUGHWALL));
         hbox.setGravity(1.0f);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -65,7 +65,7 @@ public class MagicBean extends SyncedAttacker {
             @Override
             public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
-                    if (fixB.getEntity().getMainFixture().getFilterData().categoryBits == Constants.BIT_DROPTHROUGHWALL) {
+                    if (fixB.getEntity().getMainFixture().getFilterData().categoryBits == BodyConstants.BIT_DROPTHROUGHWALL) {
                         hbox.die();
                     }
                 }

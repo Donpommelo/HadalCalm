@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
+import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
@@ -932,6 +933,18 @@ public class KryoClient {
 	 * returns true if any packet is processed. (if the input o is a sync packet)
 	 */
 	public boolean receiveSyncPacket(Object o) {
+
+		if (o instanceof final PacketsSync.SyncPlayerSnapshot p) {
+			final ClientState cs = getClientState();
+
+			User user = users.get((int) p.connID);
+			if (user != null && cs != null) {
+				Player player = user.getPlayer();
+				if (player != null) {
+					player.onReceiveSync(p, p.timestamp);
+				}
+			}
+		}
 
 		if (o instanceof PacketsSync.SyncEntity p) {
 			final ClientState cs = getClientState();

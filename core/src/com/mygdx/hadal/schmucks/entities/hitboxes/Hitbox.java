@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
@@ -26,8 +26,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 /**
  * A hitbox is a box that hits things.
@@ -55,7 +55,7 @@ public class Hitbox extends HadalEntity {
 	protected short filter;
 
 	//passability describes what types of entities the hitbox can collide with.
-	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
+	protected short passability = (short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_SENSOR);
 
 	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
 	private float gravity = DEFAULT_GRAVITY;
@@ -168,14 +168,20 @@ public class Hitbox extends HadalEntity {
 		this.size.scl(scale);
 		this.spriteSize.scl(scale);
 
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, density, 0.0f, 0.0f, false,
-				false, Constants.BIT_PROJECTILE, passability, filter, true, data);
+		this.body = new HadalBody(data, startPos, size, BodyConstants.BIT_PROJECTILE, passability, filter)
+				.setGravity(gravity)
+				.setFixedRotate(false)
+				.setDensity(density)
+				.addToWorld(world);
 
 		//Non-sensor hitboxes have a non-sensor fixture attached to it. This is used for hboxes that collide with walls but should pass through enemies
 		if (!sensor) {
-			wallCollider = FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), false, 0, 0, restitution, friction,
-					Constants.BIT_PROJECTILE, Constants.BIT_WALL, filter);
-
+			wallCollider = new HadalFixture(new Vector2(), new Vector2(size),
+					BodyConstants.BIT_PROJECTILE, BodyConstants.BIT_WALL, filter)
+					.setSensor(false)
+					.setRestitution(restitution)
+					.setFriction(friction)
+					.addToBody(body);
 			wallCollider.setUserData(data);
 		}
 

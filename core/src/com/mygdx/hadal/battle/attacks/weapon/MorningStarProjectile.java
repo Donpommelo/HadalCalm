@@ -6,7 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.melee.MorningStar;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -45,7 +45,7 @@ public class MorningStarProjectile extends SyncedAttacker {
                 true, false, user, CHAIN_SPRITE);
         base.setDensity(1.0f);
         base.makeUnreflectable();
-        base.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+        base.setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
         base.setSynced(true);
         base.setSyncedDelete(true);
 
@@ -94,7 +94,7 @@ public class MorningStarProjectile extends SyncedAttacker {
                     true, false, user, CHAIN_SPRITE);
             links[i].setDensity(1.0f);
             links[i].makeUnreflectable();
-            links[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+            links[i].setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 
             links[i].addStrategy(new HitboxStrategy(state, links[i], user.getBodyData()) {
 
@@ -147,7 +147,7 @@ public class MorningStarProjectile extends SyncedAttacker {
         Hitbox star = new RangedHitbox(state, user.getPixelPosition(), PROJECTILE_SIZE, 0, new Vector2(),
                 user.getHitboxFilter(), false, true, user, PROJ_SPRITE);
 
-        star.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+        star.setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
         star.setGravity(1.0f);
         star.setDensity(0.1f);
         star.makeUnreflectable();

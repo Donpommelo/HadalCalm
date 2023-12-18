@@ -10,7 +10,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
@@ -31,6 +30,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.TextUtil;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
@@ -403,7 +403,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerLivesOut(state, this, p);
         }
-        state.getKillFeed().addNotification(UIText.ELIMINATED.text(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
+        state.getKillFeed().addNotification(UIText.ELIMINATED.text(TextUtil.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
     }
 
     /**

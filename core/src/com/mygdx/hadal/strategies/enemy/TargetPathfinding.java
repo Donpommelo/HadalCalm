@@ -3,10 +3,10 @@ package com.mygdx.hadal.strategies.enemy;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.bots.BotController;
 import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
-import com.mygdx.hadal.constants.Constants;
 
 public class TargetPathfinding extends EnemyStrategy {
 
@@ -25,7 +25,7 @@ public class TargetPathfinding extends EnemyStrategy {
 
                 enemy.setApproachTarget(false);
                 if (shootTarget != null) {
-                    if (BotManager.raycastUtility(enemy, playerLocation, shootTarget.getPosition(), Constants.BIT_PROJECTILE) == 1.0f) {
+                    if (BotManager.raycastUtility(enemy, playerLocation, shootTarget.getPosition(), BodyConstants.BIT_PROJECTILE) == 1.0f) {
                         enemy.setApproachTarget(true);
                     }
                 }

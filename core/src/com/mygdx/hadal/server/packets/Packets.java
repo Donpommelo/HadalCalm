@@ -1104,7 +1104,7 @@ public class Packets {
 		kryo.register(PacketsSync.SyncEntityAngled.class);
 		kryo.register(PacketsSync.SyncSchmuck.class);
 		kryo.register(PacketsSync.SyncSchmuckAngled.class);
-		kryo.register(PacketsSync.SyncPlayer.class);
+		kryo.register(PacketsSync.SyncPlayerSnapshot.class);
 		kryo.register(PacketsSync.SyncClientSnapshot.class);
 		kryo.register(PacketsSync.SyncParticles.class);
 		kryo.register(PacketsSync.SyncParticlesExtra.class);

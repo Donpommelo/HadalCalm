@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.Laser;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -48,7 +48,7 @@ public class LaserRifle extends RangedWeapon {
 		//Raycast length of distance until we hit a wall
 		if (WorldUtil.preRaycastCheck(entityLocation, endPt)) {
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+				if (fixture.getFilterData().categoryBits == BodyConstants.BIT_WALL) {
 					if (fraction < shortestFraction) {
 						shortestFraction = fraction;
 						return fraction;

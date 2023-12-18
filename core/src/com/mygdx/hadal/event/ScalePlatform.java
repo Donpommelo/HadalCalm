@@ -3,13 +3,13 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A scale platform can slide downwards when stepped on
@@ -36,9 +36,12 @@ public class ScalePlatform extends Event {
 	public void create() {
 		this.eventData = new EventData(this, UserDataType.WALL);
 
-		this.body = BodyBuilder.createBox(world, startPos, size, -1.0f, density, 0, false, false,
-				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
-				(short) 0, false, eventData);
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_WALL,
+				(short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR), (short) 0)
+				.setGravity(-1.0f)
+				.setSensor(false)
+				.setDensity(density)
+				.addToWorld(world);
 
 		if (state.isServer()) {
 			Vector2 position = getPosition();

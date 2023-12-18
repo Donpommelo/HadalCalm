@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.constants.MoveState;
@@ -18,6 +17,7 @@ import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.TextUtil;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -168,7 +168,7 @@ public class KillFeed {
 
         if (null != perp) {
             if (perp.equals(perp.getState().getPlayer()) && perp != vic) {
-                String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
+                String vicName = TextUtil.getPlayerColorName(vic, MAX_NAME_LENGTH);
                 addNotification(UIText.YOU_HAVE_SLAIN.text(vicName), false);
             }
         }

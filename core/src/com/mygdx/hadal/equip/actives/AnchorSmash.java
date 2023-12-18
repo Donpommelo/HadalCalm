@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.active.Anchor;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -38,7 +38,7 @@ public class AnchorSmash extends ActiveItem {
 
 		if (WorldUtil.preRaycastCheck(originPt, endPt)) {
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
+				if (fixture.getFilterData().categoryBits == BodyConstants.BIT_WALL && fraction < shortestFraction) {
 					shortestFraction = fraction;
 					return fraction;
 				}

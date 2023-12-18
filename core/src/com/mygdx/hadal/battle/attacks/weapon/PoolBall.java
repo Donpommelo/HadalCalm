@@ -6,7 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -20,7 +20,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -85,9 +85,14 @@ public class PoolBall extends SyncedAttacker {
             public void create() {
                 if (hbox.getBody() != null) {
                     hbox.getBody().setLinearDamping(PROJ_DAMPEN);
-                    FixtureBuilder.createFixtureDefCircle(hbox.getBody(), new Vector2(), PROJECTILE_SIZE.x / PPM / 2.0f,
-                            false, 1.0f, 1.0f, 1.0f,
-                            Constants.BIT_PROJECTILE, (short) (Constants.BIT_WALL | Constants.BIT_PROJECTILE), (short) 0)
+                    new HadalFixture(new Vector2(), new Vector2(PROJECTILE_SIZE.x / PPM / 2.0f, 0),
+                            BodyConstants.BIT_PROJECTILE, (short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PROJECTILE), (short) 0)
+                            .setShape(BodyConstants.CIRCLE)
+                            .setSensor(false)
+                            .setDensity(1.0f)
+                            .setRestitution(1.0f)
+                            .setFriction(1.0f)
+                            .addToBody(hbox.getBody())
                             .setUserData(hbox.getHadalData());
                 }
             }

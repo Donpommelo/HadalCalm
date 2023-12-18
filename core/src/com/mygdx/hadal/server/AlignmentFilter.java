@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.ColorPalette;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.map.SettingTeamMode;
@@ -14,6 +13,7 @@ import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.TextUtil;
 
 import java.util.Arrays;
 
@@ -349,7 +349,7 @@ public enum AlignmentFilter {
     public String getTeamName() { return UIText.TEAM + " " + adjective; }
 
     public String getColoredAdjective() {
-        return WeaponUtils.getColorName(palette.getIcon(), adjective);
+        return TextUtil.getColorName(palette.getIcon(), adjective);
     }
 
     public boolean isTeam() { return team; }

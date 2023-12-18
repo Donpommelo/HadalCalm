@@ -7,7 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -84,7 +84,7 @@ public class Vine extends SyncedAttacker {
         //create an invisible hitbox that makes the vines as it moves
         RangedHitbox hbox = new RangedHitbox(state, startPosition, SEED_SIZE, lifespan, startVelocity, user.getHitboxFilter(),
                 false, false, user, Sprite.NOTHING);
-        hbox.setPassability(Constants.BIT_WALL);
+        hbox.setPassability(BodyConstants.BIT_WALL);
         hbox.makeUnreflectable();
         hbox.setRestitution(1.0f);
 

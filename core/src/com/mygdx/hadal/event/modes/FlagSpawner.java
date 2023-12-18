@@ -2,8 +2,7 @@ package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
@@ -15,7 +14,8 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.TextUtil;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
@@ -55,7 +55,7 @@ public class FlagSpawner extends Event {
 
                 //give score credit to the player and give notification
                 if (null != p) {
-                    String playerName = WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH);
+                    String playerName = TextUtil.getPlayerColorName(p, MAX_NAME_LENGTH);
                     state.getKillFeed().addNotification(UIText.CTF_CAPTURE.text(playerName), false);
                     state.getMode().processPlayerScoreChange(state, p, 1);
                 }
@@ -63,9 +63,9 @@ public class FlagSpawner extends Event {
             }
         };
 
-        this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-            Constants.BIT_SENSOR, Constants.BIT_SENSOR, (short) 0, true, eventData);
-        this.body.setType(BodyDef.BodyType.KinematicBody);
+        this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, BodyConstants.BIT_SENSOR, (short) 0)
+                .setBodyType(BodyDef.BodyType.KinematicBody)
+                .addToWorld(world);
     }
 
     private static final float SPAWN_DELAY = 1.0f;

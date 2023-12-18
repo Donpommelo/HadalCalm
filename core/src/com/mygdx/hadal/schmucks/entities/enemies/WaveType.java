@@ -1,8 +1,8 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.modes.SpawnerWave;
-import com.mygdx.hadal.constants.Constants;
 
 /**
  * A wave contains the info needed to spawn a single wave of arena enemies
@@ -210,7 +210,7 @@ public enum WaveType {
 
 			//create the enemy
 			type.generateEnemyDelayed(spawner.getState(), spawner.getPixelPosition(), waveDelay,
-					Constants.ENEMY_HITBOX, spawner.getExtraField(), null, false, "");
+					BodyConstants.ENEMY_HITBOX, spawner.getExtraField(), null, false, "");
 		}
 	}
 	

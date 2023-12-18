@@ -6,7 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -46,7 +46,7 @@ public class TeslaActivation extends SyncedAttacker {
 
             Hitbox pulse = new RangedHitbox(state, pulsePosition, PULSE_SIZE, PULSE_DURATION, new Vector2(), user.getHitboxFilter(),
                     true, true, user, Sprite.NOTHING);
-            pulse.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+            pulse.setPassability((short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
             pulse.setSyncDefault(false);
             pulse.setEffectsHit(false);
 

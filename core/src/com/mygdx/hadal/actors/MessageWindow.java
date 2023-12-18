@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
@@ -27,6 +26,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
+import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_MESSAGE_LENGTH;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_LONG;
@@ -363,7 +363,7 @@ public class MessageWindow {
 				} else {
 
 					//normal chat messages color names according to the player's team color
-					newText = WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_LONG) + ": " + text + " []";
+					newText = TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_LONG) + ": " + text + " []";
 				}
 				addTextLine(newText);
 				textRecord.add(newText);

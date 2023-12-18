@@ -3,7 +3,7 @@ package com.mygdx.hadal.bots;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
@@ -156,7 +156,7 @@ public class BotLoadoutProcessor {
         int bestSlot = player.getPlayerData().getCurrentSlot();
 
         //find which held weapon has the highest "suitability" based on distance from a living enemy
-        if (BotManager.raycastUtility(player, playerLocation, targetLocation, Constants.BIT_PROJECTILE) == 1.0f && targetAlive
+        if (BotManager.raycastUtility(player, playerLocation, targetLocation, BodyConstants.BIT_PROJECTILE) == 1.0f && targetAlive
                 && Math.abs(playerLocation.x - targetLocation.x) < player.getVisionX()
                 && Math.abs(playerLocation.y - targetLocation.y) <  player.getVisionY()) {
             float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player,

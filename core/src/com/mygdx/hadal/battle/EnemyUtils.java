@@ -3,7 +3,7 @@ package com.mygdx.hadal.battle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -200,7 +200,7 @@ public class EnemyUtils {
 			public void execute() {
 				
 				for (int i = 0; i < amount; i++) {
-					type.generateEnemy(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, extraField);
+					type.generateEnemy(state, enemy.getPixelPosition(), BodyConstants.ENEMY_HITBOX, extraField);
 				}
 			}
 		});

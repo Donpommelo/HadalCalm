@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -36,7 +36,7 @@ public class Eggplant extends SyncedAttacker {
             for (int i = 0; i < startPosition.length; i++) {
                 Hitbox hbox = new RangedHitbox(state, startPosition[i], EGGPLANT_SIZE, EGGPLANT_LIFESPAN, startVelocity[i],
                         (short) 0, false, false, user, Sprite.NASU);
-                hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_SENSOR | Constants.BIT_PICKUP_RADIUS));
+                hbox.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PICKUP_RADIUS));
                 hbox.setBotModePickup(true);
                 hbox.setSynced(true);
                 hbox.setSyncedDelete(true);

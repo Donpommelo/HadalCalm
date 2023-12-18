@@ -60,7 +60,6 @@ public class KryoServer {
 	 * start is false if we are loading singleplayer and don't actually want the server to start
 	 */
 	public void init(boolean start) {
-
 		//this apparently saves a bit of time when serializing certain classes
 		Kryo kryo = new Kryo() {
 

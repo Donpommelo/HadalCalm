@@ -7,7 +7,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.modes.TrickorTreatBucket;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -17,6 +16,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.PickupVacuum;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
@@ -56,7 +56,7 @@ public class TrickOrTreating extends Status {
 		if (0.0f < recentReturnTime ) {
 			recentReturnTime -= delta;
 			if (0.0f > recentReturnTime) {
-				String playerName = WeaponUtils.getPlayerColorName(player, MAX_NAME_LENGTH);
+				String playerName = TextUtil.getPlayerColorName(player, MAX_NAME_LENGTH);
 				state.getKillFeed().addNotification(UIText.CANDY_RETRIEVED.text(playerName, "" + recentReturnCount), true);
 
 				recentReturn = false;

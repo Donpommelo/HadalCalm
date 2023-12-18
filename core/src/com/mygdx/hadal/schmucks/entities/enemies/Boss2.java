@@ -13,7 +13,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -25,7 +25,7 @@ import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
 import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.MovementFloat.FloatingState;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -78,7 +78,7 @@ public class Boss2 extends EnemyFloating {
 		super.create();
 
 		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE);
+		filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE);
 		getMainFixture().setFilterData(filter);
 		
 		final BodyData me = getBodyData();
@@ -96,9 +96,13 @@ public class Boss2 extends EnemyFloating {
 		
 		//create each link of the boss' body
 		for (int i = 0; i < links.length; i ++) {
-			links[i] = BodyBuilder.createBox(world, startPos, getHboxSize(), 0, 1, 0, false, false, Constants.BIT_ENEMY, (short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
-                    hitboxFilter, false, link);
-			
+
+			links[i] = new HadalBody(link, startPos, getHboxSize(), BodyConstants.BIT_ENEMY,
+					(short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE), hitboxFilter)
+					.setFixedRotate(false)
+					.setSensor(false)
+					.addToWorld(world);
+
 			RevoluteJointDef joint1 = new RevoluteJointDef();
 			
 			if (i == 0) { 

@@ -2,13 +2,13 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Trigger spawn is an enemy spawner that activates when triggered by another event.
@@ -67,17 +67,17 @@ public class SpawnerSchmuck extends Event {
 					if (amountLeft < limit || limit == 0) {
 						for (int i = 0; i < numEnemies; i++) {
 							amountLeft++;
-							type.generateEnemyDelayed(state, event.getPixelPosition(), delay, Constants.ENEMY_HITBOX, extraField,
+							type.generateEnemyDelayed(state, event.getPixelPosition(), delay, BodyConstants.ENEMY_HITBOX, extraField,
 									(SpawnerSchmuck) event, boss, bossName);
 						}
 					}
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
-		this.body.setType(BodyDef.BodyType.KinematicBody);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, (short) 0, (short) 0)
+				.setBodyType(BodyDef.BodyType.KinematicBody)
+				.addToWorld(world);
 	}
 	
 	/**

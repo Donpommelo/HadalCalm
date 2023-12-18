@@ -6,7 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -91,7 +91,7 @@ public class Meteors extends SyncedAttacker {
 
                         if (WorldUtil.preRaycastCheck(originPt, endPt)) {
                             state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-                                if (Constants.BIT_WALL == fixture.getFilterData().categoryBits && fraction < shortestFraction) {
+                                if (BodyConstants.BIT_WALL == fixture.getFilterData().categoryBits && fraction < shortestFraction) {
                                     shortestFraction = fraction;
                                     return fraction;
                                 }
@@ -106,7 +106,7 @@ public class Meteors extends SyncedAttacker {
                         Sprite projSprite = PROJ_SPRITES[randomIndex];
 
                         Hitbox hbox = new Hitbox(state, new Vector2(originPt), METEOR_SIZE, LIFESPAN, new Vector2(0, -METEOR_SPEED), user.getHitboxFilter(), true, false, user, projSprite);
-                        hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+                        hbox.setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 
                         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), finalDamage, 0.0f,

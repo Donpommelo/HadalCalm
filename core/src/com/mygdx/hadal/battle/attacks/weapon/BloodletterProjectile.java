@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -68,7 +68,7 @@ public class BloodletterProjectile extends SyncedAttacker {
                         targetLocation.set(fixB.getEntity().getPosition());
                         if (WorldUtil.preRaycastCheck(entityLocation, targetLocation)) {
                             state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-                                if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+                                if (fixture.getFilterData().categoryBits == BodyConstants.BIT_WALL) {
                                     wallDetected = true;
                                 }
                                 return -1.0f;
@@ -100,7 +100,7 @@ public class BloodletterProjectile extends SyncedAttacker {
             private void createBlood(Schmuck target, float heal) {
                 Hitbox hbox = new RangedHitbox(state, target.getPixelPosition(), CANDY_SIZE, CANDY_DURATION, new Vector2(),
                         (short) 0, false, false, user, CANDY_SPRITE);
-                hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_SENSOR | Constants.BIT_PICKUP_RADIUS));
+                hbox.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PICKUP_RADIUS));
                 hbox.setLayer(PlayState.ObjectLayer.STANDARD);
                 hbox.setGravity(1.0f);
                 hbox.setFriction(1.0f);

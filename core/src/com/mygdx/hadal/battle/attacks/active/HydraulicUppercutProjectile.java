@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -19,6 +18,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.utils.TextUtil;
 
 public class HydraulicUppercutProjectile extends SyncedAttacker {
 
@@ -46,7 +46,7 @@ public class HydraulicUppercutProjectile extends SyncedAttacker {
             ParticleEntity particles = new ParticleEntity(user.getState(), user, particle, 1.5f, 1.0f,
                     true, SyncType.NOSYNC)
                     .setScale(0.5f).setPrematureOff(PARTICLE_LIFESPAN)
-                    .setColor(WeaponUtils.getPlayerColor(player));
+                    .setColor(TextUtil.getPlayerColor(player));
             if (!state.isServer()) {
                 ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
             }

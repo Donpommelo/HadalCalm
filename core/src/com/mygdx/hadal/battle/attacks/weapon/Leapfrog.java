@@ -6,7 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -16,7 +16,7 @@ import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 public class Leapfrog extends SyncedAttacker {
 
@@ -75,31 +75,30 @@ public class Leapfrog extends SyncedAttacker {
             public void create() {
                 if (hbox.getBody() != null) {
                     feetData = new FeetData(UserDataType.FEET, hbox);
-                    Fixture feet = FixtureBuilder.createFixtureDef(hbox.getBody(), new Vector2(1.0f / 2,  - hbox.getSize().y / 2),
-                            new Vector2(hbox.getSize().x, hbox.getSize().y / 8), true, 0, 0, 0, 0,
-                            Constants.BIT_SENSOR, (short) (Constants.BIT_DROPTHROUGHWALL | Constants.BIT_WALL), hbox.getFilter());
+                    Fixture feet = new HadalFixture(
+                            new Vector2(1.0f / 2,  - hbox.getSize().y / 2),
+                            new Vector2(hbox.getSize().x, hbox.getSize().y / 8),
+                            BodyConstants.BIT_SENSOR, (short) (BodyConstants.BIT_DROPTHROUGHWALL | BodyConstants.BIT_WALL), hbox.getFilter())
+                            .addToBody(hbox.getBody());
                     feet.setUserData(feetData);
-                    hbox.setDropthroughCollider(feet);
 
                     leftData = new FeetData(UserDataType.FEET, hbox);
-
-                    Fixture leftSensor = FixtureBuilder.createFixtureDef(hbox.getBody(),
+                    Fixture leftSensor = new HadalFixture(
                             new Vector2(-hbox.getSize().x / 2, 0.5f),
                             new Vector2(hbox.getSize().x / 8, hbox.getSize().y - 2),
-                            true, 0, 0, 0, 0,
-                            Constants.BIT_SENSOR, Constants.BIT_WALL, hbox.getFilter());
-
+                            BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, hbox.getFilter())
+                            .addToBody(hbox.getBody());
                     leftSensor.setUserData(leftData);
 
                     rightData = new FeetData(UserDataType.FEET, hbox);
-
-                    Fixture rightSensor = FixtureBuilder.createFixtureDef(hbox.getBody(),
+                    Fixture rightSensor = new HadalFixture(
                             new Vector2(hbox.getSize().x / 2,  0.5f),
                             new Vector2(hbox.getSize().x / 8, hbox.getSize().y - 2),
-                            true, 0, 0, 0, 0,
-                            Constants.BIT_SENSOR, Constants.BIT_WALL, hbox.getFilter());
-
+                            BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, hbox.getFilter())
+                            .addToBody(hbox.getBody());
                     rightSensor.setUserData(rightData);
+
+                    hbox.setDropthroughCollider(feet);
                 }
             }
 

@@ -3,18 +3,18 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * This event spawns a naval-mine-football for the football game mode.
@@ -40,9 +40,9 @@ public class FootballSpawner extends Event {
     public void create() {
         this.eventData = new EventData(this);
 
-        this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-                Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
-        this.body.setType(BodyDef.BodyType.KinematicBody);
+        this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, (short) 0, (short) 0)
+                .setBodyType(BodyDef.BodyType.KinematicBody)
+                .addToWorld(world);
     }
 
     private static final float SPAWN_DELAY = 2.5f;

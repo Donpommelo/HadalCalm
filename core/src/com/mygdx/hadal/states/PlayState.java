@@ -26,6 +26,7 @@ import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
@@ -56,7 +57,6 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import org.json.JSONException;
@@ -360,7 +360,7 @@ public class PlayState extends GameState {
 			}
 		} else {
 			this.player = createPlayer(null, gsm.getLoadout().getName(), loadout, old, 0, null, reset,
-					false, false, Constants.PLAYER_HITBOX);
+					false, false, BodyConstants.PLAYER_HITBOX);
 		}
 
 		this.reset = reset;

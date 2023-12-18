@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.battle.EnemyUtils;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.states.PlayState;
@@ -48,7 +48,7 @@ public class Krill extends EnemySwimming {
 		super.create();
 
 		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_ENEMY);
+		filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_ENEMY);
 		getMainFixture().setFilterData(filter);
 
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));

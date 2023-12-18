@@ -6,7 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -75,7 +75,7 @@ public class XBomb extends SyncedAttacker {
                 };
                 cross.setSyncDefault(false);
                 cross.makeUnreflectable();
-                cross.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+                cross.setPassability((short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 
                 cross.addStrategy(new ControllerDefault(state, cross, user.getBodyData()));
                 cross.addStrategy(new DamageStandard(state, cross, user.getBodyData(), CROSS_DAMAGE, KNOCKBACK,

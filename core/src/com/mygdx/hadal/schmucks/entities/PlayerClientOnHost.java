@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -66,19 +67,24 @@ public class PlayerClientOnHost extends Player {
 		super.onReceiveSync(o, timestamp);
 
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
-			HadalGame.server.sendToAllExceptUDP(getConnID(), new PacketsSync.SyncPlayer(entityID, p.pos, p.velocity,
-					state.getTimer(), p.moveState, p.currentHp,
-					p.mousePosition, p.currentSlot,
+			HadalGame.server.sendToAllExceptUDP(getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getConnID(),
+					p.pos, p.velocity, p.mousePosition,
+					state.getTimer(), p.moveState,
+					p.hpPercent,
+					p.fuelPercent,
+					p.currentSlot,
 					p.reloadPercent,
 					p.chargePercent,
-					p.currentFuel,
-					p.statusCode));
+					p.conditionCode));
 		}
 	}
 
 	@Override
 	public void onClientSync(Object o) {
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
+			getBodyData().setCurrentHp(PacketUtil.byteToPercent(p.hpPercent) * getBodyData().getStat(Stats.MAX_HP));
+			getBodyData().setCurrentFuel(PacketUtil.byteToPercent(p.fuelPercent) * getBodyData().getStat(Stats.MAX_FUEL));
+
 			moveState = p.moveState;
 
 			getMouseHelper().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
@@ -97,11 +103,7 @@ public class PlayerClientOnHost extends Player {
 			getUiHelper().setChargePercent(chargePercent);
 			getPlayerData().getCurrentTool().setChargeCd(chargePercent);
 
-			getPlayerData().setCurrentFuel(p.currentFuel);
-
-			processConditionCode(p.statusCode);
-
-			getBodyData().setCurrentHp(p.currentHp);
+			processConditionCode(p.conditionCode);
 
 			if (null != body) {
 				prevPos.set(serverPos);
