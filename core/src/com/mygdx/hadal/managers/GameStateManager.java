@@ -12,6 +12,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
@@ -167,6 +168,7 @@ public class GameStateManager {
 		}
 
 		Particle.disposeParticlePool();
+		FrameBufferManager.clearAllFrameBuffers();
 	}
 	
 	/**

@@ -27,6 +27,7 @@ import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
@@ -335,6 +336,9 @@ public class PlayState extends GameState {
 		} else {
 			AlignmentFilter.resetTeams();
 		}
+
+		//clear fbo of unused players. Need to do this after bots are set up and teams are assigned
+		FrameBufferManager.clearAllFrameBuffers();
 
 		//Create the player and make the camera focus on it
 		if (server) {

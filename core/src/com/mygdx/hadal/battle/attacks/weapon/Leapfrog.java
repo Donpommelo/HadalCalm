@@ -22,7 +22,7 @@ public class Leapfrog extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(50, 50);
     public static final float LIFESPAN = 50.0f;
-    public static final float BASE_DAMAGE = 65.0f;
+    public static final float BASE_DAMAGE = 45.0f;
     private static final float RECOIL = 6.0f;
     private static final float KNOCKBACK = 30.0f;
     private static final float FLASH_LIFESPAN = 0.5f;

@@ -15,7 +15,6 @@ import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.helpers.*;
-import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -392,7 +391,6 @@ public class Player extends Schmuck {
 	@Override
 	public void dispose() {
 		super.dispose();
-		spriteHelper.dispose(despawnType);
 		effectHelper.dispose();
 	}
 	
@@ -410,7 +408,6 @@ public class Player extends Schmuck {
 	private UUID perpID;
 	private DamageSource damageSource = DamageSource.MISC;
 	private DamageTag[] damageTags = new DamageTag[] {};
-	private DespawnType despawnType = DespawnType.LEVEL_TRANSITION;
 	@Override
 	public Object onServerDelete() { return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
 
@@ -424,7 +421,6 @@ public class Player extends Schmuck {
 	public void onServerSync() {
 
 		short conditionCode = getConditionCode();
-
 		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayerSnapshot((byte) connID,
 				getPosition(), getLinearVelocity(),	mouseHelper.getPosition(),
 				state.getTimer(), moveState,
@@ -642,8 +638,6 @@ public class Player extends Schmuck {
 	public void setDamageSource(DamageSource damageSource) { this.damageSource = damageSource; }
 
 	public void setDamageTags(DamageTag[] damageTags) { this.damageTags = damageTags; }
-
-	public void setDespawnType(DespawnType despawnType) { this.despawnType = despawnType; }
 
 	public void setDontMoveCamera(boolean dontMoveCamera) {	this.dontMoveCamera = dontMoveCamera; }
 

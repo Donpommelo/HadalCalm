@@ -12,7 +12,7 @@ public class Leapfrogger extends RangedWeapon {
 
 	private static final int CLIP_SIZE = 4;
 	private static final int AMMO_SIZE = 35;
-	private static final float SHOOT_CD = 0.7f;
+	private static final float SHOOT_CD = 0.8f;
 	private static final float RELOAD_TIME = 1.4f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 30.0f;

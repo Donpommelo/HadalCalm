@@ -1,8 +1,8 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
@@ -371,28 +371,7 @@ public class ResultsState extends GameState {
 		//this listener makes scrolling move through character scroll pane list
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(stage);
-		inputMultiplexer.addProcessor(new InputProcessor() {
-
-			@Override
-			public boolean keyDown(int keycode) { return false;	}
-
-			@Override
-			public boolean keyUp(int keycode) { return false; }
-
-			@Override
-			public boolean keyTyped(char character) { return false; }
-
-			@Override
-			public boolean touchDown(int screenX, int screenY, int pointer, int button) { return false; }
-
-			@Override
-			public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
-
-			@Override
-			public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
-
-			@Override
-			public boolean mouseMoved(int screenX, int screenY) { return false; }
+		inputMultiplexer.addProcessor(new InputAdapter() {
 
 			@Override
 			public boolean scrolled(float amountX, float amountY) {

@@ -674,7 +674,6 @@ public class PlayerBodyData extends BodyData {
 
 			//despawn sprite helper. This triggers death animations
 			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());
-			player.setDespawnType(type);
 
 			//process kill feed messages (unless "dead" player is just disconnected)
 			if (type != DespawnType.TELEPORT) {

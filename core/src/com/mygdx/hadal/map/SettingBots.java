@@ -8,10 +8,12 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
+import com.mygdx.hadal.bots.BotLoadoutProcessor;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.BotPersonality;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
@@ -140,7 +142,7 @@ public class SettingBots extends ModeSetting {
             numBots = botNumberIndex - 1;
         }
         for (int i = 0; i < numBots; i++) {
-            HadalGame.server.getUsers().put(lastBotConnID, createBotUser());
+            HadalGame.server.getUsers().put(lastBotConnID, createBotUser(state));
             lastBotConnID--;
         }
 
@@ -159,9 +161,12 @@ public class SettingBots extends ModeSetting {
     }
 
     //this creates a single bot user; giving them a random name and initiating their score fields
-    private User createBotUser() {
+    private User createBotUser(PlayState state) {
         String botName = NameGenerator.generateFirstLast(true);
-        return new User(null, new SavedPlayerFields(botName, lastBotConnID), new SavedPlayerFieldsExtra());
+        User user = new User(null, new SavedPlayerFields(botName, lastBotConnID), new SavedPlayerFieldsExtra());
+        Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state);
+        user.getScoresExtra().setLoadout(botLoadout);
+        return user;
     }
 
     private static BotPersonality.BotDifficulty indexToBotDifficulty(int index) {

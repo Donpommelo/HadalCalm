@@ -99,7 +99,6 @@ public class DeathTextUtil {
 		return possibleMessages;
 	}
 
-
 	/**
 	 * filter a death message to include perp and vic names.
 	 */

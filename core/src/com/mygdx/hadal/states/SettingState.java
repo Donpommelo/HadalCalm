@@ -1,9 +1,6 @@
 package com.mygdx.hadal.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -215,7 +212,7 @@ public class SettingState extends GameState {
 
 		//the setting state input processor accounts for the player changing their hotkeys
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		inputMultiplexer.addProcessor(new InputProcessor() {
+		inputMultiplexer.addProcessor(new InputAdapter() {
 
 			@Override
 			public boolean keyDown(int keycode) {
@@ -229,22 +226,7 @@ public class SettingState extends GameState {
 			}
 
 			@Override
-			public boolean keyUp(int keycode) {	return false; }
-
-			@Override
-			public boolean keyTyped(char character) { return false; }
-
-			@Override
 			public boolean touchDown(int screenX, int screenY, int pointer, int button) { return keyDown(button); }
-
-			@Override
-			public boolean touchUp(int screenX, int screenY, int pointer, int button) {	return false; }
-
-			@Override
-			public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
-
-			@Override
-			public boolean mouseMoved(int screenX, int screenY) { return false; }
 
 			//This is just a janky way of implementing setting mouse wheel as a hotkey.
 			@Override

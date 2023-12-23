@@ -48,7 +48,6 @@ public class HubOptionPlayer extends HubOption {
 	@Override
     public void draw(Batch batch, float alpha) {
 		super.draw(batch, alpha);
-
 		playerSpriteHelper.render(batch, attackAngle, moveState, animationTime, animationTime,
 				true, playerOffset, renderCosmetic, cosmetic, bob);
     }
@@ -57,12 +56,6 @@ public class HubOptionPlayer extends HubOption {
 	public void act(float delta) {
 		super.act(delta);
 		animationTime += delta;
-	}
-
-	@Override
-	public boolean remove() {
-		playerSpriteHelper.dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
-		return super.remove();
 	}
 
 	public HubOptionPlayer setPlayerOffset(Vector2 playerOffset) {

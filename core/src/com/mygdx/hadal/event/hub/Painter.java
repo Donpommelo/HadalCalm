@@ -8,7 +8,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.HubOptionPlayer;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
-import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper;
+import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -50,9 +50,7 @@ public class Painter extends HubEvent {
 
 		//if we need to reload sprites (due to character change), clear existing sprites and begin loading new sprites
 		if (lastCharacter != state.getPlayer().getPlayerData().getLoadout().character) {
-			for (HubOptionPlayer sprite : sprites) {
-				sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
-			}
+			FrameBufferManager.clearUnusedFrameBuffers(state);
 			sprites.clear();
 
 			lastCharacter = state.getPlayer().getPlayerData().getLoadout().character;
@@ -130,12 +128,5 @@ public class Painter extends HubEvent {
 	public void clientController(float delta) {
 		super.clientController(delta);
 		controller(delta);
-	}
-
-	@Override
-	public void dispose() {
-		for (HubOptionPlayer sprite : sprites) {
-			sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
-		}
 	}
 }

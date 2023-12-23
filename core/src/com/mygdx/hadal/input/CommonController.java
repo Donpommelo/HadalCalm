@@ -1,7 +1,7 @@
 package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputAdapter;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.packets.Packets;
@@ -14,7 +14,11 @@ import com.mygdx.hadal.states.PlayState;
  *
  * @author Courdough Clegnatio
  */
-public record CommonController(PlayState state) implements InputProcessor {
+public class CommonController extends InputAdapter {
+
+	private final PlayState state;
+
+	public CommonController(PlayState state) { this.state = state; }
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -107,11 +111,6 @@ public record CommonController(PlayState state) implements InputProcessor {
 	}
 
 	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		keyDown(button);
 		return false;
@@ -120,21 +119,6 @@ public record CommonController(PlayState state) implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		keyUp(button);
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(float amountX, float amountY) {
 		return false;
 	}
 }
