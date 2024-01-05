@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -35,7 +36,7 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.UIText;
 
@@ -147,28 +148,17 @@ public class ResultsState extends GameState {
 		shader.loadShader();
 		this.snapshot = new TextureRegion(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
 
-		//First, we obtain the list of scores, depending on whether we are the server or client.
-		if (ps.isServer()) {
-			for (User user : HadalGame.server.getUsers().values()) {
-				if (!user.isSpectator()) {
-					scores.add(user.getScores());
-					if (user.getScores().getConnID() == 0) {
-						won = user.getScores().isWonLast();
-					}
+		//First, we obtain the list of scores
+		for (User user : HadalGame.usm.getUsers().values()) {
+			if (!user.isSpectator()) {
+				scores.add(user.getScores());
+				if (user.getScores().getConnID() == HadalGame.usm.getConnID()) {
+					won = user.getScores().isWonLast();
 				}
 			}
-			if (!scores.isEmpty()) {
-				gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
-			}
-		} else {
-			for (User user : HadalGame.client.getUsers().values()) {
-				if (!user.isSpectator()) {
-					scores.add(user.getScores());
-					if (user.getScores().getConnID() == HadalGame.client.connID) {
-						won = user.getScores().isWonLast();
-					}
-				}
-			}
+		}
+		if (!scores.isEmpty()) {
+			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
 		}
 
 		//Then, we sort according to score and give the winner(s) a win. Being on the winning team overrides score
@@ -326,11 +316,7 @@ public class ResultsState extends GameState {
 		app.newMenu(stage);
 
 		//this makes the info window start off visible with the player's own post-game stats
-		if (ps.isServer()) {
-			syncInfoTable(0);
-		} else {
-			syncInfoTable(HadalGame.client.connID);
-		}
+		syncInfoTable(HadalGame.usm.getConnID());
 
 		//this draws the playstate snapshot over the results and makes it gradually dissolve after a delay
 		stage.addActor(new Backdrop(AssetList.RESULTS_CARD.toString()) {
@@ -345,7 +331,7 @@ public class ResultsState extends GameState {
 				super.act(delta);
 				timer += delta;
 				if (timer >= FADE_DELAY) {
-					progress = Math.min(Math.max(0, (timer - FADE_DELAY) / FADE_DURATION), 1.0f);
+					progress = MathUtils.clamp((timer - FADE_DELAY) / FADE_DURATION, 0.0f, 1.0f);
 
 					//after the delay, we bgein playing results music depending on the player's own victory status
 					if (!songPlaying) {
@@ -409,16 +395,12 @@ public class ResultsState extends GameState {
 
 		//for each player, get their field and create a results icon for them
 		for (SavedPlayerFields score : scores) {
-			int connId = score.getConnID();
+			int connID = score.getConnID();
 
 			SavedPlayerFields field = null;
 			SavedPlayerFieldsExtra fieldExtra = null;
-			User user;
-			if (ps.isServer()) {
-				user = HadalGame.server.getUsers().get(connId);
-			} else {
-				user = HadalGame.client.getUsers().get(connId);
-			}
+			User user = HadalGame.usm.getUsers().get(connID);
+
 			if (user != null) {
 				field = user.getScores();
 				fieldExtra = user.getScoresExtra();
@@ -461,7 +443,7 @@ public class ResultsState extends GameState {
 				icons.add(icon);
 
 				//bots should automatically ready up
-				if (connId < 0) {
+				if (connID < 0) {
 					icon.setReady(true);
 				}
 			}
@@ -488,12 +470,8 @@ public class ResultsState extends GameState {
 
 			SavedPlayerFields field = null;
 			SavedPlayerFieldsExtra fieldExtra = null;
-			User user;
-			if (ps.isServer()) {
-				user =  HadalGame.server.getUsers().get(connID);
-			} else {
-				user =  HadalGame.client.getUsers().get(connID);
-			}
+			User user = HadalGame.usm.getUsers().get(connID);
+
 			if (user != null && !user.isSpectator()) {
 				field = user.getScores();
 				fieldExtra = user.getScoresExtra();
@@ -582,7 +560,7 @@ public class ResultsState extends GameState {
 		if (ps.isServer()) {
 
 			//The server finds the player that readies, sets their readiness and informs all clients by sending that player's index
-			User user = HadalGame.server.getUsers().get(playerID);
+			User user = HadalGame.usm.getUsers().get(playerID);
 			if (user != null && !user.isSpectator()) {
 				SavedPlayerFields field = user.getScores();
 				ready.put(field, true);

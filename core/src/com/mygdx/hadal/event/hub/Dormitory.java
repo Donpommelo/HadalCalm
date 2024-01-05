@@ -51,7 +51,7 @@ public class Dormitory extends HubEvent {
 
 		//if we need to reload sprites (due to color change), clear existing sprites and begin loading new sprites
 		if (lastFilter != state.getPlayer().getPlayerData().getLoadout().team) {
-			FrameBufferManager.clearUnusedFrameBuffers(state);
+			FrameBufferManager.clearUnusedFrameBuffers();
 			sprites.clear();
 			loadingCharacters.clear();
 

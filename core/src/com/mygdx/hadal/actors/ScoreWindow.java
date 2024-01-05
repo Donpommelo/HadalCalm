@@ -10,7 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
@@ -94,12 +94,7 @@ public class ScoreWindow {
 		float scorePad = SCORE_PAD_Y;
 
 		//we calculate the size of each name based on the number of players
-		int size;
-		if (state.isServer()) {
-			size = HadalGame.server.getUsers().size;
-		} else {
-			size = HadalGame.client.getUsers().size;
-		}
+		int size = HadalGame.usm.getUsers().size;
 
 		//if there are too many players, we start to gradually reduce the size + padding of each
 		boolean shrink = size > SCORE_MIN_PLAYERS_ADJUST;
@@ -111,12 +106,7 @@ public class ScoreWindow {
 
 		//set table dimensions and location
 		int tableHeight = SCORE_BASE_HEIGHT + SCORE_TITLE_HEIGHT * 2;
-		
-		if (state.isServer()) {
-			tableHeight += (scoreHeight + scorePad) * HadalGame.server.getUsers().size;
-		} else {
-			tableHeight += (scoreHeight + scorePad) * HadalGame.client.getUsers().size;
-		}
+		tableHeight += (scoreHeight + scorePad) * HadalGame.usm.getUsers().size;
 
 		windowScore.setSize(SCORE_WIDTH, tableHeight);
 		windowScore.setPosition((HadalGame.CONFIG_WIDTH - SCORE_WIDTH) / 2, HadalGame.CONFIG_HEIGHT - tableHeight);
@@ -152,14 +142,8 @@ public class ScoreWindow {
 
 		//add table entry for each player and sort according to score and spectator status
 		orderedUsers.clear();
-		if (state.isServer()) {
-			for (ObjectMap.Entry<Integer, User> entry : HadalGame.server.getUsers().entries()) {
-				orderedUsers.add(entry.value);
-			}
-		} else {
-			for (ObjectMap.Entry<Integer, User> entry: HadalGame.client.getUsers().entries()) {
-				orderedUsers.add(entry.value);
-			}
+		for (ObjectMap.Entry<Integer, User> entry : HadalGame.usm.getUsers().entries()) {
+			orderedUsers.add(entry.value);
 		}
 
 		orderedUsers.sort((a, b) -> {
@@ -168,10 +152,10 @@ public class ScoreWindow {
 
 			//this makes the player always able to see their score at the top of scoreboards
 			if (null != state.getPlayer()) {
-				if (!a.isSpectator() && a.getScores().getConnID() == state.getPlayer().getConnID()) {
+				if (!a.isSpectator() && a.getScores().getConnID() == HadalGame.usm.getConnID()) {
 					cmp = -1;
 				}
-				if (!b.isSpectator() && b.getScores().getConnID() == state.getPlayer().getConnID()) {
+				if (!b.isSpectator() && b.getScores().getConnID() == HadalGame.usm.getConnID()) {
 					cmp = 1;
 				}
 			}

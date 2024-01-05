@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.WorldUtil;
 
@@ -37,7 +37,7 @@ public class BotManager {
      * Run on first tick of server playstate. Initiate all bots
      */
     public static void initiateBots(PlayState state) {
-        for (User user : HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.usm.getUsers().values()) {
             if (0 > user.getScores().getConnID()) {
                 initiateBot(state, user);
             }

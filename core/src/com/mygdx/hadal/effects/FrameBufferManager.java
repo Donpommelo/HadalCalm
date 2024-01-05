@@ -11,8 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
-import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.users.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,14 +70,8 @@ public class FrameBufferManager {
      * We do this because we don't want every fbo to be saved when browsing the menu
      * We can't call this at the start of the level because loadouts aren't set until player creation
      */
-    public static void clearUnusedFrameBuffers(PlayState state) {
-        Array<User> users;
-        if (state.isServer()) {
-            users = HadalGame.server.getUsers().values().toArray();
-        } else {
-            users = HadalGame.client.getUsers().values().toArray();
-        }
-
+    public static void clearUnusedFrameBuffers() {
+        Array<User> users = HadalGame.usm.getUsers().values().toArray();
         Array<Map.Entry<CharacterColor, FrameBuffer>> fboToRemove = new Array<>();
         for (Map.Entry<CharacterColor, FrameBuffer> characterBuffers : FRAME_BUFFER.entrySet()) {
             boolean used = false;

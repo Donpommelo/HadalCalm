@@ -83,7 +83,7 @@ public class Haberdasher extends HubEvent {
 		//if we need to reload sprites (due to character/team/slot change), clear existing sprites and begin loading new sprites
 		if (lastCharacter != state.getPlayer().getPlayerData().getLoadout().character
 				|| lastFilter != state.getPlayer().getPlayerData().getLoadout().team || lastCosmetic != slotChosen) {
-			FrameBufferManager.clearUnusedFrameBuffers(state);
+			FrameBufferManager.clearUnusedFrameBuffers();
 
 			sprites.clear();
 

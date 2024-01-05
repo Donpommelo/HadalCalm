@@ -5,7 +5,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -53,7 +53,7 @@ public class PlayerMover extends Event {
 						if (all) {
 							if (state.isServer()) {
 								//go through all players
-								for (User user : HadalGame.server.getUsers().values()) {
+								for (User user : HadalGame.usm.getUsers().values()) {
 									Player playerLeft = user.getPlayer();
 									if (playerLeft != null) {
 										//warp player if they are a different player (or we have exclude turned off)

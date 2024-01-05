@@ -5,11 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.BloodletterProjectile;
 import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.effects.HadalColor;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.states.ClientState;
@@ -19,7 +16,7 @@ public class Bloodletter extends RangedWeapon {
 
 	private static final int CLIP_SIZE = 24;
 	private static final int AMMO_SIZE = 125;
-	private static final float SHOOT_CD = 0.35f;
+	private static final float SHOOT_CD = 0.6f;
 	private static final float RELOAD_TIME = 1.6f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 1.0f;
@@ -31,10 +28,8 @@ public class Bloodletter extends RangedWeapon {
 
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_BOILER;
 	private static final Sprite EVENT_SPRITE = Sprite.P_BOILER;
-	private static final float PARTICLE_OFFSET = -1.85f;
 
 	private SoundEntity fireSound;
-	private ParticleEntity fire;
 
 	public Bloodletter(Player user) {
 		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
@@ -52,19 +47,12 @@ public class Bloodletter extends RangedWeapon {
 			fireSound.terminate();
 			fireSound = null;
 		}
-		if (fire != null) {
-			fire.queueDeletion();
-			fire = null;
-		}
 	}
 
-	private final Vector2 particleOrigin = new Vector2(0, 1);
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
 		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
 				&& !reloading && getClipLeft() > 0;
-
-		particleOrigin.setAngleDeg(user.getMouseHelper().getAttackAngle()).nor().scl(user.getSize().x * PARTICLE_OFFSET);
 
 		if (shooting) {
 			if (fireSound == null) {
@@ -76,23 +64,9 @@ public class Bloodletter extends RangedWeapon {
 			} else {
 				fireSound.turnOn();
 			}
-			if (fire == null) {
-				fire = new ParticleEntity(user.getState(), user, Particle.OVERCHARGE, 1.0f, 0.0f, false, SyncType.NOSYNC)
-					.setColor(HadalColor.AMBER);
-				fire.setScale(0.6f);
-
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(fire.getEntityID(), fire, false, PlayState.ObjectLayer.EFFECT);
-				}
-			}
-			fire.setOffset(particleOrigin.x, particleOrigin.y);
-			fire.turnOn();
 		} else {
 			if (fireSound != null) {
 				fireSound.turnOff();
-			}
-			if (fire != null) {
-				fire.turnOff();
 			}
 		}
 	}

@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Shocked;
@@ -46,11 +46,7 @@ public class Shock extends SyncedAttacker {
         float damage = 0.0f;
         int radius = 0;
         if (extraFields.length > 3) {
-            if (state.isServer()) {
-                inflicter = HadalGame.server.getUsers().get((int) extraFields[0]);
-            } else {
-                inflicter = HadalGame.client.getUsers().get((int) extraFields[0]);
-            }
+            inflicter = HadalGame.usm.getUsers().get((int) extraFields[0]);
 
             chainAmount = (int) extraFields[1];
             damage = extraFields[2];

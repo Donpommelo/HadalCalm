@@ -28,17 +28,19 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 
 public class BloodletterProjectile extends SyncedAttacker {
 
-    public static final Vector2 PROJECTILE_SIZE = new Vector2(400, 400);
-    public static final float LIFESPAN = 0.05f;
-    public static final float BASE_DAMAGE = 16.0f;
+    public static final Vector2 PROJECTILE_SIZE = new Vector2(500, 400);
+    public static final float LIFESPAN = 0.5f;
+    public static final float BASE_DAMAGE = 28.0f;
     public static final float HEAL_MULTIPLIER = 0.25f;
-    public static final float HEAL_MULTIPLIER_ENEMY = 0.05f;
+    public static final float HEAL_MULTIPLIER_ENEMY = 0.08f;
     private static final float KNOCKBACK = -7.0f;
 
-    public static final Vector2 CANDY_SIZE = new Vector2(60, 60);
+    public static final Vector2 CANDY_SIZE = new Vector2(30, 30);
     public static final float CANDY_DURATION = 20.0f;
     public static final int CANDY_SPREAD = 45;
-    private static final Sprite CANDY_SPRITE = Sprite.CANDY_A;
+    private static final Sprite CANDY_SPRITE = Sprite.COLA;
+
+    public final Vector2 projectileOffset = new Vector2(80, 0);
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -48,11 +50,14 @@ public class BloodletterProjectile extends SyncedAttacker {
                 true, false, user, Sprite.NOTHING);
         hbox.makeUnreflectable();
 
+        projectileOffset.setAngleRad(startVelocity.angleRad());
+
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(startVelocity),
                 startVelocity.nor().scl(PROJECTILE_SIZE.x / 2 / PPM)));
-        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-                HadalColor.AMBER).setSyncType(SyncType.NOSYNC).setDrawOnSelf(false));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIFE_STEAL, 0.0f, 1.0f)
+                .setParticleVelocity(startVelocity.angleRad()).setSyncType(SyncType.NOSYNC)
+                .setParticleSize(70).setOffset(projectileOffset.x, projectileOffset.y));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private final Vector2 targetLocation = new Vector2();
@@ -87,6 +92,12 @@ public class BloodletterProjectile extends SyncedAttacker {
                                         startVelocity.nor().scl(KNOCKBACK), creator, true, hbox, DamageSource.PEARL_REVOLVER);
 
                                 createBlood(schmuck, baseHealMultiplier * modifiedDamage);
+
+                                ParticleEntity particleEntity = new ParticleEntity(state, schmuck, Particle.VAMPIRE, 1.0f,
+                                        2.0f,true, SyncType.NOSYNC);
+                                if (!state.isServer()) {
+                                    ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+                                }
                             }
                         }
 
@@ -106,6 +117,7 @@ public class BloodletterProjectile extends SyncedAttacker {
                 hbox.setFriction(1.0f);
 
                 hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+                hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE, 0.0f, 0.0f)
                         .setSyncType(SyncType.NOSYNC));
                 hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE)

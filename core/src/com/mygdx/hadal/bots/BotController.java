@@ -9,7 +9,7 @@ import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
 
@@ -209,7 +209,7 @@ public class BotController {
         shootTarget = null;
         float shortestDistanceSquared = -1;
         boolean unobtructedTargetFound = false;
-        for (User user : HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.usm.getUsers().values()) {
             if (null != user.getPlayer() && null != user.getPlayer().getPlayerData()) {
 
                 //we don't want to target dead, invisible or invincible players

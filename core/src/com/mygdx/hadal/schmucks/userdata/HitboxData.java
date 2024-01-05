@@ -57,7 +57,7 @@ public class HitboxData extends HadalData {
 			this.hbox.setLifeSpan(this.hbox.getMaxLifespan());
 		}
 		
-		//this is used for hitboxes hat are capable of receiving damage and knockback
+		//this is used for hitboxes that are capable of receiving damage and knockback
 		for (HitboxStrategy s : this.hbox.getStrategies()) {
 			s.receiveDamage(perp, baseDamage, knockback, tags);
 		}

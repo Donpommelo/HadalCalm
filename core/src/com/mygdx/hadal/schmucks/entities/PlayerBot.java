@@ -6,7 +6,7 @@ import com.mygdx.hadal.bots.BotPersonality;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Botting;
 

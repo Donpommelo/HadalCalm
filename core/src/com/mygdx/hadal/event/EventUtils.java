@@ -10,7 +10,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
@@ -42,7 +42,7 @@ public class EventUtils {
                                           AlignmentFilter team) {
 
         if (state.isServer()) {
-            for (ObjectMap.Entry<Integer, User> user : HadalGame.server.getUsers()) {
+            for (ObjectMap.Entry<Integer, User> user : HadalGame.usm.getUsers()) {
                 if (user.value.isSpectator() || user.value.getTeamFilter() == team) {
                     if (user.key == 0) {
                         state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);

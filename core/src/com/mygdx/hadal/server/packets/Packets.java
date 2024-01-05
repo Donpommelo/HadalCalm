@@ -25,7 +25,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User.UserDto;
+import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 

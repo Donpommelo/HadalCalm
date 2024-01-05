@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.constants.MoveState;
@@ -393,7 +394,7 @@ public class PlayerSpriteHelper {
             private void manageTimer(float delta) {
                 timer += delta;
                 if (timer >= FADE_DELAY) {
-                    progress = Math.min(Math.max(0.0f, (timer - FADE_DELAY) / FADE_DURATION), 1.0f);
+                    progress = MathUtils.clamp((timer - FADE_DELAY) / FADE_DURATION, 0.0f, 1.0f);
                 }
             }
         };

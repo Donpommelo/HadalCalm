@@ -7,7 +7,7 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;

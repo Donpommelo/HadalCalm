@@ -110,4 +110,6 @@ public class CreateParticles extends HitboxStrategy {
 		this.syncType = syncType;
 		return this;
 	}
+
+	public ParticleEntity getParticles() { return particles; }
 }

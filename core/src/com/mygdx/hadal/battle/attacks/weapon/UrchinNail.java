@@ -23,7 +23,7 @@ import com.mygdx.hadal.strategies.hitbox.*;
 
 public class UrchinNail extends SyncedAttacker {
 
-    public static final Vector2 PROJECTILE_SIZE = new Vector2(40, 18);
+    public static final Vector2 PROJECTILE_SIZE = new Vector2(60, 18);
     public static final float LIFESPAN = 2.5f;
     public static final float LIFESPAN_STUCK = 20.0f;
     public static final float BASE_DAMAGE = 16.0f;

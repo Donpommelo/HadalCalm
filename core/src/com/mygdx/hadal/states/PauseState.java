@@ -18,7 +18,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.UIText;
@@ -297,7 +297,7 @@ public class PauseState extends GameState {
 			if (ps != null) {
 				if (ps.isServer() && ps.getMode().isHub()) {
 					ps.getPlayer().getPlayerData().syncArtifacts(false, true);
-					for (User user : HadalGame.server.getUsers().values()) {
+					for (User user : HadalGame.usm.getUsers().values()) {
 						if (user.getPlayer() != null) {
 							if (user.getPlayer().getPlayerData() != null) {
 								user.getPlayer().getPlayerData().syncArtifacts(false, true);

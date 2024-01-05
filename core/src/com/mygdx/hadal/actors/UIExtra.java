@@ -13,7 +13,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.map.ModeGunGame;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -87,7 +87,7 @@ public class UIExtra extends AHadalActor {
 		//iterate through each non-spectator on the same team
 		for (User user : state.getScoreWindow().getOrderedUsers()) {
 			if (!user.isSpectator() && null != user.getPlayer()) {
-				if (null != user.getPlayer().getPlayerData() && !user.getPlayer().equals(state.getPlayer())) {
+				if (null != user.getPlayer().getPlayerData() && !user.equals(HadalGame.usm.getOwnUser())) {
 					if (user.getPlayer().getHitboxFilter() == viewingUserTeam) {
 						HadalGame.FONT_UI.draw(batch, TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SHORT),
 								HadalGame.CONFIG_WIDTH - NAME_MAX_LENGTH - HP_WIDTH - START_X_EXTRA, currentY, NAME_MAX_LENGTH,
@@ -133,11 +133,7 @@ public class UIExtra extends AHadalActor {
 			}
 		}
 		if (!spectatorFound) {
-			if (state.isServer()) {
-				user = HadalGame.server.getUsers().get(0);
-			} else {
-				user = HadalGame.client.getUsers().get(HadalGame.client.connID);
-			}
+			user = HadalGame.usm.getOwnUser();
 		}
 
 		//check if user is null b/c several ui tags require checking user information

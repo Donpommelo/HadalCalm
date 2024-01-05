@@ -6,7 +6,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 
 /**

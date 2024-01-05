@@ -27,6 +27,8 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.io.IOException;
@@ -42,17 +44,15 @@ public class KryoServer {
 	//Me server
 	private Server server;
 	
-	//This is the gsm of the server
 	public final GameStateManager gsm;
-	
-	//These keep track of all connected players, their mice and scores.
-	private ObjectMap<Integer, User> users;
+	public final UserManager usm;
 
 	//name of the server to be displayed in the lobby state
 	private String serverName = "";
 
-	public KryoServer(GameStateManager gameStateManager) {
+	public KryoServer(GameStateManager gameStateManager, UserManager userManager) {
 		this.gsm = gameStateManager;
+		this.usm = userManager;
 	}
 	
 	/**
@@ -75,12 +75,12 @@ public class KryoServer {
 		KryoSerialization serialization = new KryoSerialization(kryo);
 		this.server = new Server(65536, 32768, serialization);
 
-		this.users = new ObjectMap<>();
-
 		//reset used teams. This is needed to prevent all the usable "alignments" from being used up if server is remade
 		AlignmentFilter.resetUsedAlignments();
 
-		users.put(0, new User(null, new SavedPlayerFields(gsm.getLoadout().getName(), 0), new SavedPlayerFieldsExtra()));
+		usm.resetUsers();
+		usm.setConnID(0);
+		usm.getUsers().put(0, new User(null, new SavedPlayerFields(gsm.getLoadout().getName(), 0), new SavedPlayerFieldsExtra()));
 
 		if (!start) { return; }
 
@@ -91,7 +91,7 @@ public class KryoServer {
 				final PlayState ps = getPlayState();
 
 				//Identify the player that disconnected
-				User user = users.get(c.getID());
+				User user = usm.getUsers().get(c.getID());
 				if (user != null && ps != null) {
 
 					//free up the disconnected user's player slot
@@ -112,7 +112,7 @@ public class KryoServer {
 					ps.addPacketEffect(() -> {
 
 						//remove disconnecting player from users
-						users.remove(c.getID());
+						usm.getUsers().remove(c.getID());
 						ps.getScoreWindow().syncScoreTable();
 						sendToAllTCP(new Packets.RemoveScore(c.getID()));
 					});
@@ -133,7 +133,7 @@ public class KryoServer {
 				if (o instanceof final PacketsSync.SyncClientSnapshot p) {
 					final PlayState ps = getPlayState();
 
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
@@ -149,7 +149,7 @@ public class KryoServer {
 				if (o instanceof final Packets.SyncKeyStrokes p) {
 					final PlayState ps = getPlayState();
 
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 
 						Player player = user.getPlayer();
@@ -165,7 +165,7 @@ public class KryoServer {
 				if (o instanceof final PacketsAttacks.SingleClientIndependent p) {
 
 					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
@@ -192,7 +192,7 @@ public class KryoServer {
 
 				if (o instanceof final PacketsAttacks.MultiClientIndependent p) {
 					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
@@ -221,7 +221,7 @@ public class KryoServer {
 
 				if (o instanceof final PacketsAttacks.SyncedAttackNoHbox p) {
 					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
@@ -267,7 +267,7 @@ public class KryoServer {
 							addNotificationToAllExcept(ps, c.getID(), "", UIText.CLIENT_CONNECTED.text(p.name), true, DialogType.SYSTEM);
 
 							//clients joining full servers or in the middle of matches join as spectators
-							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
+							if (usm.getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers() + 1) {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
 								return;
 							}
@@ -304,7 +304,7 @@ public class KryoServer {
 							boolean spectator = p.spectator || (p.lastSpectator && !ps.getMode().isHub());
 
 							//If the client has already been created, we create a new player, otherwise we reuse their old data.
-							User user = users.get(c.getID());
+							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
 
 								//if the player is told to start as a spectator or was a spectator prior to the match, they join as a spectator
@@ -335,7 +335,7 @@ public class KryoServer {
 							}
 
 							//this just updates user's "last primary weapon" which is only used for a single artifact rn
-							User userUpdated = users.get(c.getID());
+							User userUpdated = usm.getUsers().get(c.getID());
 							if (userUpdated != null) {
 								userUpdated.setLastEquippedPrimary(p.loadout.multitools[0]);
 							}
@@ -353,7 +353,7 @@ public class KryoServer {
 				 * sync the client's loadout and activate the event connected to the start point.
 				 */
 				else if (o instanceof Packets.ClientPlayerCreated) {
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
@@ -373,7 +373,7 @@ public class KryoServer {
 				else if (o instanceof final PacketsLoadout.SyncLoadoutClient p) {
 					final PlayState ps = getPlayState();
 
-    				User user = users.get(c.getID());
+    				User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
@@ -413,7 +413,7 @@ public class KryoServer {
 
 				else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
 					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
@@ -433,7 +433,7 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.Unpaused) {
         			if (!gsm.getStates().empty()) {
-						User user = users.get(c.getID());
+						User user = usm.getUsers().get(c.getID());
 						if (user != null) {
 							Player player = user.getPlayer();
 
@@ -486,7 +486,7 @@ public class KryoServer {
 				else if (o instanceof final Packets.LatencySyn p) {
 					final PlayState ps = getPlayState();
 
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 						SavedPlayerFields score = user.getScores();
 						if (score != null) {
@@ -504,7 +504,7 @@ public class KryoServer {
 				 */
 				else if (o instanceof final Packets.SyncEmote p) {
 					final PlayState ps = getPlayState();
-					User user = users.get(c.getID());
+					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
@@ -519,7 +519,7 @@ public class KryoServer {
 				else if (o instanceof Packets.StartSpectate) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						User user = users.get(c.getID());
+						User user = usm.getUsers().get(c.getID());
 						if (user != null) {
 							Player player = user.getPlayer();
 							if (player != null) {
@@ -536,8 +536,8 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						ps.addPacketEffect(() -> {
-							users.get(c.getID()).getScoresExtra().setLoadout(p.loadout);
-							ps.exitSpectator(users.get(c.getID()));
+							usm.getUsers().get(c.getID()).getScoresExtra().setLoadout(p.loadout);
+							ps.exitSpectator(usm.getUsers().get(c.getID()));
 						});
 					}
 				}
@@ -558,7 +558,7 @@ public class KryoServer {
 				else if (o instanceof Packets.ClientYeet) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						User user = users.get(c.getID());
+						User user = usm.getUsers().get(c.getID());
 						if (user != null) {
 							Player player = user.getPlayer();
 							if (player != null) {
@@ -574,7 +574,7 @@ public class KryoServer {
 				else if (o instanceof final Packets.DeleteClientSelf p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
-						User vic = users.get(c.getID());
+						User vic = usm.getUsers().get(c.getID());
 						if (null != vic) {
 							ps.addPacketEffect(() -> {
 								if (null != vic.getPlayer()) {
@@ -593,7 +593,7 @@ public class KryoServer {
 				else if (o instanceof Packets.ActivateEvent p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
-						User user = users.get(c.getID());
+						User user = usm.getUsers().get(c.getID());
 						if (user != null) {
 							Player player = user.getPlayer();
 							if (player != null) {
@@ -660,11 +660,11 @@ public class KryoServer {
 
 			//Update that player's fields or give them new ones if they are a new client
 			User user;
-			if (users.containsKey(connID)) {
-				user = users.get(connID);
+			if (usm.getUsers().containsKey(connID)) {
+				user = usm.getUsers().get(connID);
 			} else {
 				user = new User(null, new SavedPlayerFields(name, connID), new SavedPlayerFieldsExtra());
-				users.put(connID, user);
+				usm.getUsers().put(connID, user);
 				user.setTeamFilter(loadout.team);
 			}
 
@@ -765,21 +765,7 @@ public class KryoServer {
 			Gdx.app.postRunnable(() -> ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
-	
-	/**
-	 * This returns the number of non-spectator, non-bot players. used to determine whether the server is full or not.
-	 */
-	public int getNumPlayers() {
-		int playerNum = 0;
-		
-		for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
-			if (!conn.value.isSpectator() && conn.key >= 0.0f) {
-				playerNum++;
-			}
-		}
-		return playerNum;
-	}
-	
+
 	private void registerPackets() {
 		Kryo kryo = server.getKryo();
 		Packets.allPackets(kryo);
@@ -834,8 +820,6 @@ public class KryoServer {
 	}
 
 	public Server getServer() {	return server; }
-
-	public ObjectMap<Integer, User> getUsers() { return users; }
 
 	public void setServerName(String serverName) { this.serverName = serverName; }
 }

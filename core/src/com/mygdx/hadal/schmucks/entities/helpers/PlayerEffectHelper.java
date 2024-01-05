@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -82,27 +81,17 @@ public class PlayerEffectHelper {
         }
     }
 
-    public float processInvisibility(SpriteBatch batch) {
+    public float processInvisibility() {
         //process player invisibility. Completely invisible players are partially transparent to allies
         float transparency = 1.0f;
         if (transparent) {
             return 0.0f;
         }
 
-        if (invisible) {
-            if (state.getPlayer().getHitboxFilter() == player.getHitboxFilter()) {
-                transparency = 0.3f;
-                batch.setColor(1.0f,  1.0f, 1.0f, transparency);
-            } else {
+        if (invisible && state.getPlayer().getHitboxFilter() != player.getHitboxFilter()) {
                 return 0.0f;
-            }
         }
-        if (translucent) {
-            if (state.getPlayer().getHitboxFilter() != player.getHitboxFilter()) {
-                transparency = 0.3f;
-                batch.setColor(1.0f,  1.0f, 1.0f, transparency);
-            }
-        }
+
         return transparency;
     }
 
@@ -114,6 +103,17 @@ public class PlayerEffectHelper {
             ((ClientState) state).removeEntity(hoverBubbles.getEntityID());
             ((ClientState) state).removeEntity(dustCloud.getEntityID());
         }
+    }
+
+    public boolean processTranslucentShader() {
+        if (invisible && state.getPlayer().getHitboxFilter() == player.getHitboxFilter()) {
+            return true;
+        }
+
+        if (translucent) {
+            return state.getPlayer().getHitboxFilter() != player.getHitboxFilter();
+        }
+        return false;
     }
 
     public boolean isRunning() { return running; }

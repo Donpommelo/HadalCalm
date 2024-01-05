@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.PoolBall;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -16,12 +17,15 @@ import com.mygdx.hadal.states.PlayState;
 public class MidnightPoolCue extends RangedWeapon {
 
 	private static final int CLIP_SIZE = 16;
-	private static final int AMMO_SIZE = 64;
+	private static final int AMMO_SIZE = 80;
 	private static final float SHOOT_CD = 0.0f;
 	private static final float RELOAD_TIME = 1.9f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 10.0f;
 	private static final float MAX_CHARGE = 0.4f;
+
+	//keeps track of attack speed without input buffer doing an extra mouse click
+	private static final float INNATE_ATTACK_COOLDOWN = 0.6f;
 
 	private static final Vector2 PROJECTILE_SIZE = PoolBall.PROJECTILE_SIZE;
 	private static final float LIFESPAN = PoolBall.LIFESPAN;
@@ -29,6 +33,8 @@ public class MidnightPoolCue extends RangedWeapon {
 
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_SPEARGUN;
 	private static final Sprite EVENT_SPRITE = Sprite.P_SPEARGUN;
+
+	private float innateAttackCdCount;
 
 	private SoundEntity chargeSound;
 
@@ -41,15 +47,17 @@ public class MidnightPoolCue extends RangedWeapon {
 	public void mouseClicked(float delta, PlayState state, PlayerBodyData playerData, short faction, Vector2 mousePosition) {
 		super.mouseClicked(delta, state, playerData, faction, mousePosition);
 
-		if (reloading || getClipLeft() == 0) {
-			return;
-		}
-		
-		charging = true;
+		if (innateAttackCdCount <= 0.0f) {
+			if (reloading || getClipLeft() == 0) {
+				return;
+			}
 
-		//while held, build charge until maximum (if not reloading)
-		if (chargeCd < getChargeTime()) {
-			setChargeCd(chargeCd + delta);
+			charging = true;
+
+			//while held, build charge until maximum (if not reloading)
+			if (chargeCd < getChargeTime()) {
+				setChargeCd(chargeCd + delta);
+			}
 		}
 	}
 	
@@ -58,7 +66,9 @@ public class MidnightPoolCue extends RangedWeapon {
 	
 	@Override
 	public void release(PlayState state, PlayerBodyData playerData) {
-		super.execute(state, playerData);
+		if (innateAttackCdCount <= 0.0f) {
+			super.execute(state, playerData);
+		}
 		charging = false;
 		chargeCd = 0;
 	}
@@ -67,6 +77,15 @@ public class MidnightPoolCue extends RangedWeapon {
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float charge = chargeCd / getChargeTime();
 		SyncedAttack.POOL_BALL.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge);
+
+		innateAttackCdCount = INNATE_ATTACK_COOLDOWN * (1 - user.getBodyData().getStat(Stats.TOOL_SPD));
+	}
+
+	@Override
+	public void update(PlayState state, float delta) {
+		if (innateAttackCdCount > 0) {
+			innateAttackCdCount -= delta;
+		}
 	}
 
 	@Override

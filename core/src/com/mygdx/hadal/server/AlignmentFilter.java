@@ -13,6 +13,7 @@ import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.TextUtil;
 
 import java.util.Arrays;
@@ -181,7 +182,7 @@ public enum AlignmentFilter {
      * @param startScore: The score that each team should start with (0 for most modes)
      */
     public static void autoAssignTeams(int numTeams, SettingTeamMode.TeamMode mode, int startScore) {
-        Array<User> users = new Array<>(HadalGame.server.getUsers().values().toArray());
+        Array<User> users = new Array<>(HadalGame.usm.getUsers().values().toArray());
         users.shuffle();
 
         int currentTeam = 0;
@@ -266,7 +267,7 @@ public enum AlignmentFilter {
             teamSelection.put(team, 0);
         }
 
-        for (User user : HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.usm.getUsers().values()) {
             if (!user.isSpectator() && !user.equals(newUser)) {
                 teamSelection.put(user.getTeamFilter(), teamSelection.get(user.getTeamFilter(), 0) + 1);
             }

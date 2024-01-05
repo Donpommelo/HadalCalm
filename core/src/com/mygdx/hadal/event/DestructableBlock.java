@@ -63,7 +63,7 @@ public class DestructableBlock extends Event {
 					if (standardParticle != null) {
 						standardParticle.onForBurst(0.5f);
 					}
-					event.setShader(Shader.WHITE, Constants.FLASH);
+					event.getShaderHelper().setStaticShader(Shader.WHITE, Constants.FLASH);
 				}
 				
 				if (hp <= 0 && state.isServer()) {

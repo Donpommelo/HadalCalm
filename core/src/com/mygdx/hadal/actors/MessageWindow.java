@@ -20,7 +20,7 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.TextFilterUtil;
@@ -340,13 +340,7 @@ public class MessageWindow {
 	 * @param text: the new string we add to the message window
 	 */
 	public void addText(String text, DialogType type, int connID) {
-
-		User user;
-		if (state.isServer()) {
-			user = HadalGame.server.getUsers().get(connID);
-		} else {
-			user = HadalGame.client.getUsers().get(connID);
-		}
+		User user = HadalGame.usm.getUsers().get(connID);
 
 		//do not display messages from muted players
 		if (null != user) {

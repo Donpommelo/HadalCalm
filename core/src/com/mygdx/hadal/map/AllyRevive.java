@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -35,7 +35,7 @@ public class AllyRevive extends ModeSetting {
                 boolean allded = true;
                 AlignmentFilter winningTeam = AlignmentFilter.NONE;
 
-                Array<User> users = HadalGame.server.getUsers().values().toArray();
+                Array<User> users = HadalGame.usm.getUsers().values().toArray();
                 if (SettingTeamMode.TeamMode.COOP.equals(mode.getTeamMode()) || users.size <= 1) {
                     resultsText = UIText.SETTING_LIVES_OUT.text();
 

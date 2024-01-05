@@ -80,6 +80,10 @@ public class FalseSunRadial extends SyncedAttacker {
                 }
             }));
 
+            //need to set as not-synced due to return to user strategy setting it as synced, making the angles off
+            hbox.setSynced(false);
+            hbox.setSyncedDelete(false);
+
             hboxes[i] = hbox;
         }
 

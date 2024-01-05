@@ -27,6 +27,8 @@ import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
@@ -44,21 +46,19 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User;
-import com.mygdx.hadal.server.User.UserDto;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,6 +110,10 @@ public class PlayState extends GameState {
 	private final OrderedSet<HadalEntity> effects = new OrderedSet<>();
 
 	private final Array<OrderedSet<HadalEntity>> entityLists = new Array<>();
+
+	//this maps shaders to all current entities using them so they can be rendered in a batch
+	private final ObjectMap<Shader, Array<HadalEntity>> dynamicShaderEntities = new ObjectMap<>();
+	private final ObjectMap<Shader, Array<HadalEntity>> staticShaderEntities = new ObjectMap<>();
 
 	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
 	private final List<PacketEffect> packetEffects = new ArrayList<>();
@@ -307,7 +311,7 @@ public class PlayState extends GameState {
 
 			//Server must first reset each score at the start of a level (unless just a stage transition)
 			if (reset) {
-				for (User user : HadalGame.server.getUsers().values()) {
+				for (User user : HadalGame.usm.getUsers().values()) {
 					user.newLevelReset();
 					user.getScoresExtra().newLevelReset();
 				}
@@ -342,7 +346,7 @@ public class PlayState extends GameState {
 
 		//Create the player and make the camera focus on it
 		if (server) {
-			User user = HadalGame.server.getUsers().get(0);
+			User user = HadalGame.usm.getOwnUser();
 			StartPoint getSave = getSavePoint(startID, user);
 			short hitboxFilter = user.getHitBoxFilter().getFilter();
 
@@ -532,7 +536,7 @@ public class PlayState extends GameState {
 
 		//process all users (atm this handles respawn times)
 		if (server) {
-			for (User user : HadalGame.server.getUsers().values()) {
+			for (User user : HadalGame.usm.getUsers().values()) {
 				user.controller(this, delta);
 			}
 		}
@@ -563,7 +567,7 @@ public class PlayState extends GameState {
 		if (scoreSyncAccumulator >= SCORE_SYNC_TIME) {
 			scoreSyncAccumulator = 0;
 			boolean changeMade = false;
-			for (User user : HadalGame.server.getUsers().values()) {
+			for (User user : HadalGame.usm.getUsers().values()) {
 				if (user.isScoreUpdated()) {
 					changeMade = true;
 					user.setScoreUpdated(false);
@@ -621,9 +625,9 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
-		Particle.drawParticlesBelow(batch);
+		Particle.drawParticlesBelow(batch, delta);
 		renderEntities();
-		Particle.drawParticlesAbove(batch);
+		Particle.drawParticlesAbove(batch, delta);
 
 		if (shaderBase.getShaderProgram() != null) {
 			if (!shaderBase.isBackground()) {
@@ -675,7 +679,7 @@ public class PlayState extends GameState {
 					if (HadalGame.socket.connected()) {
 						JSONObject lobbyData = new JSONObject();
 						try {
-							lobbyData.put("playerNum", HadalGame.server.getNumPlayers());
+							lobbyData.put("playerNum", HadalGame.usm.getNumPlayers());
 							lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
 							lobbyData.put("gameMode", mode.getName());
 							lobbyData.put("gameMap", level.getName());
@@ -711,6 +715,7 @@ public class PlayState extends GameState {
 				renderEntity(entity);
 			}
 		}
+		renderShadedEntities();
 	}
 	
 	/**
@@ -720,7 +725,7 @@ public class PlayState extends GameState {
 		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				entity.controller(delta);
-				entity.decreaseShaderCount(delta);
+				entity.getShaderHelper().decreaseShaderCount(delta);
 				entity.increaseAnimationTime(delta);
 			}
 		}
@@ -759,17 +764,58 @@ public class PlayState extends GameState {
 	public void renderEntity(HadalEntity entity) {
 		entityLocation.set(entity.getPixelPosition());
 		if (entity.isVisible(entityLocation)) {
-			if (entity.getShaderCount() > 0 && entity.getShader() != null) {
-				batch.setShader(entity.getShader().getShaderProgram());
-				entity.processShaderController(timer);
-			}
-
-			entity.render(batch, entityLocation);
-
-			if (entity.getShaderCount() > 0 && entity.getShader() != null) {
-				batch.setShader(null);
+			if (entity.getShaderHelper().getShader() != null && entity.getShaderHelper().getShader() != Shader.NOTHING) {
+				Array<HadalEntity> shadedEntities = dynamicShaderEntities.get(entity.getShaderHelper().getShader());
+				if (null == shadedEntities) {
+					shadedEntities = new Array<>();
+					dynamicShaderEntities.put(entity.getShaderHelper().getShader(), shadedEntities);
+				}
+				shadedEntities.add(entity);
+			} else if (entity.getShaderStatic() != null && entity.getShaderStatic() != Shader.NOTHING) {
+				Array<HadalEntity> shadedEntities = staticShaderEntities.get(entity.getShaderStatic());
+				if (null == shadedEntities) {
+					shadedEntities = new Array<>();
+					staticShaderEntities.put(entity.getShaderStatic(), shadedEntities);
+				}
+				shadedEntities.add(entity);
+			} else {
+				entity.render(batch, entityLocation);
 			}
 		}
+	}
+
+	public void renderShadedEntities() {
+		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : dynamicShaderEntities) {
+			batch.setShader(entry.key.getShaderProgram());
+			for (HadalEntity entity : entry.value) {
+				entityLocation.set(entity.getPixelPosition());
+				entity.getShaderHelper().processShaderController(timer);
+				entity.render(batch, entityLocation);
+
+				if (entity.getShaderHelper().getShaderCount() <= 0.0f) {
+					entity.getShaderHelper().setShader(Shader.NOTHING, 0.0f);
+				}
+			}
+		}
+		dynamicShaderEntities.clear();
+
+		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : staticShaderEntities) {
+			if (null == entry.key.getShaderProgram()) {
+				entry.key.loadStaticShader();
+			}
+			batch.setShader(entry.key.getShaderProgram());
+			for (HadalEntity entity : entry.value) {
+				entityLocation.set(entity.getPixelPosition());
+				entity.render(batch, entityLocation);
+
+				if (entity.getShaderHelper().getShaderStaticCount() <= 0.0f) {
+					entity.getShaderHelper().setStaticShader(Shader.NOTHING, 0.0f);
+				}
+			}
+		}
+		staticShaderEntities.clear();
+
+		batch.setShader(null);
 	}
 	
 	/**
@@ -974,7 +1020,7 @@ public class PlayState extends GameState {
 			nextMode = mode;
 			this.nextStartID = nextStartID;
 
-			for (User user : HadalGame.server.getUsers().values()) {
+			for (User user : HadalGame.usm.getUsers().values()) {
 				user.beginTransition(this, state, false, DEFAULT_FADE_OUT_SPEED, DEFAULT_FADE_DELAY);
 			}
 		}
@@ -1052,7 +1098,7 @@ public class PlayState extends GameState {
 
 		//for own player, the server must update their user information
 		if (isServer() && connID == 0) {
-			HadalGame.server.getUsers().get(0).setPlayer(p);
+			HadalGame.usm.getOwnUser().setPlayer(p);
 		}
 
 		//mode-specific player modifications
@@ -1072,7 +1118,7 @@ public class PlayState extends GameState {
 	 */
 	public void levelEnd(String text, boolean victory, float fadeDelay) {
 		String resultsText = text;
-		Array<User> users = HadalGame.server.getUsers().values().toArray();
+		Array<User> users = HadalGame.usm.getUsers().values().toArray();
 
 		//magic word indicates that we generate the results text dynamically based on score
 		if (ResultsState.MAGIC_WORD.equals(text)) {
@@ -1199,10 +1245,10 @@ public class PlayState extends GameState {
 		this.resultsText = resultsText;
 
 		//create list of user information to send to all clients
-		UserDto[] users = new UserDto[HadalGame.server.getUsers().size];
+		UserDto[] users = new UserDto[HadalGame.usm.getUsers().size];
 
 		int userIndex = 0;
-		for (User user : HadalGame.server.getUsers().values()) {
+		for (User user : HadalGame.usm.getUsers().values()) {
 			SavedPlayerFields score = user.getScores();
 			Player resultsPlayer = user.getPlayer();
 			if (resultsPlayer != null) {
@@ -1221,7 +1267,7 @@ public class PlayState extends GameState {
 		}
 		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users, resultsText));
 
-		for (User user : HadalGame.server.getUsers().values()) {
+		for (User user : HadalGame.usm.getUsers().values()) {
 			user.beginTransition(this, TransitionState.RESULTS, true, 0.0f, fadeDelay);
 		}
 	}
@@ -1233,7 +1279,7 @@ public class PlayState extends GameState {
 	 * @return a snapshot of the player's current perspective. Used for transitioning to results state
 	 */
 	protected FrameBuffer resultsStateFreeze() {
-		FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA4444, 1280, 720, true);
+		FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA4444, 1280, 720, false);
 		fbo.begin();
 
 		//clear buffer, set camera
@@ -1241,7 +1287,7 @@ public class PlayState extends GameState {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.getProjectionMatrix().setToOrtho2D(0, 0, fbo.getWidth(), fbo.getHeight());
 
-		render(0.0f);
+		render(1.0f / 60.0f);
 
 		//draw extra ui elements for snapshot
 		batch.setProjectionMatrix(hud.combined);
@@ -1304,7 +1350,7 @@ public class PlayState extends GameState {
 				SavedPlayerFields score = user.getScores();
 
 				//cannot exit spectator if server is full
-				if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
+				if (HadalGame.usm.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
 					HadalGame.server.sendNotification(score.getConnID(), "", UIText.SERVER_FULL.text(), true, DialogType.SYSTEM);
 					return;
 				}

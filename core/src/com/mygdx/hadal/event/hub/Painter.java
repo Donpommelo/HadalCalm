@@ -50,7 +50,7 @@ public class Painter extends HubEvent {
 
 		//if we need to reload sprites (due to character change), clear existing sprites and begin loading new sprites
 		if (lastCharacter != state.getPlayer().getPlayerData().getLoadout().character) {
-			FrameBufferManager.clearUnusedFrameBuffers(state);
+			FrameBufferManager.clearUnusedFrameBuffers();
 			sprites.clear();
 
 			lastCharacter = state.getPlayer().getPlayerData().getLoadout().character;

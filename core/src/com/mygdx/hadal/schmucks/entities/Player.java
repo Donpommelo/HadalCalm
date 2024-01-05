@@ -8,6 +8,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.*;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
@@ -20,7 +21,7 @@ import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
@@ -355,18 +356,13 @@ public class Player extends Schmuck {
 	@Override
 	public void render(SpriteBatch batch, Vector2 entityLocation) {
 
-		float transparency = effectHelper.processInvisibility(batch);
+		float transparency = effectHelper.processInvisibility();
 
 		if (0.0f != transparency) {
 			//render player sprite using sprite helper
 			spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
 					groundedHelper.isGrounded(), entityLocation,
 					true, null, true);
-		}
-
-		//we need to reset batch if sprite is partially transparent (instead of unchanged or completely not rendered
-		if (0.0f != transparency && 1.0f != transparency) {
-			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
 		boolean visible = false;
@@ -547,7 +543,15 @@ public class Player extends Schmuck {
 			animationTime += i * AIR_ANIMATION_SLOW;
 		}
 	}
-	
+
+	@Override
+	public Shader getShaderStatic() {
+		if (getEffectHelper().processTranslucentShader()) {
+			return Shader.TRANSLUCENT;
+		}
+		return super.getShaderStatic();
+	}
+
 	@Override
 	public HadalData getHadalData() { return playerData; }
 	

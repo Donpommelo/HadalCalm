@@ -1,5 +1,6 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -16,10 +17,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
+import com.mygdx.hadal.strategies.hitbox.*;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
@@ -43,7 +41,14 @@ public class PoolBall extends SyncedAttacker {
     public static final float MIN_DAMAGE_MULTIPLIER = 1.0f;
     public static final float MAX_DAMAGE_MULTIPLIER = 3.0f;
 
-    private static final Sprite PROJ_SPRITE = Sprite.CANNONBALL;
+    public static final float MAX_ANIMATION_SPEED_MULTIPLIER = 1.5f;
+    public static final float MIN_ANIMATION_SPEED_MULTIPLIER = 1.0f;
+
+    private static final Sprite[] PROJ_SPRITE = {Sprite.POOL_ONE, Sprite.POOL_TWO, Sprite.POOL_THREE,
+            Sprite.POOL_FOUR, Sprite.POOL_FIVE, Sprite.POOL_SIX, Sprite.POOL_SEVEN, Sprite.POOL_EIGHT, Sprite.POOL_NINE,
+            Sprite.POOL_TEN, Sprite.POOL_ELEVEN, Sprite.POOL_TWELVE, Sprite.POOL_THIRTEEN, Sprite.POOL_FOURTEEN,
+            Sprite.POOL_FIFTEEN, Sprite.POOL_CUE};
+    private int lastSprite;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -57,10 +62,24 @@ public class PoolBall extends SyncedAttacker {
         }
         float velocity = chargeAmount * (PROJECTILE_MAX_SPEED - PROJECTILE_SPEED) + PROJECTILE_SPEED;
 
+        Sprite sprite = PROJ_SPRITE[lastSprite % PROJ_SPRITE.length];
+        lastSprite++;
+
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelocity).nor().scl(velocity),
-                user.getHitboxFilter(),true, true, user, PROJ_SPRITE);
+                user.getHitboxFilter(),true, true, user, sprite) {
+
+            @Override
+            public void increaseAnimationTime(float i) {
+                float speed = getLinearVelocity().len2();
+                speed = MathUtils.clamp(speed, MIN_SPEED_THRESHOLD, MAX_SPEED_THRESHOLD);
+                float multiplier = MIN_ANIMATION_SPEED_MULTIPLIER + (MAX_ANIMATION_SPEED_MULTIPLIER - MIN_ANIMATION_SPEED_MULTIPLIER)
+                        * (speed - MIN_SPEED_THRESHOLD) / (MAX_SPEED_THRESHOLD - MIN_SPEED_THRESHOLD);
+                animationTime += (i * multiplier);
+            }
+        };
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+        hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.MIDNIGHT_POOL_CUE,
                 DamageTag.WHACKING, DamageTag.RANGED) {
 
@@ -68,7 +87,8 @@ public class PoolBall extends SyncedAttacker {
             public void inflictDamage(HadalData fixB) {
                 if (fixB instanceof BodyData) {
                     float speed = hbox.getLinearVelocity().len2();
-                    speed = Math.max(Math.min(speed, MAX_SPEED_THRESHOLD), MIN_SPEED_THRESHOLD);
+                    speed = MathUtils.clamp(speed, MIN_SPEED_THRESHOLD, MAX_SPEED_THRESHOLD);
+
                     float multiplier = MIN_DAMAGE_MULTIPLIER + (MAX_DAMAGE_MULTIPLIER - MIN_DAMAGE_MULTIPLIER)
                             * (speed - MIN_SPEED_THRESHOLD) / (MAX_SPEED_THRESHOLD - MIN_SPEED_THRESHOLD);
                     hbox.setDamageMultiplier(multiplier);

@@ -16,7 +16,7 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -211,7 +211,7 @@ public class ClientState extends PlayState {
 		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {
 				entity.clientController(delta);
-				entity.decreaseShaderCount(delta);
+				entity.getShaderHelper().decreaseShaderCount(delta);
 				entity.increaseAnimationTime(delta);
 			}
 		}
@@ -221,7 +221,7 @@ public class ClientState extends PlayState {
 		if (scoreSyncAccumulator >= SCORE_SYNC_TIME) {
 			scoreSyncAccumulator = 0;
 			boolean changeMade = false;
-			for (User user : HadalGame.client.getUsers().values()) {
+			for (User user : HadalGame.usm.getUsers().values()) {
 				if (user.isScoreUpdated()) {
 					changeMade = true;
 					user.setScoreUpdated(false);
@@ -240,6 +240,7 @@ public class ClientState extends PlayState {
 				renderEntity(entity);
 			}
 		}
+		renderShadedEntities();
 	}
 	
 	@Override

@@ -30,7 +30,7 @@ public class GomezsAmygdalaActivate extends SyncedAttacker {
             ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
         }
 
-        user.setShader(Shader.PULSE_RED, buffDuration);
+        user.getShaderHelper().setShader(Shader.PULSE_RED, buffDuration);
 
         user.getBodyData().addStatus(new StatusComposite(state, buffDuration, false, user.getBodyData(), user.getBodyData(),
                 new StatChangeStatus(state, Stats.GROUND_SPD, spdBuff, user.getBodyData()),

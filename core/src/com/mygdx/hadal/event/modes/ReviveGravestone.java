@@ -17,7 +17,7 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
@@ -141,7 +141,7 @@ public class ReviveGravestone extends Event {
 
 			queueDeletion();
 
-			if (HadalGame.server.getUsers().containsValue(user, true)) {
+			if (HadalGame.usm.getUsers().containsValue(user, true)) {
 
 				String playerName = TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH);
 

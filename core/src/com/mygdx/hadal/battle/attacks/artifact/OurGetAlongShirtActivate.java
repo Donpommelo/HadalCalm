@@ -9,7 +9,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -30,11 +30,7 @@ public class OurGetAlongShirtActivate extends SyncedAttacker {
 
         User inflicter = null;
         if (extraFields.length > 0) {
-            if (state.isServer()) {
-                inflicter = HadalGame.server.getUsers().get((int) extraFields[0]);
-            } else {
-                inflicter = HadalGame.client.getUsers().get((int) extraFields[0]);
-            }
+            inflicter = HadalGame.usm.getUsers().get((int) extraFields[0]);
         }
 
         if (null != inflicter) {

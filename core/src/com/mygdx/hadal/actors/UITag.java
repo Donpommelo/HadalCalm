@@ -1,6 +1,6 @@
 package com.mygdx.hadal.actors;
 
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -8,7 +8,6 @@ import static com.mygdx.hadal.actors.UITag.uiType.ALL;
 
 /**
  * This is not technically an actor but I don't know where else to put it.
- * 
  * A UITag is anything that can show up in the UIExtra actor in the top corner of the screen. This can include information about 
  * score, lives, other info and can be dynamically changed within a level using the UIChanger event.
  * 

@@ -137,7 +137,7 @@ public enum DamageSource {
 
     DamageSource(DamageSourceType type) {
         this.type = type;
-        this.text = toString();
+        this.text = type.getText();
     }
 
     DamageSource(DamageSourceType type, GameText text) {
@@ -149,7 +149,7 @@ public enum DamageSource {
      * @return the text that shows up in the kill feed; contains the source name as well as its type
      */
     public String getKillSource() {
-        if (DamageSourceType.MISC == type || DamageSourceType.ENEMY == type) {
+        if (DamageSourceType.MISC == type || DamageSourceType.ENEMY == type || DamageSourceType.ENVIRONMENT == type) {
             return text;
         } else {
             return text + " (" + type.getText() + ")";
