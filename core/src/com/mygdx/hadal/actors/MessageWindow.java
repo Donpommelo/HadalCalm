@@ -16,17 +16,17 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
+import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_MESSAGE_LENGTH;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_LONG;
@@ -340,13 +340,7 @@ public class MessageWindow {
 	 * @param text: the new string we add to the message window
 	 */
 	public void addText(String text, DialogType type, int connID) {
-
-		User user;
-		if (state.isServer()) {
-			user = HadalGame.server.getUsers().get(connID);
-		} else {
-			user = HadalGame.client.getUsers().get(connID);
-		}
+		User user = HadalGame.usm.getUsers().get(connID);
 
 		//do not display messages from muted players
 		if (null != user) {
@@ -363,7 +357,7 @@ public class MessageWindow {
 				} else {
 
 					//normal chat messages color names according to the player's team color
-					newText = WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_LONG) + ": " + text + " []";
+					newText = TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_LONG) + ": " + text + " []";
 				}
 				addTextLine(newText);
 				textRecord.add(newText);

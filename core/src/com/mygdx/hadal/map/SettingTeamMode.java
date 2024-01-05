@@ -13,7 +13,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
@@ -113,7 +113,7 @@ public class SettingTeamMode extends ModeSetting {
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
         if (state.isServer()) {
-            User user = HadalGame.server.getUsers().get(connID);
+            User user = HadalGame.usm.getUsers().get(connID);
             if (user != null) {
 
                 //on auto-assign team mode, player teams are set to their "override" value
@@ -154,7 +154,7 @@ public class SettingTeamMode extends ModeSetting {
         boolean allded = true;
         AlignmentFilter winningTeam = AlignmentFilter.NONE;
 
-        Array<User> users = HadalGame.server.getUsers().values().toArray();
+        Array<User> users = HadalGame.usm.getUsers().values().toArray();
         if (TeamMode.COOP.equals(mode.getTeamMode()) || users.size <= 1) {
             resultsText = UIText.SETTING_LIVES_OUT.text();
 

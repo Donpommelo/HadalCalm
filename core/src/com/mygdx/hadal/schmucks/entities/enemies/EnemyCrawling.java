@@ -6,15 +6,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.WorldUtil;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -56,16 +57,17 @@ public class EnemyCrawling extends Enemy {
 		body.setGravityScale(1.0f);
 		
 		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_DROPTHROUGHWALL);
+		filter.maskBits = (short) (BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_DROPTHROUGHWALL);
 		getMainFixture().setFilterData(filter);
 		
 		if (state.isServer()) {
 			this.feetData = new FeetData(UserDataType.FEET, this);
-			
-			Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f,  - hboxSize.y / 2), new Vector2(hboxSize.x - 2, hboxSize.y / 8), true, 0, 0, 0, 0,
-					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), hitboxFilter);
-			
-			feet.setUserData(feetData);
+			new HadalFixture(
+					new Vector2(0.5f,  - hboxSize.y / 2),
+					new Vector2(hboxSize.x - 2, hboxSize.y / 8),
+					BodyConstants.BIT_SENSOR, (short)(BodyConstants.BIT_WALL | BodyConstants.BIT_DROPTHROUGHWALL), hitboxFilter)
+					.addToBody(body)
+					.setUserData(feetData);
 		}
 	}
 
@@ -162,7 +164,7 @@ public class EnemyCrawling extends Enemy {
 		//raycast in the direction we are walking.
 		if (WorldUtil.preRaycastCheck(entityWorldLocation, endPt)) {
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+				if (fixture.getFilterData().categoryBits == BodyConstants.BIT_WALL) {
 					if (fraction < shortestFraction) {
 						shortestFraction = fraction;
 						return fraction;
@@ -182,7 +184,7 @@ public class EnemyCrawling extends Enemy {
 			shortestFraction = 1.0f;
 			if (WorldUtil.preRaycastCheck(entityWorldLocation, endPt)) {
 				state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-					if (fixture.getFilterData().categoryBits == Constants.BIT_WALL ||  fixture.getFilterData().categoryBits == Constants.BIT_DROPTHROUGHWALL) {
+					if (fixture.getFilterData().categoryBits == BodyConstants.BIT_WALL ||  fixture.getFilterData().categoryBits == BodyConstants.BIT_DROPTHROUGHWALL) {
 						if (fraction < shortestFraction) {
 							shortestFraction = fraction;
 							return fraction;
@@ -216,7 +218,9 @@ public class EnemyCrawling extends Enemy {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), currentVel, state.getTimer(),
-				moveState, getBodyData().getCurrentHp(), moveDirection));
+				moveState,
+				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+				moveDirection));
 	}
 	
 	@Override

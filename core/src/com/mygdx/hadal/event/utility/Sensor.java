@@ -3,6 +3,8 @@ package com.mygdx.hadal.event.utility;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -11,17 +13,15 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 /**
  * A Sensor is an activating event that will activate a connected event when touching a specified type of body.
- *
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: When touching a specified type of body, this event will trigger its connected event.
- *
+ * <p>
  * Fields:
  * player: Boolean that describes whether this sensor touches player. Optional. Default: true
  * hbox: Boolean that describes whether this sensor touches hit-boxes. Optional. Default: false
@@ -41,8 +41,8 @@ public class Sensor extends Event {
     public Sensor(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy,
                   float gravity, float cooldown, boolean collision) {
         super(state, startPos, size);
-        this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) |
-                (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
+        this.filter = (short) ((player ? BodyConstants.BIT_PLAYER : 0) | (hbox ? BodyConstants.BIT_PROJECTILE: 0) |
+                (event ? BodyConstants.BIT_SENSOR : 0) | (enemy ? BodyConstants.BIT_ENEMY : 0));
         this.gravity = gravity;
         this.cooldown = cooldown;
         this.collision = collision;
@@ -51,8 +51,8 @@ public class Sensor extends Event {
     public Sensor(PlayState state, Vector2 startPos, Vector2 size, float duration, boolean player, boolean hbox, boolean event, boolean enemy,
                   float gravity, float cooldown, boolean collision) {
         super(state, startPos, size, duration);
-        this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) |
-                (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
+        this.filter = (short) ((player ? BodyConstants.BIT_PLAYER : 0) | (hbox ? BodyConstants.BIT_PROJECTILE: 0) |
+                (event ? BodyConstants.BIT_SENSOR : 0) | (enemy ? BodyConstants.BIT_ENEMY : 0));
         this.gravity = gravity;
         this.cooldown = cooldown;
         this.collision = collision;
@@ -97,13 +97,17 @@ public class Sensor extends Event {
             }
         };
 
-        this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false,
-                Constants.BIT_SENSOR, filter, (short) 0, true, eventData);
-        this.body.setType(BodyDef.BodyType.KinematicBody);
+        this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, filter, (short) 0)
+                .setBodyType(BodyDef.BodyType.KinematicBody)
+                .setGravity(gravity)
+                .addToWorld(world);
 
         if (collision) {
-            FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size).scl(2), false, 0, 0,
-                    0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0);
+            new HadalFixture(new Vector2(), new Vector2(size).scl(2),
+                    BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, (short) 0)
+                    .setSensor(false)
+                    .setFriction(1.0f)
+                    .addToBody(body);
         }
     }
 

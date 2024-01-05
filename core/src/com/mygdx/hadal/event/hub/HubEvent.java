@@ -1,8 +1,10 @@
 package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -11,8 +13,7 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * The HubEvent is one of the events in the hub of the game that produces an extra ui for the player to manage
@@ -80,8 +81,10 @@ public class HubEvent extends Event {
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, Constants.BIT_PLAYER,	(short) 0, true, eventData);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, BodyConstants.BIT_PLAYER, (short) 0)
+				.setBodyType(BodyDef.BodyType.StaticBody)
+				.addToWorld(world);
 	}
 	
 	/**
@@ -151,7 +154,6 @@ public class HubEvent extends Event {
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.PYRAMID);
 		setSyncType(eventSyncTypes.USER);
-		setSynced(true);
 	}
 
 	public String getLastSearch() { return lastSearch; }

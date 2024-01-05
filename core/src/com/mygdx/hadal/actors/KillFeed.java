@@ -9,15 +9,14 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.TextUtil;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -168,7 +167,7 @@ public class KillFeed {
 
         if (null != perp) {
             if (perp.equals(perp.getState().getPlayer()) && perp != vic) {
-                String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
+                String vicName = TextUtil.getPlayerColorName(vic, MAX_NAME_LENGTH);
                 addNotification(UIText.YOU_HAVE_SLAIN.text(vicName), false);
             }
         }
@@ -241,9 +240,7 @@ public class KillFeed {
                     formatDeathTimer();
 
                     if (0.0f >= respawnTime) {
-                        deathInfoTable.addAction(Actions.sequence(
-                                Actions.moveTo(DEATH_INFO_X, DEATH_INFO_Y, TRANSITION_DURATION, INTP_FASTSLOW),
-                                Actions.run(me::clearKillerBustSprite)));
+                        deathInfoTable.addAction(Actions.moveTo(DEATH_INFO_X, DEATH_INFO_Y, TRANSITION_DURATION, INTP_FASTSLOW));
                         deathInfoTable.setVisible(false);
                     }
                 }
@@ -361,13 +358,6 @@ public class KillFeed {
         DecimalFormat df = new DecimalFormat("0.0");
         df.setRoundingMode(RoundingMode.DOWN);
         deathInfo.setText(df.format(respawnTime) + " S");
-    }
-
-    //when this actor is removed, we want to dispose of the character bust in the kill feed to avoid memory leak
-    private void clearKillerBustSprite() {
-        if (null != killerBustSprite) {
-            killerBustSprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
-        }
     }
 
     //this is the number of seconds before the player can enter spectator mode (to avoid accidentally transitions)

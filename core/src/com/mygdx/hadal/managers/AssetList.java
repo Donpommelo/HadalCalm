@@ -35,11 +35,13 @@ public enum AssetList {
 	PLAYER_WANDA("sprites/player/wanda.png", Texture.class),
 
 	// Object Sprites
-	PROJ_1_ATL("sprites/projectiles.atlas", TextureAtlas.class),
+	PROJ_1_ATL("sprites/projectile/projectiles.atlas", TextureAtlas.class),
 	NOTIFICATION_ATL("sprites/notifications.atlas", TextureAtlas.class),
 	BOOM_1_ATL("sprites/boom.atlas", TextureAtlas.class),
 	MULTITOOL_ATL("sprites/player/multitool.atlas", TextureAtlas.class),
 	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
+	POOL_ATL("sprites/projectile/pool.atlas", TextureAtlas.class),
+	SPIRIT_BOMB_ATL("sprites/projectile/spirit_bomb.atlas", TextureAtlas.class),
 
 	// Particle effects.
 	PARTICLE_ATL("particles/particles.atlas", TextureAtlas.class),

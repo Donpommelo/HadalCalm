@@ -8,20 +8,22 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
 public class UrchinNail extends SyncedAttacker {
 
-    public static final Vector2 PROJECTILE_SIZE = new Vector2(40, 18);
+    public static final Vector2 PROJECTILE_SIZE = new Vector2(60, 18);
     public static final float LIFESPAN = 2.5f;
     public static final float LIFESPAN_STUCK = 20.0f;
     public static final float BASE_DAMAGE = 16.0f;
@@ -51,13 +53,21 @@ public class UrchinNail extends SyncedAttacker {
                 DamageTag.POKING, DamageTag.RANGED));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.NAIL_TRAIL, 0.0f, 0.5f)
-                .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NAIL_IMPACT)
                 .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NAIL_BURST)
                 .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), false, true) {
+
+            private ParticleEntity particles;
+            @Override
+            public void create() {
+                particles = new ParticleEntity(state, hbox, Particle.NAIL_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC);
+                particles.setScale(hbox.getScale());
+                if (!state.isServer()) {
+                    ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+                }
+            }
 
             private final Vector2 currentVelo = new Vector2();
             @Override
@@ -79,6 +89,8 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL_STUCK);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
+
+                particles.turnOff();
             }
 
             @Override
@@ -87,10 +99,12 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.setLinearVelocity(currentVelo.setAngleRad(hbox.getAngle()).scl(-1));
 
                 Filter filter = hbox.getMainFixture().getFilterData();
-                filter.maskBits = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
+                filter.maskBits = (short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_SENSOR);
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
+
+                particles.turnOn();
             }
         }.setStuckLifespan(LIFESPAN_STUCK));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));

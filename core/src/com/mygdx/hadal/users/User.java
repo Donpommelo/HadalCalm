@@ -1,4 +1,4 @@
-package com.mygdx.hadal.server;
+package com.mygdx.hadal.users;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +11,9 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;

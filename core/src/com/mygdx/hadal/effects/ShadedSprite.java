@@ -62,7 +62,7 @@ public class ShadedSprite {
      */
     private void createSprite(Batch batch, ShaderProgram shader, TextureRegion[] sprites, Animation.PlayMode mode, boolean mirror) {
         for (TextureRegion tex : sprites) {
-            FrameBuffer frame = new FrameBuffer(Pixmap.Format.RGBA4444, tex.getRegionWidth(), tex.getRegionHeight(), true);
+            FrameBuffer frame = new FrameBuffer(Pixmap.Format.RGBA4444, tex.getRegionWidth(), tex.getRegionHeight(), false);
             frame.begin();
 
             //clear buffer, set camera

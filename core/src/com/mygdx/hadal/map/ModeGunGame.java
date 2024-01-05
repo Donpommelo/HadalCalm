@@ -7,7 +7,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -29,7 +29,7 @@ public class ModeGunGame extends ModeSetting {
 
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
-        User user = HadalGame.server.getUsers().get(connID);
+        User user = HadalGame.usm.getUsers().get(connID);
 
         //when a player respawns, set their weapon to their last held weapon, determined by score
         if (null != user) {

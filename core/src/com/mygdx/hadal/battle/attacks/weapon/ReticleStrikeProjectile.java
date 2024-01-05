@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -57,7 +57,7 @@ public class ReticleStrikeProjectile extends SyncedAttacker {
                             new Vector2(), user.getHitboxFilter(), true, true, user, Sprite.CROSSHAIR);
                     reticle.setEffectsMovement(false);
                     reticle.setEffectsHit(false);
-                    reticle.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+                    reticle.setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 
                     reticle.addStrategy(new ControllerDefault(state, reticle, user.getBodyData()));
                     reticle.addStrategy(new CreateParticles(state, reticle, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)

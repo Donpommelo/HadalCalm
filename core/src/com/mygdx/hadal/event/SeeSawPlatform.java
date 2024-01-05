@@ -5,24 +5,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 /**
  * A See saw platform can rotate with physics input
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * @author Quimpus Quectavio
  */
@@ -49,10 +49,13 @@ public class SeeSawPlatform extends Event {
 			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
 									   DamageSource source, DamageTag... tags) { return 0; }
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, 1, 0, false, false, 
-				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
-				(short) 0, false, eventData);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_WALL,
+				(short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR), (short) 0)
+				.setGravity(1.0f)
+				.setFixedRotate(false)
+				.setSensor(false)
+				.addToWorld(world);
 
 		if (state.isServer()) {
 			//attach the body to the world anchor
@@ -85,8 +88,10 @@ public class SeeSawPlatform extends Event {
 						return 0;
 					}
 				};
-				FixtureBuilder.createFixtureDef(body, new Vector2(i, 0), new Vector2(SECTION_WIDTH, size.y + SECTION_PADDING), true, 0, 0, 0, 0,
-						Constants.BIT_WALL, Constants.BIT_PROJECTILE, (short) 0).setUserData(tempData);
+				new HadalFixture(new Vector2(i, 0), new Vector2(SECTION_WIDTH, size.y + SECTION_PADDING),
+						BodyConstants.BIT_WALL, BodyConstants.BIT_PROJECTILE, (short) 0)
+						.addToBody(body)
+						.setUserData(tempData);
 			}
 		} else {
 			this.body.setType(BodyDef.BodyType.KinematicBody);

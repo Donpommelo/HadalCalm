@@ -7,12 +7,12 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A QuestChecker event. This checks a quest flag in the game's save file, to potentially chain to another event.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event checks a quest flag. If the quest progress matches, chain to...
  * Triggering Behavior: If the quest is at the specified point, the next event is activated,
- *
+ * <p>
  * Fields:
- * 
+ * <p>
  * quest: String id of quest checked
  * newVal: Value of the quest to check for. If equal, chain to connected event. Optional. Default: 0
  *

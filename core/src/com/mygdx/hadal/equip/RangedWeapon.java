@@ -252,7 +252,7 @@ public class RangedWeapon extends Equippable {
 	
 	@Override
 	public void gainAmmo(float gainedPercent) {
-		ammoLeft += gainedPercent * ammoSize;
+		ammoLeft += (int) (gainedPercent * ammoSize);
 		if (ammoLeft >= getAmmoSize()) {
 			ammoLeft = getAmmoSize();
 		}

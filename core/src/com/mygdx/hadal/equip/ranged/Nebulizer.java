@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.DiamondCutterProjectile;
+import com.mygdx.hadal.battle.attacks.weapon.Nebula;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
@@ -13,6 +14,8 @@ import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+
+import static com.mygdx.hadal.constants.Constants.PPM;
 
 public class Nebulizer extends MeleeWeapon {
 
@@ -135,7 +138,7 @@ public class Nebulizer extends MeleeWeapon {
 	}
 
 	@Override
-	public float getBotRangeMax() { return 4.67f; }
+	public float getBotRangeMax() { return Nebula.MAX_RANGE / PPM; }
 
 	@Override
 	public String[] getDescFields() {

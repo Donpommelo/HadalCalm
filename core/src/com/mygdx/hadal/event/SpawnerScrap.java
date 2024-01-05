@@ -1,20 +1,20 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.PickupUtils;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A scrap spawner spawns scrap when activated.
- * 
+ * <p>
  * Triggered Behavior: When triggered, spawn scrap
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * scrap: The amount of scrap to spawn. Default: 0
  * @author Punga Petherford
@@ -38,9 +38,9 @@ public class SpawnerScrap extends Event {
 						scrap, false, true);
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, true, true,
-				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
-		body.setType(BodyType.KinematicBody);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, (short) 0, (short) 0)
+				.setBodyType(BodyDef.BodyType.KinematicBody)
+				.addToWorld(world);
 	}
 }

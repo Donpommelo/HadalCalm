@@ -1,9 +1,9 @@
 package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.PickupUtils;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -14,7 +14,7 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * This is a multi-use event that performs a variety of functions for special modes that require a central objective.
@@ -48,9 +48,9 @@ public class SpawnerObjective extends Event {
 	public void create() {
 		this.eventData = new EventData(this);
 
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, true, true,
-				Constants.BIT_SENSOR, (short) (0), (short) 0, true, eventData);
-		body.setType(BodyType.KinematicBody);
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, (short) 0, (short) 0)
+				.setBodyType(BodyDef.BodyType.KinematicBody)
+				.addToWorld(world);
 
 		//in eggplant mode, this event should be visible in the objective ui
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {

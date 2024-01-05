@@ -589,7 +589,8 @@ public class LobbyState extends GameState {
 
         BufferedReader in = null;
         try {
-            URL whatismyip = new URL("http://checkip.amazonaws.com");
+            URI uri = URI.create("http://checkip.amazonaws.com");
+            URL whatismyip = uri.toURL();
             in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
             UPNPUtil.myIP = in.readLine();
             return UPNPUtil.myIP;

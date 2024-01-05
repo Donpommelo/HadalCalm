@@ -10,7 +10,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -71,7 +71,7 @@ public class SettingLives extends ModeSetting {
         int startLives = livesChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedLives;
 
         if (startLives != 0) {
-            for (User user : HadalGame.server.getUsers().values()) {
+            for (User user : HadalGame.usm.getUsers().values()) {
                 user.getScores().setLives(startLives);
                 user.setScoreUpdated(true);
             }

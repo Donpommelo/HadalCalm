@@ -8,14 +8,16 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
+import com.mygdx.hadal.bots.BotLoadoutProcessor;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.BotPersonality;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.TooltipManager;
@@ -112,7 +114,7 @@ public class SettingBots extends ModeSetting {
         Array<User> oldBots = new Array<>();
 
         //go through all existing bots and clear them from the user list
-        for (User user : HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.usm.getUsers().values()) {
             if (user.getScores().getConnID() < 0) {
                 oldBots.add(user);
             }
@@ -121,7 +123,7 @@ public class SettingBots extends ModeSetting {
         //ensure that bots from last match are cleared
         for (User user : oldBots) {
             user.getHitBoxFilter().setUsed(false);
-            HadalGame.server.getUsers().remove(user.getScores().getConnID());
+            HadalGame.usm.getUsers().remove(user.getScores().getConnID());
             HadalGame.server.sendToAllTCP(new Packets.RemoveScore(user.getScores().getConnID()));
         }
 
@@ -132,7 +134,7 @@ public class SettingBots extends ModeSetting {
         int numBots = 0;
         if (botNumberIndex == 0) {
             int desiredPlayers = state.getLevel().getSize().getPreferredPlayers();
-            int playerAmount = HadalGame.server.getNumPlayers();
+            int playerAmount = HadalGame.usm.getNumPlayers();
             if (playerAmount < desiredPlayers) {
                 numBots = desiredPlayers - playerAmount;
             }
@@ -140,7 +142,7 @@ public class SettingBots extends ModeSetting {
             numBots = botNumberIndex - 1;
         }
         for (int i = 0; i < numBots; i++) {
-            HadalGame.server.getUsers().put(lastBotConnID, createBotUser());
+            HadalGame.usm.getUsers().put(lastBotConnID, createBotUser(state));
             lastBotConnID--;
         }
 
@@ -159,9 +161,12 @@ public class SettingBots extends ModeSetting {
     }
 
     //this creates a single bot user; giving them a random name and initiating their score fields
-    private User createBotUser() {
+    private User createBotUser(PlayState state) {
         String botName = NameGenerator.generateFirstLast(true);
-        return new User(null, new SavedPlayerFields(botName, lastBotConnID), new SavedPlayerFieldsExtra());
+        User user = new User(null, new SavedPlayerFields(botName, lastBotConnID), new SavedPlayerFieldsExtra());
+        Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state);
+        user.getScoresExtra().setLoadout(botLoadout);
+        return user;
     }
 
     private static BotPersonality.BotDifficulty indexToBotDifficulty(int index) {

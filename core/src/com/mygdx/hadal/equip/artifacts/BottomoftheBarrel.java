@@ -37,7 +37,7 @@ public class BottomoftheBarrel extends Artifact {
 				}
 				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
 					if (procCdCount >= shaderCount && ranged.getAmmoPercent() <= ammoThreshold) {
-						p.getPlayer().setShader(Shader.PULSE_RED, shaderCount * 2);
+						p.getPlayer().getShaderHelper().setShader(Shader.PULSE_RED, shaderCount * 2);
 					}
 				}
 			}

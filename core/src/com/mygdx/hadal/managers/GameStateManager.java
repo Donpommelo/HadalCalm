@@ -12,6 +12,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
@@ -167,6 +168,7 @@ public class GameStateManager {
 		}
 
 		Particle.disposeParticlePool();
+		FrameBufferManager.clearAllFrameBuffers();
 	}
 	
 	/**
@@ -307,16 +309,15 @@ public class GameStateManager {
 	 * Only used for: (TITLE, SPLASH, ABOUT, SETTING, LOBBY)
 	 */
 	public GameState getState(State state, GameState peekState) {
-		switch (state) {
-			case TITLE: return new TitleState(this);
-			case SPLASH: return new InitState(this);
-			case ABOUT: return new AboutState(this, peekState);
-			case SETTING: return new SettingState(this, peekState);
-			case LOBBY: return new LobbyState(this, peekState);
-			default: break;
-		}
-		return null;
-	}
+        return switch (state) {
+            case TITLE -> new TitleState(this);
+            case SPLASH -> new InitState(this);
+            case ABOUT -> new AboutState(this, peekState);
+            case SETTING -> new SettingState(this, peekState);
+            case LOBBY -> new LobbyState(this, peekState);
+            default -> null;
+        };
+    }
 
 	/**
 	 * 	We clear things like music/sound to free up some memory.

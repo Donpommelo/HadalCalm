@@ -10,7 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -155,13 +155,8 @@ public class UISpectator extends AHadalActor {
         User currentUser;
 
         users.clear();
-        if (state.isServer()) {
-            users.addAll(HadalGame.server.getUsers().values().toArray());
-            currentUser = HadalGame.server.getUsers().get(targetId);
-        } else {
-            users.addAll(HadalGame.client.getUsers().values().toArray());
-            currentUser = HadalGame.client.getUsers().get(targetId);
-        }
+        users.addAll(HadalGame.usm.getUsers().values().toArray());
+        currentUser = HadalGame.usm.getUsers().get(targetId);
 
         boolean foundTarget = false;
 

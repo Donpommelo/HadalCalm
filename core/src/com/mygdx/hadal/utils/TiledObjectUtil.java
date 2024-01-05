@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -298,7 +299,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("respawn", true, boolean.class));
 			case "PlayerAlign" -> e = new PlayerAlignmentChanger(state,
 					object.getProperties().get("pvp", true, boolean.class),
-					object.getProperties().get("filter", (float) Constants.PLAYER_HITBOX, float.class));
+					object.getProperties().get("filter", (float) BodyConstants.PLAYER_HITBOX, float.class));
 			case "WrapPortal" -> e = new PortalWrap(state, position, size,
 					object.getProperties().get("axis", true, boolean.class),
 					object.getProperties().get("direction", false, boolean.class));
@@ -780,7 +781,7 @@ public class TiledObjectUtil {
 		if (e instanceof TriggerRedirect trigger) {
 			myId = redirectTriggeringEvents.get(trigger);
 			if (null != myId) {
-				if (!"".equals(myId)) {
+				if (!myId.isEmpty()) {
 					trigger.setBlame(triggeredEvents.get(myId, null));
 				}
 			}

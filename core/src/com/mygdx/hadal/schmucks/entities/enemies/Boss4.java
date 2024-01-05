@@ -18,7 +18,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
@@ -59,7 +59,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float phaseThreshold2 = 0.5f;
 	
 	//the boss's body is composed of multiple scaled up particle effects
-	private final ParticleEntity body1, body2, body3;
+	private ParticleEntity body1, body2, body3;
 	private static final float bodyBaseScale1 = 2.5f;
 	private static final float bodyBaseScale2 = 2.5f;
 	private static final float bodyBaseScale3 = 5.0f;
@@ -68,12 +68,14 @@ public class Boss4 extends EnemyFloating {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop);
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 2000));
 
-		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.TICKSYNC);
-		body1.setScale(bodyBaseScale1).setColor(HadalColor.RED).setSyncExtraFields(true);
-		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.TICKSYNC);
-		body2.setScale(bodyBaseScale2).setColor(HadalColor.ORANGE).setSyncExtraFields(true);
-		body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, SyncType.TICKSYNC);
-		body3.setScale(bodyBaseScale3).setColor(HadalColor.RED).setSyncExtraFields(true);
+		if (state.isServer()) {
+			body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.TICKSYNC);
+			body1.setScale(bodyBaseScale1).setColor(HadalColor.RED).setSyncExtraFields(true);
+			body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.TICKSYNC);
+			body2.setScale(bodyBaseScale2).setColor(HadalColor.ORANGE).setSyncExtraFields(true);
+			body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, SyncType.TICKSYNC);
+			body3.setScale(bodyBaseScale3).setColor(HadalColor.RED).setSyncExtraFields(true);
+		}
 	}
 	
 	
@@ -95,22 +97,24 @@ public class Boss4 extends EnemyFloating {
 	public void controller(float delta) {
 		super.controller(delta);
 
-		body1.getEffect().update(delta);
-		body2.getEffect().update(delta);
-		body3.getEffect().update(delta);
+		if (state.isServer()) {
+			body1.getEffect().update(delta);
+			body2.getEffect().update(delta);
+			body3.getEffect().update(delta);
 
-		//the boss grows and shrinks by rescaling its particles. This occurs before it performs actions
-		scalingAccumulator += delta;
-		while (scalingAccumulator >= scalingTime) {
-			
-			scalingAccumulator -= scalingTime;
-					
-			if (currentScale != desiredScale) {
-				currentScale += (desiredScale - currentScale) * scaleLerpFactor;
-				
-				body1.setScale(currentScale * bodyBaseScale1);
-				body2.setScale(currentScale * bodyBaseScale2);
-				body3.setScale(currentScale * bodyBaseScale3);
+			//the boss grows and shrinks by rescaling its particles. This occurs before it performs actions
+			scalingAccumulator += delta;
+			while (scalingAccumulator >= scalingTime) {
+
+				scalingAccumulator -= scalingTime;
+
+				if (currentScale != desiredScale) {
+					currentScale += (desiredScale - currentScale) * scaleLerpFactor;
+
+					body1.setScale(currentScale * bodyBaseScale1);
+					body2.setScale(currentScale * bodyBaseScale2);
+					body3.setScale(currentScale * bodyBaseScale3);
+				}
 			}
 		}
 	}
@@ -504,7 +508,7 @@ public class Boss4 extends EnemyFloating {
 			@Override
 			public void execute() {
 				applyHomingReticle(state.getPlayer());
-				for (User user : HadalGame.server.getUsers().values()) {
+				for (User user : HadalGame.usm.getUsers().values()) {
 					applyHomingReticle(user.getPlayer());
 				}
 			}

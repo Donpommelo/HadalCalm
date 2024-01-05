@@ -6,7 +6,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 
 import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
@@ -25,7 +25,7 @@ public class ModeMatryoshka extends ModeSetting {
     public String loadSettingStart(PlayState state, GameMode mode) {
 
         //all players start with 8 lives
-        for (User user : HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.usm.getUsers().values()) {
             user.getScores().setLives(LIVES_NUM);
             user.setScoreUpdated(true);
         }

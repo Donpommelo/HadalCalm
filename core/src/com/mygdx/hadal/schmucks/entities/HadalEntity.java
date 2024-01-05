@@ -8,14 +8,15 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.effects.Shader;
+import com.mygdx.hadal.schmucks.entities.helpers.ShaderHelper;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
-import com.mygdx.hadal.constants.Constants;
 
 import java.util.UUID;
 
@@ -50,11 +51,6 @@ public abstract class HadalEntity {
 	//On the client, do we expect a sync packet from the server regularly
 	protected boolean receivingSyncs;
 
-	//Keeps track of an entity's shader such as when flashing after receiving damage.
-	private float shaderDuration;
-	private float shaderCount;
-	private Shader shader;
-		
 	//This is the id that clients use to track synchronized entities
 	protected UUID entityID;
 	
@@ -62,7 +58,9 @@ public abstract class HadalEntity {
 	private boolean syncDefault = true, syncInstant = false;
 	private boolean reliableCreate = false;
 	private ObjectLayer layer = ObjectLayer.STANDARD;
-	
+
+	private final ShaderHelper shaderHelper;
+
 	/**
 	 * Constructor is called when an entity is created.
 	 * @param state: Current playstate
@@ -78,6 +76,8 @@ public abstract class HadalEntity {
 		
 		//give this entity a random, unique id
 		this.entityID = UUID.randomUUID();
+
+		this.shaderHelper = new ShaderHelper(state, this);
 
 		//Queue this entity up for creating in the world next engine tick
 		state.create(this);
@@ -412,42 +412,16 @@ public abstract class HadalEntity {
 	public void setStartPos(Vector2 startPos) {	this.startPos.set(startPos); }
 	
 	public Vector2 getSize() { return size; }
-	
-	public Shader getShader() { return shader; }
-	
-	public float getShaderCount() { return shaderCount; }
+
+	public ShaderHelper getShaderHelper() { return shaderHelper; }
+
+	//this method exists so it can be overriden by entities with conditional shaders
+	public Shader getShaderStatic() { return shaderHelper.getShaderStatic(); }
 
 	public ObjectLayer getLayer() {	return layer; }
 
 	public void setLayer(ObjectLayer layer) { this.layer = layer; }
 
-	/**
-	 * Set this entity's shader (this will be used when rendering this entity)
-	 * @param shader: shader to use
-	 * @param shaderCount: how long does this shader last?
-	 */
-	public void setShader(Shader shader, float shaderCount) {
-		shader.loadShader();
-		this.shader = shader;
-		this.shaderDuration = shaderCount;
-		this.shaderCount = shaderCount;
-	}
-	
-	public void decreaseShaderCount(float i) {
-		shaderCount -= i;
-	}
-
-	/**
-	 * This is run when the entity is rendered.
-	 * Give the shader information about its duration
-	 */
-	public void processShaderController(float timer) {
-		float percentageCompletion = 1.0f - shaderCount / shaderDuration;
-		shader.shaderPlayUpdate(state, timer);
-		shader.shaderDefaultUpdate(timer);
-		shader.shaderEntityUpdate(this, percentageCompletion);
-	}
-	
 	public void increaseAnimationTime(float i) { animationTime += i; }
 
 	public Vector2 getPosition() {

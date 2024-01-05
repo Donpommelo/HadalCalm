@@ -10,7 +10,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
@@ -26,11 +25,12 @@ import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.utils.TextUtil;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
@@ -52,14 +52,14 @@ public enum GameMode {
     },
 
     CAMPAIGN("", "placeholder", GameText.CAMPAIGN, GameText.CAMPAIGN_DESC,
-            new SettingTeamMode(TeamMode.COOP), new SettingLives(1)) {
+            new SettingTeamMode(TeamMode.COOP), new SettingLives(1), new SettingBots(1)) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
     },
 
     BOSS("", "placeholder", GameText.BOSS, GameText.BOSS_DESC,
-            new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
+            new SettingTeamMode(TeamMode.COOP), new SettingBots(1), new AllyRevive(),
             new DisplayUITag("ALLY_HEALTH"),
             new ToggleWeaponDrops()),
 
@@ -82,7 +82,7 @@ public enum GameMode {
 
     SURVIVAL("arena", "survival", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
         new SetCameraOnSpawn(),
-        new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new AllyRevive(),
+        new SettingTeamMode(TeamMode.COOP), new SettingTimer("VICTORY"), new SettingBots(1), new AllyRevive(),
         new DisplayUITag("SCOREBOARD"), new DisplayUITag("HISCORE"), new DisplayUITag("ALLY_HEALTH"),
         new SpawnWeapons(), new SpawnEnemyWaves(), new ToggleWeaponDrops()),
 
@@ -154,7 +154,7 @@ public enum GameMode {
 
     FOOTBALL("futbol", "football", GameText.FOOTBALL, GameText.FOOTBALL_DESC,
             new SetCameraOnSpawn(),
-            new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingTeamScoreCap(), new SettingLives(0),
+            new SettingTeamMode(TeamMode.TEAM_AUTO), new SettingTimer(ResultsState.MAGIC_WORD), new SettingBots(1), new SettingTeamScoreCap(), new SettingLives(0),
             new DisplayUITag("TEAMSCORE"), new ToggleNoDamage(),
             new SetLoadoutEquips(UnlockEquip.BATTERING_RAM, UnlockEquip.SCRAPRIPPER, UnlockEquip.DUELING_CORKGUN),
             new SetLoadoutArtifacts(UnlockArtifact.INFINITE_AMMO)),
@@ -403,7 +403,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerLivesOut(state, this, p);
         }
-        state.getKillFeed().addNotification(UIText.ELIMINATED.text(WeaponUtils.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
+        state.getKillFeed().addNotification(UIText.ELIMINATED.text(TextUtil.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
     }
 
     /**

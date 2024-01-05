@@ -26,7 +26,8 @@ import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.*;
-import com.mygdx.hadal.server.User.UserDto;
+import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -35,6 +36,7 @@ import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -51,18 +53,15 @@ public class KryoClient {
 	//Me Client
 	private Client client;
 	
-	//This is the gsm of the client
 	public final GameStateManager gsm;
-    
-    //This is a mapping of connIds to corresponding users
-    public ObjectMap<Integer, User> users;
+	public final UserManager usm;
 
-    //this is the client's connection id
-    public int connID;
-    
     public Listener packetListener;
     
-    public KryoClient(GameStateManager gameStateManager) { this.gsm = gameStateManager; }
+    public KryoClient(GameStateManager gameStateManager, UserManager userManager) {
+    	this.gsm = gameStateManager;
+    	this.usm = userManager;
+    }
     
     /**
 	 * This is called upon starting a new client. initialize client and whatever
@@ -81,9 +80,10 @@ public class KryoClient {
 		};
         KryoSerialization serialization = new KryoSerialization(kryo);
         this.client = new Client(65536, 32768, serialization);
-		users = new ObjectMap<>();
-        client.start();
-        
+		client.start();
+
+		usm.resetUsers();
+
         registerPackets();
 
         packetListener = new Listener() {
@@ -94,7 +94,7 @@ public class KryoClient {
         	@Override
         	public void connected(Connection c) {
                 sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName(), HadalGame.VERSION, null));
-                connID = c.getID();
+                usm.setConnID(c.getID());
             }
         	
         	/**
@@ -178,8 +178,8 @@ public class KryoClient {
 					SavedPlayerFields score;
 
 					//update score or create a new user if existing score not found
-					if (users.containsKey(p.connID)) {
-						User user = users.get(p.connID);
+					if (usm.getUsers().containsKey(p.connID)) {
+						User user = usm.getUsers().get(p.connID);
 						score = user.getScores();
 						user.setSpectator(p.spectator);
 						user.setScoreUpdated(true);
@@ -187,7 +187,7 @@ public class KryoClient {
 						score = new SavedPlayerFields(p.name, p.connID);
 						User user = new User(null, score, new SavedPlayerFieldsExtra());
 						user.setSpectator(p.spectator);
-						users.put(p.connID, user);
+						usm.getUsers().put(p.connID, user);
 					}
 					score.setWins(p.wins);
 					score.setKills(p.kills);
@@ -213,8 +213,8 @@ public class KryoClient {
 					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
 					if (null != entity) {
 						if (entity instanceof Event event) {
-							if (users.containsKey(p.connID)) {
-								User user = users.get(p.connID);
+							if (usm.getUsers().containsKey(p.connID)) {
+								User user = usm.getUsers().get(p.connID);
 								Player player = user.getPlayer();
 								event.getEventData().onActivate(null, player);
 							} else {
@@ -232,9 +232,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.LatencyAck p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.syncLatency(p.serverTimestamp, p.clientTimestamp);
-				});
+				cs.addPacketEffect(() -> cs.syncLatency(p.serverTimestamp, p.clientTimestamp));
 			}
 		}
 
@@ -244,7 +242,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.RemoveScore p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> users.remove(p.connID));
+				cs.addPacketEffect(() -> usm.getUsers().remove(p.connID));
 			}
 		}
 
@@ -324,9 +322,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.ClientStartTransition p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay);
-				});
+				cs.addPacketEffect(() -> cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay));
 			}
 		}
 
@@ -423,7 +419,7 @@ public class KryoClient {
 		else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				User user = users.get(p.connID);
+				User user = usm.getUsers().get(p.connID);
 				if (null != user && null != cs) {
 					Player player = user.getPlayer();
 					if (null != player) {
@@ -444,7 +440,7 @@ public class KryoClient {
 		else if (o instanceof final PacketsLoadout.SyncLoadoutServer p) {
 			final ClientState cs = getClientState();
 
-			User user = users.get(p.connID);
+			User user = usm.getUsers().get(p.connID);
 			if (null != user && null != cs) {
 				Player player = user.getPlayer();
 				if (null != player) {
@@ -515,8 +511,8 @@ public class KryoClient {
 					cs.setResultsText(p.resultsText);
 
 					//temporarily store user info so we can attach old player to updated user
-					ObjectMap<Integer, User> usersTemp = new ObjectMap<>(users);
-					users.clear();
+					ObjectMap<Integer, User> usersTemp = new ObjectMap<>(usm.getUsers());
+					usm.getUsers().clear();
 
 					for (int i = 0; i < p.users.length; i++) {
 						UserDto user = p.users[i];
@@ -532,7 +528,7 @@ public class KryoClient {
 							if (null != user.scoresExtra.getLoadout()) {
 								updatedUser.setTeamFilter(user.scoresExtra.getLoadout().team);
 							}
-							users.put(user.scores.getConnID(), updatedUser);
+							usm.getUsers().put(user.scores.getConnID(), updatedUser);
 						}
 					}
 				});
@@ -757,7 +753,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.CreateGrave p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				User user = users.get(p.connID);
+				User user = usm.getUsers().get(p.connID);
 				if (null != user) {
 					cs.addPacketEffect(() -> {
 						ReviveGravestone grave = new ReviveGravestone(cs, p.pos, user, p.connID, p.returnMaxTimer, null);
@@ -816,7 +812,7 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 
 					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, null,
-							true, p.connID == connID, false, p.hitboxFilter);
+							true, p.connID == usm.getConnID(), false, p.hitboxFilter);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
@@ -825,7 +821,7 @@ public class KryoClient {
 					newPlayer.setScaleModifier(p.scaleModifier);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
 
-					if (p.connID == connID) {
+					if (p.connID == usm.getConnID()) {
 						cs.setPlayer(newPlayer);
 
 						if (!p.dontMoveCamera) {
@@ -836,13 +832,13 @@ public class KryoClient {
 					}
 
 					//attach new player to respective user (or create if nonexistent)
-					if (users.containsKey(p.connID)) {
-						users.get(p.connID).setPlayer(newPlayer);
+					if (usm.getUsers().containsKey(p.connID)) {
+						usm.getUsers().get(p.connID).setPlayer(newPlayer);
 					} else {
-						users.put(p.connID, new User(newPlayer, new SavedPlayerFields(p.name, p.connID), new SavedPlayerFieldsExtra()));
+						usm.getUsers().put(p.connID, new User(newPlayer, new SavedPlayerFields(p.name, p.connID), new SavedPlayerFieldsExtra()));
 					}
-					users.get(p.connID).setTeamFilter(p.loadout.team);
-					newPlayer.setUser(users.get(p.connID));
+					usm.getUsers().get(p.connID).setTeamFilter(p.loadout.team);
+					newPlayer.setUser(usm.getUsers().get(p.connID));
 				});
 			}
 			return true;
@@ -933,12 +929,22 @@ public class KryoClient {
 	 */
 	public boolean receiveSyncPacket(Object o) {
 
+		if (o instanceof final PacketsSync.SyncPlayerSnapshot p) {
+			final ClientState cs = getClientState();
+
+			User user = usm.getUsers().get((int) p.connID);
+			if (user != null && cs != null) {
+				Player player = user.getPlayer();
+				if (player != null) {
+					player.onReceiveSync(p, p.timestamp);
+				}
+			}
+		}
+
 		if (o instanceof PacketsSync.SyncEntity p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp);
-				});
+				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
 			}
 			return true;
 		}
@@ -946,9 +952,7 @@ public class KryoClient {
 		else if (o instanceof Packets.SyncSound p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p,p.timestamp);
-				});
+				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p,p.timestamp));
 			}
 			return true;
 		}
@@ -956,9 +960,7 @@ public class KryoClient {
 		else if (o instanceof Packets.SyncPickup p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp);
-				});
+				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
 			}
 			return true;
 		}
@@ -1001,20 +1003,6 @@ public class KryoClient {
 		cs.getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
 	}
 
-	/**
-	 * This returns the number of non-spectator, non-bot players. used to determine boss hp scaling.
-	 */
-	public int getNumPlayers() {
-		int playerNum = 0;
-
-		for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
-			if (!conn.value.isSpectator() && 0.0f <= conn.key) {
-				playerNum++;
-			}
-		}
-		return playerNum;
-	}
-
 	private void registerPackets() {
 		Kryo kryo = client.getKryo();
 		Packets.allPackets(kryo);
@@ -1033,6 +1021,4 @@ public class KryoClient {
 	}
 	
 	public Client getClient() {	return client; }
-
-	public ObjectMap<Integer, User> getUsers() { return users; }
 }

@@ -41,8 +41,8 @@ public class DamageThresholdDie extends HitboxStrategy {
 
 		//the hbox will start flashing when it has received too much damage in a short period of time
 		if (damageCurrent >= damageThreshold * FLASH_LIFESPAN) {
-			if (hbox.getShaderCount() < -Constants.FLASH) {
-				hbox.setShader(Shader.WHITE, Constants.FLASH);
+			if (hbox.getShaderHelper().getShaderStaticCount() < -Constants.FLASH) {
+				hbox.getShaderHelper().setStaticShader(Shader.WHITE, Constants.FLASH);
 			}
 		}
 	}

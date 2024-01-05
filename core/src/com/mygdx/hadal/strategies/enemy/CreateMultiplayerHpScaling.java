@@ -18,11 +18,7 @@ public class CreateMultiplayerHpScaling extends EnemyStrategy {
 
     @Override
     public void create() {
-        if (state.isServer()) {
-            multiplayerScaling(HadalGame.server.getNumPlayers());
-        } else {
-            multiplayerScaling(HadalGame.client.getNumPlayers());
-        }
+        multiplayerScaling(HadalGame.usm.getNumPlayers());
     }
 
     public void multiplayerScaling(int numPlayers) {

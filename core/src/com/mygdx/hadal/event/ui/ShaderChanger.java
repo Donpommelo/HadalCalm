@@ -8,10 +8,10 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A ShaderChanger changes the shader of the state (the state background).
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event will change the shader.
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * shader: the shader to use, Default: NOTHING
  * 

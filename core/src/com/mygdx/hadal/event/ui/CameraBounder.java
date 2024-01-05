@@ -1,22 +1,22 @@
 package com.mygdx.hadal.event.ui;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A CameraBounder adds movement restrictions to the camera
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event makes changes the properties of the camera.
  * Triggering Behavior: N/A. However, it uses its connected event as a point to make the camera focus on instead. 
- * 
+ * <p>
  * Fields:
- * 
+ * <p>
  * right/left/up/down: Will this set a right/left/up/down bound on the camera (at its own location)
  * spectator: Will this set the camera bounds for normal players or spectators?
  * @author Frabalante Flircester
@@ -71,11 +71,11 @@ public class CameraBounder extends Event {
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true,
-				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
-		this.body.setType(BodyType.KinematicBody);
-		
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, (short) 0, (short) 0)
+				.setBodyType(BodyDef.BodyType.KinematicBody)
+				.addToWorld(world);
+
 		//this line lets player-less spectators have camera bounds when the map does not have spectator-specific bounds
 		if (!state.isSpectatorBounded()) {
 			eventData.onActivate(null, null);

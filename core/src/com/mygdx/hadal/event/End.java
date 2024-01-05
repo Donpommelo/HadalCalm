@@ -6,10 +6,10 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * An End event makes the game end with either a victory or loss.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this will initiate the end of the game.
  * Triggering Behavior: N/A
- *
+ * <p>
  * Fields:
  * text: text that will appear in the results screen
  * 

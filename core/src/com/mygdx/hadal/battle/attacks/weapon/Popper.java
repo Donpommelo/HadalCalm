@@ -56,7 +56,6 @@ public class Popper extends SyncedAttacker {
 
             @Override
             public void create() {
-                super.create();
                 hbox.getBody().setLinearDamping(PROJ_DAMPEN);
             }
 

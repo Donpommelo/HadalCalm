@@ -4,14 +4,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.effects.Shader;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Ragdoll is a miscellaneous entity that doesn't do a whole heck of a lot.
@@ -54,7 +55,7 @@ public class Ragdoll extends HadalEntity {
 
 	//does the ragdoll fade when its lifespan decreases? Only if needed, since fading sets the batch
 	private final boolean fade;
-	private float fadeTransparency = 1.0f;
+	private boolean fadeStarted;
 
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity,
 				   boolean setVelo, boolean sensor, boolean synced, boolean fade) {
@@ -106,8 +107,11 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataType.BODY, this);
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false,
-				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) -1, sensor, hadalData);
+		this.body = new HadalBody(hadalData, startPos, size, BodyConstants.BIT_SENSOR, (short) (BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR), (short) -1)
+				.setFixedRotate(false)
+				.setGravity(gravity)
+				.setSensor(sensor)
+				.addToWorld(world);
 
 		//this makes ragdolls spin and move upon creation
 		setAngularVelocity(startAngle);
@@ -123,8 +127,9 @@ public class Ragdoll extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		if (ragdollDuration <= FADE_LIFESPAN && fade) {
-			fadeTransparency -= delta;
+		if (ragdollDuration <= FADE_LIFESPAN && fade && !fadeStarted) {
+			getShaderHelper().setShader(Shader.FADE, ragdollDuration);
+			fadeStarted = true;
 		}
 
 		ragdollDuration -= delta;
@@ -137,8 +142,9 @@ public class Ragdoll extends HadalEntity {
 	public void clientController(float delta) {
 		super.clientController(delta);
 
-		if (ragdollDuration <= FADE_LIFESPAN && fade) {
-			fadeTransparency -= delta;
+		if (ragdollDuration <= FADE_LIFESPAN && fade && !fadeStarted) {
+			getShaderHelper().setShader(Shader.FADE, ragdollDuration);
+			fadeStarted = true;
 		}
 
 		ragdollDuration -= delta;
@@ -149,12 +155,6 @@ public class Ragdoll extends HadalEntity {
 	
 	@Override
 	public void render(SpriteBatch batch, Vector2 entityLocation) {
-
-		//make ragdoll begin to fade when lifespan is low enough
-		if (fadeTransparency < 1.0f) {
-			batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, Math.max(fadeTransparency, 0.0f));
-		}
-
 		if (ragdollSprite != null) {
 			batch.draw(ragdollSprite,
 					entityLocation.x - size.x / 2, 
@@ -162,10 +162,6 @@ public class Ragdoll extends HadalEntity {
 					size.x / 2, size.y / 2,
 					size.x, size.y, 1, 1,
 				MathUtils.radDeg * getAngle());
-		}
-
-		if (fadeTransparency < 1.0f) {
-			batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, 1.0f);
 		}
 	}
 	

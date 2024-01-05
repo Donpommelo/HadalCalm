@@ -72,7 +72,7 @@ public class DamageStandard extends HitboxStrategy {
 	}
 
 	private final Vector2 kb = new Vector2();
-	private void inflictDamage(HadalData fixB) {
+	public void inflictDamage(HadalData fixB) {
 		if (staticKnockback) {
 			kb.set(fixB.getEntity().getPixelPosition().x - this.hbox.getPixelPosition().x, fixB.getEntity().getPixelPosition().y - this.hbox.getPixelPosition().y);
 			fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), kb.nor().scl(knockback), creator, true,

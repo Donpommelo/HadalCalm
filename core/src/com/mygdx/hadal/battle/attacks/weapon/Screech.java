@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -58,7 +58,7 @@ public class Screech extends SyncedAttacker {
         trail.setEffectsMovement(false);
         trail.makeUnreflectable();
 
-        trail.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+        trail.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 
         trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
         trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance));

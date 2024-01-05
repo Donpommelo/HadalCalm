@@ -2,6 +2,7 @@ package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -9,7 +10,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 
 /**
  * Impermeable units are like invisible units, except they also pass through characters and hitboxes
@@ -36,7 +36,7 @@ public class Impermeable extends Status {
 	public void onInflict() {
 		if (inflicted.getSchmuck().getMainFixture() != null) {
 			Filter filter = inflicted.getSchmuck().getMainFixture().getFilterData();
-			filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_PROJECTILE &~ Constants.BIT_PLAYER &~ Constants.BIT_ENEMY);
+			filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_PROJECTILE &~ BodyConstants.BIT_PLAYER &~ BodyConstants.BIT_ENEMY);
 			inflicted.getSchmuck().getMainFixture().setFilterData(filter);
 		}
 	}
@@ -55,7 +55,7 @@ public class Impermeable extends Status {
 
 		if (inflicted.getSchmuck().getMainFixture() != null) {
 			Filter filter = inflicted.getSchmuck().getMainFixture().getFilterData();
-			filter.maskBits = (short) (filter.maskBits | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY);
+			filter.maskBits = (short) (filter.maskBits | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY);
 			inflicted.getSchmuck().getMainFixture().setFilterData(filter);
 		}
 	}

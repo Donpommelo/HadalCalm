@@ -12,7 +12,7 @@ import com.mygdx.hadal.managers.GameStateManager;
  * @author Pratnip Plumbino
  */
 public abstract class GameState {
-	
+
 	protected final GameStateManager gsm;
 	protected final HadalGame app;
 	protected final SpriteBatch batch;

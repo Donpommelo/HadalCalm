@@ -4,31 +4,31 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.PacketUtil;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.TextUtil;
+import com.mygdx.hadal.utils.b2d.HadalBody;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
-import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
 
 /**
  */
@@ -101,15 +101,19 @@ public class ReviveGravestone extends Event {
 	public void create() {
 
 		this.eventData = new EventData(this);
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, 1.0f, 0, false, true,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0, false, eventData);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, (short) 0)
+				.setGravity(1.0f)
+				.setSensor(false)
+				.addToWorld(world);
 
 		//feetdata is set to make the grave selectively pass through dropthrough platforms
 		EventUtils.addFeetFixture(this);
-
-		FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), true, 0, 0, 0.0f, 1.0f,
-				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0).setUserData(eventData);
+		new HadalFixture(new Vector2(), new Vector2(size),
+				BodyConstants.BIT_SENSOR, (short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR), (short) 0)
+				.setFriction(1.0f)
+				.addToBody(body)
+				.setUserData(eventData);
 	}
 
 	private static final float CHECK_INTERVAL = 0.2f;
@@ -137,12 +141,12 @@ public class ReviveGravestone extends Event {
 
 			queueDeletion();
 
-			if (HadalGame.server.getUsers().containsValue(user, true)) {
+			if (HadalGame.usm.getUsers().containsValue(user, true)) {
 
-				String playerName = WeaponUtils.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH);
+				String playerName = TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH);
 
 				if (lastReviver != null && numReturning > 0) {
-					String reviverName = WeaponUtils.getPlayerColorName(lastReviver, MAX_NAME_LENGTH);
+					String reviverName = TextUtil.getPlayerColorName(lastReviver, MAX_NAME_LENGTH);
 					state.getKillFeed().addNotification(UIText.GRAVE_REVIVER.text(playerName, reviverName), true);
 				} else {
 					state.getKillFeed().addNotification(UIText.GRAVE_REVIVE.text(playerName), true);
@@ -199,7 +203,8 @@ public class ReviveGravestone extends Event {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncFlag(entityID, getPosition(), getLinearVelocity(),
-				state.getTimer(), returnPercent));
+				state.getTimer(),
+				PacketUtil.percentToByte(returnPercent)));
 	}
 
 	@Override

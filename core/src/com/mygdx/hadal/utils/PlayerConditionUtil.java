@@ -2,6 +2,12 @@ package com.mygdx.hadal.utils;
 
 import com.mygdx.hadal.constants.Constants;
 
+/**
+ * "Conditions" are a series of booleans that describe the actions the player is currently engaged in (running, jumping, etc).
+ * This util contains functions that translate these conditions between different data types.
+ * This is used to send this information between server and client to save data
+ *
+ */
 public class PlayerConditionUtil {
 
     public static short conditionToCode(boolean grounded, boolean jumping, boolean running, boolean hovering, boolean invisible,

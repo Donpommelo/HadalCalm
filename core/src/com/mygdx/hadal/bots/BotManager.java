@@ -8,13 +8,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.WorldUtil;
 
@@ -37,7 +37,7 @@ public class BotManager {
      * Run on first tick of server playstate. Initiate all bots
      */
     public static void initiateBots(PlayState state) {
-        for (User user : HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.usm.getUsers().values()) {
             if (0 > user.getScores().getConnID()) {
                 initiateBot(state, user);
             }
@@ -133,7 +133,7 @@ public class BotManager {
                     Math.abs(rallyPoint.y - sourceLocation.y) > MAX_POINT_DISTANCE_CHECK) { continue; }
 
             tempPointLocation.set(rallyPoint);
-            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, Constants.BIT_PLAYER);
+            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, BodyConstants.BIT_PLAYER);
             //dst2 used here to slightly improve performance while being "mostly accurate-ish"
             float currentDistSquared = raycastFraction * raycastFraction * sourceLocation.dst2(tempPointLocation);
 
@@ -169,7 +169,7 @@ public class BotManager {
                     Math.abs(rallyPoint.getPosition().y - sourceLocation.y) > MAX_POINT_DISTANCE_CHECK) { continue; }
 
             tempPointLocation.set(rallyPoint.getPosition());
-            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, Constants.BIT_PLAYER);
+            float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, BodyConstants.BIT_PLAYER);
 
             //if we have a line of sight with the point, check if its distance is less than the nearest point so far
             if (1.0f == raycastFraction) {
@@ -322,7 +322,7 @@ public class BotManager {
         }
         aimTemp.set(targetLocation).add(leadDisplace);
         //if the new aim vector goes through a wall, we want to stop at the wall location
-        float fract = BotManager.raycastUtility(targeter, targetLocation, aimTemp, Constants.BIT_PROJECTILE);
+        float fract = BotManager.raycastUtility(targeter, targetLocation, aimTemp, BodyConstants.BIT_PROJECTILE);
         if (fract < 1.0f) {
             aimTemp.set(targetLocation).add(leadDisplace.scl(fract));
         }
@@ -354,7 +354,7 @@ public class BotManager {
         shortestFraction = 1.0f;
         if (WorldUtil.preRaycastCheck(sourceLocation, endLocation)) {
             targeter.getWorld().rayCast((fixture1, point, normal, fraction) -> {
-                if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL &&
+                if (fixture1.getFilterData().categoryBits == BodyConstants.BIT_WALL &&
                         fixture1.getFilterData().groupIndex != targeter.getHitboxFilter() &&
                         ((fixture1.getFilterData().maskBits | mask) == fixture1.getFilterData().maskBits)) {
                     if (fraction < shortestFraction) {
@@ -369,13 +369,9 @@ public class BotManager {
     }
 
     /**
-     * This initiates a single bot player, setting up their loadout, mouse and score
+     * This initiates a single bot player, setting up their loadout and score
      */
     private static void initiateBot(PlayState state, User user) {
-        Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state);
-
-        user.getScoresExtra().setLoadout(botLoadout);
-
         Player newPlayer = state.createPlayer(null, user.getScores().getName(), user.getScoresExtra().getLoadout(),
                 null, user.getScores().getConnID(), user, true, false, false,
                 user.getHitBoxFilter().getFilter());

@@ -25,7 +25,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.User.UserDto;
+import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
@@ -1104,7 +1104,7 @@ public class Packets {
 		kryo.register(PacketsSync.SyncEntityAngled.class);
 		kryo.register(PacketsSync.SyncSchmuck.class);
 		kryo.register(PacketsSync.SyncSchmuckAngled.class);
-		kryo.register(PacketsSync.SyncPlayer.class);
+		kryo.register(PacketsSync.SyncPlayerSnapshot.class);
 		kryo.register(PacketsSync.SyncClientSnapshot.class);
 		kryo.register(PacketsSync.SyncParticles.class);
 		kryo.register(PacketsSync.SyncParticlesExtra.class);

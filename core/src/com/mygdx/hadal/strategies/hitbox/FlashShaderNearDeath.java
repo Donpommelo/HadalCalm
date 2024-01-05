@@ -24,8 +24,8 @@ public class FlashShaderNearDeath extends HitboxStrategy {
 	@Override
 	public void controller(float delta) {
 		if (hbox.getLifeSpan() <= flashLifespan) {
-			if (hbox.getShaderCount() < -Constants.FLASH) {
-				hbox.setShader(Shader.WHITE, Constants.FLASH);
+			if (hbox.getShaderHelper().getShaderStaticCount() < -Constants.FLASH) {
+				hbox.getShaderHelper().setStaticShader(Shader.WHITE, Constants.FLASH);
 			}
 		}
 	}

@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.utils.PacketUtil;
 
 public class MovementFloat extends EnemyStrategy {
 
@@ -115,7 +117,9 @@ public class MovementFloat extends EnemyStrategy {
     public Object onServerSync() {
         if (enemy.getBody() != null) {
             return new PacketsSync.SyncSchmuckAngled(enemy.getEntityID(), enemy.getPosition(), enemy.getLinearVelocity(),
-                    state.getTimer(), enemy.getMoveState(), enemy.getBodyData().getCurrentHp(), enemy.getAngle());
+                    state.getTimer(), enemy.getMoveState(),
+                    PacketUtil.percentToByte(enemy.getBodyData().getCurrentHp() / enemy.getBodyData().getStat(Stats.MAX_HP)),
+                    enemy.getAngle());
         }
         return null;
     }

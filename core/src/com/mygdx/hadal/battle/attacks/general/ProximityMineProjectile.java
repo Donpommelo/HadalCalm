@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
@@ -59,7 +59,7 @@ public class ProximityMineProjectile extends SyncedAttacker {
                 super.render(batch, entityLocation);
             }
         };
-        hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL | Constants.BIT_PLAYER));
+        hbox.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_DROPTHROUGHWALL | BodyConstants.BIT_PLAYER));
         hbox.makeUnreflectable();
         hbox.setGravity(3.0f);
         hbox.setSyncDefault(false);

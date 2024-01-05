@@ -8,10 +8,10 @@ import com.mygdx.hadal.utils.CameraUtil;
 
 /**
  * A CameraShaker shakes the camera. This is used for things like boss entrances.
- *
+ * <p>
  * Triggered Behavior: When triggered, this event shakes the camera
  * Triggering Behavior: N/A.
- *
+ * <p>
  * Fields:
  * shake: float amount to shake the camera by. This shake is applied repeatedly
  * duration: float second duration that the camera will shake

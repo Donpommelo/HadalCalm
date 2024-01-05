@@ -2,7 +2,9 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
@@ -14,15 +16,15 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * This event heals all schmucks inside of it. It is usually created temporarily from the effects 
  * of attacks
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * heal: float heal per 1/60f done by this event
  * filter: short of who this event affects. Default: 0 (all units).
@@ -75,8 +77,10 @@ public class HealingArea extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false,
-				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR,
+				(short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY), filter)
+				.setBodyType(BodyDef.BodyType.StaticBody)
+				.addToWorld(world);
 	}
 	
 	private final Vector2 entityLocation = new Vector2();

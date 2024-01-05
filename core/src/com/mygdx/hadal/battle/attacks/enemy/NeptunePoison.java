@@ -3,7 +3,7 @@ package com.mygdx.hadal.battle.attacks.enemy;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -38,7 +38,7 @@ public class NeptunePoison extends SyncedAttacker {
 
         RangedHitbox poison = new RangedHitbox(state, startPosition, POISON_SIZE, POISON_1_LIFESPAN,
                 new Vector2(0, -POISON_BREATH_SPEED), user.getHitboxFilter(), true, false, user, Sprite.NOTHING);
-        poison.setPassability(Constants.BIT_WALL);
+        poison.setPassability(BodyConstants.BIT_WALL);
         poison.makeUnreflectable();
 
         poison.addStrategy(new ControllerDefault(state, poison, user.getBodyData()));

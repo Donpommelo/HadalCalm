@@ -20,7 +20,7 @@ public class PepperActivate extends SyncedAttacker {
                     if (fixture.getUserData() instanceof BodyData bodyData) {
                         if (bodyData.getSchmuck().getHitboxFilter() != user.getHitboxFilter()) {
                             bodyData.receiveDamage(DAMAGE, new Vector2(), user.getBodyData(), true, null, DamageSource.PEPPER);
-                            bodyData.getSchmuck().setShader(Shader.STATIC, EFFECT_DURATION);
+                            bodyData.getSchmuck().getShaderHelper().setShader(Shader.STATIC, EFFECT_DURATION);
                         }
                     }
                     return true;

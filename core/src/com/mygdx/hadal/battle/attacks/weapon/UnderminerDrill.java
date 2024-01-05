@@ -9,7 +9,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -58,7 +58,7 @@ public class UnderminerDrill extends SyncedAttacker {
 
         Hitbox hbox = new Hitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 true, true, user, PROJ_SPRITE);
-        hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL));
+        hbox.setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_SENSOR | BodyConstants.BIT_DROPTHROUGHWALL));
         hbox.setSpriteSize(PROJECTILE_SPRITE_SIZE);
         hbox.setGravity(3.0f);
 
@@ -108,7 +108,7 @@ public class UnderminerDrill extends SyncedAttacker {
 
                             if (WorldUtil.preRaycastCheck(entityLocation, angle)) {
                                 state.getWorld().rayCast((fixture, point, normal, fraction) -> {
-                                    if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
+                                    if (fixture.getFilterData().categoryBits == BodyConstants.BIT_WALL) {
                                         wallDetected = true;
                                     }
                                     return -1.0f;

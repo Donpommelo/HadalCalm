@@ -2,14 +2,14 @@ package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -20,9 +20,9 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.TextUtil;
+import com.mygdx.hadal.utils.b2d.HadalBody;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
@@ -84,22 +84,25 @@ public class CrownHoldable extends Event {
 
 							//a player captures the crown. Alert players.
 							body.setGravityScale(0.0f);
-							String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
+							String playerName = TextUtil.getPlayerColorName(target, MAX_NAME_LENGTH);
 							state.getKillFeed().addNotification(UIText.KM_PICKUP.text(playerName), true);
 						}
 					}
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0.0f, 1.0f, 0, false, true,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0, false, eventData);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, (short) 0)
+				.setSensor(false)
+				.addToWorld(world);
 
 		//feetdata is set to make the flag selectively pass through dropthrough platforms
 		EventUtils.addFeetFixture(this);
-
-		FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), true, 0, 0, 0.0f, 1.0f,
-				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0).setUserData(eventData);
+		new HadalFixture(new Vector2(), new Vector2(size),
+				BodyConstants.BIT_SENSOR, (short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR), (short) 0)
+				.setFriction(1.0f)
+				.addToBody(body)
+				.setUserData(eventData);
 	}
 
 	private final Vector2 hbLocation = new Vector2();
@@ -164,10 +167,10 @@ public class CrownHoldable extends Event {
 	public void onServerSync() {
 		if (captured) {
 			state.getSyncPackets().add(new PacketsSync.SyncFlagAttached(entityID, target.getEntityID(), getPosition(), getLinearVelocity(),
-					state.getTimer(), 0.0f));
+					state.getTimer(), (byte) 0));
 		} else {
 			state.getSyncPackets().add(new PacketsSync.SyncFlag(entityID, getPosition(), getLinearVelocity(),
-					state.getTimer(), 0.0f));
+					state.getTimer(), (byte) 0));
 		}
 	}
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -11,14 +12,13 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
 
 /**
  * A Wall is a solid wall parsed from polylines from tiled. This is a version that the player can drop through.
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A.
- * 
+ * <p>
  * Fields:
  * @author Hizarus Hirfinitzel
  */
@@ -52,7 +52,7 @@ public class WallDropthrough extends Event {
 							if (p.getFastfallHelper().isFastFalling()) { return; }
 						}
 						Filter filter = entity.getMainFixture().getFilterData();
-						filter.maskBits = (short) (filter.maskBits | Constants.BIT_DROPTHROUGHWALL);
+						filter.maskBits = (short) (filter.maskBits | BodyConstants.BIT_DROPTHROUGHWALL);
 						entity.getMainFixture().setFilterData(filter);
 
 						feet.getTerrain().add(this.event);
@@ -71,7 +71,7 @@ public class WallDropthrough extends Event {
 						
 						if (feet.getTerrain().size == 1) {
 							Filter filter = entity.getMainFixture().getFilterData();
-							filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
+							filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_DROPTHROUGHWALL);
 							entity.getMainFixture().setFilterData(filter);
 						}
 
@@ -86,7 +86,7 @@ public class WallDropthrough extends Event {
 			@Override
 			public void onInteract(Player p) {
 				Filter filter = p.getMainFixture().getFilterData();
-				filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
+				filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_DROPTHROUGHWALL);
 				p.getMainFixture().setFilterData(filter);
 			}
 			
@@ -97,8 +97,8 @@ public class WallDropthrough extends Event {
         body = state.getWorld().createBody(bdef);
         body.createFixture(shape, 1.0f);
         Filter filter = new Filter();
-		filter.categoryBits = Constants.BIT_DROPTHROUGHWALL;
-		filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_PROJECTILE);
+		filter.categoryBits = BodyConstants.BIT_DROPTHROUGHWALL;
+		filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PLAYER | BodyConstants.BIT_PROJECTILE);
         body.getFixtureList().get(0).setFilterData(filter);
         body.getFixtureList().get(0).setUserData(eventData);
 

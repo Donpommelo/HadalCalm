@@ -22,10 +22,10 @@ public class Boiler extends RangedWeapon {
 	private static final float PROJECTILE_SPEED = 48.0f;
 
 	private static final Vector2 PROJECTILE_SIZE = BoilerFire.PROJECTILE_SIZE;
-	private static final float lifespan = BoilerFire.LIFESPAN;
-	private static final float baseDamage = BoilerFire.BASE_DAMAGE;
-	private static final float fireDuration = BoilerFire.FIRE_DURATION;
-	private static final float fireDamage = BoilerFire.FIRE_DAMAGE;
+	private static final float LIFESPAN = BoilerFire.LIFESPAN;
+	private static final float BASE_DAMAGE = BoilerFire.BASE_DAMAGE;
+	private static final float FIRE_DURATION = BoilerFire.FIRE_DURATION;
+	private static final float FIRE_DAMAGE = BoilerFire.FIRE_DAMAGE;
 	
 	private static final Sprite WEAPON_SPRITE = Sprite.MT_BOILER;
 	private static final Sprite EVENT_SPRITE = Sprite.P_BOILER;
@@ -34,7 +34,7 @@ public class Boiler extends RangedWeapon {
 	
 	public Boiler(Player user) {
 		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, lifespan);
+				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
 	}
 	
 	@Override
@@ -73,9 +73,9 @@ public class Boiler extends RangedWeapon {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) baseDamage),
-				String.valueOf(fireDuration),
-				String.valueOf((int) fireDamage),
+				String.valueOf((int) BASE_DAMAGE),
+				String.valueOf(FIRE_DURATION),
+				String.valueOf((int) FIRE_DAMAGE),
 				String.valueOf(CLIP_SIZE),
 				String.valueOf(AMMO_SIZE),
 				String.valueOf(RELOAD_TIME),

@@ -4,29 +4,29 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
 
 /**
  * This is a platform that continuously moves towards its connected event.
- * 
+ * <p>
  * Triggered Behavior: When triggered, the platform's connected event will be set to the event that triggered it.
  * Triggering Behavior: This event will move continually to the position of its connected event. When it touches its connected event,
  * 	the platform will set its connected event to its connected event's connected event if possible .
- * 
+ * <p>
  * Fields:
  * speed: float determining the platform's speed. Optional. Default: 1.0f
  * pause: boolean of whether the platform will stop moving if it activates an event. Default false.
  * syncConnected: boolean of whether events connected to this should be synced with the client or not. Default true
- * 
+ * <p>
  * connections: This is a comma-separated list of triggeredIds of events that are "connected" to this platform and will move along it.
  * 	NOTES: DO NOT CONNECT ANY EVENTS THAT DO NOT HAVE A BODY; TIMERS, COUNTERS, ETC.
  * 
@@ -57,10 +57,11 @@ public class MovingPoint extends Event {
 				needsToStartMoving = true;
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true,
-				Constants.BIT_SENSOR, (short) 0, (short) 0, false, eventData);
-		this.body.setType(BodyDef.BodyType.KinematicBody);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, (short) 0, (short) 0)
+				.setBodyType(BodyDef.BodyType.KinematicBody)
+				.setSensor(false)
+				.addToWorld(world);
 	}
 
 

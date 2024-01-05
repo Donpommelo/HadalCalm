@@ -1,12 +1,12 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
@@ -34,7 +34,7 @@ public class CarryingFlag extends Status {
 
 		//on death, notify players that flag was dropped
 		if (perp instanceof PlayerBodyData playerData) {
-			String playerName = WeaponUtils.getPlayerColorName(playerData.getPlayer(), MAX_NAME_LENGTH);
+			String playerName = TextUtil.getPlayerColorName(playerData.getPlayer(), MAX_NAME_LENGTH);
 			state.getKillFeed().addNotification(UIText.CTF_DEFENDED.text(playerName), true);
 		}
 	}

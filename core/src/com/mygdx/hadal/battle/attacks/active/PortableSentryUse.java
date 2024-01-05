@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -41,7 +41,7 @@ public class PortableSentryUse extends SyncedAttacker {
 
         Hitbox hbox = new RangedHitbox(state, user.getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, new Vector2(0, -PROJECTILE_SPEED),
                 user.getHitboxFilter(), false, false, user, PROJ_SPRITE);
-        hbox.setPassability((short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL));
+        hbox.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_DROPTHROUGHWALL));
         hbox.setGravity(3.0f);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

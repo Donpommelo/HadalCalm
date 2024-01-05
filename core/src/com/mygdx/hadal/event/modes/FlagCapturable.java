@@ -3,15 +3,16 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -25,10 +26,10 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.CarryingFlag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.PacketUtil;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.TextUtil;
+import com.mygdx.hadal.utils.b2d.HadalBody;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
@@ -136,7 +137,7 @@ public class FlagCapturable extends Event {
 										target.getPlayerData().addStatus(flagDebuff);
 
 										event.getBody().setGravityScale(0.0f);
-										String playerName = WeaponUtils.getPlayerColorName(target, MAX_NAME_LENGTH);
+										String playerName = TextUtil.getPlayerColorName(target, MAX_NAME_LENGTH);
 										state.getKillFeed().addNotification(UIText.CTF_PICKUP.text(playerName), true);
 
 										spawner.setFlagPresent(false);
@@ -156,15 +157,19 @@ public class FlagCapturable extends Event {
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0.0f, 1.0f, 0, false, true,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0, false, eventData);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, (short) 0)
+				.setBodyType(BodyDef.BodyType.DynamicBody)
+				.setSensor(false)
+				.addToWorld(world);
 
 		//feetdata is set to make the flag selectively pass through dropthrough platforms
 		EventUtils.addFeetFixture(this);
-
-		FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), true, 0, 0, 0.0f, 1.0f,
-				Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0).setUserData(eventData);
+		new HadalFixture(new Vector2(), new Vector2(size),
+				BodyConstants.BIT_SENSOR, (short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR), (short) 0)
+				.setFriction(1.0f)
+				.addToBody(body)
+				.setUserData(eventData);
 	}
 
 	private static final float CHECK_INTERVAL = 0.2f;
@@ -194,7 +199,7 @@ public class FlagCapturable extends Event {
 					particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
 
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-					teamColor = WeaponUtils.getColorName(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon(), teamColor);
+					teamColor = TextUtil.getColorName(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon(), teamColor);
 					state.getKillFeed().addNotification(UIText.CTF_RETURNED.text(teamColor), true);
 				}
 			}
@@ -271,10 +276,10 @@ public class FlagCapturable extends Event {
 	public void onServerSync() {
 		if (captured) {
 			state.getSyncPackets().add(new PacketsSync.SyncFlagAttached(entityID, target.getEntityID(), getPosition(), getLinearVelocity(),
-					state.getTimer(), returnPercent));
+					state.getTimer(), PacketUtil.percentToByte(returnPercent)));
 		} else {
 			state.getSyncPackets().add(new PacketsSync.SyncFlag(entityID, getPosition(), getLinearVelocity(),
-					state.getTimer(), returnPercent));
+					state.getTimer(), PacketUtil.percentToByte(returnPercent)));
 		}
 	}
 

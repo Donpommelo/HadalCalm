@@ -7,10 +7,10 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * Pushers apply a push to another event or the player if there are no connected events
- * 
+ * <p>
  * Triggered Behavior: When triggered, apply a push to the target
  * Triggering Behavior: If existent, the event that a push is applied to. 
- * 
+ * <p>
  * Fields:
  * xPush: float x component of push applied. Default: 0.0f
  * yPush: float y component of push applied. Default: 0.0f

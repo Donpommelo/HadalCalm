@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -11,7 +12,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
-import com.mygdx.hadal.constants.Constants;
 
 public class CarlocsThesis extends Artifact {
 
@@ -48,7 +48,7 @@ public class CarlocsThesis extends Artifact {
 					hbox = new Hitbox(state, p.getSchmuck().getPixelPosition(), size, 0, new Vector2(),
 							p.getSchmuck().getHitboxFilter(), true, false, p.getSchmuck(), Sprite.NOTHING);
 					hbox.makeUnreflectable();
-					hbox.setPassability(Constants.BIT_PROJECTILE);
+					hbox.setPassability(BodyConstants.BIT_PROJECTILE);
 					
 					hbox.addStrategy(new FixedToEntity(state, hbox, p, new Vector2(), new Vector2()));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, p) {

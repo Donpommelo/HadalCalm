@@ -2,13 +2,13 @@ package com.mygdx.hadal.strategies.enemy;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.strategies.EnemyStrategy;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.WorldUtil;
 
 public class TargetNoPathfinding extends EnemyStrategy {
@@ -45,7 +45,7 @@ public class TargetNoPathfinding extends EnemyStrategy {
 
                         if (WorldUtil.preRaycastCheck(entityWorldLocation, homeLocation)) {
                             enemy.getWorld().rayCast((fixture1, point, normal, fraction) -> {
-                                if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL && !trackThroughWalls) {
+                                if (fixture1.getFilterData().categoryBits == BodyConstants.BIT_WALL && !trackThroughWalls) {
                                     if (fraction < shortestFraction) {
                                         shortestFraction = fraction;
                                         closestFixture = fixture1;

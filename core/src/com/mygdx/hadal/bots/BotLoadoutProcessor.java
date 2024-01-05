@@ -3,7 +3,7 @@ package com.mygdx.hadal.bots;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
@@ -156,7 +156,7 @@ public class BotLoadoutProcessor {
         int bestSlot = player.getPlayerData().getCurrentSlot();
 
         //find which held weapon has the highest "suitability" based on distance from a living enemy
-        if (BotManager.raycastUtility(player, playerLocation, targetLocation, Constants.BIT_PROJECTILE) == 1.0f && targetAlive
+        if (BotManager.raycastUtility(player, playerLocation, targetLocation, BodyConstants.BIT_PROJECTILE) == 1.0f && targetAlive
                 && Math.abs(playerLocation.x - targetLocation.x) < player.getVisionX()
                 && Math.abs(playerLocation.y - targetLocation.y) <  player.getVisionY()) {
             float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player,
@@ -236,7 +236,7 @@ public class BotLoadoutProcessor {
      */
     public static void processWeaponShooting(PlayerBot player, Equippable weapon, boolean shooting) {
         switch (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass()))) {
-            case BANANA, BATTERING_RAM, CHARGE_BEAM, FLOUNDERBUSS, LOVE_BOW, MAGIC_BEANSTALKER:
+            case BANANA, BATTERING_RAM, CHARGE_BEAM, FLOUNDERBUSS, LOVE_BOW, MAGIC_BEANSTALKER, MIDNIGHT_POOL_CUE:
                 //when attacking, charge weapons should be held until charged when they are released
                 if (shooting) {
                     if (weapon.getChargeCd() >= weapon.getChargeTime()) {
@@ -337,7 +337,7 @@ public class BotLoadoutProcessor {
         if (weapon instanceof final RangedWeapon ranged) {
             switch (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass()))) {
 
-                //spray-type weapons are suitable when firing to avoid switcing immediately after gaining firing status
+                //spray-type weapons are suitable when firing to avoid switching immediately after gaining firing status
                 case COLACANNON, SLODGE_NOZZLE, STUTTERGUN:
                     if (0 == ranged.getClipLeft() && null == player.getPlayerData().getStatus(FiringWeapon.class)) {
                         suitability =  inRange ? 1 : 0;
@@ -379,7 +379,7 @@ public class BotLoadoutProcessor {
 
         //charge weapons and similar weapons are more proaactive
         return switch (Objects.requireNonNull(UnlockEquip.getUnlockFromEquip(weapon.getClass()))) {
-            case BANANA, BATTERING_RAM, CHARGE_BEAM, COLACANNON, FLOUNDERBUSS, LOVE_BOW, MAGIC_BEANSTALKER -> 5;
+            case BANANA, BATTERING_RAM, CHARGE_BEAM, COLACANNON, FLOUNDERBUSS, LOVE_BOW, MAGIC_BEANSTALKER, MIDNIGHT_POOL_CUE -> 5;
             case ASSAULT_BITS, DEEP_SEA_SMELTER -> 1;
             default -> 0;
         };

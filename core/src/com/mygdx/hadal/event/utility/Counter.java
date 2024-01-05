@@ -7,10 +7,10 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A Counter is an event keeps track of the number of times it is triggered and can link to another event after specified numbers of triggerings.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event increments its currentCount field.
  * Triggering Behavior: This event will trigger its connected event when its currentCount field reaches its maxCount field.
- * 
+ * <p>
  * Fields:
  * count: maxCount. When this event is triggered this many times, it will trigger its connected event.
  * countStart: the number that currentCount will start at. Optional. Default: 0

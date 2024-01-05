@@ -1,18 +1,18 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A StartPoint is a place that the player can start at when spawning into a map.
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: This event will be triggered when the player spawns into the map.
- * 
+ * <p>
  * Fields:
  * startId: String id of the start point. Many maps have multiple start points, so these are used to determine which one the player is entering from
  * 
@@ -36,10 +36,10 @@ public class StartPoint extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, true, true,
-				Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
-		body.setType(BodyType.KinematicBody);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, (short) 0, (short) 0)
+				.setBodyType(BodyDef.BodyType.KinematicBody)
+				.addToWorld(world);
 	}
 	
 	@Override

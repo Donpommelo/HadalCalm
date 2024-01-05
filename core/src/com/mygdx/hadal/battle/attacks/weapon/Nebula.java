@@ -29,10 +29,11 @@ public class Nebula extends SyncedAttacker {
     public static final float SPIN_INTERVAL = 0.017f;
 
     public static final float MAX_RANGE = 400.0f;
-    public static final float SPEED_FAST = 18.0f;
+    public static final float MAX_RANGE_GUTTER = 420.0f;
+    public static final float SPEED_FAST = 20.0f;
     public static final float SPEED_SLOW = 8.0f;
     public static final float SPEED_INTERVAL = 1.2f;
-    public static final float RECHARGE_SPEED_MULTIPLIER = 2.0f;
+    public static final float RECHARGE_SPEED_MULTIPLIER = 2.5f;
     public static final float MIN_RETRACT_AGE = 0.5f;
 
     private static final Sprite PROJ_SPRITE = Sprite.NOTHING;
@@ -73,21 +74,28 @@ public class Nebula extends SyncedAttacker {
 
                     homeDifference.set(player.getMouseHelper().getPosition()).sub(hboxPosition);
 
-                    boolean retract;
+                    boolean retract, gutter = false;
                     distance = hboxPosition.dst2(userPosition);
                     hboxAge += delta;
                     if (distance > MAX_RANGE) {
                         retract = true;
-                    } else if (hboxAge < MIN_RETRACT_AGE){
+                        if (distance < MAX_RANGE_GUTTER && player.getShootHelper().isShooting()) {
+                            gutter = true;
+                        }
+                    } else if (hboxAge < MIN_RETRACT_AGE) {
                         retract = false;
                     } else {
                         retract = !player.getShootHelper().isShooting();
                     }
 
                     if (retract) {
-                        homingSpeed = Math.min(SPEED_FAST, homingSpeed + delta * RECHARGE_SPEED_MULTIPLIER *
-                                (SPEED_FAST - SPEED_SLOW) / SPEED_INTERVAL);
-                        hbox.setLinearVelocity(userPosition.sub(hboxPosition).nor().scl(SPEED_FAST));
+                        if (gutter) {
+                            hbox.setLinearVelocity(0, 0);
+                        } else {
+                            homingSpeed = Math.min(SPEED_FAST, homingSpeed + delta * RECHARGE_SPEED_MULTIPLIER *
+                                    (SPEED_FAST - SPEED_SLOW) / SPEED_INTERVAL);
+                            hbox.setLinearVelocity(userPosition.sub(hboxPosition).nor().scl(homingSpeed));
+                        }
                     } else {
                         homingSpeed = Math.max(SPEED_SLOW, homingSpeed - delta * (SPEED_FAST - SPEED_SLOW) / SPEED_INTERVAL);
                         homeDifference.nor().scl(homingSpeed);

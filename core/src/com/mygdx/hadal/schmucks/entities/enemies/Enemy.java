@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.bots.BotManager;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
@@ -23,7 +23,7 @@ import com.mygdx.hadal.strategies.EnemyStrategy;
 import com.mygdx.hadal.strategies.enemy.FollowRallyPoints;
 import com.mygdx.hadal.strategies.enemy.TargetNoPathfinding;
 import com.mygdx.hadal.strategies.enemy.TargetPathfinding;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * enemies are schmucks that attack the player.
@@ -101,8 +101,10 @@ public class Enemy extends Schmuck {
 	public void create() {
 		super.create();
 		
-		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, 0, false, true, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
-                hitboxFilter, false, getBodyData());
+		this.body = new HadalBody(getBodyData(), startPos, hboxSize, BodyConstants.BIT_ENEMY,
+				(short) (BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE), hitboxFilter)
+				.setSensor(false)
+				.addToWorld(world);
 
 		//this also increments player score if coop/single player arena
 		getBodyData().addStatus(new Status(state, getBodyData()) {
@@ -261,7 +263,7 @@ public class Enemy extends Schmuck {
 			if (isBoss) {
 
 				//clear the boss ui for clients
-				if (p.currentHp <= 0.0f) {
+				if (p.hpPercent <= 0.0f) {
 					state.clearBoss();
 				}
 			}

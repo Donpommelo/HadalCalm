@@ -5,11 +5,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
@@ -99,19 +99,18 @@ public class DeathTextUtil {
 		return possibleMessages;
 	}
 
-
 	/**
 	 * filter a death message to include perp and vic names.
 	 */
 	public static String filterDeathMessage(Player perp, Player vic, EnemyType type, String message) {
 
-		String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
+		String vicName = TextUtil.getPlayerColorName(vic, MAX_NAME_LENGTH);
 		String perpName = "";
 		if (null != type) {
 			perpName = type.getName();
 		}
 		if (null != perp) {
-			perpName = WeaponUtils.getPlayerColorName(perp, MAX_NAME_LENGTH);
+			perpName = TextUtil.getPlayerColorName(perp, MAX_NAME_LENGTH);
 		}
 
 		String filteredMessage = message.replaceAll("<vic>", vicName);
@@ -124,8 +123,8 @@ public class DeathTextUtil {
 	 */
 	public static String getDeathTextAbridged(Player perp, Player vic, EnemyType type) {
 
-		String vicName = WeaponUtils.getPlayerColorName(vic, MAX_NAME_LENGTH);
-		String perpName = WeaponUtils.getPlayerColorName(perp, MAX_NAME_LENGTH);
+		String vicName = TextUtil.getPlayerColorName(vic, MAX_NAME_LENGTH);
+		String perpName = TextUtil.getPlayerColorName(perp, MAX_NAME_LENGTH);
 
 		if (null != perp) {
 			if (perp.getConnID() == vic.getConnID()) {

@@ -7,10 +7,10 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * The Timer keeps track of time.
- * 
+ * <p>
  * Triggered Behavior: When triggered, the timer will stop or start. This resets the timer
  * Triggering Behavior: When the timer reaches a specified value, this event will trigger its connected event
- * 
+ * <p>
  * Fields:
  * interval: The time in seconds before this activates its connected event.
  * startOn: Does this timer start on or off? Optional. Default: true

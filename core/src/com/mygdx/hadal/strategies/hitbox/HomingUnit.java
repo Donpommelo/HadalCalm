@@ -2,6 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -98,7 +99,7 @@ public class HomingUnit extends HitboxStrategy {
 
 					if (WorldUtil.preRaycastCheck(entityLocation, homeLocation)) {
 						  hbox.getWorld().rayCast((fixture1, point, normal, fraction) -> {
-							  if (fixture1.getFilterData().categoryBits == Constants.BIT_WALL) {
+							  if (fixture1.getFilterData().categoryBits == BodyConstants.BIT_WALL) {
 								  if (fraction < shortestFraction) {
 									  shortestFraction = fraction;
 									  closestFixture = fixture1;

@@ -17,8 +17,6 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
 sourceCompatibility = 16.0
 
-project.ext.assetsDir = new File("../core/assets")
-
 dependencies {
     implementation project(":core")
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
@@ -41,8 +39,6 @@ jar {
     dependsOn configurations.runtimeClasspath
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     exclude('linux/arm32/**', 'linux/arm64/**', 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
-
-    from files(project.assetsDir)
 
 //    project.delete("../core/assets/save/ChatLog.json")
 //    project.delete("../core/assets/save/Loadout.json")
@@ -74,11 +70,11 @@ jpackageImage.dependsOn jar
 
 runtime {
     options.set(['--strip-debug',
-               '--compress', '2',
-               '--no-header-files',
-               '--no-man-pages',
-               '--strip-native-commands',
-               '--vm', 'server'])
+                 '--compress', '2',
+                 '--no-header-files',
+                 '--no-man-pages',
+                 '--strip-native-commands',
+                 '--vm', 'server'])
 
     modules.set([
             'java.base',

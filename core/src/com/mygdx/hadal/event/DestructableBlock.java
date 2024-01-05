@@ -2,13 +2,17 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -16,16 +20,14 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * This is a block that can be destroyed.
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: Upon being destroyed, the destructible rock will trigger its connected event.
- * 
+ * <p>
  * Fields:
  * Hp: The integer number of Hp this event has before being destroyed.
  * 
@@ -34,7 +36,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class DestructableBlock extends Event {
 
 	//pseudo-hp. This event does not proc on-damage effects but can be destroyed.
-	private int hp;
+	private float hp;
 	
 	//does this event stay in place or is it affected by physics?
 	private final boolean isStatic;
@@ -61,7 +63,7 @@ public class DestructableBlock extends Event {
 					if (standardParticle != null) {
 						standardParticle.onForBurst(0.5f);
 					}
-					event.setShader(Shader.WHITE, Constants.FLASH);
+					event.getShaderHelper().setStaticShader(Shader.WHITE, Constants.FLASH);
 				}
 				
 				if (hp <= 0 && state.isServer()) {
@@ -78,10 +80,15 @@ public class DestructableBlock extends Event {
 				return basedamage;
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0, isStatic, true, 
-				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
-				(short) 0, false, eventData);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_WALL,
+				(short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR),
+				(short) 0)
+				.setBodyType(isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody)
+				.setGravity(gravity)
+				.setSensor(false)
+				.setFriction(1.0f)
+				.addToWorld(world);
 	}
 
 	@Override

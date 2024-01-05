@@ -25,6 +25,7 @@ public enum DamageSource {
     BANANA(DamageSourceType.WEAPON, GameText.WEAPON_BANANA),
     BATTERING_RAM(DamageSourceType.WEAPON, GameText.BATTERING_RAM),
     BEE_GUN(DamageSourceType.WEAPON, GameText.BEE_GUN),
+    BLOODLETTER(DamageSourceType.WEAPON, GameText.BLOODLETTER),
     BOILER(DamageSourceType.WEAPON, GameText.BOILER),
     BOOMERANG(DamageSourceType.WEAPON, GameText.BOOMERANG),
     BOUNCING_BLADES(DamageSourceType.WEAPON, GameText.BOUNCING_BLADES),
@@ -46,10 +47,12 @@ public enum DamageSource {
     KILLER_BEAT(DamageSourceType.WEAPON, GameText.KILLER_BEAT),
     LASER_GUIDED_ROCKET(DamageSourceType.WEAPON, GameText.LASER_GUIDED_ROCKET),
     LASER_RIFLE(DamageSourceType.WEAPON, GameText.LASER_RIFLE),
+    LEAPFROGGER(DamageSourceType.WEAPON, GameText.LEAPFROGGER),
     LOVE_BOW(DamageSourceType.WEAPON, GameText.LOVE_BOW),
     MACHINE_GUN(DamageSourceType.WEAPON, GameText.MACHINE_GUN),
     MAELSTROM(DamageSourceType.WEAPON, GameText.MAELSTROM),
     MAGIC_BEANSTALKER(DamageSourceType.WEAPON, GameText.MAGIC_BEANSTALKER),
+    MIDNIGHT_POOL_CUE(DamageSourceType.WEAPON, GameText.MIDNIGHT_POOL_CUE),
     MINIGUN(DamageSourceType.WEAPON, GameText.MINIGUN),
     MORAYGUN(DamageSourceType.WEAPON, GameText.MORAYGUN),
     MORNING_STAR(DamageSourceType.WEAPON, GameText.MORNING_STAR),
@@ -67,6 +70,7 @@ public enum DamageSource {
     SLODGE_NOZZLE(DamageSourceType.WEAPON, GameText.SLODGE_NOZZLE),
     SNIPER_RIFLE(DamageSourceType.WEAPON, GameText.SNIPER_RIFLE),
     SPEARGUN(DamageSourceType.WEAPON, GameText.SPEARGUN),
+    SPIRIT_BOMB(DamageSourceType.WEAPON, GameText.SPIRIT_BOMB),
     STICKYBOMB_LAUNCHER(DamageSourceType.WEAPON, GameText.STICKYBOMB_LAUNCHER),
     STUTTERGUN(DamageSourceType.WEAPON, GameText.STUTTERGUN),
     TESLA_COIL(DamageSourceType.WEAPON, GameText.TESLA_COIL),
@@ -133,7 +137,7 @@ public enum DamageSource {
 
     DamageSource(DamageSourceType type) {
         this.type = type;
-        this.text = toString();
+        this.text = type.getText();
     }
 
     DamageSource(DamageSourceType type, GameText text) {
@@ -145,7 +149,7 @@ public enum DamageSource {
      * @return the text that shows up in the kill feed; contains the source name as well as its type
      */
     public String getKillSource() {
-        if (DamageSourceType.MISC == type || DamageSourceType.ENEMY == type) {
+        if (DamageSourceType.MISC == type || DamageSourceType.ENEMY == type || DamageSourceType.ENVIRONMENT == type) {
             return text;
         } else {
             return text + " (" + type.getText() + ")";

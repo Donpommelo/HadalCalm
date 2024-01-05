@@ -133,16 +133,6 @@ public class BotControllerPlayer extends BotController {
         BotLoadoutProcessor.processActiveItem(player, player.getPlayerData().getActiveItem(), shooting, distanceSquared);
     }
 
-    @Override
-    public HadalEntity findTarget() {
-        HadalEntity target = null;
-
-        if (BotMood.SEEK_EVENT.equals(currentMood)) {
-            target = eventTarget;
-        }
-        return target;
-    }
-
     //these thresholds determine when the bot will fastfall (must be above their destination and not moving too fast already)
     private static final float FASTFALL_DIST_THRESHOLD = 6.0f;
     private static final float FASTFALL_VELO_THRESHOLD = -30.0f;

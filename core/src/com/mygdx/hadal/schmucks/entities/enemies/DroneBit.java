@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
@@ -67,7 +68,7 @@ public class DroneBit extends EnemySwimming {
 		super.create();
 		
 		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE);
+		filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE);
 		getMainFixture().setFilterData(filter);
 		
 		getBodyData().addStatus(new Invulnerability(state, 0.1f, getBodyData(), getBodyData()));

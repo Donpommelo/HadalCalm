@@ -6,7 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -67,7 +67,7 @@ public class Laser extends SyncedAttacker {
         hbox.setPositionBasedOnUser(true);
         hbox.makeUnreflectable();
 
-        hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+        hbox.setPassability((short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_WALL));
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.LASER_RIFLE,
@@ -84,7 +84,7 @@ public class Laser extends SyncedAttacker {
         trail.setEffectsMovement(false);
         trail.makeUnreflectable();
 
-        trail.setPassability((short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+        trail.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 
         trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
         trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance));

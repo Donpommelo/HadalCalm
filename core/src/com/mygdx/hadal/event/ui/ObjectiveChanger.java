@@ -9,10 +9,10 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * An ObjectiveChanger creates an extra ui element that can track the location of an off-screen event and shows the
  * player the direction to it in the perimeter of the screen.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event makes the objective ui track the connected event.
  * Triggering Behavior: N/A. However, it uses its connected event as a point to make the ui element track
- * 
+ * <p>
  * Fields:
  * displayOffScreen: boolean of whether to display the ui marker in the corner of the screen when it is off screen. Default: false
  * displayOnScreen: boolean of whether to display the ui marker on the objective when it is on screen. Default: false

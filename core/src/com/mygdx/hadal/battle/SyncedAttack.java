@@ -25,7 +25,7 @@ import java.util.UUID;
  * sound, particles etc. This is used to only send one packet when an attack is executed rather than multiple for each
  * part of the attack. Additionally, this allows for more specific hbox behavior that would be difficult to synchronize
  * with client illusions.
- *
+ * <p>
  * As of 1.0.8, these also send info from client to server and can send hitbox-less packets.
  */
 public enum SyncedAttack {
@@ -36,6 +36,7 @@ public enum SyncedAttack {
     BANANA(new BananaProjectile()),
     BATTERING(new Batter()),
     BEE(new Bee(DamageSource.BEE_GUN)),
+    BLOODLETTER(new BloodletterProjectile()),
     BOILER_FIRE(new BoilerFire()),
     BOMB(new Bomb(DamageSource.ANARCHISTS_COOKBOOK)),
     BOOMERANG(new BoomerangProjectile()),
@@ -48,6 +49,7 @@ public enum SyncedAttack {
     DIAMOND_CUTTER(new DiamondCutterProjectile()),
     DIATOM(new Diatom()),
     DUELING_CORK(new DuelingCork()),
+    ETHEREAL_HAUNT(new SpiritBombProjectile()),
     FIST(new Fist()),
     FLOUNDER(new Flounder()),
     FUGU(new Fugu()),
@@ -59,6 +61,7 @@ public enum SyncedAttack {
     KILLER_NOTES(new KillerNotes()),
     LASER(new Laser()),
     LASER_GUIDED_ROCKET(new LaserGuidedRocketProjectile()),
+    LEAPFROG(new Leapfrog()),
     LOVE_ARROW(new LoveArrow()),
     MACHINE_GUN_BULLET(new MachineGunBullet()),
     MAELSTROM(new MaelstromProjectile()),
@@ -69,7 +72,9 @@ public enum SyncedAttack {
     NEMATOCYTE(new Nematocyte()),
     PEARL(new Pearl()),
     PEPPER(new Pepper()),
+    POOL_BALL(new PoolBall()),
     POPPER(new Popper()),
+    PROLIFERATOR(new ProliferatorProjectile()),
     PUFFBALL(new Puffball()),
     RECOMBINANT_SHOT(new RecombinantShot()),
     RETICLE_STRIKE(new ReticleStrikeProjectile()),

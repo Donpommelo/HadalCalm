@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
@@ -129,10 +129,7 @@ public class ParticleEntity extends HadalEntity {
 	private final Vector3 visualBoundsExtension = new Vector3();
 	@Override
 	public void controller(float delta) {
-		
-		//update is needed for certain properties of the effect to work properly (emitter location for culling purposes)
-		effect.update(delta);
-		
+
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {

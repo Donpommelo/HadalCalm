@@ -13,23 +13,23 @@ import com.mygdx.hadal.constants.Stats;
 
 /**
  * A PlayerChanger changes some property of the player (Hp, fuel, scrap, maybe other stuff we add later?)
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event makes changes the properties of the player.
  * Triggering Behavior: Ok, this is a weird one. When activated, this event will chain to its connected event if
  * the player change is valid. 
- * 
+ * <p>
  * Example: We want to use this for a medpack that heals the player. The player touches it. We want the medpack to
  * despawn if the player's use of it is valid(ie not already at full health)
- * 
+ * <p>
  * In this case, the Triggering Behavior would be to make the medpack despawn. 
- * 
+ * <p>
  * Also, as an added note, when this event chains, it inputs its activator event, not itself. This is kinda weird and arbitrary
  * but makes it so that event deleters can more easily delete the medpack without the use of an extra alt-trigger.
- * 
+ * <p>
  * I think that the repercussions of this are probably minor, because this event will probably not be changed by downstream events.
- * 
+ * <p>
  * Fields:
- * 
+ * <p>
  * hp: Change the player Hp by this amount. Optional. Default: 0.0f
  * fuel: Change the player Fuel by this amount. Optional. Default: 0.0f
  * ammo: Change the player amo by this amount. Optional. Default: 0.0f

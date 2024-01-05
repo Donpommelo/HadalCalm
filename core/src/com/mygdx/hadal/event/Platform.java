@@ -3,24 +3,24 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Semipermeable wall is a wall that some objects can pass through
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A.
- * 
+ * <p>
  * Fields:
  * restitution: float value of platform bounciness. Default: 0.0f
- * 
+ * <p>
  * wall: Boolean that describes whether walls can pass through this. Default: true
  * player: Boolean that describes whether players can pass through this. Default: true
  * hbox: Boolean that describes whether hitboxes can pass through this. Optional. Default: true
@@ -40,7 +40,7 @@ public class Platform extends Event {
 	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution,
 			boolean wall, boolean player, boolean hbox, boolean event, boolean enemy, int teamIndex) {
 		super(state, startPos ,size);
-		this.filter = (short) ((wall ? Constants.BIT_WALL : 0) | (player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
+		this.filter = (short) ((wall ? BodyConstants.BIT_WALL : 0) | (player ? BodyConstants.BIT_PLAYER : 0) | (hbox ? BodyConstants.BIT_PROJECTILE: 0) | (event ? BodyConstants.BIT_SENSOR : 0) | (enemy ? BodyConstants.BIT_ENEMY : 0));
 		this.restitution = restitution;
 		this.teamIndex = teamIndex;
 	}
@@ -48,9 +48,12 @@ public class Platform extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this, UserDataType.WALL);
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, restitution, false,
-			true, Constants.BIT_WALL, filter, (short) 0, false, eventData);
-		this.body.setType(BodyDef.BodyType.KinematicBody);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_WALL, filter, (short) 0)
+				.setBodyType(BodyDef.BodyType.KinematicBody)
+				.setSensor(false)
+				.setRestitution(restitution)
+				.addToWorld(world);
 	}
 
 	@Override

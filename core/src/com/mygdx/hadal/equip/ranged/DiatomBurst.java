@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.Diatom;
@@ -39,7 +40,7 @@ public class DiatomBurst extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 
-		float effectiveRange = Math.max(Math.min(this.mouseLocation.dst(startPosition), RANGE_MAX), RANGE_MIN);
+		float effectiveRange = MathUtils.clamp(this.mouseLocation.dst(startPosition), RANGE_MIN, RANGE_MAX);
 		effectiveRange = (effectiveRange - RANGE_MIN) / (RANGE_MAX - RANGE_MIN);
 		float cooldown = effectiveRange * (SHOOT_CD_MAX - SHOOT_CD_MIN) + SHOOT_CD_MIN;
 

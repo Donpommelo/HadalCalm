@@ -9,7 +9,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.HubOptionPlayer;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
-import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper;
+import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -51,9 +51,7 @@ public class Dormitory extends HubEvent {
 
 		//if we need to reload sprites (due to color change), clear existing sprites and begin loading new sprites
 		if (lastFilter != state.getPlayer().getPlayerData().getLoadout().team) {
-			for (HubOptionPlayer sprite : sprites) {
-				sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
-			}
+			FrameBufferManager.clearUnusedFrameBuffers();
 			sprites.clear();
 			loadingCharacters.clear();
 
@@ -133,12 +131,5 @@ public class Dormitory extends HubEvent {
 	public void clientController(float delta) {
 		super.clientController(delta);
 		controller(delta);
-	}
-
-	@Override
-	public void dispose() {
-		for (HubOptionPlayer sprite : sprites) {
-			sprite.getPlayerSpriteHelper().dispose(PlayerSpriteHelper.DespawnType.LEVEL_TRANSITION);
-		}
 	}
 }

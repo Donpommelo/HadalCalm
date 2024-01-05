@@ -8,7 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * GameChangers change some aspect of the game when activated.
  * atm, this consists of lives, score and timer settings
- * 
+ * <p>
  * Fields:
  * lives: Integer specifying how much to change the "lives" field in the ui. Optional. Default: 0
  * score: Integer specifying how much to change the "score" field in the ui. Optional. Default: 0

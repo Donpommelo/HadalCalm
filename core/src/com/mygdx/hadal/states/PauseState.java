@@ -1,16 +1,16 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
-import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TableWindow;
+import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
@@ -18,8 +18,8 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.server.User;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.UIText;
 
@@ -239,7 +239,7 @@ public class PauseState extends GameState {
 		inputMultiplexer.addProcessor(stage);
 		inputMultiplexer.addProcessor(ps.stage);
 		
-		inputMultiplexer.addProcessor(new InputProcessor() {
+		inputMultiplexer.addProcessor(new InputAdapter() {
 
 			@Override
 			public boolean keyDown(int keycode) {				
@@ -266,24 +266,6 @@ public class PauseState extends GameState {
 				}
 				return false; 
 			}
-
-			@Override
-			public boolean keyTyped(char character) { return false; }
-
-			@Override
-			public boolean touchDown(int screenX, int screenY, int pointer, int button) { return false; }
-
-			@Override
-			public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
-
-			@Override
-			public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
-
-			@Override
-			public boolean mouseMoved(int screenX, int screenY) { return false; }
-
-			@Override
-			public boolean scrolled(float amountX, float amountY) {	return false; }
 		});
 		
 		//if the game isn't actually paused, the player can still control the game underneath
@@ -315,7 +297,7 @@ public class PauseState extends GameState {
 			if (ps != null) {
 				if (ps.isServer() && ps.getMode().isHub()) {
 					ps.getPlayer().getPlayerData().syncArtifacts(false, true);
-					for (User user : HadalGame.server.getUsers().values()) {
+					for (User user : HadalGame.usm.getUsers().values()) {
 						if (user.getPlayer() != null) {
 							if (user.getPlayer().getPlayerData() != null) {
 								user.getPlayer().getPlayerData().syncArtifacts(false, true);

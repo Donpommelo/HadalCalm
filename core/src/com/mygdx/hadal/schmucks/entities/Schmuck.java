@@ -10,8 +10,10 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
+import com.mygdx.hadal.utils.PacketUtil;
 
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
@@ -55,6 +57,9 @@ public class Schmuck extends HadalEntity {
 		this.baseHp = baseHp;
 
 		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, SyncType.NOSYNC);
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(impact.getEntityID(), impact, false, PlayState.ObjectLayer.EFFECT);
+		}
 	}
 
 	@Override
@@ -95,7 +100,8 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuck(entityID, getPosition(), getLinearVelocity(),
-				state.getTimer(), moveState, getBodyData().getCurrentHp()));
+				state.getTimer(), moveState,
+				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP))));
 	}
 	
 	/**
@@ -108,7 +114,7 @@ public class Schmuck extends HadalEntity {
 			if (!this.equals(state.getPlayer())) {
 				moveState = p.moveState;
 			}
-			getBodyData().setCurrentHp(p.currentHp);
+			getBodyData().setCurrentHp(PacketUtil.byteToPercent(p.hpPercent) * getBodyData().getStat(Stats.MAX_HP));
 		}
 	}
 
@@ -139,9 +145,6 @@ public class Schmuck extends HadalEntity {
 		}
 	}
 
-	@Override
-	public void increaseAnimationTime(float i) { animationTime += i; }
-	
 	@Override
 	public HadalData getHadalData() { return bodyData; }
 	

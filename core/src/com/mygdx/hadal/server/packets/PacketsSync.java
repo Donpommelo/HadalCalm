@@ -3,7 +3,6 @@ package com.mygdx.hadal.server.packets;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.constants.MoveState;
-import com.mygdx.hadal.utils.PacketUtil;
 
 import java.util.UUID;
 
@@ -57,7 +56,7 @@ public class PacketsSync {
 
     public static class SyncSchmuck extends SyncEntity {
         public MoveState moveState;
-        public short currentHp;
+        public byte hpPercent;
 
         public SyncSchmuck() {}
 
@@ -67,13 +66,13 @@ public class PacketsSync {
          * This adjusts the Schmuck's stats and visual information
          *
          * @param moveState: The State of the Schmuck. Used for animations on the Client's end
-         * @param currentHp: The amount of remaining hp this schmuck has.
+         * @param hpPercent: The amount of remaining hp this schmuck has.
          */
         public SyncSchmuck(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
-                           MoveState moveState, float currentHp) {
+                           MoveState moveState, byte hpPercent) {
             super(entityID, pos, velocity, timestamp);
             this.moveState = moveState;
-            this.currentHp = (short) currentHp;
+            this.hpPercent = hpPercent;
         }
     }
 
@@ -89,69 +88,60 @@ public class PacketsSync {
          * @param angle: angle of the entity's body.
          */
         public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
-                                 MoveState moveState, float currentHp, float angle) {
-            super(entityID, pos, velocity, timestamp, moveState, currentHp);
+                                 MoveState moveState, byte hpPercent, float angle) {
+            super(entityID, pos, velocity, timestamp, moveState, hpPercent);
             this.angle = (short) angle;
         }
     }
 
-    public static class SyncPlayer extends SyncSchmuck {
-        public Vector2 mousePosition;
-        public byte currentSlot;
-        public byte reloadPercent;
-        public byte chargePercent;
-        public short currentFuel;
-        public short conditionCode;
+    public static class SyncPlayerSnapshot extends SyncClientSnapshot {
+        public byte connID;
 
-        public SyncPlayer() {}
+        public SyncPlayerSnapshot() {}
 
         /**
          * A SyncPlayerAll is sent from the Server to the Client for every synchronized Player every engine tick.
          * This packet (and similar packets) just tell the client how to change their version of each Player.
          * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
          */
-        public SyncPlayer(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, MoveState moveState,
-                          float currentHp, Vector2 mousePosition, int currentSlot, float reloadPercent,
-                          float chargePercent, float currentFuel, short conditionCode) {
-            super(entityID, pos, velocity, timestamp, moveState, currentHp);
-            this.mousePosition = mousePosition;
-            this.currentSlot = (byte) currentSlot;
-            this.reloadPercent = PacketUtil.percentToByte(reloadPercent);
-            this.chargePercent = PacketUtil.percentToByte(chargePercent);
-            this.currentFuel = (short) currentFuel;
-            this.conditionCode = conditionCode;
+        public SyncPlayerSnapshot(byte connID, Vector2 pos, Vector2 velocity, Vector2 mousePosition, float timestamp, MoveState moveState,
+                          byte hpPercent, byte fuelPercent, byte currentSlot, byte reloadPercent,
+                          byte chargePercent, short conditionCode) {
+            super(pos, velocity, mousePosition, timestamp, moveState, hpPercent, fuelPercent, currentSlot, reloadPercent,
+            chargePercent, conditionCode);
+            this.connID = connID;
         }
     }
 
     public static class SyncClientSnapshot {
         public Vector2 mousePosition;
+        public byte hpPercent;
+        public byte fuelPercent;
         public byte currentSlot;
         public byte reloadPercent;
         public byte chargePercent;
-        public short currentFuel;
-        public short statusCode;
+        public short conditionCode;
         public Vector2 pos;
         public Vector2 velocity;
         public float timestamp;
         public MoveState moveState;
-        public short currentHp;
 
         public SyncClientSnapshot() {}
 
-        public SyncClientSnapshot(Vector2 pos, Vector2 velocity, float timestamp, MoveState moveState,
-                                  float currentHp, Vector2 mousePosition, int currentSlot, float reloadPercent,
-                                  float chargePercent, float currentFuel, short statusCode) {
+        public SyncClientSnapshot(Vector2 pos, Vector2 velocity, Vector2 mousePosition, float timestamp, MoveState moveState,
+                                  byte hpPercent, byte fuelPercent, byte currentSlot, byte reloadPercent,
+                                  byte chargePercent, short conditionCode) {
             this.pos = pos;
             this.velocity = velocity;
+            this.mousePosition = mousePosition;
             this.timestamp = timestamp;
             this.moveState = moveState;
-            this.currentHp = (short) currentHp;
-            this.mousePosition = mousePosition;
-            this.currentSlot = (byte) currentSlot;
-            this.reloadPercent = PacketUtil.percentToByte(reloadPercent);
-            this.chargePercent = PacketUtil.percentToByte(chargePercent);
-            this.currentFuel = (short) currentFuel;
-            this.statusCode = statusCode;
+            this.hpPercent = hpPercent;
+            this.fuelPercent = fuelPercent;
+            this.currentSlot = currentSlot;
+            this.reloadPercent = reloadPercent;
+            this.chargePercent = chargePercent;
+            this.conditionCode = conditionCode;
         }
     }
 
@@ -198,9 +188,9 @@ public class PacketsSync {
          * This sync packet is used for the flag event in ctf mode to sync its return timer
          * @param returnPercent: return timer percent
          */
-        public SyncFlag(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, float returnPercent) {
+        public SyncFlag(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, byte returnPercent) {
             super(entityID, pos, velocity, timestamp);
-            this.returnPercent = PacketUtil.percentToByte(returnPercent);
+            this.returnPercent = returnPercent;
         }
     }
 
@@ -213,7 +203,7 @@ public class PacketsSync {
          * This sync packet is used for the flag event in ctf mode when flag is picked up
          * @param attachedID: entityID of the player that is carrying the flag
          */
-        public SyncFlagAttached(UUID entityID, UUID attachedID, Vector2 pos, Vector2 velocity, float timestamp, float returnPercent) {
+        public SyncFlagAttached(UUID entityID, UUID attachedID, Vector2 pos, Vector2 velocity, float timestamp, byte returnPercent) {
             super(entityID, pos, velocity, timestamp, returnPercent);
             this.uuidLSBAttached = attachedID.getLeastSignificantBits();
             this.uuidMSBAttached = attachedID.getMostSignificantBits();

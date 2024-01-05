@@ -3,15 +3,12 @@ package com.mygdx.hadal.schmucks.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.MoveState;
-import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.constants.*;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
@@ -19,13 +16,12 @@ import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.helpers.*;
-import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
@@ -34,8 +30,8 @@ import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.PlayerConditionUtil;
 import com.mygdx.hadal.utils.WorldUtil;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 import java.util.UUID;
 
@@ -48,7 +44,6 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 public class Player extends Schmuck {
 	
 	private static final int BASE_HP = 100;
-	private static final float PLAYER_DENSITY = 1.0f;
 
 	//Dimension of player sprite parts.
 	public static final int HB_WIDTH = 216;
@@ -125,7 +120,7 @@ public class Player extends Schmuck {
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID,
 				  User user, boolean reset, Event start) {
-		super(state, startPos, new Vector2(HB_WIDTH * SCALE, HB_HEIGHT * SCALE), name, Constants.PLAYER_HITBOX, BASE_HP);
+		super(state, startPos, new Vector2(HB_WIDTH * SCALE, HB_HEIGHT * SCALE), name, BodyConstants.PLAYER_HITBOX, BASE_HP);
 		this.name = name;
 		toolSprite = Sprite.MT_DEFAULT.getFrame();
 
@@ -221,22 +216,28 @@ public class Player extends Schmuck {
 		size.scl(1.0f + scaleModifier);
 		effectHelper.setEffectOffset();
 
-		this.body = BodyBuilder.createBox(world, startPos, size, gravityModifier, PLAYER_DENSITY, restitutionModifier, 0.0f, false, true, Constants.BIT_PLAYER,
-				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-				hitboxFilter, false, playerData);
+		this.body = new HadalBody(playerData, startPos, size, BodyConstants.BIT_PLAYER,
+				(short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_ENEMY),
+				hitboxFilter)
+				.setGravity(gravityModifier)
+				.setSensor(false)
+				.setRestitution(restitutionModifier)
+				.addToWorld(world);
 
 		//create several extra fixtures to keep track of feet to determine when the player gets their jump back and what terrain event they are standing on.
 		this.feetData = new FeetData(UserDataType.FEET, this);
+		new HadalFixture(
+				new Vector2(0.5f, - size.y / 2),
+				new Vector2(size.x - 2, size.y / 8),
+				BodyConstants.BIT_SENSOR, (short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_DROPTHROUGHWALL), hitboxFilter)
+				.addToBody(body)
+				.setUserData(feetData);
 
-		Fixture feet = FixtureBuilder.createFixtureDef(body, new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxFilter);
-
-		feet.setUserData(feetData);
-
-		Fixture pickupRadius = FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(PICKUP_RADIUS, PICKUP_RADIUS), true, 0, 0, 0, 0,
-				Constants.BIT_PICKUP_RADIUS, Constants.BIT_PROJECTILE, hitboxFilter);
-
-		pickupRadius.setUserData(new FeetData(UserDataType.PICKUP_RADIUS, this));
+		//pickup radius will attract pickups towards player upon contact
+		new HadalFixture(new Vector2(), new Vector2(PICKUP_RADIUS, PICKUP_RADIUS),
+				BodyConstants.BIT_PICKUP_RADIUS, BodyConstants.BIT_PROJECTILE, hitboxFilter)
+				.addToBody(body)
+				.setUserData(new FeetData(UserDataType.PICKUP_RADIUS, this));
 
 		//make the player's mass constant to avoid mass changing when player is a different size
 		MassData newMass = body.getMassData();
@@ -355,18 +356,13 @@ public class Player extends Schmuck {
 	@Override
 	public void render(SpriteBatch batch, Vector2 entityLocation) {
 
-		float transparency = effectHelper.processInvisibility(batch);
+		float transparency = effectHelper.processInvisibility();
 
 		if (0.0f != transparency) {
 			//render player sprite using sprite helper
 			spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
 					groundedHelper.isGrounded(), entityLocation,
 					true, null, true);
-		}
-
-		//we need to reset batch if sprite is partially transparent (instead of unchanged or completely not rendered
-		if (0.0f != transparency && 1.0f != transparency) {
-			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
 		boolean visible = false;
@@ -391,7 +387,6 @@ public class Player extends Schmuck {
 	@Override
 	public void dispose() {
 		super.dispose();
-		spriteHelper.dispose(despawnType);
 		effectHelper.dispose();
 	}
 	
@@ -409,7 +404,6 @@ public class Player extends Schmuck {
 	private UUID perpID;
 	private DamageSource damageSource = DamageSource.MISC;
 	private DamageTag[] damageTags = new DamageTag[] {};
-	private DespawnType despawnType = DespawnType.LEVEL_TRANSITION;
 	@Override
 	public Object onServerDelete() { return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
 
@@ -422,15 +416,16 @@ public class Player extends Schmuck {
 	@Override
 	public void onServerSync() {
 
-		short statusCode = getConditionCode();
-
-		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayer(entityID, getPosition(), getLinearVelocity(),
-				state.getTimer(), moveState, getBodyData().getCurrentHp(),
-				mouseHelper.getPosition(), playerData.getCurrentSlot(),
-				playerData.getCurrentTool().isReloading() ? uiHelper.getReloadPercent() : -1.0f,
-				playerData.getCurrentTool().isCharging() ? uiHelper.getChargePercent() : -1.0f,
-				playerData.getCurrentFuel(),
-				statusCode));
+		short conditionCode = getConditionCode();
+		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayerSnapshot((byte) connID,
+				getPosition(), getLinearVelocity(),	mouseHelper.getPosition(),
+				state.getTimer(), moveState,
+				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+				PacketUtil.percentToByte(getBodyData().getCurrentFuel() / getBodyData().getStat(Stats.MAX_FUEL)),
+				(byte) playerData.getCurrentSlot(),
+				PacketUtil.percentToByte(playerData.getCurrentTool().isReloading() ? uiHelper.getReloadPercent() : -1.0f),
+				PacketUtil.percentToByte(playerData.getCurrentTool().isCharging() ? uiHelper.getChargePercent() : -1.0f),
+				conditionCode));
 	}
 
 	/**
@@ -439,7 +434,13 @@ public class Player extends Schmuck {
 	@Override
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
-		if (o instanceof PacketsSync.SyncPlayer p) {
+		if (o instanceof PacketsSync.SyncPlayerSnapshot p) {
+			PacketsSync.SyncSchmuck childPacket = new PacketsSync.SyncSchmuck(entityID, p.pos, p.velocity,
+					p.timestamp, p.moveState, p.hpPercent);
+			super.onClientSync(childPacket);
+
+			getBodyData().setCurrentHp(PacketUtil.byteToPercent(p.hpPercent) * getBodyData().getStat(Stats.MAX_HP));
+			getBodyData().setCurrentFuel(PacketUtil.byteToPercent(p.fuelPercent) * getBodyData().getStat(Stats.MAX_FUEL));
 
 			mouseHelper.setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 			getPlayerData().setCurrentSlot(p.currentSlot);
@@ -455,8 +456,6 @@ public class Player extends Schmuck {
 			getPlayerData().getCurrentTool().setCharging(chargePercent != -1.0f);
 			uiHelper.setChargePercent(chargePercent);
 			getPlayerData().getCurrentTool().setChargeCd(chargePercent);
-
-			getPlayerData().setCurrentFuel(p.currentFuel);
 
 			processConditionCode(p.conditionCode);
 		} else if (o instanceof Packets.DeletePlayer p) {
@@ -520,7 +519,7 @@ public class Player extends Schmuck {
 		if (WorldUtil.preRaycastCheck(originPt, endPt)) {
 			state.getWorld().rayCast((fixture, point, normal, fraction) -> {
 
-				if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
+				if (fixture.getFilterData().categoryBits == BodyConstants.BIT_WALL && fraction < shortestFraction) {
 					shortestFraction = fraction;
 					return fraction;
 				}
@@ -544,7 +543,15 @@ public class Player extends Schmuck {
 			animationTime += i * AIR_ANIMATION_SLOW;
 		}
 	}
-	
+
+	@Override
+	public Shader getShaderStatic() {
+		if (getEffectHelper().processTranslucentShader()) {
+			return Shader.TRANSLUCENT;
+		}
+		return super.getShaderStatic();
+	}
+
 	@Override
 	public HadalData getHadalData() { return playerData; }
 	
@@ -635,8 +642,6 @@ public class Player extends Schmuck {
 	public void setDamageSource(DamageSource damageSource) { this.damageSource = damageSource; }
 
 	public void setDamageTags(DamageTag[] damageTags) { this.damageTags = damageTags; }
-
-	public void setDespawnType(DespawnType despawnType) { this.despawnType = despawnType; }
 
 	public void setDontMoveCamera(boolean dontMoveCamera) {	this.dontMoveCamera = dontMoveCamera; }
 

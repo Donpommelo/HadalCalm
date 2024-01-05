@@ -17,6 +17,7 @@ import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.server.KryoServer;
+import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.UPNPUtil;
 import io.socket.client.Socket;
 
@@ -32,10 +33,10 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String VERSION = "1.0.8b";
+	public static final String VERSION = "1.0.9a";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/583408/108b";
+	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/661042/109a";
 
 	//this is the rate at which the screen fades from/to black.
 	private static final float DEFAULT_FADE_IN_SPEED = -2.0f;
@@ -52,7 +53,7 @@ public class HadalGame extends ApplicationAdapter {
 
 	//This is the Gamestate Manager. It manages the current stack of game states.
 	private GameStateManager gsm;
-	
+
 	//Assetmanager loads the assets of the game.
     public static AssetManager assetManager;
     
@@ -62,6 +63,9 @@ public class HadalGame extends ApplicationAdapter {
     //Client and server for networking are static fields in the main game
     public static KryoClient client;
     public static KryoServer server;
+
+    //User Manager keeps track of users for multiplayer
+	public static UserManager usm;
 
     //socket is used to connect to matchmaking server
 	public static Socket socket;
@@ -106,6 +110,8 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 
+	    usm = new UserManager();
+
 		gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
 
@@ -115,8 +121,8 @@ public class HadalGame extends ApplicationAdapter {
 			UPNPUtil.upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
 		}
 
-		client = new KryoClient(gsm);
-		server = new KryoServer(gsm);
+		client = new KryoClient(gsm, usm);
+		server = new KryoServer(gsm, usm);
 		
 	    musicPlayer = new MusicPlayer(gsm);
 

@@ -9,6 +9,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class UPNPUtil {
 
@@ -37,11 +39,27 @@ public class UPNPUtil {
 
                     //delete existing mappings before attempting to create a new one
                     d.deletePortMapping(port, protocol);
+
                     if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
-                        if (!d.addPortMapping(port, port, localAddress.getHostAddress(), protocol, descr)) {
-                            Gdx.app.log("UPNP", "FAILED TO MAP PORT");
-                        } else {
+
+                        //normally we would just run addPortMapping(), but we copy the code here to expose naeValue to log error
+                        Map<String, String> args = new LinkedHashMap<>();
+                        args.put("NewRemoteHost", "");    // wildcard, any remote host matches
+                        args.put("NewExternalPort", Integer.toString(port));
+                        args.put("NewProtocol", protocol);
+                        args.put("NewInternalPort", Integer.toString(port));
+                        args.put("NewInternalClient", localAddress.getHostAddress());
+                        args.put("NewEnabled", Integer.toString(1));
+                        args.put("NewPortMappingDescription", descr);
+                        args.put("NewLeaseDuration", Integer.toString(0));
+
+                        Map<String, String> nameValue = GatewayDevice.simpleUPnPcommand(d.getControlURL(),
+                                d.getServiceType(), "AddPortMapping", args);
+
+                        if (null == nameValue.get("errorDescription")) {
                             Gdx.app.log("UPNP", "SUCCESSFULLY MAPPED");
+                        } else {
+                            Gdx.app.log("UPNP", "FAILED TO MAP PORT: " + nameValue.get("errorDescription"));
                         }
                     } else {
                         Gdx.app.log("UPNP", "ALREADY MAPPED");

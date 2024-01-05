@@ -4,14 +4,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
-import com.mygdx.hadal.constants.Constants;
 
 /**
  * A BotController manages all of a bot's behaviors and cooldowns generic for any bot-controlled unit
@@ -112,7 +112,7 @@ public class BotController {
 
         //bot considers their own velocity when deciding how they should move
         predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER);
-        float fract = BotManager.raycastUtility(bot, targetLocation, predictedSelfLocation, Constants.BIT_PLAYER);
+        float fract = BotManager.raycastUtility(bot, targetLocation, predictedSelfLocation, BodyConstants.BIT_PLAYER);
         if (1.0f > fract) {
             predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER * fract);
         }
@@ -121,7 +121,7 @@ public class BotController {
         HadalEntity target = findTarget();
 
         if (null != target) {
-            collision = BotManager.raycastUtility(bot, predictedSelfLocation, target.getPosition(), Constants.BIT_PLAYER);
+            collision = BotManager.raycastUtility(bot, predictedSelfLocation, target.getPosition(), BodyConstants.BIT_PLAYER);
             if (1.0f == collision) {
                 thisLocation.set(target.getPosition()).sub(predictedSelfLocation);
                 distSquared = thisLocation.len2();
@@ -144,7 +144,7 @@ public class BotController {
         //if no targets found, follow next point in point path
         if (!pointPath.isEmpty() && !approachTarget) {
             thisLocation.set(pointPath.get(0).getPosition()).sub(predictedSelfLocation);
-            collision = BotManager.raycastUtility(bot, predictedSelfLocation, pointPath.get(0).getPosition(), Constants.BIT_PLAYER);
+            collision = BotManager.raycastUtility(bot, predictedSelfLocation, pointPath.get(0).getPosition(), BodyConstants.BIT_PLAYER);
             distSquared = thisLocation.len2();
             approachTarget = true;
         }
@@ -209,7 +209,7 @@ public class BotController {
         shootTarget = null;
         float shortestDistanceSquared = -1;
         boolean unobtructedTargetFound = false;
-        for (User user : HadalGame.server.getUsers().values()) {
+        for (User user : HadalGame.usm.getUsers().values()) {
             if (null != user.getPlayer() && null != user.getPlayer().getPlayerData()) {
 
                 //we don't want to target dead, invisible or invincible players
@@ -220,7 +220,7 @@ public class BotController {
                     //find shoot target by getting closest target with unobstructed vision
                     targetLocation.set(user.getPlayer().getPosition());
                     float distanceSquared = targetLocation.dst2(playerLocation);
-                    boolean unobstructed = BotManager.raycastUtility(bot, playerLocation, targetLocation, Constants.BIT_PROJECTILE) == 1.0f;
+                    boolean unobstructed = BotManager.raycastUtility(bot, playerLocation, targetLocation, BodyConstants.BIT_PROJECTILE) == 1.0f;
                     boolean update = false;
                     if (unobstructed) {
                         if (unobtructedTargetFound) {

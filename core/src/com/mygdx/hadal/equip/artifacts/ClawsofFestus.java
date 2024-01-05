@@ -2,14 +2,14 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 public class ClawsofFestus extends Artifact {
 
@@ -43,23 +43,19 @@ public class ClawsofFestus extends Artifact {
 							created = true;
 
 							leftData = new FeetData(UserDataType.FEET, player);
-
-							leftSensor = FixtureBuilder.createFixtureDef(player.getBody(),
+							leftSensor = new HadalFixture(
 									new Vector2(-player.getSize().x / 2, 0.5f),
 									new Vector2(player.getSize().x / 8, player.getSize().y - 2),
-									true, 0, 0, 0, 0,
-									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxFilter());
-
+									BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, player.getHitboxFilter())
+									.addToBody(player.getBody());
 							leftSensor.setUserData(leftData);
 
 							rightData = new FeetData(UserDataType.FEET, player);
-
-							rightSensor = FixtureBuilder.createFixtureDef(player.getBody(),
+							rightSensor = new HadalFixture(
 									new Vector2(player.getSize().x / 2,  0.5f),
 									new Vector2(player.getSize().x / 8, player.getSize().y - 2),
-									true, 0, 0, 0, 0,
-									Constants.BIT_SENSOR, Constants.BIT_WALL, player.getHitboxFilter());
-
+									BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, player.getHitboxFilter())
+									.addToBody(player.getBody());
 							rightSensor.setUserData(rightData);
 						}
 

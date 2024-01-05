@@ -23,6 +23,7 @@ public enum Shader {
 	OUTLINE("pass", "outline", true),
 	SEPIA("pass", "sepia", true),
 	STATIC("pass", "static", true, new Timer()),
+	TRANSLUCENT("pass", "translucent", true, new Timer()),
 	WATER("pass", "water", true, new Timer()),
 	PULSE_RED("pass", "pulsered", true, new Timer(), new SetVariable("speed", 10)),
 	PULSE_RED_HP("pass", "pulsered", true, new Timer(), new PlayerHpScale()),
@@ -70,15 +71,24 @@ public enum Shader {
 		if (this.equals(NOTHING)) {
 			return;
 		}
-		
+
+		loadStaticShader();
+
+		shaderProgram.bind();
+		for (ShaderStrategy strat : strategies) {
+			strat.create(shaderProgram);
+		}
+	}
+
+	public void loadStaticShader() {
+
+		if (this.equals(NOTHING)) {
+			return;
+		}
+
 		//load the shader and create its strategies
 		if (null == shaderProgram) {
 			shaderProgram = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
-		}
-		shaderProgram.bind();
-
-		for (ShaderStrategy strat : strategies) {
-			strat.create(shaderProgram);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package com.mygdx.hadal.input;
 
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputAdapter;
 import com.mygdx.hadal.schmucks.entities.Player;
 
 /**
@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
  * The Player Controller is used by the host in a playstate to map their keystrokes to the playercontroller
  * @author Squirdelia Stalgulgernon
  */
-public class PlayerController implements InputProcessor {
+public class PlayerController extends InputAdapter {
 
 	//this is the player that this controller controls
 	private Player player;
@@ -110,9 +110,6 @@ public class PlayerController implements InputProcessor {
 		return false;
 	}
 
-	@Override
-	public boolean keyTyped(char character) { return false; }
-
 	//we have touchdown call keydown (and touchup calling keyup) if any actions are bound to the mouse
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -125,12 +122,6 @@ public class PlayerController implements InputProcessor {
 		keyUp(button);
 		return false;
 	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) { return false; }
 
 	//This is just a janky way of implementing setting mouse wheel as a hotkey.
 	@Override

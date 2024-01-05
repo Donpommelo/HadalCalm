@@ -3,19 +3,19 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
-import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
@@ -55,7 +55,6 @@ public class PlayerSpriteHelper {
 
     private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite;
     private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
-    private FrameBuffer fbo;
 
     private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
         gemWidth, gemHeight;
@@ -99,11 +98,6 @@ public class PlayerSpriteHelper {
      */
     public void replaceBodySprite(SpriteBatch batch, UnlockCharacter newCharacter, AlignmentFilter newTeam) {
 
-        //dispose of old frame buffer
-        if (null != fbo) {
-            fbo.dispose();
-        }
-
         if (null != newCharacter) {
             this.character = newCharacter;
         }
@@ -112,38 +106,9 @@ public class PlayerSpriteHelper {
         }
 
         //obtain new texture and create new frame buffer object
-        Texture tex = character.getTexture();
         TextureAtlas atlas = character.getAtlas();
 
-        fbo = new FrameBuffer(Pixmap.Format.RGBA4444, tex.getWidth(), tex.getHeight(), true);
-        fbo.begin();
-
-        //clear buffer, set camera
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.getProjectionMatrix().setToOrtho2D(0, 0, fbo.getWidth(), fbo.getHeight());
-
-        //use shader to apply new team color
-        batch.begin();
-        ShaderProgram shader;
-        if (team.isTeam() && AlignmentFilter.NONE != team) {
-            shader = team.getShader(character);
-        } else {
-            shader = character.getPalette().getShader(character);
-        }
-        batch.setShader(shader);
-
-        batch.draw(tex, 0, 0);
-
-        if (null != shader) {
-            batch.setShader(null);
-        }
-        batch.end();
-        fbo.end();
-
-        if (null != shader) {
-            shader.dispose();
-        }
+        FrameBuffer fbo = FrameBufferManager.getFrameBuffer(batch, character, team);
 
         //use new frame buffer to create texture regions for each body part.
         TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture());
@@ -305,18 +270,6 @@ public class PlayerSpriteHelper {
     }
 
     /**
-     * This is run when the player is disposed.
-     * In the case of the player being disposed upon level transition, we want to make sure the fbo is cleaned up
-     */
-    public void dispose(DespawnType despawn) {
-        if (DespawnType.LEVEL_TRANSITION.equals(despawn)) {
-            if (null != fbo) {
-                fbo.dispose();
-            }
-        }
-    }
-
-    /**
      * This is run when the player despawns from disconnecting or dying.
      */
     public void despawn(DespawnType type, Vector2 playerLocation, Vector2 playerVelocity) {
@@ -342,17 +295,7 @@ public class PlayerSpriteHelper {
         }
 
         Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
-                bodyStillSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true) {
-
-            //we need to dispose of the fbo when the ragdolls are done
-            @Override
-            public void dispose() {
-                super.dispose();
-                if (null != fbo) {
-                    fbo.dispose();
-                }
-            }
-        };
+                bodyStillSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
 
         Ragdoll armRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(armWidth, armHeight).scl(scale),
                 armSprite, playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
@@ -380,7 +323,7 @@ public class PlayerSpriteHelper {
     private static final int RAGDOLL_WIDTH = 100;
     private static final int RAGDOLL_HEIGHT = 120;
     private void createVaporization(Vector2 playerLocation, Vector2 playerVelocity) {
-        FrameBuffer ragdollBuffer = new FrameBuffer(Pixmap.Format.RGBA4444, RAGDOLL_WIDTH, RAGDOLL_HEIGHT, true);
+        FrameBuffer ragdollBuffer = new FrameBuffer(Pixmap.Format.RGBA4444, RAGDOLL_WIDTH, RAGDOLL_HEIGHT, false);
         ragdollBuffer.begin();
 
         //clear buffer, set camera
@@ -442,9 +385,6 @@ public class PlayerSpriteHelper {
             @Override
             public void dispose() {
                 super.dispose();
-                if (null != fbo) {
-                    fbo.dispose();
-                }
                 ragdollBuffer.dispose();
             }
 
@@ -454,7 +394,7 @@ public class PlayerSpriteHelper {
             private void manageTimer(float delta) {
                 timer += delta;
                 if (timer >= FADE_DELAY) {
-                    progress = Math.min(Math.max(0.0f, (timer - FADE_DELAY) / FADE_DURATION), 1.0f);
+                    progress = MathUtils.clamp((timer - FADE_DELAY) / FADE_DURATION, 0.0f, 1.0f);
                 }
             }
         };
@@ -469,11 +409,6 @@ public class PlayerSpriteHelper {
                 2.5f, true, SyncType.NOSYNC).setPrematureOff(1.5f);
         if (!player.getState().isServer()) {
             ((ClientState) player.getState()).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.STANDARD);
-        }
-
-        //if the player disconnects/becomes a spectator, we dispose of the fbo right away.
-        if (null != fbo) {
-            fbo.dispose();
         }
     }
 

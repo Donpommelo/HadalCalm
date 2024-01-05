@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.ranged.SpeargunNerfed;
@@ -16,16 +16,16 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
+import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 /**
  * This event, when interacted with, will give the player a new weapon.
  * If the player's slots are full, this will replace currently held weapon.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event is toggled on/off to unlock/lock pickup
  * Triggering Behavior: This event will trigger its connected event when picked up.
- * 
+ * <p>
  * Fields:
  * pool: String, comma separated list of equipUnlock enum names of all equips that could appear here.
  * 	if this is equal to "", return any weapon in the random pool.
@@ -102,13 +102,18 @@ public class PickupEquip extends Event {
 				setEquip(temp);
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true,
-			Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_SENSOR), (short) 0, true, eventData);
+
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR,
+				(short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR), (short) 0)
+				.setGravity(1.0f)
+				.addToWorld(world);
 
 		if (drop) {
-			FixtureBuilder.createFixtureDef(body, new Vector2(), new Vector2(size), false, 0, 0, 0.0f, 1.0f,
-				Constants.BIT_PROJECTILE, (short) (Constants.BIT_DROPTHROUGHWALL | Constants.BIT_WALL), (short) 0).setUserData(eventData);
+			new HadalFixture(new Vector2(), new Vector2(size),
+					BodyConstants.BIT_PROJECTILE, (short) (BodyConstants.BIT_DROPTHROUGHWALL | BodyConstants.BIT_WALL), (short) 0)
+					.setSensor(false)
+					.addToBody(body)
+					.setUserData(eventData);
 		} else {
 			this.body.setType(BodyType.KinematicBody);
 		}

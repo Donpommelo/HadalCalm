@@ -2,8 +2,10 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -15,14 +17,14 @@ import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * Currents are an event that apply a continuous force to all schmucks inside of it.
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * N/A
  * 
@@ -57,12 +59,11 @@ public class Currents extends Event {
 	
 	@Override
 	public void create() {
-
 		this.eventData = new EventData(this);
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_SENSOR),
-				(short) 0, true, eventData);
+		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR,
+				(short) (BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_SENSOR),	(short) 0)
+				.setBodyType(BodyDef.BodyType.StaticBody)
+				.addToWorld(world);
 	}
 	
 	private final Vector2 entityLocation = new Vector2();

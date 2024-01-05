@@ -51,6 +51,8 @@ public enum Sprite {
 	FLASH_GRENADE(SpriteType.PROJECTILE, "flashgrenade"),
 	FLOUNDER_A(SpriteType.PROJECTILE, "flounder_a"),
 	FLOUNDER_B(SpriteType.PROJECTILE, "flounder_b"),
+	FROG_STAND(SpriteType.PROJECTILE, "frog_idle"),
+	FROG_JUMP(SpriteType.PROJECTILE, "frog_jump"),
 	FUGU(SpriteType.PROJECTILE, "fugu"),
 	GOLDFISH(SpriteType.PROJECTILE, "goldfish"),
 	DRILL(SpriteType.PROJECTILE, "underminer"),
@@ -264,6 +266,28 @@ public enum Sprite {
 	WANDA_BUFF(SpriteType.CHARACTER_EXTRA, "wanda_buff"),
 	WANDA_SLUG(SpriteType.CHARACTER_EXTRA, "wanda_slug"),
 
+	//pool
+	POOL_CUE(SpriteType.POOL, "cue"),
+	POOL_ONE(SpriteType.POOL, "one"),
+	POOL_TWO(SpriteType.POOL, "two"),
+	POOL_THREE(SpriteType.POOL, "three"),
+	POOL_FOUR(SpriteType.POOL, "four"),
+	POOL_FIVE(SpriteType.POOL, "five"),
+	POOL_SIX(SpriteType.POOL, "six"),
+	POOL_SEVEN(SpriteType.POOL, "seven"),
+	POOL_EIGHT(SpriteType.POOL, "eight"),
+	POOL_NINE(SpriteType.POOL, "nine"),
+	POOL_TEN(SpriteType.POOL, "ten"),
+	POOL_ELEVEN(SpriteType.POOL, "eleven"),
+	POOL_TWELVE(SpriteType.POOL, "twelve"),
+	POOL_THIRTEEN(SpriteType.POOL, "thirteen"),
+	POOL_FOURTEEN(SpriteType.POOL, "fourteen"),
+	POOL_FIFTEEN(SpriteType.POOL, "fifteen"),
+
+	SPIRIT_BOMB_ACTIVATION(SpriteType.SPIRIT_BOMB, "spirit_bomb_activation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	SPIRIT_BOMB_IDLE(SpriteType.SPIRIT_BOMB, "spirit_bomb_idle"),
+	SPIRIT_BOMB_LOOP(SpriteType.SPIRIT_BOMB, "spirit_bomb_loop"),
+
 	//complex sprites
 	SPARKS(SpriteType.PROJECTILE, 0.02f, new SpriteRep("spark_0", 3),
 			new SpriteRep("spark_1", 3), new SpriteRep("spark_2", 3),
@@ -365,6 +389,8 @@ public enum Sprite {
 			case EVENT -> HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
 			case EXPLOSION -> HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString());
 			case PROJECTILE -> HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
+			case POOL -> HadalGame.assetManager.get(AssetList.POOL_ATL.toString());
+			case SPIRIT_BOMB -> HadalGame.assetManager.get(AssetList.SPIRIT_BOMB_ATL.toString());
 			case WEAPON -> HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
 			case FISH -> HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
 			case TURRET -> HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
@@ -391,6 +417,8 @@ public enum Sprite {
 	public enum SpriteType {
 		MISC,
 		PROJECTILE,
+		POOL,
+		SPIRIT_BOMB,
 		EXPLOSION,
 		EVENT,
 		WEAPON,

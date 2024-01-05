@@ -8,13 +8,13 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A MultiTrigger is an event that can trigger multiple events simultaneously.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this will trigger all events in its triggered list
  * Triggering Behavior: N/A. This event does nothing with its connectedEvent. Instead, it has a triggered list that is filled
  * when parsing the map.
- * 
+ * <p>
  * Fields:
- * 
+ * <p>
  * triggeringId: This string should be a comma-separated list of triggeredIds of events that can be triggered.
  * NO SPACES IN THIS LIST
  * @author Crempus Crarzendwich

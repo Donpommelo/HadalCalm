@@ -7,11 +7,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.PacketUtil;
 
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
@@ -163,7 +165,9 @@ public class Turret extends Enemy {
 	@Override
 	public void onServerSync() {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), new Vector2(), state.getTimer(),
-				moveState, getBodyData().getCurrentHp(), attackAngle));
+				moveState,
+				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+				attackAngle));
 	}
 	
 	@Override

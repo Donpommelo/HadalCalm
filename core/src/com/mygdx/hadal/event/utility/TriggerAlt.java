@@ -7,21 +7,21 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * An AltTrigger is a trigger used to activate events with multiple ways to activate.
- * 
+ * <p>
  * For example, usually activating a spawn makes it spawn enemies. An AltTrigger activating it could change its wave size instead.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this will trigger its connected event.
  * Triggering Behavior: This event will be triggered by this. It should have some special functionality for specifically being
  * 	triggered by an AltTrigger.
  * Alt-Triggered Behavior: When alt-triggered, this trigger changes its message field to that of the alt-trigger.
- * 
+ * <p>
  * 
  * Fields:
  * message: String that will be sent to the connected event when triggering. This string is then parsed into information that the
  * 	receiving event can use.
- * 
+ * <p>
  * List of Alt-Trigger functionality:
- * 
+ * <p>
  * Another Alt-Trigger: used to set the alt-trigger's message
  * Conditional Trigger: used to change which event the conditional trigger activates.
  * Equipment Pickup: used to set the equip to a specific weapon or reroll it

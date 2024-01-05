@@ -7,10 +7,10 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * An EventDeleter. This Event will delete a specified event. very straightforwards.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event will perform the deletion.
  * Triggering Behavior: The event that triggers this is deleted, so the triggering behavior just chains to another event.
- *  
+ * <p>
  * Fields: N/A
  *
  * @author Bligpoulos Broronica

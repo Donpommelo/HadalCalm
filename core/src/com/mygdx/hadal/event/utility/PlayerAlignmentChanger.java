@@ -6,15 +6,15 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.User;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 
 /**
  * A PlayerAlignmentChanger changes a player's hitbox filter. This changes what "team" they are on.
- * 
+ * <p>
  * Triggered Behavior: This triggers changing the player's alignment
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * pvp: boolean. If true, we change their filter to their default pvp filter
  * filter: short. if pvp is false, this is the filter we set the player to.
