@@ -115,6 +115,7 @@ public class Hitbox extends HadalEntity {
 
 	//this is the size of the sprite. Usually drawn to be the size of the hbox, but can be made larger/smaller
 	protected final Vector2 spriteSize = new Vector2();
+	protected final Vector2 spriteOffset = new Vector2();
 
 	//the synced attack this hbox is a part of as well as the attack's extra fields
 	private SyncedAttack attack;
@@ -242,8 +243,8 @@ public class Hitbox extends HadalEntity {
 
 		if (projectileSprite != null) {
 			batch.draw(projectileSprite.getKeyFrame(animationTime, looping),
-					entityLocation.x - spriteSize.x / 2,
-					entityLocation.y - spriteSize.y / 2,
+					entityLocation.x - spriteSize.x / 2 + spriteOffset.x,
+					entityLocation.y - spriteSize.y / 2 + spriteOffset.y,
 					spriteSize.x / 2, spriteSize.y / 2,
 					spriteSize.x, spriteSize.y, -1, 1,
 					MathUtils.radDeg * getAngle());
@@ -471,6 +472,8 @@ public class Hitbox extends HadalEntity {
 	public boolean isPositionBasedOnUser() { return positionBasedOnUser; }
 
 	public void setSpriteSize(Vector2 spriteSize) { this.spriteSize.set(spriteSize).scl(scale); }
+
+	public void setSpriteOffset(Vector2 spriteOffset) { this.spriteOffset.set(spriteOffset).scl(scale); }
 
 	public void setAttack(SyncedAttack attack) { this.attack = attack; }
 

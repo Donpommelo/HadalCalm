@@ -21,10 +21,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 /**
  * This event heals all schmucks inside of it. It is usually created temporarily from the effects 
  * of attacks
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * heal: float heal per 1/60f done by this event
  * filter: short of who this event affects. Default: 0 (all units).

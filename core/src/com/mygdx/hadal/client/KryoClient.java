@@ -1,6 +1,5 @@
 package com.mygdx.hadal.client;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -13,7 +12,6 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
-import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
@@ -234,9 +232,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.LatencyAck p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.syncLatency(p.serverTimestamp, p.clientTimestamp);
-				});
+				cs.addPacketEffect(() -> cs.syncLatency(p.serverTimestamp, p.clientTimestamp));
 			}
 		}
 
@@ -326,9 +322,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.ClientStartTransition p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay);
-				});
+				cs.addPacketEffect(() -> cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay));
 			}
 		}
 
@@ -950,9 +944,7 @@ public class KryoClient {
 		if (o instanceof PacketsSync.SyncEntity p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp);
-				});
+				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
 			}
 			return true;
 		}
@@ -960,9 +952,7 @@ public class KryoClient {
 		else if (o instanceof Packets.SyncSound p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p,p.timestamp);
-				});
+				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p,p.timestamp));
 			}
 			return true;
 		}
@@ -970,9 +960,7 @@ public class KryoClient {
 		else if (o instanceof Packets.SyncPickup p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp);
-				});
+				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
 			}
 			return true;
 		}

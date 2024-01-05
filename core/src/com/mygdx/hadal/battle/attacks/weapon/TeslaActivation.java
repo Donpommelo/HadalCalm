@@ -41,7 +41,7 @@ public class TeslaActivation extends SyncedAttacker {
         }
 
         float dist = pulsePath.len();
-        for (int i = 0; i < dist - PULSE_SIZE.x; i += PULSE_SIZE.x) {
+        for (int i = 0; i < dist - PULSE_SIZE.x; i += (int) PULSE_SIZE.x) {
             pulsePosition.add(pulsePath.nor().scl(PULSE_SIZE));
 
             Hitbox pulse = new RangedHitbox(state, pulsePosition, PULSE_SIZE, PULSE_DURATION, new Vector2(), user.getHitboxFilter(),

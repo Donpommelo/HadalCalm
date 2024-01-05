@@ -15,10 +15,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * This event damages all schmucks inside of it. It can be spawned as a hazard in a map. 
- * 
+ * <p>
  * Triggered Behavior: N/A but will often be used as an id to attach to a move point
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * damage: float damage per 1/60f done by this event
  * filter: hitbox filter of who this event will damage. default: 0 (hits everyone)

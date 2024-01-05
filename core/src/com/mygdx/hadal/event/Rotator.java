@@ -12,10 +12,10 @@ import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
 
 /**
  * Rotators connect to other events and either apply a continuous or instant rotation
- * 
+ * <p>
  * Triggered Behavior: when triggered, if continuous, this event will toggle on/off the rotating of the connected event
  * Triggering Behavior: This event's connected event is the event that will be rotated
- * 
+ * <p>
  * Fields:
  * continuous: do we apply rotation continuously or instantly? Default: true
  * angle: The amount of rotation to apply (either set its angular velocity or its angle)

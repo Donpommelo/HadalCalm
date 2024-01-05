@@ -8,7 +8,7 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * Class used for the creation of fixtures using a factory.
- *
+ * <p>
  * sensor: Will this fixture pass through fixtures it collide with?
  * angle: The angle to turn the fixture compared to the body.
  * density: float density of the fixture

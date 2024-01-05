@@ -12,10 +12,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A switch is an activating event that will activate a connected event when the player interacts with it.
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: When interacted with by the player, this event will trigger its connected event.
- * 
+ * <p>
  * Fields:
  * N/A
  * 

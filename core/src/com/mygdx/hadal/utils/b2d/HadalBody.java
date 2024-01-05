@@ -12,10 +12,10 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  * Class used for the creation of bodies using a factory.
  * Think of HadalBody and HadalFixture less of "Bodies" and "Fixtures", but rather "Thing that makes Bodies + their
  * initial Fixture" and "Thing that makes Fixture". Hence why this extends HadalFixture.
- *
+ * <p>
  * This is organized into its own class due to ordering. I want to set up the body/fixture's fields using a factory,
  * then create the body/fixture, then dispose of the used shape which must be retained somewhere.
- *
+ * <p>
  * gravity: Effect of gravity. 0 = no gravity. 1 = normal gravity.
  * bodyType: Dynamic, static or kinematic (default = dynamic.
  * fixedRotate: Can it not rotate?

@@ -19,10 +19,10 @@ import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 /**
  * A See saw platform can rotate with physics input
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * @author Quimpus Quectavio
  */

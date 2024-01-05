@@ -22,10 +22,10 @@ import com.mygdx.hadal.utils.b2d.HadalFixture;
 /**
  * This event, when interacted with, will give the player a new weapon.
  * If the player's slots are full, this will replace currently held weapon.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event is toggled on/off to unlock/lock pickup
  * Triggering Behavior: This event will trigger its connected event when picked up.
- * 
+ * <p>
  * Fields:
  * pool: String, comma separated list of equipUnlock enum names of all equips that could appear here.
  * 	if this is equal to "", return any weapon in the random pool.

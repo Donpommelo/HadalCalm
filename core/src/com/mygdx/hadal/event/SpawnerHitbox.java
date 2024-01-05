@@ -15,11 +15,11 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Hitbox Spawner spawns a hitbox when activated. Spawned hitboxes can have a variety of properties and effects.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this will spawn a hitbox.
  * Triggering Behavior: if existent, the spawned hitboxes will be aimed at the body of the connected event (if it has a body).
  * Alt-Triggered Behavior: When alt-triggered, this spawner changes the number of schmucks it will spawn at once.
- * 
+ * <p>
  * Fields:
  * There are a lot of fields. They are all just self-explanatory properties of the hitboxes
  * 

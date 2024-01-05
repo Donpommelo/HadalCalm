@@ -25,7 +25,7 @@ public class MidnightPoolCue extends RangedWeapon {
 	private static final float MAX_CHARGE = 0.4f;
 
 	//keeps track of attack speed without input buffer doing an extra mouse click
-	private static final float INNATE_ATTACK_COOLDOWN = 0.6f;
+	private static final float INNATE_ATTACK_COOLDOWN = 0.4f;
 
 	private static final Vector2 PROJECTILE_SIZE = PoolBall.PROJECTILE_SIZE;
 	private static final float LIFESPAN = PoolBall.LIFESPAN;

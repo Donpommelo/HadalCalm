@@ -93,6 +93,8 @@ public class BloodletterProjectile extends SyncedAttacker {
 
                                 createBlood(schmuck, baseHealMultiplier * modifiedDamage);
 
+                                SoundEffect.SLURP.playSourced(state, startPosition, 0.75f);
+
                                 ParticleEntity particleEntity = new ParticleEntity(state, schmuck, Particle.VAMPIRE, 1.0f,
                                         2.0f,true, SyncType.NOSYNC);
                                 if (!state.isServer()) {

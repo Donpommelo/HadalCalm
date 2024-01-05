@@ -11,10 +11,10 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A Wall is a solid wall parsed from polylines from tiled.
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A.
- * 
+ * <p>
  * Fields:
  * @author Lelfupton Loporon
  */

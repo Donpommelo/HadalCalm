@@ -12,10 +12,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * An EventCloner. This Event will create a copy of a specified event and move it to its own location.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event will perform the cloning.
  * Triggering Behavior: The connected event is the one who will be cloned.
- * 
+ * <p>
  * Fields: N/A
  * 
  * @author Vortilla Vlinestrone

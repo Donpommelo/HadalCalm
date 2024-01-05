@@ -25,7 +25,7 @@ import java.util.UUID;
  * sound, particles etc. This is used to only send one packet when an attack is executed rather than multiple for each
  * part of the attack. Additionally, this allows for more specific hbox behavior that would be difficult to synchronize
  * with client illusions.
- *
+ * <p>
  * As of 1.0.8, these also send info from client to server and can send hitbox-less packets.
  */
 public enum SyncedAttack {

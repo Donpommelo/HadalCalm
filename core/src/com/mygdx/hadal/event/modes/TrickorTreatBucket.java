@@ -24,7 +24,7 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
  *
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- *
+ * <p>
  * Fields: teamIndex: int index of the team that is trying to score by bringing enemy candy to this event
  *
  * @author Matannia Muchnold

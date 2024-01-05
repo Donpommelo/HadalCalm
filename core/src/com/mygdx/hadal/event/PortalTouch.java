@@ -15,10 +15,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 /**
  * A touch Portal is a portal that transports schmucks and hboxes that touch it
  * The event they are transported to does not have to be a portal.
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: This event's connected event serves as the point that schmucks will be teleported to
- * 
+ * <p>
  * Fields:
  * N/A
  * 

@@ -16,10 +16,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Spring is an event that, when touched, will push an entity in a set direction
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * vec: vector2 of force that is applied to entities that touch this.
  * 

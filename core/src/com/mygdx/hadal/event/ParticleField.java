@@ -17,10 +17,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Particle Field spawns a bunch of particles in its area. This is strictly for visual effect.
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * particle: String name of the particle effect to use. Default: NOTHING
  * speed: float rate that particles are spawned. Default: 1.0f

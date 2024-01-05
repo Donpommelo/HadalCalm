@@ -781,7 +781,7 @@ public class TiledObjectUtil {
 		if (e instanceof TriggerRedirect trigger) {
 			myId = redirectTriggeringEvents.get(trigger);
 			if (null != myId) {
-				if (!"".equals(myId)) {
+				if (!myId.isEmpty()) {
 					trigger.setBlame(triggeredEvents.get(myId, null));
 				}
 			}

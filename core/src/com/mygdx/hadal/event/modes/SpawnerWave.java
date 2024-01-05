@@ -14,7 +14,7 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
  * There are ~6 Wave Spawners in arena maps. When a new wave is spawned, each spawner is activated and a new wave of enemies is spawned
  * Triggered Behavior: When triggered, spawn a wave
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * extraField: extra field sometimes used for enemy spawns
  * tag: string tag to further specify which enemies can spawn

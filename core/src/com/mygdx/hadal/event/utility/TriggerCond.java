@@ -10,17 +10,17 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A Conditional trigger is like a multi-trigger, except it only triggers one of the events in its list. Which event it triggers is
  * determined by its condition string field which can be set by triggering it with an alt-trigger.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this will trigger the event mapped to its condition field.
  * Triggering Behavior: N/A. Similar to multi-triggers, this event does nothing with its connected event. Instead, it holds a reference
  * 	to a list of events mapped to their string ids created upon parsing a map. This trigger will activate a event from the list. 
  * Alt-Triggered Behavior: When alt-triggered, this trigger changes which event it triggers to match the alt-trigger's message.
- * 
+ * <p>
  * Fields:
  * start: String that determines the id of the event in its list that this trigger will start off triggering.
  * 	Optional. Default: "". This means that the trigger will start off triggering nothing.
  * 	Also, if this is set to "random", this will trigger a random event on its list.
- * 
+ * <p>
  * triggeringId: Like a multi-trigger, this string should be a comma-separated list of triggeredIds of events that can be triggered.
  * 
  * @author Kardamom Kotonio

@@ -15,10 +15,10 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A Wall is a solid wall parsed from polylines from tiled. This is a version that the player can drop through.
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A.
- * 
+ * <p>
  * Fields:
  * @author Hizarus Hirfinitzel
  */

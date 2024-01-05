@@ -23,8 +23,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class SpiritBombProjectile extends SyncedAttacker {
 
-    public static final Vector2 PROJECTILE_SIZE = new Vector2(35, 40);
+    public static final Vector2 PROJECTILE_SIZE = new Vector2(40, 40);
     public static final Vector2 SPRITE_SIZE = new Vector2(106, 120);
+    public static final Vector2 SPRITE_OFFSET = new Vector2(-10, 20);
     public static final float LIFESPAN = 9.0f;
     public static final float BASE_DAMAGE = 20.0f;
     public static final float EXPLOSION_DAMAGE = 55.0f;
@@ -38,9 +39,9 @@ public class SpiritBombProjectile extends SyncedAttacker {
     private static final float EXPLOSION_KNOCKBACK = 20.0f;
     private static final float TARGET_CHECK_CD = 0.2f;
     private static final float TARGET_CHECK_RADIUS = 3.2f;
-    private static final float WARNING_TIME = 2.0f;
+    private static final float WARNING_TIME = 1.0f;
 
-    private static final float SPIRIT_HOMING = 30;
+    private static final float SPIRIT_HOMING = 40;
     private static final int HOME_RADIUS = 30;
 
     private static final Sprite PROJ_SPRITE = Sprite.SPIRIT_BOMB_IDLE;
@@ -52,16 +53,8 @@ public class SpiritBombProjectile extends SyncedAttacker {
         SoundEffect.MAGIC25_SPELL.playSourced(state, startPosition, 0.75f);
         user.recoil(startVelocity, RECOIL);
 
-        Hitbox wallCollider = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
-                false, true, user, Sprite.NOTHING);
-        wallCollider.setEffectsHit(false);
-        wallCollider.setEffectsMovement(false);
-        wallCollider.setEffectsVisual(false);
-
-        wallCollider.addStrategy(new ControllerDefault(state, wallCollider, user.getBodyData()));
-
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
-                true, true, user, PROJ_SPRITE) {
+                false, true, user, PROJ_SPRITE) {
 
             private float controllerCount;
             private boolean faded;
@@ -85,15 +78,19 @@ public class SpiritBombProjectile extends SyncedAttacker {
                 }
             }
 
+            private boolean flip;
             @Override
             public void render(SpriteBatch batch, Vector2 entityLocation) {
                 if (!alive) { return; }
 
-                boolean flip = getLinearVelocity().x > 0.0f;
+                float direction = getLinearVelocity().x;
+                if (direction != 0.0f) {
+                    flip = getLinearVelocity().x > 0.0f;
+                }
 
                 batch.draw(projectileSprite.getKeyFrame(animationTime, true),
-                        (flip ? 0 : spriteSize.x) + entityLocation.x - spriteSize.x / 2,
-                        entityLocation.y - spriteSize.y / 2,
+                        (flip ? 0 : spriteSize.x) + entityLocation.x - spriteSize.x / 2 + (flip ? 1 : -1) * spriteOffset.x,
+                        entityLocation.y - spriteSize.y / 2 + spriteOffset.y,
                         spriteSize.x / 2,
                         (flip ? 1 : -1) * spriteSize.y / 2,
                         (flip ? 1 : -1) * spriteSize.x, spriteSize.y, 1, 1, 0);
@@ -108,12 +105,10 @@ public class SpiritBombProjectile extends SyncedAttacker {
             }
         };
         hbox.setSpriteSize(SPRITE_SIZE);
-        hbox.setSyncDefault(false);
+        hbox.setSpriteOffset(SPRITE_OFFSET);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), wallCollider, new Vector2(), new Vector2()));
-
-        wallCollider.addStrategy(new HitboxStrategy(state, wallCollider, user.getBodyData()) {
+        hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             @Override
             public void create() {
@@ -152,6 +147,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
                 SoundEffect.PING.playSourced(state, hbox.getPixelPosition(), 0.6f, 1.5f);
                 Hitbox explosion = getExplosion();
                 explosion.setSpriteSize(SPRITE_SIZE);
+                explosion.setSpriteOffset(SPRITE_OFFSET);
 
                 explosion.addStrategy(new ControllerDefault(state, explosion, user.getBodyData()));
                 explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), WARNING_TIME));
@@ -200,6 +196,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
                             if (projectileSprite.isAnimationFinished(animationTime)) {
                                 setSprite(Sprite.SPIRIT_BOMB_LOOP);
                                 setSpriteSize(SPRITE_SIZE);
+                                setSpriteOffset(SPRITE_OFFSET);
                                 looped = true;
                             }
                         }
@@ -218,10 +215,6 @@ public class SpiritBombProjectile extends SyncedAttacker {
             }
         });
 
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
-        }
-
-        return wallCollider;
+        return hbox;
     }
 }

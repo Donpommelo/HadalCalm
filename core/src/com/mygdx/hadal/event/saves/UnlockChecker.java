@@ -9,12 +9,12 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * An UnlockChecker event. This checks to see if a specified item is locked/unlocked. If so, activate the next item in the chain
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event checks a quest flag. If the item unlock status matches, chain to...
  * Triggering Behavior: If the quest is at the specified point, the next event is activated,
- *
+ * <p>
  * Fields:
- * 
+ * <p>
  * type: String UnlockType of the unlock, (EQUIP, ARTIFACT, ACTIVE, CHARACTER, LEVEL)
  * item: String id of item unlock checked
  * unlock: we chain to the next event if this is equal to the item's unlock status. Default: false

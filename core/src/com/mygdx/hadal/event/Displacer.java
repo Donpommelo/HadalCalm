@@ -17,12 +17,12 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 /**
  * Displacers apply a continuous displacement to entities overlapping them. This is distinct from currents in that it directly transforms the entity's position instead of using physics.
  * This can be used for conveyor belts as well as moving platforms (see triggering behavior).
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: If not null, this represents an event that the displacer is connected to and will follow the movements of another event. 
- * 
+ * <p>
  * When following another event, the displacer displaces equal to its own movement. This makes a player follow a horizontal platform they are standing on with no friction.
- * 
+ * <p>
  * Fields:
  * displaceX, displaceY: floats that indicate the amount of movement that should be performed.
  *

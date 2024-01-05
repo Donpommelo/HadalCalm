@@ -21,10 +21,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 /**
  * This event damages all schmucks inside of it. It can be spawned as a hazard in a map or created temporarily from the effects
  * of attacks
- * 
+ * <p>
  * Triggered Behavior: Toggle whether the poison is on or off
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * damage: float damage per 1/60f done by this event
  * draw: do we draw particles for this event? Default: true

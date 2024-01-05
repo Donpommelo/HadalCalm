@@ -73,7 +73,7 @@ public class RallyPoint implements Comparable<RallyPoint> {
         return path;
     }
 
-    public static record connectionValue(float distance, int teamIndex) {}
+    public record connectionValue(float distance, int teamIndex) {}
 
     @Override
     public int compareTo(RallyPoint o) {

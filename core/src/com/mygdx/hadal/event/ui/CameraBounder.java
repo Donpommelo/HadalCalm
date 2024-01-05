@@ -11,12 +11,12 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A CameraBounder adds movement restrictions to the camera
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event makes changes the properties of the camera.
  * Triggering Behavior: N/A. However, it uses its connected event as a point to make the camera focus on instead. 
- * 
+ * <p>
  * Fields:
- * 
+ * <p>
  * right/left/up/down: Will this set a right/left/up/down bound on the camera (at its own location)
  * spectator: Will this set the camera bounds for normal players or spectators?
  * @author Frabalante Flircester

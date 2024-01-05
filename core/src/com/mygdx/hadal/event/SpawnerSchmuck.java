@@ -13,11 +13,11 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 /**
  * A Trigger spawn is an enemy spawner that activates when triggered by another event.
  * Also, when all enemies are defeated, this event can trigger another event.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this will spawn a group of schmucks.
  * Triggering Behavior: When all spawned enemies are defeated, this will activate its connected event.
  * Alt-Triggered Behavior: When alt-triggered, this spawner changes the number of schmucks it will spawn at once.
- * 
+ * <p>
  * 
  * Fields:
  * id: The id of the type of enemy to spawn

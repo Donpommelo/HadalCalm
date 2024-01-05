@@ -23,7 +23,7 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
  *
  * Triggered Behavior: This event is triggered when a team scores. Increment score and display notification
  * Triggering Behavior: N/A
- *
+ * <p>
  * Fields: teamIndex: int index of the team that is trying to score by bringing enemy flag to this event
  *
  * @author Noporon Nashmere

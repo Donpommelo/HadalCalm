@@ -8,10 +8,10 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * A Level Warp transports the player to another level.
- * 
+ * <p>
  * Triggered Behavior: warps the player to desired level
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * level: The string filename of the level that the player will be warped to.
  * reset: should we reset the player's loadout? Optional. Default: false.

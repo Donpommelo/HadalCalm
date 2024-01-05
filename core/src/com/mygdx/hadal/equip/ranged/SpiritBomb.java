@@ -15,7 +15,7 @@ public class SpiritBomb extends RangedWeapon {
 	private static final float SHOOT_CD = 0.75f;
 	private static final float RELOAD_TIME = 1.4f;
 	private static final int RELOAD_AMOUNT = 0;
-	private static final float PROJECTILE_SPEED = 20.0f;
+	private static final float PROJECTILE_SPEED = 18.0f;
 
 	private static final Vector2 PROJECTILE_SIZE = SpiritBombProjectile.PROJECTILE_SIZE;
 	private static final float LIFESPAN = SpiritBombProjectile.LIFESPAN;

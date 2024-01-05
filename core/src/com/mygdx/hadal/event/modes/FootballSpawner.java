@@ -19,10 +19,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 /**
  * This event spawns a naval-mine-football for the football game mode.
  * When the mine is destroyed, another will be spawned
- *
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- *
+ * <p>
  * Fields: N/A
  *
  * @author Bacott Brembino

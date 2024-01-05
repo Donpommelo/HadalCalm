@@ -18,10 +18,10 @@ import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 /**
  * A Sensor is an activating event that will activate a connected event when touching a specified type of body.
- *
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: When touching a specified type of body, this event will trigger its connected event.
- *
+ * <p>
  * Fields:
  * player: Boolean that describes whether this sensor touches player. Optional. Default: true
  * hbox: Boolean that describes whether this sensor touches hit-boxes. Optional. Default: false

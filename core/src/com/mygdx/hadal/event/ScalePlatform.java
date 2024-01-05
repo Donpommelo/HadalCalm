@@ -13,10 +13,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A scale platform can slide downwards when stepped on
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * @author Fuwald Fuppings
  */

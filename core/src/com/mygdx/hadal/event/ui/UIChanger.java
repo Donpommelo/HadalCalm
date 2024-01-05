@@ -8,10 +8,10 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A UIChanger changes the UI. specifically, the UILevel (name tentative) actor to display different information or change 
  * some extra, non-score field like lives.
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event will change the text that appears in the upper right-hand side of the screen.
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * types: This string specifies the uiType enums that will be used for the ui change. This is a comma-separated list of enum names. (or just the text for misc labels)
  * changeType: this is an boolean that specifies whether we clear existing tags before adding these. Default: true

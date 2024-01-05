@@ -13,12 +13,12 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 /**
  * A PositionDummy is an event that simply provides a reference to its position. This is used by other events that need to connect
  * to an event to do something related to its location like a portal or a moving platform.
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A. However, this event is commonly used with moving platforms which use these events as points along a path
  * 	to move along. When reaching one event, the platform will begin moving towards its connected event. As such, when making moving
  * 	platform paths, this should connect to the next event in the path.
- * 
+ * <p>
  * Fields:
  * dummyId: This id is used for special dummy interactable (for example, a boss might look for a "ceiling" dummy to spawn falling rocks)
  * @author Stidorf Swineymaker

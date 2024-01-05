@@ -106,7 +106,7 @@ public class ScoreWindow {
 
 		//set table dimensions and location
 		int tableHeight = SCORE_BASE_HEIGHT + SCORE_TITLE_HEIGHT * 2;
-		tableHeight += (scoreHeight + scorePad) * HadalGame.usm.getUsers().size;
+		tableHeight += (int) ((scoreHeight + scorePad) * HadalGame.usm.getUsers().size);
 
 		windowScore.setSize(SCORE_WIDTH, tableHeight);
 		windowScore.setPosition((HadalGame.CONFIG_WIDTH - SCORE_WIDTH) / 2, HadalGame.CONFIG_HEIGHT - tableHeight);

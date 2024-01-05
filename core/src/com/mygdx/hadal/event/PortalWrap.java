@@ -13,7 +13,7 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
  * A Wrapping portal transports players that touch it to a destination but keep the player's x or y coordinate constant.
  * Triggered Behavior: N/A
  * Triggering Behavior: This is the event that the player will be teleported to.
- * 
+ * <p>
  * Fields:
  * axis: boolean do we keep the player's x constant or y?. Default: true (x)
  * direction: boolean. what direction do we warp the player? Default: false (upwards/rightwards)

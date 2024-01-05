@@ -12,19 +12,19 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * An EventMover. This Event will move a specified event to its own location.
- * 
+ * <p>
  * Note that moving objects during physics step is not good. Because an event can be activated any time, this event,
  * when triggered, will wait until the next engine tick to actually perform the move safely.
- * 
+ * <p>
  * Also, as an extra note, deleting + cloning do not have this problem b/c adding + removing stuff is already done safely
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event will perform the move.
  * Triggering Behavior: The connected event is the one who will be moved.
- * 
+ * <p>
  * Note that many events do not have bodies. Attempting to move them will do nothing.
- * 
+ * <p>
  * Fields:
- * 
+ * <p>
  * gravity: Specifies whether to make the newly-moved object have gravity. Optional. Default: 0.0f
  * (This pretty much only exists to make the NASU minigame work)
  * 

@@ -17,10 +17,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 /**
  * This event is a solid block that can be passed by hitboxes, but not the player.
  * When the player presses crouch when standing on it, they will pass through it.
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * N/A
  * 

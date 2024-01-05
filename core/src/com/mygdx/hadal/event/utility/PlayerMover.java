@@ -11,10 +11,10 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A PlayerMover is an event that transports the player elsewhere when they it is activated.
  * The event they are transported to does not have to be a portal.
- * 
+ * <p>
  * Triggered Behavior: This triggers moving the player
  * Triggering Behavior: This event's connected event serves as the point that schmucks will be teleported to
- * 
+ * <p>
  * Fields:
  * all: boolean. do we move all players or not?
  * exclude: boolean. do we exclude the player that activated this? 

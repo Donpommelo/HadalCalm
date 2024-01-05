@@ -10,12 +10,12 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * The SpriteChanger changes the sprite of a connected event
- * 
+ * <p>
  * Triggered Behavior: When triggered, this event changes some property of the connected event's sprite.
  * Triggering Behavior: N/A. This is the event whose sprite we wish to change
- * 
+ * <p>
  * Fields:
- * 
+ * <p>
  * sprite: name of the new sprite
  * mode: string the type of play mode (NORMAL, LOOP, LOOP_PINGPONG etc)
  * still: boolean. will the new sprite be animated or not?

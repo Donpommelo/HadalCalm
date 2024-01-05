@@ -9,7 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * ItemUnlocker unlocks a specified equip, artifact, active item, level or character
- * 
+ * <p>
  * Fields:
  * type: type of item to unlock (EQUIP, ARTIFACT, ACTIVE, CHARACTER, LEVEL)
  * item: String name of the item to unlock

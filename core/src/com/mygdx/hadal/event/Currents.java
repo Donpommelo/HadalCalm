@@ -21,10 +21,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * Currents are an event that apply a continuous force to all schmucks inside of it.
- * 
+ * <p>
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
- * 
+ * <p>
  * Fields:
  * N/A
  * 

@@ -13,10 +13,10 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Text just displays some words
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A.
- * 
+ * <p>
  * Fields:
  * text: htext enum for string to be displayed
  * scale: float of the size of the text

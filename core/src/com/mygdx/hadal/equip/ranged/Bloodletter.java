@@ -56,7 +56,7 @@ public class Bloodletter extends RangedWeapon {
 
 		if (shooting) {
 			if (fireSound == null) {
-				fireSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.0f, 0.8f, 1.0f, true,
+				fireSound = new SoundEntity(state, user, SoundEffect.STRAW, 0.0f, 1.2f, 0.7f, true,
 						true, SyncType.NOSYNC);
 				if (!state.isServer()) {
 					((ClientState) state).addEntity(fireSound.getEntityID(), fireSound, false, PlayState.ObjectLayer.EFFECT);

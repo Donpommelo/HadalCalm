@@ -154,9 +154,4 @@ public class ActiveItem extends Equippable {
 	 * This is checked by a few effects that want to do something after an active item completes.
 	 */
 	public float getUseDuration() { return 0.0f; }
-
-	/**
-	 * These fields represent the item's stats to appear in its description
-	 */
-	public String[] getDescFields() { return new String[] {}; }
 }

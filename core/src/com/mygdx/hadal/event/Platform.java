@@ -14,13 +14,13 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  * A Semipermeable wall is a wall that some objects can pass through
- * 
+ * <p>
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A.
- * 
+ * <p>
  * Fields:
  * restitution: float value of platform bounciness. Default: 0.0f
- * 
+ * <p>
  * wall: Boolean that describes whether walls can pass through this. Default: true
  * player: Boolean that describes whether players can pass through this. Default: true
  * hbox: Boolean that describes whether hitboxes can pass through this. Optional. Default: true

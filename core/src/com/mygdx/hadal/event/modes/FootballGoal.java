@@ -22,10 +22,10 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 /**
  * This event spawns a naval-mine-football for the football game mode.
  * When the mine is destroyed, another will be spawned
- *
+ * <p>
  * Triggered Behavior: This event is triggered when a team score. Increment score and display notification
  * Triggering Behavior: N/A
- *
+ * <p>
  * Fields: teamIndex: int index of the team that is trying to score on this goal
  *
  * @author Himilius Huctuford

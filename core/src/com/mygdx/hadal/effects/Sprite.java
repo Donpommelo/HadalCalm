@@ -51,6 +51,8 @@ public enum Sprite {
 	FLASH_GRENADE(SpriteType.PROJECTILE, "flashgrenade"),
 	FLOUNDER_A(SpriteType.PROJECTILE, "flounder_a"),
 	FLOUNDER_B(SpriteType.PROJECTILE, "flounder_b"),
+	FROG_STAND(SpriteType.PROJECTILE, "frog_idle"),
+	FROG_JUMP(SpriteType.PROJECTILE, "frog_jump"),
 	FUGU(SpriteType.PROJECTILE, "fugu"),
 	GOLDFISH(SpriteType.PROJECTILE, "goldfish"),
 	DRILL(SpriteType.PROJECTILE, "underminer"),
