@@ -159,10 +159,10 @@ public class Record {
 	public static Record retrieveRecord() {
 		Record tempRecord;
 		try {
-			tempRecord = JSON.fromJson(Record.class, READER.parse(Gdx.files.internal("save/Records.json")).toJson(JsonWriter.OutputType.json));
+			tempRecord = JSON.fromJson(Record.class, READER.parse(Gdx.files.local("save/Records.json")).toJson(JsonWriter.OutputType.json));
 		} catch (SerializationException e) {
 			Record.createNewRecord();
-			tempRecord = JSON.fromJson(Record.class, READER.parse(Gdx.files.internal("save/Records.json")).toJson(JsonWriter.OutputType.json));
+			tempRecord = JSON.fromJson(Record.class, READER.parse(Gdx.files.local("save/Records.json")).toJson(JsonWriter.OutputType.json));
 		}
 		return tempRecord;
 	}

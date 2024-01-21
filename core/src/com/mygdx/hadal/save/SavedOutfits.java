@@ -38,10 +38,10 @@ public class SavedOutfits {
     public static SavedOutfits retrieveOutfits() {
         SavedOutfits tempOutfits;
         try {
-            tempOutfits = JSON.fromJson(SavedOutfits.class, READER.parse(Gdx.files.internal("save/Outfits.json")).toJson(JsonWriter.OutputType.json));
+            tempOutfits = JSON.fromJson(SavedOutfits.class, READER.parse(Gdx.files.local("save/Outfits.json")).toJson(JsonWriter.OutputType.json));
         } catch (SerializationException e) {
             SavedOutfits.createNewOutfits();
-            tempOutfits = JSON.fromJson(SavedOutfits.class, READER.parse(Gdx.files.internal("save/Outfits.json")).toJson(JsonWriter.OutputType.json));
+            tempOutfits = JSON.fromJson(SavedOutfits.class, READER.parse(Gdx.files.local("save/Outfits.json")).toJson(JsonWriter.OutputType.json));
         }
         return tempOutfits;
     }

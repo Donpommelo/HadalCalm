@@ -76,15 +76,15 @@ public class SavedLoadout {
 	public static SavedLoadout retrieveLoadout() {
 		SavedLoadout tempLoadout;
 		try {
-			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		} catch (SerializationException e) {
 			SavedLoadout.createNewLoadout();
-			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
 		if (tempLoadout.equip == null || tempLoadout.artifact == null || tempLoadout.cosmetic == null ||
 				tempLoadout.active == null || tempLoadout.character == null || tempLoadout.team == null) {
 			SavedLoadout.createNewLoadout();
-			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.internal("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
 		return tempLoadout;
 	}

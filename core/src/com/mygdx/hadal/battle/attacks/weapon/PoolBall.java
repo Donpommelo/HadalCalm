@@ -24,14 +24,14 @@ import static com.mygdx.hadal.constants.Constants.PPM;
 
 public class PoolBall extends SyncedAttacker {
 
-    public static final float PROJECTILE_SPEED = 10.0f;
-    public static final float PROJECTILE_MAX_SPEED = 60.0f;
+    public static final float PROJECTILE_SPEED = 12.0f;
+    public static final float PROJECTILE_MAX_SPEED = 72.0f;
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(50, 50);
     public static final float LIFESPAN = 6.0f;
     public static final float BASE_DAMAGE = 20.0f;
     private static final float RECOIL = 5.0f;
-    private static final float KNOCKBACK = 15.0f;
+    private static final float KNOCKBACK = 21.0f;
     private static final float FLASH_LIFESPAN = 0.5f;
     private static final float PROJ_DAMPEN = 1.5f;
 

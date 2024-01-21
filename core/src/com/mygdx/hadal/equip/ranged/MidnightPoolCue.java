@@ -21,11 +21,11 @@ public class MidnightPoolCue extends RangedWeapon {
 	private static final float SHOOT_CD = 0.0f;
 	private static final float RELOAD_TIME = 1.9f;
 	private static final int RELOAD_AMOUNT = 0;
-	private static final float PROJECTILE_SPEED = 10.0f;
-	private static final float MAX_CHARGE = 0.4f;
+	private static final float PROJECTILE_SPEED = 12.0f;
+	private static final float MAX_CHARGE = 0.3f;
 
 	//keeps track of attack speed without input buffer doing an extra mouse click
-	private static final float INNATE_ATTACK_COOLDOWN = 0.4f;
+	private static final float INNATE_ATTACK_COOLDOWN = 0.25f;
 
 	private static final Vector2 PROJECTILE_SIZE = PoolBall.PROJECTILE_SIZE;
 	private static final float LIFESPAN = PoolBall.LIFESPAN;

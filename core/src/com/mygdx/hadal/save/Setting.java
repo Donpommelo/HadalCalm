@@ -57,10 +57,10 @@ public class Setting {
 	public static Setting retrieveSetting() {
 		Setting tempSetting;
 		try {
-			tempSetting = JSON.fromJson(Setting.class, READER.parse(Gdx.files.internal("save/Settings.json")).toJson(JsonWriter.OutputType.json));
+			tempSetting = JSON.fromJson(Setting.class, READER.parse(Gdx.files.local("save/Settings.json")).toJson(JsonWriter.OutputType.json));
 		} catch (SerializationException e) {
 			Setting.createNewSetting();
-			tempSetting = JSON.fromJson(Setting.class, READER.parse(Gdx.files.internal("save/Settings.json")).toJson(JsonWriter.OutputType.json));
+			tempSetting = JSON.fromJson(Setting.class, READER.parse(Gdx.files.local("save/Settings.json")).toJson(JsonWriter.OutputType.json));
 		}
 		return tempSetting;
 	}

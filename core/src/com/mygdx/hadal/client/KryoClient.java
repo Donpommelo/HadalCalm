@@ -104,15 +104,13 @@ public class KryoClient {
         	public void disconnected(Connection c) {
         		final ClientState cs = getClientState();
 				
-        		//If our client state is still here, the server closed
-				if (null != cs) {
-					addNotification(cs, "", UIText.DISCONNECTED.text(), false, DialogType.SYSTEM);
-				}
-				
 				//return to the lobby state. (if our client state is still there, we can do a fade out transition first.
         		Gdx.app.postRunnable(() -> {
 
 					if (null != cs) {
+
+						//If our client state is still here, the server closed
+						addNotification(cs, "", UIText.DISCONNECTED.text(), false, DialogType.SYSTEM);
 						cs.returnToTitle(1.0f);
 					} else {
 						gsm.removeState(ResultsState.class);
@@ -289,7 +287,7 @@ public class KryoClient {
 					gsm.removeState(AboutState.class, false);
 					gsm.removeState(PauseState.class, false);
 
-					boolean spectator = null != cs ? cs.isSpectatorMode() : false;
+					boolean spectator = null != cs && cs.isSpectatorMode();
 					gsm.removeState(ClientState.class, false);
 
 					//set mode settings according to what the server sends

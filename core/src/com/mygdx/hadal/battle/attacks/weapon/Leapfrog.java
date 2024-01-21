@@ -26,7 +26,7 @@ public class Leapfrog extends SyncedAttacker {
     public static final Vector2 SPRITE_OFFSET = new Vector2(0, 25);
     public static final Vector2 SPRITE_OFFSET_JUMP = new Vector2(0, -25);
     public static final float LIFESPAN = 50.0f;
-    public static final float BASE_DAMAGE = 45.0f;
+    public static final float BASE_DAMAGE = 39.0f;
     private static final float RECOIL = 6.0f;
     private static final float KNOCKBACK = 30.0f;
     private static final float FLASH_LIFESPAN = 0.5f;
@@ -34,6 +34,7 @@ public class Leapfrog extends SyncedAttacker {
     public static final int LEAP_AMOUNT = 3;
     private static final float LEAP_COUNT = 0.5f;
     private static final float LEAP_DURATION = 0.25f;
+    private static final float MAX_LEAP_DURATION = 4.0f;
     private static final float MIN_LEAP_ANGLE = 45;
 
     private static final Sprite PROJ_SPRITE = Sprite.FROG_STAND;
@@ -130,11 +131,13 @@ public class Leapfrog extends SyncedAttacker {
 
             private float leapAmount;
             private float groundedCount;
+            private float aerialCount;
             private float jumpDuration;
             private boolean jumping;
             @Override
             public void controller(float delta) {
                 if (feetData.getNumContacts() > 0) {
+                    aerialCount = 0.0f;
 
                     if (jumping && jumpDuration >= LEAP_DURATION) {
                         hbox.setSprite(Sprite.FROG_STAND);
@@ -164,6 +167,12 @@ public class Leapfrog extends SyncedAttacker {
                     }
                 } else {
                     groundedCount = 0;
+
+                    //safeguard for projectiles that never touch the ground
+                    aerialCount += delta;
+                    if (aerialCount >= MAX_LEAP_DURATION) {
+                        hbox.die();
+                    }
                 }
 
                 if (jumping) {

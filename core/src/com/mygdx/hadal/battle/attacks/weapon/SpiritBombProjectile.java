@@ -83,6 +83,10 @@ public class SpiritBombProjectile extends SyncedAttacker {
             public void render(SpriteBatch batch, Vector2 entityLocation) {
                 if (!alive) { return; }
 
+                if (faded && state.getPlayer().getHitboxFilter() != creator.getHitboxFilter()) {
+                    return;
+                }
+
                 float direction = getLinearVelocity().x;
                 if (direction != 0.0f) {
                     flip = getLinearVelocity().x > 0.0f;
@@ -98,7 +102,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
 
             @Override
             public Shader getShaderStatic() {
-                if (faded) {
+                if (faded && state.getPlayer().getHitboxFilter() == creator.getHitboxFilter()) {
                     return Shader.TRANSLUCENT;
                 }
                 return super.getShaderStatic();
