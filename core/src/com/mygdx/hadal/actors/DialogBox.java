@@ -175,7 +175,7 @@ public class DialogBox extends AHadalActor {
 			
 			//If this dialogue is the last in a conversation, trigger the designated event.
 			if (dialogs.first().getInfo().isEnd() && dialogs.first().getTrigger() != null && dialogs.first().getRadio() != null) {
-				dialogs.first().getTrigger().onActivate(dialogs.first().getRadio(), ps.getPlayer());
+				dialogs.first().getTrigger().onActivate(dialogs.first().getRadio(), HadalGame.usm.getOwnPlayer());
 			}
 
 			dialogs.removeFirst();

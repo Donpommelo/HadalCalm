@@ -20,8 +20,8 @@ import com.mygdx.hadal.utils.PacketUtil;
 public class PlayerClientOnHost extends Player {
 
 	public PlayerClientOnHost(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
-							  int connID, User user, boolean reset, Event start) {
-		super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
+							  User user, boolean reset, Event start) {
+		super(state, startPos, name, startLoadout, oldData, user, reset, start);
 		receivingSyncs = true;
 	}
 
@@ -67,7 +67,7 @@ public class PlayerClientOnHost extends Player {
 		super.onReceiveSync(o, timestamp);
 
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
-			HadalGame.server.sendToAllExceptUDP(getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getConnID(),
+			HadalGame.server.sendToAllExceptUDP(getUser().getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getUser().getConnID(),
 					p.pos, p.velocity, p.mousePosition,
 					state.getTimer(), p.moveState,
 					p.hpPercent,
@@ -89,19 +89,19 @@ public class PlayerClientOnHost extends Player {
 
 			getMouseHelper().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 
-			getPlayerData().setCurrentSlot(p.currentSlot);
-			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
-			setToolSprite(getPlayerData().getCurrentTool().getWeaponSprite().getFrame());
+			getEquipHelper().setCurrentSlot(p.currentSlot);
+			getEquipHelper().setCurrentTool(getEquipHelper().getMultitools()[p.currentSlot]);
+			setToolSprite(getEquipHelper().getCurrentTool().getWeaponSprite().getFrame());
 
 			float reloadPercent = PacketUtil.byteToPercent(p.reloadPercent);
-			getPlayerData().getCurrentTool().setReloading(reloadPercent != -1.0f, true);
+			getEquipHelper().getCurrentTool().setReloading(reloadPercent != -1.0f, true);
 			getUiHelper().setReloadPercent(reloadPercent);
-			getPlayerData().getCurrentTool().setReloadCd(reloadPercent);
+			getEquipHelper().getCurrentTool().setReloadCd(reloadPercent);
 
 			float chargePercent = PacketUtil.byteToPercent(p.chargePercent);
-			getPlayerData().getCurrentTool().setCharging(chargePercent != -1.0f);
+			getEquipHelper().getCurrentTool().setCharging(chargePercent != -1.0f);
 			getUiHelper().setChargePercent(chargePercent);
-			getPlayerData().getCurrentTool().setChargeCd(chargePercent);
+			getEquipHelper().getCurrentTool().setChargeCd(chargePercent);
 
 			processConditionCode(p.conditionCode);
 

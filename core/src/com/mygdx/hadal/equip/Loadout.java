@@ -78,4 +78,12 @@ public class Loadout {
 		character = old.character;
 		team = old.team;
 	}
+
+	public int getArtifactSlotsUsed() {
+		int slotsUsed = 0;
+		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
+			slotsUsed += artifacts[i].getArtifact().getSlotCost();
+		}
+		return slotsUsed;
+	}
 }

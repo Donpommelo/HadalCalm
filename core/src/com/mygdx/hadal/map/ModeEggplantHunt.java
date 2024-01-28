@@ -11,7 +11,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -33,13 +33,13 @@ public class ModeEggplantHunt extends ModeSetting {
             if (null != vic.getUser()) {
 
                 //upon death, lose eggplants and drop them according to how many you have
-                SavedPlayerFields field = vic.getUser().getScores();
+                ScoreManager field = vic.getUser().getScoreManager();
                 int score = (int) (field.getScore() * EGGPLANT_MULTIPLIER);
                 if (0 > score) {
                     score = 0;
                 }
                 state.getMode().processPlayerScoreChange(state, vic, -score);
-                PickupUtils.spawnScrap(state, vic, vic.getPixelPosition(), vic.getLinearVelocity(),
+                PickupUtils.spawnScrap(state, perp, vic.getPixelPosition(), vic.getLinearVelocity(),
                         score + BASE_EGGPLANT_DROP, true, true);
             }
         }

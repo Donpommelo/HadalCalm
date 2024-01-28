@@ -24,7 +24,7 @@ public class DasBoot extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
-				if (p.getCurrentTool().isReloading() && damage > 0) {
+				if (p.getPlayer().getEquipHelper().getCurrentTool().isReloading() && damage > 0) {
 					return damage * DAMAGE_RESISTANCE;
 				}
 				return damage;

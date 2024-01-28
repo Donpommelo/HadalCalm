@@ -72,7 +72,7 @@ public class PlayerUIHelper {
     }
 
     public void controllerEquip(float delta) {
-        Equippable currentTool = player.getPlayerData().getCurrentTool();
+        Equippable currentTool = player.getEquipHelper().getCurrentTool();
 
         //keep track of reload/charge percent to properly sync those fields in the ui
         reloadPercent = currentTool.getReloadCd() / (currentTool.getReloadTime());
@@ -87,7 +87,7 @@ public class PlayerUIHelper {
     public void render(SpriteBatch batch, Vector2 playerLocation, boolean visible) {
         float textX = playerLocation.x - reloadMeter.getRegionWidth() * UI_SCALE / 2;
         float textY = playerLocation.y + reloadMeter.getRegionHeight() * UI_SCALE + player.getSize().y / 2;
-        Equippable currentTool = player.getPlayerData().getCurrentTool();
+        Equippable currentTool = player.getEquipHelper().getCurrentTool();
 
         //render player ui
         if (currentTool.isReloading()) {
@@ -141,7 +141,7 @@ public class PlayerUIHelper {
                 }
             }
 
-            if (player.equals(state.getPlayer())) {
+            if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
                 if (state.getGsm().getSetting().isDisplayHp()) {
                     hpRatio = state.getUiPlay().getHpRatio();
                     fuelRatio = state.getUiPlay().getFuelRatio();

@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.entities.helpers.LoadoutEquipHelper;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -34,25 +35,26 @@ public class JuryRiggedBindings extends Artifact {
 			public void whileAttacking(float delta, Equippable tool) {
 				
 				if (tool.isReloading()) { return; }
+				LoadoutEquipHelper equipHelper = p.getPlayer().getEquipHelper();
 
 				float procCd = -1;
-				for (int i = 0; i < p.getNumWeaponSlots(); i++) {
-					if (p.getMultitools()[(p.getCurrentSlot() + lastFiredIndex + 1) % p.getNumWeaponSlots()] instanceof RangedWeapon ranged) {
+				for (int i = 0; i < equipHelper.getNumWeaponSlots(); i++) {
+					if (equipHelper.getMultitools()[(equipHelper.getCurrentSlot() + lastFiredIndex + 1) % equipHelper.getNumWeaponSlots()] instanceof RangedWeapon ranged) {
 						procCd = ranged.getUseCd() / FIRE_RATE_MULTIPLIER + BASE_FIRE_RATE;
 						break;
 					}
-					lastFiredIndex = (lastFiredIndex + 1) % (p.getNumWeaponSlots() - 1);
+					lastFiredIndex = (lastFiredIndex + 1) % (equipHelper.getNumWeaponSlots() - 1);
 				}
 
 				if (procCdCount >= procCd && procCd != -1) {
 					procCdCount = 0.0f;
 
-					Equippable extraFire = p.getMultitools()[(p.getCurrentSlot() + lastFiredIndex + 1) % p.getNumWeaponSlots()];
+					Equippable extraFire = equipHelper.getMultitools()[(equipHelper.getCurrentSlot() + lastFiredIndex + 1) % equipHelper.getNumWeaponSlots()];
 					if (extraFire instanceof RangedWeapon ranged) {
 						startVelo.set(tool.getWeaponVelo()).nor().scl(ranged.getProjectileSpeed());
 						extraFire.fire(state, p.getPlayer(), p.getPlayer().getProjectileOrigin(startVelo, extraFire.getAmmoSize()),
 								startVelo, p.getSchmuck().getHitboxFilter());
-						lastFiredIndex = (lastFiredIndex + 1) % (p.getNumWeaponSlots() - 1);
+						lastFiredIndex = (lastFiredIndex + 1) % (equipHelper.getNumWeaponSlots() - 1);
 					}
 				}
 			}

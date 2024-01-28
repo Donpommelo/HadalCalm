@@ -182,7 +182,7 @@ public class MessageWindow {
 				if (state.isServer()) {
 
 					//if this is a console commend, execute it. (if it is used by host and console is enabled)
-					if (-1 == ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText())) {
+					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText())) {
 						if (state.getGsm().getSetting().isConsoleEnabled()) {
 							if (-1 == ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText())) {
 								HadalGame.server.addChatToAll(state, enterMessage.getText(), DialogType.DIALOG, 0);
@@ -193,7 +193,7 @@ public class MessageWindow {
 					}
 				} else {
 					//if this is a chat command, execute it.
-					if (-1 == ConsoleCommandUtil.parseChatCommand(state, state.getPlayer(), enterMessage.getText())) {
+					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText())) {
 						HadalGame.client.sendTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
@@ -271,7 +271,9 @@ public class MessageWindow {
             		//if typing, we notify other players that we are typing to display the speech bubble
             		if (typing) {
             			typing = false;
-            			state.getPlayer().getUiHelper().startTyping();
+						if (null != HadalGame.usm.getOwnPlayer()) {
+							HadalGame.usm.getOwnPlayer().getUiHelper().startTyping();
+						}
             		}
             	}
             }
@@ -349,11 +351,11 @@ public class MessageWindow {
 
 				//system messages are all red.
 				if (DialogType.SYSTEM.equals(type)) {
-					newText = "[RED]" + user.getScores().getNameShort() + ": " + text + " []";
+					newText = "[RED]" + user.getStringManager().getNameShort() + ": " + text + " []";
 				} else if (null == user.getPlayer()) {
 
 					//text is white if player is a spectator or otherwise has no player
-					newText = "[WHITE]" + user.getScores().getNameShort() + ": " + text + " []";
+					newText = "[WHITE]" + user.getStringManager().getNameShort() + ": " + text + " []";
 				} else {
 
 					//normal chat messages color names according to the player's team color

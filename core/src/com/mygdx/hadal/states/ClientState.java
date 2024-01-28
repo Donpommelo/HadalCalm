@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -16,8 +15,8 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import java.util.UUID;
@@ -53,8 +52,8 @@ public class ClientState extends PlayState {
 	private final ObjectMap<UUID, Float> timeSinceLastMissedCreate = new ObjectMap<>();
 	private final Array<UUID> missedCreatesToRemove = new Array<>();
 
-	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level, GameMode mode) {
-		super(gsm, loadout, level, mode,false, null, true, "");
+	public ClientState(GameStateManager gsm, UnlockLevel level, GameMode mode) {
+		super(gsm, level, mode,false, true, "");
 		entityLists.add(hitboxes);
 		entityLists.add(entities);
 		entityLists.add(effects);
@@ -86,15 +85,16 @@ public class ClientState extends PlayState {
 		//we check if we are in a playstate (not paused or in setting menu) b/c we don't reset control in those states
 		if (!gsm.getStates().empty()) {
 			if (gsm.getStates().peek() instanceof PlayState) {
+				if (null != HadalGame.usm.getOwnPlayer()) {
+					//Whenever the controller is reset, the client gets a new client controller.
+					controller = new PlayerController(HadalGame.usm.getOwnPlayer());
 
-				//Whenever the controller is reset, the client gets a new client controller.
-				controller = new PlayerController(player);
-				
-				InputMultiplexer inputMultiplexer = new InputMultiplexer();
-				inputMultiplexer.addProcessor(stage);
-				inputMultiplexer.addProcessor(controller);
-				inputMultiplexer.addProcessor(new CommonController(this));
-				Gdx.input.setInputProcessor(inputMultiplexer);
+					InputMultiplexer inputMultiplexer = new InputMultiplexer();
+					inputMultiplexer.addProcessor(stage);
+					inputMultiplexer.addProcessor(controller);
+					inputMultiplexer.addProcessor(new CommonController(this));
+					Gdx.input.setInputProcessor(inputMultiplexer);
+				}
 			}
 		}
 	}
@@ -273,9 +273,9 @@ public class ClientState extends PlayState {
 			setSpectatorMode();
 
 			//sometimes, the client can miss the server's delete packet. if so, delete own player automatically
-			if (player != null) {
-				if (player.isAlive()) {
-					removeEntity(player.getEntityID());
+			if (HadalGame.usm.getOwnPlayer() != null) {
+				if (HadalGame.usm.getOwnPlayer().isAlive()) {
+					removeEntity(HadalGame.usm.getOwnPlayer().getEntityID());
 				}
 			}
 			

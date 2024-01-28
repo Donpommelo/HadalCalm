@@ -30,8 +30,8 @@ public class PlayerBot extends Player {
     private float currentWobble;
 
     public PlayerBot(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
-                     int connID, User user, boolean reset, Event start) {
-        super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
+                     User user, boolean reset, Event start) {
+        super(state, startPos, name, startLoadout, oldData, user, reset, start);
         this.botController = new BotControllerPlayer(this);
         this.personality = new BotPersonality(state.getMode().getBotDifficulty());
     }

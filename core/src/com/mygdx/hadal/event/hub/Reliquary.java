@@ -13,6 +13,7 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -77,10 +78,13 @@ public class Reliquary extends HubEvent {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						if (state.getPlayer().getPlayerData() == null) { return; }
+						Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+						if (null == ownPlayer) { return; }
+						if (null == ownPlayer.getPlayerData()) { return; }
 
 						if (state.isServer()) {
-							state.getPlayer().getPlayerData().addArtifact(selected, false, true);
+							ownPlayer.getArtifactHelper().addArtifact(selected, false, true);
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactAddClient(selected, true));
 						}

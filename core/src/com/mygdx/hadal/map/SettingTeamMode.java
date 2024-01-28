@@ -12,14 +12,15 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.TooltipManager;
+import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.Transition;
+import com.mygdx.hadal.users.User;
 
-import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
-import static com.mygdx.hadal.states.PlayState.LONG_FADE_DELAY;
+import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
 
 /**
  * This mode setting is used for modes where the host can designate the team mode.
@@ -161,7 +162,7 @@ public class SettingTeamMode extends ModeSetting {
             //coop levels end when all players are dead
             for (User user : users) {
                 if (!user.isSpectator()) {
-                    if (user.getScores().getLives() > 0) {
+                    if (user.getScoreManager().getLives() > 0) {
                         allded = false;
                         break;
                     }
@@ -173,7 +174,7 @@ public class SettingTeamMode extends ModeSetting {
             short factionLeft = -1;
             for (User user : users) {
                 if (!user.isSpectator()) {
-                    if (user.getScores().getLives() > 0) {
+                    if (user.getScoreManager().getLives() > 0) {
                         Player playerLeft = user.getPlayer();
                         if (playerLeft != null) {
 
@@ -182,12 +183,12 @@ public class SettingTeamMode extends ModeSetting {
                                 resultsText = UIText.PLAYER_WINS.text(playerLeft.getName());
                             } else {
                                 //if team mode, living players qualify their team for a win (or themselves if on a solo-team)
-                                if (!AlignmentFilter.NONE.equals(playerLeft.getPlayerData().getLoadout().team)) {
-                                    resultsText = UIText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
+                                if (!AlignmentFilter.NONE.equals(user.getLoadoutManager().getActiveLoadout().team)) {
+                                    resultsText = UIText.PLAYER_WINS.text(user.getLoadoutManager().getActiveLoadout().team.getTeamName());
                                     winningTeam = user.getTeamFilter();
                                 } else {
                                     resultsText = UIText.PLAYER_WINS.text(playerLeft.getName());
-                                    winningTeam = user.getHitBoxFilter();
+                                    winningTeam = user.getHitboxFilter();
                                 }
                             }
 
@@ -209,30 +210,36 @@ public class SettingTeamMode extends ModeSetting {
         if (allded) {
             for (User user : users) {
                 if (!user.isSpectator()) {
-                    SavedPlayerFields score = user.getScores();
+                    ScoreManager score = user.getScoreManager();
                     if (TeamMode.FFA.equals(mode.getTeamMode())) {
-                        if (user.getScores().getLives() > 0) {
+                        if (user.getScoreManager().getLives() > 0) {
                             score.win();
                         }
                     } else {
                         if (!AlignmentFilter.NONE.equals(winningTeam)) {
-                            if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+                            if (user.getHitboxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
                                 score.win();
                             }
                         }
                     }
                 }
             }
-            state.transitionToResultsState(resultsText, PlayState.LONG_FADE_DELAY);
+            state.transitionToResultsState(resultsText, LONG_FADE_DELAY);
         } else {
 
             //the player that dies respawns if there are still others left and becomes a spectator otherwise
             User dedUser = p.getUser();
             if (dedUser != null) {
-                if (dedUser.getScores().getLives() > 0) {
-                    dedUser.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
+                if (dedUser.getScoreManager().getLives() > 0) {
+                    dedUser.getTransitionManager().beginTransition(state,
+                            new Transition()
+                                    .setNextState(TransitionState.RESPAWN)
+                                    .setFadeDelay(state.getRespawnTime()));
                 } else {
-                    dedUser.beginTransition(state, PlayState.TransitionState.SPECTATOR, false, DEFAULT_FADE_OUT_SPEED, LONG_FADE_DELAY);
+                    dedUser.getTransitionManager().beginTransition(state,
+                            new Transition()
+                                    .setNextState(TransitionState.SPECTATOR)
+                                    .setFadeDelay(LONG_FADE_DELAY));
                 }
             }
         }

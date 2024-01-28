@@ -41,16 +41,19 @@ public class FiringWeapon extends Status {
 		
 		super.timePassing(delta);
 		
-		//if switching away from the spraying weapon, the spray ends
-		if (!inflicted.getCurrentTool().equals(tool)) {
-			return;
-		}
+
 		
 		//when it activates, this status sets the tool's weaponVelo field and then fires it 
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
 			
 			if (inflicted.getSchmuck() instanceof Player player) {
+
+				//if switching away from the spraying weapon, the spray ends
+				if (!player.getEquipHelper().getCurrentTool().equals(tool)) {
+					return;
+				}
+
 				shotsFired++;
 				player.getSpecialWeaponHelper().setSprayWeaponShotNumber(shotsFired);
 
@@ -59,8 +62,8 @@ public class FiringWeapon extends Status {
 
 					projOrigin.set(player.getProjectileOrigin(projVelo, projSize));
 
-					inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
-					inflicted.getCurrentTool().fire(state, player, projOrigin, projVelo, inflicted.getSchmuck().getHitboxFilter());
+					inflicted.statusProcTime(new ProcTime.Shoot(player.getEquipHelper().getCurrentTool()));
+					player.getEquipHelper().getCurrentTool().fire(state, player, projOrigin, projVelo, player.getHitboxFilter());
 				}
 			}
 		}

@@ -3,6 +3,7 @@ package com.mygdx.hadal.event.hub;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
@@ -93,9 +94,11 @@ public class HubEvent extends Event {
 	@Override
 	public void controller(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst2(state.getPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE && !state.isSpectatorMode()) {
-				leave();
-				open = false;
+			if (null != HadalGame.usm.getOwnPlayer()) {
+				if (getPosition().dst2(HadalGame.usm.getOwnPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE && !state.isSpectatorMode()) {
+					leave();
+					open = false;
+				}
 			}
 		}
 	}
@@ -103,10 +106,13 @@ public class HubEvent extends Event {
 	@Override
 	public void clientController(float delta) {
 		if (open && closeOnLeave) {
-			if (getPosition().dst2(state.getPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE) {
-				leave();
-				open = false;
+			if (null != HadalGame.usm.getOwnPlayer()) {
+				if (getPosition().dst2(HadalGame.usm.getOwnPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE) {
+					leave();
+					open = false;
+				}
 			}
+
 		}
 	}
 

@@ -65,7 +65,7 @@ public class MorningStar extends MeleeWeapon {
 
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
-		if (!this.equals(user.getPlayerData().getCurrentTool())) {
+		if (!this.equals(user.getEquipHelper().getCurrentTool())) {
 			deactivate();
 		}
 	}

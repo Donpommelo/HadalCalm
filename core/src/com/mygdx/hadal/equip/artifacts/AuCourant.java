@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.schmucks.entities.helpers.LoadoutEquipHelper;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -27,10 +28,11 @@ public class AuCourant extends Artifact {
 			
 			@Override
 			public void timePassing(float delta) {
-				for (int i = 0; i < p.getNumWeaponSlots(); i++) {
-					if (i != p.getCurrentSlot()) {
-						if (p.getMultitools()[i].getClipLeft() != p.getMultitools()[i].getClipSize()) {
-							if (p.getMultitools()[i].reload(delta)) {
+				LoadoutEquipHelper equipHelper = p.getPlayer().getEquipHelper();
+				for (int i = 0; i < equipHelper.getNumWeaponSlots(); i++) {
+					if (i != equipHelper.getCurrentSlot()) {
+						if (equipHelper.getMultitools()[i].getClipLeft() != equipHelper.getMultitools()[i].getClipSize()) {
+							if (equipHelper.getMultitools()[i].reload(delta)) {
 								SyncedAttack.ARTIFACT_AMMO_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 							}
 						}

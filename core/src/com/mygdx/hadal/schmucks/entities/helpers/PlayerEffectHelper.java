@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -88,8 +89,8 @@ public class PlayerEffectHelper {
             return 0.0f;
         }
 
-        if (invisible && state.getPlayer().getHitboxFilter() != player.getHitboxFilter()) {
-                return 0.0f;
+        if (invisible && !HadalGame.usm.isOwnTeam(player.getUser())) {
+            return 0.0f;
         }
 
         return transparency;
@@ -106,12 +107,12 @@ public class PlayerEffectHelper {
     }
 
     public boolean processTranslucentShader() {
-        if (invisible && state.getPlayer().getHitboxFilter() == player.getHitboxFilter()) {
+        if (invisible && HadalGame.usm.isOwnTeam(player.getUser())) {
             return true;
         }
 
         if (translucent) {
-            return state.getPlayer().getHitboxFilter() != player.getHitboxFilter();
+            return !HadalGame.usm.isOwnTeam(player.getUser());
         }
         return false;
     }

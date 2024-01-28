@@ -29,11 +29,11 @@ public class WretchedRebreather extends Artifact {
 				super.timePassing(delta);
 
 				boolean activated = false;
-				if (p.getCurrentFuel() == p.getStat(Stats.MAX_FUEL) && p.getActiveItem().chargePercent() != 1.0f) {
+				if (p.getCurrentFuel() == p.getStat(Stats.MAX_FUEL) && p.getPlayer().getMagicHelper().getMagic().chargePercent() != 1.0f) {
 					activated = true;
-					p.getActiveItem().gainCharge(delta * MAGIC_REGEN);
+					p.getPlayer().getMagicHelper().getMagic().gainCharge(delta * MAGIC_REGEN);
 				}
-				if (p.getActiveItem().chargePercent() == 1.0f && p.getCurrentFuel() != p.getStat(Stats.MAX_FUEL)) {
+				if (p.getPlayer().getMagicHelper().getMagic().chargePercent() == 1.0f && p.getCurrentFuel() != p.getStat(Stats.MAX_FUEL)) {
 					activated = true;
 					p.fuelGain(FUEL_REGEN * delta);
 				}

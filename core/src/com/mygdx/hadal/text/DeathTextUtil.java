@@ -45,7 +45,7 @@ public class DeathTextUtil {
 		//in the case or suicide or death to an enemy, obtain valid messages.
 		//set 'namedPerp' to only search for messages that specify a victim and a perpetrator.
 		if (null != perp && null != vic) {
-			if (perp.getConnID() == vic.getConnID()) {
+			if (perp.getUser().getConnID() == vic.getUser().getConnID()) {
 				possibleMessages.addAll(getValidMessages("SUICIDE", false));
 			} else {
 				namedPerp = true;
@@ -127,7 +127,7 @@ public class DeathTextUtil {
 		String perpName = TextUtil.getPlayerColorName(perp, MAX_NAME_LENGTH);
 
 		if (null != perp) {
-			if (perp.getConnID() == vic.getConnID()) {
+			if (perp.getUser().getConnID() == vic.getUser().getConnID()) {
 				return UIText.DEATH_SELF.text(vicName);
 			} else {
 				return UIText.DEATH_KILL.text(perpName, vicName);

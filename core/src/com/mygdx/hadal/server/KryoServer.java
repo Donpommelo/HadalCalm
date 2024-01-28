@@ -80,7 +80,7 @@ public class KryoServer {
 
 		usm.resetUsers();
 		usm.setConnID(0);
-		usm.getUsers().put(0, new User(null, new SavedPlayerFields(gsm.getLoadout().getName(), 0), new SavedPlayerFieldsExtra()));
+		usm.getUsers().put(0, new User(0, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 
 		if (!start) { return; }
 
@@ -95,7 +95,7 @@ public class KryoServer {
 				if (user != null && ps != null) {
 
 					//free up the disconnected user's player slot
-					user.getHitBoxFilter().setUsed(false);
+					user.getHitboxFilter().setUsed(false);
 
 					Player player = user.getPlayer();
 					if (player != null) {
@@ -306,6 +306,7 @@ public class KryoServer {
 							//If the client has already been created, we create a new player, otherwise we reuse their old data.
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
+								user.getLoadoutManager().setSavedLoadout(p.loadout);
 
 								//if the player is told to start as a spectator or was a spectator prior to the match, they join as a spectator
 								if (user.isSpectator()) {
@@ -321,7 +322,7 @@ public class KryoServer {
 											createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(),
 													true, spectator, p.firstTime, null);
 										} else {
-											createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(),
+											createNewClientPlayer(ps, c.getID(), p.name, user.getLoadoutManager().getActiveLoadout(),
 													player.getPlayerData(), false, spectator, p.firstTime, null);
 										}
 									}
@@ -337,7 +338,7 @@ public class KryoServer {
 							//this just updates user's "last primary weapon" which is only used for a single artifact rn
 							User userUpdated = usm.getUsers().get(c.getID());
 							if (userUpdated != null) {
-								userUpdated.setLastEquippedPrimary(p.loadout.multitools[0]);
+								userUpdated.getLoadoutManager().setLastEquippedPrimary(p.loadout.multitools[0]);
 							}
 
 							//sync client ui elements
@@ -359,7 +360,7 @@ public class KryoServer {
 						if (player != null) {
 							if (player.getPlayerData() != null) {
 								HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(
-										c.getID(), player.getPlayerData().getLoadout(), false));
+										c.getID(), user.getLoadoutManager().getActiveLoadout(), false));
 								player.activateStartingEvents();
 							}
 						}
@@ -380,30 +381,30 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								ps.addPacketEffect(() -> {
 									if (p instanceof PacketsLoadout.SyncEquipClient s) {
-										player.getPlayerData().syncEquip(s.equip);
-										player.getPlayerData().syncServerEquipChangeEcho(c.getID(), s.equip);
+										player.getEquipHelper().syncEquip(s.equip);
+										player.getEquipHelper().syncServerEquipChangeEcho(c.getID(), s.equip);
 									}
 									else if (p instanceof PacketsLoadout.SyncArtifactAddClient s) {
-										player.getPlayerData().addArtifact(s.artifactAdd, false, s.save);
+										player.getArtifactHelper().addArtifact(s.artifactAdd, false, s.save);
 									}
 									else if (p instanceof PacketsLoadout.SyncArtifactRemoveClient s) {
-										player.getPlayerData().removeArtifact(s.artifactRemove, false);
+										player.getArtifactHelper().removeArtifact(s.artifactRemove, false);
 									}
 									else if (p instanceof PacketsLoadout.SyncActiveClient s) {
-										player.getPlayerData().syncActive(s.active);
-										player.getPlayerData().syncServerActiveChangeEcho(c.getID(), s.active);
+										player.getMagicHelper().syncMagic(s.active);
+										player.getMagicHelper().syncServerMagicChangeEcho(c.getID(), s.active);
 									}
 									else if (p instanceof PacketsLoadout.SyncCharacterClient s) {
-										player.getPlayerData().setCharacter(s.character);
-										player.getPlayerData().syncServerCharacterChange(s.character);
+										player.getCosmeticsHelper().setCharacter(s.character);
+										player.getCosmeticsHelper().syncServerCharacterChange(s.character);
 									}
 									else if (p instanceof PacketsLoadout.SyncTeamClient s) {
-										player.getPlayerData().setTeam(s.team);
-										player.getPlayerData().syncServerTeamChange(s.team);
+										player.getCosmeticsHelper().setTeam(s.team);
+										player.getCosmeticsHelper().syncServerTeamChange(s.team);
 									}
 									else if (p instanceof PacketsLoadout.SyncCosmeticClient s) {
-										player.getPlayerData().setCosmetic(s.cosmetic);
-										player.getPlayerData().syncServerCosmeticChange(s.cosmetic);
+										player.getCosmeticsHelper().setCosmetic(s.cosmetic);
+										player.getCosmeticsHelper().syncServerCosmeticChange(s.cosmetic);
 									}
 								});
 							}
@@ -419,8 +420,8 @@ public class KryoServer {
 						if (player != null) {
 							if (player.getPlayerData() != null) {
 								ps.addPacketEffect(() -> {
-									player.getPlayerData().syncLoadout(p.loadout, false, false);
-									player.getPlayerData().syncServerWholeLoadoutChange();
+									player.getLoadoutHelper().syncLoadout(p.loadout, false, false);
+									player.getLoadoutHelper().syncServerWholeLoadoutChange();
 								});
 							}
 						}
@@ -488,12 +489,9 @@ public class KryoServer {
 
 					User user = usm.getUsers().get(c.getID());
 					if (user != null && ps != null) {
-						SavedPlayerFields score = user.getScores();
-						if (score != null) {
-							if (score.getPing() != p.latency) {
-								score.setPing(p.latency);
-								user.setScoreUpdated(true);
-							}
+						if (user.getPing() != p.latency) {
+							user.setPing(p.latency);
+							user.setScoreUpdated(true);
 						}
 						server.sendToUDP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
 					}
@@ -508,7 +506,7 @@ public class KryoServer {
 					if (user != null && ps != null) {
 						Player player = user.getPlayer();
 						if (player != null) {
-							ps.addPacketEffect(() -> ps.getChatWheel().emote(player, p.emoteIndex));
+							ps.addPacketEffect(() -> ps.getChatWheel().emote(player, p.emoteIndex, c.getID()));
 						}
 					}
 				}
@@ -521,10 +519,7 @@ public class KryoServer {
 					if (ps != null) {
 						User user = usm.getUsers().get(c.getID());
 						if (user != null) {
-							Player player = user.getPlayer();
-							if (player != null) {
-								ps.addPacketEffect(() -> ps.becomeSpectator(player, true));
-							}
+							ps.addPacketEffect(() -> ps.becomeSpectator(user, true));
 						}
 					}
 				}
@@ -536,7 +531,7 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						ps.addPacketEffect(() -> {
-							usm.getUsers().get(c.getID()).getScoresExtra().setLoadout(p.loadout);
+							usm.getUsers().get(c.getID()).getLoadoutManager().setActiveLoadout(p.loadout);
 							ps.exitSpectator(usm.getUsers().get(c.getID()));
 						});
 					}
@@ -640,33 +635,34 @@ public class KryoServer {
 		registerPackets();
 		server.start();
 	}
-	
+
+	public void createNewClientPlayer(final PlayState ps, final int connID, final String name, final Loadout loadout,
+									  final PlayerBodyData data, final boolean reset, final boolean spectator, boolean justJoined, final Event startPoint) {
+		User user;
+		if (usm.getUsers().containsKey(connID)) {
+			user = usm.getUsers().get(connID);
+		} else {
+			user = new User(connID, name, loadout);
+			usm.getUsers().put(connID, user);
+			user.setTeamFilter(loadout.team);
+		}
+		user.getLoadoutManager().setActiveLoadout(loadout);
+		createNewClientPlayer(ps, user, data, reset, spectator, justJoined, startPoint);
+	}
+
 	/**
 	 * This is called whenever the server creates a new player for a client
 	 * @param ps: This is the server's current play state
-	 * @param connID: This is the connID of the client requesting a new player
-	 * @param name: The name of the new player
-	 * @param loadout: The loadout of the new player
 	 * @param data: The player data of the new player.
 	 * @param reset: Do we want to reset the new player's hp/fuel/ammo etc?
 	 * @param spectator: is this player created as a spectator?
 	 * @param justJoined: Is this a newly connecting client or a newly respawned one?
 	 * @param startPoint: The start point to spawn the new client player at
 	 */
-	public void createNewClientPlayer(final PlayState ps, final int connID, final String name, final Loadout loadout,
-	  final PlayerBodyData data, final boolean reset, final boolean spectator, boolean justJoined, final Event startPoint) {
+	public void createNewClientPlayer(final PlayState ps, final User user, final PlayerBodyData data, final boolean reset,
+									  final boolean spectator, boolean justJoined, final Event startPoint) {
 
 		ps.addPacketEffect(() -> {
-
-			//Update that player's fields or give them new ones if they are a new client
-			User user;
-			if (usm.getUsers().containsKey(connID)) {
-				user = usm.getUsers().get(connID);
-			} else {
-				user = new User(null, new SavedPlayerFields(name, connID), new SavedPlayerFieldsExtra());
-				usm.getUsers().put(connID, user);
-				user.setTeamFilter(loadout.team);
-			}
 
 			Event newSave = null;
 			if (startPoint != null) {
@@ -675,11 +671,12 @@ public class KryoServer {
 
 			//set the client as a spectator if requested
 			if (spectator) {
-				ps.startSpectator(user, connID);
+				ps.startSpectator(user);
 			} else {
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connID, user, reset, false, justJoined,
-						user.getHitBoxFilter().getFilter());
+				Player newPlayer = ps.createPlayer(newSave, user.getStringManager().getName(), user.getLoadoutManager().getActiveLoadout(),
+						data, user, reset, false, justJoined,
+						user.getHitboxFilter().getFilter());
 
 				user.setPlayer(newPlayer);
 				user.setSpectator(false);

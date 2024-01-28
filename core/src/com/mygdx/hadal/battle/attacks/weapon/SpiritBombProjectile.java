@@ -2,6 +2,7 @@ package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
@@ -11,6 +12,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -83,7 +85,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
             public void render(SpriteBatch batch, Vector2 entityLocation) {
                 if (!alive) { return; }
 
-                if (faded && state.getPlayer().getHitboxFilter() != creator.getHitboxFilter()) {
+                if (faded && !HadalGame.usm.isOwnTeam(((Player) creator).getUser())) {
                     return;
                 }
 
@@ -102,7 +104,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
 
             @Override
             public Shader getShaderStatic() {
-                if (faded && state.getPlayer().getHitboxFilter() == creator.getHitboxFilter()) {
+                if (faded && HadalGame.usm.isOwnTeam(((Player) creator).getUser())) {
                     return Shader.TRANSLUCENT;
                 }
                 return super.getShaderStatic();

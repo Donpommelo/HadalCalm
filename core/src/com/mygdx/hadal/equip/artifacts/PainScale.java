@@ -27,7 +27,7 @@ public class PainScale extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (damage > 0) {
-					p.getActiveItem().gainCharge(damage * AMOUNT);
+					p.getPlayer().getMagicHelper().getMagic().gainCharge(damage * AMOUNT);
 				}
 				return damage;
 			}

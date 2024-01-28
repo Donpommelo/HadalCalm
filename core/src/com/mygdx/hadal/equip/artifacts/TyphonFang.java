@@ -26,7 +26,7 @@ public class TyphonFang extends Artifact {
 			
 			@Override
 			public void onKill(BodyData vic, DamageSource source) {
-				if (p.getCurrentTool() instanceof RangedWeapon weapon) {
+				if (p.getPlayer().getEquipHelper().getCurrentTool() instanceof RangedWeapon weapon) {
 					SyncedAttack.ARTIFACT_AMMO_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 
 					if (vic instanceof PlayerBodyData) {

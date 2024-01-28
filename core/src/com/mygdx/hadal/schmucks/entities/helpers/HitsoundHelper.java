@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -31,7 +32,7 @@ public class HitsoundHelper {
 
         if (damage <= 0.0f) { return; }
 
-        if (state.getPlayer() != player) { return; }
+        if (HadalGame.usm.getOwnUser() != player.getUser()) { return; }
 
         float modifiedDamage = damage;
         if (player.getHitboxFilter() != vic.getSchmuck().getHitboxFilter()) {

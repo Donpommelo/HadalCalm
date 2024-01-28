@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
@@ -50,7 +51,7 @@ public class ChoiceBranch extends HubEvent {
 		        public void clicked(InputEvent e, float x, float y) {
 					
 					if (option != null) {
-						option.getEventData().preActivate(me.getEventData(), state.getPlayer());
+						option.getEventData().preActivate(me.getEventData(), HadalGame.usm.getOwnPlayer());
 						if (closeAfterSelect) {
 							me.leave();
 						}

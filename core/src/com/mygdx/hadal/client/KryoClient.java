@@ -26,6 +26,7 @@ import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.*;
+import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.server.packets.Packets;
@@ -173,18 +174,20 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					SavedPlayerFields score;
+					ScoreManager score;
 
 					//update score or create a new user if existing score not found
 					if (usm.getUsers().containsKey(p.connID)) {
 						User user = usm.getUsers().get(p.connID);
-						score = user.getScores();
+						score = user.getScoreManager();
 						user.setSpectator(p.spectator);
+						user.setPing(p.ping);
 						user.setScoreUpdated(true);
 					} else {
-						score = new SavedPlayerFields(p.name, p.connID);
-						User user = new User(null, score, new SavedPlayerFieldsExtra());
+						score = new ScoreManager();
+						User user = new User(p.connID, p.name, p.loadout);
 						user.setSpectator(p.spectator);
+						user.setPing(p.ping);
 						usm.getUsers().put(p.connID, user);
 					}
 					score.setWins(p.wins);
@@ -194,7 +197,6 @@ public class KryoClient {
 					score.setLives(p.lives);
 					score.setScore(p.score);
 					score.setExtraModeScore(p.extraModeScore);
-					score.setPing(p.ping);
 				});
 			}
 		}
@@ -297,7 +299,7 @@ public class KryoClient {
 						}
 					}
 
-					gsm.addClientPlayState(p.level, p.mode, new Loadout(gsm.getLoadout()), LobbyState.class);
+					gsm.addClientPlayState(p.level, p.mode, LobbyState.class);
 					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 				});
@@ -423,7 +425,7 @@ public class KryoClient {
 					if (null != player) {
 						cs.addPacketEffect(() -> {
 							if (null != player.getPlayerData()) {
-								player.getPlayerData().syncLoadout(p.loadout, true, p.save);
+								player.getLoadoutHelper().syncLoadout(p.loadout, true, p.save);
 							}
 						});
 					}
@@ -445,23 +447,23 @@ public class KryoClient {
 					cs.addPacketEffect(() -> {
 						if (null != player.getPlayerData()) {
 							if (p instanceof PacketsLoadout.SyncEquipServer s) {
-								player.getPlayerData().syncEquip(s.equip);
+								player.getEquipHelper().syncEquip(s.equip);
 							}
 							else if (p instanceof PacketsLoadout.SyncArtifactServer s) {
-								player.getPlayerData().syncArtifact(s.artifact, true, s.save);
+								player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
 								cs.getUiHub().refreshHub(null);
 							}
 							else if (p instanceof PacketsLoadout.SyncActiveServer s) {
-								player.getPlayerData().syncActive(s.active);
+								player.getMagicHelper().syncMagic(s.active);
 							}
 							else if (p instanceof PacketsLoadout.SyncCharacterServer s) {
-								player.getPlayerData().setCharacter(s.character);
+								player.getCosmeticsHelper().setCharacter(s.character);
 							}
 							else if (p instanceof PacketsLoadout.SyncTeamServer s) {
-								player.getPlayerData().setTeam(s.team);
+								player.getCosmeticsHelper().setTeam(s.team);
 							}
 							else if (p instanceof PacketsLoadout.SyncCosmeticServer s) {
-								player.getPlayerData().setCosmetic(s.cosmetic);
+								player.getCosmeticsHelper().setCosmetic(s.cosmetic);
 							}
 						}
 					});
@@ -516,17 +518,17 @@ public class KryoClient {
 						UserDto user = p.users[i];
 						User updatedUser;
 						if (null != user) {
-							updatedUser = new User(null, user.scores, user.scoresExtra);
+							updatedUser = new User(user.connID, user.name, user.loadout);
+							updatedUser.setScoreManager(user.scores);
+							updatedUser.setStatsManager(user.stats);
 							updatedUser.setSpectator(user.spectator);
+							updatedUser.setTeamFilter(user.loadout.team);
 
-							User userOld = usersTemp.get(user.scores.getConnID());
+							User userOld = usersTemp.get(user.connID);
 							if (null != userOld) {
 								updatedUser.setPlayer(userOld.getPlayer());
 							}
-							if (null != user.scoresExtra.getLoadout()) {
-								updatedUser.setTeamFilter(user.scoresExtra.getLoadout().team);
-							}
-							usm.getUsers().put(user.scores.getConnID(), updatedUser);
+							usm.getUsers().put(user.connID, updatedUser);
 						}
 					}
 				});
@@ -754,7 +756,7 @@ public class KryoClient {
 				User user = usm.getUsers().get(p.connID);
 				if (null != user) {
 					cs.addPacketEffect(() -> {
-						ReviveGravestone grave = new ReviveGravestone(cs, p.pos, user, p.connID, p.returnMaxTimer, null);
+						ReviveGravestone grave = new ReviveGravestone(cs, p.pos, user, p.returnMaxTimer, null);
 						cs.addEntity(p.uuidMSB, p.uuidLSB, grave, true, ObjectLayer.HBOX);
 					});
 				}
@@ -809,18 +811,27 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 
-					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, null,
+					//Add new user if it doesn't exist
+					User user;
+					if (usm.getUsers().containsKey(p.connID)) {
+						user = usm.getUsers().get(p.connID);
+					} else {
+						user = new User(p.connID, p.name, p.loadout);
+						usm.getUsers().put(p.connID, user);
+					}
+					user.setTeamFilter(p.loadout.team);
+
+					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, user,
 							true, p.connID == usm.getConnID(), false, p.hitboxFilter);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
-					newPlayer.setConnID(p.connID);
 					newPlayer.setHitboxFilter(p.hitboxFilter);
 					newPlayer.setScaleModifier(p.scaleModifier);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
 
 					if (p.connID == usm.getConnID()) {
-						cs.setPlayer(newPlayer);
+						usm.setOwnPlayer(newPlayer);
 
 						if (!p.dontMoveCamera) {
 							//set camera to look at new client player.
@@ -829,14 +840,8 @@ public class KryoClient {
 						}
 					}
 
-					//attach new player to respective user (or create if nonexistent)
-					if (usm.getUsers().containsKey(p.connID)) {
-						usm.getUsers().get(p.connID).setPlayer(newPlayer);
-					} else {
-						usm.getUsers().put(p.connID, new User(newPlayer, new SavedPlayerFields(p.name, p.connID), new SavedPlayerFieldsExtra()));
-					}
-					usm.getUsers().get(p.connID).setTeamFilter(p.loadout.team);
-					newPlayer.setUser(usm.getUsers().get(p.connID));
+					user.setPlayer(newPlayer);
+					newPlayer.setUser(user);
 				});
 			}
 			return true;

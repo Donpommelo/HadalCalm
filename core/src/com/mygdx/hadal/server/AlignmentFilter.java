@@ -208,7 +208,7 @@ public enum AlignmentFilter {
                     currentTeam = (currentTeam + 1) % numTeams;
                     teamSelection.put(user, currentTeam);
                 } else if (TeamMode.HUMANS_VS_BOTS.equals(mode)){
-                    if (user.getScores().getConnID() < 0) {
+                    if (user.getConnID() < 0) {
                         currentTeam = 0;
                     } else {
                         currentTeam = 1;

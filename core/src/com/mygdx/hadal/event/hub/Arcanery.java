@@ -4,11 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockManager;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -62,12 +64,13 @@ public class Arcanery extends HubEvent {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
+						Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-						if (state.getPlayer().getPlayerData() == null) { return; }
+						if (null == ownPlayer) { return; }
+						if (null == ownPlayer.getPlayerData()) { return; }
 
-						state.getPlayer().getPlayerData().pickup(
-								UnlocktoItem.getUnlock(selected, state.getPlayer()));
-						state.getGsm().getLoadout().setActive(selected.toString());
+						ownPlayer.getMagicHelper().pickup(UnlocktoItem.getUnlock(selected, ownPlayer));
+						state.getGsm().getLoadout().setActive(HadalGame.usm.getOwnUser(), selected.toString());
 					}
 
 					@Override

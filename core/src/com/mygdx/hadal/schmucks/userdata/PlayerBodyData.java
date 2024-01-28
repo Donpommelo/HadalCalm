@@ -4,32 +4,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.Equippable;
-import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.equip.misc.NothingWeapon;
-import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.Mode;
-import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.utils.CameraUtil;
-import com.mygdx.hadal.utils.UnlocktoItem;
-
-import java.util.Arrays;
 
 /**
  * This is the data for a player and contains player-specific fields like airblast, jump stats, loadout etc.
@@ -37,446 +23,11 @@ import java.util.Arrays;
  */
 public class PlayerBodyData extends BodyData {
 		
-	//This is the player's current loadout
-	private Loadout loadout;
-	
-	//This is a list of the player's weapons
-	private Equippable[] multitools;
-	
-	//This is the player's active item
-	private ActiveItem activeItem;
-	
-	//This is the slot number of the player's currently selected weapon
-	private int currentSlot;
-	
-	//This is the player's last used slot. (Used for switch-to-last-slot button)
-	private int lastSlot = 1;
-	
-	private Player player;
+	private final Player player;
 
-	public PlayerBodyData(Player player, Loadout loadout) {
+	public PlayerBodyData(Player player) {
 		super(player, player.getBaseHp());
 		this.player = player;
-		this.loadout = new Loadout(loadout);
-	}
-	
-	/**
-	 * This is called when creating a brand new player with a reset loadout
-	 */
-	public void initLoadout() {
-		clearStatuses();
-
-		//Acquire weapons from loadout
-		this.multitools = new Equippable[Loadout.MAX_WEAPON_SLOTS];
-		Arrays.fill(multitools, new NothingWeapon(player));
-		syncEquip(loadout.multitools);
-		syncArtifact(loadout.artifacts, false, false);
-		syncActive(loadout.activeItem);
-		syncCosmetics(loadout.cosmetics, loadout.character);
-		setCharacter(loadout.character);
-		setTeam(loadout.team);
-	}
-	
-	/**
-	 * This is called by the client for players that receive a new loadout from the server.
-	 * We give the player the new loadout information.
-	 * @param loadout: The new loadout for the player
-	 * @param override: should this sync override settings artifact slot limit?
-	 * @param save: should this loadout be saved to the client's saved loadout?
-	 */
-	public void syncLoadout(Loadout loadout, boolean override, boolean save) {
-		Loadout newLoadout = new Loadout(loadout);
-
-		syncEquip(newLoadout.multitools);
-		syncArtifact(newLoadout.artifacts, override, save);
-		syncActive(newLoadout.activeItem);
-		syncCosmetics(newLoadout.cosmetics, loadout.character);
-		setCharacter(newLoadout.character);
-		setTeam(newLoadout.team);
-
-		this.loadout = newLoadout;
-
-		if (player.getUser() != null) {
-			player.getUser().setTeamFilter(newLoadout.team);
-		}
-	}
-
-	/**
-	 * This syncs a player's equipment
-	 * @param equip: the player's new set of equippables
-	 */
-	public void syncEquip(UnlockEquip[] equip) {
-		for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
-			multitools[i] = UnlocktoItem.getUnlock(equip[i], player);
-			loadout.multitools[i] = equip[i];
-		}
-		setEquip();
-	}
-
-	/**
-	 * This syncs a player's artifacts
-	 * @param artifact: the player's new set of artifacts
-	 */
-	public void syncArtifact(UnlockArtifact[] artifact, boolean override, boolean save) {
-
-		//first, removes statuses of existing artifacts
-		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-			removeArtifactStatus(this.loadout.artifacts[i]);
-		}
-		loadout.artifacts = new UnlockArtifact[Loadout.MAX_ARTIFACT_SLOTS];
-
-		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.MAX_ARTIFACT_SLOTS];
-		System.arraycopy(artifact, 0, artifactsTemp, 0, Loadout.MAX_ARTIFACT_SLOTS);
-		Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
-		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-			addArtifact(artifactsTemp[i], override, save);
-		}
-
-		//add map modifiers as 0-cost, overriding, invisible artifacts
-		for (UnlockArtifact modifier : player.getState().getMapModifiers()) {
-			addArtifact(modifier, false, false);
-		}
-
-		//must save artifacts in case of removing last artifact (since that won't save in syncArtifact)
-		if (save) {
-			saveArtifacts();
-		}
-
-		//If this is the player being controlled by the user, update artifact ui
-		if (player.equals((player.getState().getPlayer()))) {
-			player.getState().getUiArtifact().syncArtifact();
-		}
-	}
-
-	/**
-	 * This syncs a player's active item
-	 * @param active: the player's new active item
-	 */
-	public void syncActive(UnlockActives active) {
-		this.activeItem = UnlocktoItem.getUnlock(active, player);
-		this.loadout.activeItem = active;
-	}
-
-	public void syncCosmetics(UnlockCosmetic[] cosmetics, UnlockCharacter character) {
-		System.arraycopy(cosmetics, 0, loadout.cosmetics, 0, Loadout.MAX_COSMETIC_SLOTS);
-		for (int i = 0; i < Loadout.MAX_COSMETIC_SLOTS; i++) {
-			if (loadout.cosmetics[i].checkCompatibleCharacters(character)) {
-				loadout.cosmetics[i] = UnlockCosmetic.NOTHING_HAT1;
-			}
-		}
-	}
-
-	/**
-	 * This is run when transitioning the player into a new map/world or respawning
-	 * @param newPlayer: the new player that this data belongs to.
-	 */
-	public void updateOldData(Player newPlayer) {
-		this.setEntity(newPlayer);
-		this.schmuck = newPlayer;
-		this.player = newPlayer;
-		
-		clearStatuses();
-		
-		for (Equippable e : multitools) {
-			e.setUser(player);
-		}
-		
-		for (UnlockArtifact a : loadout.artifacts) {
-			a.getArtifact().loadEnchantments(player.getState(), this);
-			if (a.getArtifact().getEnchantment() != null) {
-				addStatus(a.getArtifact().getEnchantment());
-				a.getArtifact().getEnchantment().setArtifact(a);
-			}
-		}
-	}
-	
-	/**
-	 * Player switches to a specified weapon slot
-	 * @param slot: new weapon slot.
-	 */
-	public void switchWeapon(int slot) {
-		if (getNumWeaponSlots() >= slot && slot - 1 != currentSlot) {
-			if (!(multitools[slot - 1] instanceof NothingWeapon)) {
-				lastSlot = currentSlot;
-				currentSlot = slot - 1;
-				setEquip();
-			}
-		}
-	}
-	
-	/**
-	 * Player switches to last used weapon slot
-	 */
-	public void switchToLast() {
-		if (lastSlot < getNumWeaponSlots()) {
-			if (!(multitools[lastSlot] instanceof NothingWeapon)) {
-				int tempSlot = lastSlot;
-				lastSlot = currentSlot;
-				currentSlot = tempSlot;
-				setEquip();
-			}
-		}
-	}
-	
-	/**
-	 * Player switches to a weapon slot above current slot, wrapping to end of slots if at first slot. (ignore empty slots)
-	 * This is also called automatically when running out of a consumable equip.
-	 */
-	public void switchDown() {
-		for (int i = 1; i <= getNumWeaponSlots(); i++) {
-			if (!(multitools[(currentSlot + i) % getNumWeaponSlots()] instanceof NothingWeapon)) {
-				lastSlot = currentSlot;
-				currentSlot = (currentSlot + i) % getNumWeaponSlots();
-				setEquip();
-				return;
-			}
-		}
-	}
-	
-	/**
-	 * Player switches to a weapon slot below current slot, wrapping to end of slots if at last slot. (ignore empty slots)
-	 */
-	public void switchUp() {
-		for (int i = 1; i <= getNumWeaponSlots(); i++) {
-			if (!(multitools[(getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots()] instanceof NothingWeapon)) {
-				lastSlot = currentSlot;
-				currentSlot = (getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots();
-				setEquip();
-				return;
-			}
-		}
-	}
-	
-	/**
-	 * Player picks up new weapon.
-	 * @param equip: The new equip to switch in. Replaces current slot if inventory is full.
-	 */
-	public Equippable pickup(Equippable equip) {
-		
-		UnlockEquip unlock = UnlockEquip.getUnlockFromEquip(equip.getClass());
-		
-		int slotToReplace = currentSlot;
-
-		//if we are picking up "nothing" in the armory, we skip "undesirable weapon check"
-		if (!(equip instanceof NothingWeapon)) {
-			for (int i = 0; i < getNumWeaponSlots(); i++) {
-				if (multitools[i] instanceof NothingWeapon || multitools[i].isOutofAmmo()) {
-					slotToReplace = i;
-					break;
-				}
-			}
-		}
-
-		Equippable old = multitools[slotToReplace];
-		
-		multitools[slotToReplace] = equip;
-		multitools[slotToReplace].setUser(player);
-		currentSlot = slotToReplace;
-		setEquip();
-		
-		loadout.multitools[slotToReplace] = unlock;
-		if (player.getState().isServer()) {
-			syncServerEquipChange(loadout.multitools);
-		} else {
-			syncClientEquipChange(loadout.multitools);
-		}
-		return old;
-	}
-	
-	/**
-	 * Player picks up a new Active Item. 
-	 * @param item: Old item if nonempty and a Nothing Item otherwise
-	 */
-	public void pickup(ActiveItem item) {
-		
-		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
-		loadout.activeItem = unlock;
-
-		activeItem = item;
-		activeItem.setUser(player);
-		
-		//active items start off charged in the hub
-		if (player.getState().getMode().isHub()) {
-			activeItem.setCurrentChargePercent(1.0f);
-		} else {
-			activeItem.setCurrentChargePercent(getStat(Stats.STARTING_CHARGE));
-		}
-
-		if (player.getState().isServer()) {
-			syncServerActiveChange(unlock);
-		} else {
-			syncClientActiveChange(unlock);
-		}
-	}
-	
-	/**
-	 * Add a new artifact.
-	 * @param override whether this change should override artifact limits (like admin's card)
-	 * @param save whether this change should be saved into loadout file (like special mode modifiers shouldn't)
-	 * @return whether the artifact adding was successful
-	 */
-	public boolean addArtifact(UnlockArtifact artifactUnlock, boolean override, boolean save) {
-
-		if (UnlockArtifact.NOTHING.equals(artifactUnlock)) { return false; }
-
-		Artifact newArtifact = artifactUnlock.getArtifact();
-		int slotsUsed = 0;
-		
-		//iterate through all artifacts and count the number of slots used
-		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-			
-			//new artifact fails to add if slot cost is too high
-			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
-			
-			if (slotsUsed + newArtifact.getSlotCost() > getNumArtifactSlots() && !override) {
-				return false;
-			}
-			
-			if (!(UnlockArtifact.NOTHING.equals(loadout.artifacts[i]))) {
-				
-				//new artifact fails to add if a repeat
-				if (artifactUnlock.equals(loadout.artifacts[i])) {
-					return false;
-				} 
-				
-			} else {
-
-				//when we reach a NOTHING (empty slot), we add the artifact
-				newArtifact.loadEnchantments(player.getState(), this);
-				if (newArtifact.getEnchantment() != null) {
-					addStatus(newArtifact.getEnchantment());
-					newArtifact.getEnchantment().setArtifact(artifactUnlock);
-				}
-				loadout.artifacts[i] = artifactUnlock;
-
-				syncArtifacts(override, save);
-				
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Remove a designated artifact.
-	 * use override to abide by artifact slot costs
-	 */
-	public void removeArtifact(UnlockArtifact artifact, boolean override) {
-		
-		if (UnlockArtifact.NOTHING.equals(artifact)) { return; }
-		
-		int indexRemoved = -1;
-		
-		//iterate through artifacts until we find the one we're trying to remove
-		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-			if (loadout.artifacts[i].equals(artifact)) {
-				indexRemoved = i;
-				break;
-			}
-		}
-
-		//if found, remove all of the artifact's statuses and move other artifacts up in the list
-		if (indexRemoved != -1) {
-			if (loadout.artifacts[indexRemoved] != null) {
-				removeArtifactStatus(artifact);
-			}
-
-			System.arraycopy(loadout.artifacts, indexRemoved + 1, loadout.artifacts, indexRemoved,
-				Loadout.MAX_ARTIFACT_SLOTS - 1 - indexRemoved);
-			loadout.artifacts[Loadout.MAX_ARTIFACT_SLOTS - 1] = UnlockArtifact.NOTHING;
-		}
-
-		syncArtifacts(override, true);
-	}
-	
-	/**
-	 * This checks if the player has too many artifacts and removes all of the ones over carrying capacity
-	 */
-	public void checkArtifactSlotCosts() {
-		int slotsUsed = 0;
-		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
-			if (slotsUsed > getNumArtifactSlots()) {
-				removeArtifact(loadout.artifacts[i], true);
-			}
-		}
-	}
-
-	/**
-	 * This is called when a player's artifacts may change to sync ui and clients
-	 * @param override whether this change should override artifact limits
-	 * @param save whether this change should be saved into loadout file
-	 */
-	public void syncArtifacts(boolean override, boolean save) {
-		if (!override) {
-			checkArtifactSlotCosts();
-		}
-
-		if (save) {
-			saveArtifacts();
-		}
-		if (player.equals((player.getState().getPlayer()))) {
-			player.getState().getUiArtifact().syncArtifact();
-		}
-		syncServerArtifactChange(loadout.artifacts, save);
-		calcStats();
-	}
-	
-	/**
-	 * This helper function is called when weapon switching to ensure the correct weapon sprite is drawn and that the 
-	 * current weapon is kept track of.
-	 */
-	public void setEquip() {
-		if (currentTool != null) {
-			currentTool.unequip(player.getState());
-		}
-		currentTool = multitools[currentSlot];
-		player.setToolSprite(currentTool.getWeaponSprite().getFrame());
-		
-		currentTool.equip(player.getState());
-		
-		//This recalcs stats that are tied to weapons. ex: "player receives 50% more damage when x is equipped".
-		calcStats();
-		
-		//play sounds for weapon switching
-		SoundEffect.LOCKANDLOAD.playExclusive(player.getState(), null, player, 0.5f, true);
-	}
-
-	public void setCosmetic(UnlockCosmetic cosmetic) {
-		loadout.cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()] = cosmetic;
-	}
-
-	/**
-	 * This is called when switching teams.
-	 */
-	public void setTeam(AlignmentFilter team) {
-		loadout.team = team;
-		player.setBodySprite(null, team);
-		if (player.getUser() != null) {
-			player.getUser().setTeamFilter(team);
-		}
-	}
-
-	/**
-	 * This is called when switching characters.
-	 */
-	public void setCharacter(UnlockCharacter character) {
-		loadout.character = character;
-		player.setBodySprite(character, null);
-
-		//sync cosmetics to unequip hats that are not compatible with new character
-		syncCosmetics(loadout.cosmetics, character);
-	}
-
-	/**
-	 * This method saves the player's current artifacts into records
-	 */
-	public void saveArtifacts() {
-		if (player.equals(player.getState().getPlayer())) {
-			for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-				player.getState().getGsm().getLoadout().setArtifact(i, loadout.artifacts[i].toString());
-			}
-		}
 	}
 	
 	/**
@@ -490,101 +41,11 @@ public class PlayerBodyData extends BodyData {
 		if (player == null) { return; }
 
 		//vision modifiers should be applies whenever stats are modified
-		if (player.equals(player.getState().getPlayer())) {
+		if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
 			player.getState().setZoomModifier(getStat(Stats.VISION_RADIUS));
 		}
 
-		if (currentSlot >= getNumWeaponSlots()) {
-			currentSlot = getNumWeaponSlots() - 1;
-			setEquip();
-		}
-	}
-	
-	/**
-	 * This returns the number of weapon slots after modifications
-	 */
-	public int getNumWeaponSlots() {
-		return Math.min((int) (Loadout.BASE_WEAPON_SLOTS + getStat(Stats.WEAPON_SLOTS)), Loadout.MAX_WEAPON_SLOTS);
-	}
-	
-	/**
-	 * This returns the number of artifact slots after modifications
-	 * The extra if/else is there b/c artifact slots are checked by the client when they use the reliquary hub event.
-	 */
-	public int getNumArtifactSlots() {
-		if (GameStateManager.currentMode == Mode.SINGLE) {
-			return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
-		} else {
-			if (player.getState().isServer()) {
-				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
-			} else {
-				return Math.min((int) (player.getState().getGsm().getHostSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
-			}
-		}
-	}
-
-	public int getArtifactSlotsUsed() {
-		int slotsUsed = 0;
-		for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
-		}
-		return slotsUsed;
-	}
-
-	/**
-	 * This returns the number of unused artifact slots
-	 */
-	public int getArtifactSlotsRemaining() {
-		return getNumArtifactSlots() - getArtifactSlotsUsed();
-	}
-	
-	/**
-	 * These are called when a loadout changes on the server side. Send message to all clients announcing change
-	 * the "save" input for this and adding/removing artifacts indicates whether the client should save this change
-	 * It is false for artifact changes that result from mode modifications
-	 */
-	public void syncServerEquipChange(UnlockEquip[] equip) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncEquipServer(player.getConnID(), equip));
-	}
-
-	public void syncServerEquipChangeEcho(int connID, UnlockEquip[] equip) {
-		HadalGame.server.sendToAllExceptTCP(connID, new PacketsLoadout.SyncEquipServer(player.getConnID(), equip));
-	}
-
-	public void syncClientEquipChange(UnlockEquip[] equip) {
-		HadalGame.client.sendTCP(new PacketsLoadout.SyncEquipClient(equip));
-	}
-
-	public void syncServerArtifactChange(UnlockArtifact[] artifact, boolean save) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncArtifactServer(player.getConnID(), artifact, save));
-	}
-
-	public void syncServerActiveChange(UnlockActives active) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncActiveServer(player.getConnID(), active));
-	}
-
-	public void syncServerActiveChangeEcho(int connID, UnlockActives active) {
-		HadalGame.server.sendToAllExceptTCP(connID, new PacketsLoadout.SyncActiveServer(player.getConnID(), active));
-	}
-
-	public void syncClientActiveChange(UnlockActives active) {
-		HadalGame.client.sendTCP(new PacketsLoadout.SyncActiveClient(active));
-	}
-
-	public void syncServerCharacterChange(UnlockCharacter character) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCharacterServer(player.getConnID(), character));
-	}
-
-	public void syncServerTeamChange(AlignmentFilter team) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncTeamServer(player.getConnID(), team));
-	}
-
-	public void syncServerCosmeticChange(UnlockCosmetic cosmetic) {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCosmeticServer(player.getConnID(), cosmetic));
-	}
-
-	public void syncServerWholeLoadoutChange() {
-		HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(player.getConnID(), loadout, false));
+		player.getEquipHelper().postCalcStats();
 	}
 
 	public void clearStatuses() {
@@ -627,15 +88,15 @@ public class PlayerBodyData extends BodyData {
 		//this keeps track of total damage received during rounds
 		if (player.getState().isServer()) {
 			if (player.getUser() != null) {
-				SavedPlayerFieldsExtra field = getPlayer().getUser().getScoresExtra();
+				StatsManager statsManager = getPlayer().getUser().getStatsManager();
 				if (damage > 0.0f) {
-					field.incrementDamageReceived(damage);
+					statsManager.incrementDamageReceived(damage);
 				}
 			}
 		}
 
 		//when the player is damaged (or spectator target is damaged) we shake the screen a little
-		if (player.equals(player.getState().getPlayer()) && damage > 0.0f) {
+		if (player.getUser().equals(HadalGame.usm.getOwnUser()) && damage > 0.0f) {
 			CameraUtil.inflictTrauma(player.getState().getGsm(), damage);
 		}
 		if (player.getState().getKillFeed() != null) {
@@ -693,8 +154,8 @@ public class PlayerBodyData extends BodyData {
 			}
 			
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)
-			if (currentTool != null) {
-				currentTool.unequip(player.getState());
+			if (player.getEquipHelper().getCurrentTool() != null) {
+				player.getEquipHelper().getCurrentTool().unequip(player.getState());
 			}
 
 			super.die(perp, source, tags);
@@ -742,14 +203,4 @@ public class PlayerBodyData extends BodyData {
 	public ObjectMap<PlayerBodyData, Float> getRecentDamagedBy() { return recentDamagedBy; }
 
 	public Player getPlayer() {	return player;}
-	
-	public Equippable[] getMultitools() { return multitools; }
-	
-	public ActiveItem getActiveItem() {	return activeItem; }
-
-	public int getCurrentSlot() { return currentSlot; }	
-		
-	public void setCurrentSlot(int currentSlot) { this.currentSlot = currentSlot; }
-
-	public Loadout getLoadout() { return loadout; }
 }

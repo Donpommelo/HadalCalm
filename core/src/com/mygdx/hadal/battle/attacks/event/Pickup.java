@@ -10,6 +10,7 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -93,8 +94,9 @@ public class Pickup extends SyncedAttacker {
                         }
                     }
                     if (Constants.PICKUP_AMMO == type) {
-                        if (bodyData.getCurrentTool().getClipLeft() < bodyData.getCurrentTool().getClipSize()) {
-                            bodyData.getCurrentTool().gainAmmo(power);
+                        Player player = bodyData.getPlayer();
+                        if (player.getEquipHelper().getCurrentTool().getClipLeft() < player.getEquipHelper().getCurrentTool().getClipSize()) {
+                            player.getEquipHelper().getCurrentTool().gainAmmo(power);
                             hbox.die();
                         }
                     }

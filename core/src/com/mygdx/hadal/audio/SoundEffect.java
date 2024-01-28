@@ -255,14 +255,14 @@ public enum SoundEffect {
 		if (state.isServer() && null != player) {
 			
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
-			if (0 == player.getConnID()) {
+			if (0 == player.getUser().getConnID()) {
 				if (null == worldPos) {
 					play(state.getGsm(), volume, pitch, singleton);
 				} else {
 					playSourced(state, worldPos, volume, pitch);
 				}
 			} else {
-				HadalGame.server.sendToTCP(player.getConnID(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
+				HadalGame.server.sendToTCP(player.getUser().getConnID(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 			}
 		}
 	}
@@ -294,7 +294,7 @@ public enum SoundEffect {
 	 */
 	private final Vector2 playerPosition = new Vector2();
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
-		Player player = state.getPlayer();
+		Player player = HadalGame.usm.getOwnPlayer();
 
 		//this avoids playing sounds at default volume if player has not loaded in yet
 		if (null == player) {

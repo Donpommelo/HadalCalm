@@ -11,9 +11,11 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.users.User;
 
 /**
  * The Dormitory is a HubEvent that allows the player to change their dude.
@@ -49,13 +51,15 @@ public class Dormitory extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 
+		User user = HadalGame.usm.getOwnUser();
+
 		//if we need to reload sprites (due to color change), clear existing sprites and begin loading new sprites
-		if (lastFilter != state.getPlayer().getPlayerData().getLoadout().team) {
+		if (lastFilter != user.getLoadoutManager().getActiveLoadout().team) {
 			FrameBufferManager.clearUnusedFrameBuffers();
 			sprites.clear();
 			loadingCharacters.clear();
 
-			lastFilter = state.getPlayer().getPlayerData().getLoadout().team;
+			lastFilter = user.getLoadoutManager().getActiveLoadout().team;
 
 			for (UnlockCharacter c : UnlockCharacter.getUnlocks(state, checkUnlock, tags)) {
 				loadingCharacters.add(c);
@@ -80,10 +84,14 @@ public class Dormitory extends HubEvent {
 
 			if (!loadingCharacters.isEmpty()) {
 				final UIHub hub = state.getUiHub();
+				Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+				if (null == ownPlayer) { return; }
+				if (null == ownPlayer.getPlayerData()) { return; }
 
 				UnlockCharacter selected = loadingCharacters.removeIndex(0);
 
-				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), selected, lastFilter,
+				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), ownPlayer, selected, lastFilter,
 						false, null);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
@@ -97,15 +105,15 @@ public class Dormitory extends HubEvent {
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
 
-						if (state.getPlayer().getPlayerData() == null) { return; }
+						if (ownPlayer.getPlayerData() == null) { return; }
 
 						if (state.isServer()) {
-							state.getPlayer().getPlayerData().setCharacter(selected);
-							state.getPlayer().getPlayerData().syncServerCharacterChange(selected);
+							ownPlayer.getCosmeticsHelper().setCharacter(selected);
+							ownPlayer.getCosmeticsHelper().syncServerCharacterChange(selected);
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncCharacterClient(selected));
 						}
-						state.getGsm().getLoadout().setCharacter(selected.toString());
+						state.getGsm().getLoadout().setCharacter(HadalGame.usm.getOwnUser(), selected.toString());
 					}
 
 					@Override

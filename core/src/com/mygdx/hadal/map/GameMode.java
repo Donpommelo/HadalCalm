@@ -326,13 +326,13 @@ public enum GameMode {
         if (vic != null) {
             User user = vic.getUser();
             if (user != null) {
-                user.getScores().setDeaths(user.getScores().getDeaths() + 1);
+                user.getScoreManager().setDeaths(user.getScoreManager().getDeaths() + 1);
                 user.setScoreUpdated(true);
             }
             for (PlayerBodyData playerData : vic.getPlayerData().getRecentDamagedBy().keys()) {
                 User assisted = playerData.getPlayer().getUser();
                 if (assisted != null) {
-                    assisted.getScores().setAssists(assisted.getScores().getAssists() + 1);
+                    assisted.getScoreManager().setAssists(assisted.getScoreManager().getAssists() + 1);
                     assisted.setScoreUpdated(true);
                 }
             }
@@ -341,7 +341,7 @@ public enum GameMode {
             if (perp instanceof Player player) {
                 User user = player.getUser();
                 if (user != null) {
-                    user.getScores().setKills(user.getScores().getKills() + 1);
+                    user.getScoreManager().setKills(user.getScoreManager().getKills() + 1);
                     user.setScoreUpdated(true);
                 }
             }
@@ -362,10 +362,10 @@ public enum GameMode {
         if (p != null) {
             User user = p.getUser();
             if (user != null) {
-                user.getScores().setScore(user.getScores().getScore() + scoreIncrement);
+                user.getScoreManager().setScore(user.getScoreManager().getScore() + scoreIncrement);
 
                 for (ModeSetting setting : applicableSettings) {
-                    setting.processPlayerScoreChange(state, user.getScores().getScore());
+                    setting.processPlayerScoreChange(state, user.getScoreManager().getScore());
                 }
 
                 //tell score window and ui extra to update next interval

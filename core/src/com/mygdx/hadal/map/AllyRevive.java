@@ -13,12 +13,13 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.Transition;
+import com.mygdx.hadal.users.User;
 
-import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
+import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
 
 public class AllyRevive extends ModeSetting {
 
@@ -62,12 +63,12 @@ public class AllyRevive extends ModeSetting {
                                     if (playerLeft != null) {
 
                                         //if team mode, living players qualify their team for a win (or themselves if on a solo-team)
-                                        if (!AlignmentFilter.NONE.equals(playerLeft.getPlayerData().getLoadout().team)) {
-                                            resultsText = UIText.PLAYER_WINS.text(playerLeft.getPlayerData().getLoadout().team.getTeamName());
+                                        if (!AlignmentFilter.NONE.equals(user2.getLoadoutManager().getActiveLoadout().team)) {
+                                            resultsText = UIText.PLAYER_WINS.text(user2.getLoadoutManager().getActiveLoadout().team.getTeamName());
                                             winningTeam = user2.getTeamFilter();
                                         } else {
                                             resultsText = UIText.PLAYER_WINS.text(playerLeft.getName());
-                                            winningTeam = user2.getHitBoxFilter();
+                                            winningTeam = user2.getHitboxFilter();
                                         }
 
                                         //players or teams that "qualify" for a win only win if they are the only one(s) alive
@@ -89,27 +90,28 @@ public class AllyRevive extends ModeSetting {
                 if (allded) {
                     for (User user2 : users) {
                         if (!user2.isSpectator()) {
-                            SavedPlayerFields score = user2.getScores();
+                            ScoreManager score = user2.getScoreManager();
                             if (!AlignmentFilter.NONE.equals(winningTeam)) {
-                                if (user2.getHitBoxFilter().equals(winningTeam) || user2.getTeamFilter().equals(winningTeam)) {
+                                if (user2.getHitboxFilter().equals(winningTeam) || user2.getTeamFilter().equals(winningTeam)) {
                                     score.win();
                                 }
                             }
                         }
                     }
-                    state.transitionToResultsState(resultsText, PlayState.LONG_FADE_DELAY);
+                    state.transitionToResultsState(resultsText, LONG_FADE_DELAY);
                 } else {
-                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, -1);
+                    user.getTransitionManager().beginTransition(state,
+                            new Transition()
+                                    .setNextState(PlayState.TransitionState.RESPAWN)
+                                    .setFadeDelay(-1));
 
-                    float reviveTimer = numReviveTimer(vic.getUser().getScores().getExtraModeScore());
-                    vic.getUser().getScores().setExtraModeScore(vic.getUser().getScores().getExtraModeScore() + 1);
+                    float reviveTimer = numReviveTimer(vic.getUser().getScoreManager().getExtraModeScore());
+                    vic.getUser().getScoreManager().setExtraModeScore(vic.getUser().getScoreManager().getExtraModeScore() + 1);
 
                     if (DamageSource.MAP_FALL.equals(source)) {
-                        new ReviveGravestone(state, vic.getStart().getPixelPosition(), vic.getUser(), vic.getConnID(),
-                                reviveTimer, vic.getStart());
+                        new ReviveGravestone(state, vic.getStart().getPixelPosition(), vic.getUser(), reviveTimer, vic.getStart());
                     } else {
-                        new ReviveGravestone(state, vic.getPixelPosition(), vic.getUser(), vic.getConnID(),
-                                reviveTimer, vic.getStart());
+                        new ReviveGravestone(state, vic.getPixelPosition(), vic.getUser(), reviveTimer, vic.getStart());
                     }
                 }
             }
@@ -125,7 +127,7 @@ public class AllyRevive extends ModeSetting {
                     //check for allied grave markers in thte bot's vinicity and find a path towards a random one
                     if (fixture.getUserData() instanceof final EventData eventData) {
                         if (eventData.getEvent() instanceof final ReviveGravestone grave) {
-                            if (grave.getGraveTeam() == bot.getPlayerData().getLoadout().team) {
+                            if (grave.getGraveTeam() == bot.getUser().getLoadoutManager().getActiveLoadout().team) {
                                 bot.getBotController().setEventTarget(grave);
                                 path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, grave.getPosition()),
                                         grave, reviveDesireMultiplier));

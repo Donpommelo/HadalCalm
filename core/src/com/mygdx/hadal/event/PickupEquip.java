@@ -97,7 +97,7 @@ public class PickupEquip extends Event {
 				if (equip instanceof NothingWeapon) { return; }
 				
 				//If player inventory is full, replace their current weapon.
-				Equippable temp = p.getPlayerData().pickup(equip);
+				Equippable temp = p.getEquipHelper().pickup(equip);
 
 				setEquip(temp);
 			}

@@ -21,7 +21,7 @@ public class Plumpowder extends Artifact {
 			public void timePassing(float delta) {
 				if (!activated) {
 					activated = true;
-					p.getActiveItem().setCurrentChargePercent(1.0f);
+					p.getPlayer().getMagicHelper().getMagic().setCurrentChargePercent(1.0f);
 				}
 			}
 		};

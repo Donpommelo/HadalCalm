@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -27,9 +28,9 @@ public class RadialBarrage extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		
 		Vector2 angle = new Vector2(1, 0);
-		
-		if (user.getCurrentTool() instanceof RangedWeapon) {
-			angle.scl(((RangedWeapon) user.getCurrentTool()).getProjectileSpeed());
+		Equippable currentTool = user.getPlayer().getEquipHelper().getCurrentTool();
+		if (currentTool instanceof RangedWeapon rangedWeapon) {
+			angle.scl(rangedWeapon.getProjectileSpeed());
 
 			user.addStatus(new Status(state, DURATION, false, user, user) {
 				
@@ -43,13 +44,13 @@ public class RadialBarrage extends ActiveItem {
 						shotsFired++;
 
 						angle.setAngleDeg(angle.angleDeg() + 360.0f / TOTAL_SHOTS);
-						user.getCurrentTool().fire(state, user.getPlayer(), user.getPlayer().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxFilter());
+						currentTool.fire(state, user.getPlayer(), user.getPlayer().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxFilter());
 					}
 					procCdCount += delta;
 				}
 			});
 			
-			int clipSize = user.getCurrentTool().getClipSize();
+			int clipSize = currentTool.getClipSize();
 			if (clipSize > 1) {
 				gainChargeByPercent(0.20f);
 			}

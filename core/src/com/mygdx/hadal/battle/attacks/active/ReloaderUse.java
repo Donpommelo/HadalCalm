@@ -58,7 +58,7 @@ public class ReloaderUse extends SyncedAttacker {
                 }
             });
 
-            for (Equippable e : player.getPlayerData().getMultitools()) {
+            for (Equippable e : player.getEquipHelper().getMultitools()) {
                 e.gainClip(100);
                 e.gainAmmo(0.5f);
             }

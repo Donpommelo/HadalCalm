@@ -34,7 +34,7 @@ public class MouseHelper {
     public MouseHelper(PlayState state, Player player) {
 
         if (state.isServer()) {
-            self = player.getConnID() == 0;
+            self = player.getUser().getConnID() == 0;
         } else {
             self = player instanceof PlayerSelfOnClient;
         }

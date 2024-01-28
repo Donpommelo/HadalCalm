@@ -23,8 +23,8 @@ import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
 public class PlayerSelfOnClient extends Player {
 
 	public PlayerSelfOnClient(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
-							  int connID, User user, boolean reset, Event start) {
-		super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
+							  User user, boolean reset, Event start) {
+		super(state, startPos, name, startLoadout, oldData, user, reset, start);
 	}
 
 	private float syncAccumulator;
@@ -50,9 +50,9 @@ public class PlayerSelfOnClient extends Player {
 					getMouseHelper().getPosition(),	adjustedTime, moveState,
 					PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
 					PacketUtil.percentToByte(getBodyData().getCurrentFuel() / getBodyData().getStat(Stats.MAX_FUEL)),
-					(byte) getPlayerData().getCurrentSlot(),
-					PacketUtil.percentToByte(getPlayerData().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f),
-					PacketUtil.percentToByte(getPlayerData().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f),
+					(byte) getEquipHelper().getCurrentSlot(),
+					PacketUtil.percentToByte(getEquipHelper().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f),
+					PacketUtil.percentToByte(getEquipHelper().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f),
 					conditionCode));
 		}
 	}

@@ -245,7 +245,7 @@ public class BotController {
                     //calc the shortest path and compare it to paths to other targets
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
                     if (null != tempPoint) {
-                        float botScoreModifier = 1.0f - (user.getScores().getExtraModeScore() * bot.getState().getMode().getBotScoreAggroModifier());
+                        float botScoreModifier = 1.0f - (user.getScoreManager().getExtraModeScore() * bot.getState().getMode().getBotScoreAggroModifier());
                         targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, user.getPlayer(),
                                 multiplier * botScoreModifier));
                     }

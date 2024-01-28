@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.bots.BotManager;
@@ -202,11 +203,14 @@ public class Enemy extends Schmuck {
 		boolean visible = false;
 		
 		//draw hp bar if certain effects are used
-		if (state.getPlayer().getPlayerData() != null) {
-			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
-				visible = true;
+		if (HadalGame.usm.getOwnPlayer() != null) {
+			if (HadalGame.usm.getOwnPlayer().getPlayerData() != null) {
+				if (HadalGame.usm.getOwnPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
+					visible = true;
+				}
 			}
 		}
+
 		if (visible && !isBoss) {
 			float hpRatio;
 

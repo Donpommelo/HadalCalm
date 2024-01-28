@@ -115,7 +115,7 @@ public class Hexenhowitzer extends RangedWeapon {
 
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
-		boolean charging = this.equals(user.getPlayerData().getCurrentTool()) && !reloading && getClipLeft() > 0;
+		boolean charging = this.equals(user.getEquipHelper().getCurrentTool()) && !reloading && getClipLeft() > 0;
 
 		if (charging) {
 			//if fully charged, get a visual effect

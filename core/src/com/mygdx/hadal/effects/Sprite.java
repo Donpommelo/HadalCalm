@@ -51,8 +51,9 @@ public enum Sprite {
 	FLASH_GRENADE(SpriteType.PROJECTILE, "flashgrenade"),
 	FLOUNDER_A(SpriteType.PROJECTILE, "flounder_a"),
 	FLOUNDER_B(SpriteType.PROJECTILE, "flounder_b"),
-	FROG_STAND(SpriteType.PROJECTILE, "frog_idle"),
-	FROG_JUMP(SpriteType.PROJECTILE, "frog_jump"),
+	FROG_JUMP(SpriteType.FROG, "frog_jump", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FROG_LAND(SpriteType.FROG, "frog_land", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FROG_STAND(SpriteType.FROG, "frog_stand"),
 	FUGU(SpriteType.PROJECTILE, "fugu"),
 	GOLDFISH(SpriteType.PROJECTILE, "goldfish"),
 	DRILL(SpriteType.PROJECTILE, "underminer"),
@@ -391,6 +392,7 @@ public enum Sprite {
 			case PROJECTILE -> HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
 			case POOL -> HadalGame.assetManager.get(AssetList.POOL_ATL.toString());
 			case SPIRIT_BOMB -> HadalGame.assetManager.get(AssetList.SPIRIT_BOMB_ATL.toString());
+			case FROG -> HadalGame.assetManager.get(AssetList.FROG_ATL.toString());
 			case WEAPON -> HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
 			case FISH -> HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
 			case TURRET -> HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
@@ -419,6 +421,7 @@ public enum Sprite {
 		PROJECTILE,
 		POOL,
 		SPIRIT_BOMB,
+		FROG,
 		EXPLOSION,
 		EVENT,
 		WEAPON,

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.users.User;
@@ -77,12 +78,11 @@ public class FrameBufferManager {
             boolean used = false;
 
             for (User user : users) {
-                if (null != user.getPlayer() && null != user.getPlayer().getPlayerData().getLoadout()) {
-                    if (user.getPlayer().getPlayerData().getLoadout().character == characterBuffers.getKey().getCharacter()
-                            && user.getPlayer().getPlayerData().getLoadout().team == characterBuffers.getKey().getTeam()) {
-                        used = true;
-                        break;
-                    }
+                Loadout loadout = user.getLoadoutManager().getActiveLoadout();
+                if (loadout.character == characterBuffers.getKey().getCharacter()
+                        && loadout.team == characterBuffers.getKey().getTeam()) {
+                    used = true;
+                    break;
                 }
             }
 

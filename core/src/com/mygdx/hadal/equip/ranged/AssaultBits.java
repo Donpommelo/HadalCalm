@@ -77,7 +77,7 @@ public class AssaultBits extends RangedWeapon {
 
 		Array<Enemy> bits = user.getSpecialWeaponHelper().getBits();
 
-		if (!this.equals(user.getPlayerData().getCurrentTool())) {
+		if (!this.equals(user.getEquipHelper().getCurrentTool())) {
 			for (Enemy bit: user.getSpecialWeaponHelper().getBits()) {
 				if (bit.getBodyData() != null) {
 					bit.getBodyData().addStatus(new Temporary(state, 10.0f, bit.getBodyData(), bit.getBodyData(), 0.25f));

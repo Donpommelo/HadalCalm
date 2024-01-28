@@ -3,6 +3,7 @@ package com.mygdx.hadal.bots;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -126,8 +127,8 @@ public class BotLoadoutProcessor {
         int minAffinity = 100;
 
         //calc affinity for each of the bot's currently held weapons and identify which is worst
-        for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
-            int affinity = BotLoadoutProcessor.calcWeaponAffinity(player.getPlayerData().getMultitools()[i]);
+        for (int i = 0; i < player.getEquipHelper().getMultitools().length - 1; i++) {
+            int affinity = BotLoadoutProcessor.calcWeaponAffinity(player.getEquipHelper().getMultitools()[i]);
             if (affinity < minAffinity) {
                 minAffinity = affinity;
                 worseSlot = i;
@@ -153,17 +154,17 @@ public class BotLoadoutProcessor {
         float distSquared = playerLocation.dst2(targetLocation);
 
         //calculate "suitability" of currently held weapon. We do this first to favor staying on the same slot in case of ties
-        int bestSlot = player.getPlayerData().getCurrentSlot();
+        int bestSlot = player.getEquipHelper().getCurrentSlot();
 
         //find which held weapon has the highest "suitability" based on distance from a living enemy
         if (BotManager.raycastUtility(player, playerLocation, targetLocation, BodyConstants.BIT_PROJECTILE) == 1.0f && targetAlive
                 && Math.abs(playerLocation.x - targetLocation.x) < player.getVisionX()
                 && Math.abs(playerLocation.y - targetLocation.y) <  player.getVisionY()) {
             float bestSuitability = BotLoadoutProcessor.calcWeaponSuitability(player,
-                    player.getPlayerData().getMultitools()[bestSlot], distSquared, 0);
-            for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
+                    player.getEquipHelper().getMultitools()[bestSlot], distSquared, 0);
+            for (int i = 0; i < player.getEquipHelper().getMultitools().length - 1; i++) {
                 int suitability = BotLoadoutProcessor.calcWeaponSuitability(player,
-                        player.getPlayerData().getMultitools()[i], distSquared, bestSuitability);
+                        player.getEquipHelper().getMultitools()[i], distSquared, bestSuitability);
                 if (suitability > bestSuitability) {
                     bestSuitability = suitability;
                     bestSlot = i;
@@ -171,9 +172,9 @@ public class BotLoadoutProcessor {
             }
         } else {
             //if the target is not alive or we don't have a clear line of sight, instead switch to most "proactive" weapon
-            float bestProactivity = BotLoadoutProcessor.calcWeaponProactivity(player.getPlayerData().getMultitools()[bestSlot]);
-            for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
-                int suitability = BotLoadoutProcessor.calcWeaponProactivity(player.getPlayerData().getMultitools()[i]);
+            float bestProactivity = BotLoadoutProcessor.calcWeaponProactivity(player.getEquipHelper().getMultitools()[bestSlot]);
+            for (int i = 0; i < player.getEquipHelper().getMultitools().length - 1; i++) {
+                int suitability = BotLoadoutProcessor.calcWeaponProactivity(player.getEquipHelper().getMultitools()[i]);
                 if (suitability > bestProactivity) {
                     bestProactivity = suitability;
                     bestSlot = i;
@@ -391,7 +392,7 @@ public class BotLoadoutProcessor {
      * @param slot: the slot to switch to
      */
     private static void switchToSlot(PlayerBot player, int slot) {
-        if (slot != player.getPlayerData().getCurrentSlot()) {
+        if (slot != player.getEquipHelper().getCurrentSlot()) {
             PlayerAction slotToSwitch = switch (slot) {
                 default -> PlayerAction.SWITCH_TO_1;
                 case 1 -> PlayerAction.SWITCH_TO_2;
@@ -521,7 +522,7 @@ public class BotLoadoutProcessor {
         //easy bots or bots in single player when the player has no artifacts do not use artifacts
         if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
                 (GameStateManager.Mode.SINGLE.equals(GameStateManager.currentMode) &&
-                        0 == state.getPlayer().getPlayerData().getArtifactSlotsUsed())) {
+                        0 == HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed())) {
             return artifacts;
         }
 

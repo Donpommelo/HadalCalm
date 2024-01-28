@@ -70,7 +70,7 @@ public class Nebulizer extends MeleeWeapon {
 	private final Vector2 userPosition = new Vector2();
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
-		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool());
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getEquipHelper().getCurrentTool());
 
 		if (shooting) {
 			if (sawSound == null) {

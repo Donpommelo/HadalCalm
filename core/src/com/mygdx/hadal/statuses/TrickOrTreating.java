@@ -44,7 +44,7 @@ public class TrickOrTreating extends Status {
 	public TrickOrTreating(PlayState state, BodyData i) {
 		super(state, i);
 		player = ((Player) inflicted.getSchmuck());
-		player.getUser().getScores().setExtraModeScore(candyCount);
+		player.getUser().getScoreManager().setExtraModeScore(candyCount);
 
 		this.candyIcon = Sprite.CANDY_A.getFrame();
 		this.setServerOnly(true);
@@ -67,14 +67,14 @@ public class TrickOrTreating extends Status {
 
 	@Override
 	public void onRender(SpriteBatch batch, Vector2 playerLocation, Vector2 playerSize) {
-		if (0 < player.getUser().getScores().getExtraModeScore()) {
+		if (0 < player.getUser().getScoreManager().getExtraModeScore()) {
 			batch.draw(candyIcon,
 					playerLocation.x - playerSize.x / 2 - 20,
 					playerLocation.y + playerSize.y / 2 + 35,
 					candyIcon.getRegionWidth() * CANDY_ICON_SCALE, candyIcon.getRegionHeight() * CANDY_ICON_SCALE);
 
 			HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
-			HadalGame.FONT_UI.draw(batch, "X " + player.getUser().getScores().getExtraModeScore(),
+			HadalGame.FONT_UI.draw(batch, "X " + player.getUser().getScoreManager().getExtraModeScore(),
 					playerLocation.x - playerSize.x / 2 + 15,
 					playerLocation.y + playerSize.y / 2 + 50);
 		}
@@ -89,7 +89,7 @@ public class TrickOrTreating extends Status {
 	}
 
 	public void bucketCheck(TrickorTreatBucket bucket, float delta) {
-		if (AlignmentFilter.currentTeams[bucket.getTeamIndex()] != player.getPlayerData().getLoadout().team) {
+		if (AlignmentFilter.currentTeams[bucket.getTeamIndex()] != player.getUser().getLoadoutManager().getActiveLoadout().team) {
 			int enemyCandyCount = AlignmentFilter.teamScores[bucket.getTeamIndex()];
 			if (0 < enemyCandyCount) {
 				controllerCount += delta;
@@ -136,7 +136,7 @@ public class TrickOrTreating extends Status {
 
 	public void incrementCandyCount(int amount) {
 		candyCount += amount;
-		player.getUser().getScores().setExtraModeScore(candyCount);
+		player.getUser().getScoreManager().setExtraModeScore(candyCount);
 		player.getUser().setScoreUpdated(true);
 	}
 

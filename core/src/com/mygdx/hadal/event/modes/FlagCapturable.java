@@ -128,7 +128,7 @@ public class FlagCapturable extends Event {
 							if (!blockPickup) {
 								//if the flag touches an enemy player, it is picked up, displaying a notification and tracking the player
 								if (teamIndex < AlignmentFilter.currentTeams.length) {
-									if (playerData.getLoadout().team != AlignmentFilter.currentTeams[teamIndex]) {
+									if (playerData.getPlayer().getUser().getLoadoutManager().getActiveLoadout().team != AlignmentFilter.currentTeams[teamIndex]) {
 										captured = true;
 										awayFromSpawn = true;
 										target = playerData.getPlayer();
@@ -212,7 +212,7 @@ public class FlagCapturable extends Event {
 				numReturning = 0;
 				state.getWorld().QueryAABB(fixture -> {
 					if (fixture.getUserData() instanceof PlayerBodyData playerData) {
-						if (playerData.getLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
+						if (playerData.getPlayer().getUser().getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
 							numReturning++;
 						}
 					}

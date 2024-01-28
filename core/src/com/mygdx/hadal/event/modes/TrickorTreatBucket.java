@@ -56,7 +56,7 @@ public class TrickorTreatBucket extends Event {
             @Override
             public void onActivate(EventData activator, Player p) {
                 if (teamIndex < AlignmentFilter.currentTeams.length) {
-                    if (AlignmentFilter.currentTeams[teamIndex] != p.getPlayerData().getLoadout().team) {
+                    if (AlignmentFilter.currentTeams[teamIndex] != p.getUser().getLoadoutManager().getActiveLoadout().team) {
                         state.getMode().processTeamScoreChange(state, teamIndex, -1);
                     } else {
                         state.getMode().processTeamScoreChange(state, teamIndex, 1);

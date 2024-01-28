@@ -13,6 +13,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
@@ -48,6 +49,7 @@ public class PlayerSpriteHelper {
     private static final int ARM_ROTATE_X = 330;
     private static final int ARM_ROTATE_Y = 50;
 
+    private final PlayState state;
     private final Player player;
 
     //scale is changed for player size modifiers
@@ -63,7 +65,8 @@ public class PlayerSpriteHelper {
     private UnlockCharacter character;
     private AlignmentFilter team;
 
-    public PlayerSpriteHelper(Player player, float scale) {
+    public PlayerSpriteHelper(PlayState state, Player player, float scale) {
+        this.state = state;
         this.player = player;
         this.scale = scale;
 
@@ -233,7 +236,7 @@ public class PlayerSpriteHelper {
 
         //head type cosmetics replace the head, so we don't want to draw the base head unless not rendering cosmetics,
         // or only rendering 1 non-head cosmetic
-        boolean head = player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank();
+        boolean head = player.getUser().getLoadoutManager().getActiveLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank();
         if (null != lockedCosmetic) {
             head = true;
             if (CosmeticSlot.HEAD == lockedCosmetic.getCosmeticSlot()) {
@@ -256,16 +259,17 @@ public class PlayerSpriteHelper {
      * Helper method that renders the player's cosmetics
      */
     private void renderCosmetics(Batch batch, float animationTimeExtra, boolean flip, UnlockCosmetic lockedCosmetic) {
+        Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
         if (null == lockedCosmetic) {
             //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
-            for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
-                headLocation.set(cosmetic.render(batch, player.getPlayerData().getLoadout().team,
-                        player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
+            for (UnlockCosmetic cosmetic : loadout.cosmetics) {
+                headLocation.set(cosmetic.render(batch, loadout.team,
+                        loadout.character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
             }
         } else {
             //only draw the locked cosmetic
-            headLocation.set(lockedCosmetic.render(batch, player.getPlayerData().getLoadout().team,
-                    player.getPlayerData().getLoadout().character, animationTimeExtra, scale, flip, headLocation, bodyLocation));
+            headLocation.set(lockedCosmetic.render(batch, loadout.team, loadout.character, animationTimeExtra, scale,
+                    flip, headLocation, bodyLocation));
         }
     }
 
@@ -276,47 +280,47 @@ public class PlayerSpriteHelper {
         switch (type) {
             case GIB -> createGibs(playerLocation, playerVelocity);
             case VAPORIZE -> createVaporization(playerLocation, playerVelocity);
-            case TELEPORT -> createWarpAnimation();
+            case TELEPORT -> createWarpAnimation(playerLocation);
         }
     }
 
     public static final float GIB_DURATION = 3.0f;
     public static final float GIB_GRAVITY = 1.0f;
     private void createGibs(Vector2 playerLocation, Vector2 playerVelocity) {
+        Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
 
         //head type cosmetics replace the head, so we don't want to create a ragdoll for it
-        if (player.getPlayerData().getLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
-            Ragdoll headRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(headWidth, headHeight).scl(scale),
+        if (loadout.cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
+            Ragdoll headRagdoll = new Ragdoll(state, playerLocation, new Vector2(headWidth, headHeight).scl(scale),
                     headSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
 
-            if (!player.getState().isServer()) {
-                ((ClientState) player.getState()).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            if (!state.isServer()) {
+                ((ClientState) state).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
             }
         }
 
-        Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
+        Ragdoll bodyRagdoll = new Ragdoll(state, playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
                 bodyStillSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
 
-        Ragdoll armRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(armWidth, armHeight).scl(scale),
+        Ragdoll armRagdoll = new Ragdoll(state, playerLocation, new Vector2(armWidth, armHeight).scl(scale),
                 armSprite, playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
 
-        Ragdoll toolRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
+        Ragdoll toolRagdoll = new Ragdoll(state, playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
                 player.getToolSprite(), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
 
         //Get cosmetic ragdolls
-        for (UnlockCosmetic cosmetic : player.getPlayerData().getLoadout().cosmetics) {
-            Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(player.getState(), player.getPlayerData().getLoadout().team,
-                    player.getPlayerData().getLoadout().character, playerLocation, scale, playerVelocity);
-            if (null != cosmeticRagdoll && !player.getState().isServer()) {
-                ((ClientState) player.getState()).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ClientState.ObjectLayer.STANDARD);
+        for (UnlockCosmetic cosmetic : loadout.cosmetics) {
+            Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(state, loadout.team, loadout.character, playerLocation, scale, playerVelocity);
+            if (null != cosmeticRagdoll && !state.isServer()) {
+                ((ClientState) state).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ClientState.ObjectLayer.STANDARD);
             }
         }
 
         //the client needs to create ragdolls separately b/c we can't serialize the frame buffer object.
-        if (!player.getState().isServer()) {
-            ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) player.getState()).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) player.getState()).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ClientState.ObjectLayer.STANDARD);
+        if (!state.isServer()) {
+            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ClientState.ObjectLayer.STANDARD);
         }
     }
 
@@ -329,20 +333,20 @@ public class PlayerSpriteHelper {
         //clear buffer, set camera
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        player.getState().getBatch().getProjectionMatrix().setToOrtho2D(0, 0, ragdollBuffer.getWidth(), ragdollBuffer.getHeight());
+        state.getBatch().getProjectionMatrix().setToOrtho2D(0, 0, ragdollBuffer.getWidth(), ragdollBuffer.getHeight());
 
         //render player
-        player.getState().getBatch().begin();
-        render(player.getState().getBatch(), player.getMouseHelper().getAttackAngle(), player.getMoveState(),
+        state.getBatch().begin();
+        render(state.getBatch(), player.getMouseHelper().getAttackAngle(), player.getMoveState(),
                 0.0f, 0.0f,false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f),
                 true, null, false);
-        player.getState().getBatch().end();
+        state.getBatch().end();
 
         ragdollBuffer.end();
         TextureRegion ragdollTexture = new TextureRegion(ragdollBuffer.getColorBufferTexture(), 0,
                 ragdollBuffer.getHeight(), ragdollBuffer.getWidth(), -ragdollBuffer.getHeight());
 
-        Ragdoll bodyRagdoll = new Ragdoll(player.getState(), playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT),
+        Ragdoll bodyRagdoll = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT),
                 ragdollTexture, playerVelocity, 2.0f, 0.0f, true, false, false) {
 
             private Shader shader;
@@ -399,16 +403,16 @@ public class PlayerSpriteHelper {
             }
         };
 
-        if (!player.getState().isServer()) {
-            ((ClientState) player.getState()).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
+        if (!state.isServer()) {
+            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
         }
     }
 
-    private void createWarpAnimation() {
-        ParticleEntity particle = new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT,
+    private void createWarpAnimation(Vector2 playerLocation) {
+        ParticleEntity particle = new ParticleEntity(state, playerLocation.sub(0, player.getSize().y / 2), Particle.TELEPORT,
                 2.5f, true, SyncType.NOSYNC).setPrematureOff(1.5f);
-        if (!player.getState().isServer()) {
-            ((ClientState) player.getState()).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.STANDARD);
+        if (!state.isServer()) {
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.STANDARD);
         }
     }
 

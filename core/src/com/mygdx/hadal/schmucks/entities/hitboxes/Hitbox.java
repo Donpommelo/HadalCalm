@@ -394,6 +394,9 @@ public class Hitbox extends HadalEntity {
 			}
 		}
 		this.spriteSize.set(size);
+
+		//Changing sprite should reset animations (for non-looping sprites)
+		this.animationTime = 0.0f;
 	}
 
 	public void setStartVelo(Vector2 startVelo) { this.startVelo = startVelo; }

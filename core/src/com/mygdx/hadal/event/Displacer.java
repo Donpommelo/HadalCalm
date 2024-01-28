@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -55,7 +56,7 @@ public class Displacer extends Event {
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
 					if (!state.isServer() && fixB.getEntity() instanceof Player player) {
-						if (state.getPlayer().equals(player)) {
+						if (player.getUser() == HadalGame.usm.getOwnUser()) {
 							schmucks.add(fixB.getEntity());
 						}
 					} else if (state.isServer() &&!(fixB.getEntity() instanceof PlayerClientOnHost)) {

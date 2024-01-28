@@ -32,7 +32,7 @@ public class AdministratorCard extends Artifact {
 
 				while (artifactsAdded < NUM_ARTIFACTS) {
 					UnlockArtifact artifact = UnlockArtifact.getRandArtfFromPool(state, "");
-					if (p.addArtifact(artifact, true, false)) {
+					if (p.getPlayer().getArtifactHelper().addArtifact(artifact, true, false)) {
 						unlocks.add(artifact);
 						artifactsAdded++;
 					}
@@ -42,7 +42,7 @@ public class AdministratorCard extends Artifact {
 			@Override
 			public void onDeath(BodyData perp, DamageSource source) {
 				for (UnlockArtifact unlock : unlocks) {
-					p.removeArtifact(unlock, true);
+					p.getPlayer().getArtifactHelper().removeArtifact(unlock, true);
 				}
 				unlocks.clear();
 			}

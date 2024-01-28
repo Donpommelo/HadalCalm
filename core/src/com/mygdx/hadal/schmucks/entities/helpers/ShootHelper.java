@@ -28,25 +28,25 @@ public class ShootHelper {
 
     public void controller(float delta) {
         if (shooting) {
-            shoot(delta, player.getPlayerData().getCurrentTool(), true);
+            shoot(delta, player.getEquipHelper().getCurrentTool(), true);
         }
 
         //If player is reloading, run the reload method of the current equipment.
-        boolean reloading = player.getPlayerData().getCurrentTool().isReloading();
+        boolean reloading = player.getEquipHelper().getCurrentTool().isReloading();
 
         player.getEffectHelper().toggleReloadEffects(reloading);
         if (reloading) {
-            player.getPlayerData().getCurrentTool().reload(delta);
+            player.getEquipHelper().getCurrentTool().reload(delta);
         }
 
         player.getUiHelper().controllerEquip(delta);
 
         //process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
-        player.getPlayerData().getCurrentTool().update(state, delta);
+        player.getEquipHelper().getCurrentTool().update(state, delta);
 
         if (shootBuffered && shootCdCount < 0) {
             shootBuffered = false;
-            shoot(delta, player.getPlayerData().getCurrentTool(), true);
+            shoot(delta, player.getEquipHelper().getCurrentTool(), true);
         }
 
         //process cooldowns on firing
@@ -54,7 +54,7 @@ public class ShootHelper {
     }
 
     public void controllerUniversal(float delta, Vector2 playerPosition) {
-        for (Equippable equippable : player.getPlayerData().getMultitools()) {
+        for (Equippable equippable : player.getEquipHelper().getMultitools()) {
             equippable.processEffects(state, delta, playerPosition);
         }
     }
@@ -99,7 +99,7 @@ public class ShootHelper {
      */
     public void release() {
         if (player.isAlive() && shooting) {
-            useToolRelease(player.getPlayerData().getCurrentTool());
+            useToolRelease(player.getEquipHelper().getCurrentTool());
         }
     }
 

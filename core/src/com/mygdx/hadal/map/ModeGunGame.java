@@ -13,6 +13,7 @@ import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import static com.mygdx.hadal.save.UnlockEquip.*;
+import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
 
 /**
  * This mode makes all players cycle through weapons when killing.
@@ -33,7 +34,7 @@ public class ModeGunGame extends ModeSetting {
 
         //when a player respawns, set their weapon to their last held weapon, determined by score
         if (null != user) {
-            int currentGunIndex = Math.min(user.getScores().getScore(), weaponOrder.length - 1);
+            int currentGunIndex = Math.min(user.getScoreManager().getScore(), weaponOrder.length - 1);
             newLoadout.multitools[0] = weaponOrder[currentGunIndex];
         }
     }
@@ -46,20 +47,22 @@ public class ModeGunGame extends ModeSetting {
             state.getMode().processPlayerScoreChange(state, player, 1);
 
             if (null != player.getUser()) {
-                int currentGunIndex = player.getUser().getScores().getScore();
+                int currentGunIndex = player.getUser().getScoreManager().getScore();
                 if (currentGunIndex < weaponOrder.length) {
 
+                    Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
+
                     //this sets the player's weapon to the new one and syncs client loadouts
-                    player.getPlayerData().getMultitools()[0] = UnlocktoItem.getUnlock(weaponOrder[currentGunIndex], player);
-                    player.getPlayerData().getLoadout().multitools[0] = weaponOrder[currentGunIndex];
-                    player.getPlayerData().setEquip();
-                    player.getPlayerData().syncServerEquipChange(player.getPlayerData().getLoadout().multitools);
+                    player.getEquipHelper().getMultitools()[0] = UnlocktoItem.getUnlock(weaponOrder[currentGunIndex], player);
+                    loadout.multitools[0] = weaponOrder[currentGunIndex];
+                    player.getEquipHelper().setEquip();
+                    player.getEquipHelper().syncServerEquipChange(loadout.multitools);
 
                     String message = weaponOrder[currentGunIndex].getName() + ": " + currentGunIndex + "/" + weaponOrder.length;
                     state.getKillFeed().sendNotification(message, player);
                 } else {
                     //upon finishing all weapons, we end the game
-                    state.levelEnd(ResultsState.MAGIC_WORD, false, PlayState.LONG_FADE_DELAY);
+                    state.levelEnd(ResultsState.MAGIC_WORD, false, LONG_FADE_DELAY);
                 }
             }
         }

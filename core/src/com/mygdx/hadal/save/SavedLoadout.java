@@ -4,12 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.users.User;
 
 import java.util.Arrays;
 
+import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_TOTAL;
 import static com.mygdx.hadal.managers.GameStateManager.JSON;
 import static com.mygdx.hadal.managers.GameStateManager.READER;
-import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_TOTAL;
 
 /**
  * A record represents the player's last loadout.
@@ -41,7 +42,10 @@ public class SavedLoadout {
 	/**
 	 * This simple saves the record in a designated file
 	 */
-	public void saveLoadout() {
+	public void saveLoadout(User user) {
+		if (null != user) {
+			user.getLoadoutManager().setSavedLoadout(new Loadout(this));
+		}
 		Gdx.files.local("save/Loadout.json").writeString(JSON.prettyPrint(this), false);
 	}
 	
@@ -89,49 +93,49 @@ public class SavedLoadout {
 		return tempLoadout;
 	}
 	
-	public void setEquips(int index, String equip) {
+	public void setEquips(User user, int index, String equip) {
 		this.equip[index] = equip;
-		saveLoadout();
+		saveLoadout(user);
 	}
 	
-	public void setArtifact(int index, String artifact) {
+	public void setArtifact(User user, int index, String artifact) {
 		this.artifact[index] = artifact;
-		saveLoadout();
+		saveLoadout(user);
 	}
 
-	public void setCosmetic(int index, String cosmetic) {
+	public void setCosmetic(User user, int index, String cosmetic) {
 		this.cosmetic[index] = cosmetic;
-		saveLoadout();
+		saveLoadout(user);
 	}
 
-	public void setActive(String active) {
+	public void setActive(User user, String active) {
 		this.active = active;
-		saveLoadout();
+		saveLoadout(user);
 	}
 	
-	public void setCharacter(String character) {
+	public void setCharacter(User user, String character) {
 		this.character = character;
-		saveLoadout();
+		saveLoadout(user);
 	}
 
-	public void setTeam(String team) {
+	public void setTeam(User user, String team) {
 		this.team = team;
-		saveLoadout();
+		saveLoadout(user);
 	}
 
 	public void setName(String name) {
 		this.name = name.substring(0, Math.min(name.length(), MAX_NAME_LENGTH_TOTAL));
-		saveLoadout();
+		saveLoadout(null);
 	}
 
-	public void setLoadout(SavedLoadout loadout) {
+	public void setLoadout(User user, SavedLoadout loadout) {
 		this.equip = loadout.equip;
 		this.artifact = loadout.artifact;
 		this.cosmetic = loadout.cosmetic;
 		this.active = loadout.active;
 		this.character = loadout.character;
 		this.team = loadout.team;
-		saveLoadout();
+		saveLoadout(user);
 	}
 
 	public String[] getEquip() {return equip;}

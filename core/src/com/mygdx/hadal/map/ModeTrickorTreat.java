@@ -54,7 +54,7 @@ public class ModeTrickorTreat extends ModeSetting {
                     Status candyStatus = bot.getPlayerData().getStatus(TrickOrTreating.class);
                     if (null != candyStatus) {
                         if (candyStatus instanceof TrickOrTreating trickOrTreating) {
-                            if (bot.getPlayerData().getLoadout().team == AlignmentFilter.currentTeams[bucket.getTeamIndex()]) {
+                            if (bot.getUser().getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[bucket.getTeamIndex()]) {
                                 if (0 < trickOrTreating.getCandyCount()) {
                                     bot.getBotController().setEventTarget(bucket);
                                     path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation),

@@ -15,15 +15,17 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.save.UnlockManager;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.User;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,19 +78,16 @@ public class Haberdasher extends HubEvent {
 
 		Pattern pattern = Pattern.compile(search);
 
-		if (state.getPlayer().getPlayerData() == null) {
-			return;
-		}
+		Loadout loadout = HadalGame.usm.getOwnUser().getLoadoutManager().getActiveLoadout();
 
 		//if we need to reload sprites (due to character/team/slot change), clear existing sprites and begin loading new sprites
-		if (lastCharacter != state.getPlayer().getPlayerData().getLoadout().character
-				|| lastFilter != state.getPlayer().getPlayerData().getLoadout().team || lastCosmetic != slotChosen) {
+		if (lastCharacter != loadout.character || lastFilter != loadout.team || lastCosmetic != slotChosen) {
 			FrameBufferManager.clearUnusedFrameBuffers();
 
 			sprites.clear();
 
-			lastCharacter = state.getPlayer().getPlayerData().getLoadout().character;
-			lastFilter = state.getPlayer().getPlayerData().getLoadout().team;
+			lastCharacter = loadout.character;
+			lastFilter = loadout.team;
 			lastCosmetic = slotChosen;
 
 			//iterate through all cosmetics that are valid with given character and slot
@@ -128,22 +127,21 @@ public class Haberdasher extends HubEvent {
 		final Haberdasher me = this;
 		menuDepth = 0;
 
+		Loadout loadout = HadalGame.usm.getOwnUser().getLoadoutManager().getActiveLoadout();
+
 		//create options for each cosmetic slot that has at least one cosmetic for the character
 		for (CosmeticSlot slot : CosmeticSlot.values()) {
 			final CosmeticSlot selected = slot;
 
-			PlayerBodyData playerData = state.getPlayer().getPlayerData();
 			Animation<TextureRegion> frame = null;
 
 			//hub option icon displays currently equipped cosmetic or a red X if there is none.
-			if (playerData != null) {
-				UnlockCosmetic cosmeticType = playerData.getLoadout().cosmetics[slot.getSlotNumber()];
-				if (!cosmeticType.isBlank()) {
-					UnlockCharacter character = playerData.getLoadout().character;
-					CharacterCosmetic cosmetic = cosmeticType.getCosmetics().get(character);
-					if (cosmetic != null) {
-						frame = cosmetic.getShadedFrames(state.getBatch(), playerData.getLoadout().team, character);
-					}
+			UnlockCosmetic cosmeticType = loadout.cosmetics[slot.getSlotNumber()];
+			if (!cosmeticType.isBlank()) {
+				UnlockCharacter character = loadout.character;
+				CharacterCosmetic cosmetic = cosmeticType.getCosmetics().get(character);
+				if (cosmetic != null) {
+					frame = cosmetic.getShadedFrames(state.getBatch(), loadout.team, character);
 				}
 			}
 
@@ -160,7 +158,7 @@ public class Haberdasher extends HubEvent {
 				if (!c.getCosmeticSlot().equals(slot)) {
 					continue;
 				}
-				if (c.checkCompatibleCharacters(state.getPlayer().getPlayerData().getLoadout().character) && !c.isBlank()) {
+				if (c.checkCompatibleCharacters(loadout.character) && !c.isBlank()) {
 					continue;
 				}
 				cosmeticCount++;
@@ -208,6 +206,11 @@ public class Haberdasher extends HubEvent {
 				final UIHub hub = state.getUiHub();
 				final HubEvent me = this;
 
+				Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+				if (null == ownPlayer) { return; }
+				if (null == ownPlayer.getPlayerData()) { return; }
+
 				UnlockCosmetic selected = loadingCosmetics.removeIndex(0);
 
 				//Have to load the shaded cosmetic prior to creating player option to avoid shaded hat not appearing
@@ -216,7 +219,7 @@ public class Haberdasher extends HubEvent {
 					cosmetic.getShadedFrames(state.getBatch(), lastFilter, lastCharacter);
 				}
 
-				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), state.getPlayer(), lastCharacter,
+				HubOptionPlayer option = new HubOptionPlayer(selected.getName(), ownPlayer, lastCharacter,
 						lastFilter, true, selected);
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_CHARACTER_HEIGHT);
 				option.setWrap(TEXT_WIDTH);
@@ -229,25 +232,24 @@ public class Haberdasher extends HubEvent {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
+						Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-						if (state.getPlayer().getPlayerData() == null) {
-							return;
-						}
+						if (null == ownPlayer) { return; }
 
 						UnlockCosmetic choice = selected;
-						if (!isEquipping(state.getPlayer().getPlayerData(), selected)) {
+						if (!isEquipping(ownPlayer.getUser(), selected)) {
 							choice = getBlank(selected.getCosmeticSlot());
 						}
 
 						//we set loadout for both server and client so cosmetic slot page is accurate upon returning
-						state.getPlayer().getPlayerData().setCosmetic(choice);
+						ownPlayer.getCosmeticsHelper().setCosmetic(choice);
 
 						if (state.isServer()) {
-							state.getPlayer().getPlayerData().syncServerCosmeticChange(choice);
+							ownPlayer.getCosmeticsHelper().syncServerCosmeticChange(choice);
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncCosmeticClient(choice));
 						}
-						state.getGsm().getLoadout().setCosmetic(choice.getCosmeticSlot().getSlotNumber(), choice.toString());
+						state.getGsm().getLoadout().setCosmetic(HadalGame.usm.getOwnUser(), choice.getCosmeticSlot().getSlotNumber(), choice.toString());
 
 						me.enter();
 						hub.refreshHub(me);
@@ -281,8 +283,8 @@ public class Haberdasher extends HubEvent {
 	/**
 	 * This returns whether the player already has the given cosmetic equipped
 	 */
-	private static boolean isEquipping(PlayerBodyData playerData, UnlockCosmetic cosmetic) {
-		return playerData.getLoadout().cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()] != cosmetic;
+	private static boolean isEquipping(User user, UnlockCosmetic cosmetic) {
+		return user.getLoadoutManager().getActiveLoadout().cosmetics[cosmetic.getCosmeticSlot().getSlotNumber()] != cosmetic;
 	}
 
 	private static UnlockCosmetic getBlank(CosmeticSlot slot) {
