@@ -322,7 +322,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.ClientStartTransition p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay));
+				cs.addPacketEffect(() -> cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay, p.skipFade));
 			}
 		}
 
@@ -836,7 +836,7 @@ public class KryoClient {
 						if (!p.dontMoveCamera) {
 							//set camera to look at new client player.
 							cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
-							cs.getCameraFocusAimVector().setZero();
+							cs.getCameraManager().getCameraFocusAimVector().setZero();
 						}
 					}
 

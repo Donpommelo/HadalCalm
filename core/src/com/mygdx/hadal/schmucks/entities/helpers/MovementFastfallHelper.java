@@ -5,6 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.entities.Player;
 
+/**
+ * MovementFastfallHelper manages the player's midair fastfalling
+ */
 public class MovementFastfallHelper {
 
     private static final float FAST_FALL_CD = 0.05f;
@@ -46,6 +49,10 @@ public class MovementFastfallHelper {
         }
     }
 
+    /**
+     * Fastfall power scales against current downward velocity.
+     * This makes fast fall start off quicker but not accelerate to as high of a max speed
+     */
     public float getFastFallPower(Vector2 playerVelocity) {
 
         float modifiedThreshold = FAST_FALL_MAX_THRESHOLD * (1 + player.getPlayerData().getStat(Stats.FASTFALL_POW));

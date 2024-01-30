@@ -7,6 +7,9 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 
+/**
+ * ShootHelper processes the player's shooting
+ */
 public class ShootHelper {
 
     private final PlayState state;
@@ -53,6 +56,10 @@ public class ShootHelper {
         shootCdCount -= delta;
     }
 
+
+    /**
+     * All players process equipment effects. Important for things like weapons with toggle sounds
+     */
     public void controllerUniversal(float delta, Vector2 playerPosition) {
         for (Equippable equippable : player.getEquipHelper().getMultitools()) {
             equippable.processEffects(state, delta, playerPosition);

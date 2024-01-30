@@ -36,14 +36,14 @@ public class CameraChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
-					state.setCameraTarget(event.getConnectedEvent().getPixelPosition());
+					state.getCameraManager().setCameraTarget(event.getConnectedEvent().getPixelPosition());
 				} else {
-					state.setCameraTarget(null);
+					state.getCameraManager().setCameraTarget(null);
 				}
-				state.setCameraOffset(offsetX, offsetY);
+				state.getCameraManager().setCameraOffset(offsetX, offsetY);
 				
 				if (zoom != 0.0f) {
-					state.setZoom(zoom);
+					state.getCameraManager().setZoom(zoom);
 				}
 			}
 		};

@@ -23,13 +23,24 @@ import com.mygdx.hadal.utils.CameraUtil;
  */
 public class PlayerBodyData extends BodyData {
 		
-	private final Player player;
+	private Player player;
 
 	public PlayerBodyData(Player player) {
 		super(player, player.getBaseHp());
 		this.player = player;
 	}
-	
+
+	/**
+	 * This is run when transitioning the player into a new map/world or respawning
+	 * @param newPlayer: the new player that this data belongs to.
+	 */
+	public void updateOldData(Player newPlayer) {
+		this.setEntity(newPlayer);
+		this.schmuck = newPlayer;
+		this.player = newPlayer;
+		clearStatuses();
+	}
+
 	/**
 	 * We override this method so that player-specific fields can adjust properly when stats are modified.
 	 * atm, this is only used for weapon slot number changes, as well as camera modifiers
@@ -42,7 +53,7 @@ public class PlayerBodyData extends BodyData {
 
 		//vision modifiers should be applies whenever stats are modified
 		if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
-			player.getState().setZoomModifier(getStat(Stats.VISION_RADIUS));
+			player.getState().getCameraManager().setZoomModifier(getStat(Stats.VISION_RADIUS));
 		}
 
 		player.getEquipHelper().postCalcStats();

@@ -3,8 +3,14 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 
+/**
+ * LoadoutHelper manages the player's loadout.
+ * The "true" active loadout is now part of User's loadout manager instead
+ * This contains player-specific loadout utility functions that run when player is createed, modified etc
+ */
 public class LoadoutHelper {
 
     private Player player;
@@ -57,13 +63,8 @@ public class LoadoutHelper {
      * This is run when transitioning the player into a new map/world or respawning
      * @param newPlayer: the new player that this data belongs to.
      */
-    public void updateOldData(Player newPlayer) {
-        this.player = newPlayer;
-
-        player.getPlayerData().clearStatuses();
-
+    public void updateOldData(PlayerBodyData newPlayer) {
         player.getEquipHelper().updateOldEquips(newPlayer);
-        player.getArtifactHelper().updateOldArtifacts(newPlayer);
         player.getMagicHelper().updateOldMagic(newPlayer);
     }
 

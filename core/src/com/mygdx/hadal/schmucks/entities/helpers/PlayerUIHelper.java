@@ -14,6 +14,10 @@ import com.mygdx.hadal.text.UIText;
 
 import java.util.Objects;
 
+/**
+ * PlayerUIHelper renders ui elements attached to the player.
+ * This includes hp, fuel, name, reload/charge meter
+ */
 public class PlayerUIHelper {
 
     public static final float UI_SCALE = 0.4f;
@@ -50,6 +54,7 @@ public class PlayerUIHelper {
     //This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
     protected float chargePercent, chargeDelayed;
 
+    //is the fuel/hp bar rendered on the right or left?
     private boolean barRight;
 
     //is the player currently typing in chat? (yes if this float is greater that 0.0f)

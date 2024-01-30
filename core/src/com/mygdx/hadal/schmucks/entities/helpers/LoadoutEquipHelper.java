@@ -9,18 +9,24 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.util.Arrays;
 
+/**
+ * LoadoutEquipHelper manages a player's equips.
+ * It contains a variety of utility functions for picking up and switching active weapon
+ */
 public class LoadoutEquipHelper {
 
-    private Player player;
+    private final Player player;
 
     //This is a list of the player's weapons
     private Equippable[] multitools;
 
+    //This is the player's currently active weapon
     private Equippable currentTool;
 
     //This is the slot number of the player's currently selected weapon
@@ -32,7 +38,7 @@ public class LoadoutEquipHelper {
     public LoadoutEquipHelper(Player player) {
         this.player = player;
 
-        //Acquire weapons from loadout
+        //Acquire weapons from loadout. Do this on initializingg to avoid null current equip for ui purposes
         this.multitools = new Equippable[Loadout.MAX_WEAPON_SLOTS];
         Arrays.fill(multitools, UnlocktoItem.getUnlock(UnlockEquip.NOTHING, player));
         syncEquip(getActiveLoadout().multitools);
@@ -57,11 +63,17 @@ public class LoadoutEquipHelper {
         setEquip();
     }
 
-    public void updateOldEquips(Player newPlayer) {
-        this.player = newPlayer;
-        for (Equippable e : multitools) {
-            e.setUser(player);
+    /**
+     * This is run when using old playerData to create new player.
+     * Take old weapons and apply to new player
+     */
+    public void updateOldEquips(PlayerBodyData newPlayer) {
+        for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
+            multitools[i] = newPlayer.getPlayer().getEquipHelper().multitools[i];
+            multitools[i].setUser(player);
         }
+        currentSlot = newPlayer.getPlayer().getEquipHelper().getCurrentSlot();
+        setEquip();
     }
 
     /**
@@ -107,6 +119,7 @@ public class LoadoutEquipHelper {
     public void setEquip() {
         if (null == player.getPlayerData()) { return; }
 
+        //process current weapon, in case on-unequip/on-equip functions are needed
         if (currentTool != null) {
             currentTool.unequip(player.getState());
         }
@@ -179,6 +192,10 @@ public class LoadoutEquipHelper {
         }
     }
 
+    /**
+     * This is run after recalculating our stats.
+     * Need to check for changes in weapon slot count, and clip/ammo size
+     */
     public void postCalcStats() {
         //check current slot in case stat change affects slot number
         if (currentSlot >= getNumWeaponSlots()) {

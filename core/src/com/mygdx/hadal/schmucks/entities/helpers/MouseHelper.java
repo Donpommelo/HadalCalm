@@ -12,7 +12,8 @@ import com.mygdx.hadal.states.PlayState;
 import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
- *
+ * MouseHelper manages the player's mouse.
+ * The momuse is no longer an object with a body, but just coordinates this helper keeps track of
  *  @author Narsabaum Nolfner
  */
 public class MouseHelper {
@@ -26,9 +27,10 @@ public class MouseHelper {
     //This tracks the location of a client mouse sent by packet
     private final Vector2 desiredLocation = new Vector2();
 
+    //This is the player's arm angle for attacking
     private float attackAngle;
 
-    //Does this mouse belong to the player or another networked player
+    //Does this mouse belong to the player or another networked player?
     private final boolean self;
 
     public MouseHelper(PlayState state, Player player) {
@@ -43,7 +45,8 @@ public class MouseHelper {
     private final Vector2 mouseLocation = new Vector2();
     private final Vector2 mouseAngle = new Vector2();
     public void controller(Vector2 playerPosition) {
-        //server player's mouse sets location constantly. Client's mouse moves to desired location which is set when receiving packets from respective client
+        //own player's mouse sets location constantly. other mouse moves to desired location which is set when receiving
+        // packets from respective client
         if (self) {
             tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             HadalGame.viewportCamera.unproject(tmpVec3);

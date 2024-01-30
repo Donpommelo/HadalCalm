@@ -6,18 +6,24 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
+/**
+ * LoadoutMagicHelper manages a player's Magic
+ */
 public class LoadoutMagicHelper {
 
-    private Player player;
+    private final Player player;
 
     //This is the player's active item
     private ActiveItem magic;
 
     public LoadoutMagicHelper(Player player) {
         this.player = player;
+
+        //Acquire magic from loadout. Do this on initializingg to avoid null magic for ui purposes
         this.magic = UnlocktoItem.getUnlock(UnlockActives.NOTHING, player);
     }
 
@@ -30,9 +36,13 @@ public class LoadoutMagicHelper {
         getActiveLoadout().activeItem = active;
     }
 
-    public void updateOldMagic(Player newPlayer) {
-        this.player = newPlayer;
-        magic.setUser(newPlayer);
+    /**
+     * This is run when using old playerData to create new player.
+     * Take old magic and apply to new player
+     */
+    public void updateOldMagic(PlayerBodyData newPlayer) {
+        magic = newPlayer.getPlayer().getMagicHelper().getMagic();
+        magic.setUser(player);
     }
 
     /**

@@ -35,18 +35,18 @@ public class CameraBounder extends Event {
 
 		//is this regular camera bound or spectator bound?
 		if (spectator) {
-			state.setSpectatorBounded(true);
+			state.getCameraManager().setSpectatorBounded(true);
 			if (right) {
-				state.getSpectatorBounds()[0] = startPos.x;
+				state.getCameraManager().getSpectatorBounds()[0] = startPos.x;
 			}
 			if (left) {
-				state.getSpectatorBounds()[1] = startPos.x;
+				state.getCameraManager().getSpectatorBounds()[1] = startPos.x;
 			}
 			if (up) {
-				state.getSpectatorBounds()[2] = startPos.y;
+				state.getCameraManager().getSpectatorBounds()[2] = startPos.y;
 			}
 			if (down) {
-				state.getSpectatorBounds()[3] = startPos.y;
+				state.getCameraManager().getSpectatorBounds()[3] = startPos.y;
 			}
 		}
 	}
@@ -58,16 +58,16 @@ public class CameraBounder extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (right) {
-					state.getCameraBounds()[0] = getPixelPosition().x;
+					state.getCameraManager().getCameraBounds()[0] = getPixelPosition().x;
 				}
 				if (left) {
-					state.getCameraBounds()[1] = getPixelPosition().x;
+					state.getCameraManager().getCameraBounds()[1] = getPixelPosition().x;
 				}
 				if (up) {
-					state.getCameraBounds()[2] = getPixelPosition().y;
+					state.getCameraManager().getCameraBounds()[2] = getPixelPosition().y;
 				}
 				if (down) {
-					state.getCameraBounds()[3] = getPixelPosition().y;
+					state.getCameraManager().getCameraBounds()[3] = getPixelPosition().y;
 				}
 			}
 		};
@@ -77,7 +77,7 @@ public class CameraBounder extends Event {
 				.addToWorld(world);
 
 		//this line lets player-less spectators have camera bounds when the map does not have spectator-specific bounds
-		if (!state.isSpectatorBounded()) {
+		if (!state.getCameraManager().isSpectatorBounded()) {
 			eventData.onActivate(null, null);
 		}
 	}

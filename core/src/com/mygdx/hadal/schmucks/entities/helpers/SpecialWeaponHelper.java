@@ -5,6 +5,9 @@ import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 
+/**
+ * SpecialWeaponHelper contains fields specific to weapons that need to keep track of specific hitboxes or other data
+ */
 public class SpecialWeaponHelper {
 
     private final Queue<Hitbox> stickyBombs = new Queue<>();

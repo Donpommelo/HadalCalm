@@ -15,6 +15,8 @@ import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.Transition;
 import com.mygdx.hadal.users.User;
 
+import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
+
 /**
  * This mode setting is used for modes where the host can designate a number of lives.
  * @author Jergarita Jisrael
@@ -92,7 +94,9 @@ public class SettingLives extends ModeSetting {
                     user.getTransitionManager().beginTransition(state,
                             new Transition()
                                     .setNextState(PlayState.TransitionState.RESPAWN)
-                                    .setFadeDelay(state.getRespawnTime()));
+                                    .setFadeDelay(state.getRespawnTime())
+                                    .setForewarnTime(LONG_FADE_DELAY)
+                                    .setSpawnForewarned(true));
                 } else {
                     user.getScoreManager().setLives(user.getScoreManager().getLives() - 1);
                     if (user.getScoreManager().getLives() <= 0) {
@@ -100,7 +104,9 @@ public class SettingLives extends ModeSetting {
                     } else {
                         user.getTransitionManager().beginTransition(state, new Transition()
                                 .setNextState(PlayState.TransitionState.RESPAWN)
-                                .setFadeDelay(state.getRespawnTime()));
+                                .setFadeDelay(state.getRespawnTime())
+                                .setForewarnTime(LONG_FADE_DELAY)
+                                .setSpawnForewarned(true));
                     }
                 }
             }

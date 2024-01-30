@@ -11,9 +11,15 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
 
 import java.util.Arrays;
 
+/**
+ * LoadoutArtifactHelper manages the player's equipped artifacts.
+ * This mostly contains utility functions for managing active artifacts.
+ * This does not contain a list of artifacts since, unlike weapons and magic, artifacts don't contain their own data;
+ * they are really just lists of statuses that are added/removed.
+ */
 public class LoadoutArtifactHelper {
 
-    private Player player;
+    private final Player player;
 
     public LoadoutArtifactHelper(Player player) {
         this.player = player;
@@ -22,12 +28,14 @@ public class LoadoutArtifactHelper {
     /**
      * This syncs a player's artifacts
      * @param artifact: the player's new set of artifacts
+     * @param override: should this override artifact slot limitations?
+     * @param save: should this sync save the result into the saved loadout file?
      */
     public void syncArtifact(UnlockArtifact[] artifact, boolean override, boolean save) {
 
         Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
 
-        //first, removes statuses of existing artifacts
+        //first, removes statuses of existing artifacts and reset list
         for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
             player.getPlayerData().removeArtifactStatus(loadout.artifacts[i]);
         }
@@ -53,17 +61,6 @@ public class LoadoutArtifactHelper {
         //If this is the player being controlled by the user, update artifact ui
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
             player.getState().getUiArtifact().syncArtifact();
-        }
-    }
-
-    public void updateOldArtifacts(Player newPlayer) {
-        this.player = newPlayer;
-        for (UnlockArtifact a : getActiveLoadout().artifacts) {
-            a.getArtifact().loadEnchantments(newPlayer.getState(), player.getPlayerData());
-            if (a.getArtifact().getEnchantment() != null) {
-                player.getPlayerData().addStatus(a.getArtifact().getEnchantment());
-                a.getArtifact().getEnchantment().setArtifact(a);
-            }
         }
     }
 
@@ -117,7 +114,7 @@ public class LoadoutArtifactHelper {
 
     /**
      * Remove a designated artifact.
-     * use override to abide by artifact slot costs
+     * use override to not abide by artifact slot costs
      */
     public void removeArtifact(UnlockArtifact artifact, boolean override) {
 
@@ -210,7 +207,7 @@ public class LoadoutArtifactHelper {
     }
 
     /**
-     * This returns the number of unused artifact slots
+     * This returns the number of unused artifact slots for display in reliquary hub event
      */
     public int getArtifactSlotsRemaining() { return getNumArtifactSlots() - getActiveLoadout().getArtifactSlotsUsed(); }
 

@@ -151,6 +151,7 @@ public class Packets {
 		public TransitionState state;
 		public float fadeSpeed;
 		public float fadeDelay;
+		public boolean skipFade;
 		public ClientStartTransition() {}
 		
 		/**
@@ -161,10 +162,11 @@ public class Packets {
 		 * @param fadeSpeed: speed of the fade transition
 		 * @param fadeDelay: Amount of delay before transition
 		 */
-		public ClientStartTransition(TransitionState state, float fadeSpeed, float fadeDelay) {
+		public ClientStartTransition(TransitionState state, float fadeSpeed, float fadeDelay, boolean skipFade) {
 			this.state = state;
 			this.fadeSpeed = fadeSpeed;
 			this.fadeDelay = fadeDelay;
+			this.skipFade = skipFade;
 		}
 	}
 	

@@ -282,7 +282,7 @@ public class PauseState extends GameState {
 		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
 		if (ps != null) {
 			if (paused) {
-				ps.cameraUpdate();
+				ps.getCameraManager().cameraUpdate();
 			} else {
 				ps.update(delta);
 			}

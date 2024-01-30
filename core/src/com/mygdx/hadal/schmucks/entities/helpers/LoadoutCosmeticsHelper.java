@@ -8,6 +8,10 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 
+/**
+ * LoadoutCosmeticsHelper manages a player's equipped cosmetics.
+ * This includes cosmetics, character skin and color
+ */
 public class LoadoutCosmeticsHelper {
 
     private final Player player;
@@ -16,6 +20,10 @@ public class LoadoutCosmeticsHelper {
         this.player = player;
     }
 
+    /**
+     * This syncs a player's cosmetics.
+     * Copy the new cosmetics into user active loadout and ensure no incompatible cosmetics are used
+     */
     public void syncCosmetics(UnlockCosmetic[] cosmetics, UnlockCharacter character) {
         System.arraycopy(cosmetics, 0, getActiveLoadout().cosmetics, 0, Loadout.MAX_COSMETIC_SLOTS);
         for (int i = 0; i < Loadout.MAX_COSMETIC_SLOTS; i++) {

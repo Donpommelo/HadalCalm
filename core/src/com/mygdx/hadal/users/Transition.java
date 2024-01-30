@@ -31,7 +31,10 @@ public class Transition {
     private float forewarnTime = SPAWN_FOREWARN;
 
     //Do spawn particles appear at all? Does this override another transition? Should the camera center on the player once spawned in?
-    private boolean spawnForewarned, override, centerCameraOnStart;
+    private boolean spawnForewarned, override, centerCameraOnStart, skipFade;
+
+    //Should this transition reset player data? (If respawning)
+    private boolean reset = true;
 
     public TransitionState getNextState() { return nextState; }
 
@@ -46,6 +49,10 @@ public class Transition {
     public boolean isOverride() { return override; }
 
     public boolean isCenterCameraOnStart() { return centerCameraOnStart; }
+
+    public boolean isSkipFade() { return skipFade; }
+
+    public boolean isReset() { return reset; }
 
     public Transition setNextState(TransitionState nextState) {
         this.nextState = nextState;
@@ -79,6 +86,16 @@ public class Transition {
 
     public Transition setCenterCameraOnStart(boolean centerCameraOnStart) {
         this.centerCameraOnStart = centerCameraOnStart;
+        return this;
+    }
+
+    public Transition setSkipFade(boolean skipFade) {
+        this.skipFade = skipFade;
+        return this;
+    }
+
+    public Transition setReset(boolean reset) {
+        this.reset = reset;
         return this;
     }
 }

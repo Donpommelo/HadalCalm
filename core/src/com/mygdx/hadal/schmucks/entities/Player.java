@@ -209,7 +209,8 @@ public class Player extends Schmuck {
 			loadoutHelper.initLoadout();
 			playerData.addStatus(new Invulnerability(state, 2.0f, playerData, playerData));
 		} else {
-			loadoutHelper.updateOldData(this);
+			playerData.updateOldData(this);
+			loadoutHelper.updateOldData(playerData);
 		}
 		equipHelper.switchWeapon(currentSlot);
 

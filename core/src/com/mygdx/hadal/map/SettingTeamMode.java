@@ -150,7 +150,6 @@ public class SettingTeamMode extends ModeSetting {
     @Override
     public void processPlayerLivesOut(PlayState state, GameMode mode, Player p) {
         String resultsText = "";
-
         //check if all players are out
         boolean allded = true;
         AlignmentFilter winningTeam = AlignmentFilter.NONE;
