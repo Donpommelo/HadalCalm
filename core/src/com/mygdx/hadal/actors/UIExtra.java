@@ -305,7 +305,7 @@ public class UIExtra extends AHadalActor {
 					if (!user.isSpectator()) {
 						if (null != user.getPlayer()) {
 							if (user.getPlayer().isAlive()) {
-								if (user.getPlayer().getStartLoadout().team == AlignmentFilter.currentTeams[i]) {
+								if (user.getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[i]) {
 									numAlive++;
 								}
 							}

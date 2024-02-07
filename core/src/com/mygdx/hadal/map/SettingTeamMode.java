@@ -112,14 +112,14 @@ public class SettingTeamMode extends ModeSetting {
     }
 
     @Override
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         if (state.isServer()) {
             User user = HadalGame.usm.getUsers().get(connID);
             if (user != null) {
 
                 //on auto-assign team mode, player teams are set to their "override" value
                 if (mode.isTeamDesignated()) {
-                    if (justJoined) {
+                    if (!user.isTeamAssigned()) {
                         AlignmentFilter.assignNewPlayerToTeam(user);
                     }
                     newLoadout.team = user.getTeamFilter();

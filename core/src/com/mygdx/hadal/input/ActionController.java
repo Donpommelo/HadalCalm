@@ -1,7 +1,6 @@
 package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
 
@@ -66,16 +65,6 @@ public class ActionController {
 	
 	public void keyDown(PlayerAction action, boolean onReset) {
 		if (player == null) return;
-
-		//when spectating, host interact activates the map's designated "spectator event", if existant
-		if (player.getState().isServer() && player.getUser().equals(HadalGame.usm.getOwnUser()) && player.getState().isSpectatorMode()) {
-			if (action == PlayerAction.INTERACT) {
-				if (player.getState().getSpectatorActivation() != null) {
-					player.getState().getSpectatorActivation().getEventData().onInteract(player);
-				}
-			}
-		}
-
 		if (player.getPlayerData() == null) return;
 
 		if (action == PlayerAction.WALK_LEFT) {

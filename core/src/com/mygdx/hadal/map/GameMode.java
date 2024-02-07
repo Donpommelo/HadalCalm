@@ -294,12 +294,11 @@ public enum GameMode {
      * This is run when a player is created. This is used to change properties of the player prior to player init
      * @param newLoadout: the new loadout the player will spawn with. modify to change starting loadout
      * @param connID: connID of the player being created. We use connID b/c the player isn't created yet
-     * @param justJoined: did this player just connect? Used to determine team of new players
      */
-    public void processNewPlayerLoadout(PlayState state, Loadout newLoadout, int connID, boolean justJoined) {
+    public void processNewPlayerLoadout(PlayState state, Loadout newLoadout, int connID) {
         if (!state.isServer()) { return; }
         for (ModeSetting setting : applicableSettings) {
-            setting.processNewPlayerLoadout(state, this, newLoadout, connID, justJoined);
+            setting.processNewPlayerLoadout(state, this, newLoadout, connID);
         }
     }
 

@@ -47,8 +47,7 @@ public class BotManager {
                                 .setFadeDelay(LONG_FADE_DELAY)
                                 .setFadeSpeed(0.0f)
                                 .setForewarnTime(LONG_FADE_DELAY)
-                                .setSpawnForewarned(true)
-                                .setCenterCameraOnStart(true));
+                                .setSpawnForewarned(true));
             }
         }
     }

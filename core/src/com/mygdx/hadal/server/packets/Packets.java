@@ -152,6 +152,7 @@ public class Packets {
 		public float fadeSpeed;
 		public float fadeDelay;
 		public boolean skipFade;
+		public Vector2 startPosition;
 		public ClientStartTransition() {}
 		
 		/**
@@ -161,12 +162,15 @@ public class Packets {
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
 		 * @param fadeSpeed: speed of the fade transition
 		 * @param fadeDelay: Amount of delay before transition
+		 * @param skipFade: Should the client skip fading to the next state? (true for
+		 * @param startPosition: For respawning, this is the new spawn location for camera focusing purposes.
 		 */
-		public ClientStartTransition(TransitionState state, float fadeSpeed, float fadeDelay, boolean skipFade) {
+		public ClientStartTransition(TransitionState state, float fadeSpeed, float fadeDelay, boolean skipFade, Vector2 startPosition) {
 			this.state = state;
 			this.fadeSpeed = fadeSpeed;
 			this.fadeDelay = fadeDelay;
 			this.skipFade = skipFade;
+			this.startPosition = startPosition;
 		}
 	}
 	

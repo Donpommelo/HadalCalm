@@ -70,6 +70,7 @@ public class CameraManager {
         zoom = zoom + (zoomDesired * (1.0f + zoomModifier) - zoom) * 0.1f;
 
         state.getCamera().zoom = zoom;
+
         if (cameraTarget == null) {
             //the camera should be draggable as a spectator or during respawn time
             if (state.isSpectatorMode() || state.getKillFeed().isRespawnSpectator()) {

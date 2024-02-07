@@ -10,7 +10,6 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.*;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.map.GameMode;
@@ -21,12 +20,12 @@ import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.PlayerConditionUtil;
 import com.mygdx.hadal.utils.WorldUtil;
@@ -100,9 +99,6 @@ public class Player extends Schmuck {
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
 	
-	//This is the loadout that this player starts with.
-	private final Loadout startLoadout;
-	
 	//This is the connection id and user of the player (0 if server)
 	private User user;
 	
@@ -117,21 +113,18 @@ public class Player extends Schmuck {
 	 * @param state: current gameState
 	 * @param startPos: the player's starting location
 	 * @param name: the player's name
-	 * @param startLoadout: This is the player's starting loadout
 	 * @param oldData: If created after a stage transition, this is the data of the previous player.
 	 * @param user: The user this player belongs to
 	 * @param reset: do we reset the player's stats after creating them?
 	 * @param start: the start point that the player spawns at.
 	 */
-	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
-				  User user, boolean reset, Event start) {
+	public Player(PlayState state, Vector2 startPos, String name, PlayerBodyData oldData, User user, boolean reset, Event start) {
 		super(state, startPos, new Vector2(HB_WIDTH * SCALE, HB_HEIGHT * SCALE), name, BodyConstants.PLAYER_HITBOX, BASE_HP);
 		this.name = name;
 		toolSprite = Sprite.MT_DEFAULT.getFrame();
 
 		this.moveState = MoveState.STAND;
 
-		this.startLoadout = startLoadout;
 		this.playerData = oldData;
 		this.user = user;
 		this.reset = reset;
@@ -145,7 +138,7 @@ public class Player extends Schmuck {
 		this.magicHelper = new LoadoutMagicHelper(this);
 		this.cosmeticsHelper = new LoadoutCosmeticsHelper(this);
 
-		setBodySprite(startLoadout.character, startLoadout.team);
+		setBodySprite(user.getLoadoutManager().getActiveLoadout().character, user.getLoadoutManager().getActiveLoadout().team);
 
 		this.effectHelper = new PlayerEffectHelper(state, this);
 		this.uiHelper = new PlayerUIHelper(state, this);
@@ -378,9 +371,11 @@ public class Player extends Schmuck {
 		if (state.isSpectatorMode() || user.getHitboxFilter() == HadalGame.usm.getOwnUser().getHitboxFilter()) {
 			visible = true;
 		} else {
-			if (HadalGame.usm.getOwnPlayer().getPlayerData() != null) {
-				if (HadalGame.usm.getOwnPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
-					visible = true;
+			if (null != HadalGame.usm.getOwnPlayer()) {
+				if (null != HadalGame.usm.getOwnPlayer().getPlayerData()) {
+					if (HadalGame.usm.getOwnPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
+						visible = true;
+					}
 				}
 			}
 		}
@@ -412,7 +407,8 @@ public class Player extends Schmuck {
 	private DamageSource damageSource = DamageSource.MISC;
 	private DamageTag[] damageTags = new DamageTag[] {};
 	@Override
-	public Object onServerDelete() { return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
+	public Object onServerDelete() {
+		return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
 
 	/**
 	 * This is called every engine tick. 
@@ -468,7 +464,13 @@ public class Player extends Schmuck {
 		} else if (o instanceof Packets.DeletePlayer p) {
 
 			//if the client is told to delete another player, process their death.
-			if (!(this instanceof PlayerSelfOnClient)) {
+			if (this instanceof PlayerSelfOnClient) {
+
+				//for self-deleting, we only listen to server in the case of disconnect (including becoming spectator)
+				if (p.source.equals(DamageSource.DISCONNECT)) {
+					getPlayerData().die(state.getWorldDummy().getBodyData(), p.source, p.tags);
+				}
+			} else {
 				HadalEntity entity = state.findEntity(p.uuidMSBPerp, p.uuidLSBPerp);
 				if (entity instanceof Schmuck perp) {
 					getPlayerData().die(perp.getBodyData(), p.source, p.tags);
@@ -598,8 +600,6 @@ public class Player extends Schmuck {
 
 	public ActionController getController() { return controller; }
 	
-	public Loadout getStartLoadout() { return startLoadout; }
-
 	public User getUser() { return user; }
 
 	public void setUser(User user) { this.user = user; }

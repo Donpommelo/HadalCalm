@@ -15,7 +15,7 @@ public class SetLoadoutActive extends ModeSetting {
     public SetLoadoutActive(UnlockActives active) {this.active = active; }
 
     @Override
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         newLoadout.activeItem = active;
     }
 }

@@ -96,7 +96,9 @@ public class KryoClient {
         	public void connected(Connection c) {
                 sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName(), HadalGame.VERSION, null));
                 usm.setConnID(c.getID());
-            }
+				usm.getUsers().put(c.getID(), new User(c.getID(), gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
+
+			}
         	
         	/**
         	 * Upon disconnecting to server, return to title state
@@ -322,7 +324,15 @@ public class KryoClient {
 		else if (o instanceof final Packets.ClientStartTransition p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay, p.skipFade));
+				cs.addPacketEffect(() -> {
+						cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay, p.skipFade);
+						if (null != p.startPosition) {
+							cs.getCameraManager().setCameraPosition(p.startPosition);
+							cs.getCameraManager().setCameraTarget(p.startPosition);
+							cs.getCameraManager().getCameraFocusAimVector().setZero();
+						}
+					}
+				);
 			}
 		}
 
@@ -822,7 +832,7 @@ public class KryoClient {
 					user.setTeamFilter(p.loadout.team);
 
 					Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, user,
-							true, p.connID == usm.getConnID(), false, p.hitboxFilter);
+							true, p.connID == usm.getConnID(), p.hitboxFilter);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
@@ -835,13 +845,11 @@ public class KryoClient {
 
 						if (!p.dontMoveCamera) {
 							//set camera to look at new client player.
-							cs.getCamera().position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
+							cs.getCameraManager().setCameraPosition(p.startPosition);
 							cs.getCameraManager().getCameraFocusAimVector().setZero();
+							cs.getCameraManager().setCameraTarget(null);
 						}
 					}
-
-					user.setPlayer(newPlayer);
-					newPlayer.setUser(user);
 				});
 			}
 			return true;

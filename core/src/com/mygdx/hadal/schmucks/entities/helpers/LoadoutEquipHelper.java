@@ -197,7 +197,12 @@ public class LoadoutEquipHelper {
      * Need to check for changes in weapon slot count, and clip/ammo size
      */
     public void postCalcStats() {
-        //check current slot in case stat change affects slot number
+        //this removes any unusable weapons in loadout (Saved in a slot the player cannot use)
+        for (int i = (int) (Loadout.BASE_WEAPON_SLOTS + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.MAX_WEAPON_SLOTS; i++) {
+            player.getUser().getLoadoutManager().getActiveLoadout().multitools[i] = UnlockEquip.NOTHING;
+        }
+
+        //if weapon slots were removed, change current slot to avoid an empty slot
         if (currentSlot >= getNumWeaponSlots()) {
             currentSlot = getNumWeaponSlots() - 1;
             setEquip();

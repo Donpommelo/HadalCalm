@@ -13,7 +13,7 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
  */
 public class LoadoutHelper {
 
-    private Player player;
+    private final Player player;
 
     public LoadoutHelper(Player player) {
         this.player = player;

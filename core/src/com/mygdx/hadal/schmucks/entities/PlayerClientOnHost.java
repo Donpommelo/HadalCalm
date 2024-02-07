@@ -4,12 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.PacketUtil;
 
 /**
@@ -19,9 +18,9 @@ import com.mygdx.hadal.utils.PacketUtil;
  */
 public class PlayerClientOnHost extends Player {
 
-	public PlayerClientOnHost(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
+	public PlayerClientOnHost(PlayState state, Vector2 startPos, String name, PlayerBodyData oldData,
 							  User user, boolean reset, Event start) {
-		super(state, startPos, name, startLoadout, oldData, user, reset, start);
+		super(state, startPos, name, oldData, user, reset, start);
 		receivingSyncs = true;
 	}
 

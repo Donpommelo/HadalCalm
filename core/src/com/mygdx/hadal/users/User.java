@@ -42,6 +42,8 @@ public class User {
     //the player's selected team alignment
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
 
+    private boolean teamAssigned;
+
     public User(int connID, String name, Loadout loadout) {
         this.connID = connID;
         this.loadoutManager = new LoadoutManager(loadout);
@@ -141,4 +143,8 @@ public class User {
     public AlignmentFilter getTeamFilter() { return teamFilter; }
 
     public void setTeamFilter(AlignmentFilter teamFilter) { this.teamFilter = teamFilter; }
+
+    public boolean isTeamAssigned() { return teamAssigned; }
+
+    public void setTeamAssigned(boolean teamAssigned) { this.teamAssigned = teamAssigned; }
 }

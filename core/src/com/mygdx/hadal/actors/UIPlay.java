@@ -206,6 +206,7 @@ public class UIPlay extends AHadalActor {
 
 		if (null == ownPlayer) { return; }
 		if (null == ownPlayer.getPlayerData()) { return; }
+		if (!ownPlayer.isAlive()) { return; }
 
 		//hide rest of ui if specified in settings. We don't want to hide boss ui.
 		if (state.getGsm().getSetting().isHideHUD()) { return; }

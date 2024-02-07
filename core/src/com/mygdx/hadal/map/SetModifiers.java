@@ -74,10 +74,10 @@ public class SetModifiers extends ModeSetting {
     }
 
     @Override
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         for (ModeModifier modifier : modifiers) {
             if (state.getGsm().getSetting().getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
-                modifier.processNewPlayerLoadout(state, mode, newLoadout, connID, justJoined);
+                modifier.processNewPlayerLoadout(state, mode, newLoadout, connID);
             }
         }
     }

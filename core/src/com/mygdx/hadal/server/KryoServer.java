@@ -307,32 +307,31 @@ public class KryoServer {
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
 								user.getLoadoutManager().setSavedLoadout(p.loadout);
+								if (ps.isReset()) {
+									user.getLoadoutManager().setActiveLoadout(p.loadout);
+								}
 
 								//if the player is told to start as a spectator or was a spectator prior to the match, they join as a spectator
-								if (user.isSpectator()) {
-									spectator = true;
-								}
-
-								Player player = user.getPlayer();
-								if (player != null) {
-
-									//alive check prevents duplicate players if entering/respawning simultaneously
-									if (!player.isAlive() && player.getPlayerData() != null) {
-										if (ps.isReset()) {
-											createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(),
-													true, spectator, p.firstTime, null);
-										} else {
-											createNewClientPlayer(ps, c.getID(), p.name, user.getLoadoutManager().getActiveLoadout(),
-													player.getPlayerData(), false, spectator, p.firstTime, null);
-										}
-									}
+								if (user.isSpectator() || spectator) {
+									createNewClientSpectator(ps, c.getID(), p.name, p.loadout);
 								} else {
-									createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator,
-											p.firstTime, null);
+									Player player = user.getPlayer();
+									if (player != null) {
+
+										//alive check prevents duplicate players if entering/respawning simultaneously
+										if (!player.isAlive()) {
+											spawnNewUser(ps, user, ps.isReset());
+										}
+									} else {
+										spawnNewUser(ps, user, true);
+									}
 								}
 							} else {
-								createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator,
-										p.firstTime, null);
+								if (spectator) {
+									createNewClientSpectator(ps, c.getID(), p.name, p.loadout);
+								} else {
+									spawnNewUser(ps, c.getID(), p.name, p.loadout, true);
+								}
 							}
 
 							//this just updates user's "last primary weapon" which is only used for a single artifact rn
@@ -636,8 +635,7 @@ public class KryoServer {
 		server.start();
 	}
 
-	public void createNewClientPlayer(final PlayState ps, final int connID, final String name, final Loadout loadout,
-									  final PlayerBodyData data, final boolean reset, final boolean spectator, boolean justJoined, final Event startPoint) {
+	public User checkNewUser(int connID, String name, Loadout loadout) {
 		User user;
 		if (usm.getUsers().containsKey(connID)) {
 			user = usm.getUsers().get(connID);
@@ -647,7 +645,21 @@ public class KryoServer {
 			user.setTeamFilter(loadout.team);
 		}
 		user.getLoadoutManager().setActiveLoadout(loadout);
-		createNewClientPlayer(ps, user, data, reset, spectator, justJoined, startPoint);
+		return user;
+	}
+
+	public void spawnNewUser(PlayState ps, int connID, String name, Loadout loadout, boolean reset) {
+		User user = checkNewUser(connID, name, loadout);
+		spawnNewUser(ps, user, reset);
+	}
+
+	public void spawnNewUser(PlayState ps, User user, boolean reset) {
+		user.getTransitionManager().levelStartSpawn(ps, reset);
+	}
+
+	public void createNewClientSpectator(PlayState ps, int connID, String name, Loadout loadout) {
+		User user = checkNewUser(connID, name, loadout);
+		ps.addPacketEffect(() -> ps.startSpectator(user));
 	}
 
 	/**
@@ -655,12 +667,9 @@ public class KryoServer {
 	 * @param ps: This is the server's current play state
 	 * @param data: The player data of the new player.
 	 * @param reset: Do we want to reset the new player's hp/fuel/ammo etc?
-	 * @param spectator: is this player created as a spectator?
-	 * @param justJoined: Is this a newly connecting client or a newly respawned one?
 	 * @param startPoint: The start point to spawn the new client player at
 	 */
-	public void createNewClientPlayer(final PlayState ps, final User user, final PlayerBodyData data, final boolean reset,
-									  final boolean spectator, boolean justJoined, final Event startPoint) {
+	public void createNewClientPlayer(final PlayState ps, final User user, final PlayerBodyData data, final boolean reset, final Event startPoint) {
 
 		ps.addPacketEffect(() -> {
 
@@ -669,18 +678,11 @@ public class KryoServer {
 				newSave = startPoint;
 			}
 
-			//set the client as a spectator if requested
-			if (spectator) {
-				ps.startSpectator(user);
-			} else {
-				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave, user.getStringManager().getName(), user.getLoadoutManager().getActiveLoadout(),
-						data, user, reset, false, justJoined,
-						user.getHitboxFilter().getFilter());
+			//Create a new player with the designated fields and give them a mouse pointer.
+			ps.createPlayer(newSave, user.getStringManager().getName(), user.getLoadoutManager().getActiveLoadout(),
+					data, user, reset, false, user.getHitboxFilter().getFilter());
 
-				user.setPlayer(newPlayer);
-				user.setSpectator(false);
-			}
+			user.setSpectator(false);
 		});
 	}
 	

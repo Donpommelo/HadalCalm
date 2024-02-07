@@ -22,7 +22,9 @@ public class CommonController extends InputAdapter {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == PlayerAction.DIALOGUE.getKey()) {
+		if (keycode == PlayerAction.INTERACT.getKey()) {
+			keyDown(PlayerAction.INTERACT);
+		} else if (keycode == PlayerAction.DIALOGUE.getKey()) {
 			keyDown(PlayerAction.DIALOGUE);
 		} else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			keyDown(PlayerAction.SCORE_WINDOW);
@@ -94,6 +96,14 @@ public class CommonController extends InputAdapter {
 	}
 
 	public void keyDown(PlayerAction action) {
+		//when spectating, host interact activates the map's designated "spectator event", if existant
+		if (state.isServer() && state.isSpectatorMode()) {
+			if (action == PlayerAction.INTERACT) {
+				if (state.getSpectatorActivation() != null) {
+					state.getSpectatorActivation().getEventData().onInteract(null);
+				}
+			}
+		}
 
 		if (action == PlayerAction.DIALOGUE) {
 			if (state.getDialogBox() != null) {

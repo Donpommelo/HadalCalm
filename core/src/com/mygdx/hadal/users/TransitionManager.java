@@ -13,6 +13,8 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
+import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
+
 /**
  * This manages a user's transitions, most notably respawns.
  */
@@ -79,7 +81,6 @@ public class TransitionManager {
      * @param state: the play state
      */
     public void beginTransition(PlayState state, Transition transition) {
-
         //If we are in the middle of another transition, we skip this unless this transition is set to "override"
         if (transition.isOverride() || this.nextState == null) {
             spawnForewarned = transition.isSpawnForewarned();
@@ -98,15 +99,7 @@ public class TransitionManager {
                 this.particlesSpawned = false;
             }
 
-            if (user.getConnID() == 0) {
-                //this extra check is for state transitions, not user transitions
-                if (transition.isOverride() || state.getNextState() == null) {
-                    state.beginTransition(nextState, transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade());
-                }
-            } else {
-                HadalGame.server.sendToTCP(user.getConnID(), new Packets.ClientStartTransition(nextState,
-                        transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade()));
-            }
+            Vector2 clientStartPosition = null;
 
             //set respawn point upon respawn initializing so we know where it is when we draw spawn particles
             if (TransitionState.RESPAWN.equals(nextState)) {
@@ -115,17 +108,31 @@ public class TransitionManager {
 
                     //if desired, set camera to prospective respawn point right away (for initial spawn)
                     if (transition.isCenterCameraOnStart()) {
-                        state.getCameraManager().setCameraPosition(startPoint.getStartPos());
-                        state.getCameraManager().setCameraTarget(startPoint.getStartPos());
-                        state.getCameraManager().getCameraFocusAimVector().setZero();
+                        if (user.getConnID() == 0) {
+                            state.getCameraManager().setCameraPosition(startPoint.getStartPos());
+                            state.getCameraManager().setCameraTarget(startPoint.getStartPos());
+                            state.getCameraManager().getCameraFocusAimVector().setZero();
+                        } else {
+                            clientStartPosition = startPoint.getStartPos();
+                        }
                     }
                 }
+            }
+
+            if (user.getConnID() == 0) {
+                //this extra check is for state transitions, not user transitions
+                if (transition.isOverride() || state.getNextState() == null) {
+                    state.beginTransition(nextState, transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade());
+                }
+            } else {
+                HadalGame.server.sendToTCP(user.getConnID(), new Packets.ClientStartTransition(nextState,
+                        transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade(), clientStartPosition));
             }
         }
     }
 
     /**
-     * This respawns a player into the world. Run only be host
+     * This respawns a player into the world. Run only by host
      */
     public void respawn(PlayState state) {
         if (user.getConnID() == 0) {
@@ -139,7 +146,7 @@ public class TransitionManager {
 
             //create player and set it as our own
             HadalGame.usm.setOwnPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), new Loadout(state.getGsm().getLoadout()),
-                    playerData, user, reset, false, false, hitboxFilter));
+                    playerData, user, reset, false, hitboxFilter));
 
             //focus camera on start point unless otherwise specified
             if (!user.getPlayer().isDontMoveCamera()) {
@@ -157,10 +164,32 @@ public class TransitionManager {
             }
 
             //alive check prevents duplicate players if entering/respawning simultaneously
-            if (!user.getPlayer().isAlive()) {
-                String playerName = user.getStringManager().getNameShort();
-                HadalGame.server.createNewClientPlayer(state, user.getConnID(), playerName, user.getLoadoutManager().getSavedLoadout(),
-                        playerData, reset, false, false, startPoint);
+            if (null == user.getPlayer() || (null != user.getPlayer() && !user.getPlayer().isAlive())) {
+                user.getLoadoutManager().setActiveLoadout(user.getLoadoutManager().getSavedLoadout());
+                HadalGame.server.createNewClientPlayer(state, user, playerData, reset, startPoint);
+            }
+        }
+    }
+
+    public void levelStartSpawn(PlayState state, boolean reset) {
+        if (!user.isSpectator()) {
+            nextState = null;
+            if (reset) {
+                beginTransition(state,
+                        new Transition()
+                                .setNextState(PlayState.TransitionState.RESPAWN)
+                                .setFadeDelay(LONG_FADE_DELAY)
+                                .setFadeSpeed(0.0f)
+                                .setForewarnTime(LONG_FADE_DELAY)
+                                .setSpawnForewarned(true)
+                                .setCenterCameraOnStart(true)
+                                .setSkipFade(true));
+            } else {
+                HadalGame.usm.getOwnUser().getTransitionManager().beginTransition(state,
+                        new Transition()
+                                .setNextState(PlayState.TransitionState.RESPAWN)
+                                .setFadeSpeed(0.0f)
+                                .setReset(false));
             }
         }
     }
@@ -183,8 +212,6 @@ public class TransitionManager {
     public Vector2 getOverrideSpawnLocation() { return overrideSpawnLocation; }
 
     public boolean isSpawnOverridden() { return spawnOverridden; }
-
-    public void setNextState(TransitionState nextState) { this.nextState = nextState; }
 
     public void setOverrideStart(Event event) {
         startPoint = event;

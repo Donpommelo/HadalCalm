@@ -25,7 +25,6 @@ import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.bots.BotManager;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
@@ -42,7 +41,10 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
-import com.mygdx.hadal.save.*;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockCosmetic;
+import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
@@ -54,7 +56,6 @@ import com.mygdx.hadal.states.managers.CameraManager;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.ScoreManager;
-import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.users.Transition;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.users.User.UserDto;
@@ -69,7 +70,8 @@ import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 import static com.mygdx.hadal.constants.Constants.PPM;
-import static com.mygdx.hadal.users.Transition.*;
+import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_OUT_SPEED;
+import static com.mygdx.hadal.users.Transition.SHORT_FADE_DELAY;
 
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
@@ -301,6 +303,9 @@ public class PlayState extends GameState {
 		}
 
 		//if auto-assign team is on, we do the assignment here
+		for (User user : HadalGame.usm.getUsers().values()) {
+			user.setTeamAssigned(false);
+		}
 		if (TeamMode.TEAM_AUTO.equals(mode.getTeamMode()) && isServer()) {
 			AlignmentFilter.autoAssignTeams(mode.getTeamNum(), mode.getTeamMode(), mode.getTeamStartScore());
 		} else if (TeamMode.HUMANS_VS_BOTS.equals(mode.getTeamMode()) && isServer()) {
@@ -429,27 +434,7 @@ public class PlayState extends GameState {
 	        serverLoaded = true;
 			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
 			BotManager.initiateBots(this);
-
-			if (!HadalGame.usm.getOwnUser().isSpectator()) {
-				HadalGame.usm.getOwnUser().getTransitionManager().setNextState(null);
-				if (reset) {
-					HadalGame.usm.getOwnUser().getTransitionManager().beginTransition(this,
-							new Transition()
-									.setNextState(PlayState.TransitionState.RESPAWN)
-									.setFadeDelay(LONG_FADE_DELAY)
-									.setFadeSpeed(0.0f)
-									.setForewarnTime(LONG_FADE_DELAY)
-									.setSpawnForewarned(true)
-									.setCenterCameraOnStart(true)
-									.setSkipFade(true));
-				} else {
-					HadalGame.usm.getOwnUser().getTransitionManager().beginTransition(this,
-							new Transition()
-									.setNextState(PlayState.TransitionState.RESPAWN)
-									.setFadeSpeed(0.0f)
-									.setReset(false));
-				}
-			}
+			HadalGame.usm.getOwnUser().getTransitionManager().levelStartSpawn(this, reset);
 		}
 
 		//this makes the physics separate from the game framerate
@@ -918,7 +903,8 @@ public class PlayState extends GameState {
 			this.nextStartID = nextStartID;
 
 			for (User user : HadalGame.usm.getUsers().values()) {
-				user.getTransitionManager().beginTransition(this, new Transition().setNextState(state));
+				user.getTransitionManager().beginTransition(this, new Transition().setNextState(state)
+						.setReset(state == TransitionState.NEWLEVEL));
 			}
 		}
 	}
@@ -938,12 +924,13 @@ public class PlayState extends GameState {
 	 * @return the newly created player
 	 */
 	public Player createPlayer(Event start, String name, Loadout loadout, PlayerBodyData old,
-	   		User user, boolean reset, boolean client, boolean justJoined, short hitboxFilter) {
+	   		User user, boolean reset, boolean client, short hitboxFilter) {
 
 		Loadout newLoadout = new Loadout(loadout);
 
 		//process mode-specific loadout changes
-		mode.processNewPlayerLoadout(this, newLoadout, user.getConnID(), justJoined);
+		mode.processNewPlayerLoadout(this, newLoadout, user.getConnID());
+		user.getLoadoutManager().setActiveLoadout(newLoadout);
 
 		Event spawn = start;
 		if (spawn == null) {
@@ -970,19 +957,19 @@ public class PlayState extends GameState {
 
 		Player p;
 		if (user.getConnID() < 0) {
-			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, user, reset, spawn);
+			p = new PlayerBot(this, overiddenSpawn, name, old, user, reset, spawn);
 		} else if (isServer()) {
 			if (0 == user.getConnID()) {
-				p = new Player(this, overiddenSpawn, name, newLoadout, old, user, reset, spawn);
+				p = new Player(this, overiddenSpawn, name, old, user, reset, spawn);
 			} else {
-				p = new PlayerClientOnHost(this, overiddenSpawn, name, newLoadout, old, user, reset, spawn);
+				p = new PlayerClientOnHost(this, overiddenSpawn, name, old, user, reset, spawn);
 			}
 		} else {
 			if (!client) {
-				p = new Player(this, overiddenSpawn, name, newLoadout, old, user, reset, spawn);
+				p = new Player(this, overiddenSpawn, name, old, user, reset, spawn);
 			} else {
 				//clients always spawn at (0,0), then move when the server tells them to.
-				p = new PlayerSelfOnClient(this, new Vector2(), name, newLoadout, null, user, reset, null);
+				p = new PlayerSelfOnClient(this, new Vector2(), name, null, user, reset, null);
 			}
 		}
 
@@ -996,6 +983,7 @@ public class PlayState extends GameState {
 		if (isServer() && user.getConnID() == 0) {
 			HadalGame.usm.getOwnUser().setPlayer(p);
 		}
+		user.setPlayer(p);
 
 		//mode-specific player modifications
 		mode.modifyNewPlayer(this, newLoadout, p, hitboxFilter);
@@ -1013,13 +1001,15 @@ public class PlayState extends GameState {
 	 */
 	public void levelEnd(String text, boolean victory, float fadeDelay) {
 		String resultsText = text;
-		Array<User> users = HadalGame.usm.getUsers().values().toArray();
+
+		//list of non-spectator users to be sorted
+		Array<User> activeUsers = new Array<>();
 
 		//magic word indicates that we generate the results text dynamically based on score
 		if (ResultsState.MAGIC_WORD.equals(text)) {
-			for (User user : users) {
+			for (User user : HadalGame.usm.getUsers().values().toArray()) {
 				if (!user.isSpectator()) {
-					users.add(user);
+					activeUsers.add(user);
 
 					AlignmentFilter faction;
 					if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
@@ -1048,7 +1038,7 @@ public class PlayState extends GameState {
 			}
 
 			//sort scores and team scores according to score, then kills, then deaths
-			users.sort((a, b) -> {
+			activeUsers.sort((a, b) -> {
 				int cmp = (b.getScoreManager().getScore() - a.getScoreManager().getScore());
 				if (cmp == 0) { cmp = b.getScoreManager().getKills() - a.getScoreManager().getKills(); }
 				if (cmp == 0) { cmp = a.getScoreManager().getDeaths() - b.getScoreManager().getDeaths(); }
@@ -1065,7 +1055,7 @@ public class PlayState extends GameState {
 
 			//if free-for-all, the first player in the sorted list is the victor
 			if (TeamMode.FFA.equals(mode.getTeamMode())) {
-				resultsText = UIText.PLAYER_WINS.text(users.get(0).getStringManager().getNameShort());
+				resultsText = UIText.PLAYER_WINS.text(activeUsers.get(0).getStringManager().getNameShort());
 			} else {
 
 				//in team modes, get the winning team and display a win for that team (or individual if no alignment)
@@ -1073,54 +1063,48 @@ public class PlayState extends GameState {
 				if (winningTeam.isTeam()) {
 					resultsText = UIText.PLAYER_WINS.text(winningTeam.getColoredAdjective());
 				} else {
-					for (User user : users) {
-						if (!user.isSpectator()) {
-							if (user.getHitboxFilter().equals(winningTeam)) {
-								resultsText = UIText.PLAYER_WINS.text(user.getStringManager().getNameShort());
-							}
+					for (User user : activeUsers) {
+						if (user.getHitboxFilter().equals(winningTeam)) {
+							resultsText = UIText.PLAYER_WINS.text(user.getStringManager().getNameShort());
 						}
 					}
 				}
 			}
 
 			AlignmentFilter winningTeam = teamScoresList.get(0);
-			ScoreManager winningScore = users.get(0).getScoreManager();
+			ScoreManager winningScore = activeUsers.get(0).getScoreManager();
 
 			//give a win to all players with a winning alignment (team or solo)
-			for (User user : users) {
-				if (!user.isSpectator()) {
-					ScoreManager score = user.getScoreManager();
-					if (TeamMode.FFA.equals(mode.getTeamMode())) {
-						if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
-								&& score.getDeaths() == winningScore.getDeaths()) {
-							score.win();
-						}
+			for (User user : activeUsers) {
+				ScoreManager score = user.getScoreManager();
+				if (TeamMode.FFA.equals(mode.getTeamMode())) {
+					if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
+							&& score.getDeaths() == winningScore.getDeaths()) {
+						score.win();
+					}
+				} else {
+					AlignmentFilter faction;
+
+					if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
+						faction = user.getHitboxFilter();
 					} else {
-						AlignmentFilter faction;
+						faction = user.getTeamFilter();
+					}
 
-						if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
-							faction = user.getHitboxFilter();
-						} else {
-							faction = user.getTeamFilter();
-						}
+					if (teamScores.containsKey(faction)) {
+						score.setTeamScore(teamScores.get(faction));
+					}
 
-						if (teamScores.containsKey(faction)) {
-							score.setTeamScore(teamScores.get(faction));
-						}
-
-						if (user.getHitboxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
-							score.win();
-						}
+					if (user.getHitboxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+						score.win();
 					}
 				}
 			}
 		} else if (victory) {
 
 			//in coop, all players get a win if the team wins
-            for (User user : users) {
-                if (!user.isSpectator()) {
-					user.getScoreManager().win();
-				}
+            for (User user : activeUsers) {
+				user.getScoreManager().win();
             }
         }
 
@@ -1144,21 +1128,8 @@ public class PlayState extends GameState {
 
 		int userIndex = 0;
 		for (User user : HadalGame.usm.getUsers().values()) {
-			ScoreManager score = user.getScoreManager();
-			Player resultsPlayer = user.getPlayer();
-			if (resultsPlayer != null) {
-				Loadout loadoutTemp = user.getLoadoutManager().getActiveLoadout();
-
-				//this removes any unusable weapons in loadout (Saved in a slot the player cannot use)
-				for (int i = (int) (Loadout.BASE_WEAPON_SLOTS + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.MAX_WEAPON_SLOTS; i++) {
-					loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
-				}
-				user.getLoadoutManager().setActiveLoadout(loadoutTemp);
-			}
-
-			StatsManager scoreExtra = user.getStatsManager();
-			users[userIndex] = new UserDto(score, scoreExtra, user.getLoadoutManager().getSavedLoadout(), user.getStringManager().getName(),
-					user.getConnID(), user.getPing(), user.isSpectator());
+			users[userIndex] = new UserDto(user.getScoreManager(), user.getStatsManager(), user.getLoadoutManager().getActiveLoadout(),
+					user.getStringManager().getName(), user.getConnID(), user.getPing(), user.isSpectator());
 			userIndex++;
 		}
 		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users, resultsText));
@@ -1235,7 +1206,8 @@ public class PlayState extends GameState {
 						.setNextState(TransitionState.SPECTATOR)
 						.setFadeDelay(SHORT_FADE_DELAY));
 		HadalGame.server.sendToTCP(user.getConnID(),
-				new Packets.ClientStartTransition(TransitionState.SPECTATOR, DEFAULT_FADE_OUT_SPEED, SHORT_FADE_DELAY, false));
+				new Packets.ClientStartTransition(TransitionState.SPECTATOR, DEFAULT_FADE_OUT_SPEED, SHORT_FADE_DELAY,
+						false, null));
 
 		//set the spectator's player number to default so they don't take up a player slot
 		user.getHitboxFilter().setUsed(false);
@@ -1284,7 +1256,13 @@ public class PlayState extends GameState {
 		if (!skipFade) {
 			gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
 			gsm.getApp().setRunAfterTransition(this::transitionState);
-			nextState = state;
+
+			//null nextState is used by user transition for non-timed respawn
+			if (null != state) {
+				nextState = state;
+			} else {
+				nextState = TransitionState.RESPAWN;
+			}
 		} else {
 			spectatorMode = false;
 			nextState = null;
