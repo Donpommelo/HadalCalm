@@ -46,66 +46,69 @@ public class ConsoleCommandUtil {
 	 * @return an int to indicate whether this was parsed as a command (0) or not (-1)
 	 */
 	public static int parseChatCommand(PlayState state, Player player, String command) {
-		
-		if (null != player.getPlayerData()) {
-			if ("/weapon".equals(command)) {
-				StringBuilder message = new StringBuilder("Weapons: ");
 
-				for (int i = 0; i < Math.min(Loadout.MAX_WEAPON_SLOTS, Loadout.BASE_WEAPON_SLOTS + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
-					if (!UnlockEquip.NOTHING.equals(player.getPlayerData().getLoadout().multitools[i])) {
-						message.append(player.getPlayerData().getLoadout().multitools[i].getName()).append(" ");
+		if (null != player) {
+			if (null != player.getPlayerData()) {
+				Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
+				if ("/weapon".equals(command)) {
+					StringBuilder message = new StringBuilder("Weapons: ");
+
+					for (int i = 0; i < Math.min(Loadout.MAX_WEAPON_SLOTS, Loadout.BASE_WEAPON_SLOTS + player.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i++) {
+						if (!UnlockEquip.NOTHING.equals(loadout.multitools[i])) {
+							message.append(loadout.multitools[i].getName()).append(" ");
+						}
 					}
+					emitMessage(state, message.toString());
+					return 0;
 				}
-				emitMessage(state, message.toString());
-				return 0;
-			}
 
-			if ("/artifact".equals(command)) {
-				StringBuilder message = new StringBuilder("Artifacts: ");
+				if ("/artifact".equals(command)) {
+					StringBuilder message = new StringBuilder("Artifacts: ");
 
-				for (int i = 0; i < player.getPlayerData().getLoadout().artifacts.length; i++) {
+					for (int i = 0; i < loadout.artifacts.length; i++) {
 
-					if (!UnlockArtifact.NOTHING.equals(player.getPlayerData().getLoadout().artifacts[i])) {
-						message.append(player.getPlayerData().getLoadout().artifacts[i].getName()).append(" ");
+						if (!UnlockArtifact.NOTHING.equals(loadout.artifacts[i])) {
+							message.append(loadout.artifacts[i].getName()).append(" ");
+						}
 					}
+					emitMessage(state, message.toString());
+					return 0;
 				}
-				emitMessage(state, message.toString());
+
+				if ("/active".equals(command)) {
+					emitMessage(state, "Active Item: " + loadout.activeItem.getName());
+					return 0;
+				}
+
+				if ("/team".equals(command)) {
+					emitMessage(state, "Team: " + loadout.team.getTeamName());
+					return 0;
+				}
+
+				if ("/killme".equals(command)) {
+					if (state.isServer()) {
+						player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
+								null, DamageSource.MISC);
+					} else {
+						HadalGame.client.sendTCP(new Packets.ClientYeet());
+					}
+					return 0;
+				}
+			}
+
+			if ("/roll".equals(command)) {
+				emitMessage(state, "Rolled A Number: " + MathUtils.random(MAX_ROLL));
 				return 0;
 			}
 
-			if ("/active".equals(command)) {
-				emitMessage(state, "Active Item: " + player.getPlayerData().getLoadout().activeItem.getName());
-				return 0;
-			}
-
-			if ("/team".equals(command)) {
-				emitMessage(state, "Team: " + player.getPlayerData().getLoadout().team.getTeamName());
-				return 0;
-			}
-
-			if ("/killme".equals(command)) {
+			if ("/help".equals(command)) {
 				if (state.isServer()) {
-					player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
-							null, DamageSource.MISC);
+					state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
 				} else {
-					HadalGame.client.sendTCP(new Packets.ClientYeet());
+					state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getUser().getConnID());
 				}
 				return 0;
 			}
-		}
-
-		if ("/roll".equals(command)) {
-			emitMessage(state, "Rolled A Number: " + MathUtils.random(MAX_ROLL));
-			return 0;
-		}
-
-		if ("/help".equals(command)) {
-			if (state.isServer()) {
-				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
-			} else {
-				state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getConnID());
-			}
-			return 0;
 		}
 
 		return -1;
@@ -129,16 +132,20 @@ public class ConsoleCommandUtil {
 			return -1;
 		}
 
+		if (null == HadalGame.usm.getOwnPlayer()) {
+			return 0;
+		}
+
 		if (1 < commands.length) {
 			switch (commands[0]) {
 				case "hp":
-					return setHp(state, commands[1]);
+					return setHp(commands[1]);
 				case "am":
-					return setAmmo(state, commands[1]);
+					return setAmmo(commands[1]);
 				case "act":
-					return setActiveCharge(state, commands[1]);
+					return setActiveCharge(commands[1]);
 				case "eq":
-					return setEquip(state, commands[1]);
+					return setEquip(commands[1]);
 				case "scr":
 					return setScrap(state, commands[1]);
 				case "warp":
@@ -157,11 +164,9 @@ public class ConsoleCommandUtil {
 
 		switch (command) {
 			case "camera" -> HadalGame.server.addNotificationToAll(state,"GAEM",
-				"CAMERA TARGET: " + state.getCameraTarget(), false, DialogType.SYSTEM);
+				"CAMERA TARGET: " + state.getCameraManager().getCameraTarget(), false, DialogType.SYSTEM);
 			case "cameraBounds" -> HadalGame.server.addNotificationToAll(state, "GAEM",
-				"CAMERA BOUNDS: " + Arrays.toString(state.getCameraBounds()), false, DialogType.SYSTEM);
-			case "playerLoc" -> HadalGame.server.addNotificationToAll(state,"GAEM",
-				"PLAYER LOCATION: " + state.getPlayer().getPosition(),	false, DialogType.SYSTEM);
+				"CAMERA BOUNDS: " + Arrays.toString(state.getCameraManager().getCameraBounds()), false, DialogType.SYSTEM);
 		}
 		return -1;
 	}
@@ -169,12 +174,12 @@ public class ConsoleCommandUtil {
 	/**
 	 * The player enters "hp x" to set their hp to x amount
 	 */
-	public static int setHp(PlayState state, String command) {
+	public static int setHp(String command) {
 		
 		try {
 			float hp = Float.parseFloat(command);
-			if (state.getPlayer().isAlive() && 0.0 <= hp) {
-				state.getPlayer().getPlayerData().setCurrentHp(hp);
+			if (HadalGame.usm.getOwnPlayer().isAlive() && 0.0 <= hp) {
+				HadalGame.usm.getOwnPlayer().getPlayerData().setCurrentHp(hp);
 				return 0;
 			}
 		} catch (NumberFormatException ignored) {}
@@ -185,12 +190,12 @@ public class ConsoleCommandUtil {
 	/**
 	 * The player enters "am x" to set their ammo to x amount
 	 */
-	public static int setAmmo(PlayState state, String command) {
+	public static int setAmmo(String command) {
 		
 		try {
 			int ammo = Integer.parseInt(command);
-			if (state.getPlayer().isAlive() && 0.0f <= ammo) {
-				state.getPlayer().getPlayerData().getCurrentTool().setAmmoLeft(ammo);
+			if (HadalGame.usm.getOwnPlayer().isAlive() && 0.0f <= ammo) {
+				HadalGame.usm.getOwnPlayer().getEquipHelper().getCurrentTool().setAmmoLeft(ammo);
 				return 0;
 			}
 		} catch (NumberFormatException ignored) {}
@@ -201,12 +206,12 @@ public class ConsoleCommandUtil {
 	/**
 	 * The player enters "act x" to set their active charge amount to x amount
 	 */
-	public static int setActiveCharge(PlayState state, String command) {
+	public static int setActiveCharge(String command) {
 		
 		try {
 			float charge = Float.parseFloat(command);
-			if (state.getPlayer().isAlive() && 0.0f <= charge) {
-				state.getPlayer().getPlayerData().getActiveItem().setCurrentChargePercent(charge);
+			if (HadalGame.usm.getOwnPlayer().isAlive() && 0.0f <= charge) {
+				HadalGame.usm.getOwnPlayer().getMagicHelper().getMagic().setCurrentChargePercent(charge);
 				return 0;
 			}
 		} catch (NumberFormatException ignored) {}
@@ -217,16 +222,16 @@ public class ConsoleCommandUtil {
 	/**
 	 * The player enters "eq x" to set their current weapon or active item to x (where x is the enum name of the equippable)
 	 */
-	public static int setEquip(PlayState state, String command) {
+	public static int setEquip(String command) {
 
 		UnlockEquip equip = UnlockEquip.getByName(command.toUpperCase());
-		if (state.getPlayer().isAlive()) {
-			state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(equip, state.getPlayer()));
+		if (HadalGame.usm.getOwnPlayer().isAlive()) {
+			HadalGame.usm.getOwnPlayer().getEquipHelper().pickup(UnlocktoItem.getUnlock(equip, HadalGame.usm.getOwnPlayer()));
 		}
 
 		UnlockActives active = UnlockActives.getByName(command.toUpperCase());
-		if (state.getPlayer().isAlive()) {
-			state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(active, state.getPlayer()));
+		if (HadalGame.usm.getOwnPlayer().isAlive()) {
+			HadalGame.usm.getOwnPlayer().getMagicHelper().pickup(UnlocktoItem.getUnlock(active, HadalGame.usm.getOwnPlayer()));
 		}
 		
 		return -1;

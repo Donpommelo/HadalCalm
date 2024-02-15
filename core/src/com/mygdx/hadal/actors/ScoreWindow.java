@@ -9,7 +9,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.StringManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -148,22 +149,20 @@ public class ScoreWindow {
 
 		orderedUsers.sort((a, b) -> {
 			int cmp = (a.isSpectator() ? 1 : 0) - (b.isSpectator() ? 1 : 0);
-			if (0 == cmp) { cmp = b.getScores().getScore() - a.getScores().getScore(); }
+			if (0 == cmp) { cmp = b.getScoreManager().getScore() - a.getScoreManager().getScore(); }
 
 			//this makes the player always able to see their score at the top of scoreboards
-			if (null != state.getPlayer()) {
-				if (!a.isSpectator() && a.getScores().getConnID() == HadalGame.usm.getConnID()) {
-					cmp = -1;
-				}
-				if (!b.isSpectator() && b.getScores().getConnID() == HadalGame.usm.getConnID()) {
-					cmp = 1;
-				}
+			if (!a.isSpectator() && a.getConnID() == HadalGame.usm.getConnID()) {
+				cmp = -1;
+			}
+			if (!b.isSpectator() && b.getConnID() == HadalGame.usm.getConnID()) {
+				cmp = 1;
 			}
 			return cmp;
 		});
 
 		for (User user : orderedUsers) {
-			addEntry(user.getScores().getConnID(), user, scoreHeight, scorePad);
+			addEntry(user.getConnID(), user, scoreHeight, scorePad);
 		}
 
 		state.getStage().addActor(windowScore);
@@ -299,11 +298,12 @@ public class ScoreWindow {
 	 * 	helper method for adding a single entry to the score window
 	 */
 	private void addEntry(int connID, User user, float scoreHeight, float scorePad) {
-		SavedPlayerFields field = user.getScores();
+		ScoreManager scoreManager = user.getScoreManager();
+		StringManager stringManager = user.getStringManager();
 
-		String nameText = user.getNameAbridgedColored(MAX_NAME_LENGTH);
+		String nameText = stringManager.getNameAbridgedColored(MAX_NAME_LENGTH);
 
-		Text name = new Text(field.getPingText() + nameText);
+		Text name = new Text(stringManager.getPingText() + nameText);
 		name.setScale(SCORE_SCALE);
 		name.addListener(new ClickListener() {
 
@@ -313,24 +313,20 @@ public class ScoreWindow {
 			}
 		});
 
-		Text kda = new Text(field.getKills() + " / " + field.getDeaths() + " / " + field.getAssists());
+		Text kda = new Text(scoreManager.getKills() + " / " + scoreManager.getDeaths() + " / " + scoreManager.getAssists());
 		kda.setScale(SCORE_SCALE);
-		Text points = new Text(field.getScore() + " ");
+		Text points = new Text(scoreManager.getScore() + " ");
 		points.setScale(SCORE_SCALE);
-		Text wins = new Text(field.getWins() + " ");
+		Text wins = new Text(scoreManager.getWins() + " ");
 		wins.setScale(SCORE_SCALE);
 
 		//this displays the player's artifacts. Mouse over to see details
 		Table tableArtifact = new Table();
-		if (null != user.getPlayer()) {
-			if (null != user.getPlayer().getPlayerData()) {
-				for (UnlockArtifact c : user.getPlayer().getPlayerData().getLoadout().artifacts) {
-					if (!UnlockArtifact.NOTHING.equals(c) && !c.isInvisible()) {
-						ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),
-								ARTIFACT_TAG_OFFSET_X, ARTIFACT_TAG_OFFSET_Y, ARTIFACT_TAG_TARGET_WIDTH);
-						tableArtifact.add(newTag).width(ARTIFACT_TAG_SIZE).height(ARTIFACT_TAG_SIZE);
-					}
-				}
+		for (UnlockArtifact c : user.getLoadoutManager().getActiveLoadout().artifacts) {
+			if (!UnlockArtifact.NOTHING.equals(c) && !c.isInvisible()) {
+				ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),
+						ARTIFACT_TAG_OFFSET_X, ARTIFACT_TAG_OFFSET_Y, ARTIFACT_TAG_TARGET_WIDTH);
+				tableArtifact.add(newTag).width(ARTIFACT_TAG_SIZE).height(ARTIFACT_TAG_SIZE);
 			}
 		}
 

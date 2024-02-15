@@ -178,7 +178,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 						unpause();
 						if (ps.isServer()) {
-							ps.becomeSpectator(ps.getPlayer(), true);
+							ps.becomeSpectator(HadalGame.usm.getOwnUser(), true);
 						} else {
 							HadalGame.client.sendTCP(new Packets.StartSpectate());
 						}
@@ -191,7 +191,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 						unpause();
 						if (ps.isServer()) {
-							ps.exitSpectator(ps.getPlayer().getUser());
+							ps.exitSpectator(HadalGame.usm.getOwnUser());
 						} else {
 							HadalGame.client.sendTCP(new Packets.EndSpectate(new Loadout(gsm.getLoadout())));
 						}
@@ -282,7 +282,7 @@ public class PauseState extends GameState {
 		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
 		if (ps != null) {
 			if (paused) {
-				ps.cameraUpdate();
+				ps.getCameraManager().cameraUpdate();
 			} else {
 				ps.update(delta);
 			}
@@ -296,12 +296,9 @@ public class PauseState extends GameState {
 			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
 			if (ps != null) {
 				if (ps.isServer() && ps.getMode().isHub()) {
-					ps.getPlayer().getPlayerData().syncArtifacts(false, true);
 					for (User user : HadalGame.usm.getUsers().values()) {
 						if (user.getPlayer() != null) {
-							if (user.getPlayer().getPlayerData() != null) {
-								user.getPlayer().getPlayerData().syncArtifacts(false, true);
-							}
+							user.getPlayer().getArtifactHelper().syncArtifacts(false, true);
 						}
 					}
 				}
@@ -336,7 +333,7 @@ public class PauseState extends GameState {
     		if (paused) {
     			//If the server unpauses, send a message and notification to all players to unpause.
         		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
-    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), UIText.UNPAUSED.text(), true, DialogType.SYSTEM);
+    			HadalGame.server.addNotificationToAll(ps, HadalGame.usm.getOwnUser().getStringManager().getName(), UIText.UNPAUSED.text(), true, DialogType.SYSTEM);
     		}
 		} else {
 			if (paused) {

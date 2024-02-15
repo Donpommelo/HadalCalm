@@ -160,7 +160,7 @@ public class ChatWheel {
 						emoteCount = EMOTE_CD;
 						//server processes the emote. clients send packet to server
 						if (state.isServer()) {
-							emote(state.getPlayer(), option);
+							emote(HadalGame.usm.getOwnPlayer(), option, HadalGame.usm.getConnID());
 						} else {
 							HadalGame.client.sendTCP(new Packets.SyncEmote(option));
 						}
@@ -177,15 +177,17 @@ public class ChatWheel {
 	 * @param player: the player doing the emote
 	 * @param emoteIndex: the index of the list of emotes
 	 */
-	public void emote(Player player, int emoteIndex) {
+	public void emote(Player player, int emoteIndex, int connID) {
 		//special logic for the emote that does a chat command (/roll)
 		if (6 == emoteIndex) {
 			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
 		} else {
-			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, player.getConnID());
+			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, connID);
 		}
-		if (null != player.getPlayerData()) {
-			SyncedAttack.EMOTE.initiateSyncedAttackSingle(state, player, new Vector2(), new Vector2(), emoteIndex);
+		if (null != player) {
+			if (null != player.getPlayerData()) {
+				SyncedAttack.EMOTE.initiateSyncedAttackSingle(state, player, new Vector2(), new Vector2(), emoteIndex);
+			}
 		}
 	}
 

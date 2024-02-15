@@ -2,6 +2,7 @@ package com.mygdx.hadal.battle;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -18,19 +19,20 @@ public class PickupUtils {
      */
     public static void spawnScrap(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                   int amount, boolean statCheck, boolean score) {
-
+        System.out.println("SCRAP SPAWNED");
         float countScore = score ? 1.0f : 0.0f;
 
-        int modifiedAmount;
-        if (statCheck && null != state.getPlayer().getPlayerData()) {
-            if (1.0f > state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount
-                    && 0 < state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)) {
-                modifiedAmount = amount + 1;
-            } else {
-                modifiedAmount = (int) (amount * (1 + state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)));
+        int modifiedAmount = amount;
+
+        if (user instanceof Player player) {
+            if (statCheck && null != player.getPlayerData()) {
+                if (1.0f > player.getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount
+                        && 0 < player.getPlayerData().getStat(Stats.EXTRA_SCRAP)) {
+                    modifiedAmount = amount + 1;
+                } else {
+                    modifiedAmount = (int) (amount * (1 + player.getPlayerData().getStat(Stats.EXTRA_SCRAP)));
+                }
             }
-        } else {
-            modifiedAmount = amount;
         }
 
         Vector2[] positions = new Vector2[modifiedAmount];

@@ -10,8 +10,6 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.Equippable;
-import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.PlayerClientOnHost;
@@ -65,9 +63,6 @@ public class BodyData extends HadalData {
 	protected final Array<Status> statuses;
 	protected final Array<Status> statusesChecked;
 	
-	//the currently equipped tool
-	protected Equippable currentTool;
-	
 	//This is the last schmuck who damaged this entity. Used for kill credit
 	private BodyData lastDamagedBy;
 	
@@ -81,8 +76,8 @@ public class BodyData extends HadalData {
 		super(UserDataType.BODY, schmuck);
 		this.schmuck = schmuck;	
 		
-		this.baseStats = new float[52];
-		this.buffedStats = new float[52];
+		this.baseStats = new float[55];
+		this.buffedStats = new float[55];
 		
 		baseStats[0] = maxHp;
 		baseStats[1] = MAX_FUEL;
@@ -260,11 +255,6 @@ public class BodyData extends HadalData {
 
 		currentHp = hpPercent * getStat(Stats.MAX_HP);
 		currentFuel = fuelPercent * getStat(Stats.MAX_FUEL);
-		
-		if (currentTool instanceof RangedWeapon ranged) {
-			ranged.setClipLeft();
-			ranged.setAmmoLeft();
-		}
 	}
 	
 	/**
@@ -348,9 +338,9 @@ public class BodyData extends HadalData {
 
 				//active item charges less against non-player enemies
 				if (this instanceof PlayerBodyData) {
-					perpData.getActiveItem().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER);
+					perpData.getPlayer().getMagicHelper().getMagic().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER);
 				} else {
-					perpData.getActiveItem().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER * ActiveItem.ENEMY_DAMAGE_CHARGE_MULTIPLIER);
+					perpData.getPlayer().getMagicHelper().getMagic().gainCharge(damage * ActiveItem.DAMAGE_CHARGE_MULTIPLIER * ActiveItem.ENEMY_DAMAGE_CHARGE_MULTIPLIER);
 				}
 			}
 
@@ -360,7 +350,7 @@ public class BodyData extends HadalData {
 				perpData.getPlayer().getHitsoundHelper().playHitSound(this, damage);
 
 				//increment tracked stats
-				perpData.getPlayer().getUser().getScoresExtra().receiveDamage(perp.getSchmuck(), schmuck, damage);
+				perpData.getPlayer().getUser().getStatsManager().receiveDamage(perp.getSchmuck(), schmuck, damage);
 			}
 		}
 
@@ -427,10 +417,6 @@ public class BodyData extends HadalData {
 			currentFuel = currentFuel / buffedStats[index] * amount;
 		}
 	}
-	
-	public Equippable getCurrentTool() { return currentTool; }
-	
-	public void setCurrentTool(Equippable currentTool) { this.currentTool = currentTool; }
 	
 	public float getXGroundSpeed() { return MAX_GROUND_X_SPEED * (1 + getStat(Stats.GROUND_SPD)); }
 	

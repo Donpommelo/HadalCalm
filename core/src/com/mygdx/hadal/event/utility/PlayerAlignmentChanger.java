@@ -45,13 +45,13 @@ public class PlayerAlignmentChanger extends Event {
 					short newIndex;
 					if (pvp && user != null) {
 						if (state.getMode().isTeamDesignated() || TeamMode.TEAM_MANUAL.equals(state.getMode().getTeamMode())) {
-							if (AlignmentFilter.NONE.equals(p.getStartLoadout().team)) {
-								newIndex = user.getHitBoxFilter().getFilter();
+							if (AlignmentFilter.NONE.equals(user.getLoadoutManager().getActiveLoadout().team)) {
+								newIndex = user.getHitboxFilter().getFilter();
 							} else {
 								newIndex = user.getTeamFilter().getFilter();
 							}
 						} else {
-							newIndex = user.getHitBoxFilter().getFilter();
+							newIndex = user.getHitboxFilter().getFilter();
 						}
 					} else {
 						newIndex = filter;

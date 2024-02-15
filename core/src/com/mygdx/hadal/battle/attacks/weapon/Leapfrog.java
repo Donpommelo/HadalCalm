@@ -21,19 +21,20 @@ import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 public class Leapfrog extends SyncedAttacker {
 
-    public static final Vector2 PROJECTILE_SIZE = new Vector2(75, 50);
+    public static final Vector2 PROJECTILE_SIZE = new Vector2(75, 32);
     public static final Vector2 SPRITE_SIZE = new Vector2(100, 100);
-    public static final Vector2 SPRITE_OFFSET = new Vector2(0, 25);
-    public static final Vector2 SPRITE_OFFSET_JUMP = new Vector2(0, -25);
     public static final float LIFESPAN = 50.0f;
-    public static final float BASE_DAMAGE = 45.0f;
+    public static final float BASE_DAMAGE = 32.0f;
     private static final float RECOIL = 6.0f;
     private static final float KNOCKBACK = 30.0f;
     private static final float FLASH_LIFESPAN = 0.5f;
 
+    public static final float LEAP_DELAY = 0.1f;
+    public static final float LAND_DELAY = 0.1f;
     public static final int LEAP_AMOUNT = 3;
     private static final float LEAP_COUNT = 0.5f;
-    private static final float LEAP_DURATION = 0.25f;
+    private static final float LEAP_DURATION = 0.35f;
+    private static final float MAX_LEAP_DURATION = 4.0f;
     private static final float MIN_LEAP_ANGLE = 45;
 
     private static final Sprite PROJ_SPRITE = Sprite.FROG_STAND;
@@ -59,7 +60,7 @@ public class Leapfrog extends SyncedAttacker {
                     flip = getLinearVelocity().x > 0.0f;
                 }
 
-                batch.draw(projectileSprite.getKeyFrame(animationTime, true),
+                batch.draw(projectileSprite.getKeyFrame(animationTime, false),
                         (flip ? 0 : spriteSize.x) + entityLocation.x - spriteSize.x / 2,
                         entityLocation.y - spriteSize.y / 2 + spriteOffset.y,
                         spriteSize.x / 2,
@@ -70,7 +71,6 @@ public class Leapfrog extends SyncedAttacker {
         hbox.setGravity(7);
         hbox.setFriction(1.0f);
         hbox.setSpriteSize(SPRITE_SIZE);
-        hbox.setSpriteOffset(SPRITE_OFFSET);
 
         adjustedVelocity.set(startVelocity);
         if (adjustedVelocity.angleDeg() > 180) {
@@ -91,7 +91,8 @@ public class Leapfrog extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.LEAPFROGGER,
-                DamageTag.WHACKING, DamageTag.RANGED));
+                DamageTag.WHACKING, DamageTag.RANGED)
+                .setRepeatable(true));
         hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f).setSynced(false));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -130,44 +131,67 @@ public class Leapfrog extends SyncedAttacker {
 
             private float leapAmount;
             private float groundedCount;
-            private float jumpDuration;
-            private boolean jumping;
+            private float aerialCount;
+            private float jumpDuration, landDuration;
+            private boolean jumpStart, jumping, landStart;
             @Override
             public void controller(float delta) {
                 if (feetData.getNumContacts() > 0) {
+                    aerialCount = 0.0f;
+
+                    if (jumpStart && jumpDuration >= LEAP_DELAY) {
+                        SoundEffect.SPRING.playSourced(state, startPosition, 0.3f);
+                        SoundEffect.FROG_CROAK.playSourced(state, startPosition, 0.5f);
+                        hbox.setLinearVelocity(adjustedVelocity);
+                        groundedCount = 0;
+                        leapAmount++;
+
+                        jumping = true;
+                        jumpStart = false;
+                    }
 
                     if (jumping && jumpDuration >= LEAP_DURATION) {
+                        hbox.setSprite(Sprite.FROG_LAND);
+                        hbox.setSpriteSize(SPRITE_SIZE);
+                        landDuration = 0.0f;
+
+                        landStart = true;
+                        jumping = false;
+                    }
+
+                    if (landStart && landDuration >= LAND_DELAY) {
                         hbox.setSprite(Sprite.FROG_STAND);
                         hbox.setSpriteSize(SPRITE_SIZE);
-                        hbox.setSpriteOffset(SPRITE_OFFSET);
-                        jumping = false;
+                        landStart = false;
                     }
 
                     groundedCount += delta;
                     if (groundedCount > LEAP_COUNT) {
                         if (leapAmount > LEAP_AMOUNT) {
                             hbox.die();
-                        } else {
-                            SoundEffect.SPRING.playSourced(state, startPosition, 0.3f);
-                            SoundEffect.FROG_CROAK.playSourced(state, startPosition, 0.5f);
-                            hbox.setLinearVelocity(adjustedVelocity);
-                            groundedCount = 0;
-                            leapAmount++;
-
+                        } else if (!jumpStart) {
+                            jumpStart = true;
                             hbox.setSprite(Sprite.FROG_JUMP);
                             hbox.setSpriteSize(SPRITE_SIZE);
-                            hbox.setSpriteOffset(SPRITE_OFFSET_JUMP);
-
                             jumpDuration = 0.0f;
-                            jumping = true;
                         }
                     }
                 } else {
                     groundedCount = 0;
+
+                    //safeguard for projectiles that never touch the ground
+                    aerialCount += delta;
+                    if (aerialCount >= MAX_LEAP_DURATION) {
+                        hbox.die();
+                    }
                 }
 
-                if (jumping) {
+                if (jumping || jumpStart) {
                     jumpDuration += delta;
+                }
+
+                if (landStart) {
+                    landDuration += delta;
                 }
 
                 if (rightData.getNumContacts() > 0 && adjustedVelocity.x > 0) {

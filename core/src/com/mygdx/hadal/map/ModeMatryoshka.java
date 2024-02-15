@@ -6,10 +6,9 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
-
-import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
+import com.mygdx.hadal.users.Transition;
+import com.mygdx.hadal.users.User;
 
 /**
  *  This modifier makes players instantly respawn upon death in the same location
@@ -26,7 +25,7 @@ public class ModeMatryoshka extends ModeSetting {
 
         //all players start with 8 lives
         for (User user : HadalGame.usm.getUsers().values()) {
-            user.getScores().setLives(LIVES_NUM);
+            user.getScoreManager().setLives(LIVES_NUM);
             user.setScoreUpdated(true);
         }
         return "";
@@ -37,7 +36,7 @@ public class ModeMatryoshka extends ModeSetting {
         if (!state.isServer()) { return; }
         //when a new player is spawned, their size is set according to the number of lives they have left
         if (null != p.getUser()) {
-            int livesLeft = Math.min(p.getUser().getScores().getLives(), SIZE_SCALE_LIST.length) - 1;
+            int livesLeft = Math.min(p.getUser().getScoreManager().getLives(), SIZE_SCALE_LIST.length) - 1;
             p.setScaleModifier(SIZE_SCALE_LIST[livesLeft]);
             p.setDontMoveCamera(true);
         }
@@ -51,17 +50,21 @@ public class ModeMatryoshka extends ModeSetting {
             //When a player dies, they lose 1 life and respawn instantly
             User user = vic.getUser();
             if (null != user) {
-                user.getScores().setLives(user.getScores().getLives() - 1);
-                if (user.getScores().getLives() <= 0) {
+                user.getScoreManager().setLives(user.getScoreManager().getLives() - 1);
+                if (user.getScoreManager().getLives() <= 0) {
                     mode.processPlayerLivesOut(state, vic);
                 } else {
                     //this ensures that players will respawn in the same location that they died
                     if (DamageSource.MAP_FALL != source) {
-                        user.setOverrideSpawn(vic.getPixelPosition());
-                        user.respawn(state);
+                        user.getTransitionManager().setOverrideSpawn(vic.getPixelPosition());
+                        user.getTransitionManager().respawn(state);
                     } else {
                         //we don't want players to respawn instantly if they die by falling
-                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
+                        user.getTransitionManager().beginTransition(state,
+                                new Transition()
+                                        .setNextState(PlayState.TransitionState.RESULTS)
+                                        .setFadeDelay(state.getRespawnTime(vic))
+                                        .setOverride(true));
                     }
                 }
             }

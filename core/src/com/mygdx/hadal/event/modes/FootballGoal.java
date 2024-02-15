@@ -61,7 +61,7 @@ public class FootballGoal extends Event {
                     String playerName = TextUtil.getPlayerColorName(p, MAX_NAME_LENGTH);
 
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
-                        if (p.getStartLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
+                        if (p.getUser().getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
                             state.getKillFeed().addNotification(UIText.FOOTBALL_GOAL.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, 1);
                         } else {

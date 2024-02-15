@@ -59,10 +59,10 @@ public class UITag {
 					text.append(UIText.UI_SCRAP.text(Integer.toString(state.getGsm().getRecord().getScrap())));
 					break;
 				case LIVES:
-					text.append(UIText.UI_LIVES.text(Integer.toString(user.getScores().getLives())));
+					text.append(UIText.UI_LIVES.text(Integer.toString(user.getScoreManager().getLives())));
 					break;
 				case SCORE:
-					text.append(UIText.SCORE.text(Integer.toString(user.getScores().getScore())));
+					text.append(UIText.SCORE.text(Integer.toString(user.getScoreManager().getScore())));
 					break;
 				case HISCORE:
 					if (state.getGsm().getRecord().getHiScores().containsKey(state.getLevel().toString())) {

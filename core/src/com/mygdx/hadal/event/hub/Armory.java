@@ -4,12 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -63,23 +65,25 @@ public class Armory extends HubEvent {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
+						Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-						if (state.getPlayer().getPlayerData() == null) { return; }
+						if (null == ownPlayer) { return; }
+						if (null == ownPlayer.getPlayerData()) { return; }
 
-						int slotToReplace = state.getPlayer().getPlayerData().getCurrentSlot();
+						int slotToReplace = ownPlayer.getEquipHelper().getCurrentSlot();
 
 						//if we are picking up "nothing" in the armory, we just blank our current weapon
 						if (!UnlockEquip.NOTHING.equals(selected)) {
-							for (int i = 0; i < state.getPlayer().getPlayerData().getNumWeaponSlots(); i++) {
-								if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
+							for (int i = 0; i < ownPlayer.getEquipHelper().getNumWeaponSlots(); i++) {
+								if (ownPlayer.getEquipHelper().getMultitools()[i] instanceof NothingWeapon) {
 									slotToReplace = i;
 									break;
 								}
 							}
 						}
 
-						state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
-						state.getGsm().getLoadout().setEquips(slotToReplace, selected.toString());
+						ownPlayer.getEquipHelper().pickup(UnlocktoItem.getUnlock(selected, ownPlayer));
+						state.getGsm().getLoadout().setEquips(HadalGame.usm.getOwnUser(), slotToReplace, selected.toString());
 					}
 
 					@Override

@@ -23,8 +23,8 @@ import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
@@ -151,6 +151,8 @@ public class Packets {
 		public TransitionState state;
 		public float fadeSpeed;
 		public float fadeDelay;
+		public boolean skipFade;
+		public Vector2 startPosition;
 		public ClientStartTransition() {}
 		
 		/**
@@ -160,11 +162,15 @@ public class Packets {
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
 		 * @param fadeSpeed: speed of the fade transition
 		 * @param fadeDelay: Amount of delay before transition
+		 * @param skipFade: Should the client skip fading to the next state? (true for
+		 * @param startPosition: For respawning, this is the new spawn location for camera focusing purposes.
 		 */
-		public ClientStartTransition(TransitionState state, float fadeSpeed, float fadeDelay) {
+		public ClientStartTransition(TransitionState state, float fadeSpeed, float fadeDelay, boolean skipFade, Vector2 startPosition) {
 			this.state = state;
 			this.fadeSpeed = fadeSpeed;
 			this.fadeDelay = fadeDelay;
+			this.skipFade = skipFade;
+			this.startPosition = startPosition;
 		}
 	}
 	
@@ -306,6 +312,7 @@ public class Packets {
 	public static class SyncScore {
 		public int connID;
 		public String name;
+		public Loadout loadout;
 		public int wins, kills, deaths, assists, score, extraModeScore, lives, ping;
 		public boolean spectator;
 
@@ -315,9 +322,10 @@ public class Packets {
 		 * This is sent from the server to the clients to give them their scores for a player whose score changed
 		 * @param connID: id of the player whose score is being updated.
 		 */
-		public SyncScore(int connID, String name, int wins, int kills, int deaths, int assists, int score, int extraModeScore, int lives, int ping, boolean spectator) {
+		public SyncScore(int connID, String name, Loadout loadout, int wins, int kills, int deaths, int assists, int score, int extraModeScore, int lives, int ping, boolean spectator) {
 			this.connID = connID;
 			this.name = name;
+			this.loadout = loadout;
 			this.wins = wins;
 			this.kills = kills;
 			this.deaths = deaths;
@@ -1193,8 +1201,8 @@ public class Packets {
 		kryo.register(DamageTag[].class);
 		kryo.register(UserDto.class);
 		kryo.register(UserDto[].class);
-		kryo.register(SavedPlayerFields.class);
-		kryo.register(SavedPlayerFieldsExtra.class);
+		kryo.register(ScoreManager.class);
+		kryo.register(StatsManager.class);
 
 		kryo.register(Array.class);
 		kryo.register(Object[].class);

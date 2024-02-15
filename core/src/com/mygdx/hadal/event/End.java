@@ -4,6 +4,8 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
+import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_DELAY;
+
 /**
  * An End event makes the game end with either a victory or loss.
  * <p>
@@ -33,7 +35,7 @@ public class End extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.levelEnd(text, victory, PlayState.DEFAULT_FADE_DELAY);
+				state.levelEnd(text, victory, DEFAULT_FADE_DELAY);
 			}
 		};
 	}

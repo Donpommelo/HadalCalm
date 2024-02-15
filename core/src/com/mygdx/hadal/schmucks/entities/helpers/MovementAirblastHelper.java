@@ -4,6 +4,9 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.schmucks.entities.Player;
 
+/**
+ * MovementAirblastHelper processes a player's airblast
+ */
 public class MovementAirblastHelper {
 
     private static final float AIRBLAST_CD = 0.25f;
@@ -15,7 +18,10 @@ public class MovementAirblastHelper {
     //Equipment that the player has built into their toolset.
     private final Airblaster airblast;
 
+    //keep track of cd before airblast can be used again (just to avoid accidental double airblast
     private float airblastCdCount;
+
+    //If airblasting on cooldown, buffer an airblast to use once cooldown expires
     private boolean airblastBuffered;
 
     public MovementAirblastHelper(Player player) {
@@ -27,6 +33,7 @@ public class MovementAirblastHelper {
     public void controller(float delta) {
         airblastCdCount -= delta;
 
+        //if an airblast is buffered, execute it once cooldown ends
         if (airblastBuffered && airblastCdCount < 0) {
             airblastBuffered = false;
             airblast();

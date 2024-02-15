@@ -33,7 +33,7 @@ public class UnbreathingMembrane extends Artifact {
 			
 					@Override
 					public void onReloadFinish(Equippable tool) {
-						if (p.getCurrentTool() instanceof RangedWeapon weapon) {
+						if (p.getPlayer().getEquipHelper().getCurrentTool() instanceof RangedWeapon weapon) {
 							weapon.gainAmmo(1.0f);
 						}
 					}

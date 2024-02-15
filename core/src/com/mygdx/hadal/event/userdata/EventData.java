@@ -71,10 +71,10 @@ public class EventData extends HadalData {
 			if (p == null) {
 				onActivate(activator, null);
 			} else {
-				if (p.equals(event.getState().getPlayer())) {
+				if (p.equals(HadalGame.usm.getOwnPlayer())) {
 					onActivate(activator, p);
 				} else if (event.getState().isServer()) {
-					HadalGame.server.sendToTCP(p.getConnID(), new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
+					HadalGame.server.sendToTCP(p.getUser().getConnID(), new Packets.ActivateEvent(event.getEntityID(), p.getUser().getConnID()));
 				}
 			}
 			break;
@@ -84,13 +84,13 @@ public class EventData extends HadalData {
 				if (p == null) {
 					HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
 				} else {
-					HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
+					HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), p.getUser().getConnID()));
 				}
 			} else {
 				if (p == null) {
 					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
 				} else {
-					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
+					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), p.getUser().getConnID()));
 				}
 			}
 			break;
@@ -99,7 +99,7 @@ public class EventData extends HadalData {
 				if (p == null) {
 					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
 				} else {
-					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), p.getConnID()));
+					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), p.getUser().getConnID()));
 				}
 			}
 			onActivate(activator, p);

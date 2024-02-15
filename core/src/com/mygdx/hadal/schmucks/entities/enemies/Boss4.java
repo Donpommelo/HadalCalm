@@ -507,7 +507,6 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
-				applyHomingReticle(state.getPlayer());
 				for (User user : HadalGame.usm.getUsers().values()) {
 					applyHomingReticle(user.getPlayer());
 				}

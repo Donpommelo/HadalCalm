@@ -14,6 +14,10 @@ import com.mygdx.hadal.text.UIText;
 
 import java.util.Objects;
 
+/**
+ * PlayerUIHelper renders ui elements attached to the player.
+ * This includes hp, fuel, name, reload/charge meter
+ */
 public class PlayerUIHelper {
 
     public static final float UI_SCALE = 0.4f;
@@ -50,6 +54,7 @@ public class PlayerUIHelper {
     //This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
     protected float chargePercent, chargeDelayed;
 
+    //is the fuel/hp bar rendered on the right or left?
     private boolean barRight;
 
     //is the player currently typing in chat? (yes if this float is greater that 0.0f)
@@ -72,7 +77,7 @@ public class PlayerUIHelper {
     }
 
     public void controllerEquip(float delta) {
-        Equippable currentTool = player.getPlayerData().getCurrentTool();
+        Equippable currentTool = player.getEquipHelper().getCurrentTool();
 
         //keep track of reload/charge percent to properly sync those fields in the ui
         reloadPercent = currentTool.getReloadCd() / (currentTool.getReloadTime());
@@ -87,7 +92,7 @@ public class PlayerUIHelper {
     public void render(SpriteBatch batch, Vector2 playerLocation, boolean visible) {
         float textX = playerLocation.x - reloadMeter.getRegionWidth() * UI_SCALE / 2;
         float textY = playerLocation.y + reloadMeter.getRegionHeight() * UI_SCALE + player.getSize().y / 2;
-        Equippable currentTool = player.getPlayerData().getCurrentTool();
+        Equippable currentTool = player.getEquipHelper().getCurrentTool();
 
         //render player ui
         if (currentTool.isReloading()) {
@@ -141,7 +146,7 @@ public class PlayerUIHelper {
                 }
             }
 
-            if (player.equals(state.getPlayer())) {
+            if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
                 if (state.getGsm().getSetting().isDisplayHp()) {
                     hpRatio = state.getUiPlay().getHpRatio();
                     fuelRatio = state.getUiPlay().getFuelRatio();

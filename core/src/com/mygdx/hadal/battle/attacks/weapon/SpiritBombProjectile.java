@@ -2,6 +2,7 @@ package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
@@ -11,6 +12,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -41,7 +43,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
     private static final float TARGET_CHECK_RADIUS = 3.2f;
     private static final float WARNING_TIME = 1.0f;
 
-    private static final float SPIRIT_HOMING = 40;
+    private static final float SPIRIT_HOMING = 50;
     private static final int HOME_RADIUS = 30;
 
     private static final Sprite PROJ_SPRITE = Sprite.SPIRIT_BOMB_IDLE;
@@ -83,6 +85,10 @@ public class SpiritBombProjectile extends SyncedAttacker {
             public void render(SpriteBatch batch, Vector2 entityLocation) {
                 if (!alive) { return; }
 
+                if (faded && !HadalGame.usm.isOwnTeam(((Player) creator).getUser())) {
+                    return;
+                }
+
                 float direction = getLinearVelocity().x;
                 if (direction != 0.0f) {
                     flip = getLinearVelocity().x > 0.0f;
@@ -98,7 +104,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
 
             @Override
             public Shader getShaderStatic() {
-                if (faded) {
+                if (faded && HadalGame.usm.isOwnTeam(((Player) creator).getUser())) {
                     return Shader.TRANSLUCENT;
                 }
                 return super.getShaderStatic();

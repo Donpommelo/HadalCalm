@@ -23,10 +23,10 @@ public class MuddlingCup extends Artifact {
 			@Override
 			public void onAirBlast(Vector2 airblastDirection) {
 
-				if (p.getCurrentTool() instanceof RangedWeapon ranged) {
+				if (p.getPlayer().getEquipHelper().getCurrentTool() instanceof RangedWeapon ranged) {
 					float projectileSpeed = ranged.getProjectileSpeed();
 					
-					p.getCurrentTool().fire(state, p.getPlayer(), p.getPlayer().getProjectileOrigin(projAngle, p.getCurrentTool().getAmmoSize()),
+					p.getPlayer().getEquipHelper().getCurrentTool().fire(state, p.getPlayer(), p.getPlayer().getProjectileOrigin(projAngle, p.getPlayer().getEquipHelper().getCurrentTool().getAmmoSize()),
 							projAngle.set(airblastDirection).nor().scl(projectileSpeed), p.getPlayer().getHitboxFilter());
 				}
 			}

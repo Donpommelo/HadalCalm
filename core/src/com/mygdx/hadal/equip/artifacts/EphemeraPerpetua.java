@@ -28,9 +28,9 @@ public class EphemeraPerpetua extends Artifact {
 				SyncedAttack.ARTIFACT_MAGIC_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 
 				if (vic instanceof PlayerBodyData) {
-					p.getActiveItem().gainCharge(AMOUNT_PLAYER);
+					p.getPlayer().getMagicHelper().getMagic().gainCharge(AMOUNT_PLAYER);
 				} else {
-					p.getActiveItem().gainCharge(AMOUNT_ENEMY);
+					p.getPlayer().getMagicHelper().getMagic().gainCharge(AMOUNT_ENEMY);
 				}
 			}
 		}.setUserOnly(true);

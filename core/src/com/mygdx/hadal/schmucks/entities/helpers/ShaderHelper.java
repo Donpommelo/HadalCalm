@@ -5,6 +5,10 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * ShaderHelper manages the player's shaders.
+ * Shaders are seperated into static and normal; the former doesn't take in any game variables when processing
+ */
 public class ShaderHelper {
 
     private final PlayState state;

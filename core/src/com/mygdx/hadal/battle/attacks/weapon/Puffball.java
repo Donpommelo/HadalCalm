@@ -21,7 +21,7 @@ public class Puffball extends SyncedAttacker {
     public static final float LIFESPAN = 5.0f;
     public static final float BASE_DAMAGE = 36.0f;
     private static final float RECOIL = 2.5f;
-    private static final float KNOCKBACK = 5.0f;
+    private static final float KNOCKBACK = 8.0f;
     private static final float FLASH_LIFESPAN = 1.0f;
 
     public static final int SPORE_FRAG_NUMBER = 15;

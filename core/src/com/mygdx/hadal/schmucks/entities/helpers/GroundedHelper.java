@@ -3,6 +3,9 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.schmucks.entities.Player;
 
+/**
+ * GroundedHelper simply determines if the player is grounded or not
+ */
 public class GroundedHelper {
 
     private boolean grounded;

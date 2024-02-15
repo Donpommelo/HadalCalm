@@ -34,11 +34,11 @@ public class Clepsydrae extends Artifact {
 				boolean activated = false;
 				if (chargeSpend > 0.0f) {
 					chargeSpend -= delta;
-					p.getActiveItem().gainCharge(spentRate * delta);
+					p.getPlayer().getMagicHelper().getMagic().gainCharge(spentRate * delta);
 					activated = true;
 				}
-				if (p.getActiveItem().chargePercent() == 1.0f) {
-					if (storedCharge <= p.getActiveItem().getMaxCharge()) {
+				if (p.getPlayer().getMagicHelper().getMagic().chargePercent() == 1.0f) {
+					if (storedCharge <= p.getPlayer().getMagicHelper().getMagic().getMaxCharge()) {
 						storedCharge += (delta * MAGIC_STORE_MULTIPLIER);
 					}
 					activated = true;

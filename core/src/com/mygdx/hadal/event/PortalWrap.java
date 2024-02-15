@@ -3,9 +3,11 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
@@ -46,8 +48,12 @@ public class PortalWrap extends Event {
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
-			
-			playerLocation.set(state.getPlayer().getPixelPosition());
+			Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+			if (null == ownPlayer) { return; }
+			if (null == ownPlayer.getPlayerData()) { return; }
+
+			playerLocation.set(ownPlayer.getPixelPosition());
 			connectedLocation.set(getConnectedEvent().getPosition());
 			for (HadalEntity s : eventData.getSchmucks()) {
 				
@@ -68,8 +74,8 @@ public class PortalWrap extends Event {
 				}
 				
 				//If the player is being teleported, instantly adjust the camera to make for a seamless movement.
-				if (s.equals(state.getPlayer())) {
-					playerLocation.set(state.getPlayer().getPixelPosition());
+				if (s.equals(ownPlayer)) {
+					playerLocation.set(ownPlayer.getPixelPosition());
 					state.getCamera().position.set(newCamera.add(playerLocation.x, playerLocation.y, 0));
 					state.getCamera().update();
 				}

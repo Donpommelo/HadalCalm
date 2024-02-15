@@ -51,7 +51,7 @@ public class Bloodletter extends RangedWeapon {
 
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
-		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getEquipHelper().getCurrentTool())
 				&& !reloading && getClipLeft() > 0;
 
 		if (shooting) {

@@ -89,7 +89,7 @@ public class Shocked extends Status {
 			if (chainAttempt != null) {
 				if (inflicter.getSchmuck() instanceof Player player) {
 					source.initiateSyncedAttackNoHbox(state, chainAttempt, inflicted.getSchmuck().getPosition(), true,
-							player.getConnID(), chainAmount, radius, damage);
+							player.getUser().getConnID(), chainAmount, radius, damage);
 				}
 			}
 		}

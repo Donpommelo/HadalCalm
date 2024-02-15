@@ -14,7 +14,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,7 +25,6 @@ import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.bots.BotManager;
-import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
@@ -44,18 +42,22 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
-import com.mygdx.hadal.save.*;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockCosmetic;
+import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.states.managers.CameraManager;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.Transition;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.utils.CameraUtil;
@@ -69,15 +71,14 @@ import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 import static com.mygdx.hadal.constants.Constants.PPM;
+import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_OUT_SPEED;
+import static com.mygdx.hadal.users.Transition.SHORT_FADE_DELAY;
 
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
  * @author Norroway Nigganov
  */
 public class PlayState extends GameState {
-	
-	//This is an entity representing the player's controlled entity.
-	protected Player player;
 	
 	//This is the player's controller that receives inputs
 	protected InputProcessor controller;
@@ -93,6 +94,8 @@ public class PlayState extends GameState {
 	//world manages the Box2d world and physics. b2dr renders debug lines for testing
 	protected final Box2DDebugRenderer b2dr;
 	protected final World world;
+
+	private final CameraManager cameraManager;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
@@ -130,28 +133,8 @@ public class PlayState extends GameState {
 	//This is the id of the start event that we will be spawning on (for 1-p maps that can be entered from >1 point)
 	private final String startID;
 	
-	//This is the coordinate that the camera tries to focus on when set to aim at an entity. When null, the camera focuses on the player.
-	private Vector2 cameraTarget;
-	
-	//the camera offset from the target by this vector. (this is pretty much only used when focusing on the player)
-	private final Vector2 cameraOffset = new Vector2();
-	
-	//coordinate the camera is looking at in spectator mode.
-	private final Vector2 spectatorTarget = new Vector2();
-	
 	//are we currently a spectator or not?
 	protected boolean spectatorMode;
-	
-	//These are the bounds of the camera movement. We make the numbers really big so that the default is no bounds.
-	private final float[] cameraBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
-	private final float[] spectatorBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
-	
-	//are the spectator bounds distinct from the camera bounds? (relevant mostly for 1-p maps with multiple sets of bounds)
-	private boolean spectatorBounded;
-
-	//The current zoom of the camera and the zoom that the camera will lerp towards
-	private float zoom;
-	protected float zoomDesired;
 	
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
 	private final Array<StartPoint> savePoints = new Array<>();
@@ -161,9 +144,6 @@ public class PlayState extends GameState {
 
 	//modifier that affects game engine speed used for special mode modifiers
 	private float timeModifier = 0.0f;
-
-	//modifier that affects the camera zoom
-	private float zoomModifier = 0.0f;
 
 	//default respawn time that can be changed in mode settings
 	private float respawnTime = 1.5f;
@@ -214,11 +194,6 @@ public class PlayState extends GameState {
 	public static final float SPRITE_ANIMATION_SPEED = 0.08f;
 	public static final float SPRITE_ANIMATION_SPEED_FAST = 0.04f;
 	
-	public static final float DEFAULT_FADE_OUT_SPEED = 2.0f;
-	public static final float DEFAULT_FADE_DELAY = 0.0f;
-	public static final float SHORT_FADE_DELAY = 0.5f;
-	public static final float LONG_FADE_DELAY = 1.5f;
-
 	//Special designated events parsed from map.
 	// Event run when a timer runs out or spectating host presses their interact button
 	private Event globalTimer, spectatorActivation;
@@ -226,22 +201,19 @@ public class PlayState extends GameState {
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
-	 * @param loadout: the loadout that the player should start with
 	 * @param level: the level we are loading into
 	 * @param mode: the mode of the level we are loading into
 	 * @param server: is this the server or not?
-	 * @param old: the data of the previous player (this exists if this play state is part of a stage transition with an existing player)
 	 * @param reset: do we reset the old player's hp/fuel/ammo in the new playstate?
 	 * @param startID: the id of the starting event the player should be spawned at
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, GameMode mode, boolean server, PlayerBodyData old,
-					 boolean reset, String startID) {
+	public PlayState(GameStateManager gsm, UnlockLevel level, GameMode mode, boolean server, boolean reset, String startID) {
 		super(gsm);
 		this.level = level;
 		this.mode = mode;
 		this.server = server;
 		this.startID = startID;
-        
+
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), true);
 		world.setContactListener(new WorldContactListener());
@@ -286,8 +258,8 @@ public class PlayState extends GameState {
 				endRender();
 			}
 		};
-		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
-		this.zoomDesired = zoom;
+
+		this.cameraManager = new CameraManager(this, map);
 
 		//We clear things like music/sound/shaders to periodically free up some memory
 		GameStateManager.clearMemory();
@@ -313,7 +285,6 @@ public class PlayState extends GameState {
 			if (reset) {
 				for (User user : HadalGame.usm.getUsers().values()) {
 					user.newLevelReset();
-					user.getScoresExtra().newLevelReset();
 				}
 			}
 
@@ -333,6 +304,9 @@ public class PlayState extends GameState {
 		}
 
 		//if auto-assign team is on, we do the assignment here
+		for (User user : HadalGame.usm.getUsers().values()) {
+			user.setTeamAssigned(false);
+		}
 		if (TeamMode.TEAM_AUTO.equals(mode.getTeamMode()) && isServer()) {
 			AlignmentFilter.autoAssignTeams(mode.getTeamNum(), mode.getTeamMode(), mode.getTeamStartScore());
 		} else if (TeamMode.HUMANS_VS_BOTS.equals(mode.getTeamMode()) && isServer()) {
@@ -344,31 +318,10 @@ public class PlayState extends GameState {
 		//clear fbo of unused players. Need to do this after bots are set up and teams are assigned
 		FrameBufferManager.clearAllFrameBuffers();
 
-		//Create the player and make the camera focus on it
 		if (server) {
-			User user = HadalGame.usm.getOwnUser();
-			StartPoint getSave = getSavePoint(startID, user);
-			short hitboxFilter = user.getHitBoxFilter().getFilter();
-
-			//if the host is a spectator, just set their player to their old one instead of creating a new one.
-			if (user.isSpectator()) {
-				this.player = user.getPlayer();
-
-				//setting the old player's state is a janky way of getting its old input processor to register new state's events
-				this.player.setState(this);
+			if (HadalGame.usm.getOwnUser().isSpectator()) {
 				setSpectatorMode();
-			} else {
-				this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, user, reset,
-						false, false, hitboxFilter);
 			}
-
-			if (getSave != null) {
-				this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
-				this.cameraFocusAimVector.setZero();
-			}
-		} else {
-			this.player = createPlayer(null, gsm.getLoadout().getName(), loadout, old, 0, null, reset,
-					false, false, BodyConstants.PLAYER_HITBOX);
 		}
 
 		this.reset = reset;
@@ -442,8 +395,8 @@ public class PlayState extends GameState {
 		//we check if we are in a playstate (not paused or in setting menu) b/c we don't reset control in those states
 		if (!gsm.getStates().empty()) {
 			if (gsm.getStates().peek() instanceof PlayState) {
-				controller = new PlayerController(player);
-				
+				controller = new PlayerController(HadalGame.usm.getOwnPlayer());
+
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
 				inputMultiplexer.addProcessor(stage);
 				inputMultiplexer.addProcessor(controller);
@@ -482,6 +435,7 @@ public class PlayState extends GameState {
 	        serverLoaded = true;
 			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
 			BotManager.initiateBots(this);
+			HadalGame.usm.getOwnUser().getTransitionManager().levelStartSpawn(this, reset);
 		}
 
 		//this makes the physics separate from the game framerate
@@ -572,10 +526,11 @@ public class PlayState extends GameState {
 					changeMade = true;
 					user.setScoreUpdated(false);
 				}
-				SavedPlayerFields score = user.getScores();
-				HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getScores().getConnID(), score.getNameShort(), score.getWins(),
-					score.getKills(), score.getDeaths(), score.getAssists(), score.getScore(), score.getExtraModeScore(),
-						score.getLives(), score.getPing(), user.isSpectator()));
+				ScoreManager score = user.getScoreManager();
+				HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
+						user.getLoadoutManager().getSavedLoadout(), score.getWins(), score.getKills(), score.getDeaths(),
+						score.getAssists(), score.getScore(), score.getExtraModeScore(),
+						score.getLives(), user.getPing(), user.isSpectator()));
 			}
 			if (changeMade) {
 				scoreWindow.syncScoreTable();
@@ -638,15 +593,17 @@ public class PlayState extends GameState {
 		batch.end();
 
 		//add white filter if the player is blinded
-		if (player.getBlinded() > 0.0f) {
-			batch.setProjectionMatrix(hud.combined);
-			batch.begin();
+		if (null != HadalGame.usm.getOwnPlayer()) {
+			if (HadalGame.usm.getOwnPlayer().getBlinded() > 0.0f) {
+				batch.setProjectionMatrix(hud.combined);
+				batch.begin();
 
-			batch.setColor(1.0f, 1.0f, 1.0f, Blinded.getBlindAmount(player.getBlinded()));
-			batch.draw(white, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-			batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+				batch.setColor(1.0f, 1.0f, 1.0f, Blinded.getBlindAmount(HadalGame.usm.getOwnPlayer().getBlinded()));
+				batch.draw(white, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+				batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-			batch.end();
+				batch.end();
+			}
 		}
 	}
 	
@@ -655,8 +612,6 @@ public class PlayState extends GameState {
 	 * This does all of the stuff that is needed for both server and client (processing packets, fade and some other misc stuff)
 	 * postgame is used so that the state can continue processing packets in the results state
 	 */
-	private static final float CAMERA_TIME = 1 / 120f;
-	private float cameraAccumulator;
 	public void processCommonStateProperties(float delta, boolean postGame) {
 		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
@@ -693,16 +648,11 @@ public class PlayState extends GameState {
 		}
 
 		if (!postGame) {
-			//Update the game camera.
-			cameraAccumulator += delta;
-			while (cameraAccumulator >= CAMERA_TIME) {
-				cameraAccumulator -= CAMERA_TIME;
-				cameraUpdate();
-			}
-
 			//Increment the game timer, if exists
 			uiExtra.incrementTimer(delta);
 			timer += delta;
+
+			cameraManager.controller(delta);
 		}
 	}
 	
@@ -819,58 +769,6 @@ public class PlayState extends GameState {
 	}
 	
 	/**
-	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
-	 */
-	private static final float MOUSE_CAMERA_TRACK = 0.5f;
-	private static final float CAMERA_INTERPOLATION = 0.08f;
-	private static final float CAMERA_AIM_INTERPOLATION = 0.025f;
-	final Vector2 aimFocusVector = new Vector2();
-	final Vector3 mousePosition = new Vector3();
-	final Vector2 cameraFocusAimVector = new Vector2();
-	final Vector2 cameraFocusAimPoint = new Vector2();
-	protected void cameraUpdate() {
-		zoom = zoom + (zoomDesired * (1.0f + zoomModifier) - zoom) * 0.1f;
-
-		camera.zoom = zoom;
-
-		if (cameraTarget == null) {
-
-			//the camera should be draggable as a spectator or during respawn time
-			if (spectatorMode || killFeed.isRespawnSpectator()) {
-				//in spectator mode, the camera moves when dragging the mouse
-				uiSpectator.spectatorDragCamera(spectatorTarget);
-				aimFocusVector.set(spectatorTarget);
-			} else if (player.getPlayerData() != null) {
-
-				//we check for play data being null so client does not try to lerp camera towards starting position of (0, 0)
-				aimFocusVector.set(player.getPixelPosition());
-
-				//if enabled, camera tracks mouse position
-				if (gsm.getSetting().isMouseCameraTrack()) {
-					mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-					HadalGame.viewportCamera.unproject(mousePosition);
-					mousePosition.sub(aimFocusVector.x, aimFocusVector.y, 0);
-					cameraFocusAimVector.x = (int) (cameraFocusAimVector.x + (mousePosition.x - cameraFocusAimVector.x) * CAMERA_AIM_INTERPOLATION);
-					cameraFocusAimVector.y = (int) (cameraFocusAimVector.y + (mousePosition.y - cameraFocusAimVector.y) * CAMERA_AIM_INTERPOLATION);
-					cameraFocusAimPoint.set(aimFocusVector).add(cameraFocusAimVector);
-					aimFocusVector.mulAdd(cameraFocusAimPoint, MOUSE_CAMERA_TRACK).scl(1.0f / (1.0f + MOUSE_CAMERA_TRACK));
-				}
-			}
-
-			//make camera target respect camera bounds if not focused on an object
-			CameraUtil.obeyCameraBounds(aimFocusVector, camera, cameraBounds);
-		} else {
-			aimFocusVector.set(cameraTarget);
-		}
-		aimFocusVector.add(cameraOffset);
-
-		//process camera shaking
-		CameraUtil.shake(camera, aimFocusVector, CAMERA_TIME);
-		spectatorTarget.set(aimFocusVector);
-		CameraUtil.lerpToTarget(camera, aimFocusVector, CAMERA_INTERPOLATION);
-	}
-
-	/**
 	 * This is called upon exiting. Dispose of all created fields.
 	 */
 	@Override
@@ -895,23 +793,10 @@ public class PlayState extends GameState {
 		CameraUtil.resetCameraRotation(camera);
 	}
 
-	final Vector2 resizeTmpVector2 = new Vector2();
 	@Override
 	public void resize() {
 		
-		//This refocuses the camera to avoid camera moving after resizing
-		if (gsm.getSetting().isMouseCameraTrack()) {
-			resizeTmpVector2.set(aimFocusVector.x, aimFocusVector.y);
-		} else if (cameraTarget == null) {
-			if (player.getBody() != null && player.isAlive()) {
-				resizeTmpVector2.set(player.getPixelPosition().x, player.getPixelPosition().y);
-			}
-		} else {
-			resizeTmpVector2.set(cameraTarget.x, cameraTarget.y);
-		}
-		CameraUtil.obeyCameraBounds(resizeTmpVector2, camera, cameraBounds);
-
-		this.camera.position.set(new Vector3(resizeTmpVector2.x, resizeTmpVector2.y, 0));
+		cameraManager.resize();
 
 		if (shaderBase.getShaderProgram() != null) {
 			shaderBase.getShaderProgram().bind();
@@ -965,19 +850,18 @@ public class PlayState extends GameState {
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
-			gsm.addPlayState(nextLevel, nextMode, new Loadout(gsm.getLoadout()), player.getPlayerData(), LobbyState.class, true, nextStartID);
-			gsm.addPlayState(nextLevel, nextMode, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartID);
+			gsm.addPlayState(nextLevel, nextMode, LobbyState.class, true, nextStartID);
+			gsm.addPlayState(nextLevel, nextMode, TitleState.class, true, nextStartID);
 			break;
 		case NEXTSTAGE:
-
 			//remove this state and add a new play state with the player's current loadout and stats
 			gsm.removeState(SettingState.class, false);
 			gsm.removeState(AboutState.class, false);
 			gsm.removeState(PauseState.class, false);
 			gsm.removeState(PlayState.class, false);
 
-			gsm.addPlayState(nextLevel, nextMode, player.getPlayerData().getLoadout(), player.getPlayerData(), LobbyState.class, false, nextStartID);
-			gsm.addPlayState(nextLevel, nextMode, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartID);
+			gsm.addPlayState(nextLevel, nextMode, LobbyState.class, false, nextStartID);
+			gsm.addPlayState(nextLevel, nextMode, TitleState.class, false, nextStartID);
 			break;
 		case TITLE:
 			gsm.removeState(ResultsState.class);
@@ -1009,7 +893,6 @@ public class PlayState extends GameState {
 	 * @param nextStartID: The id of the start point to start at (if specified)
 	 */
 	public void loadLevel(UnlockLevel level, GameMode mode, TransitionState state, String nextStartID) {
-		
 		//The client should never run this; instead transitioning when the server tells it to.
 		if (!server) { return; }
 
@@ -1021,7 +904,8 @@ public class PlayState extends GameState {
 			this.nextStartID = nextStartID;
 
 			for (User user : HadalGame.usm.getUsers().values()) {
-				user.beginTransition(this, state, false, DEFAULT_FADE_OUT_SPEED, DEFAULT_FADE_DELAY);
+				user.getTransitionManager().beginTransition(this, new Transition().setNextState(state)
+						.setReset(state == TransitionState.NEWLEVEL));
 			}
 		}
 	}
@@ -1033,21 +917,21 @@ public class PlayState extends GameState {
 	/**This creates a player to occupy the playstate
 	 * @param start: start event to spawn the player at.
 	 * @param name: player name
-	 * @param altLoadout: the player's loadout
+	 * @param loadout: the player's loadout
 	 * @param old: player's old playerdata if retaining old values.
-	 * @param connID: the player's connection id (0 if server)
 	 * @param reset: should we reset the new player's hp/fuel/ammo?
 	 * @param client: is this the client's own player?
 	 * @param hitboxFilter: the new player's collision filter
 	 * @return the newly created player
 	 */
-	public Player createPlayer(Event start, String name, Loadout altLoadout, PlayerBodyData old, int connID,
-	   		User user, boolean reset, boolean client, boolean justJoined, short hitboxFilter) {
+	public Player createPlayer(Event start, String name, Loadout loadout, PlayerBodyData old,
+	   		User user, boolean reset, boolean client, short hitboxFilter) {
 
-		Loadout newLoadout = new Loadout(altLoadout);
+		Loadout newLoadout = new Loadout(loadout);
 
 		//process mode-specific loadout changes
-		mode.processNewPlayerLoadout(this, newLoadout, connID, justJoined);
+		mode.processNewPlayerLoadout(this, newLoadout, user.getConnID());
+		user.getLoadoutManager().setActiveLoadout(newLoadout);
 
 		Event spawn = start;
 		if (spawn == null) {
@@ -1067,29 +951,29 @@ public class PlayState extends GameState {
 
 		//process spawn overrides if the user specifies being spawned at a set location instead of at a start point
 		if (isServer()) {
-			if (user.isSpawnOverridden()) {
-				overiddenSpawn.set(user.getOverrideSpawnLocation());
+			if (user.getTransitionManager().isSpawnOverridden()) {
+				overiddenSpawn.set(user.getTransitionManager().getOverrideSpawnLocation());
 			}
 		}
 
 		Player p;
-		if (connID < 0) {
-			p = new PlayerBot(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+		if (user.getConnID() < 0) {
+			p = new PlayerBot(this, overiddenSpawn, name, old, user, reset, spawn);
 		} else if (isServer()) {
-			if (0 == connID) {
-				p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+			if (0 == user.getConnID()) {
+				p = new Player(this, overiddenSpawn, name, old, user, reset, spawn);
 			} else {
-				p = new PlayerClientOnHost(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+				p = new PlayerClientOnHost(this, overiddenSpawn, name, old, user, reset, spawn);
 			}
 		} else {
 			if (!client) {
-				p = new Player(this, overiddenSpawn, name, newLoadout, old, connID, user, reset, spawn);
+				p = new Player(this, overiddenSpawn, name, old, user, reset, spawn);
 			} else {
 				//clients always spawn at (0,0), then move when the server tells them to.
-				p = new PlayerSelfOnClient(this, new Vector2(), name, newLoadout, null, connID, user, reset, null);
+				p = new PlayerSelfOnClient(this, new Vector2(), name, null, user, reset, null);
 			}
 		}
-		
+
 		//teleportation particles for reset players (indicates returning to hub)
 		if (reset && isServer()) {
 			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2),
@@ -1097,9 +981,10 @@ public class PlayState extends GameState {
 		}
 
 		//for own player, the server must update their user information
-		if (isServer() && connID == 0) {
+		if (isServer() && user.getConnID() == 0) {
 			HadalGame.usm.getOwnUser().setPlayer(p);
 		}
+		user.setPlayer(p);
 
 		//mode-specific player modifications
 		mode.modifyNewPlayer(this, newLoadout, p, hitboxFilter);
@@ -1107,7 +992,6 @@ public class PlayState extends GameState {
 	}
 	
 	//This is a list of all the saved player fields (scores) from the completed playstate
-	private final Array<SavedPlayerFields> scores = new Array<>();
 	private final ObjectMap<AlignmentFilter, Integer> teamKills = new ObjectMap<>();
 	private final ObjectMap<AlignmentFilter, Integer> teamDeaths = new ObjectMap<>();
 	private final ObjectMap<AlignmentFilter, Integer> teamScores = new ObjectMap<>();
@@ -1118,45 +1002,47 @@ public class PlayState extends GameState {
 	 */
 	public void levelEnd(String text, boolean victory, float fadeDelay) {
 		String resultsText = text;
-		Array<User> users = HadalGame.usm.getUsers().values().toArray();
+
+		//list of non-spectator users to be sorted
+		Array<User> activeUsers = new Array<>();
 
 		//magic word indicates that we generate the results text dynamically based on score
 		if (ResultsState.MAGIC_WORD.equals(text)) {
-			for (User user : users) {
+			for (User user : HadalGame.usm.getUsers().values().toArray()) {
 				if (!user.isSpectator()) {
-					scores.add(user.getScores());
+					activeUsers.add(user);
 
 					AlignmentFilter faction;
 					if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
-						faction = user.getHitBoxFilter();
+						faction = user.getHitboxFilter();
 					} else {
 						faction = user.getTeamFilter();
 					}
 
 					//add users's kills, deaths and scores to respective list and keep track of sum
 					if (teamKills.containsKey(faction)) {
-						teamKills.put(faction, teamKills.get(faction) + user.getScores().getKills());
+						teamKills.put(faction, teamKills.get(faction) + user.getScoreManager().getKills());
 					} else {
-						teamKills.put(faction, user.getScores().getKills());
+						teamKills.put(faction, user.getScoreManager().getKills());
 					}
 					if (teamDeaths.containsKey(faction)) {
-						teamDeaths.put(faction, teamDeaths.get(faction) + user.getScores().getDeaths());
+						teamDeaths.put(faction, teamDeaths.get(faction) + user.getScoreManager().getDeaths());
 					} else {
-						teamDeaths.put(faction, user.getScores().getDeaths());
+						teamDeaths.put(faction, user.getScoreManager().getDeaths());
 					}
 					if (teamScores.containsKey(faction)) {
-						teamScores.put(faction, teamScores.get(faction) + user.getScores().getScore());
+						teamScores.put(faction, teamScores.get(faction) + user.getScoreManager().getScore());
 					} else {
-						teamScores.put(faction, user.getScores().getScore());
+						teamScores.put(faction, user.getScoreManager().getScore());
 					}
 				}
 			}
 
 			//sort scores and team scores according to score, then kills, then deaths
-			scores.sort((a, b) -> {
-				int cmp = (b.getScore() - a.getScore());
-				if (cmp == 0) { cmp = b.getKills() - a.getKills(); }
-				if (cmp == 0) { cmp = a.getDeaths() - b.getDeaths(); }
+			activeUsers.sort((a, b) -> {
+				int cmp = (b.getScoreManager().getScore() - a.getScoreManager().getScore());
+				if (cmp == 0) { cmp = b.getScoreManager().getKills() - a.getScoreManager().getKills(); }
+				if (cmp == 0) { cmp = a.getScoreManager().getDeaths() - b.getScoreManager().getDeaths(); }
 				return cmp;
 			});
 
@@ -1170,7 +1056,7 @@ public class PlayState extends GameState {
 
 			//if free-for-all, the first player in the sorted list is the victor
 			if (TeamMode.FFA.equals(mode.getTeamMode())) {
-				resultsText = UIText.PLAYER_WINS.text(scores.get(0).getNameShort());
+				resultsText = UIText.PLAYER_WINS.text(activeUsers.get(0).getStringManager().getNameShort());
 			} else {
 
 				//in team modes, get the winning team and display a win for that team (or individual if no alignment)
@@ -1178,54 +1064,48 @@ public class PlayState extends GameState {
 				if (winningTeam.isTeam()) {
 					resultsText = UIText.PLAYER_WINS.text(winningTeam.getColoredAdjective());
 				} else {
-					for (User user : users) {
-						if (!user.isSpectator()) {
-							if (user.getHitBoxFilter().equals(winningTeam)) {
-								resultsText = UIText.PLAYER_WINS.text(user.getScores().getNameShort());
-							}
+					for (User user : activeUsers) {
+						if (user.getHitboxFilter().equals(winningTeam)) {
+							resultsText = UIText.PLAYER_WINS.text(user.getStringManager().getNameShort());
 						}
 					}
 				}
 			}
 
 			AlignmentFilter winningTeam = teamScoresList.get(0);
-			SavedPlayerFields winningScore = scores.get(0);
+			ScoreManager winningScore = activeUsers.get(0).getScoreManager();
 
 			//give a win to all players with a winning alignment (team or solo)
-			for (User user : users) {
-				if (!user.isSpectator()) {
-					SavedPlayerFields score = user.getScores();
-					if (TeamMode.FFA.equals(mode.getTeamMode())) {
-						if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
-								&& score.getDeaths() == winningScore.getDeaths()) {
-							score.win();
-						}
+			for (User user : activeUsers) {
+				ScoreManager score = user.getScoreManager();
+				if (TeamMode.FFA.equals(mode.getTeamMode())) {
+					if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
+							&& score.getDeaths() == winningScore.getDeaths()) {
+						score.win();
+					}
+				} else {
+					AlignmentFilter faction;
+
+					if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
+						faction = user.getHitboxFilter();
 					} else {
-						AlignmentFilter faction;
+						faction = user.getTeamFilter();
+					}
 
-						if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
-							faction = user.getHitBoxFilter();
-						} else {
-							faction = user.getTeamFilter();
-						}
+					if (teamScores.containsKey(faction)) {
+						score.setTeamScore(teamScores.get(faction));
+					}
 
-						if (teamScores.containsKey(faction)) {
-							score.setTeamScore(teamScores.get(faction));
-						}
-
-						if (user.getHitBoxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
-							score.win();
-						}
+					if (user.getHitboxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
+						score.win();
 					}
 				}
 			}
 		} else if (victory) {
 
 			//in coop, all players get a win if the team wins
-            for (User user : users) {
-                if (!user.isSpectator()) {
-					user.getScores().win();
-				}
+            for (User user : activeUsers) {
+				user.getScoreManager().win();
             }
         }
 
@@ -1249,26 +1129,19 @@ public class PlayState extends GameState {
 
 		int userIndex = 0;
 		for (User user : HadalGame.usm.getUsers().values()) {
-			SavedPlayerFields score = user.getScores();
-			Player resultsPlayer = user.getPlayer();
-			if (resultsPlayer != null) {
-				Loadout loadoutTemp = resultsPlayer.getPlayerData().getLoadout();
-
-				//this removes any unusable weapons in loadout (Saved in a slot the player cannot use)
-				for (int i = (int) (Loadout.BASE_WEAPON_SLOTS + resultsPlayer.getPlayerData().getStat(Stats.WEAPON_SLOTS)); i < Loadout.MAX_WEAPON_SLOTS; i++) {
-					loadoutTemp.multitools[i] = UnlockEquip.NOTHING;
-				}
-				user.getScoresExtra().setLoadout(loadoutTemp);
-			}
-
-			SavedPlayerFieldsExtra scoreExtra = user.getScoresExtra();
-			users[userIndex] = new UserDto(score, scoreExtra, user.isSpectator());
+			users[userIndex] = new UserDto(user.getScoreManager(), user.getStatsManager(), user.getLoadoutManager().getActiveLoadout(),
+					user.getStringManager().getName(), user.getConnID(), user.getPing(), user.isSpectator());
 			userIndex++;
 		}
 		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users, resultsText));
 
 		for (User user : HadalGame.usm.getUsers().values()) {
-			user.beginTransition(this, TransitionState.RESULTS, true, 0.0f, fadeDelay);
+			user.getTransitionManager().beginTransition(this,
+					new Transition()
+							.setNextState(TransitionState.RESULTS)
+							.setFadeSpeed(0.0f)
+							.setFadeDelay(fadeDelay)
+							.setOverride(true));
 		}
 	}
 
@@ -1306,20 +1179,20 @@ public class PlayState extends GameState {
 	 * This is used to make a specific player a spectator after a transition.
 	 * This is only run by the server
 	 */
-	public void becomeSpectator(Player player, boolean notification) {
-		User user = player.getUser();
+	public void becomeSpectator(User user, boolean notification) {
+		if (!user.isSpectator()) {
+			if (notification) {
+				HadalGame.server.addNotificationToAll(this,"", UIText.SPECTATOR_ENTER.text(user.getStringManager().getName()),
+						true, DialogType.SYSTEM);
+			}
 
-		if (user != null) {
-			if (!user.isSpectator()) {
-				if (notification) {
-					HadalGame.server.addNotificationToAll(this,"", UIText.SPECTATOR_ENTER.text(player.getName()),
-							true, DialogType.SYSTEM);
+			startSpectator(user);
+
+			//we die last so that the on-death transition does not occur (As it will not override the spectator transition unless it is a results screen.)
+			if (null != user.getPlayer()) {
+				if (null != user.getPlayer().getPlayerData()) {
+					user.getPlayer().getPlayerData().die(worldDummy.getBodyData(), DamageSource.DISCONNECT);
 				}
-
-				startSpectator(user, player.getConnID());
-
-				//we die last so that the on-death transition does not occur (As it will not override the spectator transition unless it is a results screen.)
-				player.getPlayerData().die(worldDummy.getBodyData(), DamageSource.DISCONNECT);
 			}
 		}
 	}
@@ -1327,15 +1200,19 @@ public class PlayState extends GameState {
 	/**
 	 * Make a specific player a spectator. Run by server only
 	 * @param user: the user to become a spectator
-	 * @param connID: new spectator's connection id
 	 */
-	public void startSpectator(User user, int connID) {
-		user.beginTransition(this, TransitionState.SPECTATOR, false, DEFAULT_FADE_OUT_SPEED, SHORT_FADE_DELAY);
-		HadalGame.server.sendToTCP(connID, new Packets.ClientStartTransition(TransitionState.SPECTATOR, DEFAULT_FADE_OUT_SPEED, SHORT_FADE_DELAY));
+	public void startSpectator(User user) {
+		user.getTransitionManager().beginTransition(this,
+				new Transition()
+						.setNextState(TransitionState.SPECTATOR)
+						.setFadeDelay(SHORT_FADE_DELAY));
+		HadalGame.server.sendToTCP(user.getConnID(),
+				new Packets.ClientStartTransition(TransitionState.SPECTATOR, DEFAULT_FADE_OUT_SPEED, SHORT_FADE_DELAY,
+						false, null));
 
 		//set the spectator's player number to default so they don't take up a player slot
-		user.getHitBoxFilter().setUsed(false);
-		user.setHitBoxFilter(AlignmentFilter.NONE);
+		user.getHitboxFilter().setUsed(false);
+		user.setHitboxFilter(AlignmentFilter.NONE);
 		user.setSpectator(true);
 	}
 	
@@ -1347,23 +1224,24 @@ public class PlayState extends GameState {
 
 		if (user != null) {
 			if (user.isSpectator()) {
-				SavedPlayerFields score = user.getScores();
-
 				//cannot exit spectator if server is full
 				if (HadalGame.usm.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
-					HadalGame.server.sendNotification(score.getConnID(), "", UIText.SERVER_FULL.text(), true, DialogType.SYSTEM);
+					HadalGame.server.sendNotification(user.getConnID(), "", UIText.SERVER_FULL.text(), true, DialogType.SYSTEM);
 					return;
 				}
 
-				HadalGame.server.addNotificationToAll(this, "", UIText.SPECTATOR_EXIT.text(score.getNameShort()),
+				HadalGame.server.addNotificationToAll(this, "", UIText.SPECTATOR_EXIT.text(user.getStringManager().getNameShort()),
 						true, DialogType.SYSTEM);
 
 				//give the new player a player slot
-				user.setHitBoxFilter(AlignmentFilter.getUnusedAlignment());
+				user.setHitboxFilter(AlignmentFilter.getUnusedAlignment());
 				user.setSpectator(false);
 
 				//for host, start transition. otherwise, send transition packet
-				user.beginTransition(this, TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, SHORT_FADE_DELAY);
+				user.getTransitionManager().beginTransition(this,
+						new Transition()
+								.setNextState(TransitionState.RESPAWN)
+								.setFadeDelay(SHORT_FADE_DELAY));
 			}
 		}
 	}
@@ -1374,15 +1252,25 @@ public class PlayState extends GameState {
 	 * @param fadeSpeed: speed of transition
 	 * @param fadeDelay: amount of delay before transition
 	 */
-	public void beginTransition(TransitionState state, float fadeSpeed, float fadeDelay) {
-
+	public void beginTransition(TransitionState state, float fadeSpeed, float fadeDelay, boolean skipFade) {
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
-		nextState = state;
-		gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
-		gsm.getApp().setRunAfterTransition(this::transitionState);
+		if (!skipFade) {
+			gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
+			gsm.getApp().setRunAfterTransition(this::transitionState);
 
-		//fadeSpeed means we skip the fade. Only relevant during special transitions
-		if (TransitionState.RESPAWN.equals(state) && fadeSpeed != 0.0f) {
+			//null nextState is used by user transition for non-timed respawn
+			if (null != state) {
+				nextState = state;
+			} else {
+				nextState = TransitionState.RESPAWN;
+			}
+		} else {
+			spectatorMode = false;
+			nextState = null;
+		}
+
+		//fadeSpeed = 0 means we skip the fade. Only relevant during special transitions
+		if (TransitionState.RESPAWN.equals(state) && !skipFade && fadeDelay != 0.0f) {
 			killFeed.addKillInfo(fadeDelay + 1.0f / fadeSpeed);
 		}
 	}
@@ -1399,7 +1287,7 @@ public class PlayState extends GameState {
 			HadalGame.client.getClient().stop();
 		}
 
-		beginTransition(TransitionState.TITLE, DEFAULT_FADE_OUT_SPEED, delay);
+		beginTransition(TransitionState.TITLE, DEFAULT_FADE_OUT_SPEED, delay, false);
 	}
 	
 	/**
@@ -1561,22 +1449,19 @@ public class PlayState extends GameState {
 		shaderTile = shader;
 		shaderTile.loadShader();
 	}
-	
-	private static final float SPECTATOR_DEFAULT_ZOOM = 1.5f;
+
+	public float getRespawnTime(Player p) {
+		return respawnTime * (1.0f + p.getPlayerData().getStat(Stats.RESPAWN_TIME));
+	}
+
 	/**
 	 * Player enters spectator mode. Set up spectator camera and camera bounds
 	 */
 	public void setSpectatorMode() {
 		spectatorMode = true;
-		spectatorTarget.set(camera.position.x, camera.position.y);
 		uiSpectator.enableSpectatorUI();
-		
-		this.zoomDesired = map.getProperties().get("zoom", SPECTATOR_DEFAULT_ZOOM, float.class);
-		this.cameraTarget = null;
-		this.cameraOffset.set(0, 0);
-		if (spectatorBounded) {
-			System.arraycopy(spectatorBounds, 0, cameraBounds, 0, 4);
-		}
+
+		cameraManager.setSpectator();
 
 		//this makes the player's artifacts disappear as a spectator
 		uiArtifact.syncArtifact();
@@ -1622,10 +1507,6 @@ public class PlayState extends GameState {
 
 	public void setSpectatorActivation(Event spectatorActivation) {	this.spectatorActivation = spectatorActivation;	}
 
-	public Player getPlayer() {	return player; }
-	
-	public void setPlayer(Player player) { this.player = player; }
-
 	public World getWorld() { return world; }
 
 	public TiledMap getMap() { return map; }
@@ -1641,8 +1522,6 @@ public class PlayState extends GameState {
 	public float getTimer() {return timer; }
 	
 	public void setTimer(float timer) { this.timer = timer; }
-
-	public float getRespawnTime() { return respawnTime; }
 
 	public void setRespawnTime(float respawnTime) {	this.respawnTime = respawnTime; }
 
@@ -1664,21 +1543,7 @@ public class PlayState extends GameState {
 	
 	public void addDummyPoint(PositionDummy dummy, String id) {	dummyPoints.put(id, dummy); }
 	
-	public void setCameraTarget(Vector2 cameraTarget) {	this.cameraTarget = cameraTarget; }
-	
-	public void setCameraOffset(float offsetX, float offsetY) {	cameraOffset.set(offsetX, offsetY); }
-	
-	public Vector2 getCameraTarget() {	return cameraTarget; }
-
-	public Vector2 getCameraFocusAimVector() { return cameraFocusAimVector; }
-
-	public float[] getCameraBounds() { return cameraBounds; }
-
-	public float[] getSpectatorBounds() { return spectatorBounds; }
-
-	public void setSpectatorBounded(boolean spectatorBounded) { this.spectatorBounded = spectatorBounded; }
-
-	public boolean isSpectatorBounded() { return spectatorBounded; }
+	public CameraManager getCameraManager() { return cameraManager; }
 
 	public InputProcessor getController() { return controller; }
 
@@ -1692,15 +1557,9 @@ public class PlayState extends GameState {
 	
 	public DialogBox getDialogBox() { return dialogBox; }
 
-	public void setZoom(float zoom) { this.zoomDesired = zoom; }
-
 	public float getTimeModifier() { return timeModifier; }
 
 	public void setTimeModifier(float timeModifier) { this.timeModifier = timeModifier; }
-
-	public float getZoomModifier() { return this.zoomModifier; }
-
-	public void setZoomModifier(float zoomModifier) { this.zoomModifier = zoomModifier; }
 
 	public Array<Object> getSyncPackets() {	return syncPackets; }
 

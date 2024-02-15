@@ -10,11 +10,12 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.Transition;
+import com.mygdx.hadal.users.User;
 
-import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
+import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
 
 /**
  * This mode setting is used for modes where the host can designate a number of lives.
@@ -69,10 +70,9 @@ public class SettingLives extends ModeSetting {
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
         int startLives = livesChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedLives;
-
         if (startLives != 0) {
             for (User user : HadalGame.usm.getUsers().values()) {
-                user.getScores().setLives(startLives);
+                user.getScoreManager().setLives(startLives);
                 user.setScoreUpdated(true);
             }
             mode.setJoinMidGame(false);
@@ -89,14 +89,24 @@ public class SettingLives extends ModeSetting {
         if (vic != null) {
             User user = vic.getUser();
             if (user != null) {
+
                 if (unlimitedLives) {
-                    user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
+                    user.getTransitionManager().beginTransition(state,
+                            new Transition()
+                                    .setNextState(PlayState.TransitionState.RESPAWN)
+                                    .setFadeDelay(state.getRespawnTime(vic))
+                                    .setForewarnTime(LONG_FADE_DELAY)
+                                    .setSpawnForewarned(true));
                 } else {
-                    user.getScores().setLives(user.getScores().getLives() - 1);
-                    if (user.getScores().getLives() <= 0) {
+                    user.getScoreManager().setLives(user.getScoreManager().getLives() - 1);
+                    if (user.getScoreManager().getLives() <= 0) {
                         mode.processPlayerLivesOut(state, vic);
                     } else {
-                        user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, state.getRespawnTime());
+                        user.getTransitionManager().beginTransition(state, new Transition()
+                                .setNextState(PlayState.TransitionState.RESPAWN)
+                                .setFadeDelay(state.getRespawnTime(vic))
+                                .setForewarnTime(LONG_FADE_DELAY)
+                                .setSpawnForewarned(true));
                     }
                 }
             }

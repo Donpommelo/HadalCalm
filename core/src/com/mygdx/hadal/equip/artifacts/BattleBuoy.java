@@ -32,7 +32,7 @@ public class BattleBuoy extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsHit()) { return; }
-				if (p.getCurrentTool() instanceof RangedWeapon weapon) {
+				if (p.getPlayer().getEquipHelper().getCurrentTool() instanceof RangedWeapon weapon) {
 					if (weapon.getClipLeft() == 0) {
 						int clip = Math.min(weapon.getClipSize(), ClipMax);
 						float bonusDamage = DamageBoostMin + (float) (clip - ClipMin) / (ClipMax - ClipMin) * (DamageBoostMax - DamageBoostMin);

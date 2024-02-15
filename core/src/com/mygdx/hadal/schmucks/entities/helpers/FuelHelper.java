@@ -3,6 +3,9 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.entities.Player;
 
+/**
+ * FuelHelper manages the player's fuel regeneration
+ */
 public class FuelHelper {
 
     private static final float FUEL_REGEN = 16.0f;
@@ -11,6 +14,7 @@ public class FuelHelper {
 
     private final Player player;
 
+    //keeps tarck of cooldown until fuel regen kicks in again
     private float fuelRegenCdCount;
 
     public FuelHelper(Player player) {

@@ -5,6 +5,9 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * PingHelper simply processes the player's pinging capabilities
+ */
 public class PingHelper {
 
     private static final float PING_CD = 1.0f;

@@ -30,7 +30,7 @@ public class SkippersBoxOfFunActivate extends SyncedAttacker {
 
         if (user instanceof Player player) {
             Equippable equip = UnlocktoItem.getUnlock(UnlockEquip.getRandWeapFromPool(state, ""), null);
-            player.getPlayerData().pickup(equip);
+            player.getEquipHelper().pickup(equip);
         }
     }
 }

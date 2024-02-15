@@ -25,7 +25,7 @@ public class Botting extends Status {
 	@Override
 	public void onKill(BodyData vic, DamageSource source) {
 		if (bot.getChatWheelDesire() > MathUtils.random()) {
-			state.getChatWheel().emote(bot, MathUtils.random(7));
+			state.getChatWheel().emote(bot, MathUtils.random(7), bot.getUser().getConnID());
 		}
 	}
 }

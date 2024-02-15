@@ -50,7 +50,7 @@ public class SettingLoadoutMode extends ModeSetting {
     }
 
     @Override
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         if (state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) == 0) {
             for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
                 if (weaponDropLoadout.length > i) {

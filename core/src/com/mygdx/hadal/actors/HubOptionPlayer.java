@@ -36,7 +36,7 @@ public class HubOptionPlayer extends HubOption {
 		super(text, null);
 		this.renderCosmetic = renderCosmetic;
 		this.cosmetic = cosmetic;
-		this.playerSpriteHelper = new PlayerSpriteHelper(player, scale);
+		this.playerSpriteHelper = new PlayerSpriteHelper(player.getState(), player, scale);
 		playerSpriteHelper.replaceBodySprite(player.getState().getBatch(), character, team);
 	}
 
@@ -78,6 +78,4 @@ public class HubOptionPlayer extends HubOption {
 		this.bob = bob;
 		return this;
 	}
-
-	public PlayerSpriteHelper getPlayerSpriteHelper() { return playerSpriteHelper; }
 }

@@ -208,7 +208,7 @@ public enum AlignmentFilter {
                     currentTeam = (currentTeam + 1) % numTeams;
                     teamSelection.put(user, currentTeam);
                 } else if (TeamMode.HUMANS_VS_BOTS.equals(mode)){
-                    if (user.getScores().getConnID() < 0) {
+                    if (user.getConnID() < 0) {
                         currentTeam = 0;
                     } else {
                         currentTeam = 1;
@@ -225,17 +225,7 @@ public enum AlignmentFilter {
             //iterate over all team colors. Make sure we do not choose a team similar to any other current team colors
             for (AlignmentFilter filter : AlignmentFilter.values()) {
                 if (!filter.isUsed() && filter.team && filter.standardChoice) {
-                    boolean similar = false;
-                    for (AlignmentFilter alignmentFilter : currentTeams) {
-                        for (HadalColor group1 : alignmentFilter.colorGroup) {
-                            for (HadalColor group2 : filter.colorGroup) {
-                                if (group1 == group2) {
-                                    similar = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                    boolean similar = isSimilar(filter);
                     if (!similar) {
                         unusedTeams.add(filter);
                     }
@@ -250,7 +240,23 @@ public enum AlignmentFilter {
 
         for (User user : teamSelection.keys()) {
             user.setTeamFilter(currentTeams[teamSelection.get(user)]);
+            user.setTeamAssigned(true);
         }
+    }
+
+    private static boolean isSimilar(AlignmentFilter filter) {
+        boolean similar = false;
+        for (AlignmentFilter alignmentFilter : currentTeams) {
+            for (HadalColor group1 : alignmentFilter.colorGroup) {
+                for (HadalColor group2 : filter.colorGroup) {
+                    if (group1 == group2) {
+                        similar = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return similar;
     }
 
     /**
@@ -285,6 +291,7 @@ public enum AlignmentFilter {
 
         if (smallestTeam != null) {
             newUser.setTeamFilter(smallestTeam);
+            newUser.setTeamAssigned(true);
         }
     }
 

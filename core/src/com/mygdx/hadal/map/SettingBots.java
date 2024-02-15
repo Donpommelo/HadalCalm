@@ -11,18 +11,16 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.bots.BotLoadoutProcessor;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.BotPersonality;
-import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
+import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.NameGenerator;
 import com.mygdx.hadal.text.TooltipManager;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.text.NameGenerator;
+import com.mygdx.hadal.users.User;
 
 /**
  * This mode setting sets the number of bots in the game
@@ -115,16 +113,16 @@ public class SettingBots extends ModeSetting {
 
         //go through all existing bots and clear them from the user list
         for (User user : HadalGame.usm.getUsers().values()) {
-            if (user.getScores().getConnID() < 0) {
+            if (user.getConnID() < 0) {
                 oldBots.add(user);
             }
         }
 
         //ensure that bots from last match are cleared
         for (User user : oldBots) {
-            user.getHitBoxFilter().setUsed(false);
-            HadalGame.usm.getUsers().remove(user.getScores().getConnID());
-            HadalGame.server.sendToAllTCP(new Packets.RemoveScore(user.getScores().getConnID()));
+            user.getHitboxFilter().setUsed(false);
+            HadalGame.usm.getUsers().remove(user.getConnID());
+            HadalGame.server.sendToAllTCP(new Packets.RemoveScore(user.getConnID()));
         }
 
         //reset next connId, then create each bot while incrementing connId to ensure each has a unique one.
@@ -163,10 +161,8 @@ public class SettingBots extends ModeSetting {
     //this creates a single bot user; giving them a random name and initiating their score fields
     private User createBotUser(PlayState state) {
         String botName = NameGenerator.generateFirstLast(true);
-        User user = new User(null, new SavedPlayerFields(botName, lastBotConnID), new SavedPlayerFieldsExtra());
         Loadout botLoadout = BotLoadoutProcessor.getBotLoadout(state);
-        user.getScoresExtra().setLoadout(botLoadout);
-        return user;
+        return new User(lastBotConnID, botName, botLoadout);
     }
 
     private static BotPersonality.BotDifficulty indexToBotDifficulty(int index) {

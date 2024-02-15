@@ -114,14 +114,14 @@ public class BotControllerPlayer extends BotController {
             shootTargetPosition.set(shootTarget.getPosition());
             BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition, shootTarget.isAlive());
             BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(),
-                    player.getPlayerData().getCurrentTool(), true);
-            BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), inRange);
+                    player.getEquipHelper().getCurrentTool(), true);
+            BotLoadoutProcessor.processWeaponShooting(player, player.getEquipHelper().getCurrentTool(), inRange);
         } else {
             //with no target, we aim towards the direction we are moving (set in processbotMovement)
             thisLocation.add(playerLocation);
             BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, thisLocation, false);
-            BotLoadoutProcessor.processWeaponAim(player, thisLocation, playerVelocity, player.getPlayerData().getCurrentTool(), false);
-            BotLoadoutProcessor.processWeaponShooting(player, player.getPlayerData().getCurrentTool(), false);
+            BotLoadoutProcessor.processWeaponAim(player, thisLocation, playerVelocity, player.getEquipHelper().getCurrentTool(), false);
+            BotLoadoutProcessor.processWeaponShooting(player, player.getEquipHelper().getCurrentTool(), false);
         }
     }
 
@@ -130,7 +130,7 @@ public class BotControllerPlayer extends BotController {
      * @param shooting: whether the bot has acquired a target in sights or not
      */
     private void processBotActiveItem(boolean shooting, float distanceSquared) {
-        BotLoadoutProcessor.processActiveItem(player, player.getPlayerData().getActiveItem(), shooting, distanceSquared);
+        BotLoadoutProcessor.processActiveItem(player, player.getMagicHelper().getMagic(), shooting, distanceSquared);
     }
 
     //these thresholds determine when the bot will fastfall (must be above their destination and not moving too fast already)
@@ -215,8 +215,8 @@ public class BotControllerPlayer extends BotController {
     public RallyPoint.RallyPointMultiplier getWeaponPoint(Vector2 playerLocation) {
         int totalAffinity = 0;
         int minAffinity = 100;
-        for (int i = 0; i < player.getPlayerData().getMultitools().length - 1; i++) {
-            int affinity = BotLoadoutProcessor.calcWeaponAffinity(player.getPlayerData().getMultitools()[i]);
+        for (int i = 0; i < player.getEquipHelper().getMultitools().length - 1; i++) {
+            int affinity = BotLoadoutProcessor.calcWeaponAffinity(player.getEquipHelper().getMultitools()[i]);
             totalAffinity += affinity;
             minAffinity = Math.min(minAffinity, affinity);
         }

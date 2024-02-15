@@ -51,8 +51,6 @@ public enum PlayerAction {
 	//this is the text that shows up in the ui to represent this action
 	private final UIText text;
 
-	private final static ObjectMap<Integer, PlayerAction> hotkeys = new ObjectMap<>();
-
 	PlayerAction(int key, boolean toggleable, boolean synced, UIText text) {
 		this.key = key;
 		this.toggleable = toggleable;
@@ -64,7 +62,6 @@ public enum PlayerAction {
 	
 	public void setKey(int key) {
 		this.key = key;
-		hotkeys.put(key, this);
 	}
 	
 	//this returns the text representing the button bound to this action. Used when text refers to a hotkey
@@ -109,13 +106,13 @@ public enum PlayerAction {
 	 */
 	public static void retrieveKeys() {
 		try {
-			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.internal("save/Keybind.json"))) {
+			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.local("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
 		} catch (SerializationException e) {
 			resetKeys();
 			saveKeys();
-			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.internal("save/Keybind.json"))) {
+			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.local("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
 		}
@@ -133,10 +130,6 @@ public enum PlayerAction {
 		}
 		
 		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.JSON.toJson(map), true);
-	}
-
-	public static PlayerAction hotkeyToAction(int key) {
-		return hotkeys.get(key);
 	}
 
 	/**

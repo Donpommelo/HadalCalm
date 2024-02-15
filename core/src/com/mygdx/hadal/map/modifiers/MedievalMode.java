@@ -32,7 +32,7 @@ public class MedievalMode extends ModeModifier {
     }
 
     @Override
-    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID, boolean justJoined) {
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
             if (BaseEquip.length > i) {
                 newLoadout.multitools[i] = BaseEquip[i];

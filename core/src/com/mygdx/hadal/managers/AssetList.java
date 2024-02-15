@@ -42,6 +42,7 @@ public enum AssetList {
 	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
 	POOL_ATL("sprites/projectile/pool.atlas", TextureAtlas.class),
 	SPIRIT_BOMB_ATL("sprites/projectile/spirit_bomb.atlas", TextureAtlas.class),
+	FROG_ATL("sprites/projectile/frog.atlas", TextureAtlas.class),
 
 	// Particle effects.
 	PARTICLE_ATL("particles/particles.atlas", TextureAtlas.class),

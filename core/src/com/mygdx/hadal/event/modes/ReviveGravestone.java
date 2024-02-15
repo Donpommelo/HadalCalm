@@ -17,18 +17,19 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.Transition;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.TextUtil;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
-import static com.mygdx.hadal.states.PlayState.DEFAULT_FADE_OUT_SPEED;
+import static com.mygdx.hadal.users.Transition.MEDIUM_FADE_DELAY;
 
 /**
  */
@@ -40,7 +41,6 @@ public class ReviveGravestone extends Event {
 
 	//this is the player that this event is fixed to and the last player that held it
 	private final User user;
-	private final int connID;
 	private final float returnMaxTimer;
 	private final Event defaultStartPoint;
 
@@ -54,11 +54,9 @@ public class ReviveGravestone extends Event {
 	//amount of players currently nearby their dropped flag to speed up its return
 	private int numReturning;
 
-	public ReviveGravestone(PlayState state, Vector2 startPos, User user, int connID, float returnMaxTimer,
-							Event defaultStartPoint) {
+	public ReviveGravestone(PlayState state, Vector2 startPos, User user, float returnMaxTimer,	Event defaultStartPoint) {
 		super(state, startPos, GRAVE_SIZE);
 		this.user = user;
-		this.connID = connID;
 		this.returnMaxTimer = returnMaxTimer;
 		this.returnDelayed = returnMaxTimer;
 		this.defaultStartPoint = defaultStartPoint;
@@ -82,12 +80,8 @@ public class ReviveGravestone extends Event {
 
 		if (state.isSpectatorMode()) {
 			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
-		} else if (state.getPlayer() != null) {
-			if (state.getPlayer().getUser() != null) {
-				if (state.getPlayer().getUser().getTeamFilter() == user.getTeamFilter()) {
-					state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
-				}
-			}
+		} else if (HadalGame.usm.getOwnUser().getTeamFilter() == user.getTeamFilter()) {
+			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		}
 
 		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();
@@ -152,9 +146,12 @@ public class ReviveGravestone extends Event {
 					state.getKillFeed().addNotification(UIText.GRAVE_REVIVE.text(playerName), true);
 				}
 
-				user.setOverrideSpawn(getPixelPosition());
-				user.setOverrideStart(defaultStartPoint);
-				user.beginTransition(state, PlayState.TransitionState.RESPAWN, false, DEFAULT_FADE_OUT_SPEED, 1.0f);
+				user.getTransitionManager().setOverrideSpawn(getPixelPosition());
+				user.getTransitionManager().setOverrideStart(defaultStartPoint);
+				user.getTransitionManager().beginTransition(state,
+						new Transition()
+								.setNextState(PlayState.TransitionState.RESPAWN)
+								.setFadeDelay(MEDIUM_FADE_DELAY));
 			}
 		}
 
@@ -191,13 +188,13 @@ public class ReviveGravestone extends Event {
 		float textY = entityLocation.y + returnMeter.getRegionHeight() * UI_SCALE + size.y / 2;
 
 		batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * UI_SCALE * returnDelayed, returnBar.getRegionHeight() * UI_SCALE);
-		HadalGame.FONT_SPRITE.draw(batch, user.getScores().getNameShort(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);
+		HadalGame.FONT_SPRITE.draw(batch, user.getStringManager().getNameShort(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);
 		batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * UI_SCALE, returnMeter.getRegionHeight() * UI_SCALE);
 	}
 
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		return new Packets.CreateGrave(entityID, connID, getPixelPosition(), returnMaxTimer);
+		return new Packets.CreateGrave(entityID, user.getConnID(), getPixelPosition(), returnMaxTimer);
 	}
 
 	@Override

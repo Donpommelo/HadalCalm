@@ -4,13 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.PacketUtil;
 
 import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
@@ -22,9 +21,9 @@ import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
  */
 public class PlayerSelfOnClient extends Player {
 
-	public PlayerSelfOnClient(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
-							  int connID, User user, boolean reset, Event start) {
-		super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
+	public PlayerSelfOnClient(PlayState state, Vector2 startPos, String name, PlayerBodyData oldData,
+							  User user, boolean reset, Event start) {
+		super(state, startPos, name, oldData, user, reset, start);
 	}
 
 	private float syncAccumulator;
@@ -50,9 +49,9 @@ public class PlayerSelfOnClient extends Player {
 					getMouseHelper().getPosition(),	adjustedTime, moveState,
 					PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
 					PacketUtil.percentToByte(getBodyData().getCurrentFuel() / getBodyData().getStat(Stats.MAX_FUEL)),
-					(byte) getPlayerData().getCurrentSlot(),
-					PacketUtil.percentToByte(getPlayerData().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f),
-					PacketUtil.percentToByte(getPlayerData().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f),
+					(byte) getEquipHelper().getCurrentSlot(),
+					PacketUtil.percentToByte(getEquipHelper().getCurrentTool().isReloading() ? getUiHelper().getReloadPercent() : -1.0f),
+					PacketUtil.percentToByte(getEquipHelper().getCurrentTool().isCharging() ? getUiHelper().getChargePercent() : -1.0f),
 					conditionCode));
 		}
 	}

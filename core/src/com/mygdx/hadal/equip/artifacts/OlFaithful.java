@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -25,17 +26,17 @@ public class OlFaithful extends Artifact {
 				if (state.getMode().isHub()) { return; }
 
 				UnlockEquip savedEquip = null;
-				if (p.getPlayer().equals(state.getPlayer())) {
+				if (p.getPlayer().getUser() == HadalGame.usm.getOwnUser()) {
 					savedEquip = UnlockEquip.getByName(state.getGsm().getLoadout().getEquip()[0]);
 				} else {
 					if (p.getPlayer().getUser() != null) {
-						savedEquip = p.getPlayer().getUser().getLastEquippedPrimary();
+						savedEquip = p.getPlayer().getUser().getLoadoutManager().getLastEquippedPrimary();
 					}
 				}
 				if (savedEquip != null) {
 					if (savedEquip != UnlockEquip.NOTHING) {
-						p.getMultitools()[0] = UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null);
-						p.pickup(UnlocktoItem.getUnlock(savedEquip, null));
+						p.getPlayer().getEquipHelper().getMultitools()[0] = UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null);
+						p.getPlayer().getEquipHelper().pickup(UnlocktoItem.getUnlock(savedEquip, null));
 					}
 				}
 			}

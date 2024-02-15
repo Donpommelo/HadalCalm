@@ -1,5 +1,6 @@
 package com.mygdx.hadal.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.actives.NothingActive;
@@ -23,9 +24,11 @@ public class UnlocktoItem {
 			return newWeapon;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
+			Gdx.app.error("Exception Initializing Weapon", unlock.name());
 		}
-		return new NothingWeapon(player);
+		Equippable newWeapon = new NothingWeapon(player);
+		newWeapon.setName(unlock.getName());
+		return newWeapon;
 	}
 	
 	public static ActiveItem getUnlock(UnlockActives unlock, Player player) {
@@ -35,8 +38,10 @@ public class UnlocktoItem {
 			return newActive;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
+			Gdx.app.error("Exception Initializing Active ITem", unlock.name());
 		}
-		return new NothingActive(player);
+		ActiveItem newActive = new NothingActive(player);
+		newActive.setName(unlock.getName());
+		return newActive;
 	}
 }

@@ -34,7 +34,7 @@ public class SpawnerScrap extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				PickupUtils.spawnScrap(state, state.getWorldDummy(), event.getPixelPosition(), new Vector2(0, 1),
+				PickupUtils.spawnScrap(state, p, event.getPixelPosition(), new Vector2(0, 1),
 						scrap, false, true);
 			}
 		};

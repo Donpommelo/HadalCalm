@@ -13,8 +13,7 @@ import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.users.*;
 import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
@@ -57,18 +56,21 @@ public class PlayerResultsIcon extends AHadalActor {
 	//has this player readied up?
 	private boolean ready;
 
-	public PlayerResultsIcon(SpriteBatch batch, SavedPlayerFields fields, SavedPlayerFieldsExtra fieldsExtra) {
-		this.name = UIText.RESULTS_INFO.text(fields.getNameAbridged(MAX_NAME_LENGTH), Integer.toString(fields.getKills()),
-				Integer.toString(fields.getDeaths()), Integer.toString(fields.getAssists()), Integer.toString(fields.getScore()));
+	public PlayerResultsIcon(SpriteBatch batch, User user) {
+		ScoreManager scoreManager = user.getScoreManager();
+		StringManager stringManager = user.getStringManager();
+		LoadoutManager loadoutManager = user.getLoadoutManager();
+		this.name = UIText.RESULTS_INFO.text(stringManager.getNameAbridged(MAX_NAME_LENGTH), Integer.toString(scoreManager.getKills()),
+				Integer.toString(scoreManager.getDeaths()), Integer.toString(scoreManager.getAssists()), Integer.toString(scoreManager.getScore()));
 
 		this.readyIcon = Sprite.EMOTE_READY.getFrame();
-		this.team = fieldsExtra.getLoadout().team;
-		this.character = fieldsExtra.getLoadout().character;
-		this.cosmetics = fieldsExtra.getLoadout().cosmetics;
+		this.team = loadoutManager.getActiveLoadout().team;
+		this.character = loadoutManager.getActiveLoadout().character;
+		this.cosmetics = loadoutManager.getActiveLoadout().cosmetics;
 
 		//if the player won the game, we display a winning sprite. Otherwise: sluggo.
 		Array<TextureRegion> playerSprite = new Array<>();
-		if (fields.isWonLast()) {
+		if (scoreManager.isWonLast()) {
 			playerSprite.addAll(character.getBuffSprite().getFrames());
 			this.iconWidth = character.getBuffSprite().getFrame().getRegionWidth() * SPRITE_SCALE;
 			this.iconHeight = character.getBuffSprite().getFrame().getRegionHeight() * SPRITE_SCALE;

@@ -46,7 +46,7 @@ public class ModeCapturetheFlag extends ModeSetting {
                     }
 
                     //if it is the bot's team's flag and is captured, we path towards it with high priority
-                    if (bot.getPlayerData().getLoadout().team == AlignmentFilter.currentTeams[flag.getTeamIndex()]) {
+                    if (bot.getUser().getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[flag.getTeamIndex()]) {
                         if (flag.isCaptured() || flag.isAwayFromSpawn()) {
                             bot.getBotController().setEventTarget(flag);
                             path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, objectiveLocation),
@@ -57,7 +57,7 @@ public class ModeCapturetheFlag extends ModeSetting {
                         //if this is the enemy's flag and the bot is capturing it, attempt to return home with high priority
                         if (flag.isCaptured()) {
                             if (bot.equals(flag.getTarget())) {
-                                FlagSpawner home = FLAG_SPAWNERS.get(bot.getPlayerData().getLoadout().team);
+                                FlagSpawner home = FLAG_SPAWNERS.get(bot.getUser().getLoadoutManager().getActiveLoadout().team);
                                 if (null != home) {
                                     bot.getBotController().setEventTarget(home);
                                     path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, home.getPosition()),

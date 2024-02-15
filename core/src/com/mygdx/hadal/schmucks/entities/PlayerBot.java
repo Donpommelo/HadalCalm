@@ -3,12 +3,11 @@ package com.mygdx.hadal.schmucks.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.bots.BotControllerPlayer;
 import com.mygdx.hadal.bots.BotPersonality;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Botting;
+import com.mygdx.hadal.users.User;
 
 /**
  * A PlayerBot is a player that is controlled by a bot
@@ -29,9 +28,9 @@ public class PlayerBot extends Player {
     private final Vector2 aimWobble = new Vector2(1, 0);
     private float currentWobble;
 
-    public PlayerBot(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData,
-                     int connID, User user, boolean reset, Event start) {
-        super(state, startPos, name, startLoadout, oldData, connID, user, reset, start);
+    public PlayerBot(PlayState state, Vector2 startPos, String name, PlayerBodyData oldData,
+                     User user, boolean reset, Event start) {
+        super(state, startPos, name, oldData, user, reset, start);
         this.botController = new BotControllerPlayer(this);
         this.personality = new BotPersonality(state.getMode().getBotDifficulty());
     }

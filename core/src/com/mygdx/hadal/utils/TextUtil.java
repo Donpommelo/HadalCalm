@@ -26,17 +26,13 @@ public class TextUtil {
     public static Vector3 getPlayerColor(Player player) {
 
         //return empty vector if player's data has not been created yet.
-        if (null != player.getPlayerData()) {
-            Loadout loadout = player.getPlayerData().getLoadout();
-            if (AlignmentFilter.NONE.equals(loadout.team)) {
-                return loadout.character.getPalette().getIcon().getRGB();
-            } else if (loadout.team.getPalette().getIcon().getRGB().isZero()) {
-                return loadout.character.getPalette().getIcon().getRGB();
-            } else {
-                return loadout.team.getPalette().getIcon().getRGB();
-            }
+        Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
+        if (AlignmentFilter.NONE.equals(loadout.team)) {
+            return loadout.character.getPalette().getIcon().getRGB();
+        } else if (loadout.team.getPalette().getIcon().getRGB().isZero()) {
+            return loadout.character.getPalette().getIcon().getRGB();
         } else {
-            return new Vector3();
+            return loadout.team.getPalette().getIcon().getRGB();
         }
     }
 

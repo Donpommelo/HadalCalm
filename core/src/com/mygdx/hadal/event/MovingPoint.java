@@ -70,12 +70,17 @@ public class MovingPoint extends Event {
 	private final Vector2 dist = new Vector2();
 	private final Vector2 targetPosition = new Vector2();
 	private final Vector2 tempConnectedPosition = new Vector2();
+
+	//we keep track of distance from target point. If our distance increases, we overshot the target.
+	private float lastDistLength;
 	@Override
 	public void controller(float delta) {
 		if (null != getConnectedEvent()) {
 			if (null != getConnectedEvent().getBody()) {
 				targetPosition.set(getConnectedEvent().getPosition());
 				dist.set(targetPosition).sub(getPosition());
+
+				float distLength = dist.len2();
 
 				//if distance is too great, set to move this and connected events towards connected event.
 				if (needsToStartMoving && dist.len2() > delta * delta * speed * speed) {
@@ -86,7 +91,11 @@ public class MovingPoint extends Event {
 					for (Event e : connected.keys()) {
 						e.setLinearVelocity(dist.nor().scl(speed));
 					}
-				} else if (!needsToStartMoving && dist.len2() < delta * delta * speed * speed) {
+				} else if (!needsToStartMoving && (dist.len2() < delta * delta * speed * speed ||
+						(0 != lastDistLength && lastDistLength < distLength))) {
+
+					//reset saved distance when changing target point
+					distLength = 0.0f;
 
 					//when we approach our target, tell the event that we need to set velocity again
 					needsToStartMoving = true;
@@ -126,6 +135,8 @@ public class MovingPoint extends Event {
 				for (ObjectMap.Entry<Event, Vector2> e : connected.entries()) {
 					connected.put(e.key, new Vector2(e.key.getPosition()).sub(getPosition()));
 				}
+
+				lastDistLength = distLength;
 			}
 		} 
 	}

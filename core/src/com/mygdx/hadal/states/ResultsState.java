@@ -34,8 +34,9 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
+import com.mygdx.hadal.users.LoadoutManager;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.UIText;
@@ -115,12 +116,12 @@ public class ResultsState extends GameState {
 	private final PlayState ps;
 
 	//This is a list of all the saved player fields (scores) from the completed playstate
-	private final Array<SavedPlayerFields> scores = new Array<>();
+	private final Array<User> users = new Array<>();
     private final Array<PlayerResultsIcon> icons = new Array<>();
 	private final Array<PooledEffect> effects = new Array<>();
 
     //This is a mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
-	private final ObjectMap<SavedPlayerFields, Boolean> ready = new ObjectMap<>();
+	private final ObjectMap<User, Boolean> ready = new ObjectMap<>();
 
 	//list of map options that the host can select as next map if not returning to hub
 	private final Array<UnlockLevel> nextMaps = new Array<>();
@@ -135,6 +136,7 @@ public class ResultsState extends GameState {
 	private final FrameBuffer fbo;
 	private final TextureRegion snapshot;
 	private final Shader shader;
+
 	/**
 	 * Constructor will be called whenever the game transitions into a results state
 	 * @param text: this is the string that is displayed at the top of the result state
@@ -151,30 +153,30 @@ public class ResultsState extends GameState {
 		//First, we obtain the list of scores
 		for (User user : HadalGame.usm.getUsers().values()) {
 			if (!user.isSpectator()) {
-				scores.add(user.getScores());
-				if (user.getScores().getConnID() == HadalGame.usm.getConnID()) {
-					won = user.getScores().isWonLast();
+				users.add(user);
+				if (user.getConnID() == HadalGame.usm.getConnID()) {
+					won = user.getScoreManager().isWonLast();
 				}
 			}
 		}
-		if (!scores.isEmpty()) {
-			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
+		if (!users.isEmpty()) {
+			gsm.getRecord().updateScore(users.get(0).getScoreManager().getScore(), ps.level);
 		}
 
 		//Then, we sort according to score and give the winner(s) a win. Being on the winning team overrides score
-		scores.sort((a, b) -> {
-			int cmp = (b.isWonLast() ? 1 : 0) - (a.isWonLast() ? 1 : 0);
-			if (cmp == 0) { cmp = b.getTeamScore() - a.getTeamScore(); }
-			if (cmp == 0) { cmp = b.getScore() - a.getScore(); }
-			if (cmp == 0) { cmp = b.getKills() - a.getKills(); }
-			if (cmp == 0) { cmp = a.getDeaths() - b.getDeaths(); }
+		users.sort((a, b) -> {
+			int cmp = (b.getScoreManager().isWonLast() ? 1 : 0) - (a.getScoreManager().isWonLast() ? 1 : 0);
+			if (cmp == 0) { cmp = b.getScoreManager().getTeamScore() - a.getScoreManager().getTeamScore(); }
+			if (cmp == 0) { cmp = b.getScoreManager().getScore() - a.getScoreManager().getScore(); }
+			if (cmp == 0) { cmp = b.getScoreManager().getKills() - a.getScoreManager().getKills(); }
+			if (cmp == 0) { cmp = a.getScoreManager().getDeaths() - b.getScoreManager().getDeaths(); }
 			return cmp;
 		});
 
 		//Finally we initialize the ready map with everyone set to not ready. Bots don't need to ready up
-		for (SavedPlayerFields score : scores) {
-			if (score.getConnID() >= 0) {
-				ready.put(score, false);
+		for (User user : users) {
+			if (user.getConnID() >= 0) {
+				ready.put(user, false);
 			}
 		}
 	}
@@ -394,58 +396,48 @@ public class ResultsState extends GameState {
 		title.setScale(RESULTS_SCALE);
 
 		//for each player, get their field and create a results icon for them
-		for (SavedPlayerFields score : scores) {
-			int connID = score.getConnID();
+		for (User user : users) {
+			int connID = user.getConnID();
 
-			SavedPlayerFields field = null;
-			SavedPlayerFieldsExtra fieldExtra = null;
-			User user = HadalGame.usm.getUsers().get(connID);
+			ScoreManager score = user.getScoreManager();
 
-			if (user != null) {
-				field = user.getScores();
-				fieldExtra = user.getScoresExtra();
+			//winners should have party particles over their head
+			PooledEffect effect = null;
+			if (score.isWonLast()) {
+				effect = Particle.PARTY.getParticle();
+				effects.add(effect);
 			}
 
-			if (field != null && fieldExtra != null) {
+			final PooledEffect finalEffect = effect;
+			PlayerResultsIcon icon = new PlayerResultsIcon(batch, user) {
 
-				//winners should have party particles over their head
-				PooledEffect effect = null;
-				if (field.isWonLast()) {
-					effect = Particle.PARTY.getParticle();
-					effects.add(effect);
-				}
-
-				final PooledEffect finalEffect = effect;
-				PlayerResultsIcon icon = new PlayerResultsIcon(batch, field, fieldExtra) {
-
-					@Override
-					public void draw(Batch batch, float alpha) {
-						super.draw(batch, alpha);
-						if (finalEffect != null) {
-							finalEffect.setPosition(getX() + PARTICLE_OFFSET_X, getY() + PARTICLE_OFFSET_Y);
-							finalEffect.draw(batch, 0.0f);
-							batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-						}
+				@Override
+				public void draw(Batch batch, float alpha) {
+					super.draw(batch, alpha);
+					if (finalEffect != null) {
+						finalEffect.setPosition(getX() + PARTICLE_OFFSET_X, getY() + PARTICLE_OFFSET_Y);
+						finalEffect.draw(batch, 0.0f);
+						batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 					}
-				};
-
-				//clicking the player's icon displays their post-game stats and loadout
-				icon.addListener(new ClickListener() {
-
-					@Override
-					public void clicked (InputEvent event, float x, float y) {
-						super.clicked(event, x, y);
-						syncInfoTable(score.getConnID());
-					}
-				});
-
-				tableCharacters.add(icon);
-				icons.add(icon);
-
-				//bots should automatically ready up
-				if (connID < 0) {
-					icon.setReady(true);
 				}
+			};
+
+			//clicking the player's icon displays their post-game stats and loadout
+			icon.addListener(new ClickListener() {
+
+				@Override
+				public void clicked (InputEvent event, float x, float y) {
+					super.clicked(event, x, y);
+					syncInfoTable(user.getConnID());
+				}
+			});
+
+			tableCharacters.add(icon);
+			icons.add(icon);
+
+			//bots should automatically ready up
+			if (connID < 0) {
+				icon.setReady(true);
 			}
 		}
 
@@ -468,18 +460,13 @@ public class ResultsState extends GameState {
 			tableInfo.clear();
 			tableArtifact.clear();
 
-			SavedPlayerFields field = null;
-			SavedPlayerFieldsExtra fieldExtra = null;
 			User user = HadalGame.usm.getUsers().get(connID);
 
-			if (user != null && !user.isSpectator()) {
-				field = user.getScores();
-				fieldExtra = user.getScoresExtra();
-			}
+			if (user != null) {
+				StatsManager statsManager = user.getStatsManager();
+				LoadoutManager loadoutManager = user.getLoadoutManager();
 
-			if (field != null && fieldExtra != null) {
-
-				infoPlayerName.setText(field.getNameAbridged(MAX_NAME_LENGTH_LONG));
+				infoPlayerName.setText(user.getStringManager().getNameAbridged(MAX_NAME_LENGTH_LONG));
 
 				Text damageDealtField = new Text(UIText.DAMAGE_DEALT.text());
 				damageDealtField.setScale(INFO_TEXT_SCALE);
@@ -493,16 +480,16 @@ public class ResultsState extends GameState {
 				Text damageReceivedField = new Text(UIText.DAMAGE_RECEIVED.text());
 				damageReceivedField.setScale(INFO_TEXT_SCALE);
 
-				Text damageDealt = new Text("" + (int) fieldExtra.getDamageDealt());
+				Text damageDealt = new Text("" + (int) statsManager.getDamageDealt());
 				damageDealt.setScale(INFO_TEXT_SCALE);
 
-				Text damageAlly = new Text("" + (int) fieldExtra.getDamageDealtAllies());
+				Text damageAlly = new Text("" + (int) statsManager.getDamageDealtAllies());
 				damageAlly.setScale(INFO_TEXT_SCALE);
 
-				Text damageSelf = new Text("" + (int) fieldExtra.getDamageDealtSelf());
+				Text damageSelf = new Text("" + (int) statsManager.getDamageDealtSelf());
 				damageSelf.setScale(INFO_TEXT_SCALE);
 
-				Text damageReceived = new Text("" + (int) fieldExtra.getDamageReceived());
+				Text damageReceived = new Text("" + (int) statsManager.getDamageReceived());
 				damageReceived.setScale(INFO_TEXT_SCALE);
 
 				tableInfo.add(damageDealtField).height(INFO_ROW_HEIGHT).padBottom(INFO_PAD_Y);
@@ -518,33 +505,30 @@ public class ResultsState extends GameState {
 				tableInfo.add(damageReceived).height(INFO_ROW_HEIGHT).padBottom(INFO_PAD_Y).row();
 
 				//display player's weapons, artifacts and active items (if synced properly)
-				if (fieldExtra.getLoadout() != null) {
-
-					for (UnlockArtifact c : fieldExtra.getLoadout().artifacts) {
-						if (!UnlockArtifact.NOTHING.equals(c) && !c.isInvisible()) {
-							ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),
-									ARTIFACT_TAG_OFFSET_X, ARTIFACT_TAG_OFFSET_Y, ARTIFACT_TAG_TARGET_WIDTH);
-							tableArtifact.add(newTag).width(ARTIFACT_TAG_SIZE).height(ARTIFACT_TAG_SIZE);
-						}
+				for (UnlockArtifact c : loadoutManager.getActiveLoadout().artifacts) {
+					if (!UnlockArtifact.NOTHING.equals(c) && !c.isInvisible()) {
+						ArtifactIcon newTag = new ArtifactIcon(c, c.getName() + "\n" + c.getDesc(),
+								ARTIFACT_TAG_OFFSET_X, ARTIFACT_TAG_OFFSET_Y, ARTIFACT_TAG_TARGET_WIDTH);
+						tableArtifact.add(newTag).width(ARTIFACT_TAG_SIZE).height(ARTIFACT_TAG_SIZE);
 					}
-
-					for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
-						if (!UnlockEquip.NOTHING.equals(fieldExtra.getLoadout().multitools[i])) {
-							Text weaponField = new Text(UIText.RESULT_WEAPON.text((i + 1) + ": "));
-							weaponField.setScale(INFO_TEXT_SCALE);
-							Text weapon = new Text(fieldExtra.getLoadout().multitools[i].getName());
-							weapon.setScale(INFO_TEXT_SCALE);
-							tableInfo.add(weaponField).height(INFO_ROW_HEIGHT).left().padBottom(INFO_PAD_Y_SMALL);
-							tableInfo.add(weapon).height(INFO_ROW_HEIGHT).left().padBottom(INFO_PAD_Y_SMALL).row();
-						}
-					}
-					Text activeField = new Text(UIText.RESULT_ACTIVE.text());
-					activeField.setScale(INFO_TEXT_SCALE);
-					Text active = new Text(fieldExtra.getLoadout().activeItem.getName());
-					active.setScale(INFO_TEXT_SCALE);
-					tableInfo.add(activeField).height(INFO_ROW_HEIGHT).left().padBottom(INFO_PAD_Y_SMALL);
-					tableInfo.add(active).height(INFO_ROW_HEIGHT).left().padBottom(INFO_PAD_Y_SMALL).row();
 				}
+
+				for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
+					if (!UnlockEquip.NOTHING.equals(loadoutManager.getActiveLoadout().multitools[i])) {
+						Text weaponField = new Text(UIText.RESULT_WEAPON.text((i + 1) + ": "));
+						weaponField.setScale(INFO_TEXT_SCALE);
+						Text weapon = new Text(loadoutManager.getActiveLoadout().multitools[i].getName());
+						weapon.setScale(INFO_TEXT_SCALE);
+						tableInfo.add(weaponField).height(INFO_ROW_HEIGHT).left().padBottom(INFO_PAD_Y_SMALL);
+						tableInfo.add(weapon).height(INFO_ROW_HEIGHT).left().padBottom(INFO_PAD_Y_SMALL).row();
+					}
+				}
+				Text activeField = new Text(UIText.RESULT_ACTIVE.text());
+				activeField.setScale(INFO_TEXT_SCALE);
+				Text active = new Text(loadoutManager.getActiveLoadout().activeItem.getName());
+				active.setScale(INFO_TEXT_SCALE);
+				tableInfo.add(activeField).height(INFO_ROW_HEIGHT).left().padBottom(INFO_PAD_Y_SMALL);
+				tableInfo.add(active).height(INFO_ROW_HEIGHT).left().padBottom(INFO_PAD_Y_SMALL).row();
 			} else {
 				infoPlayerName.setText("");
 			}
@@ -562,9 +546,8 @@ public class ResultsState extends GameState {
 			//The server finds the player that readies, sets their readiness and informs all clients by sending that player's index
 			User user = HadalGame.usm.getUsers().get(playerID);
 			if (user != null && !user.isSpectator()) {
-				SavedPlayerFields field = user.getScores();
-				ready.put(field, true);
-				int iconID = scores.indexOf(field, false);
+				ready.put(user, true);
+				int iconID = users.indexOf(user, false);
 				icons.get(iconID).setReady(true);
 
 				HadalGame.server.sendToAllTCP(new Packets.ClientReady(iconID));
@@ -572,7 +555,7 @@ public class ResultsState extends GameState {
 		} else {
 
 			//Clients just find the player based on that index and sets them as ready.
-			ready.put(scores.get(playerID), true);
+			ready.put(users.get(playerID), true);
 			icons.get(playerID).setReady(true);
 		}
 
@@ -604,8 +587,8 @@ public class ResultsState extends GameState {
 					gsm.gotoHubState(TitleState.class);
 				} else {
 					UnlockLevel nextLevel = nextMaps.get(nextMapNames.getSelectedIndex());
-					gsm.addPlayState(nextLevel, ps.mode, new Loadout(gsm.getLoadout()), null, LobbyState.class, true, "");
-					gsm.addPlayState(nextLevel, ps.mode, new Loadout(gsm.getLoadout()), null, TitleState.class, true, "");
+					gsm.addPlayState(nextLevel, ps.mode, LobbyState.class, true, "");
+					gsm.addPlayState(nextLevel, ps.mode, TitleState.class, true, "");
 				}
 			});
 		}

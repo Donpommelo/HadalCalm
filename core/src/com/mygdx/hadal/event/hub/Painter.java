@@ -9,7 +9,9 @@ import com.mygdx.hadal.actors.HubOptionPlayer;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.FrameBufferManager;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
@@ -48,12 +50,14 @@ public class Painter extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 
+		Loadout loadout = HadalGame.usm.getOwnUser().getLoadoutManager().getActiveLoadout();
+
 		//if we need to reload sprites (due to character change), clear existing sprites and begin loading new sprites
-		if (lastCharacter != state.getPlayer().getPlayerData().getLoadout().character) {
+		if (lastCharacter != loadout.character) {
 			FrameBufferManager.clearUnusedFrameBuffers();
 			sprites.clear();
 
-			lastCharacter = state.getPlayer().getPlayerData().getLoadout().character;
+			lastCharacter = loadout.character;
 
 			for (AlignmentFilter c : AlignmentFilter.values()) {
 				if (c.isTeam()) {
@@ -80,13 +84,18 @@ public class Painter extends HubEvent {
 			if (!loadingCharacters.isEmpty()) {
 				final UIHub hub = state.getUiHub();
 
+				Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+				if (null == ownPlayer) { return; }
+				if (null == ownPlayer.getPlayerData()) { return; }
+
 				AlignmentFilter selected = loadingCharacters.removeIndex(0);
 				HubOptionPlayer option;
 				if (AlignmentFilter.NONE.equals(selected)) {
-					option = new HubOptionPlayer(selected.toString(), state.getPlayer(), lastCharacter, selected,
+					option = new HubOptionPlayer(selected.toString(), ownPlayer, lastCharacter, selected,
 							false, null);
 				} else {
-					option = new HubOptionPlayer(selected.getColoredAdjective(), state.getPlayer(),	lastCharacter, selected,
+					option = new HubOptionPlayer(selected.getColoredAdjective(), ownPlayer,	lastCharacter, selected,
 							false, null);
 				}
 				option.setOptionWidth(OPTION_WIDTH).setOptionHeight(OPTION_HEIGHT);
@@ -100,15 +109,13 @@ public class Painter extends HubEvent {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						if (state.getPlayer().getPlayerData() == null) { return; }
-
 						if (state.isServer()) {
-							state.getPlayer().getPlayerData().setTeam(selected);
-							state.getPlayer().getPlayerData().syncServerTeamChange(selected);
+							ownPlayer.getCosmeticsHelper().setTeam(selected);
+							ownPlayer.getCosmeticsHelper().syncServerTeamChange(selected);
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncTeamClient(selected));
 						}
-						state.getGsm().getLoadout().setTeam(selected.toString());
+						state.getGsm().getLoadout().setTeam(HadalGame.usm.getOwnUser(), selected.toString());
 					}
 				});
 

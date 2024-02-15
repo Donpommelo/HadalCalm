@@ -260,10 +260,10 @@ public class UIExtra extends AHadalActor {
 			int scoreNum = 0;
 			for (User user : state.getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
-					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ")
-							.append(alignScoreText(user.getScores().getNameShort(), String.valueOf(user.getScores().getScore()),
+					text.append(user.getStringManager().getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ")
+							.append(alignScoreText(user.getStringManager().getNameShort(), String.valueOf(user.getScoreManager().getScore()),
 									MAX_NAME_LENGTH_SHORT, MAX_CHARACTERS))
-							.append(user.getScores().getScore()).append("\n");
+							.append(user.getScoreManager().getScore()).append("\n");
 					scoreNum++;
 					if (MAX_SCORES < scoreNum) {
 						break;
@@ -305,7 +305,7 @@ public class UIExtra extends AHadalActor {
 					if (!user.isSpectator()) {
 						if (null != user.getPlayer()) {
 							if (user.getPlayer().isAlive()) {
-								if (user.getPlayer().getStartLoadout().team == AlignmentFilter.currentTeams[i]) {
+								if (user.getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[i]) {
 									numAlive++;
 								}
 							}
@@ -334,10 +334,10 @@ public class UIExtra extends AHadalActor {
 			int scoreNum = 0;
 			for (User user : state.getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
-					text.append(user.getNameAbridgedColored(MAX_NAME_LENGTH_SUPER_SHORT)).append(": ")
-						.append(alignScoreText(user.getScores().getNameShort(), UIText.UI_GUNGAME.text(Integer.toString(user.getScores().getScore()), Integer.toString(ModeGunGame.weaponOrder.length)),
+					text.append(user.getStringManager().getNameAbridgedColored(MAX_NAME_LENGTH_SUPER_SHORT)).append(": ")
+						.append(alignScoreText(user.getStringManager().getNameShort(), UIText.UI_GUNGAME.text(Integer.toString(user.getScoreManager().getScore()), Integer.toString(ModeGunGame.weaponOrder.length)),
 								MAX_NAME_LENGTH_SUPER_SHORT, MAX_CHARACTERS))
-						.append(UIText.UI_GUNGAME.text(Integer.toString(user.getScores().getScore()), Integer.toString(ModeGunGame.weaponOrder.length))).append("\n");
+						.append(UIText.UI_GUNGAME.text(Integer.toString(user.getScoreManager().getScore()), Integer.toString(ModeGunGame.weaponOrder.length))).append("\n");
 					scoreNum++;
 					if (MAX_SCORES < scoreNum) {
 						break;

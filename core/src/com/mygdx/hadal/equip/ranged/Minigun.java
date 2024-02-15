@@ -82,7 +82,7 @@ public class Minigun extends RangedWeapon {
 
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
-		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool())
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getEquipHelper().getCurrentTool())
 				&& !reloading && getClipLeft() > 0;
 
 		boolean charging = shooting && user.getUiHelper().getChargePercent() < 1.0f;

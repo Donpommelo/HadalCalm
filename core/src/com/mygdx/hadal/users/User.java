@@ -1,22 +1,9 @@
 package com.mygdx.hadal.users;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.server.SavedPlayerFieldsExtra;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * A User represents a user playing the game, whether they are host or not.
@@ -25,193 +12,65 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  */
 public class User {
 
+    private final int connID;
+    private int ping;
+
     //player info and relevant score information
     private Player player;
-    private final SavedPlayerFields scores;
-    private final SavedPlayerFieldsExtra scoresExtra;
+
+    //managers keep track of loadout, name and transition state respectively
+    private final LoadoutManager loadoutManager;
+    private final StringManager stringManager;
+    private final TransitionManager transitionManager;
+
+    //Keeps track of player's score as well as in-game stats
+    private ScoreManager scoreManager;
+    private StatsManager statsManager;
 
     //has this player's score been updated? (used to sync score window)
     private boolean scoreUpdated;
 
-    //is this player muted
+    //is this player muted?
     private boolean muted;
 
     //is the player a spectator?
     private boolean spectator;
 
     //player's hbox filter (for free for all pvp)
-    private AlignmentFilter hitBoxFilter;
+    private AlignmentFilter hitboxFilter;
 
     //the player's selected team alignment
     private AlignmentFilter teamFilter = AlignmentFilter.NONE;
 
-    //player's primary weapon in their last saved loadout. Only used for clients for the effect of a single artifact
-    private UnlockEquip lastEquippedPrimary = UnlockEquip.NOTHING;
+    private boolean teamAssigned;
 
-    //the state this user is transitioning to (null if not transitioning)
-    private TransitionState nextState;
-
-    //the start point this user will respawn at next. Used to draw particles at the point prior to respawning
-    private Event startPoint;
-
-    //used when the player is spawned at a set location instead of using a start point (for matryoshka mode instant repawn)
-    private final Vector2 overrideSpawnLocation = new Vector2();
-    private boolean spawnOverridden, startOverridden;
-
-    public User(Player player, SavedPlayerFields scores, SavedPlayerFieldsExtra scoresExtra) {
-        this.player = player;
-        this.scores = scores;
-        this.scoresExtra = scoresExtra;
+    public User(int connID, String name, Loadout loadout) {
+        this.connID = connID;
+        this.loadoutManager = new LoadoutManager(loadout);
+        this.scoreManager = new ScoreManager();
+        this.statsManager = new StatsManager();
+        this.stringManager = new StringManager(this, name);
+        this.transitionManager = new TransitionManager(this);
         scoreUpdated = true;
 
-        hitBoxFilter = AlignmentFilter.getUnusedAlignment();
+        hitboxFilter = AlignmentFilter.getUnusedAlignment();
     }
 
-    private static final float SPAWN_FOREWARN = 2.0f;
-    private float transitionTime;
-    private boolean spawnForewarned;
+    /**
+     * User controller is run in PlayState and keeps track of things like respawn transitions
+     */
     public void controller(PlayState state, float delta) {
-
-        //we keep track of each user's transition duration, so that we can make them respawn at the correct time
-        if (nextState != null) {
-            transitionTime -= delta;
-
-            //briefly before respawning, we want to flash particles at prospective spawn location
-            if (transitionTime <= SPAWN_FOREWARN && !spawnForewarned) {
-                if (TransitionState.RESPAWN.equals(nextState)) {
-                    spawnForewarned = true;
-
-                    if (!startOverridden) {
-                        startPoint = state.getSavePoint(this);
-                    }
-
-                    if (spawnOverridden) {
-                        new ParticleEntity(state, new Vector2(overrideSpawnLocation).sub(0, startPoint.getSize().y),
-                                Particle.TELEPORT_PRE, SPAWN_FOREWARN, true, SyncType.CREATESYNC);
-                    } else {
-                        new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
-                                Particle.TELEPORT_PRE, SPAWN_FOREWARN, true, SyncType.CREATESYNC);
-                    }
-                }
-            }
-            if (transitionTime <= 0.0f) {
-                if (TransitionState.RESPAWN.equals(nextState)) {
-                    respawn(state);
-                }
-                nextState = null;
-            }
-        }
-    }
-
-    /**
-     * This is run when a user transitions to another state.
-     * @param state: the play state
-     * @param nextState: the transitionState they are following
-     * @param override: does this change override an existing transition
-     * @param fadeSpeed: the speed at which the screen will fade out
-     * @param fadeDelay: the delay in seconds before the screen fades out. If -1, indicates conditional respawn; not timed
-     */
-    public void beginTransition(PlayState state, TransitionState nextState, boolean override, float fadeSpeed, float fadeDelay) {
-        if (override || this.nextState == null) {
-
-            if (fadeDelay == -1) {
-                this.nextState = null;
-            } else {
-                this.nextState = nextState;
-                this.transitionTime = fadeDelay + 1.0f / fadeSpeed;
-                this.spawnForewarned = false;
-            }
-
-            if (scores.getConnID() == 0) {
-                if (override || state.getNextState() == null) {
-                    state.beginTransition(nextState, fadeSpeed, fadeDelay);
-                }
-            } else {
-                HadalGame.server.sendToTCP(scores.getConnID(), new Packets.ClientStartTransition(nextState, fadeSpeed, fadeDelay));
-            }
-        }
-    }
-
-    /**
-     * This is run when a player respawns.
-     * Create their new player character
-     * @param state: the play state
-     */
-    public void respawn(PlayState state) {
-        if (scores.getConnID() == 0) {
-
-            //Create a new player
-            short hitboxFilter = getHitBoxFilter().getFilter();
-            state.setPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), player.getPlayerData().getLoadout(),
-                    player.getPlayerData(),0, this, true, false, false, hitboxFilter));
-
-            //focus camera on start point unless otherwise specified
-            if (!player.isDontMoveCamera()) {
-                state.getCamera().position.set(new Vector3(startPoint.getStartPos().x, startPoint.getStartPos().y, 0));
-                state.getCameraFocusAimVector().setZero();
-            }
-
-            ((PlayerController) state.getController()).setPlayer(player);
-        } else {
-            if (player != null) {
-                //alive check prevents duplicate players if entering/respawning simultaneously
-                if (!player.isAlive()) {
-                    String playerName = player.getName();
-                    HadalGame.server.createNewClientPlayer(state, scores.getConnID(), playerName, player.getPlayerData().getLoadout(),
-                            player.getPlayerData(), true, false, false, startPoint);
-                }
-            } else {
-                //player is respawning from spectator and has no player
-                HadalGame.server.createNewClientPlayer(state, scores.getConnID(), scores.getNameShort(), scoresExtra.getLoadout(),
-                        null, true, false, false, startPoint);
-            }
-        }
+        transitionManager.controller(state, delta);
     }
 
     /**
      * Run when entering a new level
-     * This makes sure things like saved start points are reset
+     * This makes sure things like saved start points, score, stats are reset
      */
     public void newLevelReset() {
-        scores.newLevelReset();
-        nextState = null;
-        startPoint = null;
-        spawnOverridden = false;
-        startOverridden = false;
-    }
-
-    public void setOverrideSpawn(Vector2 overrideSpawn) {
-        overrideSpawnLocation.set(overrideSpawn);
-        spawnOverridden = true;
-    }
-
-    public void setOverrideStart(Event event) {
-        startPoint = event;
-        startOverridden = true;
-    }
-
-    private static final Vector3 rgb = new Vector3();
-    /**
-     * This returns an abridged version of the user's name
-     * Additionally, the name will be colored according to the user's alignment
-     * @param maxNameLen: Max length of name. Any more will be abridged with ellipses
-     * @return the modified name
-     */
-    public String getNameAbridgedColored(int maxNameLen) {
-        String displayedName = scores.getNameShort();
-
-        if (displayedName.length() > maxNameLen) {
-            displayedName = displayedName.substring(0, maxNameLen).concat("-");
-        }
-
-        if (teamFilter.getPalette().getIcon().getRGB().isZero()) {
-            rgb.setZero();
-        } else {
-            rgb.set(teamFilter.getPalette().getIcon().getRGB());
-        }
-
-        String hex = "#" + Integer.toHexString(Color.rgb888(rgb.x, rgb.y, rgb.z));
-        return "[" + hex + "]" + displayedName + "[]";
+        transitionManager.newLevelReset();
+        scoreManager.newLevelReset();
+        statsManager.newLevelReset();
     }
 
     /**
@@ -220,26 +79,50 @@ public class User {
      */
     public static class UserDto {
 
-        public SavedPlayerFields scores;
-        public SavedPlayerFieldsExtra scoresExtra;
+        public ScoreManager scores;
+        public StatsManager stats;
+        public Loadout loadout;
+        public String name;
+        public int connID, ping;
         public boolean spectator;
 
         public UserDto() {}
 
-        public UserDto(SavedPlayerFields scores, SavedPlayerFieldsExtra scoresExtra, boolean spectator) {
+        public UserDto(ScoreManager scores, StatsManager stats, Loadout loadout, String name, int connID, int ping, boolean spectator) {
             this.scores = scores;
-            this.scoresExtra = scoresExtra;
+            this.stats = stats;
+            this.loadout = loadout;
+            this.name = name;
+            this.connID = connID;
+            this.ping = ping;
             this.spectator = spectator;
         }
     }
+
 
     public Player getPlayer() { return player; }
 
     public void setPlayer(Player player) { this.player = player; }
 
-    public SavedPlayerFields getScores() { return scores; }
+    public int getPing() { return ping; }
 
-    public SavedPlayerFieldsExtra getScoresExtra() { return scoresExtra; }
+    public void setPing(int ping) { this.ping = ping; }
+
+    public int getConnID() { return connID; }
+
+    public ScoreManager getScoreManager() { return scoreManager; }
+
+    public void setScoreManager(ScoreManager scoreManager) { this.scoreManager = scoreManager; }
+
+    public StatsManager getStatsManager() { return statsManager; }
+
+    public void setStatsManager(StatsManager statsManager) { this.statsManager = statsManager; }
+
+    public LoadoutManager getLoadoutManager() { return loadoutManager; }
+
+    public StringManager getStringManager() { return stringManager; }
+
+    public TransitionManager getTransitionManager() { return transitionManager; }
 
     public boolean isScoreUpdated() { return scoreUpdated; }
 
@@ -253,19 +136,15 @@ public class User {
 
     public void setSpectator(boolean spectator) { this.spectator = spectator; }
 
-    public AlignmentFilter getHitBoxFilter() { return hitBoxFilter; }
+    public AlignmentFilter getHitboxFilter() { return hitboxFilter; }
 
-    public void setHitBoxFilter(AlignmentFilter hitBoxFilter) { this.hitBoxFilter = hitBoxFilter; }
+    public void setHitboxFilter(AlignmentFilter hitboxFilter) { this.hitboxFilter = hitboxFilter; }
 
     public AlignmentFilter getTeamFilter() { return teamFilter; }
 
     public void setTeamFilter(AlignmentFilter teamFilter) { this.teamFilter = teamFilter; }
 
-    public Vector2 getOverrideSpawnLocation() { return overrideSpawnLocation; }
+    public boolean isTeamAssigned() { return teamAssigned; }
 
-    public boolean isSpawnOverridden() { return spawnOverridden; }
-
-    public UnlockEquip getLastEquippedPrimary() { return lastEquippedPrimary; }
-
-    public void setLastEquippedPrimary(UnlockEquip lastEquippedPrimary) { this.lastEquippedPrimary = lastEquippedPrimary; }
+    public void setTeamAssigned(boolean teamAssigned) { this.teamAssigned = teamAssigned; }
 }

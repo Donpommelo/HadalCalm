@@ -18,6 +18,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -347,8 +348,12 @@ public class UIHub {
 		
 		boolean artifactsEmpty = true;
 
-		if (null != state.getPlayer().getPlayerData()) {
-			for (UnlockArtifact c : state.getPlayer().getPlayerData().getLoadout().artifacts) {
+		Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+		if (null == ownPlayer) { return; }
+
+		if (null != ownPlayer.getPlayerData()) {
+			for (UnlockArtifact c : ownPlayer.getUser().getLoadoutManager().getActiveLoadout().artifacts) {
 
 				//display all equipped artifacts and give option to unequip
 				if (!UnlockArtifact.NOTHING.equals(c)) {
@@ -361,7 +366,7 @@ public class UIHub {
 						@Override
 						public void clicked(InputEvent e, float x, float y) {
 							if (state.isServer()) {
-								state.getPlayer().getPlayerData().removeArtifact(newTag.getArtifact(), false);
+								ownPlayer.getArtifactHelper().removeArtifact(newTag.getArtifact(), false);
 							} else {
 								HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactRemoveClient(newTag.getArtifact()));
 							}
@@ -389,7 +394,7 @@ public class UIHub {
 			tableExtra.row();
 
 			Text slotsInfo = new Text(UIText.SLOTS_REMAINING.text(
-					Integer.toString(state.getPlayer().getPlayerData().getArtifactSlotsRemaining())));
+					Integer.toString(ownPlayer.getArtifactHelper().getArtifactSlotsRemaining())));
 			slotsInfo.setScale(0.5f);
 			tableExtra.add(slotsInfo).pad(INFO_PAD).colspan(12).row();
 		}

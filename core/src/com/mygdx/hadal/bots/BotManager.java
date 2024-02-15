@@ -10,18 +10,20 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.users.Transition;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.WorldUtil;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
 
 /**
  * BotManager contains various utility methods for bot players.
@@ -38,8 +40,14 @@ public class BotManager {
      */
     public static void initiateBots(PlayState state) {
         for (User user : HadalGame.usm.getUsers().values()) {
-            if (0 > user.getScores().getConnID()) {
-                initiateBot(state, user);
+            if (0 > user.getConnID()) {
+                user.getTransitionManager().beginTransition(state,
+                        new Transition()
+                                .setNextState(PlayState.TransitionState.RESPAWN)
+                                .setFadeDelay(LONG_FADE_DELAY)
+                                .setFadeSpeed(0.0f)
+                                .setForewarnTime(LONG_FADE_DELAY)
+                                .setSpawnForewarned(true));
             }
         }
     }
@@ -366,16 +374,5 @@ public class BotManager {
             }, sourceLocation, endLocation);
         }
         return shortestFraction;
-    }
-
-    /**
-     * This initiates a single bot player, setting up their loadout and score
-     */
-    private static void initiateBot(PlayState state, User user) {
-        Player newPlayer = state.createPlayer(null, user.getScores().getName(), user.getScoresExtra().getLoadout(),
-                null, user.getScores().getConnID(), user, true, false, false,
-                user.getHitBoxFilter().getFilter());
-        user.setPlayer(newPlayer);
-        user.setSpectator(false);
     }
 }

@@ -11,6 +11,9 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 
+/**
+ * MovementJumpHelper manages the player's jumping as well as hovering
+ */
 public class MovementJumpHelper {
 
     private static final float HOVER_CD = 0.08f;
@@ -46,6 +49,9 @@ public class MovementJumpHelper {
         }
     }
 
+    /**
+     * User's own player processes buffered jumps
+     */
     public void controller(float delta) {
         jumpCdCount -= delta;
 
@@ -56,6 +62,9 @@ public class MovementJumpHelper {
         }
     }
 
+    /**
+     * All players process executing jump based on jump flag
+     */
     public void controllerUniversal(float delta, Vector2 playerPosition) {
         if (jumping) {
             if (jumpEffectCount <= 0.0f) {
@@ -128,6 +137,11 @@ public class MovementJumpHelper {
         jumping = true;
     }
 
+    /**
+     * This process visual effects of jumping and hovering.
+     * This is run for all players for host and client, based on whether the player is jumping or not.
+     * This allows us to manage particles independently
+     */
     private void jumpEffect(Vector2 playerPosition) {
         if (!player.getEffectHelper().isInvisible()) {
             ParticleEntity entity;

@@ -10,7 +10,6 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.*;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.map.GameMode;
@@ -21,12 +20,12 @@ import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.PlayerConditionUtil;
 import com.mygdx.hadal.utils.WorldUtil;
@@ -77,6 +76,12 @@ public class Player extends Schmuck {
 	private final PingHelper pingHelper;
 	private final SpecialWeaponHelper specialWeaponHelper;
 
+	private final LoadoutHelper loadoutHelper;
+	private final LoadoutEquipHelper equipHelper;
+	private final LoadoutArtifactHelper artifactHelper;
+	private final LoadoutMagicHelper magicHelper;
+	private final LoadoutCosmeticsHelper cosmeticsHelper;
+
 	private TextureRegion toolSprite;
 
 	//Foot data for checking groundedness
@@ -94,11 +99,7 @@ public class Player extends Schmuck {
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
 	
-	//This is the loadout that this player starts with.
-	private final Loadout startLoadout;
-	
 	//This is the connection id and user of the player (0 if server)
-	private int connID;
 	private User user;
 	
 	//should we reset this player's playerData stuff upon creation
@@ -112,29 +113,32 @@ public class Player extends Schmuck {
 	 * @param state: current gameState
 	 * @param startPos: the player's starting location
 	 * @param name: the player's name
-	 * @param startLoadout: This is the player's starting loadout
 	 * @param oldData: If created after a stage transition, this is the data of the previous player.
-	 * @param connID: connection id. 0 if server.
+	 * @param user: The user this player belongs to
 	 * @param reset: do we reset the player's stats after creating them?
 	 * @param start: the start point that the player spawns at.
 	 */
-	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID,
-				  User user, boolean reset, Event start) {
+	public Player(PlayState state, Vector2 startPos, String name, PlayerBodyData oldData, User user, boolean reset, Event start) {
 		super(state, startPos, new Vector2(HB_WIDTH * SCALE, HB_HEIGHT * SCALE), name, BodyConstants.PLAYER_HITBOX, BASE_HP);
 		this.name = name;
 		toolSprite = Sprite.MT_DEFAULT.getFrame();
 
 		this.moveState = MoveState.STAND;
 
-		this.startLoadout = startLoadout;
 		this.playerData = oldData;
-		this.connID = connID;
 		this.user = user;
 		this.reset = reset;
 		this.start = start;
 
-		this.spriteHelper = new PlayerSpriteHelper(this, SCALE);
-		setBodySprite(startLoadout.character, startLoadout.team);
+		this.spriteHelper = new PlayerSpriteHelper(state, this, SCALE);
+
+		this.loadoutHelper = new LoadoutHelper(this);
+		this.equipHelper = new LoadoutEquipHelper(this);
+		this.artifactHelper = new LoadoutArtifactHelper(this);
+		this.magicHelper = new LoadoutMagicHelper(this);
+		this.cosmeticsHelper = new LoadoutCosmeticsHelper(this);
+
+		setBodySprite(user.getLoadoutManager().getActiveLoadout().character, user.getLoadoutManager().getActiveLoadout().team);
 
 		this.effectHelper = new PlayerEffectHelper(state, this);
 		this.uiHelper = new PlayerUIHelper(state, this);
@@ -161,11 +165,9 @@ public class Player extends Schmuck {
 	public void setBodySprite(UnlockCharacter character, AlignmentFilter team) {
 
 		spriteHelper.setBodySprite(state.getBatch(), character, team);
-		
+
 		//This line is used when the player swaps skins in loadout screen. It ensures the tool sprite is properly aligned.
-		if (playerData != null) {
-			playerData.setEquip();
-		}
+		equipHelper.setEquip();
 	}
 	
 	/**
@@ -180,32 +182,30 @@ public class Player extends Schmuck {
 		controller = new ActionController(this);
 		
 		//this line syncs the player's inputs so that holding a button will keep that action held after map transitions
-		if (this == state.getPlayer()) {
+		if (this == HadalGame.usm.getOwnPlayer()) {
 			state.resetController();
 		}
 		
 		//this makes the player's selected slot persist after respawning
-		int currentSlot = 1;
-		if (playerData != null) {
-			currentSlot = playerData.getCurrentSlot() + 1;
-		}
-		
+		int currentSlot = equipHelper.getCurrentSlot() + 1;
+
 		//If resetting, this indicates that this is a newly spawned or respawned player. Create new data for it with the provided loadout.
 		//Otherwise, take the input data and reset it to match the new world.
 		//Null is just for safety. Not needed b/c playerData should only be null when resetting,
 		//(no existing player or joining from specatator)
 		if (reset || playerData == null) {
-			playerData = new PlayerBodyData(this, startLoadout);
+			playerData = new PlayerBodyData(this);
 		}
 
 		//If the player is spawning into a new level, initialize loadout and give brief invulnerability.
 		if (reset) {
-			playerData.initLoadout();
+			loadoutHelper.initLoadout();
 			playerData.addStatus(new Invulnerability(state, 2.0f, playerData, playerData));
 		} else {
 			playerData.updateOldData(this);
+			loadoutHelper.updateOldData(playerData);
 		}
-		playerData.switchWeapon(currentSlot);
+		equipHelper.switchWeapon(currentSlot);
 
 		//Activate on-spawn effects
 		if (reset) {
@@ -245,7 +245,7 @@ public class Player extends Schmuck {
 		body.setMassData(newMass);
 
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
-		if (!state.isServer() && this.equals(state.getPlayer())) {
+		if (!state.isServer() && this.equals(HadalGame.usm.getOwnPlayer())) {
 			Packets.ClientPlayerCreated connected = new Packets.ClientPlayerCreated();
             HadalGame.client.sendTCP(connected);
 		}
@@ -253,7 +253,7 @@ public class Player extends Schmuck {
 		//activate start point events (these usually just set up camera bounds/zoom and stuff like that)
 		//This line is here so that it does not occur before events are done being created.
 		//We only do this for our own player. For clients, this is run when they send a player created packet
-		if (this.equals(state.getPlayer())) {
+		if (this.equals(HadalGame.usm.getOwnPlayer())) {
 			activateStartingEvents();
 		}
 	}
@@ -308,7 +308,7 @@ public class Player extends Schmuck {
 
 		//charge active item in all modes except campaign (where items charge by dealing damage).
 		if (!GameMode.CAMPAIGN.equals(state.getMode())) {
-			playerData.getActiveItem().gainCharge(delta);
+			magicHelper.getMagic().gainCharge(delta);
 		}
 	}
 
@@ -342,15 +342,15 @@ public class Player extends Schmuck {
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		playerData.getActiveItem().mouseClicked(0, state, getPlayerData(), hitboxFilter, mouseHelper.getPixelPosition());
-		playerData.getActiveItem().execute(state, getPlayerData());
+		magicHelper.getMagic().mouseClicked(0, state, getPlayerData(), hitboxFilter, mouseHelper.getPixelPosition());
+		magicHelper.getMagic().execute(state, getPlayerData());
 	}
 	
 	/**
 	 * Player begins reloading.
 	 */
 	public void reload() {
-		playerData.getCurrentTool().setReloading(true, false);
+		equipHelper.getCurrentTool().setReloading(true, false);
 	}
 	
 	@Override
@@ -368,12 +368,14 @@ public class Player extends Schmuck {
 		boolean visible = false;
 		
 		//draw hp and fuel bar if using certain effects, looking at self/ally, or in spectator mode
-		if (state.isSpectatorMode() || hitboxFilter == state.getPlayer().hitboxFilter) {
+		if (state.isSpectatorMode() || user.getHitboxFilter() == HadalGame.usm.getOwnUser().getHitboxFilter()) {
 			visible = true;
 		} else {
-			if (state.getPlayer().getPlayerData() != null) {
-				if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
-					visible = true;
+			if (null != HadalGame.usm.getOwnPlayer()) {
+				if (null != HadalGame.usm.getOwnPlayer().getPlayerData()) {
+					if (HadalGame.usm.getOwnPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
+						visible = true;
+					}
 				}
 			}
 		}
@@ -396,7 +398,7 @@ public class Player extends Schmuck {
 	 */
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		return new Packets.CreatePlayer(entityID, connID, getPixelPosition(), name, playerData.getLoadout(),
+		return new Packets.CreatePlayer(entityID, user.getConnID(), getPixelPosition(), name, user.getLoadoutManager().getActiveLoadout(),
 				hitboxFilter, scaleModifier, dontMoveCamera);
 	}
 
@@ -405,7 +407,8 @@ public class Player extends Schmuck {
 	private DamageSource damageSource = DamageSource.MISC;
 	private DamageTag[] damageTags = new DamageTag[] {};
 	@Override
-	public Object onServerDelete() { return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
+	public Object onServerDelete() {
+		return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
 
 	/**
 	 * This is called every engine tick. 
@@ -417,14 +420,14 @@ public class Player extends Schmuck {
 	public void onServerSync() {
 
 		short conditionCode = getConditionCode();
-		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayerSnapshot((byte) connID,
+		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayerSnapshot((byte) user.getConnID(),
 				getPosition(), getLinearVelocity(),	mouseHelper.getPosition(),
 				state.getTimer(), moveState,
 				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
 				PacketUtil.percentToByte(getBodyData().getCurrentFuel() / getBodyData().getStat(Stats.MAX_FUEL)),
-				(byte) playerData.getCurrentSlot(),
-				PacketUtil.percentToByte(playerData.getCurrentTool().isReloading() ? uiHelper.getReloadPercent() : -1.0f),
-				PacketUtil.percentToByte(playerData.getCurrentTool().isCharging() ? uiHelper.getChargePercent() : -1.0f),
+				(byte) equipHelper.getCurrentSlot(),
+				PacketUtil.percentToByte(equipHelper.getCurrentTool().isReloading() ? uiHelper.getReloadPercent() : -1.0f),
+				PacketUtil.percentToByte(equipHelper.getCurrentTool().isCharging() ? uiHelper.getChargePercent() : -1.0f),
 				conditionCode));
 	}
 
@@ -443,25 +446,31 @@ public class Player extends Schmuck {
 			getBodyData().setCurrentFuel(PacketUtil.byteToPercent(p.fuelPercent) * getBodyData().getStat(Stats.MAX_FUEL));
 
 			mouseHelper.setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
-			getPlayerData().setCurrentSlot(p.currentSlot);
-			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
-			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
+			equipHelper.setCurrentSlot(p.currentSlot);
+			equipHelper.setCurrentTool(equipHelper.getMultitools()[p.currentSlot]);
+			setToolSprite(equipHelper.getCurrentTool().getWeaponSprite().getFrame());
 
 			float reloadPercent = PacketUtil.byteToPercent(p.reloadPercent);
-			getPlayerData().getCurrentTool().setReloading(reloadPercent != -1.0f, true);
+			equipHelper.getCurrentTool().setReloading(reloadPercent != -1.0f, true);
 			uiHelper.setReloadPercent(reloadPercent);
-			getPlayerData().getCurrentTool().setReloadCd(reloadPercent);
+			equipHelper.getCurrentTool().setReloadCd(reloadPercent);
 
 			float chargePercent = PacketUtil.byteToPercent(p.chargePercent);
-			getPlayerData().getCurrentTool().setCharging(chargePercent != -1.0f);
+			equipHelper.getCurrentTool().setCharging(chargePercent != -1.0f);
 			uiHelper.setChargePercent(chargePercent);
-			getPlayerData().getCurrentTool().setChargeCd(chargePercent);
+			equipHelper.getCurrentTool().setChargeCd(chargePercent);
 
 			processConditionCode(p.conditionCode);
 		} else if (o instanceof Packets.DeletePlayer p) {
 
 			//if the client is told to delete another player, process their death.
-			if (!(this instanceof PlayerSelfOnClient)) {
+			if (this instanceof PlayerSelfOnClient) {
+
+				//for self-deleting, we only listen to server in the case of disconnect (including becoming spectator)
+				if (p.source.equals(DamageSource.DISCONNECT)) {
+					getPlayerData().die(state.getWorldDummy().getBodyData(), p.source, p.tags);
+				}
+			} else {
 				HadalEntity entity = state.findEntity(p.uuidMSBPerp, p.uuidLSBPerp);
 				if (entity instanceof Schmuck perp) {
 					getPlayerData().die(perp.getBodyData(), p.source, p.tags);
@@ -567,7 +576,7 @@ public class Player extends Schmuck {
 				effectHelper.isInvisible(),
 				effectHelper.isTranslucent(),
 				effectHelper.isTransparent(),
-				playerData.getCurrentTool().isReloading(),
+				equipHelper.getCurrentTool().isReloading(),
 				shootHelper.isShooting(),
 				uiHelper.isTyping());
 	}
@@ -591,12 +600,6 @@ public class Player extends Schmuck {
 
 	public ActionController getController() { return controller; }
 	
-	public Loadout getStartLoadout() { return startLoadout; }
-
-	public int getConnID() { return connID;	}
-
-	public void setConnID(int connID) { this.connID = connID; }
-
 	public User getUser() { return user; }
 
 	public void setUser(User user) { this.user = user; }
@@ -636,6 +639,16 @@ public class Player extends Schmuck {
 	public PingHelper getPingHelper() { return pingHelper; }
 
 	public SpecialWeaponHelper getSpecialWeaponHelper() { return specialWeaponHelper; }
+
+	public LoadoutHelper getLoadoutHelper() { return loadoutHelper; }
+
+	public LoadoutEquipHelper getEquipHelper() { return equipHelper; }
+
+	public LoadoutArtifactHelper getArtifactHelper() { return artifactHelper; }
+
+	public LoadoutMagicHelper getMagicHelper() { return magicHelper; }
+
+	public LoadoutCosmeticsHelper getCosmeticsHelper() { return cosmeticsHelper; }
 
 	public void setPerpID(UUID perpID) { this.perpID = perpID; }
 

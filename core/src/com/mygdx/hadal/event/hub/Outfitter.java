@@ -13,6 +13,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 
@@ -37,15 +38,18 @@ public class Outfitter extends HubEvent {
 
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-					if (state.getPlayer().getPlayerData() == null) { return; }
+					Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+					if (null == ownPlayer) { return; }
+					if (null == ownPlayer.getPlayerData()) { return; }
 
 					//selecting outfit equips its weapons/artifacts/active item
 					if (state.isServer()) {
-						state.getPlayer().getPlayerData().syncLoadout(new Loadout(selected), false, false);
-						state.getGsm().getLoadout().setLoadout(selected);
-						state.getPlayer().getPlayerData().syncServerWholeLoadoutChange();
+						ownPlayer.getLoadoutHelper().syncLoadout(new Loadout(selected), false, false);
+						state.getGsm().getLoadout().setLoadout(HadalGame.usm.getOwnUser(), selected);
+						ownPlayer.getLoadoutHelper().syncServerWholeLoadoutChange();
 					} else {
-						HadalGame.client.sendTCP(new PacketsLoadout.SyncWholeLoadout(state.getPlayer().getConnID(), new Loadout(selected), false));
+						HadalGame.client.sendTCP(new PacketsLoadout.SyncWholeLoadout(ownPlayer.getUser().getConnID(), new Loadout(selected), false));
 					}
 				}
 

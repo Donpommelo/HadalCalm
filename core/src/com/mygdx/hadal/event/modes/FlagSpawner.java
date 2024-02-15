@@ -99,8 +99,8 @@ public class FlagSpawner extends Event {
         if (CHECK_INTERVAL <= controllerCount) {
             controllerCount = 0.0f;
             for (HadalEntity entity : eventData.getSchmucks()) {
-                if (entity instanceof FlagCapturable flag) {
-                    flag.checkCapture(this);
+                if (entity instanceof FlagCapturable flagCapturable) {
+                    flagCapturable.checkCapture(this);
                 }
             }
         }

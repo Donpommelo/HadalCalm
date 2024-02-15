@@ -54,6 +54,9 @@ public class PlayerChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				PlayerBodyData data = p.getPlayerData();
+
+				if (null == data) { return; }
+
 				boolean activated = false;
 				
 				if (data.getCurrentFuel() < data.getStat(Stats.MAX_FUEL) && fuel > 0) {
@@ -71,8 +74,8 @@ public class PlayerChanger extends Event {
 					SoundEffect.MAGIC21_HEAL.playSourced(state, p.getPixelPosition(), 0.3f);
 				}
 				
-				if (data.getCurrentTool().getAmmoLeft() < data.getCurrentTool().getAmmoSize() && ammo > 0) {
-					data.getCurrentTool().gainAmmo(ammo);
+				if (p.getEquipHelper().getCurrentTool().getAmmoLeft() < p.getEquipHelper().getCurrentTool().getAmmoSize() && ammo > 0) {
+					p.getEquipHelper().getCurrentTool().gainAmmo(ammo);
 					activated = true;
 					
 					SoundEffect.LOCKANDLOAD.playSourced(state, p.getPixelPosition(), 0.8f);
@@ -87,7 +90,7 @@ public class PlayerChanger extends Event {
 				}
 				
 				if (ammo < 0) {
-					data.getCurrentTool().gainAmmo(ammo);
+					p.getEquipHelper().getCurrentTool().gainAmmo(ammo);
 					activated = true;
 				}
 				

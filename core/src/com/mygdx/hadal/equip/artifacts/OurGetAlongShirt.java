@@ -100,7 +100,7 @@ public class OurGetAlongShirt extends Artifact {
 				if (!attached) {
 					attached = true;
 					links = SyncedAttack.OUR_GET_ALONG_SHIRT.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
-							new Vector2[] {}, new Vector2[] {}, partner.getConnID());
+							new Vector2[] {}, new Vector2[] {}, partner.getUser().getConnID());
 				}
 			}
 		}.setServerOnly(true);

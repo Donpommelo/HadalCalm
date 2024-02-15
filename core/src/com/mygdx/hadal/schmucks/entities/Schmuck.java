@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
@@ -111,7 +112,7 @@ public class Schmuck extends HadalEntity {
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncSchmuck p) {
-			if (!this.equals(state.getPlayer())) {
+			if (!this.equals(HadalGame.usm.getOwnPlayer())) {
 				moveState = p.moveState;
 			}
 			getBodyData().setCurrentHp(PacketUtil.byteToPercent(p.hpPercent) * getBodyData().getStat(Stats.MAX_HP));

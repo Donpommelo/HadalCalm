@@ -203,7 +203,7 @@ public class UISpectator extends AHadalActor {
                 if (null != nextUser.getPlayer().getBody() && nextUser.getPlayer().isAlive()) {
                     spectatorUser = nextUser;
                     spectatorTarget = nextUser.getPlayer();
-                    targetId = spectatorTarget.getConnID();
+                    targetId = nextUser.getConnID();
 
                     //sync ui so it shows info for your spectating target
                     state.getUiExtra().syncUIText(UITag.uiType.ALL);

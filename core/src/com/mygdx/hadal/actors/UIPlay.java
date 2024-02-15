@@ -4,13 +4,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * This is the main ui element. It displays player loadout, hp, fuel.
@@ -123,16 +124,20 @@ public class UIPlay extends AHadalActor {
 	 * This is in a separate method b/c so client's version (UIPlayClient) can use some overridden values
 	 */
 	public void calcVars() {
+		Player player = HadalGame.usm.getOwnPlayer();
+
 		//Calc the fields needed to draw the bars
-		if (null != state.getPlayer().getPlayerData()) {
-			hpRatio = state.getPlayer().getPlayerData().getCurrentHp() / state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
-			hpMax = state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
-			fuelRatio = state.getPlayer().getPlayerData().getCurrentFuel() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
-			fuelCutoffRatio = state.getPlayer().getAirblastHelper().getAirblastCost() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
-			weaponText = state.getPlayer().getPlayerData().getCurrentTool().getText();
-			ammoText = state.getPlayer().getPlayerData().getCurrentTool().getAmmoText();
-			numWeaponSlots = state.getPlayer().getPlayerData().getNumWeaponSlots();
-			activePercent = state.getPlayer().getPlayerData().getActiveItem().chargePercent();
+		if (null != player) {
+			if (null != player.getPlayerData()) {
+				hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
+				hpMax = player.getPlayerData().getStat(Stats.MAX_HP);
+				fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getStat(Stats.MAX_FUEL);
+				fuelCutoffRatio = player.getAirblastHelper().getAirblastCost() / player.getPlayerData().getStat(Stats.MAX_FUEL);
+				weaponText = player.getEquipHelper().getCurrentTool().getText();
+				ammoText = player.getEquipHelper().getCurrentTool().getAmmoText();
+				numWeaponSlots = player.getEquipHelper().getNumWeaponSlots();
+				activePercent = player.getMagicHelper().getMagic().chargePercent();
+			}
 		}
 
 		if (bossFight && null != boss.getBody()) {
@@ -197,7 +202,11 @@ public class UIPlay extends AHadalActor {
 					BOSS_BAR_WIDTH, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
 		}
 
-		if (null == state.getPlayer().getPlayerData()) { return; }
+		Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+		if (null == ownPlayer) { return; }
+		if (null == ownPlayer.getPlayerData()) { return; }
+		if (!ownPlayer.isAlive()) { return; }
 
 		//hide rest of ui if specified in settings. We don't want to hide boss ui.
 		if (state.getGsm().getSetting().isHideHUD()) { return; }
@@ -217,12 +226,12 @@ public class UIPlay extends AHadalActor {
 		batch.draw(fuelCutoff, MAIN_X + BAR_X + fuelCutoffRatio * fuelWidthScaled,
 			MAIN_Y + FUEL_BAR_Y, fuelCutoffWidthScaled, fuelCutoffHeightScaled);
 
-		if (state.getPlayer().getPlayerData().getCurrentTool().isReloading()) {
+		if (ownPlayer.getEquipHelper().getCurrentTool().isReloading()) {
 			batch.draw(reloading, MAIN_X, MAIN_Y, getWidth(), getHeight());
 		}
 
 		HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
-		HadalGame.FONT_UI.draw(batch, state.getPlayer().getPlayerData().getCurrentTool().getName(),
+		HadalGame.FONT_UI.draw(batch, ownPlayer.getEquipHelper().getCurrentTool().getName(),
 		MAIN_X + 48, MAIN_Y + 90, 100, -1, true);
 
 		//we want to use a smaller font for high clip size weapons
@@ -238,11 +247,11 @@ public class UIPlay extends AHadalActor {
 		
 		for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
 			if (i < numWeaponSlots) {
-				if (state.getPlayer().getPlayerData().getMultitools()[i] == null ||
-						state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
+				if (ownPlayer.getEquipHelper().getMultitools()[i] == null ||
+						ownPlayer.getEquipHelper().getMultitools()[i] instanceof NothingWeapon) {
 					batch.draw(itemNull.get(i), MAIN_X, MAIN_Y, getWidth(), getHeight());
 				} else {
-					if (i == state.getPlayer().getPlayerData().getCurrentSlot()) {
+					if (i == ownPlayer.getEquipHelper().getCurrentSlot()) {
 						batch.draw(itemSelect.get(i), MAIN_X, MAIN_Y, getWidth(), getHeight());
 					} else {
 						batch.draw(itemUnselect.get(i), MAIN_X, MAIN_Y, getWidth(), getHeight());
@@ -252,7 +261,7 @@ public class UIPlay extends AHadalActor {
 		}
 
 		//draw active item ui and charge indicator
-		HadalGame.FONT_UI.draw(batch, state.getPlayer().getPlayerData().getActiveItem().getName(),
+		HadalGame.FONT_UI.draw(batch, ownPlayer.getMagicHelper().getMagic().getName(),
 				ACTIVE_X, MAIN_Y + activeHeightScaled + ACTIVE_TEXT_Y);
 		if (1.0f <= activePercent) {
 			batch.draw(hp, ACTIVE_X, ACTIVE_Y, activeWidthScaled, activeHeightScaled * activePercent);

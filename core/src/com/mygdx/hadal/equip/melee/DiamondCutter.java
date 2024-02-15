@@ -63,7 +63,7 @@ public class DiamondCutter extends MeleeWeapon {
 	private boolean shootingLast;
 	@Override
 	public void processEffects(PlayState state, float delta, Vector2 playerPosition) {
-		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getPlayerData().getCurrentTool());
+		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getEquipHelper().getCurrentTool());
 
 		if (shooting) {
 			if (sawSound == null) {

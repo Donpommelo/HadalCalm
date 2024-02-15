@@ -65,16 +65,6 @@ public class ActionController {
 	
 	public void keyDown(PlayerAction action, boolean onReset) {
 		if (player == null) return;
-
-		//when spectating, host interact activates the map's designated "spectator event", if existant
-		if (player.getState().isServer() && player.equals(player.getState().getPlayer()) && player.getState().isSpectatorMode()) {
-			if (action == PlayerAction.INTERACT) {
-				if (player.getState().getSpectatorActivation() != null) {
-					player.getState().getSpectatorActivation().getEventData().onInteract(player);
-				}
-			}
-		}
-
 		if (player.getPlayerData() == null) return;
 
 		if (action == PlayerAction.WALK_LEFT) {
@@ -118,25 +108,25 @@ public class ActionController {
 			player.getAirblastHelper().airblast();
 		}
 		else if (action == PlayerAction.SWITCH_TO_LAST) {
-			player.getPlayerData().switchToLast();
+			player.getEquipHelper().switchToLast();
 		}
 		else if (action == PlayerAction.SWITCH_TO_1) {
-			player.getPlayerData().switchWeapon(1);
+			player.getEquipHelper().switchWeapon(1);
 		}
 		else if (action == PlayerAction.SWITCH_TO_2) {
-			player.getPlayerData().switchWeapon(2);
+			player.getEquipHelper().switchWeapon(2);
 		}
 		else if (action == PlayerAction.SWITCH_TO_3) {
-			player.getPlayerData().switchWeapon(3);
+			player.getEquipHelper().switchWeapon(3);
 		}
 		else if (action == PlayerAction.SWITCH_TO_4) {
-			player.getPlayerData().switchWeapon(4);
+			player.getEquipHelper().switchWeapon(4);
 		}
 		else if (action == PlayerAction.WEAPON_CYCLE_UP) {
-			player.getPlayerData().switchUp();
+			player.getEquipHelper().switchUp();
 		}
 		else if (action == PlayerAction.WEAPON_CYCLE_DOWN) {
-			player.getPlayerData().switchDown();
+			player.getEquipHelper().switchDown();
 		}
 		else if (action == PlayerAction.PING) {
 			player.getPingHelper().ping();
