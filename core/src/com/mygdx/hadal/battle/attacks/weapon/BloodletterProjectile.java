@@ -30,10 +30,10 @@ public class BloodletterProjectile extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(500, 400);
     public static final float LIFESPAN = 0.5f;
-    public static final float BASE_DAMAGE = 19.0f;
+    public static final float BASE_DAMAGE = 17.5f;
     public static final float HEAL_MULTIPLIER = 0.25f;
     public static final float HEAL_MULTIPLIER_ENEMY = 0.08f;
-    private static final float KNOCKBACK = -7.0f;
+    private static final float KNOCKBACK = -9.0f;
 
     public static final Vector2 CANDY_SIZE = new Vector2(30, 30);
     public static final float CANDY_DURATION = 20.0f;

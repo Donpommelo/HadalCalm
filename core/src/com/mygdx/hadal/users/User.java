@@ -40,7 +40,7 @@ public class User {
     private AlignmentFilter hitboxFilter;
 
     //the player's selected team alignment
-    private AlignmentFilter teamFilter = AlignmentFilter.NONE;
+    private AlignmentFilter teamFilter;
 
     private boolean teamAssigned;
 
@@ -54,6 +54,7 @@ public class User {
         scoreUpdated = true;
 
         hitboxFilter = AlignmentFilter.getUnusedAlignment();
+        teamFilter = loadout.team;
     }
 
     /**

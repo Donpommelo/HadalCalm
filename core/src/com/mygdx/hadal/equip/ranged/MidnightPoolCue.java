@@ -16,13 +16,15 @@ import com.mygdx.hadal.states.PlayState;
 
 public class MidnightPoolCue extends RangedWeapon {
 
-	private static final int CLIP_SIZE = 16;
+	private static final int CLIP_SIZE = 8;
 	private static final int AMMO_SIZE = 80;
 	private static final float SHOOT_CD = 0.0f;
-	private static final float RELOAD_TIME = 1.9f;
+	private static final float RELOAD_TIME = 1.1f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 12.0f;
 	private static final float MAX_CHARGE = 0.3f;
+
+	private static final int NUM_BALLS = 16;
 
 	//keeps track of attack speed without input buffer doing an extra mouse click
 	private static final float INNATE_ATTACK_COOLDOWN = 0.25f;
@@ -37,6 +39,8 @@ public class MidnightPoolCue extends RangedWeapon {
 	private float innateAttackCdCount;
 
 	private SoundEntity chargeSound;
+
+	private int poolNum;
 
 	public MidnightPoolCue(Player user) {
 		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
@@ -76,9 +80,12 @@ public class MidnightPoolCue extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Player user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float charge = chargeCd / getChargeTime();
-		SyncedAttack.POOL_BALL.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge);
+		SyncedAttack.POOL_BALL.initiateSyncedAttackSingle(state, user, startPosition, startVelocity, charge, poolNum);
 
 		innateAttackCdCount = INNATE_ATTACK_COOLDOWN * (1 - user.getBodyData().getStat(Stats.TOOL_SPD));
+
+		//this cycles through the ball sprites
+		poolNum = (poolNum + 1) % NUM_BALLS;
 	}
 
 	@Override

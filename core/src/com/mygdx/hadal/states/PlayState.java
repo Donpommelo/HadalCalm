@@ -193,7 +193,8 @@ public class PlayState extends GameState {
 	public static final float SPRITE_ANIMATION_SPEED_SLOW = 0.15f;
 	public static final float SPRITE_ANIMATION_SPEED = 0.08f;
 	public static final float SPRITE_ANIMATION_SPEED_FAST = 0.04f;
-	
+	public static final float SPRITE_ANIMATION_SPEED_SUPER_FAST = 0.02f;
+
 	//Special designated events parsed from map.
 	// Event run when a timer runs out or spectating host presses their interact button
 	private Event globalTimer, spectatorActivation;

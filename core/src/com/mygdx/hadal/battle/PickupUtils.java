@@ -19,7 +19,6 @@ public class PickupUtils {
      */
     public static void spawnScrap(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                   int amount, boolean statCheck, boolean score) {
-        System.out.println("SCRAP SPAWNED");
         float countScore = score ? 1.0f : 0.0f;
 
         int modifiedAmount = amount;
