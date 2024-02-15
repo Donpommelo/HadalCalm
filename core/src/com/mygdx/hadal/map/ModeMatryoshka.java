@@ -63,7 +63,7 @@ public class ModeMatryoshka extends ModeSetting {
                         user.getTransitionManager().beginTransition(state,
                                 new Transition()
                                         .setNextState(PlayState.TransitionState.RESULTS)
-                                        .setFadeDelay(state.getRespawnTime())
+                                        .setFadeDelay(state.getRespawnTime(vic))
                                         .setOverride(true));
                     }
                 }

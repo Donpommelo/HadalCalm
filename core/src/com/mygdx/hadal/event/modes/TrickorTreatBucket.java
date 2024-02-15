@@ -43,6 +43,8 @@ public class TrickorTreatBucket extends Event {
 
     private final boolean mirror;
 
+    private boolean lightSet;
+
     public TrickorTreatBucket(PlayState state, Vector2 startPos, Vector2 size, int teamIndex, boolean mirror) {
         super(state, startPos, size);
         this.teamIndex = teamIndex;
@@ -70,22 +72,7 @@ public class TrickorTreatBucket extends Event {
                 .setBodyType(BodyDef.BodyType.KinematicBody)
                 .addToWorld(world);
 
-        HadalColor color = HadalColor.NOTHING;
-        if (teamIndex < AlignmentFilter.currentTeams.length) {
-            color = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
-
-            ParticleEntity fire = new ParticleEntity(state, this, Particle.GHOST_LIGHT, 0, 0, true,
-                    SyncType.NOSYNC).setColor(color);
-
-            fire.setOffset((mirror ? -1 : 1) * BUCKET_FIRE_OFFSETX, BUCKET_FIRE_OFFSETY);
-
-            if (!state.isServer()) {
-                ((ClientState) state).addEntity(fire.getEntityID(), fire, false, ClientState.ObjectLayer.EFFECT);
-            }
-        }
-
-        state.getUiObjective().addObjective(this, Sprite.CANDY_BUCKET, color,
-                true, false, true);
+        setLightColor();
     }
 
     @Override
@@ -104,7 +91,15 @@ public class TrickorTreatBucket extends Event {
 
     @Override
     public void render(SpriteBatch batch, Vector2 entityLocation) {
-        int enemyCandyCount = AlignmentFilter.teamScores[teamIndex];
+        int enemyCandyCount;
+
+        //we need to check teamIndex since clients may not receive team info before event is created
+        if (teamIndex >= AlignmentFilter.teamScores.length) {
+            enemyCandyCount = 0;
+        } else {
+            enemyCandyCount = AlignmentFilter.teamScores[teamIndex];
+        }
+        
         Sprite bucketSprite = 0 < enemyCandyCount ? Sprite.CANDY_STAND : Sprite.CANDY_STAND_EMPTY;
 
         batch.draw(bucketSprite.getFrame(),
@@ -112,7 +107,30 @@ public class TrickorTreatBucket extends Event {
                 entityLocation.y - BUCKET_HEIGHT * BUCKET_SIZE_SCALE / 2,
                 BUCKET_WIDTH * BUCKET_SIZE_SCALE / 2, BUCKET_HEIGHT * BUCKET_SIZE_SCALE / 2,
                 BUCKET_WIDTH * BUCKET_SIZE_SCALE, BUCKET_HEIGHT * BUCKET_SIZE_SCALE, mirror ? -1 : 1, 1, 0);
+
+        if (!lightSet) {
+            setLightColor();
+        }
     }
+
+    public void setLightColor() {
+        if (teamIndex < AlignmentFilter.currentTeams.length) {
+            HadalColor color = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
+
+            ParticleEntity fire = new ParticleEntity(state, this, Particle.GHOST_LIGHT, 0, 0, true,
+                    SyncType.NOSYNC).setColor(color);
+
+            fire.setOffset((mirror ? -1 : 1) * BUCKET_FIRE_OFFSETX, BUCKET_FIRE_OFFSETY);
+
+            if (!state.isServer()) {
+                ((ClientState) state).addEntity(fire.getEntityID(), fire, false, ClientState.ObjectLayer.EFFECT);
+            }
+
+            state.getUiObjective().addObjective(this, Sprite.CANDY_BUCKET, color,true, false, true);
+            lightSet = true;
+        }
+    }
+
     public int getTeamIndex() { return teamIndex; }
 
     @Override

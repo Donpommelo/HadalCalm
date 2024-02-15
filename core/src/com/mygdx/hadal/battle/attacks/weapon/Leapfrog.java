@@ -24,7 +24,7 @@ public class Leapfrog extends SyncedAttacker {
     public static final Vector2 PROJECTILE_SIZE = new Vector2(75, 32);
     public static final Vector2 SPRITE_SIZE = new Vector2(100, 100);
     public static final float LIFESPAN = 50.0f;
-    public static final float BASE_DAMAGE = 39.0f;
+    public static final float BASE_DAMAGE = 32.0f;
     private static final float RECOIL = 6.0f;
     private static final float KNOCKBACK = 30.0f;
     private static final float FLASH_LIFESPAN = 0.5f;
@@ -91,7 +91,8 @@ public class Leapfrog extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.LEAPFROGGER,
-                DamageTag.WHACKING, DamageTag.RANGED));
+                DamageTag.WHACKING, DamageTag.RANGED)
+                .setRepeatable(true));
         hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f).setSynced(false));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

@@ -18,6 +18,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -57,8 +58,11 @@ public class CrownHoldable extends Event {
 		setSynced(true);
 		setReliableCreate(true);
 
-		new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
+		ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
 				.setColor(HadalColor.GOLDEN_YELLOW);
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+		}
 
 		//make objective marker track this event
 		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT,true, false, false);

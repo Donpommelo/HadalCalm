@@ -19,10 +19,10 @@ public class PickupUtils {
      */
     public static void spawnScrap(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                   int amount, boolean statCheck, boolean score) {
-
+        System.out.println("SCRAP SPAWNED");
         float countScore = score ? 1.0f : 0.0f;
 
-        int modifiedAmount = 0;
+        int modifiedAmount = amount;
 
         if (user instanceof Player player) {
             if (statCheck && null != player.getPlayerData()) {
@@ -32,8 +32,6 @@ public class PickupUtils {
                 } else {
                     modifiedAmount = (int) (amount * (1 + player.getPlayerData().getStat(Stats.EXTRA_SCRAP)));
                 }
-            } else {
-                modifiedAmount = amount;
             }
         }
 

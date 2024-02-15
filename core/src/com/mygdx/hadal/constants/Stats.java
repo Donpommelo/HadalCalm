@@ -62,4 +62,5 @@ public class Stats {
 	public static final int HOVER_CONTROL = 49;
 	public static final int MAX_HP_PERCENT = 50;
 	public static final int VISION_RADIUS = 51;
+	public static final int RESPAWN_TIME = 52;
 }

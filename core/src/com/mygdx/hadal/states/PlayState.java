@@ -25,6 +25,7 @@ import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
@@ -1448,7 +1449,11 @@ public class PlayState extends GameState {
 		shaderTile = shader;
 		shaderTile.loadShader();
 	}
-	
+
+	public float getRespawnTime(Player p) {
+		return respawnTime * (1.0f + p.getPlayerData().getStat(Stats.RESPAWN_TIME));
+	}
+
 	/**
 	 * Player enters spectator mode. Set up spectator camera and camera bounds
 	 */
@@ -1517,8 +1522,6 @@ public class PlayState extends GameState {
 	public float getTimer() {return timer; }
 	
 	public void setTimer(float timer) { this.timer = timer; }
-
-	public float getRespawnTime() { return respawnTime; }
 
 	public void setRespawnTime(float respawnTime) {	this.respawnTime = respawnTime; }
 

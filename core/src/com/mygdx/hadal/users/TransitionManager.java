@@ -57,6 +57,12 @@ public class TransitionManager {
                     particlesSpawned = true;
 
                     if (spawnForewarned) {
+
+                        //this avoids forewarn particles persisting after respawn if respawn is too fast
+                        if (forewarnTime > transitionTime && transitionTime > 0.0f) {
+                            forewarnTime = transitionTime;
+                        }
+
                         if (spawnOverridden) {
                             new ParticleEntity(state, new Vector2(overrideSpawnLocation).sub(0, startPoint.getSize().y),
                                     Particle.TELEPORT_PRE, forewarnTime, true, SyncType.CREATESYNC);
@@ -124,7 +130,7 @@ public class TransitionManager {
                 if (transition.isOverride() || state.getNextState() == null) {
                     state.beginTransition(nextState, transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade());
                 }
-            } else {
+            } else if (user.getConnID() > 0) {
                 HadalGame.server.sendToTCP(user.getConnID(), new Packets.ClientStartTransition(nextState,
                         transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade(), clientStartPosition));
             }

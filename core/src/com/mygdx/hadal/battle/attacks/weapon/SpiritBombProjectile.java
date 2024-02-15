@@ -43,7 +43,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
     private static final float TARGET_CHECK_RADIUS = 3.2f;
     private static final float WARNING_TIME = 1.0f;
 
-    private static final float SPIRIT_HOMING = 40;
+    private static final float SPIRIT_HOMING = 50;
     private static final int HOME_RADIUS = 30;
 
     private static final Sprite PROJ_SPRITE = Sprite.SPIRIT_BOMB_IDLE;

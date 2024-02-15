@@ -70,7 +70,6 @@ public class SettingLives extends ModeSetting {
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
         int startLives = livesChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedLives;
-
         if (startLives != 0) {
             for (User user : HadalGame.usm.getUsers().values()) {
                 user.getScoreManager().setLives(startLives);
@@ -90,11 +89,12 @@ public class SettingLives extends ModeSetting {
         if (vic != null) {
             User user = vic.getUser();
             if (user != null) {
+
                 if (unlimitedLives) {
                     user.getTransitionManager().beginTransition(state,
                             new Transition()
                                     .setNextState(PlayState.TransitionState.RESPAWN)
-                                    .setFadeDelay(state.getRespawnTime())
+                                    .setFadeDelay(state.getRespawnTime(vic))
                                     .setForewarnTime(LONG_FADE_DELAY)
                                     .setSpawnForewarned(true));
                 } else {
@@ -104,7 +104,7 @@ public class SettingLives extends ModeSetting {
                     } else {
                         user.getTransitionManager().beginTransition(state, new Transition()
                                 .setNextState(PlayState.TransitionState.RESPAWN)
-                                .setFadeDelay(state.getRespawnTime())
+                                .setFadeDelay(state.getRespawnTime(vic))
                                 .setForewarnTime(LONG_FADE_DELAY)
                                 .setSpawnForewarned(true));
                     }

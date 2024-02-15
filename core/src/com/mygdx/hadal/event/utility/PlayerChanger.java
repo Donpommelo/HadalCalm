@@ -54,6 +54,9 @@ public class PlayerChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				PlayerBodyData data = p.getPlayerData();
+
+				if (null == data) { return; }
+
 				boolean activated = false;
 				
 				if (data.getCurrentFuel() < data.getStat(Stats.MAX_FUEL) && fuel > 0) {

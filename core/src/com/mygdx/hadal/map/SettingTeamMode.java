@@ -233,7 +233,7 @@ public class SettingTeamMode extends ModeSetting {
                     dedUser.getTransitionManager().beginTransition(state,
                             new Transition()
                                     .setNextState(TransitionState.RESPAWN)
-                                    .setFadeDelay(state.getRespawnTime()));
+                                    .setFadeDelay(state.getRespawnTime(p)));
                 } else {
                     dedUser.getTransitionManager().beginTransition(state,
                             new Transition()

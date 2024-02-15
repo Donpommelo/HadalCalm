@@ -76,8 +76,8 @@ public class BodyData extends HadalData {
 		super(UserDataType.BODY, schmuck);
 		this.schmuck = schmuck;	
 		
-		this.baseStats = new float[52];
-		this.buffedStats = new float[52];
+		this.baseStats = new float[55];
+		this.buffedStats = new float[55];
 		
 		baseStats[0] = maxHp;
 		baseStats[1] = MAX_FUEL;
