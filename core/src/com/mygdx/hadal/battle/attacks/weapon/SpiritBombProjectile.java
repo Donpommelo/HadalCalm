@@ -41,9 +41,9 @@ public class SpiritBombProjectile extends SyncedAttacker {
     private static final float EXPLOSION_KNOCKBACK = 20.0f;
     private static final float TARGET_CHECK_CD = 0.2f;
     private static final float TARGET_CHECK_RADIUS = 3.2f;
-    private static final float WARNING_TIME = 1.0f;
+    private static final float WARNING_TIME = 0.6f;
 
-    private static final float SPIRIT_HOMING = 50;
+    private static final float SPIRIT_HOMING = 60;
     private static final int HOME_RADIUS = 30;
 
     private static final Sprite PROJ_SPRITE = Sprite.SPIRIT_BOMB_IDLE;
@@ -190,7 +190,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
             @NotNull
             private Hitbox getExplosion() {
                 Hitbox explosion = new RangedHitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, WARNING_TIME, new Vector2(),
-                        (short) 0, true, false, user, PROJ_SPRITE_ACTIVATE) {
+                        user.getHitboxFilter(), true, false, user, PROJ_SPRITE_ACTIVATE) {
 
                     @Override
                     public void render(SpriteBatch batch, Vector2 entityLocation) {

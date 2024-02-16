@@ -128,17 +128,7 @@ public class SettingBots extends ModeSetting {
         //reset next connId, then create each bot while incrementing connId to ensure each has a unique one.
         lastBotConnID = -2;
 
-        //index 0 indicates "default" bots; the number of bots varies with the stage size and player count
-        int numBots = 0;
-        if (botNumberIndex == 0) {
-            int desiredPlayers = state.getLevel().getSize().getPreferredPlayers();
-            int playerAmount = HadalGame.usm.getNumPlayers();
-            if (playerAmount < desiredPlayers) {
-                numBots = desiredPlayers - playerAmount;
-            }
-        } else {
-            numBots = botNumberIndex - 1;
-        }
+        int numBots = getNumBots(state, mode, botNumberIndex);
         for (int i = 0; i < numBots; i++) {
             HadalGame.usm.getUsers().put(lastBotConnID, createBotUser(state));
             lastBotConnID--;
@@ -156,6 +146,28 @@ public class SettingBots extends ModeSetting {
             BotManager.initiateRallyPoints(state, state.getMap());
             BotManager.initiatePathfindingThreads();
         }
+    }
+
+    private static int getNumBots(PlayState state, GameMode mode, int botNumberIndex) {
+        int numBots = 0;
+
+        //index 0 indicates "default" bots; the number of bots varies with the stage size and player count
+        if (botNumberIndex == 0) {
+            int desiredPlayers = state.getLevel().getSize().getPreferredPlayers();
+
+            //for team modes, we add additional bots to make teams even
+            if (mode.isTeamDesignated()) {
+                desiredPlayers += (mode.getTeamNum() - desiredPlayers % mode.getTeamNum());
+            }
+
+            int playerAmount = HadalGame.usm.getNumPlayers();
+            if (playerAmount < desiredPlayers) {
+                numBots = desiredPlayers - playerAmount;
+            }
+        } else {
+            numBots = botNumberIndex - 1;
+        }
+        return numBots;
     }
 
     //this creates a single bot user; giving them a random name and initiating their score fields

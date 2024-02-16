@@ -14,6 +14,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
+import org.jetbrains.annotations.NotNull;
 
 public class Puffball extends SyncedAttacker {
 
@@ -59,7 +60,7 @@ public class Puffball extends SyncedAttacker {
 
             private float count;
             private static final float SPEED_CHECK_INTERVAL = 0.1f;
-            private static final float SPEED_THRESHOLD = 5.0f;
+            private static final float SPEED_THRESHOLD = 15.0f;
             @Override
             public void controller(float delta) {
                 super.controller(delta);
@@ -87,17 +88,7 @@ public class Puffball extends SyncedAttacker {
                     if (extraFields.length > i * 2 + 3) {
                         newVelocity.set(extraFields[i * 2 + 2], extraFields[i * 2 + 3]);
 
-                        RangedHitbox frag = new RangedHitbox(state, getPixelPosition(), new Vector2(SPORE_FRAG_SIZE), SPORE_FRAG_LIFESPAN,
-                                new Vector2(newVelocity), user.getHitboxFilter(), false, false, user, Sprite.SPORE_YELLOW) {
-
-                            @Override
-                            public void create() {
-                                super.create();
-                                getBody().setLinearDamping(FRAG_DAMPEN);
-                            }
-                        };
-                        frag.setRestitution(1.0f);
-                        frag.setSyncDefault(false);
+                        RangedHitbox frag = getRangedFrag();
 
                         frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
                         frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), SPORE_FRAG_DAMAGE, SPORE_FRAG_KB,
@@ -110,6 +101,22 @@ public class Puffball extends SyncedAttacker {
                         }
                     }
                 }
+            }
+
+            @NotNull
+            private RangedHitbox getRangedFrag() {
+                RangedHitbox frag = new RangedHitbox(state, getPixelPosition(), new Vector2(SPORE_FRAG_SIZE), SPORE_FRAG_LIFESPAN,
+                        new Vector2(newVelocity), user.getHitboxFilter(), false, false, user, Sprite.SPORE_YELLOW) {
+
+                    @Override
+                    public void create() {
+                        super.create();
+                        getBody().setLinearDamping(FRAG_DAMPEN);
+                    }
+                };
+                frag.setRestitution(1.0f);
+                frag.setSyncDefault(false);
+                return frag;
             }
         };
         hbox.setRestitution(1.0f);

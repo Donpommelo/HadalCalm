@@ -28,18 +28,19 @@ public class PoolBall extends SyncedAttacker {
     public static final float PROJECTILE_MAX_SPEED = 72.0f;
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(50, 50);
-    public static final float LIFESPAN = 6.0f;
-    public static final float BASE_DAMAGE = 20.0f;
+    public static final float LIFESPAN = 7.5f;
+    public static final float BASE_DAMAGE = 16.0f;
     private static final float RECOIL = 5.0f;
     private static final float KNOCKBACK = 21.0f;
     private static final float FLASH_LIFESPAN = 0.5f;
     private static final float PROJ_DAMPEN = 1.5f;
+    private static final float RESTITUTION = 1.1f;
 
     private static final float MIN_SPEED_THRESHOLD = 1000.0f;
     private static final float MAX_SPEED_THRESHOLD = 3000.0f;
 
     public static final float MIN_DAMAGE_MULTIPLIER = 1.0f;
-    public static final float MAX_DAMAGE_MULTIPLIER = 3.0f;
+    public static final float MAX_DAMAGE_MULTIPLIER = 2.5f;
 
     public static final float MAX_ANIMATION_SPEED_MULTIPLIER = 1.5f;
     public static final float MIN_ANIMATION_SPEED_MULTIPLIER = 1.0f;
@@ -48,7 +49,6 @@ public class PoolBall extends SyncedAttacker {
             Sprite.POOL_FOUR, Sprite.POOL_FIVE, Sprite.POOL_SIX, Sprite.POOL_SEVEN, Sprite.POOL_EIGHT, Sprite.POOL_NINE,
             Sprite.POOL_TEN, Sprite.POOL_ELEVEN, Sprite.POOL_TWELVE, Sprite.POOL_THIRTEEN, Sprite.POOL_FOURTEEN,
             Sprite.POOL_FIFTEEN, Sprite.POOL_CUE};
-    private int lastSprite;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -57,13 +57,14 @@ public class PoolBall extends SyncedAttacker {
         user.recoil(startVelocity, RECOIL);
 
         float chargeAmount = 0.0f;
-        if (extraFields.length > 0) {
+        int poolBall = 0;
+        if (extraFields.length > 1) {
             chargeAmount = extraFields[0];
+            poolBall = (int) extraFields[1];
         }
         float velocity = chargeAmount * (PROJECTILE_MAX_SPEED - PROJECTILE_SPEED) + PROJECTILE_SPEED;
 
-        Sprite sprite = PROJ_SPRITE[lastSprite % PROJ_SPRITE.length];
-        lastSprite++;
+        Sprite sprite = PROJ_SPRITE[poolBall % PROJ_SPRITE.length];
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelocity).nor().scl(velocity),
                 user.getHitboxFilter(),true, true, user, sprite) {
@@ -89,8 +90,7 @@ public class PoolBall extends SyncedAttacker {
                     float speed = hbox.getLinearVelocity().len2();
                     speed = MathUtils.clamp(speed, MIN_SPEED_THRESHOLD, MAX_SPEED_THRESHOLD);
 
-                    float multiplier = MIN_DAMAGE_MULTIPLIER + (MAX_DAMAGE_MULTIPLIER - MIN_DAMAGE_MULTIPLIER)
-                            * (speed - MIN_SPEED_THRESHOLD) / (MAX_SPEED_THRESHOLD - MIN_SPEED_THRESHOLD);
+                    float multiplier = MIN_DAMAGE_MULTIPLIER + (speed - MIN_SPEED_THRESHOLD) / (MAX_SPEED_THRESHOLD - MIN_SPEED_THRESHOLD);
                     hbox.setDamageMultiplier(multiplier);
                 }
                 super.inflictDamage(fixB);
@@ -110,7 +110,7 @@ public class PoolBall extends SyncedAttacker {
                             .setShape(BodyConstants.CIRCLE)
                             .setSensor(false)
                             .setDensity(1.0f)
-                            .setRestitution(1.0f)
+                            .setRestitution(RESTITUTION)
                             .setFriction(1.0f)
                             .addToBody(hbox.getBody())
                             .setUserData(hbox.getHadalData());

@@ -33,10 +33,10 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String VERSION = "1.0.9a";
+	public static final String VERSION = "1.0.9b";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/661042/109a";
+	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/682588/109b";
 
 	//this is the rate at which the screen fades from/to black.
 	private static final float DEFAULT_FADE_IN_SPEED = -2.0f;

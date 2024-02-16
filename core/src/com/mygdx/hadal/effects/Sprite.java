@@ -285,7 +285,7 @@ public enum Sprite {
 	POOL_FOURTEEN(SpriteType.POOL, "fourteen"),
 	POOL_FIFTEEN(SpriteType.POOL, "fifteen"),
 
-	SPIRIT_BOMB_ACTIVATION(SpriteType.SPIRIT_BOMB, "spirit_bomb_activation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	SPIRIT_BOMB_ACTIVATION(SpriteType.SPIRIT_BOMB, "spirit_bomb_activation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_SUPER_FAST),
 	SPIRIT_BOMB_IDLE(SpriteType.SPIRIT_BOMB, "spirit_bomb_idle"),
 	SPIRIT_BOMB_LOOP(SpriteType.SPIRIT_BOMB, "spirit_bomb_loop"),
 
