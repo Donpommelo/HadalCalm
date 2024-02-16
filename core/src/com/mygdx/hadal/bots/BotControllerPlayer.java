@@ -8,8 +8,6 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 
-import static com.mygdx.hadal.constants.Constants.PPM;
-
 /**
  * A BotControllerPlayer manages all of a bot's behaviors and cooldowns specific to players
  * @author Hurbbury Heebone
@@ -79,6 +77,8 @@ public class BotControllerPlayer extends BotController {
             boostDesireCount = BOOST_DESIRE_COOLDOWN;
             player.getController().keyDown(PlayerAction.BOOST);
             player.getController().keyUp(PlayerAction.BOOST);
+
+//            player.getMouseHelper().setDesiredLocation(preBoostMouseLocation.x, preBoostMouseLocation.y);
         }
     }
 
@@ -136,13 +136,14 @@ public class BotControllerPlayer extends BotController {
     //these thresholds determine when the bot will fastfall (must be above their destination and not moving too fast already)
     private static final float FASTFALL_DIST_THRESHOLD = 6.0f;
     private static final float FASTFALL_VELO_THRESHOLD = -30.0f;
+    private final Vector2 preBoostMouseLocation = new Vector2();
     @Override
     public void performMovement() {
         //if distance to target is above threshold, use boost
         if (distSquared * collision > player.getBoostDesireMultiplier() && 0.0f >= boostDesireCount && 0 < thisLocation.y &&
                 player.getPlayerData().getCurrentFuel() >= player.getAirblastHelper().getAirblastCost()) {
-            player.getMouseHelper().setDesiredLocation((
-                    predictedSelfLocation.x - thisLocation.x) * PPM,(predictedSelfLocation.y - thisLocation.y) * PPM);
+            preBoostMouseLocation.set(player.getMouseHelper().getPosition());
+            player.getMouseHelper().setDesiredLocation(predictedSelfLocation.x - thisLocation.x, predictedSelfLocation.y - thisLocation.y);
             boostDesired = true;
         }
 

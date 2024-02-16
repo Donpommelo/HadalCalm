@@ -34,7 +34,7 @@ public class Leapfrog extends SyncedAttacker {
     public static final int LEAP_AMOUNT = 3;
     private static final float LEAP_COUNT = 0.5f;
     private static final float LEAP_DURATION = 0.35f;
-    private static final float MAX_LEAP_DURATION = 4.0f;
+    private static final float MAX_LEAP_DURATION = 2.5f;
     private static final float MIN_LEAP_ANGLE = 45;
 
     private static final Sprite PROJ_SPRITE = Sprite.FROG_STAND;
