@@ -226,6 +226,7 @@ public class BotLoadoutProcessor {
 
         mousePosition.x = mousePosition.x + (mouseTarget.x - mousePosition.x) * player.getMouseAimSpeed();
         mousePosition.y = mousePosition.y + (mouseTarget.y - mousePosition.y) * player.getMouseAimSpeed();
+
         player.getMouseHelper().setDesiredLocation(mousePosition.x, mousePosition.y);
     }
 
