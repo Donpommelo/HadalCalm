@@ -42,8 +42,10 @@ public class NeptuneSeed extends SyncedAttacker {
 
                  @Override
                  public void die() {
-                     WeaponUtils.createVine(state, user, hbox.getPixelPosition(), new Vector2(0, VINE_SPEED),
-                             VINE_NUM, 0, SyncedAttack.NEPTUNE_VINE);
+                     if (state.isServer()) {
+                         WeaponUtils.createVine(state, user, hbox.getPixelPosition(), new Vector2(0, VINE_SPEED),
+                                 VINE_NUM, 0, SyncedAttack.NEPTUNE_VINE);
+                     }
                  }
              }
         );

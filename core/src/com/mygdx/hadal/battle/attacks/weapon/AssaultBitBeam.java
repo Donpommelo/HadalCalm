@@ -29,7 +29,7 @@ public class AssaultBitBeam extends SyncedAttacker {
     @Override
     public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                              Vector2[] startVelocity, float[] extraFields) {
-        Hitbox[] hboxes = new Hitbox[startVelocity.length];
+        Hitbox[] hboxes = new Hitbox[startPosition.length];
 
         if (startPosition.length != 0) {
             SoundEffect.SHOOT2.playSourced(state, startPosition[0], 0.6f);

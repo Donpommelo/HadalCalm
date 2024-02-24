@@ -475,6 +475,8 @@ public abstract class HadalEntity {
 
 	public float getAnimationTime() { return animationTime; }
 
+	public void resetAnimationTime() { this.animationTime = 0.0f; }
+
 	public void setAlive(boolean alive) { this.alive = alive; }
 
 	public void setTransform(Vector2 position, float angle) {

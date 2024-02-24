@@ -49,13 +49,15 @@ public enum AssetList {
 
 	//Enemy Sprites
 	TURRET_ATL("sprites/turret.atlas", TextureAtlas.class),
-	FISH_ATL("sprites/fish.atlas", TextureAtlas.class),
 	KAMABOKO_ATL("sprites/king_kamaboko.atlas", TextureAtlas.class),
 	KAMABOKO_CRAWL_ATL("sprites/kamaboko_crawl.atlas", TextureAtlas.class),
 	KAMABOKO_SWIM_ATL("sprites/kamaboko_swim.atlas", TextureAtlas.class),
 	DRONE_ATL("sprites/drone.atlas", TextureAtlas.class),
 	NEPTUNE_KING_ATL("sprites/neptuneking.atlas", TextureAtlas.class),
-	KRILL("sprites/krill.atlas", TextureAtlas.class),
+	KRILL_ATL("sprites/krill.atlas", TextureAtlas.class),
+	SCISSORFISH_ATL("sprites/enemy/scissorfish.atlas", TextureAtlas.class),
+	SPITTLEFISH_ATL("sprites/enemy/spittlefish.atlas", TextureAtlas.class),
+	TORPEDOFISH_ATL("sprites/enemy/torpedofish.atlas", TextureAtlas.class),
 
 	//UI
 	UIPATCH_ATL("ui/window.atlas", TextureAtlas.class),

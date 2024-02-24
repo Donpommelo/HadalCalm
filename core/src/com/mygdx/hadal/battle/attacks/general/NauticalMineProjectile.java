@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.general;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
@@ -21,7 +22,7 @@ public class NauticalMineProjectile extends SyncedAttacker {
     private static final Vector2 NAUTICAL_MINE_SIZE = new Vector2(120, 120);
     private static final int NAUTICAL_MINE_EXPLOSION_RADIUS = 400;
     private static final float NAUTICAL_MINE_EXPLOSION_KNOCKBACK = 40.0f;
-    private static final float FOOTBALL_THRESHOLD = 200.0f;
+    private static final float FOOTBALL_THRESHOLD = 80.0f;
     private static final float FOOTBALL_DEPRECIATION = 50.0f;
 
     @Override
@@ -45,7 +46,8 @@ public class NauticalMineProjectile extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         if (event) {
             hbox.addStrategy(new ContactGoalScore(state, hbox, user.getBodyData()));
-            hbox.addStrategy(new DamageThresholdDie(state, hbox, user.getBodyData(), FOOTBALL_THRESHOLD, FOOTBALL_DEPRECIATION));
+            float footbalHpThreshold = FOOTBALL_THRESHOLD * HadalGame.usm.getNumPlayers();
+            hbox.addStrategy(new DamageThresholdDie(state, hbox, user.getBodyData(), footbalHpThreshold, FOOTBALL_DEPRECIATION));
         } else {
             hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(PRIME_DELAY));
         }

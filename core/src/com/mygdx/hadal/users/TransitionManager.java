@@ -191,7 +191,7 @@ public class TransitionManager {
                                 .setCenterCameraOnStart(true)
                                 .setSkipFade(true));
             } else {
-                HadalGame.usm.getOwnUser().getTransitionManager().beginTransition(state,
+                beginTransition(state,
                         new Transition()
                                 .setNextState(PlayState.TransitionState.RESPAWN)
                                 .setFadeSpeed(0.0f)

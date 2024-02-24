@@ -199,6 +199,7 @@ public enum Particle {
 		if (null == effectPool) {
 			initParticlePool();
 		}
+
 		PooledEffect newEffect = effectPool.obtain();
 		effects.put(newEffect, entity);
 

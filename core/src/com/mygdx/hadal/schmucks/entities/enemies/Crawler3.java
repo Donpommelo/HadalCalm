@@ -26,7 +26,7 @@ public class Crawler3 extends EnemyCrawling {
 	private static final float attackCd = 1.0f;
 	private static final float groundSpeed = -0.75f;
 			
-	private static final Sprite sprite = Sprite.FISH_TORPEDO;
+	private static final Sprite sprite = Sprite.FISH_TORPEDO_IDLE;
 	
 	public Crawler3(PlayState state, Vector2 startPos, float startAngle, short filter) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER3, startAngle, filter, baseHp, attackCd, scrapDrop);

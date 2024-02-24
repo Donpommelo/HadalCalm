@@ -23,7 +23,7 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  *
  * @author Shampanelle Sweviticus
  */
-public class HadalBody extends  HadalFixture {
+public class HadalBody extends HadalFixture {
     private final Vector2 position = new Vector2();
     private final HadalData hadalData;
 
