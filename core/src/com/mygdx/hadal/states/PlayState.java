@@ -227,10 +227,6 @@ public class PlayState extends GameState {
 		entityLists.add(entities);
 		entityLists.add(effects);
 
-		//The "worldDummy" will be the source of map-effects that want a perpetrator
-		worldDummy = new WorldDummy(this);
-		anchor = new AnchorPoint(this);
-		
 		PlayState me = this;
 		//load map. We override the render so that we can apply a shader to the tileset
 		map = new TmxMapLoader().load(level.getMap());
@@ -267,6 +263,12 @@ public class PlayState extends GameState {
 
 		//we clear shaded cosmetics to avoid having too many cached fbos
 		UnlockCosmetic.clearShadedCosmetics();
+
+		//The "worldDummy" will be the source of map-effects that want a perp (create after clearing memory b/c it creates an impact particle)
+		worldDummy = new WorldDummy(this);
+
+		//anchor is used to attach "static" entities without making them static
+		anchor = new AnchorPoint(this);
 
 		if (map.getProperties().get("customShader", false, Boolean.class)) {
 			shaderBase = Wallpaper.SHADERS[gsm.getSetting().getCustomShader()];

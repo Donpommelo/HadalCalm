@@ -28,7 +28,7 @@ public class Schmuck extends HadalEntity {
 	protected String name;
 	
 	//The current MoveState of this schmuck
-	protected MoveState moveState;
+	protected MoveState moveState = MoveState.DEFAULT;
 	
 	//user data.
 	private BodyData bodyData;

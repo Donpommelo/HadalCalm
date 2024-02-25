@@ -137,7 +137,9 @@ public class Player extends Schmuck {
 		this.artifactHelper = new LoadoutArtifactHelper(this);
 		this.magicHelper = new LoadoutMagicHelper(this);
 		this.cosmeticsHelper = new LoadoutCosmeticsHelper(this);
+		this.specialWeaponHelper = new SpecialWeaponHelper();
 
+		//set body sprite must occur after loadout is set (including special weapon helper which is needed for unequipping some weapons)
 		setBodySprite(user.getLoadoutManager().getActiveLoadout().character, user.getLoadoutManager().getActiveLoadout().team);
 
 		this.effectHelper = new PlayerEffectHelper(state, this);
@@ -153,7 +155,6 @@ public class Player extends Schmuck {
 		this.groundedHelper = new GroundedHelper(this);
 		this.eventHelper = new EventInteractHelper(this);
 		this.pingHelper = new PingHelper(state, this);
-		this.specialWeaponHelper = new SpecialWeaponHelper();
 
 		setReliableCreate(true);
 	}

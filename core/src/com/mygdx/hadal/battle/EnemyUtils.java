@@ -386,16 +386,15 @@ public class EnemyUtils {
 	
 	public static void stopStill(Enemy boss, final float duration) {
 		boss.getActions().add(new EnemyAction(boss, duration) {
-			
+
 			@Override
 			public void execute() {
 				enemy.setLinearVelocity(0, 0);
 			}
 		});
 	}
-	
-	public static int normalizeAngle(int angle)
-	{
+
+	public static int normalizeAngle(int angle) {
 	    int newAngle = angle;
 	    while (newAngle <= -180) newAngle += 360;
 	    while (newAngle > 180) newAngle -= 360;

@@ -39,7 +39,7 @@ public class Boss1 extends EnemyFloating {
 	private static final int moveSpeed = 20;
 	private static final int spinSpeed = 40;
 	
-	private static final Sprite sprite = Sprite.FISH_TORPEDO;
+	private static final Sprite sprite = Sprite.FISH_TORPEDO_IDLE;
 	
 	private int phase = 1;
 	private static final float phaseThreshold2 = 0.8f;

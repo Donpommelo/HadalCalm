@@ -39,7 +39,7 @@ public class PacketsSync {
     }
 
     public static class SyncEntityAngled extends SyncEntity {
-        public short angle;
+        public float angle;
         public SyncEntityAngled() {}
 
         /**
@@ -50,7 +50,7 @@ public class PacketsSync {
          */
         public SyncEntityAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, float angle) {
             super(entityID, pos, velocity, timestamp);
-            this.angle = (short) angle;
+            this.angle = angle;
         }
     }
 
@@ -77,7 +77,7 @@ public class PacketsSync {
     }
 
     public static class SyncSchmuckAngled extends SyncSchmuck {
-        public short angle;
+        public float angle;
 
         public SyncSchmuckAngled() {}
 
@@ -90,7 +90,7 @@ public class PacketsSync {
         public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
                                  MoveState moveState, byte hpPercent, float angle) {
             super(entityID, pos, velocity, timestamp, moveState, hpPercent);
-            this.angle = (short) angle;
+            this.angle = angle;
         }
     }
 

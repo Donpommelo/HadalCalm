@@ -62,7 +62,9 @@ public class Boss5 extends EnemyFloating {
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1400));
 
-		new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, SyncType.CREATESYNC).setScale(2.0f);
+		if (state.isServer()) {
+			new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, SyncType.CREATESYNC).setScale(2.0f);
+		}
 	}
 
 	@Override

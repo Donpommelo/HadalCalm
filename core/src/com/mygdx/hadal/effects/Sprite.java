@@ -193,9 +193,12 @@ public enum Sprite {
 	P_STORMCALLER(SpriteType.EVENT, "event_stormcaller"),
 	P_TORPEDO(SpriteType.EVENT, "event_torpedo"),
 
-	FISH_SCISSOR(SpriteType.FISH, "scissorfish_swim"),
-	FISH_SPITTLE(SpriteType.FISH, "spittlefish_swim"),
-	FISH_TORPEDO(SpriteType.FISH, "torpedofish_swim"),
+	FISH_SCISSOR_IDLE(SpriteType.SCISSORFISH, "scissorfish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SCISSOR_ATTACK(SpriteType.SCISSORFISH, "scissorfish_attack", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_SUPER_FAST),
+	FISH_SPITTLE_IDLE(SpriteType.SPITTLEFISH, "spittlefish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SPITTLE_ATTACK(SpriteType.SPITTLEFISH, "spittlefish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_TORPEDO_IDLE(SpriteType.TORPEDOFISH, "torpedofish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_TORPEDO_ATTACK(SpriteType.TORPEDOFISH, "torpedofish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
 	KAMABOKO_BODY(SpriteType.KAMABOKO, "king_kamaboko"),
 	KAMABOKO_CRAWL(SpriteType.KAMABOKO_CRAWL, "crawlaboko"),
 	KAMABOKO_SWIM(SpriteType.KAMABOKO_SWIM, "swimaboko"),
@@ -394,7 +397,6 @@ public enum Sprite {
 			case SPIRIT_BOMB -> HadalGame.assetManager.get(AssetList.SPIRIT_BOMB_ATL.toString());
 			case FROG -> HadalGame.assetManager.get(AssetList.FROG_ATL.toString());
 			case WEAPON -> HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
-			case FISH -> HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
 			case TURRET -> HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
 			case IMPACT -> HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString());
 			case UI -> HadalGame.assetManager.get(AssetList.UI_ATL.toString());
@@ -407,7 +409,10 @@ public enum Sprite {
 			case NEPTUNE_KING -> HadalGame.assetManager.get(AssetList.NEPTUNE_KING_ATL.toString());
 			case TELEMACHUS_POINT -> HadalGame.assetManager.get(AssetList.TELEMACHUS_POINT.toString());
 			case CHARACTER_EXTRA -> HadalGame.assetManager.get(AssetList.PLAYER_EXTRA_ATL.toString());
-			case KRILL -> HadalGame.assetManager.get(AssetList.KRILL.toString());
+			case KRILL -> HadalGame.assetManager.get(AssetList.KRILL_ATL.toString());
+			case SCISSORFISH -> HadalGame.assetManager.get(AssetList.SCISSORFISH_ATL.toString());
+			case SPITTLEFISH -> HadalGame.assetManager.get(AssetList.SPITTLEFISH_ATL.toString());
+			case TORPEDOFISH -> HadalGame.assetManager.get(AssetList.TORPEDOFISH_ATL.toString());
 			default -> null;
 		};
 	}
@@ -425,7 +430,6 @@ public enum Sprite {
 		EXPLOSION,
 		EVENT,
 		WEAPON,
-		FISH,
 		TURRET,
 		IMPACT,
 		UI,
@@ -439,5 +443,8 @@ public enum Sprite {
 		TELEMACHUS_POINT,
 		CHARACTER_EXTRA,
 		KRILL,
+		SCISSORFISH,
+		SPITTLEFISH,
+		TORPEDOFISH
 	}
 }

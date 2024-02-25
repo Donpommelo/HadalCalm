@@ -5,13 +5,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
-import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.utils.PacketUtil;
 
 public class MovementFloat extends EnemyStrategy {
@@ -20,13 +22,18 @@ public class MovementFloat extends EnemyStrategy {
     private int spinSpeed;
 
     //this is the speed that a tracking enemy will rotate to face its target
-    private float trackSpeed = 0.04f;
+    private float trackSpeed = 0.06f;
 
     //The boss's current state in terms of passive behavior (is it tracking the player, still, spinning etc)
     private FloatingState currentState;
 
+    private final ObjectMap<MoveState, Sprite> sprites = new ObjectMap<>();
+
+    private MoveState lastMoveState;
+
     //this is the boss's sprite
     private Animation<TextureRegion> floatingSprite;
+    private boolean looping;
 
     public MovementFloat(PlayState state, Enemy enemy, Sprite sprite) {
         super(state, enemy);
@@ -36,10 +43,7 @@ public class MovementFloat extends EnemyStrategy {
 
         this.currentState = FloatingState.TRACKING_PLAYER;
 
-        if (!Sprite.NOTHING.equals(sprite)) {
-            this.floatingSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, sprite.getFrames());
-            this.floatingSprite.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        }
+        addSprite(MoveState.DEFAULT, sprite);
     }
 
     private float floatCount;
@@ -93,6 +97,7 @@ public class MovementFloat extends EnemyStrategy {
             }
             enemy.setAngle(enemy.getAttackAngle() * MathUtils.degRad);
         }
+
     }
 
     @Override
@@ -103,8 +108,10 @@ public class MovementFloat extends EnemyStrategy {
             flip = false;
         }
 
+        setFloatingSprite(enemy.getMoveState());
+
         entityWorldLocation.set(enemy.getPixelPosition());
-        batch.draw(floatingSprite.getKeyFrame(animationTime, true),
+        batch.draw(floatingSprite.getKeyFrame(enemy.getAnimationTime(), looping),
                 (flip ? enemy.getSize().x : 0) + entityWorldLocation.x - enemy.getSize().x / 2,
                 entityWorldLocation.y - enemy.getSize().y / 2,
                 (flip ? -1 : 1) * enemy.getSize().x / 2,
@@ -137,6 +144,32 @@ public class MovementFloat extends EnemyStrategy {
     public void setSpinSpeed(int spinSpeed) { this.spinSpeed = spinSpeed; }
 
     public void setTrackSpeed(float trackSpeed) { this.trackSpeed = trackSpeed; }
+
+    public void setFloatingSprite(MoveState moveState) {
+        if (lastMoveState == null || lastMoveState != moveState) {
+            lastMoveState = moveState;
+            Sprite newSprite = sprites.get(lastMoveState);
+
+            if (null == newSprite) {
+                newSprite = sprites.get(MoveState.DEFAULT);
+            }
+
+            if (null != newSprite && !Sprite.NOTHING.equals(newSprite)) {
+                this.floatingSprite = new Animation<>(newSprite.getAnimationSpeed(), newSprite.getFrames());
+                this.floatingSprite.setPlayMode(newSprite.getPlayMode());
+
+                if (!Animation.PlayMode.NORMAL.equals(newSprite.getPlayMode())) {
+                    looping = true;
+                }
+
+                enemy.resetAnimationTime();
+            }
+        }
+    }
+
+    public void addSprite(MoveState moveState, Sprite sprite) {
+        sprites.put(moveState, sprite);
+    }
 
     public enum FloatingState {
         TRACKING_PLAYER,

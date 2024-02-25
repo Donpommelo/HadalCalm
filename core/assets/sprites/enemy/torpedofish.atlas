@@ -1,0 +1,724 @@
+
+torpedofish.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+torpedofish
+  rotate: false
+  xy: 2, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 0
+torpedofish
+  rotate: false
+  xy: 2, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 20
+torpedofish
+  rotate: false
+  xy: 2, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 1
+torpedofish
+  rotate: false
+  xy: 409, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 2
+torpedofish
+  rotate: false
+  xy: 2, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 3
+torpedofish
+  rotate: false
+  xy: 409, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 4
+torpedofish
+  rotate: false
+  xy: 816, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 5
+torpedofish
+  rotate: false
+  xy: 2, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 6
+torpedofish
+  rotate: false
+  xy: 409, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 7
+torpedofish
+  rotate: false
+  xy: 816, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 8
+torpedofish
+  rotate: false
+  xy: 1223, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 9
+torpedofish
+  rotate: false
+  xy: 2, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 10
+torpedofish
+  rotate: false
+  xy: 409, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 11
+torpedofish
+  rotate: false
+  xy: 816, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 12
+torpedofish
+  rotate: false
+  xy: 1223, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 13
+torpedofish
+  rotate: false
+  xy: 1630, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 14
+torpedofish
+  rotate: false
+  xy: 2, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 15
+torpedofish
+  rotate: false
+  xy: 409, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 16
+torpedofish
+  rotate: false
+  xy: 816, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 17
+torpedofish
+  rotate: false
+  xy: 1223, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 18
+torpedofish
+  rotate: false
+  xy: 1630, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 19
+torpedofish
+  rotate: false
+  xy: 409, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 21
+torpedofish
+  rotate: false
+  xy: 816, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 22
+torpedofish
+  rotate: false
+  xy: 1223, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 23
+torpedofish
+  rotate: false
+  xy: 1630, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 24
+torpedofish
+  rotate: false
+  xy: 816, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 25
+torpedofish
+  rotate: false
+  xy: 1223, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 26
+torpedofish
+  rotate: false
+  xy: 1630, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 27
+torpedofish
+  rotate: false
+  xy: 1223, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 28
+torpedofish
+  rotate: false
+  xy: 1630, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 29
+torpedofish
+  rotate: false
+  xy: 1630, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 30
+
+torpedofish2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+torpedofish
+  rotate: false
+  xy: 2, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 31
+torpedofish
+  rotate: false
+  xy: 2, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 32
+torpedofish
+  rotate: false
+  xy: 409, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 33
+torpedofish
+  rotate: false
+  xy: 2, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 34
+torpedofish
+  rotate: false
+  xy: 409, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 35
+torpedofish
+  rotate: false
+  xy: 816, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 36
+torpedofish
+  rotate: false
+  xy: 2, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 37
+torpedofish
+  rotate: false
+  xy: 409, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 38
+torpedofish
+  rotate: false
+  xy: 816, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 39
+torpedofish_attack
+  rotate: false
+  xy: 1223, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 0
+torpedofish_attack
+  rotate: false
+  xy: 2, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 1
+torpedofish_attack
+  rotate: false
+  xy: 409, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 2
+torpedofish_attack
+  rotate: false
+  xy: 816, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 3
+torpedofish_attack
+  rotate: false
+  xy: 1223, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 4
+torpedofish_attack
+  rotate: false
+  xy: 1630, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 5
+torpedofish_attack
+  rotate: false
+  xy: 2, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 6
+torpedofish_attack
+  rotate: false
+  xy: 409, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 7
+torpedofish_attack
+  rotate: false
+  xy: 816, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 8
+torpedofish_attack
+  rotate: false
+  xy: 1223, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 9
+torpedofish_attack
+  rotate: false
+  xy: 1630, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 10
+torpedofish_attack
+  rotate: false
+  xy: 409, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 11
+torpedofish_attack
+  rotate: false
+  xy: 816, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 12
+torpedofish_attack
+  rotate: false
+  xy: 1223, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 13
+torpedofish_attack
+  rotate: false
+  xy: 1630, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 14
+torpedofish_attack
+  rotate: false
+  xy: 816, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 15
+torpedofish_attack
+  rotate: false
+  xy: 1223, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 16
+torpedofish_attack
+  rotate: false
+  xy: 1630, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 17
+torpedofish_attack
+  rotate: false
+  xy: 1223, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 18
+torpedofish_attack
+  rotate: false
+  xy: 1630, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 19
+torpedofish_attack
+  rotate: false
+  xy: 1630, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 20
+
+torpedofish3.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+torpedofish_attack
+  rotate: false
+  xy: 2, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 21
+torpedofish_attack
+  rotate: false
+  xy: 2, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 22
+torpedofish_attack
+  rotate: false
+  xy: 409, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 23
+torpedofish_attack
+  rotate: false
+  xy: 2, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 24
+torpedofish_attack
+  rotate: false
+  xy: 409, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 25
+torpedofish_attack
+  rotate: false
+  xy: 816, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 26
+torpedofish_attack
+  rotate: false
+  xy: 2, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 27
+torpedofish_attack
+  rotate: false
+  xy: 409, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 28
+torpedofish_attack
+  rotate: false
+  xy: 816, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 29
+torpedofish_attack
+  rotate: false
+  xy: 1223, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 30
+torpedofish_attack
+  rotate: false
+  xy: 2, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 31
+torpedofish_attack
+  rotate: false
+  xy: 409, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 32
+torpedofish_attack
+  rotate: false
+  xy: 816, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 33
+torpedofish_attack
+  rotate: false
+  xy: 1223, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 34
+torpedofish_attack
+  rotate: false
+  xy: 1630, 1512
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 35
+torpedofish_attack
+  rotate: false
+  xy: 2, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 36
+torpedofish_attack
+  rotate: false
+  xy: 409, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 37
+torpedofish_attack
+  rotate: false
+  xy: 816, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 38
+torpedofish_attack
+  rotate: false
+  xy: 1223, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 39
+torpedofish_attack
+  rotate: false
+  xy: 1630, 1210
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 40
+torpedofish_attack
+  rotate: false
+  xy: 409, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 41
+torpedofish_attack
+  rotate: false
+  xy: 816, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 42
+torpedofish_attack
+  rotate: false
+  xy: 1223, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 43
+torpedofish_attack
+  rotate: false
+  xy: 1630, 908
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 44
+torpedofish_attack
+  rotate: false
+  xy: 816, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 45
+torpedofish_attack
+  rotate: false
+  xy: 1223, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 46
+torpedofish_attack
+  rotate: false
+  xy: 1630, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 47
+torpedofish_attack
+  rotate: false
+  xy: 1223, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 48
+torpedofish_attack
+  rotate: false
+  xy: 1630, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 49
+torpedofish_attack
+  rotate: false
+  xy: 1630, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 50
+
+torpedofish4.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+torpedofish_attack
+  rotate: false
+  xy: 2, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 51
+torpedofish_attack
+  rotate: false
+  xy: 2, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 52
+torpedofish_attack
+  rotate: false
+  xy: 409, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 53
+torpedofish_attack
+  rotate: false
+  xy: 2, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 54
+torpedofish_attack
+  rotate: false
+  xy: 409, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 55
+torpedofish_attack
+  rotate: false
+  xy: 816, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 56
+torpedofish_attack
+  rotate: false
+  xy: 409, 2
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 57
+torpedofish_attack
+  rotate: false
+  xy: 816, 304
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 58
+torpedofish_attack
+  rotate: false
+  xy: 1223, 606
+  size: 405, 300
+  orig: 405, 300
+  offset: 0, 0
+  index: 59

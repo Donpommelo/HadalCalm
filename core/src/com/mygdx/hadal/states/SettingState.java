@@ -53,7 +53,7 @@ public class SettingState extends GameState {
 
 	//These options make it easier to convert the index setting to a displayed string
 	public static final String[] ARTIFACT_CHOICES = {"0", "1", "2", "3", "4", "5", "6"};
-	public static final String[] CAPACITY_CHOICES = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+	public static final String[] CAPACITY_CHOICES = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
 
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;

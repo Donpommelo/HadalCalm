@@ -30,8 +30,6 @@ import java.util.Stack;
  */
 public class GameStateManager {
 
-	private static final Array<TextureAtlas> ATLASES = new Array<>();
-
 	//Json reader here. Use this instead of creating new ones elsewhere.
 	public static final Json JSON = new Json();
 	public static final JsonReader READER = new JsonReader();
@@ -118,17 +116,7 @@ public class GameStateManager {
 		bossGaugeRedPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL.toString())).createPatch("boss_gauge_red"));
 		bossGaugeCatchupPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL
 			.toString())).createPatch("boss_gauge_dark_red"));
-		
-		ATLASES.add(HadalGame.assetManager.get(AssetList.PARTICLE_ATL.toString()));
-		ATLASES.add(HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString()));
-		ATLASES.add(HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString()));
-		ATLASES.add(HadalGame.assetManager.get(AssetList.FISH_ATL.toString()));
-		ATLASES.add(HadalGame.assetManager.get(AssetList.TURRET_ATL.toString()));
-		ATLASES.add(HadalGame.assetManager.get(AssetList.EVENT_ATL.toString()));
-		ATLASES.add(HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
-		ATLASES.add(HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
-		ATLASES.add(HadalGame.assetManager.get(AssetList.IMPACT_ATL.toString()));
-		
+
 		//this lets us not declare every attribute of shaders.
 		ShaderProgram.pedantic = false;
 	}
@@ -155,12 +143,17 @@ public class GameStateManager {
 			gs.dispose();
 		}
 		states.clear();
-		
-		for (TextureAtlas atlas : ATLASES) {
-			atlas.dispose();
+
+		HadalGame.assetManager.finishLoading();
+		Array<String> assetNames = HadalGame.assetManager.getAssetNames();
+
+		for (String assetName : assetNames) {
+			Object asset = HadalGame.assetManager.get(assetName);
+			if (asset instanceof TextureAtlas atlas) {
+                atlas.dispose();
+			}
 		}
-		ATLASES.clear();
-		
+
 		if (null != skin) {
 			skin.dispose();
 		}
