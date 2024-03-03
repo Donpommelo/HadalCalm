@@ -27,19 +27,21 @@ public class Terraform extends SyncedAttacker {
         }
 
         SoundEffect.MAGIC1_ACTIVE.playSourced(state, startPosition, 1.0f);
-        Event block = new DestructableBlock(state, user.getProjectileOrigin(weaponVelo, BLOCK_SIZE.x), BLOCK_SIZE, BLOCK_HP, false) {
+        if (state.isServer()) {
+            Event block = new DestructableBlock(state, user.getProjectileOrigin(weaponVelo, BLOCK_SIZE.x), BLOCK_SIZE, BLOCK_HP, false) {
 
-            @Override
-            public void create() {
-                super.create();
-                body.setLinearVelocity(new Vector2(weaponVelo).nor().scl(BLOCK_SPEED));
-                EventUtils.addFeetFixture(this);
-            }
-        };
-        block.setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
-        block.setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
-        block.setStandardParticle(Particle.IMPACT);
-        block.setGravity(1.0f);
-        block.setSynced(true);
+                @Override
+                public void create() {
+                    super.create();
+                    body.setLinearVelocity(new Vector2(weaponVelo).nor().scl(BLOCK_SPEED));
+                    EventUtils.addFeetFixture(this);
+                }
+            };
+            block.setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
+            block.setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
+            block.setStandardParticle(Particle.IMPACT);
+            block.setGravity(1.0f);
+            block.setSynced(true);
+        }
     }
 }

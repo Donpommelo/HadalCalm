@@ -32,14 +32,14 @@ public class CameraPanZone extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		String sensor1Id = TiledObjectUtil.getPrefabTriggerId();
-		String sensor2Id = TiledObjectUtil.getPrefabTriggerId();
-		String set1Id = TiledObjectUtil.getPrefabTriggerId();
-		String set2Id = TiledObjectUtil.getPrefabTriggerId();
-		String camera1Id = TiledObjectUtil.getPrefabTriggerId();
-		String camera2Id = TiledObjectUtil.getPrefabTriggerId();
-		String zoom1Id = TiledObjectUtil.getPrefabTriggerId();
-		String zoom2Id = TiledObjectUtil.getPrefabTriggerId();
+		String sensor1Id = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String sensor2Id = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String set1Id = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String set2Id = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String camera1Id = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String camera2Id = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String zoom1Id = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String zoom2Id = TiledObjectUtil.getPrefabTriggerIdUnsynced();
 		
 		RectangleMapObject sensor1 = new RectangleMapObject();
 		sensor1.setName("Sensor");
@@ -111,15 +111,15 @@ public class CameraPanZone extends Prefabrication {
 			camera2.getProperties().put("triggeringId", point2);
 		}
 		
-		TiledObjectUtil.parseTiledEvent(state, sensor1);
-		TiledObjectUtil.parseTiledEvent(state, sensor2);
-		TiledObjectUtil.parseTiledEvent(state, cond1);
-		TiledObjectUtil.parseTiledEvent(state, cond2);
-		TiledObjectUtil.parseTiledEvent(state, alt1);
-		TiledObjectUtil.parseTiledEvent(state, alt2);
-		TiledObjectUtil.parseTiledEvent(state, mult1);
-		TiledObjectUtil.parseTiledEvent(state, mult2);
-		TiledObjectUtil.parseTiledEvent(state, camera1);
-		TiledObjectUtil.parseTiledEvent(state, camera2);
+		TiledObjectUtil.parseAddTiledEvent(state, sensor1);
+		TiledObjectUtil.parseAddTiledEvent(state, sensor2);
+		TiledObjectUtil.parseAddTiledEvent(state, cond1);
+		TiledObjectUtil.parseAddTiledEvent(state, cond2);
+		TiledObjectUtil.parseAddTiledEvent(state, alt1);
+		TiledObjectUtil.parseAddTiledEvent(state, alt2);
+		TiledObjectUtil.parseAddTiledEvent(state, mult1);
+		TiledObjectUtil.parseAddTiledEvent(state, mult2);
+		TiledObjectUtil.parseAddTiledEvent(state, camera1);
+		TiledObjectUtil.parseAddTiledEvent(state, camera2);
 	}
 }

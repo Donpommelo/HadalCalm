@@ -225,8 +225,8 @@ public enum GameMode {
         //for maps with no applicable settings, we don't need to add the extra events to the map (campaign maps)
         if (applicableSettings.length == 0) { return; }
 
-        String timerId = TiledObjectUtil.getPrefabTriggerId();
-        String multiId = TiledObjectUtil.getPrefabTriggerId();
+        String timerId = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+        String multiId = TiledObjectUtil.getPrefabTriggerIdUnsynced();
 
         //this creates a trigger that will be activated when a player spawns
         RectangleMapObject playerstart = new RectangleMapObject();
@@ -260,12 +260,12 @@ public enum GameMode {
                 if (!"".equals(newStart)) {
                     startTriggerId.append(',').append(newStart);
                 }
+            }
 
-                //this creates a comma-separated list of event ids that will be activated upon spawning/starting the game
-                String newSpawn = setting.loadSettingSpawn(state);
-                if (!"".equals(newSpawn)) {
-                    spawnTriggerId.append(',').append(newSpawn);
-                }
+            //this creates a comma-separated list of event ids that will be activated upon spawning/starting the game
+            String newSpawn = setting.loadSettingSpawn(state);
+            if (!"".equals(newSpawn)) {
+                spawnTriggerId.append(',').append(newSpawn);
             }
 
             String newUi = setting.loadUIStart(state, this);
@@ -284,9 +284,9 @@ public enum GameMode {
         multi.getProperties().put("triggeringId", startTriggerId.toString());
 
         if (state.isServer()) {
-            TiledObjectUtil.parseTiledEvent(state, playerstart);
-            TiledObjectUtil.parseTiledEvent(state, timer);
-            TiledObjectUtil.parseTiledEvent(state, multi);
+            TiledObjectUtil.parseAddTiledEvent(state, playerstart);
+            TiledObjectUtil.parseAddTiledEvent(state, timer);
+            TiledObjectUtil.parseAddTiledEvent(state, multi);
         }
     }
 

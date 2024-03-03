@@ -41,7 +41,7 @@ public class TriggerCond extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (activator.getEvent() instanceof TriggerAlt trigger) {
+				if (null != activator && activator.getEvent() instanceof TriggerAlt trigger) {
 					condition = trigger.getMessage();
 				} else {
 					if ("random".equals(condition)) {

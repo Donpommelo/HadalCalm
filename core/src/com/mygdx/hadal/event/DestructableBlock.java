@@ -41,7 +41,7 @@ public class DestructableBlock extends Event {
 	//does this event stay in place or is it affected by physics?
 	private final boolean isStatic;
 	
-	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp, boolean isStatic) {
+	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, float hp, boolean isStatic) {
 		super(state, startPos, size);
 		this.hp = hp;
 		this.isStatic = isStatic;
@@ -108,5 +108,6 @@ public class DestructableBlock extends Event {
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 		setStandardParticle(Particle.IMPACT);
 		setGravity(0.0f);
+		setSynced(true);
 	}
 }

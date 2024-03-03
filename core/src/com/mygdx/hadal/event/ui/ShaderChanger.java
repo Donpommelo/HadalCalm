@@ -39,6 +39,7 @@ public class ShaderChanger extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.ALL);
+		setServerSyncType(eventSyncTypes.SELF);
+		setClientSyncType(eventSyncTypes.SELF);
 	}
 }

@@ -12,6 +12,12 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class SpawnerUnlockable extends Prefabrication {
 
+	private static final String PICKUP_ID = "SPAWNER_UNLOCK_PICKUP";
+	private static final String SPAWNER_ID = "SPAWNER_UNLOCK_SPAWNER";
+	private static final String EFFECT_ID = "SPAWNER_UNLOCK_EFFECT";
+	private static final String BACK_ID = "SPAWNER_UNLOCK_BACK";
+	private static final String UNLOCK_ID = "SPAWNER_UNLOCK_UNLOCK";
+
 	private final String triggeredId, triggeringId;
 
 	//the type of unlock (equip, artifact, etc) and the name of the unlock
@@ -30,11 +36,11 @@ public class SpawnerUnlockable extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		pickupId = TiledObjectUtil.getPrefabTriggerId();
-		spawnerId = TiledObjectUtil.getPrefabTriggerId();
-		String onPickupId = TiledObjectUtil.getPrefabTriggerId();
-		String pickupBackId = TiledObjectUtil.getPrefabTriggerId();
-		String unlockSetId = TiledObjectUtil.getPrefabTriggerId();
+		pickupId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, PICKUP_ID, x, y);
+		spawnerId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, SPAWNER_ID, x, y);
+		String onPickupId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, EFFECT_ID, x, y);
+		String pickupBackId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, BACK_ID, x, y);
+		String unlockSetId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, UNLOCK_ID, x, y);
 		
 		RectangleMapObject unlockCheck = new RectangleMapObject();
 		unlockCheck.setName("UnlockCheck");
@@ -47,7 +53,8 @@ public class SpawnerUnlockable extends Prefabrication {
 		RectangleMapObject spawner = new RectangleMapObject();
 		spawner.getRectangle().set(x, y, width, height);
 		spawner.setName("EventMove");
-		spawner.getProperties().put("sync", "ALL");
+		spawner.getProperties().put("syncServer", "ECHO_ACTIVATE");
+		spawner.getProperties().put("syncClient", "ECHO");
 		spawner.getProperties().put("particle_std", "EVENT_HOLO");
 		spawner.getProperties().put("scale", 0.25f);
 		spawner.getProperties().put("sprite", "BASE");
@@ -59,8 +66,6 @@ public class SpawnerUnlockable extends Prefabrication {
 		pickup.setName("Switch");
 		pickup.getProperties().put("particle_amb", "EVENT_HOLO");
 		pickup.getProperties().put("sprite", "CUBE");
-		pickup.getProperties().put("sync", "SERVER");
-		pickup.getProperties().put("synced", true);
 		pickup.getProperties().put("triggeredId", pickupId);
 		pickup.getProperties().put("triggeringId", onPickupId);
 		
@@ -82,12 +87,12 @@ public class SpawnerUnlockable extends Prefabrication {
 		unlockSet.getProperties().put("unlock", true);
 		unlockSet.getProperties().put("triggeredId", unlockSetId);
 		
-		TiledObjectUtil.parseTiledEvent(state, unlockCheck);
-		TiledObjectUtil.parseTiledEvent(state, spawner);
-		TiledObjectUtil.parseTiledEvent(state, pickup);
-		TiledObjectUtil.parseTiledEvent(state, onPickup);
-		TiledObjectUtil.parseTiledEvent(state, back);
-		TiledObjectUtil.parseTiledEvent(state, unlockSet);
+		TiledObjectUtil.parseAddTiledEvent(state, unlockCheck);
+		TiledObjectUtil.parseAddTiledEvent(state, spawner);
+		TiledObjectUtil.parseAddTiledEvent(state, pickup);
+		TiledObjectUtil.parseAddTiledEvent(state, onPickup);
+		TiledObjectUtil.parseAddTiledEvent(state, back);
+		TiledObjectUtil.parseAddTiledEvent(state, unlockSet);
 	}
 	
 	@Override

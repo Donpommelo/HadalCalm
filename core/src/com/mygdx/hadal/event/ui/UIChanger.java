@@ -42,6 +42,7 @@ public class UIChanger extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.ALL);
+		setServerSyncType(eventSyncTypes.SELF);
+		setClientSyncType(eventSyncTypes.SELF);
 	}
 }

@@ -118,6 +118,7 @@ public class SpawnerObjective extends Event {
 
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.USER);
+		setServerSyncType(eventSyncTypes.USER);
+		setClientSyncType(eventSyncTypes.USER);
 	}
 }

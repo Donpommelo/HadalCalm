@@ -85,8 +85,10 @@ public class SpiritBombProjectile extends SyncedAttacker {
             public void render(SpriteBatch batch, Vector2 entityLocation) {
                 if (!alive) { return; }
 
-                if (faded && !HadalGame.usm.isOwnTeam(((Player) creator).getUser())) {
-                    return;
+                if (creator instanceof Player player) {
+                    if (faded && !HadalGame.usm.isOwnTeam(player.getUser())) {
+                        return;
+                    }
                 }
 
                 float direction = getLinearVelocity().x;
@@ -104,9 +106,12 @@ public class SpiritBombProjectile extends SyncedAttacker {
 
             @Override
             public Shader getShaderStatic() {
-                if (faded && HadalGame.usm.isOwnTeam(((Player) creator).getUser())) {
-                    return Shader.TRANSLUCENT;
+                if (creator instanceof Player player) {
+                    if (faded && HadalGame.usm.isOwnTeam(player.getUser())) {
+                        return Shader.TRANSLUCENT;
+                    }
                 }
+
                 return super.getShaderStatic();
             }
         };

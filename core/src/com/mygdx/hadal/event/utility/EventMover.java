@@ -86,4 +86,9 @@ public class EventMover extends Event {
 			}
 		}
 	}
+
+	@Override
+	public void clientController(float delta) {
+		controller(delta);
+	}
 }

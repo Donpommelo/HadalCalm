@@ -19,14 +19,14 @@ public class SetCameraOnSpawn extends ModeSetting {
     public String loadSettingSpawn(PlayState state) {
         state.getCameraManager().setZoom(pvpMatchZoom);
 
-        String gameCameraId = TiledObjectUtil.getPrefabTriggerId();
+        String gameCameraId = TiledObjectUtil.getPrefabTriggerIdUnsynced();
 
         RectangleMapObject camera1 = new RectangleMapObject();
         camera1.setName("Camera");
         camera1.getProperties().put("zoom", pvpMatchZoom);
         camera1.getProperties().put("triggeredId", gameCameraId);
 
-        TiledObjectUtil.parseTiledEvent(state, camera1);
+        TiledObjectUtil.parseAddTiledEvent(state, camera1);
 
         return "bounds1,bounds2," + gameCameraId;
     }

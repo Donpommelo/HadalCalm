@@ -54,6 +54,7 @@ public class ShaderHelper {
      */
     public void processShaderController(float timer) {
         float percentageCompletion = MathUtils.clamp(1.0f - shaderCount / shaderDuration, 0, 1.0f);
+
         shader.shaderPlayUpdate(state, timer);
         shader.shaderDefaultUpdate(timer);
         shader.shaderEntityUpdate(entity, percentageCompletion);

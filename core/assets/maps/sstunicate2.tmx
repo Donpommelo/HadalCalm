@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="142">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="160" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="143">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="HUB"/>
@@ -117,21 +117,18 @@
   </object>
   <object id="23" name="Multitrigger" type="Multitrigger" x="480" y="1760" width="32" height="32">
    <properties>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="tour0"/>
     <property name="triggeringId" value="disableTour,tourDialog0"/>
    </properties>
   </object>
   <object id="24" name="Alttrigger" type="Alttrigger" x="544" y="1760" width="32" height="32">
    <properties>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="disableTour"/>
     <property name="triggeringId" value="tourStart"/>
    </properties>
   </object>
   <object id="25" name="Multitrigger" type="Multitrigger" x="480" y="1824" width="32" height="32">
    <properties>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="tour1"/>
     <property name="triggeringId" value="tourDialog1,tourCamera1,tourParticle1,tourParticle1p"/>
    </properties>
@@ -189,7 +186,6 @@
   </object>
   <object id="33" name="Multitrigger" type="Multitrigger" x="480" y="1888" width="32" height="32">
    <properties>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="tour2"/>
     <property name="triggeringId" value="tourDialog2,tourCamera2,tourParticle2,tourParticle2p"/>
    </properties>
@@ -218,7 +214,6 @@
   </object>
   <object id="37" name="Multitrigger" type="Multitrigger" x="480" y="1952" width="32" height="32">
    <properties>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="tour3"/>
     <property name="triggeringId" value="tourDialog3,tourCamera3,tourParticle3,tourParticle3p"/>
    </properties>
@@ -247,7 +242,6 @@
   </object>
   <object id="41" name="Multitrigger" type="Multitrigger" x="480" y="2016" width="32" height="32">
    <properties>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="tour4"/>
     <property name="triggeringId" value="tourDialog4,tourCamera4,tourParticle4a,,tourParticle4ap"/>
    </properties>
@@ -276,14 +270,12 @@
   </object>
   <object id="45" name="Multitrigger" type="Multitrigger" x="480" y="2080" width="32" height="32">
    <properties>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="tour6"/>
     <property name="triggeringId" value="tourDialog6,tourCamera6,tourParticle6,tourParticle6"/>
    </properties>
   </object>
   <object id="46" name="Multitrigger" type="Multitrigger" x="480" y="2144" width="32" height="32">
    <properties>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="tourfinish"/>
     <property name="triggeringId" value="enableTour,tourCameraFinish"/>
    </properties>
@@ -291,7 +283,6 @@
   <object id="47" name="Alttrigger" type="Alttrigger" x="544" y="2144" width="32" height="32">
    <properties>
     <property name="message" value="tour0"/>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="enableTour"/>
     <property name="triggeringId" value="tourStart"/>
    </properties>
@@ -375,21 +366,18 @@
   </object>
   <object id="65" name="Dialog" type="Dialog" x="352" y="416" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="textId" value="intro1A"/>
     <property name="triggeredId" value="intro1A"/>
    </properties>
   </object>
   <object id="66" name="Multitrigger" type="Multitrigger" x="160" y="224" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="enterfromcenter"/>
     <property name="triggeringId" value="bounds1,bounds2,cameramain"/>
    </properties>
   </object>
   <object id="67" name="Camera" type="Camera" x="224" y="224" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="cameramain"/>
     <property name="triggeringId" value=""/>
     <property name="zoom" type="float" value="1"/>
@@ -483,7 +471,6 @@
     <property name="particle_amb" value="PORTAL"/>
     <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="toFite"/>
    </properties>
@@ -504,7 +491,8 @@
     <property name="particle_amb" value="PORTAL"/>
     <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
-    <property name="sync" value="USER"/>
+    <property name="syncClient" value="USER"/>
+    <property name="syncServer" value="USER"/>
     <property name="triggeringId" value="toHub"/>
    </properties>
   </object>
@@ -521,19 +509,17 @@
   </object>
   <object id="88" name="Multitrigger" type="Multitrigger" x="1184" y="1760" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="toFite"/>
-    <property name="triggeringId" value="setFite,moveFite,enterfromfite,toFitePart"/>
+    <property name="triggeringId" value="moveFite,enterfromfite,fightSync"/>
    </properties>
   </object>
   <object id="89" name="PlayerMove" type="PlayerMove" x="1248" y="1760" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="moveFite"/>
     <property name="triggeringId" value="fromFite"/>
    </properties>
   </object>
-  <object id="90" name="PlayerAlign" type="PlayerAlign" x="1312" y="1760" width="32" height="32">
+  <object id="90" name="PlayerAlign" type="PlayerAlign" x="1376" y="1760" width="32" height="32">
    <properties>
     <property name="triggeredId" value="setFite"/>
    </properties>
@@ -580,14 +566,12 @@
   </object>
   <object id="97" name="Multitrigger" type="Multitrigger" x="160" y="352" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="enterfromfite"/>
     <property name="triggeringId" value="bounds1fite,bounds2fite,camerafite"/>
    </properties>
   </object>
   <object id="98" name="Camera" type="Camera" x="224" y="352" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="camerafite"/>
     <property name="triggeringId" value=""/>
     <property name="zoom" type="float" value="1.2"/>
@@ -652,7 +636,7 @@
     <property name="triggeringId" value="testSpawn1"/>
    </properties>
   </object>
-  <object id="116" name="Particle" type="Particle" x="1376" y="1760" width="32" height="32">
+  <object id="116" name="Particle" type="Particle" x="1440" y="1760" width="32" height="32">
    <properties>
     <property name="duration" type="float" value="1"/>
     <property name="particle" value="TELEPORT"/>
@@ -702,6 +686,14 @@
    <properties>
     <property name="triggeredId" value="enterfromcentersynced"/>
     <property name="triggeringId" value="bounds1,bounds2,cameraspawn"/>
+   </properties>
+  </object>
+  <object id="142" name="Multitrigger" type="Multitrigger" x="1312" y="1760" width="32" height="32">
+   <properties>
+    <property name="syncClient" value="ECHO_ACTIVATE"/>
+    <property name="syncServer" value="ECHO_ACTIVATE_EXCLUDE"/>
+    <property name="triggeredId" value="fightSync"/>
+    <property name="triggeringId" value="setFite,toFitePart"/>
    </properties>
   </object>
  </objectgroup>

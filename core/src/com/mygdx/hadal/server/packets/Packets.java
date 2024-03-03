@@ -474,6 +474,7 @@ public class Packets {
 		public short hitboxFilter;
 		public float scaleModifier;
 		public boolean dontMoveCamera;
+		public String startTriggeredId;
 		public CreatePlayer() {}
 		
 		/**
@@ -489,9 +490,10 @@ public class Packets {
 		 * @param hitboxFilter: collision filter of the new player
 		 * @param scaleModifier: player body size modification
 		 * @param dontMoveCamera: should the client's camera be constant when they die (used for matryoshka mode respawn)
+		 * @param startTriggeredId: id of the start event to trigger upon creating player
 		 */
 		public CreatePlayer(UUID entityID, int connID, Vector2 startPosition, String name, Loadout loadout,
-					short hitboxFilter, float scaleModifier, boolean dontMoveCamera) {
+					short hitboxFilter, float scaleModifier, boolean dontMoveCamera, String startTriggeredId) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.connID = connID;
@@ -501,6 +503,7 @@ public class Packets {
             this.hitboxFilter = hitboxFilter;
             this.scaleModifier = scaleModifier;
             this.dontMoveCamera = dontMoveCamera;
+			this.startTriggeredId = startTriggeredId;
         }
 	}
 	
@@ -530,7 +533,6 @@ public class Packets {
 		public long uuidMSB, uuidLSB;
         public Vector2 pos;
         public UnlockEquip newPickup;
-		public boolean synced;
 		public float lifespan;
         public CreatePickup() {}
         
@@ -541,15 +543,13 @@ public class Packets {
 		 * @param entityID: ID of the new Pickup.
 		 * @param pos: position of the new Pickup
 		 * @param newPickup: The pickup that this event should start with.
-		 * @param synced: should this entity receive a sync packet regularly? (for weapon drops from players)
 		 * @param lifespan: lifespan of pickup (only used if pickup is synced)
          */
-		public CreatePickup(UUID entityID, Vector2 pos, UnlockEquip newPickup, boolean synced, float lifespan) {
+		public CreatePickup(UUID entityID, Vector2 pos, UnlockEquip newPickup, float lifespan) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.pos = pos;
             this.newPickup = newPickup;
-            this.synced = synced;
             this.lifespan = lifespan;
 		}
 	}
@@ -596,28 +596,42 @@ public class Packets {
         	this.fade = fade;
         }
 	}
-	
+
 	public static class SyncPickup {
 		public long uuidMSB, uuidLSB;
+		public UnlockEquip newPickup;
+		public SyncPickup() {}
+
+		/**
+		 * A SyncPickup is sent from the Server to the Client when a Pickup is activated.
+		 * Clients receiving this adjust their version of the pickup to hold the new pickup
+		 * @param entityID: ID of the activated Pickup
+		 * @param newPickup: enum name of the new pickup.
+		 */
+		public SyncPickup(UUID entityID, UnlockEquip newPickup) {
+			this.uuidLSB = entityID.getLeastSignificantBits();
+			this.uuidMSB = entityID.getMostSignificantBits();
+			this.newPickup = newPickup;
+		}
+	}
+
+	public static class SyncPickupTriggered {
+		public String triggeredID;
         public UnlockEquip newPickup;
-		public float timestamp;
-        public SyncPickup() {}
+        public SyncPickupTriggered() {}
         
         /**
          * A SyncPickup is sent from the Server to the Client when a Pickup is activated.
          * Clients receiving this adjust their version of the pickup to hold the new pickup
-         * @param entityID: ID of the activated Pickup
+         * @param triggeredID: ID of the activated Pickup
          * @param newPickup: enum name of the new pickup.
-		 * @param timestamp: time of sync. Used for client prediction.
          */
-		public SyncPickup(UUID entityID, UnlockEquip newPickup, float timestamp) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public SyncPickupTriggered(String triggeredID, UnlockEquip newPickup) {
+			this.triggeredID = triggeredID;
             this.newPickup = newPickup;
-			this.timestamp = timestamp;
 		}
 	}
-	
+
 	public static class ActivateEvent {
 		public long uuidMSB, uuidLSB;
 		public int connID;
@@ -634,6 +648,22 @@ public class Packets {
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.connID = connID;
         }
+	}
+
+	public static class ActivateEventByTrigger {
+		public String triggeredID;
+		public int connID;
+		public ActivateEventByTrigger() {}
+
+		/**
+		 * A ActivateEventByTrigger is like an ActivateEvent, but it uses the evnt's triggeredID instead of entity id
+		 * @param triggeredID: triggered ID of the activated Pickup
+		 * @param connID: The connection id of the player that activated this event
+		 */
+		public ActivateEventByTrigger(String triggeredID, int connID) {
+			this.triggeredID = triggeredID;
+			this.connID = connID;
+		}
 	}
 
 	public static class CreateParticles {
@@ -1081,8 +1111,10 @@ public class Packets {
 		kryo.register(DeleteClientSelf.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
-    	kryo.register(SyncPickup.class);
-    	kryo.register(ActivateEvent.class);
+		kryo.register(SyncPickup.class);
+		kryo.register(SyncPickupTriggered.class);
+		kryo.register(ActivateEvent.class);
+		kryo.register(ActivateEventByTrigger.class);
     	kryo.register(CreatePlayer.class);
 		kryo.register(CreateParticles.class);
 		kryo.register(CreateFlag.class);

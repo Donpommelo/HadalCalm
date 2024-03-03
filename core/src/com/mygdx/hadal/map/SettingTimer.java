@@ -76,7 +76,7 @@ public class SettingTimer extends ModeSetting {
         end.getProperties().put("text", endText);
         end.getProperties().put("triggeredId", "runOnGlobalTimerConclude");
 
-        TiledObjectUtil.parseTiledEvent(state, end);
+        TiledObjectUtil.parseAddTiledEvent(state, end);
 
         return "";
     }

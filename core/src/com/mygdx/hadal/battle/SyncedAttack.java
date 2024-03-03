@@ -491,6 +491,7 @@ public enum SyncedAttack {
         } else {
             packet = new PacketsAttacks.SyncedAttackNoHboxExtraServer(user.getEntityID(), startPos, extraFields, this);
         }
+
         if (0 == connID || !independent) {
             HadalGame.server.sendToAllUDP(packet);
         } else {

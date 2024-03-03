@@ -7,6 +7,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -39,7 +40,11 @@ public class ParticleCreator extends Event {
 		this.on = startOn;
 
 		if (duration == 0) {
-			particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, SyncType.TICKSYNC);
+			particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, SyncType.NOSYNC);
+
+			if (!state.isServer()) {
+				((ClientState) state).addEntity(particles.getEntityID(), particles, false, PlayState.ObjectLayer.EFFECT);
+			}
 		} else {
 			this.particle = particle;
 		}
@@ -56,14 +61,13 @@ public class ParticleCreator extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-
 				HadalEntity attachedEntity;
 				if (getConnectedEvent() != null) {
 					attachedEntity = getConnectedEvent();
 				} else {
 					attachedEntity = p;
 				}
-								
+
 				if (particles != null) {
 					particles.setAttachedEntity(attachedEntity);
 					if (on) {
@@ -73,7 +77,10 @@ public class ParticleCreator extends Event {
 					}
 					on = !on;
 				} else {
-					new ParticleEntity(state, attachedEntity, particle, 1.0f, duration, true, SyncType.CREATESYNC);
+					ParticleEntity tempParticles = new ParticleEntity(state, attachedEntity, particle, 1.0f, duration, true, SyncType.NOSYNC);
+					if (!state.isServer()) {
+						((ClientState) state).addEntity(tempParticles.getEntityID(), tempParticles, false, PlayState.ObjectLayer.EFFECT);
+					}
 				}
 			}
 		};

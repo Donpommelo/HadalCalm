@@ -11,7 +11,7 @@ uniform float scale = 5.0;
 uniform float smoothness = 0.25;
 
 uniform vec2 u_resolution;
-uniform float u_time;
+uniform float completion;
 uniform float u_random;
 
 float random(vec2 co) {
@@ -46,7 +46,7 @@ void main() {
 
   float n = noise(v_texCoords * scale);
 
-  float p = mix(-smoothness, 1.0 + smoothness, u_time);
+  float p = mix(-smoothness, 1.0 + smoothness, completion);
   float lower = p - smoothness;
   float higher = p + smoothness;
 

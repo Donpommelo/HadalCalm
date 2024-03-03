@@ -73,11 +73,19 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public void unequip(PlayState state) {
 		if (charge != null) {
-			charge.queueDeletion();
+			if (state.isServer()) {
+				charge.queueDeletion();
+			} else {
+				((ClientState) state).removeEntity(charge.getEntityID());
+			}
 			charge = null;
 		}
 		if (overcharge != null) {
-			overcharge.queueDeletion();
+			if (state.isServer()) {
+				overcharge.queueDeletion();
+			} else {
+				((ClientState) state).removeEntity(overcharge.getEntityID());
+			}
 			overcharge = null;
 		}
 	}

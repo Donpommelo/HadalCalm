@@ -10,6 +10,10 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class Door extends Prefabrication {
 
+	private static final String DOOR_ID = "DOOR";
+	private static final String HINGE_ID = "DOOR_HINGE";
+	private static final String MOVER_ID = "DOOR_MOVER";
+
 	//This is the speed that the wall will open at.
 	private final float speed;
 	
@@ -29,10 +33,9 @@ public class Door extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		
-		String doorId = TiledObjectUtil.getPrefabTriggerId();
-		String hingeId = TiledObjectUtil.getPrefabTriggerId();
-		String moverId = TiledObjectUtil.getPrefabTriggerId();
+		String doorId = TiledObjectUtil.getPrefabTriggerIdSynced(eventId, DOOR_ID, x, y);
+		String hingeId = TiledObjectUtil.getPrefabTriggerIdSynced(eventId, HINGE_ID, x, y);
+		String moverId = TiledObjectUtil.getPrefabTriggerIdSynced(eventId, MOVER_ID, x, y);
 
 		RectangleMapObject redirector = new RectangleMapObject();
 		redirector.setName("Redirecttrigger");
@@ -58,9 +61,9 @@ public class Door extends Prefabrication {
 		mover.getProperties().put("connections", doorId);
 		mover.getProperties().put("triggeredId", moverId);
 		
-		TiledObjectUtil.parseTiledEvent(state, redirector);
-		TiledObjectUtil.parseTiledEvent(state, hinge);
-		TiledObjectUtil.parseTiledEvent(state, door);
-		TiledObjectUtil.parseTiledEvent(state, mover);
+		TiledObjectUtil.parseAddTiledEvent(state, redirector);
+		TiledObjectUtil.parseAddTiledEvent(state, hinge);
+		TiledObjectUtil.parseAddTiledEvent(state, door);
+		TiledObjectUtil.parseAddTiledEvent(state, mover);
 	}
 }

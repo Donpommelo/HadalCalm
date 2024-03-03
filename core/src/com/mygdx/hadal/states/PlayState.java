@@ -540,7 +540,7 @@ public class PlayState extends GameState {
 			}
 		}
 	}
-	
+
 	/**
 	 * This method renders stuff to the screen after updating.
 	 */
@@ -816,7 +816,6 @@ public class PlayState extends GameState {
 	 * This is called when ending a playstate by winning, losing or moving to a new playstate
 	 */	
 	public void transitionState() {
-
 		switch (nextState) {
 		case RESPAWN:
 			gsm.getApp().fadeIn();
@@ -927,8 +926,8 @@ public class PlayState extends GameState {
 	 * @param hitboxFilter: the new player's collision filter
 	 * @return the newly created player
 	 */
-	public Player createPlayer(Event start, String name, Loadout loadout, PlayerBodyData old,
-	   		User user, boolean reset, boolean client, short hitboxFilter) {
+	public Player createPlayer(Event start, String name, Loadout loadout, PlayerBodyData old, User user, boolean reset,
+							   boolean client, short hitboxFilter) {
 
 		Loadout newLoadout = new Loadout(loadout);
 
@@ -972,8 +971,7 @@ public class PlayState extends GameState {
 			if (!client) {
 				p = new Player(this, overiddenSpawn, name, old, user, reset, spawn);
 			} else {
-				//clients always spawn at (0,0), then move when the server tells them to.
-				p = new PlayerSelfOnClient(this, new Vector2(), name, null, user, reset, null);
+				p = new PlayerSelfOnClient(this, overiddenSpawn, name, null, user, reset, spawn);
 			}
 		}
 

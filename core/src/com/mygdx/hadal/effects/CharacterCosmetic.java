@@ -142,11 +142,11 @@ public class CharacterCosmetic {
         if (0 != frames.getKeyFrames().length) {
             if (useShader || team.isCosmeticApply()) {
                 return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
-                        drawShadedCosmetic(state.getBatch(), team, character, false, false).getKeyFrame(0),
-                        playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
+                        drawShadedCosmetic(state.getBatch(), team, character, mirror, false).getKeyFrame(0),
+                        playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
             } else {
                 return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
-                        frames.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
+                        frames.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
             }
         }
         return null;
@@ -192,7 +192,6 @@ public class CharacterCosmetic {
                 shadedCosmetics.put(shaderKey, shadedSprite);
             }
         }
-
         return flip ? shadedSprite.getAnimationMirror() : shadedSprite.getAnimation();
     }
 

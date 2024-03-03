@@ -12,6 +12,13 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class ScrapCache extends Prefabrication {
 
+	private static final String PICKUP_ID = "SCRAP_PICKUP";
+	private static final String SPAWNER_ID = "SCRAP_SPAWNER";
+	private static final String EFFECT_ID = "SCRAP_EFFECT";
+	private static final String BACK_ID = "SCRAP_BACK";
+	private static final String SCRAP_ID = "SCRAP_SCRAP";
+	private static final String CACHE_ID = "SCRAP_CACHE";
+
 	private final String triggeredId, triggeringId;
 	private final String cacheId;
 
@@ -31,12 +38,12 @@ public class ScrapCache extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		pickupId = TiledObjectUtil.getPrefabTriggerId();
-		spawnerId = TiledObjectUtil.getPrefabTriggerId();
-		String onPickupId = TiledObjectUtil.getPrefabTriggerId();
-		String pickupBackId = TiledObjectUtil.getPrefabTriggerId();
-		String scrapSpawnId = TiledObjectUtil.getPrefabTriggerId();
-		String cacheSetId = TiledObjectUtil.getPrefabTriggerId();
+		pickupId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, PICKUP_ID, x, y);
+		spawnerId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, SPAWNER_ID, x, y);
+		String onPickupId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, EFFECT_ID, x, y);
+		String pickupBackId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, BACK_ID, x, y);
+		String scrapSpawnId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, SCRAP_ID, x, y);
+		String cacheSetId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, CACHE_ID, x, y);
 		
 		RectangleMapObject cacheCheck = new RectangleMapObject();
 		cacheCheck.setName("QuestCheck");
@@ -48,7 +55,8 @@ public class ScrapCache extends Prefabrication {
 		RectangleMapObject spawner = new RectangleMapObject();
 		spawner.getRectangle().set(x, y, width, height);
 		spawner.setName("EventMove");
-		spawner.getProperties().put("sync", "ALL");
+		spawner.getProperties().put("syncServer", "ECHO_ACTIVATE");
+		spawner.getProperties().put("syncClient", "ECHO");
 		spawner.getProperties().put("particle_std", "EVENT_HOLO");
 		spawner.getProperties().put("scale", 0.25f);
 		spawner.getProperties().put("sprite", "BASE");
@@ -86,13 +94,13 @@ public class ScrapCache extends Prefabrication {
 		cacheSet.getProperties().put("change", 1);
 		cacheSet.getProperties().put("triggeredId", cacheSetId);
 		
-		TiledObjectUtil.parseTiledEvent(state, cacheCheck);
-		TiledObjectUtil.parseTiledEvent(state, spawner);
-		TiledObjectUtil.parseTiledEvent(state, pickup);
-		TiledObjectUtil.parseTiledEvent(state, onPickup);
-		TiledObjectUtil.parseTiledEvent(state, back);
-		TiledObjectUtil.parseTiledEvent(state, scrapSpawn);
-		TiledObjectUtil.parseTiledEvent(state, cacheSet);
+		TiledObjectUtil.parseAddTiledEvent(state, cacheCheck);
+		TiledObjectUtil.parseAddTiledEvent(state, spawner);
+		TiledObjectUtil.parseAddTiledEvent(state, pickup);
+		TiledObjectUtil.parseAddTiledEvent(state, onPickup);
+		TiledObjectUtil.parseAddTiledEvent(state, back);
+		TiledObjectUtil.parseAddTiledEvent(state, scrapSpawn);
+		TiledObjectUtil.parseAddTiledEvent(state, cacheSet);
 	}
 	
 	@Override

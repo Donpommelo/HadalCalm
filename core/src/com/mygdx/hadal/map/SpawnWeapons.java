@@ -20,7 +20,7 @@ public class SpawnWeapons extends ModeSetting {
         weaponTimer.getProperties().put("interval", weaponSpawnTimer);
         weaponTimer.getProperties().put("triggeringId", weaponTimerId);
 
-        TiledObjectUtil.parseTiledEvent(state, weaponTimer);
+        TiledObjectUtil.parseAddTiledEvent(state, weaponTimer);
 
         return weaponTimerId;
     }

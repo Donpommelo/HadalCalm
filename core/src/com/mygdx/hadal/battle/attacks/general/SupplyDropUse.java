@@ -15,6 +15,9 @@ public class SupplyDropUse extends SyncedAttacker {
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
         SoundEffect.MAGIC1_ACTIVE.playSourced(state, startPosition, 1.0f);
-        new PickupEquip(state, startPosition, UnlockEquip.getRandWeapFromPool(state, ""), EQUIP_DROP_LIFEPAN);
+
+        if (state.isServer()) {
+            new PickupEquip(state, startPosition, UnlockEquip.getRandWeapFromPool(state, ""), EQUIP_DROP_LIFEPAN);
+        }
     }
 }

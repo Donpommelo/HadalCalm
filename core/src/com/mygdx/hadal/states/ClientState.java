@@ -60,13 +60,13 @@ public class ClientState extends PlayState {
 
 		//client processes collisions and certain events
 		TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
-		TiledObjectUtil.parseTiledEventLayerClient(this, map.getLayers().get("event-layer").getObjects());
+		TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
 		TiledObjectUtil.parseTiledTriggerLayer();
 
 		//parse map-specific event layers (used for different modes in the same map)
 		for (String layer : mode.getExtraLayers()) {
 			if (map.getLayers().get(layer) != null) {
-				TiledObjectUtil.parseTiledEventLayerClient(this, map.getLayers().get(layer).getObjects());
+				TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
 			}
 		}
 
@@ -385,6 +385,12 @@ public class ClientState extends PlayState {
 		//clean up all client entities. (some entities require running their dispose() to function properly (soundEntities turning off)
 		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {
+				entity.dispose();
+			}
+		}
+		for (UUID key : removeListClient) {
+			HadalEntity entity = findEntity(key);
+			if (entity != null) {
 				entity.dispose();
 			}
 		}

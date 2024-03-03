@@ -15,6 +15,7 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -30,6 +31,7 @@ import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -89,34 +91,33 @@ public class KryoServer {
 			@Override
 			public void disconnected(final Connection c) {
 				final PlayState ps = getPlayState();
-
-				//Identify the player that disconnected
-				User user = usm.getUsers().get(c.getID());
-				if (user != null && ps != null) {
-
-					//free up the disconnected user's player slot
-					user.getHitboxFilter().setUsed(false);
-
-					Player player = user.getPlayer();
-					if (player != null) {
-						ps.addPacketEffect(() -> {
-
-							//Inform all that the player disconnected and kill the player
-							if (player.getPlayerData() != null) {
-								player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageSource.DISCONNECT);
-							}
-							addNotificationToAll(ps, "", UIText.CLIENT_DISCONNECTED.text(player.getName()),
-									true, DialogType.SYSTEM);
-						});
-					}
+				if (ps != null) {
 					ps.addPacketEffect(() -> {
+						//Identify the player that disconnected
+						User user = usm.getUsers().get(c.getID());
+						if (user != null) {
 
-						//remove disconnecting player from users
-						usm.getUsers().remove(c.getID());
-						ps.getScoreWindow().syncScoreTable();
-						sendToAllTCP(new Packets.RemoveScore(c.getID()));
+							//free up the disconnected user's player slot
+							user.getHitboxFilter().setUsed(false);
+
+							Player player = user.getPlayer();
+							if (player != null) {
+								//Inform all that the player disconnected and kill the player
+								if (player.getPlayerData() != null) {
+									player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageSource.DISCONNECT);
+								}
+								addNotificationToAll(ps, "", UIText.CLIENT_DISCONNECTED.text(player.getName()),
+										true, DialogType.SYSTEM);
+							}
+
+							//remove disconnecting player from users
+							usm.getUsers().remove(c.getID());
+							ps.getScoreWindow().syncScoreTable();
+							sendToAllTCP(new Packets.RemoveScore(c.getID()));
+						}
 					});
 				}
+
 
 				//If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.
 				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof final ResultsState vs) {
@@ -132,13 +133,16 @@ public class KryoServer {
 			public void received(final Connection c, Object o) {
 				if (o instanceof final PacketsSync.SyncClientSnapshot p) {
 					final PlayState ps = getPlayState();
-
-					User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							player.onReceiveSync(p, p.timestamp);
-						}
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									player.onReceiveSync(p, p.timestamp);
+								}
+							}
+						});
 					}
 				}
 
@@ -148,91 +152,98 @@ public class KryoServer {
 				 */
 				if (o instanceof final Packets.SyncKeyStrokes p) {
 					final PlayState ps = getPlayState();
-
-					User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-
-						Player player = user.getPlayer();
-						if (player != null) {
-							if (player.getController() != null) {
-								ps.addPacketEffect(() -> player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY,
-										p.playerX, p.playerY, p.actions, p.timestamp));
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									if (player.getController() != null) {
+										player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY,
+												p.playerX, p.playerY, p.actions, p.timestamp);
+									}
+								}
 							}
-						}
+						});
 					}
 				}
 
 				if (o instanceof final PacketsAttacks.SingleClientIndependent p) {
-
 					final PlayState ps = getPlayState();
-					User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.addPacketEffect(() -> {
-								if (p instanceof PacketsAttacks.SingleClientDependent p1) {
-									Hitbox hbox;
-									if (p instanceof PacketsAttacks.SingleClientDependentExtra p2) {
-										hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p2.extraFields);
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									if (p instanceof PacketsAttacks.SingleClientDependent p1) {
+										Hitbox hbox;
+										if (p instanceof PacketsAttacks.SingleClientDependentExtra p2) {
+											hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p2.extraFields);
+										} else {
+											hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+										}
+										hbox.setEntityID(new UUID(p1.uuidMSB, p1.uuidLSB));
 									} else {
-										hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
-									}
-									hbox.setEntityID(new UUID(p1.uuidMSB, p1.uuidLSB));
-								} else {
-									if (p instanceof PacketsAttacks.SingleClientIndependentExtra p1) {
-										p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p1.extraFields);
-									} else {
-										p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+										if (p instanceof PacketsAttacks.SingleClientIndependentExtra p1) {
+											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p1.extraFields);
+										} else {
+											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+										}
 									}
 								}
-							});
-						}
+							}
+						});
 					}
 				}
 
 				if (o instanceof final PacketsAttacks.MultiClientIndependent p) {
 					final PlayState ps = getPlayState();
-					User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.addPacketEffect(() -> {
-								if (p instanceof PacketsAttacks.MultiClientDependent p1) {
-									Hitbox[] hboxes;
-									if (p instanceof PacketsAttacks.MultiClientDependentExtra p2) {
-										hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									if (p instanceof PacketsAttacks.MultiClientDependent p1) {
+										Hitbox[] hboxes;
+										if (p instanceof PacketsAttacks.MultiClientDependentExtra p2) {
+											hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+										} else {
+											hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+										}
+										for (int i = 0; i < hboxes.length; i++) {
+											hboxes[i].setEntityID(new UUID(p1.uuidMSB[i], p1.uuidLSB[i]));
+										}
 									} else {
-										hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
-									}
-									for (int i = 0; i < hboxes.length; i++) {
-										hboxes[i].setEntityID(new UUID(p1.uuidMSB[i], p1.uuidLSB[i]));
-									}
-								} else {
-									if (p instanceof PacketsAttacks.MultiClientIndependentExtra p2) {
-										p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
-									} else {
-										p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+										if (p instanceof PacketsAttacks.MultiClientIndependentExtra p2) {
+											p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+										} else {
+											p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+										}
 									}
 								}
-							});
-						}
+							}
+						});
 					}
 				}
 
 				if (o instanceof final PacketsAttacks.SyncedAttackNoHbox p) {
 					final PlayState ps = getPlayState();
-					User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.addPacketEffect(() -> {
-								if (p instanceof PacketsAttacks.SyncedAttackNoHboxExtra p1) {
-									p.attack.initiateSyncedAttackNoHbox(ps, player, p.pos, c.getID(), false, p.independent, p1.extraFields);
-								} else {
-									p.attack.initiateSyncedAttackNoHbox(ps, player, p.pos, c.getID(), false, p.independent);
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									if (p instanceof PacketsAttacks.SyncedAttackNoHboxExtra p1) {
+										p.attack.initiateSyncedAttackNoHbox(ps, player, p.pos, c.getID(), false, p.independent, p1.extraFields);
+									} else {
+										p.attack.initiateSyncedAttackNoHbox(ps, player, p.pos, c.getID(), false, p.independent);
+									}
 								}
-							});
-						}
+							}
+						});
 					}
 				}
 
@@ -360,7 +371,6 @@ public class KryoServer {
 							if (player.getPlayerData() != null) {
 								HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(
 										c.getID(), user.getLoadoutManager().getActiveLoadout(), false));
-								player.activateStartingEvents();
 							}
 						}
 					}
@@ -372,13 +382,12 @@ public class KryoServer {
 				 */
 				else if (o instanceof final PacketsLoadout.SyncLoadoutClient p) {
 					final PlayState ps = getPlayState();
-
-    				User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							if (player.getPlayerData() != null) {
-								ps.addPacketEffect(() -> {
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null && player.getPlayerData() != null) {
 									if (p instanceof PacketsLoadout.SyncEquipClient s) {
 										player.getEquipHelper().syncEquip(s.equip);
 										player.getEquipHelper().syncServerEquipChangeEcho(c.getID(), s.equip);
@@ -405,25 +414,27 @@ public class KryoServer {
 										player.getCosmeticsHelper().setCosmetic(s.cosmetic);
 										player.getCosmeticsHelper().syncServerCosmeticChange(s.cosmetic);
 									}
-								});
+								}
 							}
-						}
+						});
 					}
         		}
 
 				else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
 					final PlayState ps = getPlayState();
-					User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							if (player.getPlayerData() != null) {
-								ps.addPacketEffect(() -> {
-									player.getLoadoutHelper().syncLoadout(p.loadout, false, false);
-									player.getLoadoutHelper().syncServerWholeLoadoutChange();
-								});
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									if (player.getPlayerData() != null) {
+										player.getLoadoutHelper().syncLoadout(p.loadout, false, false);
+										player.getLoadoutHelper().syncServerWholeLoadoutChange();
+									}
+								}
 							}
-						}
+						});
 					}
 				}
 
@@ -474,9 +485,11 @@ public class KryoServer {
 				else if (o instanceof final Packets.Paused p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						if (gsm.getSetting().isMultiplayerPause()) {
-							ps.addPacketEffect(() -> gsm.addPauseState(ps, p.pauser, PlayState.class, true));
-						}
+						ps.addPacketEffect(() -> {
+							if (gsm.getSetting().isMultiplayerPause()) {
+								gsm.addPauseState(ps, p.pauser, PlayState.class, true);
+							}
+						});
 					}
 				}
 
@@ -485,14 +498,17 @@ public class KryoServer {
 				 */
 				else if (o instanceof final Packets.LatencySyn p) {
 					final PlayState ps = getPlayState();
-
-					User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-						if (user.getPing() != p.latency) {
-							user.setPing(p.latency);
-							user.setScoreUpdated(true);
-						}
-						server.sendToUDP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								if (user.getPing() != p.latency) {
+									user.setPing(p.latency);
+									user.setScoreUpdated(true);
+								}
+								server.sendToUDP(c.getID(), new Packets.LatencyAck(ps.getTimer(), p.timestamp));
+							}
+						});
 					}
 				}
 
@@ -501,12 +517,16 @@ public class KryoServer {
 				 */
 				else if (o instanceof final Packets.SyncEmote p) {
 					final PlayState ps = getPlayState();
-					User user = usm.getUsers().get(c.getID());
-					if (user != null && ps != null) {
-						Player player = user.getPlayer();
-						if (player != null) {
-							ps.addPacketEffect(() -> ps.getChatWheel().emote(player, p.emoteIndex, c.getID()));
-						}
+					if (ps != null) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									ps.getChatWheel().emote(player, p.emoteIndex, c.getID());
+								}
+							}
+						});
 					}
 				}
 
@@ -516,10 +536,12 @@ public class KryoServer {
 				else if (o instanceof Packets.StartSpectate) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						User user = usm.getUsers().get(c.getID());
-						if (user != null) {
-							ps.addPacketEffect(() -> ps.becomeSpectator(user, true));
-						}
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								ps.becomeSpectator(user, true);
+							}
+						});
 					}
 				}
 				
@@ -551,26 +573,28 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.ClientYeet) {
 					final PlayState ps = getPlayState();
-					if (ps != null) {
-						User user = usm.getUsers().get(c.getID());
-						if (user != null) {
-							Player player = user.getPlayer();
-							if (player != null) {
-								if (player.getPlayerData() != null) {
-									ps.addPacketEffect(() -> player.getPlayerData().receiveDamage(9999, new Vector2(),
-											player.getPlayerData(), false, null, DamageSource.MISC));
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									if (player.getPlayerData() != null) {
+										player.getPlayerData().receiveDamage(9999, new Vector2(),
+												player.getPlayerData(), false, null, DamageSource.MISC);
+									}
 								}
 							}
-						}
+						});
 					}
 				}
 
 				else if (o instanceof final Packets.DeleteClientSelf p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
-						User vic = usm.getUsers().get(c.getID());
-						if (null != vic) {
-							ps.addPacketEffect(() -> {
+						ps.addPacketEffect(() -> {
+							User vic = usm.getUsers().get(c.getID());
+							if (null != vic) {
 								if (null != vic.getPlayer()) {
 									HadalEntity perp = ps.findEntity(p.uuidMSB, p.uuidLSB);
 									if (perp instanceof Schmuck schmuck) {
@@ -579,28 +603,75 @@ public class KryoServer {
 										vic.getPlayer().getPlayerData().die(ps.getWorldDummy().getBodyData(), p.source, p.tags);
 									}
 								}
-							});
-						}
+							}
+						});
 					}
 				}
 
 				else if (o instanceof Packets.ActivateEvent p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
-						User user = usm.getUsers().get(c.getID());
-						if (user != null) {
-							Player player = user.getPlayer();
-							if (player != null) {
-								ps.addPacketEffect(() -> {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
 									HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
 									if (entity != null) {
 										if (entity instanceof Event event) {
 											event.getEventData().preActivate(null, player);
 										}
 									}
-								});
+								}
 							}
-						}
+						});
+					}
+				}
+
+				else if (o instanceof Packets.ActivateEventByTrigger p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								Player player = user.getPlayer();
+								if (player != null) {
+									Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
+									if (event != null) {
+										event.getEventData().preActivate(null, player);
+									}
+								}
+							}
+						});
+					}
+				}
+
+				else if (o instanceof Packets.SyncPickup p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
+							if (null != entity) {
+								if (entity instanceof PickupEquip pickupEquip) {
+									pickupEquip.setEquip(UnlocktoItem.getUnlock(p.newPickup, null));
+								}
+							}
+						});
+					}
+				}
+
+				else if (o instanceof Packets.SyncPickupTriggered p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
+							if (null != event) {
+								if (event instanceof PickupEquip pickupEquip) {
+									pickupEquip.setEquip(UnlocktoItem.getUnlock(p.newPickup, null));
+									pickupEquip.setEquipChanged(true);
+								}
+							}
+						});
 					}
 				}
 

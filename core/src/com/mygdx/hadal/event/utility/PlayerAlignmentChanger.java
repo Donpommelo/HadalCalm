@@ -68,9 +68,4 @@ public class PlayerAlignmentChanger extends Event {
 			}
 		};
 	}
-
-	@Override
-	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.ALL);
-	}
 }

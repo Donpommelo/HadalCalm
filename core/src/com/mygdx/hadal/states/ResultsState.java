@@ -350,7 +350,7 @@ public class ResultsState extends GameState {
 			@Override
 			public void draw(Batch batch, float alpha) {
 				batch.setShader(shader.getShaderProgram());
-				shader.shaderDefaultUpdate(progress);
+				shader.shaderEntityUpdate(null, progress);
 				batch.draw(snapshot, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 				batch.setShader(null);
 			}

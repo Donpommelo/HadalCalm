@@ -30,6 +30,6 @@ public class DeathRagdoll extends Status {
 	@Override
 	public void onDeath(BodyData perp, DamageSource source) {
 		new Ragdoll(state, inflicted.getSchmuck().getPixelPosition(), size, sprite, inflicted.getSchmuck().getLinearVelocity(),
-				DURATION, GRAVITY, true, false, true, true);
+				DURATION, GRAVITY, true, false, true).setFade();
 	}
 }

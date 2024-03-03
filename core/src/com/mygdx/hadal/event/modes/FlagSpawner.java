@@ -143,7 +143,8 @@ public class FlagSpawner extends Event {
     @Override
     public void loadDefaultProperties() {
         setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
-        setSyncType(eventSyncTypes.ALL);
+        setServerSyncType(eventSyncTypes.ECHO_ACTIVATE);
+        setClientSyncType(eventSyncTypes.IGNORE);
         addAmbientParticle(Particle.RING);
     }
 
