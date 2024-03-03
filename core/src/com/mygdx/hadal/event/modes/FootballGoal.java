@@ -3,12 +3,16 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
+import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -29,6 +33,8 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
  */
 public class FootballGoal extends Event {
 
+    private final static float PARTICLE_DURATION = 5.0f;
+
     private final int teamIndex;
 
     public FootballGoal(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {
@@ -42,6 +48,16 @@ public class FootballGoal extends Event {
 
             @Override
             public void onActivate(EventData activator, Player p) {
+
+                ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
+                        true, SyncType.NOSYNC);
+                if (teamIndex < AlignmentFilter.currentTeams.length) {
+                    particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
+                }
+
+                if (!state.isServer()) {
+                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+                }
 
                 //give score credit to the player and give notification
                 if (p != null) {
@@ -73,7 +89,7 @@ public class FootballGoal extends Event {
         setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
 
         setServerSyncType(eventSyncTypes.ECHO_ACTIVATE);
-        setClientSyncType(eventSyncTypes.IGNORE);
+        setClientSyncType(eventSyncTypes.ACTIVATE);
     }
 
     public int getTeamIndex() { return teamIndex; }

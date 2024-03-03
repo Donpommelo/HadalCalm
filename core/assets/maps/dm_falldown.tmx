@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="91">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="91">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -303,7 +303,7 @@
     <property name="synced" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="13" name="Destr_Obj" type="Destr_Obj" x="1376" y="1568" width="160" height="160">
+  <object id="13" name="Destr_Obj" type="Destr_Obj" x="1426" y="1538" width="160" height="160">
    <properties>
     <property name="gravity" type="float" value="1"/>
     <property name="hp" type="int" value="100"/>
@@ -407,6 +407,7 @@
   <object id="28" name="Condtrigger" type="Condtrigger" x="2560" y="128" width="32" height="32">
    <properties>
     <property name="start" value="random"/>
+    <property name="syncClient" value="IGNORE"/>
     <property name="triggeredId" value="randSpawn"/>
     <property name="triggeringId" value="spawn1,spawn2,,spawn3,spawn4,spawn5,spawn6,spawn7,spawn8,spawn9,spawn10"/>
    </properties>
