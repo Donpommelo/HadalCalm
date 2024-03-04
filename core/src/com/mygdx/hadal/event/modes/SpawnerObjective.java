@@ -26,7 +26,8 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 public class SpawnerObjective extends Event {
 
 	//How frequently will this event spawn eggplants/candy in eggplant hunt/trick or treat?
-	private static final float EGGPLANT_INTERVAL = 2.0f;
+	private static final float EGGPLANT_INTERVAL = 4.0f;
+	private static final int EGGPLANT_AMOUNT = 3;
 
 	private static final float CANDY_INTERVAL = 20.0f;
 
@@ -77,7 +78,7 @@ public class SpawnerObjective extends Event {
 				timeCount = 0;
 
 				PickupUtils.spawnScrap(state, state.getWorldDummy(), getPixelPosition(), new Vector2(0, 1),
-						1, false, true);
+						EGGPLANT_AMOUNT, false, true);
 			}
 		}
 

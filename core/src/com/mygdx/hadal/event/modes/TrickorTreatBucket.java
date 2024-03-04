@@ -136,6 +136,6 @@ public class TrickorTreatBucket extends Event {
     @Override
     public void loadDefaultProperties() {
         setServerSyncType(eventSyncTypes.ECHO_ACTIVATE);
-        setClientSyncType(eventSyncTypes.IGNORE);
+        setClientSyncType(eventSyncTypes.ACTIVATE);
     }
 }

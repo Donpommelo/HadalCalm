@@ -67,6 +67,7 @@ public class ScalePlatform extends Event {
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
 		setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
+		setIndependent(false);
 		setSynced(true);
 	}
 }

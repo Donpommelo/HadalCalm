@@ -24,7 +24,11 @@ public class ModeEggplantHunt extends ModeSetting {
     private static final float EGGPLANT_DESIRE_MULTIPLIER = 0.025f;
 
     private static final float EGGPLANT_MULTIPLIER = 0.33f;
-    private static final int BASE_EGGPLANT_DROP = 1;
+    private static final int BASE_EGGPLANT_DROP = 3;
+
+    private static final float EGGPLANT_SPEED = 25.0f;
+
+    private final Vector2 startVelocity = new Vector2();
 
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
@@ -35,11 +39,19 @@ public class ModeEggplantHunt extends ModeSetting {
                 //upon death, lose eggplants and drop them according to how many you have
                 ScoreManager field = vic.getUser().getScoreManager();
                 int score = (int) (field.getScore() * EGGPLANT_MULTIPLIER);
+
                 if (0 > score) {
                     score = 0;
                 }
                 state.getMode().processPlayerScoreChange(state, vic, -score);
-                PickupUtils.spawnScrap(state, perp, vic.getPixelPosition(), vic.getLinearVelocity(),
+
+                if (vic.getLinearVelocity().isZero()) {
+                    startVelocity.set(0, 1).nor().scl(EGGPLANT_SPEED);
+                } else {
+                    startVelocity.set(vic.getLinearVelocity()).nor().scl(EGGPLANT_SPEED);
+                }
+
+                PickupUtils.spawnScrap(state, perp, vic.getPixelPosition(), startVelocity,
                         score + BASE_EGGPLANT_DROP, true, true);
             }
         }

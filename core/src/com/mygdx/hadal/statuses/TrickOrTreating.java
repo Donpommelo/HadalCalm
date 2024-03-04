@@ -47,13 +47,12 @@ public class TrickOrTreating extends Status {
 		player.getUser().getScoreManager().setExtraModeScore(candyCount);
 
 		this.candyIcon = Sprite.CANDY_A.getFrame();
-		this.setServerOnly(true);
 	}
 
 	private float controllerCount;
 	@Override
 	public void timePassing(float delta) {
-		if (0.0f < recentReturnTime ) {
+		if (0.0f < recentReturnTime && state.isServer()) {
 			recentReturnTime -= delta;
 			if (0.0f > recentReturnTime) {
 				String playerName = TextUtil.getPlayerColorName(player, MAX_NAME_LENGTH);
@@ -82,7 +81,7 @@ public class TrickOrTreating extends Status {
 
 	@Override
 	public void onDeath(BodyData perp, DamageSource source) {
-		if (0 < candyCount) {
+		if (0 < candyCount && state.isServer()) {
 			PickupUtils.spawnCandy(state, player, player.getPixelPosition(), player.getLinearVelocity(), candyCount);
 			incrementCandyCount(-candyCount);
 		}

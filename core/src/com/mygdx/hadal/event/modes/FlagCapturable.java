@@ -160,6 +160,7 @@ public class FlagCapturable extends Event {
 
 		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, (short) 0)
 				.setBodyType(BodyDef.BodyType.DynamicBody)
+				.setFriction(1.0f)
 				.setSensor(false)
 				.addToWorld(world);
 

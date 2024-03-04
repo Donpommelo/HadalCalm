@@ -303,7 +303,7 @@
     <property name="synced" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="13" name="Destr_Obj" type="Destr_Obj" x="1426" y="1538" width="160" height="160">
+  <object id="13" name="Destr_Obj" type="Destr_Obj" x="1376" y="1570" width="160" height="160">
    <properties>
     <property name="gravity" type="float" value="1"/>
     <property name="hp" type="int" value="100"/>

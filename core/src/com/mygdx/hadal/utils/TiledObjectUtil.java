@@ -161,6 +161,7 @@ public class TiledObjectUtil {
 			case "Scale" -> e = new ScalePlatform(state, position, size,
 					object.getProperties().get("minHeight", -1.0f, float.class),
 					object.getProperties().get("density", 0.5f, float.class));
+			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
 		}
 
 		return e;
@@ -443,7 +444,6 @@ public class TiledObjectUtil {
 			case "CandySpawn" -> e = new TrickorTreatBucket(state, position, size,
 					object.getProperties().get("teamIndex", 0, Integer.class),
 					object.getProperties().get("mirror", false, Boolean.class));
-			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
 			case "PickupDelete" -> e = new PickupDestoyer(state, position, size);
 			case "Armory" -> e = new Armory(state, position, size,
 					object.getProperties().get("title", "ARMORY", String.class),

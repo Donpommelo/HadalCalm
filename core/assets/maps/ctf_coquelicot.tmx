@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="340" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="604">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="340" height="150" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="604">
  <properties>
   <property name="customShader" type="bool" value="true"/>
  </properties>
@@ -1479,19 +1479,26 @@
   <object id="602" name="CandySpawn" type="CandySpawn" x="9056" y="2400" width="352" height="192">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
+    <property name="triggeredId" value="flag1"/>
    </properties>
   </object>
   <object id="603" name="CandySpawn" type="CandySpawn" x="1760" y="2400" width="352" height="192">
    <properties>
     <property name="mirror" type="bool" value="true"/>
+    <property name="triggeredId" value="flag0"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="9" name="ctf">
-  <object id="110" name="FlagSpawn" type="FlagSpawn" x="1824" y="2528" width="224" height="64"/>
+  <object id="110" name="FlagSpawn" type="FlagSpawn" x="1824" y="2528" width="224" height="64">
+   <properties>
+    <property name="triggeredId" value="flag0"/>
+   </properties>
+  </object>
   <object id="231" name="FlagSpawn" type="FlagSpawn" x="9120" y="2528" width="224" height="64">
    <properties>
     <property name="teamIndex" type="int" value="1"/>
+    <property name="triggeredId" value="flag1"/>
    </properties>
   </object>
   <object id="528" name="FlagBlock" type="FlagBlock" x="10016" y="2208" width="32" height="256">

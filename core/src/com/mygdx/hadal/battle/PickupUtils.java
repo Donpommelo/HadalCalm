@@ -40,6 +40,7 @@ public class PickupUtils {
             positions[i] = startPosition;
             velocities[i] = startVelocity.nor().scl(EGGPLANT_VELO);
         }
+
         SyncedAttack.EGGPLANT.initiateSyncedAttackMulti(state, user, startVelocity, positions, velocities, countScore);
     }
 

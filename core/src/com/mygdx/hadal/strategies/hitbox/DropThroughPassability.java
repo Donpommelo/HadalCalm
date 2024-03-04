@@ -30,6 +30,7 @@ public class DropThroughPassability extends HitboxStrategy {
 					new Vector2(1.0f / 2,  - hbox.getSize().y / 2),
 					new Vector2(hbox.getSize().x, hbox.getSize().y / 8),
 					BodyConstants.BIT_SENSOR, BodyConstants.BIT_DROPTHROUGHWALL, hbox.getFilter())
+					.setFriction(1.0f)
 					.addToBody(hbox.getBody());
 			feet.setUserData(feetData);
 			hbox.setDropthroughCollider(feet);
