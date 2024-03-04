@@ -159,6 +159,7 @@ public class ResultsState extends GameState {
 				}
 			}
 		}
+
 		if (!users.isEmpty()) {
 			gsm.getRecord().updateScore(users.get(0).getScoreManager().getScore(), ps.level);
 		}
@@ -398,7 +399,6 @@ public class ResultsState extends GameState {
 		//for each player, get their field and create a results icon for them
 		for (User user : users) {
 			int connID = user.getConnID();
-
 			ScoreManager score = user.getScoreManager();
 
 			//winners should have party particles over their head

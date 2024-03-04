@@ -58,7 +58,7 @@ public class CrownHoldable extends Event {
 		setSynced(true);
 		setReliableCreate(true);
 
-		ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
+		ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
 				.setColor(HadalColor.GOLDEN_YELLOW);
 		if (!state.isServer()) {
 			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);

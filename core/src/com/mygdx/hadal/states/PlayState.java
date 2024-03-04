@@ -1006,12 +1006,16 @@ public class PlayState extends GameState {
 
 		//list of non-spectator users to be sorted
 		Array<User> activeUsers = new Array<>();
+		for (User user : HadalGame.usm.getUsers().values().toArray()) {
+			if (!user.isSpectator()) {
+				activeUsers.add(user);
+			}
+		}
 
 		//magic word indicates that we generate the results text dynamically based on score
 		if (ResultsState.MAGIC_WORD.equals(text)) {
 			for (User user : HadalGame.usm.getUsers().values().toArray()) {
 				if (!user.isSpectator()) {
-					activeUsers.add(user);
 
 					AlignmentFilter faction;
 					if (AlignmentFilter.NONE.equals(user.getTeamFilter())) {
@@ -1103,7 +1107,6 @@ public class PlayState extends GameState {
 				}
 			}
 		} else if (victory) {
-
 			//in coop, all players get a win if the team wins
             for (User user : activeUsers) {
 				user.getScoreManager().win();
