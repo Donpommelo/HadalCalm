@@ -104,7 +104,6 @@ runtime {
         skipInstaller = true
         jpackageHome = javaHome.getOrElse("")
         mainJar = "${appName}.jar"
-        appVersion = "1.0.0"
 
         if (os.contains('win')) {
             imageOptions = ["--icon", "../icons/icon.ico"]
