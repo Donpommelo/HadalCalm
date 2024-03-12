@@ -19,7 +19,7 @@ public class PacketsLoadout {
         /**
          * A SyncWholeLoadout is sent from the Server to the Client when a Player in the world changes their loadout.
          * Upon receiving this packet, clients adjust their versions of that Player to have the new loadout.
-         * Atm, this is sent when a player changes their whole loadout (outfitter) or is spawned)
+         * Atm, this is sent when a player changes their whole loadout (outfitter) or is spawned
          * When a player only changes an item at another hub event, they will send a smaller packet
          * This is also sent from client to server when choosing outfit in outfitter
          * @param connID: connection ID of the player to change

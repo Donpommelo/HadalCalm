@@ -1,215 +1,139 @@
 
 scissorfish.png
-size: 2048,2048
+size: 2048,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 scissorfish
   rotate: false
-  xy: 2, 1040
-  size: 320, 517
-  orig: 320, 517
+  xy: 2, 590
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 0
 scissorfish
   rotate: false
-  xy: 2, 521
-  size: 320, 517
-  orig: 320, 517
+  xy: 2, 296
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 1
 scissorfish
   rotate: false
-  xy: 324, 1040
-  size: 320, 517
-  orig: 320, 517
+  xy: 213, 590
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 2
 scissorfish
   rotate: false
   xy: 2, 2
-  size: 320, 517
-  orig: 320, 517
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 3
 scissorfish
   rotate: false
-  xy: 324, 521
-  size: 320, 517
-  orig: 320, 517
+  xy: 213, 296
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 4
 scissorfish
   rotate: false
-  xy: 646, 1040
-  size: 320, 517
-  orig: 320, 517
+  xy: 424, 590
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 5
 scissorfish
   rotate: false
-  xy: 324, 2
-  size: 320, 517
-  orig: 320, 517
+  xy: 213, 2
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 6
 scissorfish
   rotate: false
-  xy: 646, 521
-  size: 320, 517
-  orig: 320, 517
+  xy: 424, 296
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 7
 scissorfish
   rotate: false
-  xy: 968, 1040
-  size: 320, 517
-  orig: 320, 517
+  xy: 635, 590
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 8
 scissorfish
   rotate: false
-  xy: 646, 2
-  size: 320, 517
-  orig: 320, 517
+  xy: 424, 2
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 9
-scissorfish
-  rotate: false
-  xy: 968, 521
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 10
-scissorfish
-  rotate: false
-  xy: 1290, 1040
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 11
-scissorfish
-  rotate: false
-  xy: 968, 2
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 12
-scissorfish
-  rotate: false
-  xy: 1290, 521
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 13
-scissorfish
-  rotate: false
-  xy: 1612, 1040
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 14
-scissorfish
-  rotate: false
-  xy: 1290, 2
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 15
-scissorfish
-  rotate: false
-  xy: 1612, 521
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 16
-scissorfish
-  rotate: false
-  xy: 1612, 2
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 17
-
-scissorfish2.png
-size: 2048,2048
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-scissorfish
-  rotate: false
-  xy: 2, 1040
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 18
-scissorfish
-  rotate: false
-  xy: 2, 521
-  size: 320, 517
-  orig: 320, 517
-  offset: 0, 0
-  index: 19
 scissorfish_attack
   rotate: false
-  xy: 324, 1040
-  size: 320, 517
-  orig: 320, 517
+  xy: 635, 296
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 0
 scissorfish_attack
   rotate: false
-  xy: 2, 2
-  size: 320, 517
-  orig: 320, 517
+  xy: 846, 590
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 1
 scissorfish_attack
   rotate: false
-  xy: 324, 521
-  size: 320, 517
-  orig: 320, 517
+  xy: 635, 2
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 2
 scissorfish_attack
   rotate: false
-  xy: 646, 1040
-  size: 320, 517
-  orig: 320, 517
+  xy: 846, 296
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 3
 scissorfish_attack
   rotate: false
-  xy: 324, 2
-  size: 320, 517
-  orig: 320, 517
+  xy: 1057, 590
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 4
 scissorfish_attack
   rotate: false
-  xy: 646, 521
-  size: 320, 517
-  orig: 320, 517
+  xy: 846, 2
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 5
 scissorfish_attack
   rotate: false
-  xy: 968, 1040
-  size: 320, 517
-  orig: 320, 517
+  xy: 1057, 296
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 6
 scissorfish_attack
   rotate: false
-  xy: 646, 2
-  size: 320, 517
-  orig: 320, 517
+  xy: 1268, 590
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 7
 scissorfish_attack
   rotate: false
-  xy: 968, 521
-  size: 320, 517
-  orig: 320, 517
+  xy: 1057, 2
+  size: 209, 292
+  orig: 209, 292
   offset: 0, 0
   index: 8

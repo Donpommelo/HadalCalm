@@ -66,7 +66,7 @@ public class EventData extends HadalData {
 	 */
 	public void preActivate(EventData activator, Player p) {
 
-		//activation depends on event sync type
+		//activation depends on event sync type and whether this is the server or client
 		switch (event.getState().isServer() ? event.getServerSyncType() : event.getClientSyncType()) {
 		case IGNORE:
 			return;
@@ -111,6 +111,9 @@ public class EventData extends HadalData {
 		}
 	}
 
+	/**
+	 * Helper function that echoes an event activation for server or client
+	 */
 	private void echoActivation(Player p) {
 		if (event.getState().isServer()) {
 			HadalGame.server.sendToAllTCP(getActivationPacket(p));
@@ -119,6 +122,10 @@ public class EventData extends HadalData {
 		}
 	}
 
+	/**
+	 * Another helper function. When we echo an event activation, the packet depends on whether we can use the event's
+	 * triggeredID or whether we have to use the UUID
+	 */
 	private Object getActivationPacket(Player p) {
 		int connID = p == null ? -1 : p.getUser().getConnID();
 		if (null == event.getTriggeredID()) {

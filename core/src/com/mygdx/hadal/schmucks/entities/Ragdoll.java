@@ -126,6 +126,8 @@ public class Ragdoll extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
+
+		//if ragdoll should fade, set shader once fade delay has passed
 		if (ragdollDuration <= fadeDuration && fade && !fadeStarted) {
 			getShaderHelper().setShader(fadeShader, ragdollDuration);
 			fadeStarted = true;

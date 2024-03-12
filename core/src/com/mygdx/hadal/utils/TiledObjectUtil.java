@@ -99,6 +99,7 @@ public class TiledObjectUtil {
      * This parses a single tiled map object into an event
      * @param state: The Playstate that the event will be placed into
      * @param object: The map object to parse
+	 * @param checkIndependence: If true, clients skip non-independent events. (when parsing file, but not synced events)
      * @return the parsed event
      */
     public static Event parseTiledEvent(PlayState state, MapObject object, boolean checkIndependence) {
@@ -131,6 +132,9 @@ public class TiledObjectUtil {
 		return e;
     }
 
+	/**
+	 * This parses a single map object into an event and is used for events generated from prefabs or map modes
+	 */
 	public static Event parseAddTiledEvent(PlayState state, MapObject object) {
 		Event e = parseTiledEvent(state, object, false);
 		if (state instanceof ClientState clientState && e != null) {
@@ -139,16 +143,22 @@ public class TiledObjectUtil {
 		return e;
 	}
 
+	/**
+	 * This is like parseAddTiledEvent, except for events that are received from the server and require a UUID to receive
+	 * packets that sync or reference the event.
+	 */
 	public static Event parseAddTiledEventWithUUID(PlayState state, MapObject object, UUID entityID, boolean synced) {
 		Event e = parseTiledEvent(state, object, false);
-
 		if (state instanceof ClientState clientState && e != null) {
 			clientState.addEntity(entityID, e, synced, ObjectLayer.STANDARD);
 		}
-
 		return e;
 	}
 
+	/**
+	 * This creates and adds a specific event corresponding to an object in the map.
+	 * This function handles events that are typically only created by the server; usually synced events
+	 */
 	private static Event parseTiledEventServerOnly(PlayState state, MapObject object) {
 		Event e = null;
 
@@ -167,6 +177,11 @@ public class TiledObjectUtil {
 		return e;
 	}
 
+	/**
+	 * This creates and adds a specific event corresponding to an object in the map.
+	 * This function handles events that are typically independent between thte client and server.
+	 * As of 1.0.9d, this is most of the events in the game.
+	 */
 	private static Event parseTiledEventClientIndependent(PlayState state, MapObject object) {
 		Event e = null;
 
@@ -239,6 +254,8 @@ public class TiledObjectUtil {
 						object.getProperties().get("teamIndex", 0, Integer.class));
 				state.addSavePoint((StartPoint) e);
 
+				//As a quirk of start points, their triggered id is set to a unique value based on their location
+				//This is so clients will know which start point the server tells them they are spawning at.
 				e.setTriggeredID(getStartTriggeredId(position.x, position.y));
 				triggeredEvents.put(e.getTriggeredID(), e);
 			}
@@ -521,6 +538,9 @@ public class TiledObjectUtil {
 		return e;
 	}
 
+	/**
+	 * This sets a number of properties on a newly created event; usually universal properties
+	 */
 	private static void setParsedTiledEventProperties(Event e, MapObject object) {
 
     	if (null == e) { return; }
@@ -657,21 +677,29 @@ public class TiledObjectUtil {
     	}
     	prefabrications.put(object.getProperties().get("triggeredId", "", String.class), p);
     }
-    
-    /*
+
+	private static int nextId = 0;
+	/**
      * When a prefab is created, its triggerIds are generated dynamically using this to ensure that there are no repeats.
      */
-    private static int nextId = 0;
     public static String getPrefabTriggerIdUnsynced() {
     	String id = "prefabTriggerId" + nextId;
     	nextId++;
     	return id;
     }
 
+	/**
+	 * If the events within a prefab must be synced, their id must be consistent
+	 * We generate it based on location, name and a specific tag designated by the prefab.
+	 */
 	public static String getPrefabTriggerIdSynced(String prefabId, String tag, float x, float y) {
         return "prefabTriggerId" + prefabId + tag + x + y;
 	}
 
+	/**
+	 * Similar to synced prefab events, start points require a consistent triggered id between client and server.
+	 * We generate one based on event location; don't put multiple start points on the same spot with no id.
+	 */
 	public static String getStartTriggeredId(float x, float y) {
 		return "startTriggerId" + x + y;
 	}
@@ -892,6 +920,10 @@ public class TiledObjectUtil {
     	return e;
     }
 
+	/**
+	 * Similar to parseSingleEventWithTriggers, except used for synced events received from server that need the UUID
+	 * in order to receive sync packets
+	 */
 	public static Event parseSingleEventWithTriggersWithUUID(PlayState state, MapObject object, UUID entityID, boolean synced) {
 		Event e = parseAddTiledEventWithUUID(state, object, entityID, synced);
 		parseTiledSingleTrigger(e);

@@ -12,6 +12,10 @@ import java.net.InetAddress;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * The UPNP Util establishes a upnp connection upon opening the game to circumvent port-forwarding
+ * This uses the weUPNP library.
+ */
 public class UPNPUtil {
 
     //this is the player's external ip that other clients will connect to
@@ -42,7 +46,7 @@ public class UPNPUtil {
 
                     if (!d.getSpecificPortMappingEntry(port, protocol, portMapping)) {
 
-                        //normally we would just run addPortMapping(), but we copy the code here to expose naeValue to log error
+                        //normally we would just run addPortMapping(), but we copy the code here to expose neqValue to log error
                         Map<String, String> args = new LinkedHashMap<>();
                         args.put("NewRemoteHost", "");    // wildcard, any remote host matches
                         args.put("NewExternalPort", Integer.toString(port));

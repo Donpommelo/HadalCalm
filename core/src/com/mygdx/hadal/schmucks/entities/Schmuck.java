@@ -95,7 +95,7 @@ public class Schmuck extends HadalEntity {
 	public void render(SpriteBatch batch, Vector2 entityLocation) {}
 
 	/**
-	 * This is calledregularly to send a packet to the corresponding client schmuck.
+	 * This is called regularly to send a packet to the corresponding client schmuck.
 	 * This packet updates MoveState, hp and entity parameters.
 	 */
 	@Override

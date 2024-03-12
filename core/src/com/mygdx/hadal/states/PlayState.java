@@ -491,7 +491,7 @@ public class PlayState extends GameState {
 		}
 		removeList.clear();
 
-		//process all users (atm this handles respawn times)
+		//process all users (atm this handles respawn times so only server runs it)
 		if (server) {
 			for (User user : HadalGame.usm.getUsers().values()) {
 				user.controller(this, delta);
@@ -519,7 +519,7 @@ public class PlayState extends GameState {
 			}
 		}
 		
-		//send periodic sync packets for score
+		//send periodic sync packets for score (for users whose scores have changed
 		scoreSyncAccumulator += delta;
 		if (scoreSyncAccumulator >= SCORE_SYNC_TIME) {
 			scoreSyncAccumulator = 0;
@@ -717,6 +717,8 @@ public class PlayState extends GameState {
 	public void renderEntity(HadalEntity entity) {
 		entityLocation.set(entity.getPixelPosition());
 		if (entity.isVisible(entityLocation)) {
+
+			//for shaded entities, add them to a map instead of rendering right away so we can render them at once
 			if (entity.getShaderHelper().getShader() != null && entity.getShaderHelper().getShader() != Shader.NOTHING) {
 				Array<HadalEntity> shadedEntities = dynamicShaderEntities.get(entity.getShaderHelper().getShader());
 				if (null == shadedEntities) {
@@ -737,11 +739,17 @@ public class PlayState extends GameState {
 		}
 	}
 
+	/**
+	 * This renders shaded entities so we can minimize shader switches
+	 */
 	public void renderShadedEntities() {
 		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : dynamicShaderEntities) {
+			//for each shader, render all entities using it at once so we only need to set it once
 			batch.setShader(entry.key.getShaderProgram());
 			for (HadalEntity entity : entry.value) {
 				entityLocation.set(entity.getPixelPosition());
+
+				//unlike static shaders, dynamic shaders need controller updated
 				entity.getShaderHelper().processShaderController(timer);
 				entity.render(batch, entityLocation);
 
@@ -752,7 +760,10 @@ public class PlayState extends GameState {
 		}
 		dynamicShaderEntities.clear();
 
+		//do same thing for static shaders
 		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : staticShaderEntities) {
+
+			//we sometimes set static shaders without loading them (overrided static shaders that are conditional)
 			if (null == entry.key.getShaderProgram()) {
 				entry.key.loadStaticShader();
 			}
@@ -900,7 +911,7 @@ public class PlayState extends GameState {
 
 		if (nextState == null) {
 
-			//begin transitioning to the designated next level
+			//begin transitioning to the designated next level and tell all clients to start transitioning
 			nextLevel = level;
 			nextMode = mode;
 			this.nextStartID = nextStartID;
@@ -935,6 +946,7 @@ public class PlayState extends GameState {
 		mode.processNewPlayerLoadout(this, newLoadout, user.getConnID());
 		user.getLoadoutManager().setActiveLoadout(newLoadout);
 
+		//set start pont, generate one if a designated one isn't passed in
 		Event spawn = start;
 		if (spawn == null) {
 			spawn = getSavePoint(user);
@@ -1139,6 +1151,7 @@ public class PlayState extends GameState {
 		}
 		HadalGame.server.sendToAllTCP(new Packets.SyncExtraResultsInfo(users, resultsText));
 
+		//all users transition to results state
 		for (User user : HadalGame.usm.getUsers().values()) {
 			user.getTransitionManager().beginTransition(this,
 					new Transition()

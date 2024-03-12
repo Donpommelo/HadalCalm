@@ -16,6 +16,7 @@ public class CameraUtil {
     /**
      * This makes an input camera vector obey camera bounds.
      * We want to check the edges of camera vision, taking into account current zoom amount.
+     * cameraBounds contains 4 values; right/left/up/down bounds respectively
      */
     public static void obeyCameraBounds(Vector2 tempCamera, OrthographicCamera camera, float[] cameraBounds) {
 
@@ -69,7 +70,7 @@ public class CameraUtil {
     private static final float NOISE_SNEED = MathUtils.random();
     private static float noise_y;
     /**
-     * This process screen shake and is run when we update the game camera
+     * This processes screen shake and is run when we update the game camera
      * @param camera: the camera that is shaking
      * @param tempCamera: This vector holds the camera's tentative target position
      * @param delta: This si the amount of game time that has passed

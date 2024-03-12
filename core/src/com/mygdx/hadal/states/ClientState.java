@@ -74,7 +74,7 @@ public class ClientState extends PlayState {
 
 		AlignmentFilter.resetTeams();
 
-		//client still needs anchor points, world dummies and mouse tracker
+		//client still needs anchor points, world dummies
 		addEntity(getAnchor().getEntityID(), getAnchor(), false, ObjectLayer.STANDARD);
 		addEntity(getWorldDummy().getEntityID(), getWorldDummy(), false, ObjectLayer.STANDARD);
 	}

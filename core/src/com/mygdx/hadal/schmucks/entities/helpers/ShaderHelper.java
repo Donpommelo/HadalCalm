@@ -27,6 +27,7 @@ public class ShaderHelper {
 
     /**
      * Set this entity's shader (this will be used when rendering this entity)
+     * setStaticShader is similar, except we don't need to load shader strategies or keep track of elapsed time
      * @param shader: shader to use
      * @param shaderCount: how long does this shader last?
      */

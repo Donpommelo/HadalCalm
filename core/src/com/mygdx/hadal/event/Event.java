@@ -264,9 +264,8 @@ public class Event extends HadalEntity {
 	}
 	
 	/**
-	 * When this event is created, tell the client to create an illusion or event, depending on the syncType
-	 * ILLUSION and SERVER only run on the server, so the client just receives an an illusion
-	 * USER and ALL can run on all players, so clients need a copy of the event blueprints to make their own version of the event
+	 * When this event is created, tell the client to create an illusion or event, depending on whether the event has a dto
+	 * If independent, never send anything
 	 */
 	@Override
 	public Object onServerCreate(boolean catchup) {

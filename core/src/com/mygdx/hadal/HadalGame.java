@@ -171,6 +171,7 @@ public class HadalGame extends ApplicationAdapter {
 			} else if (skipFade) {
 
 				//for special transitions, we skip the fade and transition immediately after delay (play -> results)
+				//important to set runAfterTransition to null afterwards to avoid potential double transitions
 				skipFade = false;
 				if (null != runAfterTransition) {
 					Gdx.app.postRunnable(runAfterTransition);

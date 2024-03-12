@@ -118,7 +118,6 @@ public class KryoServer {
 					});
 				}
 
-
 				//If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.
 				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof final ResultsState vs) {
 					Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
@@ -168,6 +167,11 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * These are for different types of SyncedAttack packets that server should echo.
+				 * "Extra" indicates the packet contains more information to be used for the attack
+				 * Independent refers to attacks that produce a hbox that does not need to have same uuid as client version.
+				 */
 				if (o instanceof final PacketsAttacks.SingleClientIndependent p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
@@ -197,6 +201,9 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * Like single version except it produces an ordered list of hboxes
+				 */
 				if (o instanceof final PacketsAttacks.MultiClientIndependent p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
@@ -228,6 +235,9 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * For synced attacks that produce no hitbox, we just run the designated attack
+				 */
 				if (o instanceof final PacketsAttacks.SyncedAttackNoHbox p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
@@ -270,7 +280,7 @@ public class KryoServer {
 								if (p.password == null) {
 									sendToTCP(c.getID(), new Packets.PasswordRequest());
 									return;
-								} else if (!gsm.getSetting().getServerPassword().equals(p.password)){
+								} else if (!gsm.getSetting().getServerPassword().equals(p.password)) {
 									sendToTCP(c.getID(), new Packets.ConnectReject(UIText.INCORRECT_PASSWORD.text()));
 									return;
 								}
@@ -317,6 +327,8 @@ public class KryoServer {
 							//If the client has already been created, we create a new player, otherwise we reuse their old data.
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
+
+								//set the client's loadout. Active loadout is only reset for new levels
 								user.getLoadoutManager().setSavedLoadout(p.loadout);
 								if (ps.isReset()) {
 									user.getLoadoutManager().setActiveLoadout(p.loadout);
@@ -420,6 +432,9 @@ public class KryoServer {
 					}
         		}
 
+				/*
+				 * The client has sen an entire loadout to replace with. Occurs from using Outfitter
+				 */
 				else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
@@ -589,6 +604,9 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * Client has died in their own world. This counts as an kill that should be echoed to other client
+				 */
 				else if (o instanceof final Packets.DeleteClientSelf p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
@@ -608,6 +626,9 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * Client has activated an event in their world and the server should echo that activation
+				 */
 				else if (o instanceof Packets.ActivateEvent p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
@@ -628,6 +649,10 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * Like ActivateEvent, except for an unsynced event that does not have the same UUID.
+				 * These events should always have a consistent, non-null triggeredID that we use to echo the activation
+				 */
 				else if (o instanceof Packets.ActivateEventByTrigger p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
@@ -646,6 +671,9 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * The client has picked up a weapon from an event and the server should echo that pickup
+				 */
 				else if (o instanceof Packets.SyncPickup p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
@@ -660,6 +688,10 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * Like SyncPickup, except for an unsynced pickup (non-drop weapon) that does not have the same UUID
+				 * These events should always have a consistent, non-null triggeredID that we use to echo the activation
+				 */
 				else if (o instanceof Packets.SyncPickupTriggered p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
@@ -675,6 +707,10 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * For events whose positions must be synced at the start of the level, the client will send this packet
+				 * to let the server know that they are ready to perform the adjustment.
+				 */
 				else if (o instanceof Packets.RequestStartSyncedEvent p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
@@ -706,6 +742,10 @@ public class KryoServer {
 		server.start();
 	}
 
+	/**
+	 * This is run when a player is created for a connID. We want to check their existing User or create a new one
+	 * We also set the user's loadout here
+	 */
 	public User checkNewUser(int connID, String name, Loadout loadout) {
 		User user;
 		if (usm.getUsers().containsKey(connID)) {
@@ -719,6 +759,10 @@ public class KryoServer {
 		return user;
 	}
 
+	/**
+	 * A new player is spawned for a connID.
+	 * First we check the user, then spawn a new player for them using transition manager
+	 */
 	public void spawnNewUser(PlayState ps, int connID, String name, Loadout loadout, boolean reset) {
 		User user = checkNewUser(connID, name, loadout);
 		spawnNewUser(ps, user, reset);
@@ -728,6 +772,10 @@ public class KryoServer {
 		user.getTransitionManager().levelStartSpawn(ps, reset);
 	}
 
+	/**
+	 * Create a new spectator for a client.
+	 * First we check the user, then make them transition to spectator.
+	 */
 	public void createNewClientSpectator(PlayState ps, int connID, String name, Loadout loadout) {
 		User user = checkNewUser(connID, name, loadout);
 		ps.addPacketEffect(() -> ps.startSpectator(user));
@@ -749,7 +797,7 @@ public class KryoServer {
 				newSave = startPoint;
 			}
 
-			//Create a new player with the designated fields and give them a mouse pointer.
+			//Create a new player with the designated fields.
 			ps.createPlayer(newSave, user.getStringManager().getName(), user.getLoadoutManager().getActiveLoadout(),
 					data, user, reset, false, user.getHitboxFilter().getFilter());
 

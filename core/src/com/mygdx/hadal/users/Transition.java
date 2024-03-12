@@ -27,7 +27,7 @@ public class Transition {
     //Speed of the fade out once it begins
     private float fadeSpeed = DEFAULT_FADE_OUT_SPEED;
 
-    //TNumber of seconds before spawn particles appear in the respawn location (if >fadeDelay, no particles)
+    //Number of seconds before spawn particles appear in the respawn location (if >fadeDelay, no particles)
     private float forewarnTime = SPAWN_FOREWARN;
 
     //Do spawn particles appear at all? Does this override another transition? Should the camera center on the player once spawned in?

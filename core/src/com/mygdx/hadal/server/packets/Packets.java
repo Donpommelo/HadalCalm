@@ -456,6 +456,10 @@ public class Packets {
 		public DeleteClientSelf() {}
 
 		/**
+		 * A DeleteClientSelf is sent from client to server upon death and cuases the world to count them as dead.
+		 * @param entityID: ID of the entity that killed this client.
+		 * @param source: The source of damage that got the last hit; for kill text
+		 * @param tags: Tags of the damage instance. Used for kill text
 		 */
 		public DeleteClientSelf(UUID entityID, DamageSource source, DamageTag[] tags) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
@@ -656,7 +660,7 @@ public class Packets {
 		public ActivateEventByTrigger() {}
 
 		/**
-		 * A ActivateEventByTrigger is like an ActivateEvent, but it uses the evnt's triggeredID instead of entity id
+		 * A ActivateEventByTrigger is like an ActivateEvent, but it uses the event's triggeredID instead of entity id
 		 * @param triggeredID: triggered ID of the activated Pickup
 		 * @param connID: The connection id of the player that activated this event
 		 */
@@ -730,6 +734,12 @@ public class Packets {
 
 		public CreateFlag() {}
 
+		/**
+		 * A CreateFlag is sent from server to client to create a Flag event for CTF mode.
+		 * @param entityID: ID of the newly created Crown
+		 * @param pos: The starting position of this event
+		 * @param teamIndex: The team alignment that owns this flag
+		 */
 		public CreateFlag(UUID entityID, Vector2 pos, int teamIndex) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
@@ -744,6 +754,11 @@ public class Packets {
 
 		public CreateCrown() {}
 
+		/**
+		 * A CreateCrown is sent from server to client to create a Crown event for Kingmaker mode.
+		 * @param entityID: ID of the newly created Crown
+		 * @param pos: The starting position of this event
+		 */
 		public CreateCrown(UUID entityID, Vector2 pos) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
@@ -759,6 +774,13 @@ public class Packets {
 
 		public CreateGrave() {}
 
+		/**
+		 * A CreateGrave is sent from server to client to create a Gravestone event for coop modes or Resurrectionist modes.
+		 * @param entityID: ID of the newly created Gravestone
+		 * @param connID: The connID of the user that died and would be resurrected from this event
+		 * @param pos: The starting position of this event
+		 * @param returnMaxTimer: The amount of time required to revive the player
+		 */
 		public CreateGrave(UUID entityID, int connID, Vector2 pos, float returnMaxTimer) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
@@ -773,6 +795,11 @@ public class Packets {
 
 		public RequestStartSyncedEvent() {}
 
+		/**
+		 * A RequestStartSyncedEvent is sent from the Client to the Server after Rotators or Moving Points are created.
+		 * This is so that the Client can receive the event's current position instead of being synced constantly
+		 * @param triggeredID: the triggeredID of the event to sync
+		 */
 		public RequestStartSyncedEvent(String triggeredID) {
 			this.triggeredID = triggeredID;
 		}
@@ -785,6 +812,16 @@ public class Packets {
 
 		public CreateStartSyncedEvent() {}
 
+		/**
+		 * A CreateStartSyncedEvent is sent from the Server to the Client after the latter informs through a RequestStartSyncedEvent
+		 * that the event was created.
+		 * This packet contains the info needed for the client to set the initial state of the event.
+		 * @param timer: Server timestamp
+		 * @param triggeredID: the triggeredID of the event to sync
+		 * @param targetTriggeredID: the event's connected event's id. Used for moving points so they move towards right point.
+		 * @param pos: position of the Start-Synced Event
+		 * @param velo: Velocity of the Start-Synced Event
+		 */
 		public CreateStartSyncedEvent(float timer, String triggeredID, String targetTriggeredID, Vector2 pos, Vector2 velo) {
 			this.timer = timer;
 			this.triggeredID = triggeredID;

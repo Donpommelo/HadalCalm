@@ -14,7 +14,7 @@ public class PacketsAttacks {
         public SingleClientIndependent() {}
 
         /**
-         * A SyncedAttackSingle is sent from server to client to inform them that an attack was executed
+         * A SyncedAttackSingle is sent from client to server to inform them that an attack was executed
          * For most weapons, this packages multiple fields of a single attack to send fewer packets
          * @param pos: The starting position of the hbox this attack will create
          * @param velo: The starting velocity/trajectory of the hbox this attack will create
@@ -33,8 +33,9 @@ public class PacketsAttacks {
         public SingleClientDependent() {}
 
         /**
-         * A SyncedAttackSingle is sent from server to client to inform them that an attack was executed
+         * A SyncedAttackSingle is sent from client to server to inform them that an attack was executed
          * For most weapons, this packages multiple fields of a single attack to send fewer packets
+         * @param entityID: Dependent attacks must link UUID between client and server for syncing purposes
          * @param pos: The starting position of the hbox this attack will create
          * @param velo: The starting velocity/trajectory of the hbox this attack will create
          * @param attack: the type of attack that is being executed
@@ -325,7 +326,8 @@ public class PacketsAttacks {
          * A SyncedAttackNoHbox is sent from server to client to inform them that an attack was executed
          * For most weapons, this packages multiple fields of a single attack to send fewer packets
          * @param attack: the type of attack that is being executed
-*        * @param pos: The starting positions of the hboxes this attack will create
+         * @param independent: Is this attack echoed between server/client (Something that creates a synced event would not need this)
+         * @param pos: The starting position associated with this attack (although no hboxes are generated
          */
         public SyncedAttackNoHbox(Vector2 pos, boolean independent, SyncedAttack attack) {
             this.pos = pos;
@@ -342,7 +344,7 @@ public class PacketsAttacks {
         public SyncedAttackNoHboxServer() {}
 
         /**
-         * A SyncedAttackSingle is sent from server to client to inform them that an attack was executed
+         * A SyncedAttackNoHboxServer is sent from server to client to inform them that an attack was executed
          * For most weapons, this packages multiple fields of a single attack to send fewer packets
          * @param creatorID: The entityID of the player that is executing the attack
          * @param pos: The starting position of the hbox this attack will create
@@ -362,7 +364,7 @@ public class PacketsAttacks {
         public SyncedAttackNoHboxExtra() {}
 
         /**
-         * A SyncedAttackSingleExtra is like a CreateSyncedAttackSingle except it carries extra information
+         * A SyncedAttackNoHboxExtra is like a CreateSyncedAttackSingle except it carries extra information
          * so the client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */
@@ -378,7 +380,7 @@ public class PacketsAttacks {
         public SyncedAttackNoHboxExtraServer() {}
 
         /**
-         * A SyncedAttackSingleExtra is like a CreateSyncedAttackSingle except it carries extra information
+         * A SyncedAttackNoHboxExtraServer is like a SyncedAttackNoHbox]Server except it carries extra information
          * so the client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */

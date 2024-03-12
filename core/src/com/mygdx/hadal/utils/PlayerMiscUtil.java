@@ -2,6 +2,11 @@ package com.mygdx.hadal.utils;
 
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * This util contains some misc functions used by the player that didn't really go anywhere else.
+ * Tentatively, this only includes the freeze frame function for handling animations
+ *
+ */
 public class PlayerMiscUtil {
 
     /**

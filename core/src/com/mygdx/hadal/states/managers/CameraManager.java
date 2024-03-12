@@ -8,6 +8,9 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.CameraUtil;
 
+/**
+ * CameraManager manages the playstate camera. Logic controlling the camera was moved here for organizational purposes
+ */
 public class CameraManager {
 
     private final PlayState state;
@@ -107,6 +110,10 @@ public class CameraManager {
     }
 
     final Vector2 tmpVector2 = new Vector2();
+
+    /**
+     * Run when the camera resizes. Tries to keep camera position constant
+     */
     public void resize() {
         //This refocuses the camera to avoid camera moving after resizing
         if (state.getGsm().getSetting().isMouseCameraTrack()) {
@@ -124,6 +131,11 @@ public class CameraManager {
     }
 
     private static final float SPECTATOR_DEFAULT_ZOOM = 1.5f;
+
+    /**
+     * This handles how the camera should behave when transitioning to spectator
+     * Uses different zoom/bounds
+     */
     public void setSpectator() {
         spectatorTarget.set(state.getCamera().position.x, state.getCamera().position.y);
 
@@ -135,6 +147,10 @@ public class CameraManager {
         }
     }
 
+    /**
+     * This sets the cameras position directly without interpolating to the point.
+     * Used to things like spawning in
+     */
     public void setCameraPosition(Vector2 cameraPosition) {
         tmpVector2.set(cameraPosition);
         CameraUtil.obeyCameraBounds(tmpVector2, state.getCamera(), cameraBounds);

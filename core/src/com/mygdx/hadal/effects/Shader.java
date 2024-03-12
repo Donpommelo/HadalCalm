@@ -68,9 +68,7 @@ public enum Shader {
 	 */
 	public void loadShader() {
 		
-		if (this.equals(NOTHING)) {
-			return;
-		}
+		if (this.equals(NOTHING)) { return; }
 
 		loadStaticShader();
 
@@ -80,11 +78,12 @@ public enum Shader {
 		}
 	}
 
+	/**
+	 * This loads a static shader
+	 */
 	public void loadStaticShader() {
 
-		if (this.equals(NOTHING)) {
-			return;
-		}
+		if (this.equals(NOTHING)) { return; }
 
 		//load the shader and create its strategies
 		if (null == shaderProgram) {
