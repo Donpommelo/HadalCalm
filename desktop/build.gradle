@@ -19,6 +19,7 @@ else {
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
+project.ext.assetsDir = new File("../core/assets")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -46,7 +47,7 @@ jar {
     archiveFileName.set(jarName)
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 
-    destinationDirectory = file("${getLayout().getBuildDirectory().asFile.get().absolutePath}/lib")
+    destinationDirectory = file("${getLayout().getBuildDirectory().get()}/lib")
     dependsOn configurations.runtimeClasspath
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     exclude('linux/arm32/**', 'linux/arm64/**', 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
@@ -103,7 +104,7 @@ runtime {
     jpackage {
         imageName = appName
         skipInstaller = true
-        mainJar = "${appName}.jar"
+        mainJar = jarName
 
         if (os.contains('win')) {
             imageOptions = ["--icon", "../icons/icon.ico"]
