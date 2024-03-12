@@ -1,54 +1,48 @@
 buildscript {
     repositories {
-        gradlePluginPortal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
-            classpath "org.beryx:badass-runtime-plugin:1.13.0"
-        }
+        classpath "org.beryx:badass-runtime-plugin:1.12.7"
     }
 }
 
-if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
-    apply plugin: 'org.beryx.runtime'
-}
-else {
-    apply plugin: 'application'
-}
+apply plugin: 'org.beryx.runtime'
+apply plugin: 'application'
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
+sourceCompatibility = 16.0
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
+project.ext.assetsDir = new File("../core/assets")
 
 dependencies {
+    implementation project(":core")
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     implementation "com.badlogicgames.gdx:gdx-lwjgl3-glfw-awt-macos:$gdxVersion"
-    implementation project(":core")
 }
 
-def jarName = "${appName}-${version}.jar"
-def os = System.properties['os.name'].toLowerCase()
+def os = System.properties['os.name'].toLowerCase(Locale.ROOT)
 
 run {
-    setWorkingDir(rootProject.file('assets').path)
+    workingDir = rootProject.file('assets').path
     setIgnoreExitValue(true)
-    if (os.contains('mac')) jvmArgs += "-XstartOnFirstThread"
 }
 
 jar {
-    archiveFileName.set(jarName)
-    destinationDirectory = file("${project.layout.buildDirectory.asFile.get().absolutePath}/lib")
+    archiveFileName = "${appName}.jar"
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    destinationDirectory = file("$buildDir/lib")
     dependsOn configurations.runtimeClasspath
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     exclude('linux/arm32/**', 'linux/arm64/**', 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
+
+    from files(project.assetsDir)
 
 //    project.delete("../core/assets/save/ChatLog.json")
 //    project.delete("../core/assets/save/Loadout.json")
@@ -64,10 +58,6 @@ jar {
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
-
-    doLast {
-        file(archiveFile).setExecutable(true, false)
-    }
 }
 
 //task proguard(type : proguard.gradle.ProGuardTask) {
@@ -80,7 +70,8 @@ jar {
 //}
 //
 //proguard.dependsOn jar
-tasks.jpackageImage.doNotTrackState("This task both reads from and writes to the build folder.")
+jpackageImage.dependsOn jar
+
 runtime {
     options.set(['--strip-debug',
                  '--compress', '2',
@@ -97,21 +88,19 @@ runtime {
             'jdk.crypto.cryptoki',
             'jdk.unsupported'])
 
-    distDir.set(file(project.layout.buildDirectory))
+    distDir.set(file(buildDir))
 
     jpackage {
         imageName = appName
-        skipInstaller = true
-        jpackageHome = javaHome.getOrElse("")
         mainJar = "${appName}.jar"
         appVersion = "1.0.0"
 
         if (os.contains('win')) {
-            imageOptions = ["--icon", "../icons/icon.ico"]
+            imageOptions = ["--icon", file("../icons/icon.ico")]
         } else if (os.contains('nix') || os.contains('nux') || os.contains('bsd')) {
-            imageOptions = ["--icon", "../icons/icon.png"]
+            imageOptions = ["--icon", file("../icons/icon.png")]
         } else if (os.contains('mac')) {
-            imageOptions = ["--icon", "../icons/icon.icns", "--java-options", "\"-XstartOnFirstThread\""]
+            imageOptions = ["--icon", file("../icons/icon.icns"), "--java-options", "\"-XstartOnFirstThread\""]
         }
     }
 }
