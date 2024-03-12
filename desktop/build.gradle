@@ -44,8 +44,9 @@ run {
 
 jar {
     archiveFileName.set(jarName)
-    destinationDirectory = file("${project.layout.buildDirectory.asFile.get().absolutePath}/lib")
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+
+    destinationDirectory = file("${getLayout().getBuildDirectory().get()}/lib")
     dependsOn configurations.runtimeClasspath
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     exclude('linux/arm32/**', 'linux/arm64/**', 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
@@ -97,13 +98,12 @@ runtime {
             'jdk.crypto.cryptoki',
             'jdk.unsupported'])
 
-    distDir.set(file(project.layout.buildDirectory))
+    distDir.set(file(getLayout().getBuildDirectory()))
 
     jpackage {
         imageName = appName
         skipInstaller = true
-        jpackageHome = javaHome.getOrElse("")
-        mainJar = "${appName}.jar"
+        mainJar = jarName
 
         if (os.contains('win')) {
             imageOptions = ["--icon", "../icons/icon.ico"]
