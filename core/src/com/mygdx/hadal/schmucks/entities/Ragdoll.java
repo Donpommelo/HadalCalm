@@ -54,11 +54,12 @@ public class Ragdoll extends HadalEntity {
 	private final boolean synced;
 
 	//does the ragdoll fade when its lifespan decreases? Only if needed, since fading sets the batch
-	private final boolean fade;
-	private boolean fadeStarted;
+	private float fadeDuration;
+	private boolean fade, fadeStarted;
+	private Shader fadeShader;
 
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity,
-				   boolean setVelo, boolean sensor, boolean synced, boolean fade) {
+				   boolean setVelo, boolean sensor, boolean synced) {
 		super(state, startPos, size);
 		this.startVelo = new Vector2(startVelo);
 		this.startAngle = BASE_ANGLE * ANGLE_AMP;
@@ -68,7 +69,6 @@ public class Ragdoll extends HadalEntity {
 		this.sensor = sensor;
 		this.setVelo = setVelo;
 		this.synced = synced;
-		this.fade = fade;
 		if (!Sprite.NOTHING.equals(sprite)) {
 			ragdollSprite = sprite.getFrame();
 		}
@@ -82,7 +82,7 @@ public class Ragdoll extends HadalEntity {
 	 * Also, remember to manually dispose of the frame buffer object that is used for this ragdoll
 	 */
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, TextureRegion textureRegion, Vector2 startVelo, float duration,
-				   float gravity, boolean setVelo, boolean sensor, boolean fade) {
+				   float gravity, boolean setVelo, boolean sensor) {
 		super(state, startPos, size);
 		this.startVelo = startVelo;
 		this.ragdollDuration = duration;
@@ -92,7 +92,6 @@ public class Ragdoll extends HadalEntity {
 		ragdollSprite = textureRegion;
 
 		this.synced = false;
-		this.fade = fade;
 		setSyncDefault(false);
 
 		//ragdoll spin direction depends on which way it is moving
@@ -127,8 +126,10 @@ public class Ragdoll extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		if (ragdollDuration <= FADE_LIFESPAN && fade && !fadeStarted) {
-			getShaderHelper().setShader(Shader.FADE, ragdollDuration);
+
+		//if ragdoll should fade, set shader once fade delay has passed
+		if (ragdollDuration <= fadeDuration && fade && !fadeStarted) {
+			getShaderHelper().setShader(fadeShader, ragdollDuration);
 			fadeStarted = true;
 		}
 
@@ -142,8 +143,8 @@ public class Ragdoll extends HadalEntity {
 	public void clientController(float delta) {
 		super.clientController(delta);
 
-		if (ragdollDuration <= FADE_LIFESPAN && fade && !fadeStarted) {
-			getShaderHelper().setShader(Shader.FADE, ragdollDuration);
+		if (ragdollDuration <= fadeDuration && fade && !fadeStarted) {
+			getShaderHelper().setShader(fadeShader, ragdollDuration);
 			fadeStarted = true;
 		}
 
@@ -180,4 +181,15 @@ public class Ragdoll extends HadalEntity {
 
 	@Override
 	public Object onServerDelete() { return null; }
+
+	public Ragdoll setFade() {
+		return setFade(FADE_LIFESPAN, Shader.FADE);
+	}
+
+	public Ragdoll setFade(float fadeDuration, Shader fadeShader) {
+		this.fade = true;
+		this.fadeDuration = fadeDuration;
+		this.fadeShader = fadeShader;
+		return this;
+	}
 }

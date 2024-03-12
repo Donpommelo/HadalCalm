@@ -2,6 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.event.modes.FootballGoal;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -9,7 +10,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
@@ -30,14 +30,10 @@ public class ContactGoalScore extends HitboxStrategy {
 	public void onHit(HadalData fixB, Body body) {
 		if (fixB != null) {
 			if (fixB.getEntity() instanceof FootballGoal goal) {
-
-				//scorer is null for clients so goal displays particles but no score increment
 				if (state.isServer()) {
 					goal.getEventData().preActivate(null, lastHit);
-				} else {
-					goal.getEventData().preActivate(null, null);
+					hbox.die();
 				}
-				hbox.die();
 			}
 		}
 	}

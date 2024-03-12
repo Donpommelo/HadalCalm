@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="63">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="73">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="BOSS_PLENUM_CHAMBER"/>
@@ -7,23 +7,15 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eAHt2stKBFEMhGFBwQuoC33/Z7UXClKUQyVT0oK/MEhiTvr0V7rz5oYvBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQT+nsDrcaVrPo/hK91d+Zxr7picDV/j18eSu16aIY9uRJesk5+RB3kkvyfTma7qftv03jrP38fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U36R+Phbdfn4e3FLTu/925uvsb3x/OZ6TvIPOmCuf0tJ7JXX6N3HGC23/D/KMu7pnJv46Qx5OstNT66Qmj46925L46wx5OMlOT62Tmjw69m5L4q8z5OEkOz21Tmry6Ni7LYm/zpCHk+z01DqpyaNj77Yk/jpDHk6y01PrpCaPjr3bkvjrDHk4yU5PrZOaPDr2bkvirzPk4SQ7PbVOavLo2Lstib/OkIeT7PTUOqnJo2PvtiT+OkMeTrLTU+ukJo+OvduS+OsMeTjJTk+tk5o8OvZuS+KvM+ThJDs9tU5q8ujYuy2Jv86Qh5Ps9NQ6qcmjY++2JP46Qx5OstNT66Qmj46925L468zbsejpj37ej3vpfZPa2ZzRS+76H2bOsHfP/A/WyTs6G3oIIIAAAggggAACCCCAAAIIIIAAAggggAACCPwk8AFtN4k+
+   eAHt2sFKBEEUQ9EB3SjoLPT/v9UGt4EJBSZhvEJviqd5ddKOG283vhBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQ2BO4Xyvx7PRCF7/v40oj9EEfi+8Avx9bf7fogz7UO7D42dHYSdk0zhp3X8xs2KvMRZvGTsqmcda4+2Jmw15lLto0dlI2jbPG3RczG/Yqc9GmsZOyaZw17r6Y2bBXmYs2jZ2UTeOscffFzIa9yly0aeykbBpnjbsvZjbsVeaiTWMnZdM4a9x9MbNhrzIXbRo7KZvGWePui5kNe5W5aNPYSdk0zhp3X8xs2KvMRZvGTsqmcXZy949r0ZfR5/Pa6+RODXuVebL7m/pBI2ev1x4ndxpZ/2h3+vi79k7eJfqgD1eAzytXKjNHHxlnN4U+XKnMHH1knN0U+nClMnP0kXF2U+jDlcrM0UfG2U2hD1cqM0cfGWc3hT5cqcwcfWSc3RT6cKUyc/SRcXZT6MOVyszRR8bZTaEPVyozRx8ZZzeFPlypzBx9ZJzdFPpwpTJz9JFxdlPow5XKzP3HPr4u2vfR5/va6+R//DJvy+OUk92f8XseS2UmntH25E4ZbVIQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEnkXgBwdmmCg=
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="1" x="672" y="960">
-   <polyline points="0,0 0,832 -96,832 -96,1696 1120,1696 1120,832 288,832 288,0 0,0"/>
+   <polyline points="1120,832 -96,832 -96,1696 1120,1696 1120,832"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="2" name="Start" type="Start" x="800" y="1120" width="32" height="32">
-   <properties>
-    <property name="startId" value=""/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="enterleft"/>
-   </properties>
-  </object>
-  <object id="5" name="Dropthrough" type="Dropthrough" x="672" y="1568" width="288" height="8"/>
   <object id="6" name="Dummy" type="Dummy" x="736" y="1952" width="32" height="32">
    <properties>
     <property name="dummyId" value="0"/>
@@ -92,75 +84,10 @@
   </object>
   <object id="17" name="Dropthrough" type="Dropthrough" x="736" y="2272" width="320" height="8"/>
   <object id="18" name="Dropthrough" type="Dropthrough" x="1312" y="2272" width="320" height="8"/>
-  <object id="19" name="Sensor" type="Sensor" x="1440" y="1792" width="32" height="864">
-   <properties>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="triggerSpawn1"/>
-   </properties>
-  </object>
-  <object id="20" name="Prefab" type="PrefabLimit" x="1504" y="2784" width="32" height="32">
-   <properties>
-    <property name="limit" type="int" value="1"/>
-    <property name="prefabId" value="Limit"/>
-    <property name="triggeredId" value="triggerSpawn1"/>
-    <property name="triggeringId" value="startSpawn"/>
-   </properties>
-  </object>
-  <object id="22" name="Multitrigger" type="Multitrigger" x="1568" y="2784" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="startSpawn"/>
-    <property name="triggeringId" value="lockLeft,arenalock,spawn0,shake"/>
-   </properties>
-  </object>
-  <object id="23" name="Multitrigger" type="Multitrigger" x="320" y="576" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="enterleft"/>
-    <property name="triggeringId" value="bounds1,bounds2,cameraMain"/>
-   </properties>
-  </object>
-  <object id="24" name="Bounds" type="Bounds" x="576" y="1120" width="32" height="32">
-   <properties>
-    <property name="left" type="bool" value="true"/>
-    <property name="spectator" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds2"/>
-    <property name="up" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="25" name="Bounds" type="Bounds" x="1024" y="1728" width="32" height="32">
-   <properties>
-    <property name="down" type="bool" value="true"/>
-    <property name="right" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds1"/>
-   </properties>
-  </object>
-  <object id="26" name="Multitrigger" type="Multitrigger" x="320" y="640" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="entercenter"/>
-    <property name="triggeringId" value="bounds3,bounds4,cameraCenter"/>
-   </properties>
-  </object>
-  <object id="27" name="Camera" type="Camera" x="384" y="640" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="cameraCenter"/>
-    <property name="zoom" type="float" value="1.2"/>
-   </properties>
-  </object>
-  <object id="28" name="Camera" type="Camera" x="384" y="576" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="cameraMain"/>
-    <property name="zoom" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="29" name="Multitrigger" type="Multitrigger" x="320" y="704" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="enterright"/>
-    <property name="triggeringId" value="bounds5,bounds6,cameraMain"/>
-   </properties>
-  </object>
   <object id="30" name="Bounds" type="Bounds" x="480" y="1696" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds3"/>
+    <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
@@ -169,43 +96,7 @@
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
     <property name="spectator" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds4"/>
-   </properties>
-  </object>
-  <object id="34" name="Prefab" type="PrefabAlternator" x="672" y="1696" width="288" height="96">
-   <properties>
-    <property name="align" type="int" value="1"/>
-    <property name="event1" value="entercenter"/>
-    <property name="event2" value="enterleft"/>
-    <property name="prefabId" value="Alternator"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value=""/>
-   </properties>
-  </object>
-  <object id="37" name="Platform" type="Platform" x="608" y="640" width="288" height="96">
-   <properties>
-    <property name="align" value="CENTER_STRETCH"/>
-    <property name="default" type="bool" value="false"/>
-    <property name="independent" type="bool" value="false"/>
-    <property name="prefabId" value="Door"/>
-    <property name="sprite" value="UI_RELOAD_BAR"/>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
-    <property name="triggeredId" value="door1"/>
-   </properties>
-  </object>
-  <object id="39" name="EventMove" type="EventMove" x="736" y="672" width="32" height="32">
-   <properties>
-    <property name="gravity" type="float" value="0"/>
-    <property name="triggeredId" value="unlockLeft"/>
-    <property name="triggeringId" value="door1"/>
-   </properties>
-  </object>
-  <object id="40" name="EventMove" type="EventMove" x="800" y="1728" width="32" height="32">
-   <properties>
-    <property name="gravity" type="float" value="0"/>
-    <property name="triggeredId" value="lockLeft"/>
-    <property name="triggeringId" value="door1"/>
+    <property name="triggeredId" value="bounds2"/>
    </properties>
   </object>
   <object id="42" name="Dummy" type="Dummy" x="1280" y="2528" width="32" height="32">
@@ -214,14 +105,6 @@
     <property name="particle_std" value="TELEPORT"/>
     <property name="triggeredId" value="playerlock"/>
     <property name="triggeringId" value="entercenter"/>
-   </properties>
-  </object>
-  <object id="43" name="PlayerMove" type="PlayerMove" x="1632" y="2784" width="32" height="32">
-   <properties>
-    <property name="all" type="bool" value="true"/>
-    <property name="exclude" type="bool" value="true"/>
-    <property name="triggeredId" value="arenalock"/>
-    <property name="triggeringId" value="playerlock"/>
    </properties>
   </object>
   <object id="46" name="SchmuckSpawn" type="SchmuckSpawn" x="896" y="2528" width="32" height="32">
@@ -240,18 +123,13 @@
    <properties>
     <property name="text" value="VICTORY"/>
     <property name="triggeredId" value="levelend"/>
+    <property name="victory" type="bool" value="true"/>
    </properties>
   </object>
   <object id="51" name="Prefab" type="PrefabWeapon" x="1504" y="2560" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
-   </properties>
-  </object>
-  <object id="52" name="Timer" type="Timer" x="320" y="768" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="20"/>
-    <property name="triggeringId" value="w1"/>
    </properties>
   </object>
   <object id="53" name="Prefab" type="PrefabSpawner" x="768" y="2560" width="96" height="96">
@@ -262,19 +140,6 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="54" name="Timer" type="Timer" x="320" y="512" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="0"/>
-    <property name="triggeredId" value="startTimer"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
-  <object id="55" name="Multitrigger" type="Multitrigger" x="384" y="512" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,w1"/>
-   </properties>
-  </object>
   <object id="60" name="Timer" type="Timer" x="1728" y="2784" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="2"/>
@@ -283,11 +148,62 @@
     <property name="triggeringId" value="levelend"/>
    </properties>
   </object>
-  <object id="61" name="Shake" type="Shake" x="1632" y="2848" width="32" height="32">
+  <object id="63" name="Multitrigger" type="Multitrigger" x="128" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="64" name="Timer" type="Timer" x="128" y="768" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="initLimiter"/>
+   </properties>
+  </object>
+  <object id="65" name="Multitrigger" type="Multitrigger" x="192" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="initLimiter"/>
+    <property name="triggeringId" value="startTimer,w1,spawn0,shake"/>
+   </properties>
+  </object>
+  <object id="66" name="Timer" type="Timer" x="128" y="896" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="20"/>
+    <property name="triggeringId" value="spawnWeapons"/>
+   </properties>
+  </object>
+  <object id="67" name="Multitrigger" type="Multitrigger" x="192" y="896" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1"/>
+   </properties>
+  </object>
+  <object id="68" name="Shake" type="Shake" x="256" y="768" width="32" height="32">
    <properties>
     <property name="duration" type="float" value="2"/>
     <property name="shake" type="float" value="200"/>
     <property name="triggeredId" value="shake"/>
+   </properties>
+  </object>
+  <object id="69" name="Start" type="Start" x="736" y="2464" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="70" name="Start" type="Start" x="1600" y="2464" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="71" name="Start" type="Start" x="1024" y="2464" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="72" name="Start" type="Start" x="1312" y="2464" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
  </objectgroup>

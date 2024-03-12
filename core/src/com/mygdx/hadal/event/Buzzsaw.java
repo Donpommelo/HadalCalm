@@ -111,7 +111,6 @@ public class Buzzsaw extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.ALL);
 		setEventSprite(Sprite.BUZZSAW);
 	}
 }

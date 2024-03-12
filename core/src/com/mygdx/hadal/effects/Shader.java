@@ -17,7 +17,7 @@ public enum Shader {
 	BLACKWHITE("pass", "blackwhite", true),
 	CENSURE("pass", "censure", true),
 	EMBOSS("pass", "emboss", true, new Resolution()),
-	FADE("pass", "fade", true, new Completion(), new Timer()),
+	FADE("pass", "fade", true, new Completion()),
 	INVISIBLE("pass", "pass", true),
 	GREYSCALE("pass", "greyscale", true),
 	OUTLINE("pass", "outline", true),
@@ -40,8 +40,8 @@ public enum Shader {
 	WORM("pass", "worm", true, new Resolution(), new Timer()),
 	WHIRLPOOL("pass", "whirlpool", true, new Resolution(), new Timer(), new ObjectiveCoord()),
 	PLAYER_LIGHT("pass", "darkness", false, new Resolution(), new PlayerCoord(), new Light()),
-	PERLIN_FADE("pass", "perlin", false, new Resolution(), new Timer(), new RandomSeed()),
-	PERLIN_COLOR_FADE("pass", "perlin_color", false, new Resolution(), new Timer(), new RandomSeed()),
+	PERLIN_FADE("pass", "perlin", false, new Resolution(), new Completion(), new RandomSeed()),
+	PERLIN_COLOR_FADE("pass", "perlin_color", false, new Resolution(), new Completion(), new RandomSeed()),
 	;
 	
 	//filename for the vertex and fragment shaders
@@ -68,9 +68,7 @@ public enum Shader {
 	 */
 	public void loadShader() {
 		
-		if (this.equals(NOTHING)) {
-			return;
-		}
+		if (this.equals(NOTHING)) { return; }
 
 		loadStaticShader();
 
@@ -80,11 +78,12 @@ public enum Shader {
 		}
 	}
 
+	/**
+	 * This loads a static shader
+	 */
 	public void loadStaticShader() {
 
-		if (this.equals(NOTHING)) {
-			return;
-		}
+		if (this.equals(NOTHING)) { return; }
 
 		//load the shader and create its strategies
 		if (null == shaderProgram) {

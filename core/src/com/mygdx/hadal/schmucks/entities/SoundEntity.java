@@ -71,7 +71,8 @@ public class SoundEntity extends HadalEntity {
 
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
 		if (startOn && null != attachedEntity) {
-			attachedLocation.set(attachedEntity.getPixelPosition());
+            Vector2 attachedLocation = new Vector2();
+            attachedLocation.set(attachedEntity.getPixelPosition());
 
 			this.soundID = sound.playSourced(state, attachedLocation, volume, pitch);
 			if (null != attachedEntity.getBody()) {
@@ -94,8 +95,7 @@ public class SoundEntity extends HadalEntity {
 	//No need to update every tick.
 	private static final float SYNC_TIME = 0.01f;
 	private float syncAccumulator = 0.0f;
-	private final Vector2 attachedLocation = new Vector2();
-	@Override
+    @Override
 	public void controller(float delta) {
 		
 		//process sound fading. Gradually change sound volume until it reaches 0.0 or max volume.

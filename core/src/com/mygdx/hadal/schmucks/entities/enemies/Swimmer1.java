@@ -45,9 +45,9 @@ public class Swimmer1 extends EnemySwimming {
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 2.0f;
 	
-	private static final int charge1Damage = 10;
-	private static final float attackInterval = 1.0f;
-	private static final int defaultMeleeKB = 20;
+	private static final int charge1Damage = 8;
+	private static final float attackInterval = 0.2f;
+	private static final int defaultMeleeKB = 15;
 	@Override
 	public void create() {
 		super.create();
@@ -55,13 +55,9 @@ public class Swimmer1 extends EnemySwimming {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
 	}
 
-	private boolean attackStarted;
 	@Override
 	public void attackInitiate() {
-		if (!attackStarted) {
-			attackStarted = true;
-			EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
-		}
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
 	}
 
 	@Override

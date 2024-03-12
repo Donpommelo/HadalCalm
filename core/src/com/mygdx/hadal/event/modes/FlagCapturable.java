@@ -22,6 +22,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.CarryingFlag;
 import com.mygdx.hadal.statuses.Status;
@@ -89,8 +90,11 @@ public class FlagCapturable extends Event {
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
 			HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
 			color = teamColor;
-			new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.CREATESYNC)
+			ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
 					.setColor(teamColor);
+			if (!state.isServer()) {
+				((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+			}
 		}
 
 		//make objective marker track this event
@@ -160,6 +164,7 @@ public class FlagCapturable extends Event {
 
 		this.body = new HadalBody(eventData, startPos, size, BodyConstants.BIT_SENSOR, BodyConstants.BIT_WALL, (short) 0)
 				.setBodyType(BodyDef.BodyType.DynamicBody)
+				.setFriction(1.0f)
 				.setSensor(false)
 				.addToWorld(world);
 

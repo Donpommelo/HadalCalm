@@ -1,48 +1,57 @@
 buildscript {
     repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        gradlePluginPortal()
     }
     dependencies {
-        classpath "org.beryx:badass-runtime-plugin:1.12.7"
+        if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
+            classpath "org.beryx:badass-runtime-plugin:1.13.0"
+        }
     }
 }
 
-apply plugin: 'org.beryx.runtime'
-apply plugin: 'application'
+if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
+    apply plugin: 'org.beryx.runtime'
+}
+else {
+    apply plugin: 'application'
+}
+
+application {
+    mainClass = 'com.mygdx.hadal.desktop.DesktopLauncher.lwjgl3.Lwjgl3Launcher'
+}
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
-mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
-sourceCompatibility = 16.0
 
-project.ext.assetsDir = new File("../core/assets")
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
 
 dependencies {
-    implementation project(":core")
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     implementation "com.badlogicgames.gdx:gdx-lwjgl3-glfw-awt-macos:$gdxVersion"
+    implementation project(":core")
 }
 
-def os = System.properties['os.name'].toLowerCase(Locale.ROOT)
+def jarName = "${appName}-${version}.jar"
+def os = System.properties['os.name'].toLowerCase()
 
 run {
-    workingDir = rootProject.file('assets').path
+    setWorkingDir(rootProject.file('assets').path)
     setIgnoreExitValue(true)
+    if (os.contains('mac')) jvmArgs += "-XstartOnFirstThread"
 }
 
 jar {
-    archiveFileName = "${appName}.jar"
+    archiveFileName.set(jarName)
+    destinationDirectory = file("${project.layout.buildDirectory.asFile.get().absolutePath}/lib")
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    destinationDirectory = file("$buildDir/lib")
     dependsOn configurations.runtimeClasspath
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     exclude('linux/arm32/**', 'linux/arm64/**', 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
-
-    from files(project.assetsDir)
 
 //    project.delete("../core/assets/save/ChatLog.json")
 //    project.delete("../core/assets/save/Loadout.json")
@@ -56,22 +65,15 @@ jar {
     }
 
     manifest {
-        attributes 'Main-Class': project.mainClassName
+        attributes 'Main-Class': application.mainClass
+    }
+
+    doLast {
+        file(archiveFile).setExecutable(true, false)
     }
 }
 
-//task proguard(type : proguard.gradle.ProGuardTask) {
-//    outputs.upToDateWhen { false }
-//    configuration 'proguard-rules.pro'
-//    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
-//
-//    injars "build/lib/${appName}-Demo.jar"
-//    outjars "build/lib/${appName}.jar"
-//}
-//
-//proguard.dependsOn jar
-jpackageImage.dependsOn jar
-
+tasks.jpackageImage.doNotTrackState("This task both reads from and writes to the build folder.")
 runtime {
     options.set(['--strip-debug',
                  '--compress', '2',
@@ -88,21 +90,25 @@ runtime {
             'jdk.crypto.cryptoki',
             'jdk.unsupported'])
 
-    distDir.set(file(buildDir))
+    distDir.set(file(project.layout.buildDirectory))
 
     jpackage {
         imageName = appName
-        mainJar = "${appName}.jar"
-        appVersion = "1.0.0"
-
+        skipInstaller = true
+        jpackageHome = javaHome.getOrElse("")
+        mainJar = jarName
         if (os.contains('win')) {
-            imageOptions = ["--icon", file("../icons/icon.ico")]
+            imageOptions = ["--icon", "icons/logo.ico"]
         } else if (os.contains('nix') || os.contains('nux') || os.contains('bsd')) {
-            imageOptions = ["--icon", file("../icons/icon.png")]
+            imageOptions = ["--icon", "icons/logo.png"]
         } else if (os.contains('mac')) {
-            imageOptions = ["--icon", file("../icons/icon.icns"), "--java-options", "\"-XstartOnFirstThread\""]
+            imageOptions = ["--icon", "icons/logo.icns", "--java-options", "\"-XstartOnFirstThread\""]
         }
     }
+}
+
+tasks.register('dist') {
+    dependsOn['jar']
 }
 
 jpackageImage.doLast {

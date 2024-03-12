@@ -400,7 +400,7 @@ public class Player extends Schmuck {
 	@Override
 	public Object onServerCreate(boolean catchup) {
 		return new Packets.CreatePlayer(entityID, user.getConnID(), getPixelPosition(), name, user.getLoadoutManager().getActiveLoadout(),
-				hitboxFilter, scaleModifier, dontMoveCamera);
+				hitboxFilter, scaleModifier, dontMoveCamera, start == null ? null : start.getTriggeredID());
 	}
 
 	//this is the type of death we have. Send to client so they can process the death on their end.

@@ -50,6 +50,7 @@ public class ObjectiveChanger extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.USER);
+		setServerSyncType(eventSyncTypes.SELF);
+		setClientSyncType(eventSyncTypes.SELF);
 	}
 }

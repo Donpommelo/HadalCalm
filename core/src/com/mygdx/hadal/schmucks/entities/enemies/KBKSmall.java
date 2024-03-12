@@ -21,7 +21,7 @@ public class KBKSmall extends EnemySwimming {
 	private static final int hboxWidth = 140;
 	private static final int hboxHeight = 60;
 	
-	private static final float attackCd = 1.0f;
+	private static final float attackCd = 2.0f;
 	private static final float airSpeed = 1.1f;
 	
 	private static final float scale = 0.25f;
@@ -40,9 +40,9 @@ public class KBKSmall extends EnemySwimming {
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 2.0f;
 	
-	private static final int charge1Damage = 3;
-	private static final float attackInterval = 1.0f;
-	private static final int defaultMeleeKB = 15;
+	private static final int charge1Damage = 2;
+	private static final float attackInterval = 0.2f;
+	private static final int defaultMeleeKB = 6;
 	
 	@Override
 	public void create() {
@@ -54,9 +54,6 @@ public class KBKSmall extends EnemySwimming {
 	private boolean attackStarted;
 	@Override
 	public void attackInitiate() {
-		if (!attackStarted) {
-			attackStarted = true;
-			EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f);
-		}
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
 	}
 }

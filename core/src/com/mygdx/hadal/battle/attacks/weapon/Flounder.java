@@ -41,7 +41,7 @@ public class Flounder extends SyncedAttacker {
                 int randomIndex = MathUtils.random(PROJ_SPRITES.length - 1);
                 Sprite projSprite = PROJ_SPRITES[randomIndex];
 
-                Hitbox hbox = new RangedHitbox(state, startPosition[i], PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelocity[i]),
+                Hitbox hbox = new RangedHitbox(state, startPosition[i], PROJECTILE_SIZE, LIFESPAN, startVelocity[i],
                         user.getHitboxFilter(), true, true, user, projSprite);
                 hbox.setGravity(1.5f);
                 hbox.setDurability(2);

@@ -65,8 +65,18 @@ public class EventData extends HadalData {
 	 * @param p: The player that activated this (or started this chain of event activation)
 	 */
 	public void preActivate(EventData activator, Player p) {
-		//activation depends on event sync type
-		switch (event.getSyncType()) {
+
+		//activation depends on event sync type and whether this is the server or client
+		switch (event.getState().isServer() ? event.getServerSyncType() : event.getClientSyncType()) {
+		case IGNORE:
+			return;
+		case SELF:
+			if (p != null) {
+				if (p.equals(HadalGame.usm.getOwnPlayer())) {
+					onActivate(activator, p);
+				}
+			}
+			break;
 		case USER:
 			if (p == null) {
 				onActivate(activator, null);
@@ -74,43 +84,57 @@ public class EventData extends HadalData {
 				if (p.equals(HadalGame.usm.getOwnPlayer())) {
 					onActivate(activator, p);
 				} else if (event.getState().isServer()) {
-					HadalGame.server.sendToTCP(p.getUser().getConnID(), new Packets.ActivateEvent(event.getEntityID(), p.getUser().getConnID()));
+					HadalGame.server.sendToTCP(p.getUser().getConnID(), getActivationPacket(p));
 				}
 			}
 			break;
-		case ALL:
-			if (event.getState().isServer()) {
-				onActivate(activator, p);
-				if (p == null) {
-					HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
-				} else {
-					HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID(), p.getUser().getConnID()));
-				}
-			} else {
-				if (p == null) {
-					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
-				} else {
-					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), p.getUser().getConnID()));
-				}
-			}
-			break;
-		case CLIENT:
-			if (!event.getState().isServer()) {
-				if (p == null) {
-					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), -1));
-				} else {
-					HadalGame.client.sendTCP(new Packets.ActivateEvent(event.getEntityID(), p.getUser().getConnID()));
-				}
-			}
+		case ECHO_ACTIVATE:
+			echoActivation(p);
 			onActivate(activator, p);
 			break;
-		case ILLUSION:
-		case SERVER:
+		case ECHO:
+			echoActivation(p);
+			break;
+		case ACTIVATE:
+			onActivate(activator, p);
+			break;
+		case ECHO_ACTIVATE_EXCLUDE:
+			if (null != p) {
+				if (!event.getState().isServer()) {
+					echoActivation(p);
+				} else {
+					HadalGame.server.sendToAllExceptTCP(p.getUser().getConnID(), getActivationPacket(p));
+				}
+			}
 			onActivate(activator, p);
 			break;
 		}
 	}
-	
+
+	/**
+	 * Helper function that echoes an event activation for server or client
+	 */
+	private void echoActivation(Player p) {
+		if (event.getState().isServer()) {
+			HadalGame.server.sendToAllTCP(getActivationPacket(p));
+		} else {
+			HadalGame.client.sendTCP(getActivationPacket(p));
+		}
+	}
+
+	/**
+	 * Another helper function. When we echo an event activation, the packet depends on whether we can use the event's
+	 * triggeredID or whether we have to use the UUID
+	 */
+	private Object getActivationPacket(Player p) {
+		int connID = p == null ? -1 : p.getUser().getConnID();
+		if (null == event.getTriggeredID()) {
+			return new Packets.ActivateEvent(event.getEntityID(), connID);
+		} else {
+			return new Packets.ActivateEventByTrigger(event.getTriggeredID(), connID);
+		}
+	}
+
 	/**
 	 * This is what happens when an event is activated.
 	 * @param activator: the event that activates this event

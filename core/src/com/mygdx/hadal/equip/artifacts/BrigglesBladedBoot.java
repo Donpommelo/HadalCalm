@@ -76,7 +76,6 @@ public class BrigglesBladedBoot extends Artifact {
 							if (hbox.getState().isServer()) {
 								hbox.queueDeletion();
 							} else {
-								hbox.setAlive(false);
 								((ClientState) state).removeEntity(hbox.getEntityID());
 							}
 						}

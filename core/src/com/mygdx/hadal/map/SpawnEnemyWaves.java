@@ -26,7 +26,7 @@ public class SpawnEnemyWaves extends ModeSetting {
         RectangleMapObject waveController = new RectangleMapObject();
         waveController.setName("WaveSpawnController");
 
-        TiledObjectUtil.parseTiledEvent(state, waveController);
+        TiledObjectUtil.parseAddTiledEvent(state, waveController);
 
         //clear existing rally points to avoid memory leak
         for (RallyPoint point : BotManager.rallyPoints.values()) {

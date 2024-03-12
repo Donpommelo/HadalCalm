@@ -16,6 +16,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A See saw platform can rotate with physics input
@@ -72,22 +73,7 @@ public class SeeSawPlatform extends Event {
 			//create the segment fixtures. Each responds to knockback and applies it to the respective parts of the platform
 			for (float i = -size.x / 2 + SECTION_WIDTH / 2; i < size.x / 2; i += SECTION_WIDTH) {
 
-				final float sectioncenter = i;
-
-				EventData tempData = new EventData(this, UserDataType.WALL) {
-
-					@Override
-					public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
-											   DamageSource source, DamageTag... tags) {
-
-						if (getEntity().isAlive()) {
-							if (getEntity().getBody() != null) {
-								getEntity().getBody().applyLinearImpulse(new Vector2(knockback).limit(KB_CAP), new Vector2(sectioncenter, 0), true);
-							}
-						}
-						return 0;
-					}
-				};
+				EventData tempData = getEventData(i);
 				new HadalFixture(new Vector2(i, 0), new Vector2(SECTION_WIDTH, size.y + SECTION_PADDING),
 						BodyConstants.BIT_WALL, BodyConstants.BIT_PROJECTILE, (short) 0)
 						.addToBody(body)
@@ -97,12 +83,32 @@ public class SeeSawPlatform extends Event {
 			this.body.setType(BodyDef.BodyType.KinematicBody);
 		}
 	}
-	
+
+	@NotNull
+	private EventData getEventData(float i) {
+		final float sectioncenter = i;
+
+        return new EventData(SeeSawPlatform.this, UserDataType.WALL) {
+
+			@Override
+			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, Hitbox hbox,
+									   DamageSource source, DamageTag... tags) {
+
+				if (getEntity().isAlive()) {
+					if (getEntity().getBody() != null) {
+						getEntity().getBody().applyLinearImpulse(new Vector2(knockback).limit(KB_CAP), new Vector2(sectioncenter, 0), true);
+					}
+				}
+				return 0;
+			}
+		};
+	}
+
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
 		setScaleAlign(ClientIllusion.alignType.ROTATE);
-		setSyncType(eventSyncTypes.ALL);
+		setIndependent(false);
 		setSynced(true);
 	}
 }

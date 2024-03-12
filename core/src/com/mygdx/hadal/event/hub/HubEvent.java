@@ -159,7 +159,6 @@ public class HubEvent extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.PYRAMID);
-		setSyncType(eventSyncTypes.USER);
 	}
 
 	public String getLastSearch() { return lastSearch; }

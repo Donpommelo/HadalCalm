@@ -160,6 +160,7 @@ public class PlayerBodyData extends BodyData {
 
 			//for the client's own player, death is processed and signalled to server
 			if (!player.getState().isServer() && this.getPlayer() instanceof PlayerSelfOnClient) {
+				player.setAlive(false);
 				((ClientState) player.getState()).removeEntity(player.getEntityID());
 				HadalGame.client.sendTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source, tags));
 			}

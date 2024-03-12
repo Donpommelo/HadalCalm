@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="185">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="185">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="EXTRA_ROOM"/>
@@ -38,11 +38,7 @@
     <property name="triggeredId" value="w1"/>
    </properties>
   </object>
-  <object id="16" name="Destr_Obj" type="Destr_Obj" x="2400" y="1280" width="64" height="64">
-   <properties>
-    <property name="synced" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="16" name="Destr_Obj" type="Destr_Obj" x="2400" y="1280" width="64" height="64"/>
   <object id="37" name="Current" type="Current" x="2496" y="1184" width="160" height="160">
    <properties>
     <property name="currentX" type="float" value="0"/>
@@ -109,7 +105,6 @@
    <properties>
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
@@ -127,16 +122,8 @@
     <property name="damage" type="float" value="0.25"/>
    </properties>
   </object>
-  <object id="62" name="Destr_Obj" type="Destr_Obj" x="2400" y="1216" width="64" height="64">
-   <properties>
-    <property name="synced" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="63" name="Destr_Obj" type="Destr_Obj" x="2400" y="1152" width="64" height="64">
-   <properties>
-    <property name="synced" type="bool" value="true"/>
-   </properties>
-  </object>
+  <object id="62" name="Destr_Obj" type="Destr_Obj" x="2400" y="1216" width="64" height="64"/>
+  <object id="63" name="Destr_Obj" type="Destr_Obj" x="2400" y="1152" width="64" height="64"/>
   <object id="66" name="Prefab" type="PrefabSpawnerTriggered" x="864" y="1408" width="96" height="96">
    <properties>
     <property name="power" type="float" value="100"/>
@@ -264,7 +251,6 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="triggeredId" value="rplat1"/>
@@ -283,7 +269,6 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
-    <property name="independent" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_RELOAD_BAR"/>
     <property name="triggeredId" value="rplat2"/>
@@ -343,15 +328,12 @@
     <property name="displayOffScreen" type="bool" value="true"/>
     <property name="displayOnScreen" type="bool" value="true"/>
     <property name="icon" value="CLEAR_CIRCLE_ALERT"/>
-    <property name="sync" value="ALL"/>
     <property name="triggeredId" value="objectiveTest"/>
     <property name="triggeringId" value="objectiveMarker"/>
    </properties>
   </object>
   <object id="127" name="Dummy" type="Dummy" x="1056" y="832" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="false"/>
-    <property name="sync" value="USER"/>
     <property name="triggeredId" value="objectiveMarker"/>
    </properties>
   </object>
@@ -365,7 +347,6 @@
   <object id="170" name="Start" type="Start" x="1536" y="544" width="32" height="32">
    <properties>
     <property name="startId" value="start0"/>
-    <property name="triggeredId" value=""/>
     <property name="triggeringId" value="playerStart"/>
    </properties>
   </object>
@@ -411,7 +392,6 @@
   <object id="180" name="SeeSaw" type="SeeSaw" x="896" y="768" width="320" height="32"/>
   <object id="183" name="Timer" type="Timer" x="352" y="992" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
@@ -419,7 +399,6 @@
   </object>
   <object id="184" name="Multitrigger" type="Multitrigger" x="416" y="992" width="32" height="32">
    <properties>
-    <property name="independent" type="bool" value="true"/>
     <property name="triggeredId" value="onceAtStart"/>
     <property name="triggeringId" value="startTimer,rotate1,rotate2"/>
    </properties>

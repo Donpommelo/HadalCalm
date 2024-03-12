@@ -27,6 +27,7 @@ public class ShaderHelper {
 
     /**
      * Set this entity's shader (this will be used when rendering this entity)
+     * setStaticShader is similar, except we don't need to load shader strategies or keep track of elapsed time
      * @param shader: shader to use
      * @param shaderCount: how long does this shader last?
      */
@@ -54,6 +55,7 @@ public class ShaderHelper {
      */
     public void processShaderController(float timer) {
         float percentageCompletion = MathUtils.clamp(1.0f - shaderCount / shaderDuration, 0, 1.0f);
+
         shader.shaderPlayUpdate(state, timer);
         shader.shaderDefaultUpdate(timer);
         shader.shaderEntityUpdate(entity, percentageCompletion);

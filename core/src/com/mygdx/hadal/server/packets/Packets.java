@@ -456,6 +456,10 @@ public class Packets {
 		public DeleteClientSelf() {}
 
 		/**
+		 * A DeleteClientSelf is sent from client to server upon death and cuases the world to count them as dead.
+		 * @param entityID: ID of the entity that killed this client.
+		 * @param source: The source of damage that got the last hit; for kill text
+		 * @param tags: Tags of the damage instance. Used for kill text
 		 */
 		public DeleteClientSelf(UUID entityID, DamageSource source, DamageTag[] tags) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
@@ -474,6 +478,7 @@ public class Packets {
 		public short hitboxFilter;
 		public float scaleModifier;
 		public boolean dontMoveCamera;
+		public String startTriggeredId;
 		public CreatePlayer() {}
 		
 		/**
@@ -489,9 +494,10 @@ public class Packets {
 		 * @param hitboxFilter: collision filter of the new player
 		 * @param scaleModifier: player body size modification
 		 * @param dontMoveCamera: should the client's camera be constant when they die (used for matryoshka mode respawn)
+		 * @param startTriggeredId: id of the start event to trigger upon creating player
 		 */
 		public CreatePlayer(UUID entityID, int connID, Vector2 startPosition, String name, Loadout loadout,
-					short hitboxFilter, float scaleModifier, boolean dontMoveCamera) {
+					short hitboxFilter, float scaleModifier, boolean dontMoveCamera, String startTriggeredId) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.connID = connID;
@@ -501,6 +507,7 @@ public class Packets {
             this.hitboxFilter = hitboxFilter;
             this.scaleModifier = scaleModifier;
             this.dontMoveCamera = dontMoveCamera;
+			this.startTriggeredId = startTriggeredId;
         }
 	}
 	
@@ -530,7 +537,6 @@ public class Packets {
 		public long uuidMSB, uuidLSB;
         public Vector2 pos;
         public UnlockEquip newPickup;
-		public boolean synced;
 		public float lifespan;
         public CreatePickup() {}
         
@@ -541,15 +547,13 @@ public class Packets {
 		 * @param entityID: ID of the new Pickup.
 		 * @param pos: position of the new Pickup
 		 * @param newPickup: The pickup that this event should start with.
-		 * @param synced: should this entity receive a sync packet regularly? (for weapon drops from players)
 		 * @param lifespan: lifespan of pickup (only used if pickup is synced)
          */
-		public CreatePickup(UUID entityID, Vector2 pos, UnlockEquip newPickup, boolean synced, float lifespan) {
+		public CreatePickup(UUID entityID, Vector2 pos, UnlockEquip newPickup, float lifespan) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.pos = pos;
             this.newPickup = newPickup;
-            this.synced = synced;
             this.lifespan = lifespan;
 		}
 	}
@@ -596,28 +600,42 @@ public class Packets {
         	this.fade = fade;
         }
 	}
-	
+
 	public static class SyncPickup {
 		public long uuidMSB, uuidLSB;
+		public UnlockEquip newPickup;
+		public SyncPickup() {}
+
+		/**
+		 * A SyncPickup is sent from the Server to the Client when a Pickup is activated.
+		 * Clients receiving this adjust their version of the pickup to hold the new pickup
+		 * @param entityID: ID of the activated Pickup
+		 * @param newPickup: enum name of the new pickup.
+		 */
+		public SyncPickup(UUID entityID, UnlockEquip newPickup) {
+			this.uuidLSB = entityID.getLeastSignificantBits();
+			this.uuidMSB = entityID.getMostSignificantBits();
+			this.newPickup = newPickup;
+		}
+	}
+
+	public static class SyncPickupTriggered {
+		public String triggeredID;
         public UnlockEquip newPickup;
-		public float timestamp;
-        public SyncPickup() {}
+        public SyncPickupTriggered() {}
         
         /**
          * A SyncPickup is sent from the Server to the Client when a Pickup is activated.
          * Clients receiving this adjust their version of the pickup to hold the new pickup
-         * @param entityID: ID of the activated Pickup
+         * @param triggeredID: ID of the activated Pickup
          * @param newPickup: enum name of the new pickup.
-		 * @param timestamp: time of sync. Used for client prediction.
          */
-		public SyncPickup(UUID entityID, UnlockEquip newPickup, float timestamp) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public SyncPickupTriggered(String triggeredID, UnlockEquip newPickup) {
+			this.triggeredID = triggeredID;
             this.newPickup = newPickup;
-			this.timestamp = timestamp;
 		}
 	}
-	
+
 	public static class ActivateEvent {
 		public long uuidMSB, uuidLSB;
 		public int connID;
@@ -634,6 +652,22 @@ public class Packets {
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.connID = connID;
         }
+	}
+
+	public static class ActivateEventByTrigger {
+		public String triggeredID;
+		public int connID;
+		public ActivateEventByTrigger() {}
+
+		/**
+		 * A ActivateEventByTrigger is like an ActivateEvent, but it uses the event's triggeredID instead of entity id
+		 * @param triggeredID: triggered ID of the activated Pickup
+		 * @param connID: The connection id of the player that activated this event
+		 */
+		public ActivateEventByTrigger(String triggeredID, int connID) {
+			this.triggeredID = triggeredID;
+			this.connID = connID;
+		}
 	}
 
 	public static class CreateParticles {
@@ -700,6 +734,12 @@ public class Packets {
 
 		public CreateFlag() {}
 
+		/**
+		 * A CreateFlag is sent from server to client to create a Flag event for CTF mode.
+		 * @param entityID: ID of the newly created Crown
+		 * @param pos: The starting position of this event
+		 * @param teamIndex: The team alignment that owns this flag
+		 */
 		public CreateFlag(UUID entityID, Vector2 pos, int teamIndex) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
@@ -714,6 +754,11 @@ public class Packets {
 
 		public CreateCrown() {}
 
+		/**
+		 * A CreateCrown is sent from server to client to create a Crown event for Kingmaker mode.
+		 * @param entityID: ID of the newly created Crown
+		 * @param pos: The starting position of this event
+		 */
 		public CreateCrown(UUID entityID, Vector2 pos) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
@@ -729,6 +774,13 @@ public class Packets {
 
 		public CreateGrave() {}
 
+		/**
+		 * A CreateGrave is sent from server to client to create a Gravestone event for coop modes or Resurrectionist modes.
+		 * @param entityID: ID of the newly created Gravestone
+		 * @param connID: The connID of the user that died and would be resurrected from this event
+		 * @param pos: The starting position of this event
+		 * @param returnMaxTimer: The amount of time required to revive the player
+		 */
 		public CreateGrave(UUID entityID, int connID, Vector2 pos, float returnMaxTimer) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
@@ -743,6 +795,11 @@ public class Packets {
 
 		public RequestStartSyncedEvent() {}
 
+		/**
+		 * A RequestStartSyncedEvent is sent from the Client to the Server after Rotators or Moving Points are created.
+		 * This is so that the Client can receive the event's current position instead of being synced constantly
+		 * @param triggeredID: the triggeredID of the event to sync
+		 */
 		public RequestStartSyncedEvent(String triggeredID) {
 			this.triggeredID = triggeredID;
 		}
@@ -755,6 +812,16 @@ public class Packets {
 
 		public CreateStartSyncedEvent() {}
 
+		/**
+		 * A CreateStartSyncedEvent is sent from the Server to the Client after the latter informs through a RequestStartSyncedEvent
+		 * that the event was created.
+		 * This packet contains the info needed for the client to set the initial state of the event.
+		 * @param timer: Server timestamp
+		 * @param triggeredID: the triggeredID of the event to sync
+		 * @param targetTriggeredID: the event's connected event's id. Used for moving points so they move towards right point.
+		 * @param pos: position of the Start-Synced Event
+		 * @param velo: Velocity of the Start-Synced Event
+		 */
 		public CreateStartSyncedEvent(float timer, String triggeredID, String targetTriggeredID, Vector2 pos, Vector2 velo) {
 			this.timer = timer;
 			this.triggeredID = triggeredID;
@@ -1081,8 +1148,10 @@ public class Packets {
 		kryo.register(DeleteClientSelf.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
-    	kryo.register(SyncPickup.class);
-    	kryo.register(ActivateEvent.class);
+		kryo.register(SyncPickup.class);
+		kryo.register(SyncPickupTriggered.class);
+		kryo.register(ActivateEvent.class);
+		kryo.register(ActivateEventByTrigger.class);
     	kryo.register(CreatePlayer.class);
 		kryo.register(CreateParticles.class);
 		kryo.register(CreateFlag.class);

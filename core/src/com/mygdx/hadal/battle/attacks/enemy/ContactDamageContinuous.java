@@ -21,7 +21,6 @@ public class ContactDamageContinuous extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-
         float duration = 0.0f;
         float damage = 0.0f;
         float knockback = 0.0f;

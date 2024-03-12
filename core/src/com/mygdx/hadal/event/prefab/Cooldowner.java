@@ -25,10 +25,10 @@ public class Cooldowner extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		String multiId = TiledObjectUtil.getPrefabTriggerId();
-		String altId1 = TiledObjectUtil.getPrefabTriggerId();
-		String altId2 = TiledObjectUtil.getPrefabTriggerId();
-		String timerId = TiledObjectUtil.getPrefabTriggerId();
+		String multiId = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String altId1 = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String altId2 = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String timerId = TiledObjectUtil.getPrefabTriggerIdUnsynced();
 		
 		RectangleMapObject conditional = new RectangleMapObject();
 		conditional.setName("Condtrigger");
@@ -59,10 +59,10 @@ public class Cooldowner extends Prefabrication {
 		timer.getProperties().put("triggeredId", timerId);
 		alt2.getProperties().put("triggeringId", altId2);
 
-		TiledObjectUtil.parseTiledEvent(state, conditional);
-		TiledObjectUtil.parseTiledEvent(state, multi);
-		TiledObjectUtil.parseTiledEvent(state, alt1);
-		TiledObjectUtil.parseTiledEvent(state, alt2);
-		TiledObjectUtil.parseTiledEvent(state, timer);
+		TiledObjectUtil.parseAddTiledEvent(state, conditional);
+		TiledObjectUtil.parseAddTiledEvent(state, multi);
+		TiledObjectUtil.parseAddTiledEvent(state, alt1);
+		TiledObjectUtil.parseAddTiledEvent(state, alt2);
+		TiledObjectUtil.parseAddTiledEvent(state, timer);
 	}
 }

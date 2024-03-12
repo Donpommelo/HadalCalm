@@ -12,6 +12,7 @@ import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -49,9 +50,7 @@ public class FlagSpawner extends Event {
 
             @Override
             public void onActivate(EventData activator, Player p) {
-                if (state.isServer()) {
-                    spawnerParticles();
-                }
+                spawnerParticles(false);
 
                 //give score credit to the player and give notification
                 if (null != p) {
@@ -111,7 +110,7 @@ public class FlagSpawner extends Event {
      * This spawns a flag event at the spawner location
      */
     private void spawnFlag() {
-        spawnerParticles();
+        spawnerParticles(true);
         flag = new FlagCapturable(state, new Vector2(getPixelPosition()), this, teamIndex);
         flagPresent = true;
     }
@@ -130,11 +129,15 @@ public class FlagSpawner extends Event {
         }
     }
 
-    private void spawnerParticles() {
+    private void spawnerParticles(boolean global) {
         ParticleEntity particle = new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
-                true, SyncType.CREATESYNC);
+                true, global ? SyncType.CREATESYNC : SyncType.NOSYNC);
         if (teamIndex < AlignmentFilter.currentTeams.length) {
             particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
+        }
+
+        if (!state.isServer()) {
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
         }
     }
 
@@ -143,7 +146,8 @@ public class FlagSpawner extends Event {
     @Override
     public void loadDefaultProperties() {
         setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
-        setSyncType(eventSyncTypes.ALL);
+        setServerSyncType(eventSyncTypes.ECHO_ACTIVATE);
+        setClientSyncType(eventSyncTypes.ACTIVATE);
         addAmbientParticle(Particle.RING);
     }
 

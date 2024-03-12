@@ -14,6 +14,7 @@ import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -37,6 +38,9 @@ public class PickupEquip extends Event {
 	//when about to despawn, pickups flash
 	private static final float FLASH_LIFESPAN = 1.0f;
 
+	//When equip is changed, there is a cooldown before sending packets to sync other players
+	private static final float SYNC_CD = 0.1f;
+
 	//This is the weapon that will be picked up when interacting with this event.
 	private Equippable equip;
 	private UnlockEquip unlock;
@@ -47,13 +51,15 @@ public class PickupEquip extends Event {
 	//is this a temporary weapon drop?
 	private boolean drop;
 
+	//has the equip changed since the last sync was sent?
+	private boolean equipChanged;
+
 	public PickupEquip(PlayState state, Vector2 startPos, String pool) {
 		super(state, startPos, new Vector2(Event.DEFAULT_PICKUP_EVENT_SIZE, Event.DEFAULT_PICKUP_EVENT_SIZE));
 		this.pool = pool;
 		
 		unlock = UnlockEquip.NOTHING;
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
-		setSyncType(eventSyncTypes.CLIENT);
 	}
 
 	public PickupEquip(PlayState state, Vector2 startPos, UnlockEquip equip, float lifespan) {
@@ -61,9 +67,9 @@ public class PickupEquip extends Event {
 		this.pool = "";
 		this.drop = true;
 		unlock = equip;
+
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
 		setSynced(true);
-		setSyncType(eventSyncTypes.CLIENT);
 		setFlashLifespan(FLASH_LIFESPAN);
 	}
 
@@ -75,7 +81,10 @@ public class PickupEquip extends Event {
 			public void onInteract(Player p) {
 				preActivate(null, p);
 			}
-			
+
+			@Override
+			public void preActivate(EventData activator, Player p) { onActivate(activator, p); }
+
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (activator != null) {
@@ -86,6 +95,8 @@ public class PickupEquip extends Event {
 						if ("roll".equals(msg)) {
 							rollWeapon();
 							standardParticle.turnOn();
+
+							equipChanged = true;
 						} else {
 							unlock = UnlockEquip.getRandWeapFromPool(state, msg);
 							setEquip(UnlocktoItem.getUnlock(unlock, null));
@@ -98,8 +109,8 @@ public class PickupEquip extends Event {
 				
 				//If player inventory is full, replace their current weapon.
 				Equippable temp = p.getEquipHelper().pickup(equip);
-
 				setEquip(temp);
+				equipChanged = true;
 			}
 		};
 
@@ -111,11 +122,31 @@ public class PickupEquip extends Event {
 		if (drop) {
 			new HadalFixture(new Vector2(), new Vector2(size),
 					BodyConstants.BIT_PROJECTILE, (short) (BodyConstants.BIT_DROPTHROUGHWALL | BodyConstants.BIT_WALL), (short) 0)
+					.setFriction(1.0f)
 					.setSensor(false)
 					.addToBody(body)
 					.setUserData(eventData);
 		} else {
 			this.body.setType(BodyType.KinematicBody);
+		}
+	}
+
+	private float syncAccumulator;
+	@Override
+	public void controller(float delta) {
+		super.controller(delta);
+		if (equipChanged) {
+			syncAccumulator += delta;
+
+			if (syncAccumulator > SYNC_CD) {
+				syncAccumulator = 0.0f;
+				equipChanged = false;
+				if (state.isServer()) {
+					HadalGame.server.sendToAllTCP(getActivationPacket());
+				} else {
+					HadalGame.client.sendTCP(getActivationPacket());
+				}
+			}
 		}
 	}
 
@@ -127,26 +158,20 @@ public class PickupEquip extends Event {
 
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		return new Packets.CreatePickup(entityID, getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()), synced, duration);
+		if (synced) {
+			return new Packets.CreatePickup(entityID, getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()), duration);
+		} else {
+
+			//client has already created their own pickups with the same triggeredID; just need to sync weapons
+			return new Packets.SyncPickupTriggered(triggeredID, UnlockEquip.getUnlockFromEquip(equip.getClass()));
+		}
 	}
 
 	@Override
 	public void onServerSync() {
-
 		//we only want to sync position data if the pickup is from a weapon drop
 		if (drop || synced) {
 			super.onServerSync();
-		}
-		state.getSyncPackets().add(new Packets.SyncPickup(entityID, UnlockEquip.getUnlockFromEquip(equip.getClass()),
-				state.getTimer()));
-	}
-
-	@Override
-	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncPickup p) {
-			setEquip(UnlocktoItem.getUnlock(p.newPickup, null));
-		} else {
-			super.onClientSync(o);
 		}
 	}
 
@@ -154,15 +179,23 @@ public class PickupEquip extends Event {
 	 * this rolls a random weapon
 	 */
 	public void rollWeapon() {
+		if (!state.isServer()) { return; }
 		unlock = UnlockEquip.getRandWeapFromPool(state, pool);
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
 	}
-	
+
+	private Object getActivationPacket() {
+		if (null == triggeredID) {
+			return new Packets.SyncPickup(entityID, UnlockEquip.getUnlockFromEquip(equip.getClass()));
+		} else {
+			return new Packets.SyncPickupTriggered(triggeredID, UnlockEquip.getUnlockFromEquip(equip.getClass()));
+		}
+	}
+
 	@Override
 	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		if (!(equip instanceof NothingWeapon)) {
 			super.render(batch, entityLocation);
-
 			HadalGame.FONT_SPRITE.draw(batch, equip.getName(), entityLocation.x - size.x / 2, entityLocation.y + size.y / 2);
 		}
 	}
@@ -179,7 +212,11 @@ public class PickupEquip extends Event {
 				standardParticle.turnOff();
 			}
 			if (drop) {
-				queueDeletion();
+				if (state.isServer()) {
+					queueDeletion();
+				} else {
+					((ClientState) state).removeEntity(entityID);
+				}
 			} else if (equip instanceof SpeargunNerfed) {
 				this.equip = UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null);
 			}
@@ -190,5 +227,12 @@ public class PickupEquip extends Event {
 		}
 	}
 
+	@Override
+	public Object onServerDelete() {
+		return null;
+	}
+
 	public Equippable getEquip() { return equip; }
+
+	public void setEquipChanged(boolean equipChanged) { this.equipChanged = equipChanged; }
 }

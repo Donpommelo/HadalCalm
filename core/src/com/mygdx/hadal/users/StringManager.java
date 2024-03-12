@@ -19,7 +19,7 @@ public class StringManager {
         this.name = name;
     }
 
-    //this gets the name displayed in score windows. Gives an indication of which player is the host
+    //this indicates the user's ping, and gives an indication of which player is the host or a bot
     public String getPingText() {
         if (user.getConnID() == 0) {
             return "(HOST) ";

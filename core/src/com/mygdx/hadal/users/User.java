@@ -42,6 +42,7 @@ public class User {
     //the player's selected team alignment
     private AlignmentFilter teamFilter;
 
+    //has this user been assigned to a team yet? Used so that new player connecting during match is assigned to a team.
     private boolean teamAssigned;
 
     public User(int connID, String name, Loadout loadout) {

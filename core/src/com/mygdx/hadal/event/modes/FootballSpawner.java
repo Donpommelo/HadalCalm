@@ -88,6 +88,7 @@ public class FootballSpawner extends Event {
 
     @Override
     public void loadDefaultProperties() {
-        setSyncType(eventSyncTypes.ALL);
+        setServerSyncType(eventSyncTypes.ECHO_ACTIVATE);
+        setClientSyncType(eventSyncTypes.IGNORE);
     }
 }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.constants.MoveState;
@@ -292,7 +291,7 @@ public class PlayerSpriteHelper {
         //head type cosmetics replace the head, so we don't want to create a ragdoll for it
         if (loadout.cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
             Ragdoll headRagdoll = new Ragdoll(state, playerLocation, new Vector2(headWidth, headHeight).scl(scale),
-                    headSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
+                    headSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
 
             if (!state.isServer()) {
                 ((ClientState) state).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
@@ -300,13 +299,13 @@ public class PlayerSpriteHelper {
         }
 
         Ragdoll bodyRagdoll = new Ragdoll(state, playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
-                bodyStillSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
+                bodyStillSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
 
         Ragdoll armRagdoll = new Ragdoll(state, playerLocation, new Vector2(armWidth, armHeight).scl(scale),
-                armSprite, playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
+                armSprite, playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
 
         Ragdoll toolRagdoll = new Ragdoll(state, playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
-                player.getToolSprite(), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false, true);
+                player.getToolSprite(), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
 
         //Get cosmetic ragdolls
         for (UnlockCosmetic cosmetic : loadout.cosmetics) {
@@ -347,42 +346,13 @@ public class PlayerSpriteHelper {
                 ragdollBuffer.getHeight(), ragdollBuffer.getWidth(), -ragdollBuffer.getHeight());
 
         Ragdoll bodyRagdoll = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT),
-                ragdollTexture, playerVelocity, 2.0f, 0.0f, true, false, false) {
+                ragdollTexture, playerVelocity, 2.0f, 0.0f, true, false) {
 
-            private Shader shader;
-            private float progress;
-            private float timer;
-            private static final float FADE_DELAY = 0.25f;
-            private static final float FADE_DURATION = 2.25f;
             @Override
             public void create() {
                 super.create();
-
-                //initiate shader used for vaporization effect
-                shader = Shader.PERLIN_COLOR_FADE;
-                shader.loadShader();
                 body.setAngularDamping(4.0f);
                 body.setLinearDamping(3.0f);
-            }
-
-            @Override
-            public void controller(float delta) {
-                super.controller(delta);
-                manageTimer(delta);
-            }
-
-            @Override
-            public void clientController(float delta) {
-                super.clientController(delta);
-                manageTimer(delta);
-            }
-
-            @Override
-            public void render(SpriteBatch batch, Vector2 entityLocation) {
-                batch.setShader(shader.getShaderProgram());
-                shader.shaderDefaultUpdate(progress);
-                super.render(batch, entityLocation);
-                batch.setShader(null);
             }
 
             //we need to dispose of the fbo when the ragdolls are done
@@ -391,17 +361,7 @@ public class PlayerSpriteHelper {
                 super.dispose();
                 ragdollBuffer.dispose();
             }
-
-            /**
-             * This keeps track of shader progress for fading
-             */
-            private void manageTimer(float delta) {
-                timer += delta;
-                if (timer >= FADE_DELAY) {
-                    progress = MathUtils.clamp((timer - FADE_DELAY) / FADE_DURATION, 0.0f, 1.0f);
-                }
-            }
-        };
+        }.setFade(1.75f, Shader.PERLIN_COLOR_FADE);
 
         if (!state.isServer()) {
             ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);

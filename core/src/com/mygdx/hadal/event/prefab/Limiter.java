@@ -10,6 +10,10 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class Limiter extends Prefabrication {
 
+	private static final String MULTI_ID = "LIMITER_MULTI";
+	private static final String COUNTER_ID = "LIMITER_COUNTER";
+	private static final String ALT_ID = "LIMITER_ALT";
+
 	//Ids of triggered and triggering events
 	private final String triggeredId, triggeringId;
 
@@ -25,9 +29,9 @@ public class Limiter extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		String multiId = TiledObjectUtil.getPrefabTriggerId();
-		String counterId = TiledObjectUtil.getPrefabTriggerId();
-		String altId = TiledObjectUtil.getPrefabTriggerId();
+		String multiId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, MULTI_ID, x, y);
+		String counterId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, COUNTER_ID, x, y);
+		String altId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, ALT_ID, x, y);
 		
 		RectangleMapObject conditional = new RectangleMapObject();
 		conditional.setName("Condtrigger");
@@ -52,9 +56,9 @@ public class Limiter extends Prefabrication {
 		alt.getProperties().put("triggeredId", altId);
 		alt.getProperties().put("triggeringId", triggeredId);
 		
-		TiledObjectUtil.parseTiledEvent(state, conditional);
-		TiledObjectUtil.parseTiledEvent(state, multi);
-		TiledObjectUtil.parseTiledEvent(state, counter);
-		TiledObjectUtil.parseTiledEvent(state, alt);
+		TiledObjectUtil.parseAddTiledEvent(state, conditional);
+		TiledObjectUtil.parseAddTiledEvent(state, multi);
+		TiledObjectUtil.parseAddTiledEvent(state, counter);
+		TiledObjectUtil.parseAddTiledEvent(state, alt);
 	}
 }

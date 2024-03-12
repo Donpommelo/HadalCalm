@@ -48,6 +48,9 @@ public class NauticalMineProjectile extends SyncedAttacker {
             hbox.addStrategy(new ContactGoalScore(state, hbox, user.getBodyData()));
             float footbalHpThreshold = FOOTBALL_THRESHOLD * HadalGame.usm.getNumPlayers();
             hbox.addStrategy(new DamageThresholdDie(state, hbox, user.getBodyData(), footbalHpThreshold, FOOTBALL_DEPRECIATION));
+
+            hbox.setSynced(true);
+            hbox.setSyncedDelete(true);
         } else {
             hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(PRIME_DELAY));
         }

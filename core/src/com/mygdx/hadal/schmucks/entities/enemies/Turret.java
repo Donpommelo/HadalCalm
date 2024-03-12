@@ -183,10 +183,10 @@ public class Turret extends Enemy {
 	public boolean queueDeletion() {
 		if (alive) {
 			final Vector2 entityLocation = new Vector2(getPixelPosition());
-			new Ragdoll(state, entityLocation, size, Sprite.TURRET_BASE, getLinearVelocity(), 0.75f, 1.0f,
-					true, false, true, true);
-			new Ragdoll(state, entityLocation, size, turretBarrelSprite, getLinearVelocity(), 0.75f, 1.0f,
-					true, false, true, true);
+			new Ragdoll(state, entityLocation, size, Sprite.TURRET_BASE, getLinearVelocity(), 1.5f, 1.0f,
+					true, false, true).setFade();
+			new Ragdoll(state, entityLocation, size, turretBarrelSprite, getLinearVelocity(), 1.5f, 1.0f,
+					true, false, true).setFade();
 		}
 		return super.queueDeletion();
 	}

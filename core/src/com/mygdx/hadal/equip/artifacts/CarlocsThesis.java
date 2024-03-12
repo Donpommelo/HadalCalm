@@ -74,7 +74,11 @@ public class CarlocsThesis extends Artifact {
 						
 						@Override
 						public void die() {
-							hbox.queueDeletion();
+							if (hbox.getState().isServer()) {
+								hbox.queueDeletion();
+							} else {
+								((ClientState) state).removeEntity(hbox.getEntityID());
+							}
 						}
 					});
 

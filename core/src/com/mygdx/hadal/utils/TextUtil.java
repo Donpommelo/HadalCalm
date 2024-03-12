@@ -8,6 +8,10 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.server.AlignmentFilter;
 
+/**
+ * TextUtil contains some functions that handle drawing text; abridging strings and drawing them with certain colors
+ *
+ */
 public class TextUtil {
 
     private static final Vector3 rgb = new Vector3();

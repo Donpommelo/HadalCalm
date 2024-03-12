@@ -17,6 +17,9 @@ public class SpawnerWeapon extends Prefabrication {
 	private static final float AMMO_INTERVAL = 15.0f;
 	private static final float AMMO_AMOUNT = 0.25f;
 
+	private static final String PICKUP_ID = "SPAWNER_WEAPON_PICKUP";
+	private static final String BASE_ID = "SPAWNER_WEAPON_BASE";
+
 	private final String triggeredId, triggeringId;
 	private final String pool;
 	
@@ -33,8 +36,8 @@ public class SpawnerWeapon extends Prefabrication {
 	@Override
 	public void generateParts() {
 		
-		pickupId = TiledObjectUtil.getPrefabTriggerId();
-		baseId = TiledObjectUtil.getPrefabTriggerId();
+		pickupId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, PICKUP_ID, x, y);
+		baseId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeredId, BASE_ID, x, y);
 
 		//in custom loadout mode, ammo packs spawn instead of weapons
 		if (SettingLoadoutMode.LoadoutMode.CUSTOM.equals(state.getMode().getLoadoutMode())) {
@@ -46,8 +49,6 @@ public class SpawnerWeapon extends Prefabrication {
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");
 		base.getProperties().put("triggeredId", baseId);
-		base.getProperties().put("independent", false);
-		base.getProperties().put("sync", "ALL");
 		base.getProperties().put("sprite", "BASE");
 		base.getProperties().put("align", "CENTER_BOTTOM");
 
@@ -65,9 +66,9 @@ public class SpawnerWeapon extends Prefabrication {
 		weapon.getProperties().put("triggeringId", triggeringId);
 		weapon.getProperties().put("pool", pool);
 		
-		TiledObjectUtil.parseTiledEvent(state, base);
-		TiledObjectUtil.parseTiledEvent(state, spawner);
-		TiledObjectUtil.parseTiledEvent(state, weapon);
+		TiledObjectUtil.parseAddTiledEvent(state, base);
+		TiledObjectUtil.parseAddTiledEvent(state, spawner);
+		TiledObjectUtil.parseAddTiledEvent(state, weapon);
 	}
 	
 	@Override

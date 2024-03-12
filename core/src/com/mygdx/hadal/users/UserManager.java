@@ -21,7 +21,7 @@ public class UserManager {
     private Player ownPlayer;
 
     /**
-     * This returns the number of non-spectator, non-bot players. used to determine things like  boss hp scaling, default bot count.
+     * This returns the number of non-spectator, non-bot players. used to determine things like boss hp scaling, default bot count.
      */
     public int getNumPlayers() {
         int playerNum = 0;

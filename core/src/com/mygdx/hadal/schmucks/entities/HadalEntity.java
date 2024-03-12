@@ -43,7 +43,7 @@ public abstract class HadalEntity {
 	protected final Vector2 startPos;
 	
 	//is the entity queued up for deletion? has it been destroyed yet?
-	protected boolean alive = true, destroyed = false;
+	public boolean alive = true, destroyed = false;
 	
 	//counter and method to keep up with animation frames. (extra is used for entities that have multiple parts that move at different speeds like the player)
 	protected float animationTime, animationTimeExtra;

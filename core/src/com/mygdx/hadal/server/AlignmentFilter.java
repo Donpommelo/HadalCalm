@@ -238,12 +238,17 @@ public enum AlignmentFilter {
             }
         }
 
+        //set teams in user fields
         for (User user : teamSelection.keys()) {
             user.setTeamFilter(currentTeams[teamSelection.get(user)]);
             user.setTeamAssigned(true);
         }
     }
 
+    /**
+     * Returns whether another color is similar to this one to avoid having 2 teams that look alike.
+     * Does this by comparing color groups to see if any match
+     */
     private static boolean isSimilar(AlignmentFilter filter) {
         boolean similar = false;
         for (AlignmentFilter alignmentFilter : currentTeams) {

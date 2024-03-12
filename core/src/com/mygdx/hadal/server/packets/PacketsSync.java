@@ -128,6 +128,9 @@ public class PacketsSync {
 
         public SyncClientSnapshot() {}
 
+        /**
+         * A SyncClientSnapshot is like a SyncPlayerSnapshot except sent from client to the server to sync their own player
+         */
         public SyncClientSnapshot(Vector2 pos, Vector2 velocity, Vector2 mousePosition, float timestamp, MoveState moveState,
                                   byte hpPercent, byte fuelPercent, byte currentSlot, byte reloadPercent,
                                   byte chargePercent, short conditionCode) {

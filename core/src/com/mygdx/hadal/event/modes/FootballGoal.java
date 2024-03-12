@@ -12,6 +12,7 @@ import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -33,6 +34,7 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 public class FootballGoal extends Event {
 
     private final static float PARTICLE_DURATION = 5.0f;
+
     private final int teamIndex;
 
     public FootballGoal(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {
@@ -47,12 +49,14 @@ public class FootballGoal extends Event {
             @Override
             public void onActivate(EventData activator, Player p) {
 
-                if (state.isServer()) {
-                    ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
-                            true, SyncType.CREATESYNC);
-                    if (teamIndex < AlignmentFilter.currentTeams.length) {
-                        particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
-                    }
+                ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
+                        true, SyncType.NOSYNC);
+                if (teamIndex < AlignmentFilter.currentTeams.length) {
+                    particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
+                }
+
+                if (!state.isServer()) {
+                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
                 }
 
                 //give score credit to the player and give notification
@@ -83,6 +87,10 @@ public class FootballGoal extends Event {
     public void loadDefaultProperties() {
         setEventSprite(Sprite.PORTAL);
         setScaleAlign(ClientIllusion.alignType.CENTER_STRETCH);
-        setSyncType(eventSyncTypes.ALL);
+
+        setServerSyncType(eventSyncTypes.ECHO_ACTIVATE);
+        setClientSyncType(eventSyncTypes.ACTIVATE);
     }
+
+    public int getTeamIndex() { return teamIndex; }
 }

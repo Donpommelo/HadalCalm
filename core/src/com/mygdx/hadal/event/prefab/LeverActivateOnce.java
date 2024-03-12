@@ -12,6 +12,9 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class LeverActivateOnce extends Prefabrication {
 
+	private static final String BASE_ID = "LEVER_ONCE_BASE";
+	private static final String LEVER_ID = "LEVER_ONCE_LEVER";
+
 	private final String triggeringId;
 	private String baseId, leverId;
 	
@@ -23,21 +26,22 @@ public class LeverActivateOnce extends Prefabrication {
 	@Override
 	public void generateParts() {
 		
-		baseId = TiledObjectUtil.getPrefabTriggerId();
-		leverId = TiledObjectUtil.getPrefabTriggerId();
+		baseId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeringId, BASE_ID, x, y);
+		leverId = TiledObjectUtil.getPrefabTriggerIdSynced(triggeringId, LEVER_ID, x, y);
 		
-		String condId = TiledObjectUtil.getPrefabTriggerId();
-		String altId = TiledObjectUtil.getPrefabTriggerId();
-		String multiId = TiledObjectUtil.getPrefabTriggerId();
-		String spriteId1 = TiledObjectUtil.getPrefabTriggerId();
-		String spriteId2 = TiledObjectUtil.getPrefabTriggerId();
+		String condId = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String altId = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String multiId = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String spriteId1 = TiledObjectUtil.getPrefabTriggerIdUnsynced();
+		String spriteId2 = TiledObjectUtil.getPrefabTriggerIdUnsynced();
 		
 		RectangleMapObject base = new RectangleMapObject();
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");
 		base.getProperties().put("sprite", "BASE_GREEN");
 		base.getProperties().put("align", "CENTER_BOTTOM");
-		base.getProperties().put("sync", "ALL");
+		base.getProperties().put("syncServer", "ECHO_ACTIVATE");
+		base.getProperties().put("syncClient", "ECHO");
 		base.getProperties().put("triggeredId", baseId);
 
 		RectangleMapObject lever = new RectangleMapObject();
@@ -47,7 +51,8 @@ public class LeverActivateOnce extends Prefabrication {
 		lever.getProperties().put("still", true);
 		lever.getProperties().put("frame", 0);
 		lever.getProperties().put("align", "CENTER_BOTTOM");
-		lever.getProperties().put("sync", "ALL");
+		lever.getProperties().put("syncServer", "ECHO_ACTIVATE");
+		lever.getProperties().put("syncClient", "ECHO");
 		lever.getProperties().put("particle_std", "MOMENTUM");
 		lever.getProperties().put("triggeredId", leverId);
 		lever.getProperties().put("triggeringId", condId);
@@ -76,7 +81,6 @@ public class LeverActivateOnce extends Prefabrication {
 		sprite1.getProperties().put("mode", "NORMAL");
 		sprite1.getProperties().put("speed", 0.02f);
 		sprite1.getProperties().put("align", "CENTER_BOTTOM");
-		sprite1.getProperties().put("sync", "ALL");
 		sprite1.getProperties().put("triggeredId", spriteId1);
 		sprite1.getProperties().put("triggeringId", leverId);
 		
@@ -84,17 +88,16 @@ public class LeverActivateOnce extends Prefabrication {
 		sprite2.setName("SpriteChange");
 		sprite2.getProperties().put("newSprite", "BASE_RED");
 		sprite2.getProperties().put("align", "CENTER_BOTTOM");
-		sprite2.getProperties().put("sync", "ALL");
 		sprite2.getProperties().put("triggeredId", spriteId2);
 		sprite2.getProperties().put("triggeringId", baseId);
 		
-		TiledObjectUtil.parseTiledEvent(state, lever);
-		TiledObjectUtil.parseTiledEvent(state, base);
-		TiledObjectUtil.parseTiledEvent(state, cond);
-		TiledObjectUtil.parseTiledEvent(state, alt);
-		TiledObjectUtil.parseTiledEvent(state, use);
-		TiledObjectUtil.parseTiledEvent(state, sprite1);
-		TiledObjectUtil.parseTiledEvent(state, sprite2);
+		TiledObjectUtil.parseAddTiledEvent(state, lever);
+		TiledObjectUtil.parseAddTiledEvent(state, base);
+		TiledObjectUtil.parseAddTiledEvent(state, cond);
+		TiledObjectUtil.parseAddTiledEvent(state, alt);
+		TiledObjectUtil.parseAddTiledEvent(state, use);
+		TiledObjectUtil.parseAddTiledEvent(state, sprite1);
+		TiledObjectUtil.parseAddTiledEvent(state, sprite2);
 	}
 	
 	@Override

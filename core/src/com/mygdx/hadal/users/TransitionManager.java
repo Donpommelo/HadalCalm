@@ -39,6 +39,7 @@ public class TransitionManager {
     private final Vector2 overrideSpawnLocation = new Vector2();
     private boolean spawnOverridden, startOverridden;
 
+    //does this respawn reset the player's hp/fuel etc (false for single-player campaign level transitions)
     private boolean reset;
 
     public TransitionManager(User user) {
@@ -84,7 +85,6 @@ public class TransitionManager {
 
     /**
      * This is run when a user transitions to another state.
-     * @param state: the play state
      */
     public void beginTransition(PlayState state, Transition transition) {
         //If we are in the middle of another transition, we skip this unless this transition is set to "override"
@@ -141,14 +141,15 @@ public class TransitionManager {
      * This respawns a player into the world. Run only by host
      */
     public void respawn(PlayState state) {
+        PlayerBodyData playerData = null;
+        if (null != user.getPlayer() && !reset) {
+            playerData = user.getPlayer().getPlayerData();
+        }
+
         if (user.getConnID() == 0) {
 
             //Create a new player for the host using their existing player data (if existent) and filter
             short hitboxFilter = user.getHitboxFilter().getFilter();
-            PlayerBodyData playerData = null;
-            if (null != user.getPlayer() && !reset) {
-                playerData = user.getPlayer().getPlayerData();
-            }
 
             //create player and set it as our own
             HadalGame.usm.setOwnPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), new Loadout(state.getGsm().getLoadout()),
@@ -161,13 +162,9 @@ public class TransitionManager {
                 state.getCameraManager().setCameraTarget(null);
             }
 
+            //hook up current controller to new player
             ((PlayerController) state.getController()).setPlayer(user.getPlayer());
         } else {
-
-            PlayerBodyData playerData = null;
-            if (null != user.getPlayer() && !reset) {
-                playerData = user.getPlayer().getPlayerData();
-            }
 
             //alive check prevents duplicate players if entering/respawning simultaneously
             if (null == user.getPlayer() || (null != user.getPlayer() && !user.getPlayer().isAlive())) {
@@ -177,6 +174,11 @@ public class TransitionManager {
         }
     }
 
+    /**
+     * This is called to make a new user respawn a player.
+     * This begins a transition that will spawn the player into a new playstate
+     * Different fields are used depending on whether we reset the player's hp/fuel/etc (stage transition) vs new level
+     */
     public void levelStartSpawn(PlayState state, boolean reset) {
         if (!user.isSpectator()) {
             nextState = null;

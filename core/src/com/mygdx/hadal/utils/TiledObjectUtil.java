@@ -29,6 +29,8 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 
+import java.util.UUID;
+
 /**
  * This util parses a Tiled file into an in-game map.
  * @author Fricieweitz Flogory
@@ -83,35 +85,13 @@ public class TiledObjectUtil {
      */
     public static void parseTiledEventLayer(PlayState state, MapObjects objects) {
     	for (MapObject object : objects) {
-    		parseTiledEvent(state, object);
+			Event e = parseTiledEvent(state, object, !state.isServer());
+
+			if (state instanceof ClientState clientState && e != null) {
+				clientState.addEntity(e.getEntityID(), e, false, ObjectLayer.STANDARD);
+			}
     	}
     }
-
-	/**
-	 * client's version of this method only adds events that are marked as "independent"
-	 * This usually applies to static events like springs or currents
-	 */
-	public static void parseTiledEventLayerClient(ClientState state, MapObjects objects) {
-		for (MapObject object : objects) {
-			Event e = null;
-			if (object.getProperties().get("independent", boolean.class) != null) {
-				if (object.getProperties().get("independent", boolean.class)) {
-					e = parseTiledEvent(state, object);
-				}
-			} else {
-				RectangleMapObject current = (RectangleMapObject) object;
-				Rectangle rect = current.getRectangle();
-				rect.getCenter(position);
-				rect.getSize(size);
-
-				e = parseTiledEventClientIndependent(state, object);
-				setParsedTiledEventProperties(e, object);
-			}
-			if (null != e) {
-				state.addEntity(e.getEntityID(), e, false, ObjectLayer.STANDARD);
-			}
-		}
-	}
 
 	private static final Vector2 position = new Vector2();
 	private static final Vector2 size = new Vector2();
@@ -119,17 +99,26 @@ public class TiledObjectUtil {
      * This parses a single tiled map object into an event
      * @param state: The Playstate that the event will be placed into
      * @param object: The map object to parse
+	 * @param checkIndependence: If true, clients skip non-independent events. (when parsing file, but not synced events)
      * @return the parsed event
      */
-    public static Event parseTiledEvent(PlayState state, MapObject object) {
+    public static Event parseTiledEvent(PlayState state, MapObject object, boolean checkIndependence) {
 		
     	RectangleMapObject current = (RectangleMapObject) object;
 		Rectangle rect = current.getRectangle();
 		rect.getCenter(position);
 		rect.getSize(size);
 
-		Event e = parseTiledEventServerOnly(state, object);
-
+		Event e = null;
+		if (checkIndependence) {
+			if (object.getProperties().get("independent", boolean.class) != null) {
+				if (object.getProperties().get("independent", boolean.class)) {
+					e = parseTiledEventServerOnly(state, object);
+				}
+			}
+		} else {
+			e = parseTiledEventServerOnly(state, object);
+		}
 		if (null == e) {
 			e = parseTiledEventClientIndependent(state, object);
 		}
@@ -143,16 +132,132 @@ public class TiledObjectUtil {
 		return e;
     }
 
+	/**
+	 * This parses a single map object into an event and is used for events generated from prefabs or map modes
+	 */
+	public static Event parseAddTiledEvent(PlayState state, MapObject object) {
+		Event e = parseTiledEvent(state, object, false);
+		if (state instanceof ClientState clientState && e != null) {
+			clientState.addEntity(e.getEntityID(), e, false, ObjectLayer.STANDARD);
+		}
+		return e;
+	}
+
+	/**
+	 * This is like parseAddTiledEvent, except for events that are received from the server and require a UUID to receive
+	 * packets that sync or reference the event.
+	 */
+	public static Event parseAddTiledEventWithUUID(PlayState state, MapObject object, UUID entityID, boolean synced) {
+		Event e = parseTiledEvent(state, object, false);
+		if (state instanceof ClientState clientState && e != null) {
+			clientState.addEntity(entityID, e, synced, ObjectLayer.STANDARD);
+		}
+		return e;
+	}
+
+	/**
+	 * This creates and adds a specific event corresponding to an object in the map.
+	 * This function handles events that are typically only created by the server; usually synced events
+	 */
 	private static Event parseTiledEventServerOnly(PlayState state, MapObject object) {
 		Event e = null;
 
 		//Go through every event type to create events
 		switch (object.getName()) {
+			case "Destr_Obj" -> e = new DestructableBlock(state, position, size,
+					object.getProperties().get("Hp", 100.0f, float.class),
+					object.getProperties().get("static", true, boolean.class));
+			case "SeeSaw" -> e = new SeeSawPlatform(state, position, size);
+			case "Scale" -> e = new ScalePlatform(state, position, size,
+					object.getProperties().get("minHeight", -1.0f, float.class),
+					object.getProperties().get("density", 0.5f, float.class));
+			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
+		}
+
+		return e;
+	}
+
+	/**
+	 * This creates and adds a specific event corresponding to an object in the map.
+	 * This function handles events that are typically independent between thte client and server.
+	 * As of 1.0.9d, this is most of the events in the game.
+	 */
+	private static Event parseTiledEventClientIndependent(PlayState state, MapObject object) {
+		Event e = null;
+
+		//Go through every event type to create events
+		switch (object.getName()) {
+			case "Dropthrough" -> e = new DropThroughPlatform(state, position, size);
+			case "Platform" -> e = new Platform(state, position, size,
+					object.getProperties().get("restitution", 0.0f, float.class),
+					object.getProperties().get("wall", true, boolean.class),
+					object.getProperties().get("player", true, boolean.class),
+					object.getProperties().get("hbox", true, boolean.class),
+					object.getProperties().get("event", true, boolean.class),
+					object.getProperties().get("enemy", true, boolean.class),
+					object.getProperties().get("teamIndex", -1, Integer.class));
+			case "Displacer" -> {
+				Vector2 power = new Vector2(
+						object.getProperties().get("displaceX", 0.0f, float.class),
+						object.getProperties().get("displaceY", 0.0f, float.class));
+				e = new Displacer(state, position, size, power);
+			}
+			case "Current" -> {
+				Vector2 power = new Vector2(
+						object.getProperties().get("currentX", 0.0f, float.class),
+						object.getProperties().get("currentY", 0.0f, float.class));
+				e = new Currents(state, position, size, power);
+			}
+			case "Spring" -> {
+				Vector2 power = new Vector2(
+						object.getProperties().get("springX", 0.0f, float.class),
+						object.getProperties().get("springY", 0.0f, float.class));
+				e = new Spring(state, position, size, power);
+			}
+			case "Buzzsaw" -> e = new Buzzsaw(state, position, size,
+					object.getProperties().get("damage", 0.0f, float.class),
+					object.getProperties().get("filter", (short) 0, short.class));
+			case "Poison" -> e = new Poison(state, position, size,
+					object.getProperties().get("particle", "POISON", String.class),
+					object.getProperties().get("damage", 0.0f, float.class),
+					object.getProperties().get("draw", true, boolean.class),
+					object.getProperties().get("filter", (short) 0, short.class));
+			case "Heal" -> e = new HealingArea(state, position, size,
+					object.getProperties().get("heal", 0.0f, float.class),
+					object.getProperties().get("filter", (short) 0, short.class));
+			case "ParticleField" -> e = new ParticleField(state, position, size,
+					Particle.valueOf(object.getProperties().get("particle", "NOTHING", String.class)),
+					object.getProperties().get("speed", 1.0f, float.class),
+					object.getProperties().get("duration", 1.0f, float.class),
+					object.getProperties().get("scale", 1.0f, float.class),
+					object.getProperties().get("color", "NOTHING", String.class),
+					object.getProperties().get("team", -1, Integer.class));
+			case "MovePoint" -> {
+				e = new MovingPoint(state, position, size,
+						object.getProperties().get("speed", 1.0f, float.class),
+						object.getProperties().get("pause", false, boolean.class),
+						object.getProperties().get("syncConnected", false, boolean.class));
+				movePointConnections.put((MovingPoint) e, object.getProperties().get("connections", "", String.class));
+			}
+			case "TouchPortal" -> e = new PortalTouch(state, position, size);
+			case "Dummy" -> e = new PositionDummy(state, position, size,
+					object.getProperties().get("dummyId", "", String.class));
+			case "Rotator" -> e = new Rotator(state,
+					object.getProperties().get("continuous", true, boolean.class),
+					object.getProperties().get("angle", 0.0f, float.class));
+			case "Text" -> e = new Text(state, position, size,
+					object.getProperties().get("text", String.class),
+					object.getProperties().get("scale", 0.5f, float.class));
 			case "Start" -> {
 				e = new StartPoint(state, position, size,
 						object.getProperties().get("startId", "", String.class),
 						object.getProperties().get("teamIndex", 0, Integer.class));
 				state.addSavePoint((StartPoint) e);
+
+				//As a quirk of start points, their triggered id is set to a unique value based on their location
+				//This is so clients will know which start point the server tells them they are spawning at.
+				e.setTriggeredID(getStartTriggeredId(position.x, position.y));
+				triggeredEvents.put(e.getTriggeredID(), e);
 			}
 			case "Switch" -> e = new Switch(state, position, size);
 			case "Sensor" -> e = new Sensor(state, position, size,
@@ -162,7 +267,8 @@ public class TiledObjectUtil {
 					object.getProperties().get("enemy", false, boolean.class),
 					object.getProperties().get("gravity", 0.0f, float.class),
 					object.getProperties().get("cooldown", 0.0f, float.class),
-					object.getProperties().get("collision", false, boolean.class));
+					object.getProperties().get("collision", false, boolean.class),
+					object.getProperties().get("pickup", false, boolean.class));
 			case "Timer" -> e = new Timer(state,
 					object.getProperties().get("interval", 0.0f, float.class),
 					object.getProperties().get("startTime", 0.0f, float.class),
@@ -325,9 +431,6 @@ public class TiledObjectUtil {
 			case "End" -> e = new End(state,
 					object.getProperties().get("text", "", String.class),
 					object.getProperties().get("victory", true, boolean.class));
-			case "Destr_Obj" -> e = new DestructableBlock(state, position, size,
-					object.getProperties().get("Hp", 100, int.class),
-					object.getProperties().get("static", true, boolean.class));
 			case "Warp" -> e = new LevelWarp(state,
 					object.getProperties().get("level", String.class),
 					object.getProperties().get("reset", false, Boolean.class),
@@ -345,10 +448,6 @@ public class TiledObjectUtil {
 					object.getProperties().get("duration", 0.0f, float.class),
 					state.getWorldDummy(),
 					object.getProperties().get("filter", (short) 0, short.class));
-			case "SeeSaw" -> e = new SeeSawPlatform(state, position, size);
-			case "Scale" -> e = new ScalePlatform(state, position, size,
-					object.getProperties().get("minHeight", -1.0f, float.class),
-					object.getProperties().get("density", 0.5f, float.class));
 			case "Pusher" -> e = new Pusher(state,
 					object.getProperties().get("xPush", 0.0f, float.class),
 					object.getProperties().get("yPush", 0.0f, float.class));
@@ -362,7 +461,6 @@ public class TiledObjectUtil {
 			case "CandySpawn" -> e = new TrickorTreatBucket(state, position, size,
 					object.getProperties().get("teamIndex", 0, Integer.class),
 					object.getProperties().get("mirror", false, Boolean.class));
-			case "ObjectiveSpawn" -> e = new SpawnerObjective(state, position, size);
 			case "PickupDelete" -> e = new PickupDestoyer(state, position, size);
 			case "Armory" -> e = new Armory(state, position, size,
 					object.getProperties().get("title", "ARMORY", String.class),
@@ -431,77 +529,6 @@ public class TiledObjectUtil {
 					object.getProperties().get("closeOnLeave", true, Boolean.class));
 		}
 
-		return e;
-	}
-
-	private static Event parseTiledEventClientIndependent(PlayState state, MapObject object) {
-		Event e = null;
-
-		//Go through every event type to create events
-		switch (object.getName()) {
-			case "Dropthrough" -> e = new DropThroughPlatform(state, position, size);
-			case "Platform" -> e = new Platform(state, position, size,
-					object.getProperties().get("restitution", 0.0f, float.class),
-					object.getProperties().get("wall", true, boolean.class),
-					object.getProperties().get("player", true, boolean.class),
-					object.getProperties().get("hbox", true, boolean.class),
-					object.getProperties().get("event", true, boolean.class),
-					object.getProperties().get("enemy", true, boolean.class),
-					object.getProperties().get("teamIndex", -1, Integer.class));
-			case "Displacer" -> {
-				Vector2 power = new Vector2(
-						object.getProperties().get("displaceX", 0.0f, float.class),
-						object.getProperties().get("displaceY", 0.0f, float.class));
-				e = new Displacer(state, position, size, power);
-			}
-			case "Current" -> {
-				Vector2 power = new Vector2(
-						object.getProperties().get("currentX", 0.0f, float.class),
-						object.getProperties().get("currentY", 0.0f, float.class));
-				e = new Currents(state, position, size, power);
-			}
-			case "Spring" -> {
-				Vector2 power = new Vector2(
-						object.getProperties().get("springX", 0.0f, float.class),
-						object.getProperties().get("springY", 0.0f, float.class));
-				e = new Spring(state, position, size, power);
-			}
-			case "Buzzsaw" -> e = new Buzzsaw(state, position, size,
-					object.getProperties().get("damage", 0.0f, float.class),
-					object.getProperties().get("filter", (short) 0, short.class));
-			case "Poison" -> e = new Poison(state, position, size,
-					object.getProperties().get("particle", "POISON", String.class),
-					object.getProperties().get("damage", 0.0f, float.class),
-					object.getProperties().get("draw", true, boolean.class),
-					object.getProperties().get("filter", (short) 0, short.class));
-			case "Heal" -> e = new HealingArea(state, position, size,
-					object.getProperties().get("heal", 0.0f, float.class),
-					object.getProperties().get("filter", (short) 0, short.class));
-			case "ParticleField" -> e = new ParticleField(state, position, size,
-					Particle.valueOf(object.getProperties().get("particle", "NOTHING", String.class)),
-					object.getProperties().get("speed", 1.0f, float.class),
-					object.getProperties().get("duration", 1.0f, float.class),
-					object.getProperties().get("scale", 1.0f, float.class),
-					object.getProperties().get("color", "NOTHING", String.class),
-					object.getProperties().get("team", -1, Integer.class));
-			case "MovePoint" -> {
-				e = new MovingPoint(state, position, size,
-						object.getProperties().get("speed", 1.0f, float.class),
-						object.getProperties().get("pause", false, boolean.class),
-						object.getProperties().get("syncConnected", false, boolean.class));
-				movePointConnections.put((MovingPoint) e, object.getProperties().get("connections", "", String.class));
-			}
-			case "TouchPortal" -> e = new PortalTouch(state, position, size);
-			case "Dummy" -> e = new PositionDummy(state, position, size,
-					object.getProperties().get("dummyId", "", String.class));
-			case "Rotator" -> e = new Rotator(state,
-					object.getProperties().get("continuous", true, boolean.class),
-					object.getProperties().get("angle", 0.0f, float.class));
-			case "Text" -> e = new Text(state, position, size,
-					object.getProperties().get("text", String.class),
-					object.getProperties().get("scale", 0.5f, float.class));
-		}
-
 		if (null != e) {
 			if (object.getProperties().get("default", true, Boolean.class)) {
 				e.setIndependent(true);
@@ -511,6 +538,9 @@ public class TiledObjectUtil {
 		return e;
 	}
 
+	/**
+	 * This sets a number of properties on a newly created event; usually universal properties
+	 */
 	private static void setParsedTiledEventProperties(Event e, MapObject object) {
 
     	if (null == e) { return; }
@@ -543,8 +573,11 @@ public class TiledObjectUtil {
 		if (null != object.getProperties().get("align", String.class)) {
 			e.setScaleAlign(ClientIllusion.alignType.valueOf(object.getProperties().get("align", String.class)));
 		}
-		if (null != object.getProperties().get("sync", String.class)) {
-			e.setSyncType(eventSyncTypes.valueOf(object.getProperties().get("sync", String.class)));
+		if (null != object.getProperties().get("syncServer", String.class)) {
+			e.setServerSyncType(eventSyncTypes.valueOf(object.getProperties().get("syncServer", String.class)));
+		}
+		if (null != object.getProperties().get("syncClient", String.class)) {
+			e.setClientSyncType(eventSyncTypes.valueOf(object.getProperties().get("syncClient", String.class)));
 		}
 		if (null != object.getProperties().get("synced", boolean.class)) {
 			e.setSynced(object.getProperties().get("synced", boolean.class));
@@ -644,16 +677,32 @@ public class TiledObjectUtil {
     	}
     	prefabrications.put(object.getProperties().get("triggeredId", "", String.class), p);
     }
-    
-    /*
+
+	private static int nextId = 0;
+	/**
      * When a prefab is created, its triggerIds are generated dynamically using this to ensure that there are no repeats.
      */
-    private static int nextId = 0;
-    public static String getPrefabTriggerId() {
+    public static String getPrefabTriggerIdUnsynced() {
     	String id = "prefabTriggerId" + nextId;
     	nextId++;
     	return id;
     }
+
+	/**
+	 * If the events within a prefab must be synced, their id must be consistent
+	 * We generate it based on location, name and a specific tag designated by the prefab.
+	 */
+	public static String getPrefabTriggerIdSynced(String prefabId, String tag, float x, float y) {
+        return "prefabTriggerId" + prefabId + tag + x + y;
+	}
+
+	/**
+	 * Similar to synced prefab events, start points require a consistent triggered id between client and server.
+	 * We generate one based on event location; don't put multiple start points on the same spot with no id.
+	 */
+	public static String getStartTriggeredId(float x, float y) {
+		return "startTriggerId" + x + y;
+	}
 
     //An event with this id is run when the game timer concludes
 	private static final String globalTimer = "runOnGlobalTimerConclude";
@@ -726,10 +775,6 @@ public class TiledObjectUtil {
         				for (String e : prefab.getConnectedEvents()) {
         					Event movingPrefabPart = triggeredEvents.get(e, null);
         					key.addConnection(movingPrefabPart);
-        					if (null != movingPrefabPart) {
-								movingPrefabPart.setIndependent(false);
-								movingPrefabPart.setSynced(true);
-							}
 						}
         			}
     			}
@@ -870,10 +915,20 @@ public class TiledObjectUtil {
      * @return The newly created event
      */
     public static Event parseSingleEventWithTriggers(PlayState state, MapObject object) {
-    	Event e = parseTiledEvent(state, object);
+    	Event e = parseAddTiledEvent(state, object);
     	parseTiledSingleTrigger(e);
     	return e;
     }
+
+	/**
+	 * Similar to parseSingleEventWithTriggers, except used for synced events received from server that need the UUID
+	 * in order to receive sync packets
+	 */
+	public static Event parseSingleEventWithTriggersWithUUID(PlayState state, MapObject object, UUID entityID, boolean synced) {
+		Event e = parseAddTiledEventWithUUID(state, object, entityID, synced);
+		parseTiledSingleTrigger(e);
+		return e;
+	}
 
     /**
      * Clear all trigger lists. This is done upon initializing a playstate to clear previous triggers.

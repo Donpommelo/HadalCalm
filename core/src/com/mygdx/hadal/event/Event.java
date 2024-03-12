@@ -61,13 +61,16 @@ public class Event extends HadalEntity {
 	private alignType scaleAlign = alignType.CENTER_BOTTOM;
     
     /* How will this event be synced?
-     * ILLUSION: Create a client illusion if it has a body
-     * USER: Create this event for clients. When activated on server, activate it for the user who activated it.
-     * ALL: Create this event for clients. When activated on server, activate it for all players.
-     * SERVER: Create this event for clients. When activated on server, activate it for the server only.
+     * IGNORE: Do nothing when activated
+	 * SELF: Will activate if activator is own player, otherwise do nothing
+	 * USER: Will activate if activator is own player (or null), otherwise echo activation to clients (if server)
+	 * ECHO_ACTIVATE: Will activate, then echo activation to clients (or server if client)
+	 * ECHO: Will echo activation to clients (or server if client)
+	 * ACTIVATE: Will activate
      */
-    private eventSyncTypes syncType = eventSyncTypes.ILLUSION;
-	
+	private eventSyncTypes serverSyncType = eventSyncTypes.ACTIVATE;
+	private eventSyncTypes clientSyncType = eventSyncTypes.ACTIVATE;
+
     //this is the map object from Tiled that this event was read from.
     protected RectangleMapObject blueprint;
     private EventDto dto;
@@ -82,7 +85,7 @@ public class Event extends HadalEntity {
     protected boolean synced;
 
     //independent events are created on both client and server and never sync. These are usually static events
-    protected boolean independent = false;
+    protected boolean independent = true;
 
     //will the event not be drawn when off screen?
     private boolean cullable = true;
@@ -104,8 +107,9 @@ public class Event extends HadalEntity {
 	 */
 	public Event(PlayState state, Vector2 startPos, Vector2 size, float duration) {
 		super(state, startPos, size);
-		this.temporary = true;
 		this.duration = duration;
+		this.temporary = true;
+		this.independent = false;
 	}
 	
 	/**
@@ -200,7 +204,10 @@ public class Event extends HadalEntity {
 	public void loadDefaultProperties() {}
 	
 	public void setStandardParticle(Particle particle) {
-		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, SyncType.TICKSYNC);
+		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, SyncType.NOSYNC);
+		if (!state.isServer()) {
+			((ClientState) state).addEntity(standardParticle.getEntityID(), standardParticle, false, ObjectLayer.EFFECT);
+		}
 	}
 
 	public ParticleEntity getStandardParticle() { return standardParticle; }
@@ -257,30 +264,23 @@ public class Event extends HadalEntity {
 	}
 	
 	/**
-	 * When this event is created, tell the client to create an illusion or event, depending on the syncType
-	 * ILLUSION and SERVER only run on the server, so the client just receives an an illusion
-	 * USER and ALL can run on all players, so clients need a copy of the event blueprints to make their own version of the event
+	 * When this event is created, tell the client to create an illusion or event, depending on whether the event has a dto
+	 * If independent, never send anything
 	 */
 	@Override
 	public Object onServerCreate(boolean catchup) {
 
 		//independent events do not send a create packet when created, b/c the client creates it themselves
 		if (independent) { return null; }
-
-		switch (syncType) {
-		case ILLUSION:
-		case SERVER:
+		if (null == dto) {
 			if (body != null && !Sprite.NOTHING.equals(sprite)) {
-				return new Packets.CreateEntity(entityID, size, getPixelPosition(), getAngle(), sprite,
-						synced, isSyncInstant(), ObjectLayer.STANDARD, scaleAlign);
+				return new Packets.CreateEntity(entityID, size, getPixelPosition(), getAngle(), sprite,	synced,
+						isSyncInstant(), ObjectLayer.STANDARD, scaleAlign);
 			} else {
 				return null;
 			}
-		case USER:
-		case ALL:
+		} else {
 			return new Packets.CreateEvent(entityID, dto, synced);
-		default:
-			return null;
 		}
 	}
 	
@@ -340,9 +340,13 @@ public class Event extends HadalEntity {
 
 	public void setScaleAlign(alignType scaleAlign) { this.scaleAlign = scaleAlign; }
 
-	public eventSyncTypes getSyncType() { return syncType; }
+	public eventSyncTypes getServerSyncType() { return serverSyncType; }
 
-	public void setSyncType(eventSyncTypes syncType) { this.syncType = syncType; }
+	public void setServerSyncType(eventSyncTypes serverSyncType) { this.serverSyncType = serverSyncType; }
+
+	public eventSyncTypes getClientSyncType() { return clientSyncType; }
+
+	public void setClientSyncType(eventSyncTypes clientSyncType) { this.clientSyncType = clientSyncType; }
 
 	public void setSynced(boolean synced) {	this.synced = synced; }
 
@@ -363,10 +367,12 @@ public class Event extends HadalEntity {
 	public void setTriggeredID(String triggeredID) { this.triggeredID = triggeredID; }
 
 	public enum eventSyncTypes {
-		ILLUSION,
+		IGNORE,
+		SELF,
 		USER,
-		ALL,
-		SERVER,
-		CLIENT
+		ECHO_ACTIVATE,
+		ECHO_ACTIVATE_EXCLUDE,
+		ECHO,
+		ACTIVATE
 	}
 }
