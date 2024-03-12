@@ -39,16 +39,14 @@ allprojects {
 
 configure(subprojects) {
     apply plugin: 'java-library'
-    java {
-        sourceCompatibility = JavaVersion.VERSION_21
-    }
+    sourceCompatibility = 16.0
     compileJava {
         options.incremental = true
     }
 }
 
 subprojects {
-    version = '1.0.' + getGitHash()
+    version = '0.0.' + getGitHash()
     ext.appName = 'HadalCalm'
     repositories {
         mavenLocal()
