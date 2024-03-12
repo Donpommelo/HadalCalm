@@ -73,6 +73,16 @@ jar {
     }
 }
 
+//task proguard(type : proguard.gradle.ProGuardTask) {
+//    outputs.upToDateWhen { false }
+//    configuration 'proguard-rules.pro'
+//    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
+//
+//    injars "build/lib/${appName}-Demo.jar"
+//    outjars "build/lib/${appName}.jar"
+//}
+//
+//proguard.dependsOn jar
 tasks.jpackageImage.doNotTrackState("This task both reads from and writes to the build folder.")
 runtime {
     options.set(['--strip-debug',
@@ -98,17 +108,13 @@ runtime {
         jpackageHome = javaHome.getOrElse("")
         mainJar = jarName
         if (os.contains('win')) {
-            imageOptions = ["--icon", "icons/logo.ico"]
+            imageOptions = ["--icon", "../icons/icon.ico"]
         } else if (os.contains('nix') || os.contains('nux') || os.contains('bsd')) {
-            imageOptions = ["--icon", "icons/logo.png"]
+            imageOptions = ["--icon", "../icons/icon.png"]
         } else if (os.contains('mac')) {
-            imageOptions = ["--icon", "icons/logo.icns", "--java-options", "\"-XstartOnFirstThread\""]
+            imageOptions = ["--icon", "../icons/icon.icns", "--java-options", "\"-XstartOnFirstThread\""]
         }
     }
-}
-
-tasks.register('dist') {
-    dependsOn['jar']
 }
 
 jpackageImage.doLast {
