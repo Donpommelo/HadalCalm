@@ -16,12 +16,9 @@ else {
     apply plugin: 'application'
 }
 
-application {
-    mainClass = 'com.mygdx.hadal.desktop.DesktopLauncher.lwjgl3.Lwjgl3Launcher'
-}
-
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
+mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -65,7 +62,7 @@ jar {
     }
 
     manifest {
-        attributes 'Main-Class': application.mainClass
+        attributes 'Main-Class': project.mainClassName
     }
 
     doLast {
@@ -106,7 +103,9 @@ runtime {
         imageName = appName
         skipInstaller = true
         jpackageHome = javaHome.getOrElse("")
-        mainJar = jarName
+        mainJar = "${appName}.jar"
+        appVersion = "1.0.0"
+
         if (os.contains('win')) {
             imageOptions = ["--icon", "../icons/icon.ico"]
         } else if (os.contains('nix') || os.contains('nux') || os.contains('bsd')) {
