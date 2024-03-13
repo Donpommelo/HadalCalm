@@ -1,21 +1,29 @@
 buildscript {
     repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        gradlePluginPortal()
     }
     dependencies {
-        classpath "org.beryx:badass-runtime-plugin:1.13.0"
+        if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
+            classpath "org.beryx:badass-runtime-plugin:1.13.0"
+        }
     }
 }
 
-apply plugin: 'org.beryx.runtime'
-apply plugin: 'application'
+if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
+    apply plugin: 'org.beryx.runtime'
+}
+else {
+    apply plugin: 'application'
+}
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
-sourceCompatibility = 21.0
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
 
 project.ext.assetsDir = new File("../core/assets")
 
