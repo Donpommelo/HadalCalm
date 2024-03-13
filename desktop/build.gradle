@@ -19,6 +19,7 @@ else {
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
+project.ext.assetsDir = new File("../core/assets")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -81,40 +82,43 @@ jar {
 //}
 //
 //proguard.dependsOn jar
-tasks.jpackageImage.doNotTrackState("This task both reads from and writes to the build folder.")
-runtime {
-    options.set(['--strip-debug',
-                 '--compress', '2',
-                 '--no-header-files',
-                 '--no-man-pages',
-                 '--strip-native-commands',
-                 '--vm', 'server'])
 
-    modules.set([
-            'java.base',
-            'java.desktop',
-            'java.sql',
-            'java.xml',
-            'jdk.crypto.cryptoki',
-            'jdk.unsupported'])
+if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
+    tasks.jpackageImage.doNotTrackState("This task both reads from and writes to the build folder.")
+    runtime {
+        options.set(['--strip-debug',
+                     '--compress', '2',
+                     '--no-header-files',
+                     '--no-man-pages',
+                     '--strip-native-commands',
+                     '--vm', 'server'])
 
-    distDir.set(file(getLayout().getBuildDirectory().asFile.get().absolutePath))
+        modules.set([
+                'java.base',
+                'java.desktop',
+                'java.sql',
+                'java.xml',
+                'jdk.crypto.cryptoki',
+                'jdk.unsupported'])
 
-    jpackage {
-        imageName = appName
-        skipInstaller = true
-        mainJar = jarName
+        distDir.set(file(getLayout().getBuildDirectory()))
 
-        if (os.contains('win')) {
-            imageOptions = ["--icon", "../icons/icon.ico"]
-        } else if (os.contains('nix') || os.contains('nux') || os.contains('bsd')) {
-            imageOptions = ["--icon", "../icons/icon.png"]
-        } else if (os.contains('mac')) {
-            imageOptions = ["--icon", "../icons/icon.icns", "--java-options", "\"-XstartOnFirstThread\""]
+        jpackage {
+            imageName = appName
+            skipInstaller = true
+            jpackageHome = javaHome.getOrElse("")
+            mainJar = jarName
+
+            if (os.contains('win')) {
+                imageOptions = ["--icon", "../icons/icon.ico"]
+            } else if (os.contains('nix') || os.contains('nux') || os.contains('bsd')) {
+                imageOptions = ["--icon", "../icons/icon.png"]
+            } else if (os.contains('mac')) {
+                imageOptions = ["--icon", "../icons/icon.icns", "--java-options", "\"-XstartOnFirstThread\""]
+            }
         }
     }
 }
-
 jpackageImage.doLast {
     file("build/jpackage/HadalCalm/app/${appName}-Demo.jar").delete()
 }
