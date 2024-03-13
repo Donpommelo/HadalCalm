@@ -19,7 +19,6 @@ else {
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 sourceSets.main.java.srcDirs = [ "src/" ]
 mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
-project.ext.assetsDir = new File("../core/assets")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -119,6 +118,11 @@ if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
         }
     }
 }
+
+tasks.register('dist') {
+    dependsOn 'jar'
+}
+
 jpackageImage.doLast {
     file("build/jpackage/HadalCalm/app/${appName}-Demo.jar").delete()
 }
