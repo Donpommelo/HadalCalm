@@ -98,7 +98,7 @@ runtime {
             'jdk.crypto.cryptoki',
             'jdk.unsupported'])
 
-    distDir.set(file(getLayout().getBuildDirectory()))
+    distDir.set(file(getLayout().getBuildDirectory().asFile.get().absolutePath))
 
     jpackage {
         imageName = appName
