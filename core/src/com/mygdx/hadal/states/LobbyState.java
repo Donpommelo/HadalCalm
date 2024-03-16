@@ -595,13 +595,13 @@ public class LobbyState extends GameState {
             UPNPUtil.myIP = in.readLine();
             return UPNPUtil.myIP;
         } catch (IOException ioException) {
-            ioException.printStackTrace();
+            Gdx.app.error("ERROR RETRIEVING IP: ", ioException.getMessage());
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e2) {
-                    e2.printStackTrace();
+                    Gdx.app.error("ERROR RETRIEVING IP: ", e2.getMessage());
                 }
             }
         }
