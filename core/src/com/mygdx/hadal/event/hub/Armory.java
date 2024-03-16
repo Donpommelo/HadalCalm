@@ -49,7 +49,7 @@ public class Armory extends HubEvent {
 			final UnlockEquip selected = c;
 
 			boolean appear = false;
-			if ("".equals(search)) {
+			if (search.isEmpty()) {
 				appear = true;
 			} else {
 				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());

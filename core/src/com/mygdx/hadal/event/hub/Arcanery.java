@@ -48,7 +48,7 @@ public class Arcanery extends HubEvent {
 			final UnlockActives selected = c;
 
 			boolean appear = false;
-			if ("".equals(search)) {
+			if (search.isEmpty()) {
 				appear = true;
 			} else {
 				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());

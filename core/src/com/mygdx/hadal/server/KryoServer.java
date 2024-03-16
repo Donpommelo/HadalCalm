@@ -400,32 +400,33 @@ public class KryoServer {
 							if (user != null) {
 								Player player = user.getPlayer();
 								if (player != null && player.getPlayerData() != null) {
-									if (p instanceof PacketsLoadout.SyncEquipClient s) {
-										player.getEquipHelper().syncEquip(s.equip);
-										player.getEquipHelper().syncServerEquipChangeEcho(c.getID(), s.equip);
-									}
-									else if (p instanceof PacketsLoadout.SyncArtifactAddClient s) {
-										player.getArtifactHelper().addArtifact(s.artifactAdd, false, s.save);
-									}
-									else if (p instanceof PacketsLoadout.SyncArtifactRemoveClient s) {
-										player.getArtifactHelper().removeArtifact(s.artifactRemove, false);
-									}
-									else if (p instanceof PacketsLoadout.SyncActiveClient s) {
-										player.getMagicHelper().syncMagic(s.active);
-										player.getMagicHelper().syncServerMagicChangeEcho(c.getID(), s.active);
-									}
-									else if (p instanceof PacketsLoadout.SyncCharacterClient s) {
-										player.getCosmeticsHelper().setCharacter(s.character);
-										player.getCosmeticsHelper().syncServerCharacterChange(s.character);
-									}
-									else if (p instanceof PacketsLoadout.SyncTeamClient s) {
-										player.getCosmeticsHelper().setTeam(s.team);
-										player.getCosmeticsHelper().syncServerTeamChange(s.team);
-									}
-									else if (p instanceof PacketsLoadout.SyncCosmeticClient s) {
-										player.getCosmeticsHelper().setCosmetic(s.cosmetic);
-										player.getCosmeticsHelper().syncServerCosmeticChange(s.cosmetic);
-									}
+                                    switch (p) {
+                                        case PacketsLoadout.SyncEquipClient s -> {
+                                            player.getEquipHelper().syncEquip(s.equip);
+                                            player.getEquipHelper().syncServerEquipChangeEcho(c.getID(), s.equip);
+                                        }
+                                        case PacketsLoadout.SyncArtifactAddClient s ->
+                                                player.getArtifactHelper().addArtifact(s.artifactAdd, false, s.save);
+                                        case PacketsLoadout.SyncArtifactRemoveClient s ->
+                                                player.getArtifactHelper().removeArtifact(s.artifactRemove, false);
+                                        case PacketsLoadout.SyncActiveClient s -> {
+                                            player.getMagicHelper().syncMagic(s.active);
+                                            player.getMagicHelper().syncServerMagicChangeEcho(c.getID(), s.active);
+                                        }
+                                        case PacketsLoadout.SyncCharacterClient s -> {
+                                            player.getCosmeticsHelper().setCharacter(s.character);
+                                            player.getCosmeticsHelper().syncServerCharacterChange(s.character);
+                                        }
+                                        case PacketsLoadout.SyncTeamClient s -> {
+                                            player.getCosmeticsHelper().setTeam(s.team);
+                                            player.getCosmeticsHelper().syncServerTeamChange(s.team);
+                                        }
+                                        case PacketsLoadout.SyncCosmeticClient s -> {
+                                            player.getCosmeticsHelper().setCosmetic(s.cosmetic);
+                                            player.getCosmeticsHelper().syncServerCosmeticChange(s.cosmetic);
+                                        }
+                                        default -> {}
+                                    }
 								}
 							}
 						});

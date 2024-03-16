@@ -55,7 +55,7 @@ public class Quartermaster extends HubEvent {
 
 			if (checkUnlock && !UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
 				boolean appear = false;
-				if ("".equals(search)) {
+				if (search.isEmpty()) {
 					appear = true;
 				} else {
 					Matcher matcher = pattern.matcher(name.toLowerCase());

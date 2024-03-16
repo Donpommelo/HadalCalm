@@ -99,7 +99,7 @@ public class Haberdasher extends HubEvent {
 					continue;
 				}
 				boolean appear = false;
-				if ("".equals(search)) {
+				if (search.isEmpty()) {
 					appear = true;
 				} else {
 					Matcher matcher = pattern.matcher(c.getName().toLowerCase());

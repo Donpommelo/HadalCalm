@@ -501,25 +501,21 @@ public class KryoClient {
 						Player player = user.getPlayer();
 						if (null != player) {
 							if (null != player.getPlayerData()) {
-								if (p instanceof PacketsLoadout.SyncEquipServer s) {
-									player.getEquipHelper().syncEquip(s.equip);
-								}
-								else if (p instanceof PacketsLoadout.SyncArtifactServer s) {
-									player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
-									cs.getUiHub().refreshHub(null);
-								}
-								else if (p instanceof PacketsLoadout.SyncActiveServer s) {
-									player.getMagicHelper().syncMagic(s.active);
-								}
-								else if (p instanceof PacketsLoadout.SyncCharacterServer s) {
-									player.getCosmeticsHelper().setCharacter(s.character);
-								}
-								else if (p instanceof PacketsLoadout.SyncTeamServer s) {
-									player.getCosmeticsHelper().setTeam(s.team);
-								}
-								else if (p instanceof PacketsLoadout.SyncCosmeticServer s) {
-									player.getCosmeticsHelper().setCosmetic(s.cosmetic);
-								}
+                                switch (p) {
+                                    case PacketsLoadout.SyncEquipServer s -> player.getEquipHelper().syncEquip(s.equip);
+                                    case PacketsLoadout.SyncArtifactServer s -> {
+                                        player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
+                                        cs.getUiHub().refreshHub(null);
+                                    }
+                                    case PacketsLoadout.SyncActiveServer s ->
+                                            player.getMagicHelper().syncMagic(s.active);
+                                    case PacketsLoadout.SyncCharacterServer s ->
+                                            player.getCosmeticsHelper().setCharacter(s.character);
+                                    case PacketsLoadout.SyncTeamServer s -> player.getCosmeticsHelper().setTeam(s.team);
+                                    case PacketsLoadout.SyncCosmeticServer s ->
+                                            player.getCosmeticsHelper().setCosmetic(s.cosmetic);
+                                    default -> {}
+                                }
 							}
 						}
 					}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="47">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="49">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="EXTRA_ROOM"/>
@@ -65,7 +65,7 @@
   <object id="13" name="ChoiceBranch" type="ChoiceBranch" x="1344" y="1504" width="96" height="96">
    <properties>
     <property name="optionNames" value="ENEMIES_OPTIONS"/>
-    <property name="options" value="testSpawn1,testSpawn2,testSpawn3,testSpawn4,testSpawn5,testSpawn6,testSpawn7,testSpawn8,testSpawn9,testSpawn10,testSpawn11,testSpawn12,testSpawn13"/>
+    <property name="options" value="testSpawn1,testSpawn2,testSpawn3,testSpawn4,testSpawn5,testSpawn6,testSpawn7,testSpawn8,testSpawn9,testSpawn10,testSpawn11,testSpawn12,testSpawn13,testSpawn14,testSpawn15"/>
     <property name="title" value="TEXT_ENEMIES"/>
    </properties>
   </object>
@@ -216,6 +216,20 @@
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="DRONE"/>
     <property name="triggeredId" value="testSpawn13"/>
+   </properties>
+  </object>
+  <object id="47" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="BOMBFISH"/>
+    <property name="triggeredId" value="testSpawn14"/>
+   </properties>
+  </object>
+  <object id="48" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SNIPERFISH"/>
+    <property name="triggeredId" value="testSpawn15"/>
    </properties>
   </object>
  </objectgroup>

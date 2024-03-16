@@ -99,6 +99,7 @@ public enum Sprite {
 	SCRAP_D(SpriteType.PROJECTILE, "debris_d"),
 	SLAG(SpriteType.PROJECTILE, "slag"),
 	SEED(SpriteType.PROJECTILE, "seed"),
+	SHRAPNEL(SpriteType.PROJECTILE, "bombfish_shrapnel"),
 	SPIT(SpriteType.PROJECTILE, "spit"),
 	SKULL(SpriteType.PROJECTILE, "skull_chatter", PlayMode.LOOP_PINGPONG, PlayState.SPRITE_ANIMATION_SPEED),
 	SPLITTER_A(SpriteType.PROJECTILE, "splitter1"),
@@ -199,6 +200,13 @@ public enum Sprite {
 	FISH_SPITTLE_ATTACK(SpriteType.SPITTLEFISH, "spittlefish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED),
 	FISH_TORPEDO_IDLE(SpriteType.TORPEDOFISH, "torpedofish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
 	FISH_TORPEDO_ATTACK(SpriteType.TORPEDOFISH, "torpedofish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED),
+	FISH_BOMB_IDLE(SpriteType.BOMBFISH, "bombfish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_BOMB_ACTIVATE(SpriteType.BOMBFISH, "bombfish_activate", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_SUPER_FAST),
+	FISH_BOMB_ACTIVATION(SpriteType.BOMBFISH, "bombfish_activation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_BOMB_DEACTIVATION(SpriteType.BOMBFISH, "bombfish_deactivation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SNIPER_IDLE(SpriteType.SNIPERFISH, "sniper_fish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SNIPER_ATTACK(SpriteType.SNIPERFISH, "sniper_fish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+
 	KAMABOKO_BODY(SpriteType.KAMABOKO, "king_kamaboko"),
 	KAMABOKO_CRAWL(SpriteType.KAMABOKO_CRAWL, "crawlaboko"),
 	KAMABOKO_SWIM(SpriteType.KAMABOKO_SWIM, "swimaboko"),
@@ -413,6 +421,8 @@ public enum Sprite {
 			case SCISSORFISH -> HadalGame.assetManager.get(AssetList.SCISSORFISH_ATL.toString());
 			case SPITTLEFISH -> HadalGame.assetManager.get(AssetList.SPITTLEFISH_ATL.toString());
 			case TORPEDOFISH -> HadalGame.assetManager.get(AssetList.TORPEDOFISH_ATL.toString());
+			case BOMBFISH -> HadalGame.assetManager.get(AssetList.BOMBFISH_ATL.toString());
+			case SNIPERFISH -> HadalGame.assetManager.get(AssetList.SNIPERFISH_ATL.toString());
 			default -> null;
 		};
 	}
@@ -445,6 +455,8 @@ public enum Sprite {
 		KRILL,
 		SCISSORFISH,
 		SPITTLEFISH,
-		TORPEDOFISH
+		TORPEDOFISH,
+		BOMBFISH,
+		SNIPERFISH
 	}
 }

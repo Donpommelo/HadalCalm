@@ -295,8 +295,9 @@ public class Enemy extends Schmuck {
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
 		for (EnemyStrategy s : strategies) {
-			if (s.getProjectileOrigin(startVelo, projSize) != null) {
-				return s.getProjectileOrigin(startVelo, projSize);
+			Vector2 projectileOrigin = s.getProjectileOrigin(startVelo, projSize);
+			if (projectileOrigin != null) {
+				return projectileOrigin;
 			}
 		}
 		return super.getProjectileOrigin(startVelo, projSize);

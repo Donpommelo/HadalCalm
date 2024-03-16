@@ -11,5 +11,6 @@ public enum MoveState {
 	
 	DEFAULT,
 	ANIM1,
-	ANIM2
+	ANIM2,
+	ANIM3
 }
