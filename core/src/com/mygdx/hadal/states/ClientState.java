@@ -247,7 +247,7 @@ public class ClientState extends PlayState {
 	public void transitionState() {
 		switch (nextState) {
 		case RESPAWN:
-			gsm.getApp().fadeIn();
+			HadalGame.fadeManager.fadeIn();
 			spectatorMode = false;
 			
 			//Make nextState null so we can transition again
@@ -268,7 +268,7 @@ public class ClientState extends PlayState {
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
-			gsm.getApp().fadeIn();
+			HadalGame.fadeManager.fadeIn();
 
 			setSpectatorMode();
 

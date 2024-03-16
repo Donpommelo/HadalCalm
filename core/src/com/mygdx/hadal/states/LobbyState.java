@@ -284,8 +284,8 @@ public class LobbyState extends GameState {
                         GameStateManager.currentMode = GameStateManager.Mode.MULTI;
 
                         //Enter the Hub State.
-                        gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(LobbyState.class));
-                        gsm.getApp().fadeOut();
+                        HadalGame.fadeManager.setRunAfterTransition(() -> gsm.gotoHubState(LobbyState.class));
+                        HadalGame.fadeManager.fadeOut();
                     }
                 });
                 hostOption.setScale(OPTIONS_SCALE);
@@ -343,8 +343,8 @@ public class LobbyState extends GameState {
 
         retrieveLobbies();
 
-        if (gsm.getApp().getFadeLevel() >= 1.0f) {
-            gsm.getApp().fadeIn();
+        if (HadalGame.fadeManager.getFadeLevel() >= 1.0f) {
+            HadalGame.fadeManager.fadeIn();
         }
 
         HadalGame.musicPlayer.playSong(MusicTrackType.TITLE, 1.0f);

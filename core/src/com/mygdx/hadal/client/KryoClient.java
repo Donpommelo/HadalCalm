@@ -330,8 +330,8 @@ public class KryoClient {
 				cs.setNextState(TransitionState.NEWLEVEL);
 			}
 			Gdx.app.postRunnable(() -> {
-				gsm.getApp().fadeOut();
-				gsm.getApp().setRunAfterTransition(() -> {
+				HadalGame.fadeManager.fadeOut();
+				HadalGame.fadeManager.setRunAfterTransition(() -> {
 					gsm.removeState(ResultsState.class, false);
 					gsm.removeState(SettingState.class, false);
 					gsm.removeState(AboutState.class, false);

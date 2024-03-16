@@ -369,8 +369,8 @@ public class PlayState extends GameState {
 		resetController();
 
 		//if we faded out before transitioning to this stage, we should fade in upon showing
-		if (gsm.getApp().getFadeLevel() >= 1.0f) {
-			gsm.getApp().fadeIn();
+		if (HadalGame.fadeManager.getFadeLevel() >= 1.0f) {
+			HadalGame.fadeManager.fadeIn();
 		}
 
 		//play track corresponding to map properties or a random song from the combat ost list
@@ -829,7 +829,7 @@ public class PlayState extends GameState {
 	public void transitionState() {
 		switch (nextState) {
 		case RESPAWN:
-			gsm.getApp().fadeIn();
+			HadalGame.fadeManager.fadeIn();
 			spectatorMode = false;
 			
 			//Make nextState null so we can transition again
@@ -850,7 +850,7 @@ public class PlayState extends GameState {
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
-			gsm.getApp().fadeIn();
+			HadalGame.fadeManager.fadeIn();
 			setSpectatorMode();
 			
 			//Make nextState null so we can transition again
@@ -1272,8 +1272,8 @@ public class PlayState extends GameState {
 	public void beginTransition(TransitionState state, float fadeSpeed, float fadeDelay, boolean skipFade) {
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
 		if (!skipFade) {
-			gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
-			gsm.getApp().setRunAfterTransition(this::transitionState);
+			HadalGame.fadeManager.fadeSpecificSpeed(fadeSpeed, fadeDelay);
+			HadalGame.fadeManager.setRunAfterTransition(this::transitionState);
 
 			//null nextState is used by user transition for non-timed respawn
 			if (null != state) {

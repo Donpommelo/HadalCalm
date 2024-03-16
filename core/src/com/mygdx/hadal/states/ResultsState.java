@@ -315,7 +315,7 @@ public class ResultsState extends GameState {
 		ps.getMessageWindow().setLocked(true);
 		ps.getMessageWindow().table.setPosition(MESSAGE_X, MESSAGE_Y);
 		stage.addActor(ps.getMessageWindow().table);
-		gsm.getApp().fadeIn();
+		HadalGame.fadeManager.fadeIn();
 		app.newMenu(stage);
 
 		//this makes the info window start off visible with the player's own post-game stats
@@ -580,7 +580,7 @@ public class ResultsState extends GameState {
 	 */
 	public void allReady() {
 		if (ps.isServer()) {
-			gsm.getApp().setRunAfterTransition(() -> {
+			HadalGame.fadeManager.setRunAfterTransition(() -> {
 				gsm.removeState(ResultsState.class, false);
 				if (returnToHub.isChecked()) {
 					gsm.gotoHubState(LobbyState.class);
@@ -592,7 +592,7 @@ public class ResultsState extends GameState {
 				}
 			});
 		}
-		gsm.getApp().fadeOut();
+		HadalGame.fadeManager.fadeOut();
 	}
 
 	private static final float PARTICLE_COOLDOWN = 1.5f;

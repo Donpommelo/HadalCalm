@@ -248,8 +248,8 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
-						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(TitleState.class));
-						gsm.getApp().fadeOut();
+						HadalGame.fadeManager.setRunAfterTransition(() -> gsm.gotoHubState(TitleState.class));
+						HadalGame.fadeManager.fadeOut();
 			        }
 			    });
 				
@@ -342,8 +342,8 @@ public class TitleState extends GameState {
 		};
 		app.newMenu(stage);
 
-		if (gsm.getApp().getFadeLevel() >= 1.0f) {
-			gsm.getApp().fadeIn();
+		if (HadalGame.fadeManager.getFadeLevel() >= 1.0f) {
+			HadalGame.fadeManager.fadeIn();
 		}
 
 		HadalGame.musicPlayer.playSong(MusicTrackType.TITLE, 1.0f);
