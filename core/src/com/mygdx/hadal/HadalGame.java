@@ -182,9 +182,6 @@ public class HadalGame extends ApplicationAdapter {
 		if (null != FONT_SPRITE) {
 			FONT_SPRITE.dispose();
 		}
-
-		//this prevents an error upon x-ing out the game
-		System.exit(0);
 	}
 
 	/**
