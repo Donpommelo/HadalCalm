@@ -12,10 +12,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.StateManager;
-import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.SkinManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.UPNPUtil;
@@ -149,9 +149,9 @@ public class HadalGame extends ApplicationAdapter {
 		StateManager.dispose();
 		batch.dispose();
 		assetManager.dispose();
+		MusicPlayer.dispose();
 		FadeManager.dispose();
 		SkinManager.dispose();
-		MusicPlayer.dispose();
 	}
 
 	/**

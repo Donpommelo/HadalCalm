@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 
 public class SkinManager {
@@ -71,16 +70,6 @@ public class SkinManager {
         }
         if (null != SKIN) {
             SKIN.dispose();
-        }
-
-        HadalGame.assetManager.finishLoading();
-        Array<String> assetNames = HadalGame.assetManager.getAssetNames();
-
-        for (String assetName : assetNames) {
-            Object asset = HadalGame.assetManager.get(assetName);
-            if (asset instanceof TextureAtlas atlas) {
-                atlas.dispose();
-            }
         }
     }
 }

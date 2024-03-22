@@ -185,6 +185,7 @@ public enum SyncedAttack {
     BOMBFISH_ATTACK(new BombfishAttack()),
     TURRET_FLAK_ATTACK(new TurretFlakAttack()),
     TURRET_VOLLEY_ATTACK(new TurretVolleyAttack()),
+    SNIPER_RETICLE(new SniperReticle()),
 
     BOSS_BOUNCY_BALL(new BossBouncyBall()),
     BOSS_FALLING_DEBRIS(new BossFallingDebris()),

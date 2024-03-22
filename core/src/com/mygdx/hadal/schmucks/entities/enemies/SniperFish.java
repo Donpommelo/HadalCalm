@@ -7,6 +7,7 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -50,16 +51,32 @@ public class SniperFish extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 
-	private static final float attackWindup1 = 0.1f;
+	private static final float attackWindup1 = 1.0f;
 	private static final float attackWindup2 = 0.2f;
 	private static final float attackCooldown = 0.76f;
 
 	private static final float projectileSpeed = 30.0f;
-	private static final float range = 900.0f;
+	private static final float range = 4000.0f;
+	private Player reticleTarget;
 	@Override
 	public void attackInitiate() {
 
-		EnemyUtils.changeMoveState(this, MoveState.ANIM1, attackWindup1);
+		getActions().add(new EnemyAction(this, attackWindup1) {
+			@Override
+			public void execute() {
+				reticleTarget = null;
+				if (attackTarget == null) {
+					return;
+				}
+				if (attackTarget instanceof Player player) {
+					reticleTarget = player;
+					SyncedAttack.SNIPER_RETICLE.initiateSyncedAttackSingle(state, enemy, new Vector2(), new Vector2(),
+							player.getUser().getConnID());
+				}
+			}
+		});
+
+		EnemyUtils.changeMoveState(this, MoveState.ANIM1, 0);
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, attackWindup2);
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
 
@@ -72,9 +89,13 @@ public class SniperFish extends EnemySwimming {
 				if (attackTarget == null) {
 					return;
 				}
-				
-				startVelo.set(projectileSpeed, projectileSpeed).setAngleDeg(getAttackAngle());
-				
+
+				if (null != reticleTarget && reticleTarget.isAlive()) {
+					startVelo.set(reticleTarget.getPixelPosition()).sub(enemy.getPixelPosition());
+				} else {
+					startVelo.set(projectileSpeed, projectileSpeed).setAngleDeg(getAttackAngle());
+				}
+
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
 					SyncedAttack.TORPEDOFISH_ATTACK.initiateSyncedAttackSingle(state, enemy, enemy.getPixelPosition(), startVelo);

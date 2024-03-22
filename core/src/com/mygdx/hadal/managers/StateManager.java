@@ -1,7 +1,9 @@
 package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.audio.MusicTrack;
@@ -50,6 +52,16 @@ public class StateManager {
 			gs.dispose();
 		}
 		states.clear();
+
+		HadalGame.assetManager.finishLoading();
+		Array<String> assetNames = HadalGame.assetManager.getAssetNames();
+
+		for (String assetName : assetNames) {
+			Object asset = HadalGame.assetManager.get(assetName);
+			if (asset instanceof TextureAtlas atlas) {
+				atlas.dispose();
+			}
+		}
 
 		Particle.disposeParticlePool();
 		FrameBufferManager.clearAllFrameBuffers();

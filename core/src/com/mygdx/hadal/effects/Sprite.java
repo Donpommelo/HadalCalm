@@ -206,6 +206,8 @@ public enum Sprite {
 	FISH_BOMB_DEACTIVATION(SpriteType.BOMBFISH, "bombfish_deactivation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
 	FISH_SNIPER_IDLE(SpriteType.SNIPERFISH, "sniper_fish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
 	FISH_SNIPER_ATTACK(SpriteType.SNIPERFISH, "sniper_fish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	SNIPER_RETICLE(SpriteType.SNIPER_RETICLE, "sniper_fish_crosshair", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	SNIPER_ARROW(SpriteType.SNIPER_RETICLE, "sniper_fish_direction", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
 
 	KAMABOKO_BODY(SpriteType.KAMABOKO, "king_kamaboko"),
 	KAMABOKO_CRAWL(SpriteType.KAMABOKO_CRAWL, "crawlaboko"),
