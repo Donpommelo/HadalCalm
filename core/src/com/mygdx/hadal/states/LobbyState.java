@@ -577,6 +577,8 @@ public class LobbyState extends GameState {
 
         if (HadalGame.socket != null) {
             HadalGame.socket.disconnect();
+            HadalGame.socket.close();
+            HadalGame.socket = null;
         }
     }
 

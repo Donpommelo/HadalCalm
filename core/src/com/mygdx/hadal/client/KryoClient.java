@@ -43,6 +43,7 @@ import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
@@ -56,13 +57,11 @@ public class KryoClient {
 	//Me Client
 	private Client client;
 
-	public final HadalGame app;
 	public final UserManager usm;
 
     public Listener packetListener;
     
-    public KryoClient(HadalGame app, UserManager userManager) {
-		this.app = app;
+    public KryoClient(UserManager userManager) {
     	this.usm = userManager;
     }
     
@@ -349,7 +348,7 @@ public class KryoClient {
 						}
 					}
 
-					StateManager.addClientPlayState(app, p.level, p.mode, LobbyState.class);
+					StateManager.addClientPlayState(cs.getApp(), p.level, p.mode, LobbyState.class);
 					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});
@@ -1076,6 +1075,14 @@ public class KryoClient {
 			client.sendUDP(p);
 		}
 	}
-	
+
+	public void dispose() throws IOException {
+		if (client != null) {
+			client.stop();
+			client.dispose();
+			client = null;
+		}
+	}
+
 	public Client getClient() {	return client; }
 }

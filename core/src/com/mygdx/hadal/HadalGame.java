@@ -21,6 +21,8 @@ import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.UPNPUtil;
 import io.socket.client.Socket;
 
+import java.io.IOException;
+
 /**
  * HadalGame is the game. This is created upon launching the game.
  * It delegates the rendering + updating logic to the GameStateManager.
@@ -78,16 +80,16 @@ public class HadalGame extends ApplicationAdapter {
 	    usm = new UserManager();
 
 		StateManager.addState(this, State.SPLASH, null);
-
 		JSONManager.initJSON(this);
+
 		//enable upnp for both tcp and udp
 		if (JSONManager.setting.isEnableUPNP()) {
 			UPNPUtil.upnp("TCP", "hadal-upnp-tcp", JSONManager.setting.getPortNumber());
 			UPNPUtil.upnp("UDP", "hadal-upnp-udp", JSONManager.setting.getPortNumber());
 		}
 
-		client = new KryoClient(this, usm);
-		server = new KryoServer(this, usm);
+		client = new KryoClient(usm);
+		server = new KryoServer(usm);
 	}
 	
 	/**
@@ -152,7 +154,14 @@ public class HadalGame extends ApplicationAdapter {
 		MusicPlayer.dispose();
 		FadeManager.dispose();
 		SkinManager.dispose();
-	}
+
+        try {
+			client.dispose();
+			server.dispose();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	/**
 	 * This is used to set game iconification dynamically.

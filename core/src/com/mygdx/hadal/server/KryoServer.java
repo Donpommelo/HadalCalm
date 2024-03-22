@@ -47,14 +47,12 @@ public class KryoServer {
 	//Me server
 	private Server server;
 
-	public final HadalGame app;
 	public final UserManager usm;
 
 	//name of the server to be displayed in the lobby state
 	private String serverName = "";
 
-	public KryoServer(HadalGame app, UserManager userManager) {
-		this.app = app;
+	public KryoServer(UserManager userManager) {
 		this.usm = userManager;
 	}
 	
@@ -729,7 +727,7 @@ public class KryoServer {
 				}
 			}
 		};
-		
+
 //        server.addListener(new Listener.LagListener(50, 100, packetListener));
 		server.addListener(packetListener);
 
@@ -936,6 +934,14 @@ public class KryoServer {
 				addNotificationToAll(ps,"", UIText.KICKED.text(user.getPlayer().getName()), true, DialogType.SYSTEM);
 			}
 			sendToTCP(connID, new Packets.ClientYeet());
+		}
+	}
+
+	public void dispose() throws IOException {
+		if (server != null) {
+			server.stop();
+			server.dispose();
+			server = null;
 		}
 	}
 
