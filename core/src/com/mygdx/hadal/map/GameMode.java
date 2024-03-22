@@ -14,6 +14,7 @@ import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.SettingLoadoutMode.LoadoutMode;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.map.modifiers.*;
@@ -275,7 +276,7 @@ public enum GameMode {
             setting.loadSettingMisc(state, this);
         }
 
-        state.getGsm().getSetting().saveSetting();
+        JSONManager.setting.saveSetting();
 
         //ui text set directly instead of through an event, since ui is initiated immediately
         state.getUiExtra().changeTypes(uiTriggerId.toString(), true);

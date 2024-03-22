@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.SerializationException;
 
-import static com.mygdx.hadal.managers.GameStateManager.JSON;
-import static com.mygdx.hadal.managers.GameStateManager.READER;
+import static com.mygdx.hadal.managers.JSONManager.JSON;
+import static com.mygdx.hadal.managers.JSONManager.READER;
 
 /**
  * A record represents the player's persistent saved data.

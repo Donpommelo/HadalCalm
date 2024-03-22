@@ -2,7 +2,7 @@ package com.mygdx.hadal.text;
 
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 
 /**
  * A UIText is a string that shows up anywhere in the game. These are managed in 1 place to make it easier to edit
@@ -419,18 +419,18 @@ public enum UIText {
         //no replacements means a static text. Read from file and cache
         if (0 == replace.length) {
             if (null == cachedText) {
-                JsonValue text = GameStateManager.uiStrings.get(key);
+                JsonValue text = JSONManager.uiStrings.get(key);
                 if (null != text) {
                     cachedText = text.asString();
                 } else {
-                    cachedText = GameStateManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
+                    cachedText = JSONManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
                 }
             }
             return cachedText;
         } else {
 
             //iterate through replace tags and replace with input strings
-            JsonValue text = GameStateManager.uiStrings.get(key);
+            JsonValue text = JSONManager.uiStrings.get(key);
             if (null != text) {
                 String tempText = text.asString();
                 for (int i = 0; i < replace.length; i++) {
@@ -440,7 +440,7 @@ public enum UIText {
                 }
                 return tempText;
             } else {
-                return GameStateManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
+                return JSONManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
             }
         }
     }

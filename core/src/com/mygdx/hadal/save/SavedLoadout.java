@@ -9,8 +9,8 @@ import com.mygdx.hadal.users.User;
 import java.util.Arrays;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_TOTAL;
-import static com.mygdx.hadal.managers.GameStateManager.JSON;
-import static com.mygdx.hadal.managers.GameStateManager.READER;
+import static com.mygdx.hadal.managers.JSONManager.JSON;
+import static com.mygdx.hadal.managers.JSONManager.READER;
 
 /**
  * A record represents the player's last loadout.

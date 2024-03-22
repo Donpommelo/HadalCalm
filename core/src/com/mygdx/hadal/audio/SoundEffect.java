@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -187,17 +187,17 @@ public enum SoundEffect {
 	 * singleton is for sounds that only have 1 instance playing at a time. (mostly menus)
 	 * Do not use singleton sounds for multiple sound effects
 	 */
-	public long play(GameStateManager gsm, float volume, boolean singleton) {
-		return play(gsm, volume, 1.0f, singleton);
+	public long play(float volume, boolean singleton) {
+		return play(volume, 1.0f, singleton);
 	}
 	
-	public long play(GameStateManager gsm, float volume, float pitch, boolean singleton) {
+	public long play(float volume, float pitch, boolean singleton) {
 		
 		if (singleton) {
 			getSound().stop();
 		}
 
-		return getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume(), pitch, 0.0f);
+		return getSound().play(volume * JSONManager.setting.getSoundVolume() * JSONManager.setting.getMasterVolume(), pitch, 0.0f);
 	}
 
 	public void playNoModifiers(float volume) {
@@ -237,7 +237,7 @@ public enum SoundEffect {
 		}
 		
 		if (null == worldPos) {
-			return play(state.getGsm(), volume, pitch, singleton);
+			return play(volume, pitch, singleton);
 		} else {
 			return playSourced(state, worldPos, volume, pitch);
 		}
@@ -257,7 +257,7 @@ public enum SoundEffect {
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
 			if (0 == player.getUser().getConnID()) {
 				if (null == worldPos) {
-					play(state.getGsm(), volume, pitch, singleton);
+					play(volume, pitch, singleton);
 				} else {
 					playSourced(state, worldPos, volume, pitch);
 				}
@@ -271,16 +271,15 @@ public enum SoundEffect {
 	 * This actually plays the hitsound.
 	 * This is run for player that dealt the damage and is run for both host or client
 	 */
-	public static void playHitSound(GameStateManager gsm, boolean large) {
-		if (0 != gsm.getSetting().getHitsound()) {
+	public static void playHitSound(boolean large) {
+		if (0 != JSONManager.setting.getHitsound()) {
 			
 			float pitch = 1.0f;
 			
 			if (large) {
 				pitch = 1.5f;
 			}
-			gsm.getSetting().indexToHitsound().play(gsm,
-				gsm.getSetting().getHitsoundVolume() * gsm.getSetting().getMasterVolume(), pitch, true);
+			JSONManager.setting.indexToHitsound().play(JSONManager.setting.getHitsoundVolume() * JSONManager.setting.getMasterVolume(), pitch, true);
 		}
 	}
 	
@@ -298,7 +297,7 @@ public enum SoundEffect {
 
 		//this avoids playing sounds at default volume if player has not loaded in yet
 		if (null == player) {
-			getSound().setPan(soundId, 0.0f, volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
+			getSound().setPan(soundId, 0.0f, volume * JSONManager.setting.getSoundVolume() * JSONManager.setting.getMasterVolume());
 			return;
 		}
 
@@ -337,6 +336,6 @@ public enum SoundEffect {
 			newVolume = (MAX_DIST - dist) / MAX_DIST;
 		}
 
-		getSound().setPan(soundId, pan, newVolume * volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
+		getSound().setPan(soundId, pan, newVolume * volume * JSONManager.setting.getSoundVolume() * JSONManager.setting.getMasterVolume());
 	}
 }

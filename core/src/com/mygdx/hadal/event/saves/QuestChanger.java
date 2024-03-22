@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.saves;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -35,8 +36,8 @@ public class QuestChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.getGsm().getRecord().getFlags().put(quest, newVal);
-				state.getGsm().getRecord().saveRecord();
+				JSONManager.record.getFlags().put(quest, newVal);
+				JSONManager.record.saveRecord();
 			}
 		};
 	}

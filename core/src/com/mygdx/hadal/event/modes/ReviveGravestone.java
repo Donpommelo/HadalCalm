@@ -30,6 +30,7 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.managers.SkinManager.FONT_SPRITE;
 import static com.mygdx.hadal.users.Transition.MEDIUM_FADE_DELAY;
 
 /**
@@ -192,7 +193,7 @@ public class ReviveGravestone extends Event {
 		float textY = entityLocation.y + returnMeter.getRegionHeight() * UI_SCALE + size.y / 2;
 
 		batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * UI_SCALE * returnDelayed, returnBar.getRegionHeight() * UI_SCALE);
-		HadalGame.FONT_SPRITE.draw(batch, user.getStringManager().getNameShort(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);
+		FONT_SPRITE.draw(batch, user.getStringManager().getNameShort(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);
 		batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * UI_SCALE, returnMeter.getRegionHeight() * UI_SCALE);
 	}
 

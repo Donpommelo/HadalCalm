@@ -8,14 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.User;
 
 import static com.mygdx.hadal.constants.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION;
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
+import static com.mygdx.hadal.managers.SkinManager.SIMPLE_PATCH;
 
 /**
  * The UISpectator is used by spectators to view the game. It features the ability to cycle through spectate targets
@@ -59,36 +60,36 @@ public class UISpectator extends AHadalActor {
 
         if (!state.isSpectatorMode()) { return; }
 
-        GameStateManager.getSimplePatch().draw(batch, getX(), getY(), WINDOW_WIDTH, WINDOW_HEIGHT);
+        SIMPLE_PATCH.draw(batch, getX(), getY(), WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        HadalGame.FONT_UI.getData().setScale(FONT_SCALE_MEDIUM);
+        FONT_UI.getData().setScale(FONT_SCALE_MEDIUM);
 
         //display different text if spectating a target or using free-cam, + info about spectator controls
         if (freeCam) {
-            HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_FREECAM.text(), getX() + TEXT_X, TITLE_Y);
+            FONT_UI.draw(batch, UIText.SPECTATING_FREECAM.text(), getX() + TEXT_X, TITLE_Y);
         } else {
             if (null != spectatorTarget) {
-                HadalGame.FONT_UI.draw(batch, UIText.SPECTATING.text(spectatorTarget.getName()), getX() + TEXT_X, TITLE_Y);
+                FONT_UI.draw(batch, UIText.SPECTATING.text(spectatorTarget.getName()), getX() + TEXT_X, TITLE_Y);
             } else {
-                HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_NA.text(), getX() + TEXT_X, TITLE_Y);
+                FONT_UI.draw(batch, UIText.SPECTATING_NA.text(), getX() + TEXT_X, TITLE_Y);
             }
         }
-        HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_LMB.text(), getX() + TEXT_X, INSTRUCTIONS_1_Y);
-        HadalGame.FONT_UI.draw(batch, UIText.SPECTATING_RMB.text(), getX() + TEXT_X, INSTRUCTIONS_2_Y);
+        FONT_UI.draw(batch, UIText.SPECTATING_LMB.text(), getX() + TEXT_X, INSTRUCTIONS_1_Y);
+        FONT_UI.draw(batch, UIText.SPECTATING_RMB.text(), getX() + TEXT_X, INSTRUCTIONS_2_Y);
 
         //display info about rejoining (if applicable). Host gets extra info about selecting levels as spectator
         if (state.getMode().isHub()) {
             if (state.isServer()) {
-                HadalGame.FONT_UI.draw(batch, UIText.JOIN_OPTION_HOST.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
+                FONT_UI.draw(batch, UIText.JOIN_OPTION_HOST.text(PlayerAction.PAUSE.getKeyText(), PlayerAction.INTERACT.getKeyText()),
                         getX() + TEXT_X, JOIN_Y);
             } else {
-                HadalGame.FONT_UI.draw(batch, UIText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()),
+                FONT_UI.draw(batch, UIText.JOIN_OPTION.text(PlayerAction.PAUSE.getKeyText()),
                         getX() + TEXT_X, JOIN_Y);
             }
         } else {
-            HadalGame.FONT_UI.draw(batch, UIText.JOIN_CANT.text(), getX() + TEXT_X, JOIN_Y);
+            FONT_UI.draw(batch, UIText.JOIN_CANT.text(), getX() + TEXT_X, JOIN_Y);
         }
-        HadalGame.FONT_UI.draw(batch, UIText.TOGGLE.text(PlayerAction.ACTIVE_ITEM.getKeyText()), getX() + TEXT_X, TOGGLE_Y);
+        FONT_UI.draw(batch, UIText.TOGGLE.text(PlayerAction.ACTIVE_ITEM.getKeyText()), getX() + TEXT_X, TOGGLE_Y);
     }
 
     //is lmb held? Used to control camera dragging in free-cam mode

@@ -6,17 +6,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.ShadedSprite;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.*;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.LoadoutManager;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.StringManager;
+import com.mygdx.hadal.users.User;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
 /**
  * A PlayerResultsIcon represents a single player in the results screen.
@@ -110,8 +113,8 @@ public class PlayerResultsIcon extends AHadalActor {
 			}
 		}
 
-		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
-		HadalGame.FONT_UI.draw(batch, name, getX() + TEXT_OFFSET_X,getY() + TEXT_OFFSET_Y, TEXT_WIDTH, Align.center, true);
+		FONT_UI.getData().setScale(FONT_SCALE);
+		FONT_UI.draw(batch, name, getX() + TEXT_OFFSET_X,getY() + TEXT_OFFSET_Y, TEXT_WIDTH, Align.center, true);
 
 		if (ready) {
 			batch.draw(readyIcon, getX() + READY_WIDTH + READY_OFFSET_X, getY() + READY_OFFSET_Y, -READY_WIDTH, READY_HEIGHT);

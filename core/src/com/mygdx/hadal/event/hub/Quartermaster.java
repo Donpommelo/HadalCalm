@@ -9,7 +9,7 @@ import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.actors.UITag;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.ShopInfo;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
@@ -17,6 +17,8 @@ import com.mygdx.hadal.states.PlayState;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.mygdx.hadal.managers.JSONManager.JSON;
 
 /**
  * The Armory is a HubEvent that allows the player to spend Scrap on unlocks.
@@ -29,7 +31,7 @@ public class Quartermaster extends HubEvent {
 	
 	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, String shopId) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.QUARTERMASTER);
-		this.shopInfo = GameStateManager.JSON.fromJson(ShopInfo.class, GameStateManager.shops.get(shopId).toJson(OutputType.json));
+		this.shopInfo = JSON.fromJson(ShopInfo.class, JSONManager.shops.get(shopId).toJson(OutputType.json));
 	}
 
 	@Override
@@ -71,8 +73,8 @@ public class Quartermaster extends HubEvent {
 
 						@Override
 						public void clicked(InputEvent e, float x, float y) {
-							if (state.getGsm().getRecord().getScrap() >= shopInfo.getPrices().get(item)) {
-								state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
+							if (JSONManager.record.getScrap() >= shopInfo.getPrices().get(item)) {
+								JSONManager.record.incrementScrap(-shopInfo.getPrices().get(item));
 								UnlockManager.setUnlock(state, UnlockType.valueOf(shopInfo.getType()), item, true);
 
 								//leave and enter to reset available inventory

@@ -14,38 +14,29 @@ public class FadeManager {
     private static final float DEFAULT_FADE_IN_SPEED = -2.0f;
     private static final float DEFAULT_FADE_OUT_SPEED = 2.0f;
 
-    private final HadalGame game;
-    private final GameStateManager gsm;
-
     //This is the how faded the black screen is. (starts off black)
-    protected float fadeLevel = 1.0f;
+    private static float fadeLevel = 1.0f;
 
     //Amount of delay before fade transition occurs
-    protected float fadeDelay = 0.0f;
+    private static float fadeDelay = 0.0f;
 
     //if set to true, we jump right into transition without fading in/out (set by making fadeDelta 0 in fadeSpecificSpeed())
-    private boolean skipFade;
+    private static boolean skipFade;
 
     //This is how much the fade changes every engine tick (starts out fading in)
-    protected float fadeDelta = DEFAULT_FADE_IN_SPEED;
+    private static float fadeDelta = DEFAULT_FADE_IN_SPEED;
 
     //this is a runnable that will run when the game finishes a transition, usually to another state.
-    private Runnable runAfterTransition;
+    private static Runnable runAfterTransition;
 
     //this is a black texture used for fading in/out transitions.
-    private final Texture black;
+    private static final Texture black = new Texture(Gdx.files.internal("black.png"));
 
-    public FadeManager(HadalGame game, GameStateManager gsm) {
-        this.game = game;
-        this.gsm = gsm;
-        black = new Texture(Gdx.files.internal("black.png"));
-    }
-
-    public void render(SpriteBatch batch, float delta) {
+    public static void render(HadalGame app, SpriteBatch batch, float delta) {
 
         //Render the black image used for fade transitions
         if (0.0f < fadeLevel) {
-            batch.setProjectionMatrix(game.getHud().combined);
+            batch.setProjectionMatrix(app.getHud().combined);
             batch.begin();
             batch.setColor(1.0f, 1.0f, 1.0f, fadeLevel);
             batch.draw(black, 0.0f, 0.0f, CONFIG_WIDTH, CONFIG_HEIGHT);
@@ -55,7 +46,7 @@ public class FadeManager {
 
 
         //only fade when the states specifies that transitions should fade (i.e. no fade when closing pause menu)
-        if (gsm.getStates().peek().processTransitions()) {
+        if (StateManager.states.peek().processTransitions()) {
 
             //If we are in the delay period of a transition, decrement the delay
             if (0.0f < fadeDelay) {
@@ -97,7 +88,7 @@ public class FadeManager {
         }
     }
 
-    public void dispose() {
+    public static void dispose() {
         black.dispose();
     }
 
@@ -106,21 +97,21 @@ public class FadeManager {
      * @param fadeDelay: How much delay until the fading begins?
      * @param fadeSpeed: speed of the fading. IF sest to 0, we skip thte fade entirely
      */
-    public void fadeSpecificSpeed(float fadeSpeed, float fadeDelay) {
-        this.fadeDelta = fadeSpeed;
-        this.fadeDelay = fadeDelay;
+    public static void fadeSpecificSpeed(float fadeSpeed, float fadeDelay) {
+        FadeManager.fadeDelta = fadeSpeed;
+        FadeManager.fadeDelay = fadeDelay;
         if (0.0f == fadeDelta) {
             skipFade = true;
         }
     }
 
-    public void fadeOut() {	fadeDelta = DEFAULT_FADE_OUT_SPEED; }
+    public static void fadeOut() {	fadeDelta = DEFAULT_FADE_OUT_SPEED; }
 
-    public void fadeIn() { fadeDelta = DEFAULT_FADE_IN_SPEED; }
+    public static void fadeIn() { fadeDelta = DEFAULT_FADE_IN_SPEED; }
 
-    public float getFadeLevel() { return fadeLevel; }
+    public static float getFadeLevel() { return FadeManager.fadeLevel; }
 
-    public void setFadeLevel(float fadeLevel) { this.fadeLevel = fadeLevel; }
+    public static void setFadeLevel(float fadeLevel) { FadeManager.fadeLevel = fadeLevel; }
 
-    public void setRunAfterTransition(Runnable runAfterTransition) { this.runAfterTransition = runAfterTransition; }
+    public static void setRunAfterTransition(Runnable runAfterTransition) { FadeManager.runAfterTransition = runAfterTransition; }
 }

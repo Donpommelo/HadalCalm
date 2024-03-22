@@ -4,12 +4,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
+import com.mygdx.hadal.text.UIText;
+
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * A Mode Modifier allows the player to select a setting that changes the gameplay of the match
@@ -39,15 +41,15 @@ public class ModeModifier extends ModeSetting {
             TooltipManager.addTooltip(title, desc.text());
         }
 
-        dropsOptions = new CheckBox("", GameStateManager.getSkin());
-        dropsOptions.setChecked(state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1);
+        dropsOptions = new CheckBox("", SKIN);
+        dropsOptions.setChecked(JSONManager.setting.getModeSetting(mode, settingTag, 0) == 1);
         table.add(title);
         table.add(dropsOptions).height(UIHub.DETAIL_HEIGHT_SMALL).pad(UIHub.DETAIL_PAD).top().row();
     }
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        state.getGsm().getSetting().setModeSetting(mode, settingTag, dropsOptions.isChecked() ? 1 : 0);
+        JSONManager.setting.setModeSetting(mode, settingTag, dropsOptions.isChecked() ? 1 : 0);
     }
 
     /**
@@ -55,7 +57,7 @@ public class ModeModifier extends ModeSetting {
      * for initial notification
      */
     public void loadModifier(PlayState state, GameMode mode, StringBuilder text) {
-        if (state.getGsm().getSetting().getModeSetting(mode, settingTag, 0) == 1) {
+        if (JSONManager.setting.getModeSetting(mode, settingTag, 0) == 1) {
             executeModifier(state);
             text.append(name.text()).append(", ");
         }

@@ -60,6 +60,7 @@ public enum AssetList {
 	TORPEDOFISH_ATL("sprites/enemy/torpedofish.atlas", TextureAtlas.class),
 	BOMBFISH_ATL("sprites/enemy/bombfish.atlas", TextureAtlas.class),
 	SNIPERFISH_ATL("sprites/enemy/sniperfish.atlas", TextureAtlas.class),
+	SNIPER_RETICLE_ATL("sprites/projectile/sniperreticle.atlas", TextureAtlas.class),
 
 	//UI
 	UIPATCH_ATL("ui/window.atlas", TextureAtlas.class),

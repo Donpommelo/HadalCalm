@@ -1,7 +1,8 @@
 package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.mygdx.hadal.managers.GameStateManager;
+
+import static com.mygdx.hadal.managers.SkinManager.SIMPLE_PATCH;
 
 /**
  * Static background actor for various windows and ui elements.
@@ -15,6 +16,6 @@ public class MenuWindow extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-        GameStateManager.getSimplePatch().draw(batch, getX(), getY(), getWidth(), getHeight());
+		SIMPLE_PATCH.draw(batch, getX(), getY(), getWidth(), getHeight());
     }
 }

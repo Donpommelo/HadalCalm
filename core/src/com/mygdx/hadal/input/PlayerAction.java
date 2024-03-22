@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.SerializationException;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.text.UIText;
+
+import static com.mygdx.hadal.managers.JSONManager.JSON;
+import static com.mygdx.hadal.managers.JSONManager.READER;
 
 /**
  * This enum maps to each possible action the player can perform to an input.
@@ -106,13 +108,13 @@ public enum PlayerAction {
 	 */
 	public static void retrieveKeys() {
 		try {
-			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.local("save/Keybind.json"))) {
+			for (JsonValue d : READER.parse(Gdx.files.local("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
 		} catch (SerializationException e) {
 			resetKeys();
 			saveKeys();
-			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.local("save/Keybind.json"))) {
+			for (JsonValue d : READER.parse(Gdx.files.local("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
 		}
@@ -129,7 +131,7 @@ public enum PlayerAction {
 			map.put(a.toString(), a.getKey());
 		}
 		
-		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.JSON.toJson(map), true);
+		Gdx.files.local("save/Keybind.json").writeString(JSON.toJson(map), true);
 	}
 
 	/**

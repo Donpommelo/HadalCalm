@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.server.packets.Packets;
@@ -101,7 +102,7 @@ public class ChatWheel {
 
 			@Override
 			public void draw(Batch batch, float alpha) {
-				if (state.getGsm().getSetting().isHideHUD()) { return; }
+				if (JSONManager.setting.isHideHUD()) { return; }
 				super.draw(batch, alpha);
 				batch.draw(wheelIndicator, pointerPosition.x - INDICATOR_WIDTH / 2, pointerPosition.y - INDICATOR_HEIGHT / 2,
 						INDICATOR_WIDTH, INDICATOR_HEIGHT);

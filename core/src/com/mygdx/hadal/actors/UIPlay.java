@@ -8,10 +8,12 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
+
+import static com.mygdx.hadal.managers.SkinManager.*;
 
 /**
  * This is the main ui element. It displays player loadout, hp, fuel.
@@ -182,8 +184,8 @@ public class UIPlay extends AHadalActor {
 
 		//Draw boss hp bar, if existent. Do this before player check so spectators can see boss hp
 		if (bossFight && null != boss.getBody()) {
-			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
-			HadalGame.FONT_UI.draw(batch, bossName, BOSS_NAME_X, BOSS_NAME_Y);
+			FONT_UI.getData().setScale(FONT_SCALE_SMALL);
+			FONT_UI.draw(batch, bossName, BOSS_NAME_X, BOSS_NAME_Y);
 			
 			//This code makes the hp bar delay work.
 			if (bossHpDelayed > bossHpRatio) {
@@ -192,13 +194,13 @@ public class UIPlay extends AHadalActor {
 				bossHpDelayed = bossHpRatio;
 			}
 
-			GameStateManager.getBossGaugeGreyPatch().draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
+			BOSS_GAUGE_GREY_PATCH.draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
 					BOSS_BAR_WIDTH, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
-			GameStateManager.getBossGaugeCatchupPatch().draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
+			BOSS_GAUGE_CATCHUP_PATCH.draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
 					BOSS_BAR_WIDTH * bossHpDelayed, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
-			GameStateManager.getBossGaugeRedPatch().draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
+			BOSS_GAUGE_RED_PATCH.draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
 					BOSS_BAR_WIDTH * bossHpRatio, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
-			GameStateManager.getBossGaugePatch().draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
+			BOSS_GAUGE_PATCH.draw(batch, BOSS_X, BOSS_BAR_Y, 0, 0,
 					BOSS_BAR_WIDTH, BOSS_BAR_HEIGHT, BOSS_SCALE, BOSS_SCALE, 0);
 		}
 
@@ -209,7 +211,7 @@ public class UIPlay extends AHadalActor {
 		if (!ownPlayer.isAlive()) { return; }
 
 		//hide rest of ui if specified in settings. We don't want to hide boss ui.
-		if (state.getGsm().getSetting().isHideHUD()) { return; }
+		if (JSONManager.setting.isHideHUD()) { return; }
 				
 		//do not render in spectator mode
 		if (state.isSpectatorMode()) { return; }
@@ -230,20 +232,20 @@ public class UIPlay extends AHadalActor {
 			batch.draw(reloading, MAIN_X, MAIN_Y, getWidth(), getHeight());
 		}
 
-		HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
-		HadalGame.FONT_UI.draw(batch, ownPlayer.getEquipHelper().getCurrentTool().getName(),
+		FONT_UI.getData().setScale(FONT_SCALE_SMALL);
+		FONT_UI.draw(batch, ownPlayer.getEquipHelper().getCurrentTool().getName(),
 		MAIN_X + 48, MAIN_Y + 90, 100, -1, true);
 
 		//we want to use a smaller font for high clip size weapons
 		if (5 < weaponText.length()) {
-			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_MEDIUM);
+			FONT_UI.getData().setScale(FONT_SCALE_MEDIUM);
 		} else {
-			HadalGame.FONT_UI.getData().setScale(FONT_SCALE_LARGE);
+			FONT_UI.getData().setScale(FONT_SCALE_LARGE);
 		}
-		HadalGame.FONT_UI.draw(batch, weaponText, MAIN_X + 48, MAIN_Y + 40);
-		HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
-		HadalGame.FONT_UI.draw(batch, ammoText, MAIN_X + 48, MAIN_Y + 60);
-		HadalGame.FONT_UI.draw(batch, (int) (hpRatio * hpMax) + "/" + (int) hpMax, MAIN_X + 155, MAIN_Y + 66);
+		FONT_UI.draw(batch, weaponText, MAIN_X + 48, MAIN_Y + 40);
+		FONT_UI.getData().setScale(FONT_SCALE_SMALL);
+		FONT_UI.draw(batch, ammoText, MAIN_X + 48, MAIN_Y + 60);
+		FONT_UI.draw(batch, (int) (hpRatio * hpMax) + "/" + (int) hpMax, MAIN_X + 155, MAIN_Y + 66);
 		
 		for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
 			if (i < numWeaponSlots) {
@@ -261,7 +263,7 @@ public class UIPlay extends AHadalActor {
 		}
 
 		//draw active item ui and charge indicator
-		HadalGame.FONT_UI.draw(batch, ownPlayer.getMagicHelper().getMagic().getName(),
+		FONT_UI.draw(batch, ownPlayer.getMagicHelper().getMagic().getName(),
 				ACTIVE_X, MAIN_Y + activeHeightScaled + ACTIVE_TEXT_Y);
 		if (1.0f <= activePercent) {
 			batch.draw(hp, ACTIVE_X, ACTIVE_Y, activeWidthScaled, activeHeightScaled * activePercent);

@@ -14,13 +14,15 @@ import com.mygdx.hadal.bots.BotPersonality;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.NameGenerator;
 import com.mygdx.hadal.text.TooltipManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.User;
+
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * This mode setting sets the number of bots in the game
@@ -56,20 +58,20 @@ public class SettingBots extends ModeSetting {
             bots.setScale(UIHub.DETAILS_SCALE);
             TooltipManager.addTooltip(bots, UIText.SETTING_BOTS_NUMBER_DESC.text());
 
-            botNumberOptions = new SelectBox<>(GameStateManager.getSkin());
+            botNumberOptions = new SelectBox<>(SKIN);
             botNumberOptions.setItems(botNumberChoices);
             botNumberOptions.setWidth(UIHub.OPTIONS_WIDTH);
-            botNumberOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue));
+            botNumberOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag1, defaultValue));
 
 
             String[] botDifficultyChoices = UIText.SETTING_BOT_DIFFICULTY_OPTIONS.text().split(",");
             Text botDifficulty = new Text(UIText.SETTING_BOT_DIFFICULTY.text());
             botDifficulty.setScale(UIHub.DETAILS_SCALE);
 
-            botDifficultyOptions = new SelectBox<>(GameStateManager.getSkin());
+            botDifficultyOptions = new SelectBox<>(SKIN);
             botDifficultyOptions.setItems(botDifficultyChoices);
             botDifficultyOptions.setWidth(UIHub.OPTIONS_WIDTH);
-            botDifficultyOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue));
+            botDifficultyOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag2, defaultValue));
 
             //bot difficulty option is disabled with no bots
             botDifficultyOptions.setDisabled(botNumberOptions.getSelectedIndex() == 1);
@@ -91,8 +93,8 @@ public class SettingBots extends ModeSetting {
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
         if (botsChoice) {
-            state.getGsm().getSetting().setModeSetting(mode, settingTag1, botNumberOptions.getSelectedIndex());
-            state.getGsm().getSetting().setModeSetting(mode, settingTag2, botDifficultyOptions.getSelectedIndex());
+            JSONManager.setting.setModeSetting(mode, settingTag1, botNumberOptions.getSelectedIndex());
+            JSONManager.setting.setModeSetting(mode, settingTag2, botDifficultyOptions.getSelectedIndex());
         }
     }
 
@@ -106,8 +108,8 @@ public class SettingBots extends ModeSetting {
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
         if (!state.isServer()) { return; }
-        int botNumberIndex = botsChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag1, defaultValue) : lockedBots;
-        mode.setBotDifficulty(indexToBotDifficulty(state.getGsm().getSetting().getModeSetting(mode, settingTag2, defaultValue)));
+        int botNumberIndex = botsChoice ? JSONManager.setting.getModeSetting(mode, settingTag1, defaultValue) : lockedBots;
+        mode.setBotDifficulty(indexToBotDifficulty(JSONManager.setting.getModeSetting(mode, settingTag2, defaultValue)));
 
         Array<User> oldBots = new Array<>();
 

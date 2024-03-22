@@ -2,6 +2,7 @@ package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -78,12 +79,12 @@ public class UnlockManager {
 	 */
 	public static boolean checkUnlock(PlayState state, UnlockType type, String name) {
 		return switch (type) {
-			case ACTIVE -> state.getGsm().getRecord().getUnlockActive().get(name, false);
-			case ARTIFACT -> state.getGsm().getRecord().getUnlockArtifact().get(name, false);
-			case CHARACTER -> state.getGsm().getRecord().getUnlockCharacter().get(name, false);
-			case EQUIP -> state.getGsm().getRecord().getUnlockEquip().get(name, false);
-			case COSMETIC -> state.getGsm().getRecord().getUnlockCosmetic().get(name, false);
-			case LEVEL -> state.getGsm().getRecord().getUnlockLevel().get(name, false);
+			case ACTIVE -> JSONManager.record.getUnlockActive().get(name, false);
+			case ARTIFACT -> JSONManager.record.getUnlockArtifact().get(name, false);
+			case CHARACTER -> JSONManager.record.getUnlockCharacter().get(name, false);
+			case EQUIP -> JSONManager.record.getUnlockEquip().get(name, false);
+			case COSMETIC -> JSONManager.record.getUnlockCosmetic().get(name, false);
+			case LEVEL -> JSONManager.record.getUnlockLevel().get(name, false);
 		};
 	}
 	
@@ -94,35 +95,35 @@ public class UnlockManager {
 	public static void setUnlock(PlayState state, UnlockType type, String name, boolean unlock) {
 		switch (type) {
 		case ACTIVE:
-			state.getGsm().getRecord().getUnlockActive().put(name, unlock);
+			JSONManager.record.getUnlockActive().put(name, unlock);
 			if (unlock) {
 				state.getDialogBox().addDialogue("", UIText.UNLOCK_ACTIVE.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case ARTIFACT:
-			state.getGsm().getRecord().getUnlockArtifact().put(name, unlock);
+			JSONManager.record.getUnlockArtifact().put(name, unlock);
 			if (unlock) {
 				state.getDialogBox().addDialogue("", UIText.UNLOCK_ARTIFACT.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case CHARACTER:
-			state.getGsm().getRecord().getUnlockCharacter().put(name, unlock);
+			JSONManager.record.getUnlockCharacter().put(name, unlock);
 			if (unlock) {
 				state.getDialogBox().addDialogue("", UIText.UNLOCK_CHARACTER.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case EQUIP:
-			state.getGsm().getRecord().getUnlockEquip().put(name, unlock);
+			JSONManager.record.getUnlockEquip().put(name, unlock);
 			if (unlock) {
 				state.getDialogBox().addDialogue("", UIText.UNLOCK_WEAPON.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case LEVEL:
-			state.getGsm().getRecord().getUnlockLevel().put(name, unlock);
+			JSONManager.record.getUnlockLevel().put(name, unlock);
 			if (unlock) {
 				state.getDialogBox().addDialogue("", UIText.UNLOCK_LEVEL.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
@@ -130,7 +131,7 @@ public class UnlockManager {
 			break;
 		default:
 		}
-		state.getGsm().getRecord().saveRecord();
+		JSONManager.record.saveRecord();
 	}
 	
 	public enum UnlockTag {

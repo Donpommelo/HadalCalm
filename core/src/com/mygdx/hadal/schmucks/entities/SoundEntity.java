@@ -80,7 +80,7 @@ public class SoundEntity extends HadalEntity {
 			}
 		} else {
 			//otherwise, we just get the sound id and pause it.
-			this.soundID = sound.play(state.getGsm(), volume, pitch, false);
+			this.soundID = sound.play(volume, pitch, false);
 			sound.getSound().pause(soundID);
 		}
 		

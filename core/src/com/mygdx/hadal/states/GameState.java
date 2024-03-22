@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * A GameState is any state of the game like a menu or the game screen. The game will keep track of each GameState is currently active
@@ -13,7 +12,6 @@ import com.mygdx.hadal.managers.GameStateManager;
  */
 public abstract class GameState {
 
-	protected final GameStateManager gsm;
 	protected final HadalGame app;
 	protected final SpriteBatch batch;
 	protected final OrthographicCamera camera, hud;
@@ -21,11 +19,9 @@ public abstract class GameState {
 	
 	/**
 	 * This constructor is run when the player switches GameState to a new State.
-	 * @param gsm: Reference to GameStateManager.
 	 */
-	public GameState(GameStateManager gsm) {
-		this.gsm = gsm;
-		this.app = gsm.getApp();
+	public GameState(HadalGame app) {
+		this.app = app;
 		this.batch = app.getBatch();
 		this.camera = app.getCamera();
 		this.hud = app.getHud();		
@@ -58,7 +54,7 @@ public abstract class GameState {
 	 */
 	public void resize() {}
 	
-	public GameStateManager getGsm() {return gsm; }
+	public HadalGame getApp() {return app; }
 
 	public Stage getStage() { return stage; }
 	

@@ -10,7 +10,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.MoveState;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
@@ -22,6 +21,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 import static com.mygdx.hadal.constants.Constants.*;
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * The Kill Feed is located in the upper right corner of the screen and tracks the kill messages created when players die.
@@ -160,7 +160,7 @@ public class KillFeed {
      * @param tags: damage tags of the killing instance of damage
      */
     public void addMessage(Player perp, Player vic, EnemyType type, DamageSource source, DamageTag... tags) {
-        KillFeedMessage message = new KillFeedMessage(ps, perp, vic, type, source, tags);
+        KillFeedMessage message = new KillFeedMessage(perp, vic, type, source, tags);
         messages.add(message);
         feed.addActor(message);
 
@@ -254,7 +254,7 @@ public class KillFeed {
         killerPortrait = new TableWindow();
         killerPortrait.setSize(KILLER_WIDTH, KILLER_HEIGHT);
 
-        portrait = new ScrollPane(killerPortrait, GameStateManager.getSkin());
+        portrait = new ScrollPane(killerPortrait, SKIN);
         portrait.setFadeScrollBars(true);
         portrait.setScrollingDisabled(true, true);
     }

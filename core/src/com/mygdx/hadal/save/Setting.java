@@ -10,14 +10,15 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.HashMap;
 
-import static com.mygdx.hadal.managers.GameStateManager.JSON;
-import static com.mygdx.hadal.managers.GameStateManager.READER;
+import static com.mygdx.hadal.managers.JSONManager.JSON;
+import static com.mygdx.hadal.managers.JSONManager.READER;
 
 /**
  * A Setting contains all saved game settings.
@@ -150,7 +151,7 @@ public class Setting {
 	}
 
 	public void setAudio() {
-		HadalGame.musicPlayer.setVolume(musicVolume * masterVolume);
+		MusicPlayer.setVolume(musicVolume * masterVolume);
 	}
 
 	/**

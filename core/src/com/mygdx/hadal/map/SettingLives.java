@@ -7,7 +7,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
@@ -15,6 +15,7 @@ import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.Transition;
 import com.mygdx.hadal.users.User;
 
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
 
 /**
@@ -44,10 +45,10 @@ public class SettingLives extends ModeSetting {
             Text lives = new Text(UIText.SETTING_LIVES.text());
             lives.setScale(UIHub.DETAILS_SCALE);
 
-            livesOptions = new SelectBox<>(GameStateManager.getSkin());
+            livesOptions = new SelectBox<>(SKIN);
             livesOptions.setItems(livesChoices);
             livesOptions.setWidth(UIHub.OPTIONS_WIDTH);
-            livesOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+            livesOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
 
             table.add(lives);
             table.add(livesOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -57,19 +58,19 @@ public class SettingLives extends ModeSetting {
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
         if (livesChoice) {
-            state.getGsm().getSetting().setModeSetting(mode, settingTag, livesOptions.getSelectedIndex());
+            JSONManager.setting.setModeSetting(mode, settingTag, livesOptions.getSelectedIndex());
         }
     }
 
     @Override
     public String loadUIStart(PlayState state, GameMode mode) {
-        int startLives = livesChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedLives;
+        int startLives = livesChoice ? JSONManager.setting.getModeSetting(mode, settingTag, defaultValue) : lockedLives;
         return startLives != 0 ? "LIVES" : "";
     }
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
-        int startLives = livesChoice ? state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) : lockedLives;
+        int startLives = livesChoice ? JSONManager.setting.getModeSetting(mode, settingTag, defaultValue) : lockedLives;
         if (startLives != 0) {
             for (User user : HadalGame.usm.getUsers().values()) {
                 user.getScoreManager().setLives(startLives);

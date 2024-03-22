@@ -4,10 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
+import com.mygdx.hadal.text.UIText;
+
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * This mode setting is used for modes where the host can designate a score cap
@@ -30,10 +32,10 @@ public class SettingTeamScoreCap extends ModeSetting {
         scorecap.setScale(UIHub.DETAILS_SCALE);
         TooltipManager.addTooltip(scorecap, UIText.SETTING_SCORECAP_TEAM_DESC.text());
 
-        scoreCapOptions = new SelectBox<>(GameStateManager.getSkin());
+        scoreCapOptions = new SelectBox<>(SKIN);
         scoreCapOptions.setItems(scoreCapChoices);
         scoreCapOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        scoreCapOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        scoreCapOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
 
         table.add(scorecap);
         table.add(scoreCapOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -41,12 +43,12 @@ public class SettingTeamScoreCap extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        state.getGsm().getSetting().setModeSetting(mode, settingTag, scoreCapOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, settingTag, scoreCapOptions.getSelectedIndex());
     }
 
     @Override
     public String loadUIStart(PlayState state, GameMode mode) {
-        int startScoreCap = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+        int startScoreCap = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
         if (startScoreCap != 0) {
             return UIText.SETTING_SCORECAP_UI.text(Integer.toString(startScoreCap));
         }
@@ -55,7 +57,7 @@ public class SettingTeamScoreCap extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        teamScoreCap = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+        teamScoreCap = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.ModeGunGame;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -20,6 +21,7 @@ import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_SHORT;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_SUPER_SHORT;
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
 /**
  * The UIExtra is an extra ui actor displayed in the upper left hand side.
@@ -58,10 +60,10 @@ public class UIExtra extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 
-		if (state.getGsm().getSetting().isHideHUD()) { return; }
+		if (JSONManager.setting.isHideHUD()) { return; }
 
-		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
-		HadalGame.FONT_UI.draw(batch, text.toString(), X, HadalGame.CONFIG_HEIGHT - Y, WIDTH, Align.left, true);
+		FONT_UI.getData().setScale(FONT_SCALE);
+		FONT_UI.draw(batch, text.toString(), X, HadalGame.CONFIG_HEIGHT - Y, WIDTH, Align.left, true);
 
 		renderTeamHp(batch, viewingUserTeam);
 	}
@@ -89,7 +91,7 @@ public class UIExtra extends AHadalActor {
 			if (!user.isSpectator() && null != user.getPlayer()) {
 				if (null != user.getPlayer().getPlayerData() && !user.equals(HadalGame.usm.getOwnUser())) {
 					if (user.getPlayer().getHitboxFilter() == viewingUserTeam) {
-						HadalGame.FONT_UI.draw(batch, TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SHORT),
+						FONT_UI.draw(batch, TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SHORT),
 								HadalGame.CONFIG_WIDTH - NAME_MAX_LENGTH - HP_WIDTH - START_X_EXTRA, currentY, NAME_MAX_LENGTH,
 								Align.left, true);
 
@@ -146,7 +148,7 @@ public class UIExtra extends AHadalActor {
 			}
 		}
 
-		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
+		FONT_UI.getData().setScale(FONT_SCALE);
 	}
 
 	/**

@@ -4,7 +4,8 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -185,7 +186,7 @@ public class LoadoutArtifactHelper {
     public void saveArtifacts() {
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
             for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-                player.getState().getGsm().getLoadout().setArtifact(HadalGame.usm.getOwnUser(), i, getActiveLoadout().artifacts[i].toString());
+                JSONManager.loadout.setArtifact(HadalGame.usm.getOwnUser(), i, getActiveLoadout().artifacts[i].toString());
             }
         }
     }
@@ -195,13 +196,13 @@ public class LoadoutArtifactHelper {
      * The extra if/else is there b/c artifact slots are checked by the client when they use the reliquary hub event.
      */
     public int getNumArtifactSlots() {
-        if (GameStateManager.currentMode == GameStateManager.Mode.SINGLE) {
-            return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
+        if (StateManager.currentMode == StateManager.Mode.SINGLE) {
+            return Math.min((int) (JSONManager.record.getSlotsUnlocked() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
         } else {
             if (player.getState().isServer()) {
-                return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
+                return Math.min((int) (JSONManager.setting.getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
             } else {
-                return Math.min((int) (player.getState().getGsm().getHostSetting().getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
+                return Math.min((int) (JSONManager.hostSetting.getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
             }
         }
     }

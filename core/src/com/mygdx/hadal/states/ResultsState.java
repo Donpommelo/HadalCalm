@@ -24,12 +24,15 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.FadeManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -42,6 +45,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.constants.Constants.*;
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * The Results screen appears at the end of levels and displays the player's results
@@ -141,8 +145,8 @@ public class ResultsState extends GameState {
 	 * Constructor will be called whenever the game transitions into a results state
 	 * @param text: this is the string that is displayed at the top of the result state
 	 */
-	public ResultsState(final GameStateManager gsm, String text, PlayState ps, FrameBuffer fbo) {
-		super(gsm);
+	public ResultsState(HadalGame app, String text, PlayState ps, FrameBuffer fbo) {
+		super(app);
 		this.text = text;
 		this.ps = ps;
 		this.fbo = fbo;
@@ -161,7 +165,7 @@ public class ResultsState extends GameState {
 		}
 
 		if (!users.isEmpty()) {
-			gsm.getRecord().updateScore(users.get(0).getScoreManager().getScore(), ps.level);
+			JSONManager.record.updateScore(users.get(0).getScoreManager().getScore(), ps.level);
 		}
 
 		//Then, we sort according to score and give the winner(s) a win. Being on the winning team overrides score
@@ -202,7 +206,7 @@ public class ResultsState extends GameState {
 				tableInfo = new Table();
 				tableArtifact = new Table();
 
-				infoScroll = new ScrollPane(tableInfo, GameStateManager.getSkin());
+				infoScroll = new ScrollPane(tableInfo, SKIN);
 				infoScroll.setFadeScrollBars(false);
 
 				infoScroll.addListener(new InputListener() {
@@ -255,8 +259,8 @@ public class ResultsState extends GameState {
 					});
 					forceReadyOption.setScale(SCALE);
 
-					returnToHub = new CheckBox(UIText.RETURN_HUB.text(), GameStateManager.getSkin());
-					returnToHub.setChecked(ps.getGsm().getSetting().isReturnToHubOnReady());
+					returnToHub = new CheckBox(UIText.RETURN_HUB.text(), SKIN);
+					returnToHub.setChecked(JSONManager.setting.isReturnToHubOnReady());
 
 					Array<String> compliantMaps = new Array<>();
 					Array<UnlockManager.UnlockTag> unlockTags = new Array<>();
@@ -271,7 +275,7 @@ public class ResultsState extends GameState {
 						}
 					}
 
-					nextMapNames = new SelectBox<>(GameStateManager.getSkin());
+					nextMapNames = new SelectBox<>(SKIN);
 					nextMapNames.setItems(compliantMaps);
 					nextMapNames.setWidth(INFO_WIDTH);
 					nextMapNames.setDisabled(returnToHub.isChecked());
@@ -286,7 +290,7 @@ public class ResultsState extends GameState {
 						@Override
 						public void changed(ChangeEvent event, Actor actor) {
 							nextMapNames.setDisabled(returnToHub.isChecked());
-							ps.getGsm().getSetting().setReturnToHubOnReady(returnToHub.isChecked());
+							JSONManager.setting.setReturnToHubOnReady(returnToHub.isChecked());
 						}
 					});
 
@@ -310,12 +314,12 @@ public class ResultsState extends GameState {
 		}
 
 		//we start off playing no music. Results music only starts after playstate transition fade occurs
-		HadalGame.musicPlayer.playSong(MusicTrackType.NOTHING, 1.0f);
+		MusicPlayer.playSong(MusicTrackType.NOTHING, 1.0f);
 
 		ps.getMessageWindow().setLocked(true);
 		ps.getMessageWindow().table.setPosition(MESSAGE_X, MESSAGE_Y);
 		stage.addActor(ps.getMessageWindow().table);
-		HadalGame.fadeManager.fadeIn();
+		FadeManager.fadeIn();
 		app.newMenu(stage);
 
 		//this makes the info window start off visible with the player's own post-game stats
@@ -340,9 +344,9 @@ public class ResultsState extends GameState {
 					if (!songPlaying) {
 						songPlaying = true;
 						if (won) {
-							HadalGame.musicPlayer.playSong(MusicTrackType.VICTORY, 1.0f);
+							MusicPlayer.playSong(MusicTrackType.VICTORY, 1.0f);
 						} else {
-							HadalGame.musicPlayer.playSong(MusicTrackType.GAME_OVER, 1.0f);
+							MusicPlayer.playSong(MusicTrackType.GAME_OVER, 1.0f);
 						}
 					}
 				}
@@ -382,7 +386,7 @@ public class ResultsState extends GameState {
 		table.clear();
 
 		final Table tableCharacters = new Table();
-		charactersScroll = new ScrollPane(tableCharacters, GameStateManager.getSkin());
+		charactersScroll = new ScrollPane(tableCharacters, SKIN);
 		charactersScroll.setFadeScrollBars(false);
 
 		charactersScroll.addListener(new InputListener() {
@@ -580,19 +584,19 @@ public class ResultsState extends GameState {
 	 */
 	public void allReady() {
 		if (ps.isServer()) {
-			HadalGame.fadeManager.setRunAfterTransition(() -> {
-				gsm.removeState(ResultsState.class, false);
+			FadeManager.setRunAfterTransition(() -> {
+				StateManager.removeState(ResultsState.class, false);
 				if (returnToHub.isChecked()) {
-					gsm.gotoHubState(LobbyState.class);
-					gsm.gotoHubState(TitleState.class);
+					StateManager.gotoHubState(app, LobbyState.class);
+					StateManager.gotoHubState(app, TitleState.class);
 				} else {
 					UnlockLevel nextLevel = nextMaps.get(nextMapNames.getSelectedIndex());
-					gsm.addPlayState(nextLevel, ps.mode, LobbyState.class, true, "");
-					gsm.addPlayState(nextLevel, ps.mode, TitleState.class, true, "");
+					StateManager.addPlayState(app, nextLevel, ps.mode, LobbyState.class, true, "");
+					StateManager.addPlayState(app, nextLevel, ps.mode, TitleState.class, true, "");
 				}
 			});
 		}
-		HadalGame.fadeManager.fadeOut();
+		FadeManager.fadeOut();
 	}
 
 	private static final float PARTICLE_COOLDOWN = 1.5f;

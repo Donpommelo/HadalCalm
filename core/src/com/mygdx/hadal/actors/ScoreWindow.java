@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.users.ScoreManager;
@@ -193,11 +194,11 @@ public class ScoreWindow {
 		serverSizeField.setScale(SETTINGS_SCALE);
 
 		//obtain settings. (host settings for clients)
-		SharedSetting used = state.getGsm().getSharedSetting();
+		SharedSetting used = JSONManager.sharedSetting;
 		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncSharedSettings(state.getGsm().getSharedSetting()));
+			HadalGame.server.sendToAllTCP(new Packets.SyncSharedSettings(JSONManager.sharedSetting));
 		} else {
-			used = state.getGsm().getHostSetting();
+			used = JSONManager.hostSetting;
 		}
 
 		Text slots = new Text(SettingState.ARTIFACT_CHOICES[used.getArtifactSlots()]);

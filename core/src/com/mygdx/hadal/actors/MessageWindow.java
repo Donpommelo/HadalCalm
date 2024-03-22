@@ -19,17 +19,19 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
 import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_MESSAGE_LENGTH;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_LONG;
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI_ALT;
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).
@@ -106,7 +108,7 @@ public class MessageWindow {
 
 				//don't draw window if it has been inactive too long or if hud is hidden
 				if (invisible) { return; }
-				if (state.getGsm().getSetting().isHideHUD()) { return; }
+				if (JSONManager.setting.isHideHUD()) { return; }
 
 				//inactive message windows are drawn with reduced alpha
 				if (!active) {
@@ -167,7 +169,7 @@ public class MessageWindow {
 			}
 			fadeIn();
 		}
-		SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
+		SoundEffect.UISWITCH2.play(1.0f, false);
 		enterMessage.setText("");
 	}
 	
@@ -183,7 +185,7 @@ public class MessageWindow {
 
 					//if this is a console commend, execute it. (if it is used by host and console is enabled)
 					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText())) {
-						if (state.getGsm().getSetting().isConsoleEnabled()) {
+						if (JSONManager.setting.isConsoleEnabled()) {
 							if (-1 == ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText())) {
 								HadalGame.server.addChatToAll(state, enterMessage.getText(), DialogType.DIALOG, 0);
 							}
@@ -217,10 +219,10 @@ public class MessageWindow {
 
 		tableLog.padBottom(LOG_PAD);
 
-		textLog = new ScrollPane(tableLog, GameStateManager.getSkin());
+		textLog = new ScrollPane(tableLog, SKIN);
 		textLog.setFadeScrollBars(true);
 
-		enterMessage = new TextField("", GameStateManager.getSkin()) {
+		enterMessage = new TextField("", SKIN) {
 
 			//this is used to indicate if the player is typing
 			private boolean typing;
@@ -373,7 +375,7 @@ public class MessageWindow {
 	private void addTextLine(String text) {
 		Text newEntry = new Text(text).setWrap(SCROLL_WIDTH - SCROLL_PAD);
 		newEntry.setScale(LOG_SCALE);
-		newEntry.setFont(HadalGame.FONT_UI_ALT);
+		newEntry.setFont(FONT_UI_ALT);
 
 		tableLog.add(newEntry).pad(LOG_PAD, 0, LOG_PAD, SCROLL_PAD).width(SCROLL_WIDTH - SCROLL_PAD).left().row();
 		textLog.scrollTo(0, 0, 0, 0);

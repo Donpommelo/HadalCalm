@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.modifiers.ModeModifier;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -76,7 +77,7 @@ public class SetModifiers extends ModeSetting {
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         for (ModeModifier modifier : modifiers) {
-            if (state.getGsm().getSetting().getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
+            if (JSONManager.setting.getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
                 modifier.processNewPlayerLoadout(state, mode, newLoadout, connID);
             }
         }
@@ -85,7 +86,7 @@ public class SetModifiers extends ModeSetting {
     @Override
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
         for (ModeModifier modifier : modifiers) {
-            if (state.getGsm().getSetting().getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
+            if (JSONManager.setting.getModeSetting(mode, modifier.getSettingTag(), 0) == 1) {
                 modifier.modifyNewPlayer(state, mode, newLoadout, p, hitboxFilter);
             }
         }

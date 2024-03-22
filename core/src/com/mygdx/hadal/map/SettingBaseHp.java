@@ -5,10 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * This mode setting is used for modes where the player can set their base Hp
@@ -29,10 +31,10 @@ public class SettingBaseHp extends ModeSetting {
         Text hp = new Text(UIText.SETTING_BASE_HP.text());
         hp.setScale(UIHub.DETAILS_SCALE);
 
-        hpOptions = new SelectBox<>(GameStateManager.getSkin());
+        hpOptions = new SelectBox<>(SKIN);
         hpOptions.setItems(hpChoices);
         hpOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        hpOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        hpOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
 
         table.add(hp);
         table.add(hpOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -40,12 +42,12 @@ public class SettingBaseHp extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        state.getGsm().getSetting().setModeSetting(mode, settingTag, hpOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, settingTag, hpOptions.getSelectedIndex());
     }
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        baseHpIndex = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+        baseHpIndex = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
     }
 
     @Override

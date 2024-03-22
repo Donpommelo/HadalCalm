@@ -4,18 +4,18 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.StateManager.State;
+import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.SkinManager;
 import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.UPNPUtil;
@@ -38,8 +38,6 @@ public class HadalGame extends ApplicationAdapter {
 	//version url takes player to patch notes page when version is clicked in title screen
 	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/692033/109d";
 
-	public static final Color DEFAULT_TEXT_COLOR = Color.WHITE;
-
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
 	public static FitViewport viewportCamera, viewportUI;
@@ -47,17 +45,9 @@ public class HadalGame extends ApplicationAdapter {
 	//This is the batch used to render stuff
 	private SpriteBatch batch;
 
-	//This is the Gamestate Manager. It manages the current stack of game states.
-	private GameStateManager gsm;
-
 	//Assetmanager loads the assets of the game.
     public static AssetManager assetManager;
     
-    //musicPlayer manages the background music of the game.
-    public static MusicPlayer musicPlayer;
-
-	public static FadeManager fadeManager;
-
     //Client and server for networking are static fields in the main game
     public static KryoClient client;
     public static KryoServer server;
@@ -67,10 +57,6 @@ public class HadalGame extends ApplicationAdapter {
 
     //socket is used to connect to matchmaking server
 	public static Socket socket;
-
-	//FONT_UI is used for most ui, FONT_UI_ALT is used for things like message window and kill messages
-	//FONT_SPRITE labels sprites in the world. Its scale is always 1.0f and should be considered placeholder
-	public static BitmapFont FONT_UI, FONT_UI_SKIN, FONT_UI_ALT, FONT_SPRITE;
 
 	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
@@ -89,24 +75,19 @@ public class HadalGame extends ApplicationAdapter {
 	    viewportUI = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, hud);
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
-
 	    usm = new UserManager();
 
-		gsm = new GameStateManager(this);
-		gsm.addState(State.SPLASH, null);
+		StateManager.addState(this, State.SPLASH, null);
 
-		fadeManager = new FadeManager(this, gsm);
-
+		JSONManager.initJSON(this);
 		//enable upnp for both tcp and udp
-		if (gsm.getSetting().isEnableUPNP()) {
-			UPNPUtil.upnp("TCP", "hadal-upnp-tcp", gsm.getSetting().getPortNumber());
-			UPNPUtil.upnp("UDP", "hadal-upnp-udp", gsm.getSetting().getPortNumber());
+		if (JSONManager.setting.isEnableUPNP()) {
+			UPNPUtil.upnp("TCP", "hadal-upnp-tcp", JSONManager.setting.getPortNumber());
+			UPNPUtil.upnp("UDP", "hadal-upnp-udp", JSONManager.setting.getPortNumber());
 		}
 
-		client = new KryoClient(gsm, usm);
-		server = new KryoServer(gsm, usm);
-		
-	    musicPlayer = new MusicPlayer(gsm);
+		client = new KryoClient(this, usm);
+		server = new KryoServer(this, usm);
 	}
 	
 	/**
@@ -119,24 +100,24 @@ public class HadalGame extends ApplicationAdapter {
 		float delta = Gdx.graphics.getDeltaTime();
 		
 		//update the state, update the ui, render the state, then render the ui.
-		gsm.update(delta);
+		StateManager.update(delta);
 		currentMenu.act(delta);
 
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		viewportCamera.apply();
-		gsm.render(delta);
+		StateManager.render(delta);
 		
 		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		currentMenu.draw();
 
 		//manage fade state transitions
-		fadeManager.render(batch, delta);
+		FadeManager.render(this, batch, delta);
 
 		//music player controller is used for fading tracks
-		musicPlayer.controller(delta);
+		MusicPlayer.controller(delta);
 	}
 	
 	/**
@@ -146,9 +127,7 @@ public class HadalGame extends ApplicationAdapter {
 	public void resize(int width, int height) {
 		viewportCamera.update(width, height, true);
 		viewportUI.update(width, height, true);
-		if (null != gsm) {
-			gsm.resize();
-		}
+		StateManager.resize();
 	}
 	
 	/**
@@ -167,21 +146,12 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void dispose() {
-		gsm.dispose();
+		StateManager.dispose();
 		batch.dispose();
 		assetManager.dispose();
-		musicPlayer.dispose();
-		fadeManager.dispose();
-
-		if (null != FONT_UI) {
-			FONT_UI.dispose();
-		}
-		if (null != FONT_UI_ALT) {
-			FONT_UI_ALT.dispose();
-		}
-		if (null != FONT_SPRITE) {
-			FONT_SPRITE.dispose();
-		}
+		FadeManager.dispose();
+		SkinManager.dispose();
+		MusicPlayer.dispose();
 	}
 
 	/**

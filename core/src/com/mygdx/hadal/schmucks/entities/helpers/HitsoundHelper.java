@@ -4,7 +4,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.PlayState;
 
 /**
  * HitsoundHelper is responsible for playing hitsounds when the player inflicts damage
@@ -13,14 +12,12 @@ public class HitsoundHelper {
 
     private static final float HIT_SOUND_CD = 0.15f;
 
-    private final PlayState state;
     private final Player player;
 
     //Large instances of damage play a pitched up hitsound and have a separate cooldown
     private float hitSoundCdCount, hitSoundLargeCdCount;
 
-    public HitsoundHelper(PlayState state, Player player) {
-        this.state = state;
+    public HitsoundHelper(Player player) {
         this.player = player;
     }
 
@@ -51,12 +48,12 @@ public class HitsoundHelper {
                 if (hitSoundLargeCdCount < 0) {
                     hitSoundLargeCdCount = HIT_SOUND_CD;
                     hitSoundCdCount = HIT_SOUND_CD;
-                    SoundEffect.playHitSound(state.getGsm(), true);
+                    SoundEffect.playHitSound(true);
                 }
             } else {
                 if (hitSoundCdCount < 0) {
                     hitSoundCdCount = HIT_SOUND_CD;
-                    SoundEffect.playHitSound(state.getGsm(), false);
+                    SoundEffect.playHitSound(false);
                 }
             }
         }

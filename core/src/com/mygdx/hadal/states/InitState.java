@@ -1,14 +1,15 @@
 package com.mygdx.hadal.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Collections;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.LoadingBackdrop;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.managers.FadeManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.StateManager.State;
+import com.mygdx.hadal.managers.SkinManager;
 
 /**
  * This is the very first called state of the game. This is pretty much a loading screen where the AssetManager is loaded.
@@ -22,8 +23,8 @@ public class InitState extends GameState {
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 */
-	public InitState(final GameStateManager gsm) {
-		super(gsm);
+	public InitState(HadalGame app) {
+		super(app);
 	}
 	
 	@Override
@@ -43,17 +44,6 @@ public class InitState extends GameState {
 	 * This is where we load all of the assets of the game. Done upon this state being shown.
 	 */
 	private void loadAssets() {		
-		HadalGame.FONT_UI = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
-		HadalGame.FONT_UI.getData().markupEnabled = true;
-		HadalGame.FONT_UI_SKIN = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
-		HadalGame.FONT_UI_SKIN.getData().markupEnabled = true;
-		HadalGame.FONT_UI_ALT = new BitmapFont(Gdx.files.internal(AssetList.VERDANA_FONT.toString()), false);
-		HadalGame.FONT_UI_ALT.getData().markupEnabled = true;
-		HadalGame.FONT_SPRITE = new BitmapFont();
-
-		HadalGame.FONT_UI.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-		HadalGame.FONT_SPRITE.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-		
 		for (AssetList asset : AssetList.values()) {
             if (asset.getType() != null) {
             	HadalGame.assetManager.load(asset.toString(), asset.getType());
@@ -68,10 +58,16 @@ public class InitState extends GameState {
 		if (HadalGame.assetManager.update(17)) {
 			
 			//If we are done loading, go to title state and set up gsm assets (static atlases and stuff like that)
-			gsm.loadAssets();
-			gsm.addState(State.TITLE, this);
-			HadalGame.fadeManager.setFadeLevel(1.0f);
-			HadalGame.fadeManager.fadeIn();
+			SkinManager.loadAssets();
+			StateManager.addState(app, State.TITLE, this);
+			FadeManager.setFadeLevel(1.0f);
+			FadeManager.fadeIn();
+
+			//this lets us not declare every attribute of shaders.
+			ShaderProgram.pedantic = false;
+
+			//this is necessary to prevent nested iterations from causing errors
+			Collections.allocateIterators = true;
 		}
 	}
 

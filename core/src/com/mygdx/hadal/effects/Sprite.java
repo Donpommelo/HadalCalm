@@ -423,6 +423,7 @@ public enum Sprite {
 			case TORPEDOFISH -> HadalGame.assetManager.get(AssetList.TORPEDOFISH_ATL.toString());
 			case BOMBFISH -> HadalGame.assetManager.get(AssetList.BOMBFISH_ATL.toString());
 			case SNIPERFISH -> HadalGame.assetManager.get(AssetList.SNIPERFISH_ATL.toString());
+			case SNIPER_RETICLE -> HadalGame.assetManager.get(AssetList.SNIPER_RETICLE_ATL.toString());
 			default -> null;
 		};
 	}
@@ -457,6 +458,7 @@ public enum Sprite {
 		SPITTLEFISH,
 		TORPEDOFISH,
 		BOMBFISH,
-		SNIPERFISH
+		SNIPERFISH,
+		SNIPER_RETICLE
 	}
 }

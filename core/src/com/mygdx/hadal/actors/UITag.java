@@ -1,5 +1,6 @@
 package com.mygdx.hadal.actors;
 
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -56,7 +57,7 @@ public class UITag {
 
 			switch (type) {
 				case SCRAP:
-					text.append(UIText.UI_SCRAP.text(Integer.toString(state.getGsm().getRecord().getScrap())));
+					text.append(UIText.UI_SCRAP.text(Integer.toString(JSONManager.record.getScrap())));
 					break;
 				case LIVES:
 					text.append(UIText.UI_LIVES.text(Integer.toString(user.getScoreManager().getLives())));
@@ -65,8 +66,8 @@ public class UITag {
 					text.append(UIText.SCORE.text(Integer.toString(user.getScoreManager().getScore())));
 					break;
 				case HISCORE:
-					if (state.getGsm().getRecord().getHiScores().containsKey(state.getLevel().toString())) {
-						text.append(UIText.UI_HISCORE.text(Integer.toString(state.getGsm().getRecord().getHiScores()
+					if (JSONManager.record.getHiScores().containsKey(state.getLevel().toString())) {
+						text.append(UIText.UI_HISCORE.text(Integer.toString(JSONManager.record.getHiScores()
 								.get(state.getLevel().toString()))));
 					}
 					break;

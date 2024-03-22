@@ -10,6 +10,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -30,7 +31,7 @@ public class Outfitter extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 
-		for (ObjectMap.Entry<String, SavedLoadout> c : state.getGsm().getSavedOutfits().getOutfits()) {
+		for (ObjectMap.Entry<String, SavedLoadout> c : JSONManager.outfits.getOutfits()) {
 			final SavedLoadout selected = c.value;
 			Text itemChoose = new Text(c.key).setButton(true);
 
@@ -46,7 +47,7 @@ public class Outfitter extends HubEvent {
 					//selecting outfit equips its weapons/artifacts/active item
 					if (state.isServer()) {
 						ownPlayer.getLoadoutHelper().syncLoadout(new Loadout(selected), false, false);
-						state.getGsm().getLoadout().setLoadout(HadalGame.usm.getOwnUser(), selected);
+						JSONManager.loadout.setLoadout(HadalGame.usm.getOwnUser(), selected);
 						ownPlayer.getLoadoutHelper().syncServerWholeLoadoutChange();
 					} else {
 						HadalGame.client.sendTCP(new PacketsLoadout.SyncWholeLoadout(ownPlayer.getUser().getConnID(), new Loadout(selected), false));

@@ -9,6 +9,7 @@ import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -83,7 +84,7 @@ public class Armory extends HubEvent {
 						}
 
 						ownPlayer.getEquipHelper().pickup(UnlocktoItem.getUnlock(selected, ownPlayer));
-						state.getGsm().getLoadout().setEquips(HadalGame.usm.getOwnUser(), slotToReplace, selected.toString());
+						JSONManager.loadout.setEquips(HadalGame.usm.getOwnUser(), slotToReplace, selected.toString());
 					}
 
 					@Override

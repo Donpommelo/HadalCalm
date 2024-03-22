@@ -8,9 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
+
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
+import static com.mygdx.hadal.managers.SkinManager.SIMPLE_PATCH;
 
 /**
  * An Artifact icon is a ui element that corresponds to a single artifact in the reliquary hub event.
@@ -45,9 +46,9 @@ public class ArtifactIcon extends AHadalActor {
 		
 		this.icon = artifact.getFrame();
 
-		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
+		FONT_UI.getData().setScale(FONT_SCALE);
 		layout = new GlyphLayout();
-		layout.setText(HadalGame.FONT_UI, text, COLOR, targetWidth, Align.left, true);
+		layout.setText(FONT_UI, text, COLOR, targetWidth, Align.left, true);
 
 		addListener(new ClickListener() {
 			
@@ -71,11 +72,11 @@ public class ArtifactIcon extends AHadalActor {
 
 		//this displays artifact short description when this actor is moused over
 		if (mouseOver) {
-		 GameStateManager.getSimplePatch().draw(batch, getX() - ICON_PAD / 2 + textOffsetX,
+		 SIMPLE_PATCH.draw(batch, getX() - ICON_PAD / 2 + textOffsetX,
 				 getY() - ICON_PAD / 2 + textOffsetY, layout.width + ICON_PAD, layout.height + ICON_PAD);
-		 HadalGame.FONT_UI.setColor(COLOR);
-		 HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
-		 HadalGame.FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height,
+		 FONT_UI.setColor(COLOR);
+		 FONT_UI.getData().setScale(FONT_SCALE);
+		 FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height,
 				 targetWidth, Align.left, true);
 		}
     }

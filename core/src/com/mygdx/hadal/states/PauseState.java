@@ -14,9 +14,10 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.Mode;
-import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.StateManager.Mode;
+import com.mygdx.hadal.managers.StateManager.State;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
@@ -62,8 +63,8 @@ public class PauseState extends GameState {
 	/**
 	 * Constructor will be called whenever a player pauses.
 	 */
-	public PauseState(final GameStateManager gsm, PlayState ps, String pauser, boolean paused) {
-		super(gsm);
+	public PauseState(HadalGame app, PlayState ps, String pauser, boolean paused) {
+		super(app);
 		this.ps = ps;
 		this.pauser = pauser;
 		this.paused = paused;
@@ -73,7 +74,7 @@ public class PauseState extends GameState {
 			HadalGame.server.sendToAllTCP(new Packets.Paused(pauser));
 		}
 		
-		SoundEffect.POSITIVE.play(gsm, 1.0f, false);
+		SoundEffect.POSITIVE.play(1.0f, false);
 	}
 
 	@Override
@@ -92,12 +93,12 @@ public class PauseState extends GameState {
 				float menuHeight = HEIGHT;
 				
 				//extra "return to hub" option is added if the hub has been reached or if the player is in multiplayer mode.
-				if (ps.isServer() && (1 == gsm.getRecord().getFlags().get("HUB_REACHED") || GameStateManager.currentMode == Mode.MULTI)) {
+				if (ps.isServer() && (1 == JSONManager.record.getFlags().get("HUB_REACHED") || StateManager.currentMode == Mode.MULTI)) {
 					menuHeight += EXTRA_ROW_HEIGHT;
 				}
 				
 				//extra "spectate" option is added if the player is in multiplayer mode.
-				if (ps.getMode().isHub() && GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.getMode().isHub() && StateManager.currentMode == Mode.MULTI) {
 					menuHeight += EXTRA_ROW_HEIGHT;
 				}
 				
@@ -133,20 +134,20 @@ public class PauseState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(PauseState.class);
+			        	StateManager.removeState(PauseState.class);
 			        	
 			        	if (ps.isServer()) {
 			        		//If the server unpauses, send a message and notification to all players to unpause.
 			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
 			        		
-			        		if (GameStateManager.currentMode == Mode.SINGLE) {
+			        		if (StateManager.currentMode == Mode.SINGLE) {
 				        		ps.loadLevel(UnlockLevel.SSTUNICATE1, TransitionState.NEWLEVEL, "");
 				        	}
-				        	if (GameStateManager.currentMode == Mode.MULTI) {
+				        	if (StateManager.currentMode == Mode.MULTI) {
 				        		ps.loadLevel(UnlockLevel.HUB_MULTI, TransitionState.NEWLEVEL, "");
 				        	}
 	    				}
-			        	SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+			        	SoundEffect.NEGATIVE.play(1.0f, false);
 			        }
 			    });
 				
@@ -156,8 +157,8 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 			        	
 			        	//Setting pops a setting state on top of the pause state.
-			        	gsm.addState(State.SETTING, me);
-			        	SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						StateManager.addState(app, State.SETTING, me);
+			        	SoundEffect.UISWITCH1.play(1.0f, false);
 			        }
 			    });
 
@@ -167,8 +168,8 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 
 						//Setting pops a about state on top of the pause state.
-						gsm.addState(State.ABOUT, me);
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						StateManager.addState(app, State.ABOUT, me);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 					}
 				});
 				
@@ -193,7 +194,7 @@ public class PauseState extends GameState {
 						if (ps.isServer()) {
 							ps.exitSpectator(HadalGame.usm.getOwnUser());
 						} else {
-							HadalGame.client.sendTCP(new Packets.EndSpectate(new Loadout(gsm.getLoadout())));
+							HadalGame.client.sendTCP(new Packets.EndSpectate(new Loadout(JSONManager.loadout)));
 						}
 			        }
 			    });
@@ -204,10 +205,10 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 			        	
 			        	//Exiting returns to the title state and stops the server/client, disconnecting.
-			        	gsm.removeState(PauseState.class);
+						StateManager.removeState(PauseState.class);
 			        	ps.returnToTitle(0.0f);
 			        	
-			        	SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+			        	SoundEffect.NEGATIVE.play(1.0f, false);
 			        }
 			    });
 				
@@ -215,13 +216,13 @@ public class PauseState extends GameState {
 				table.add(resumeOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 				
 				//don't add return to hub option in singleplayer if hub hasn't been reached yet
-				if (ps.isServer() && (1 == gsm.getRecord().getFlags().get("HUB_REACHED") || GameStateManager.currentMode == Mode.MULTI)) {
+				if (ps.isServer() && (1 == JSONManager.record.getFlags().get("HUB_REACHED") || StateManager.currentMode == Mode.MULTI)) {
 					table.add(hubOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 				}
 				table.add(settingOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 				table.add(extraOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 
-				if (ps.getMode().isHub() && GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.getMode().isHub() && StateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
 						table.add(joinOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 					} else {
@@ -291,7 +292,7 @@ public class PauseState extends GameState {
 		
 		//If the state has been unpaused, remove it
 		if (toRemove) {
-			SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+			SoundEffect.NEGATIVE.play(1.0f, false);
 			
 			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
 			if (ps != null) {
@@ -304,7 +305,7 @@ public class PauseState extends GameState {
 				}
 				ps.getUiHub().refreshHub(null);
 			}
-			gsm.removeState(PauseState.class);
+			StateManager.removeState(PauseState.class);
 		}
 	}
 

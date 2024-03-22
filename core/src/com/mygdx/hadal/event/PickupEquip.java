@@ -20,6 +20,8 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
 
+import static com.mygdx.hadal.managers.SkinManager.FONT_SPRITE;
+
 /**
  * This event, when interacted with, will give the player a new weapon.
  * If the player's slots are full, this will replace currently held weapon.
@@ -196,7 +198,7 @@ public class PickupEquip extends Event {
 	public void render(SpriteBatch batch, Vector2 entityLocation) {
 		if (!(equip instanceof NothingWeapon)) {
 			super.render(batch, entityLocation);
-			HadalGame.FONT_SPRITE.draw(batch, equip.getName(), entityLocation.x - size.x / 2, entityLocation.y + size.y / 2);
+			FONT_SPRITE.draw(batch, equip.getName(), entityLocation.x - size.x / 2, entityLocation.y + size.y / 2);
 		}
 	}
 	
