@@ -51,7 +51,7 @@ public class BombfishAttack extends SyncedAttacker {
             hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
             hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
             hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-            hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), THORN_DAMAGE, THORN_KNOCKBACK, DamageSource.CROWN_OF_THORNS,
+            hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), THORN_DAMAGE, THORN_KNOCKBACK, DamageSource.ENEMY_ATTACK,
                     DamageTag.POKING, DamageTag.RANGED));
             hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.25f, true).setSynced(false));
 
