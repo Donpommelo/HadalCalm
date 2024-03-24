@@ -17,8 +17,8 @@ import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.packets.Packets;
@@ -332,19 +332,26 @@ public class LobbyState extends GameState {
         app.newMenu(stage);
         stage.setScrollFocus(options);
 
-        if (HadalGame.socket == null) {
-            connectSocket();
-            configSocketEvents();
-        } else if (!HadalGame.socket.connected()) {
-            connectSocket();
-            configSocketEvents();
-        }
+        Thread daemonThread = new Thread(() -> {
+            if (HadalGame.socket == null) {
+                connectSocket();
+                configSocketEvents();
+            } else if (!HadalGame.socket.connected()) {
+                connectSocket();
+                configSocketEvents();
+            }
 
-        if (HadalGame.socket != null) {
-            HadalGame.socket.emit("end");
-        }
+            if (HadalGame.socket != null) {
+                HadalGame.socket.emit("end");
+            }
+            retrieveLobbies();
+        });
 
-        retrieveLobbies();
+        // Set the thread as daemon
+        daemonThread.setDaemon(true);
+
+        // Start the thread
+        daemonThread.start();
 
         if (FadeManager.getFadeLevel() >= 1.0f) {
             FadeManager.fadeIn();
@@ -358,9 +365,10 @@ public class LobbyState extends GameState {
 
     public void connectSocket() {
         try {
-
             URI uri = URI.create(SERVER_IP);
-            HadalGame.socket = IO.socket(uri);
+            IO.Options options = IO.Options.builder()
+                    .setReconnection(false).build();
+            HadalGame.socket = IO.socket(uri, options);
             HadalGame.socket.connect();
 
             connectionAttempted = true;
