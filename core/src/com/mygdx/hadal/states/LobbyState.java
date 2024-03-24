@@ -114,6 +114,8 @@ public class LobbyState extends GameState {
     private boolean connectionAttempted;
     private float connectionDuration;
 
+    private Thread daemonThread;
+
     public LobbyState(HadalGame app, GameState peekState) {
         super(app);
         this.peekState = peekState;
@@ -332,7 +334,7 @@ public class LobbyState extends GameState {
         app.newMenu(stage);
         stage.setScrollFocus(options);
 
-        Thread daemonThread = new Thread(() -> {
+        daemonThread = new Thread(() -> {
             if (HadalGame.socket == null) {
                 connectSocket();
                 configSocketEvents();
@@ -366,9 +368,7 @@ public class LobbyState extends GameState {
     public void connectSocket() {
         try {
             URI uri = URI.create(SERVER_IP);
-            IO.Options options = IO.Options.builder()
-                    .setReconnection(false).build();
-            HadalGame.socket = IO.socket(uri, options);
+            HadalGame.socket = IO.socket(uri);
             HadalGame.socket.connect();
 
             connectionAttempted = true;
@@ -582,11 +582,17 @@ public class LobbyState extends GameState {
     @Override
     public void dispose() {
         stage.dispose();
-
         if (HadalGame.socket != null) {
             HadalGame.socket.disconnect();
             HadalGame.socket.close();
             HadalGame.socket = null;
+        }
+        if (null != daemonThread) {
+            try {
+                daemonThread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

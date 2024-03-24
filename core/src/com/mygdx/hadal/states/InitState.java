@@ -76,7 +76,7 @@ public class InitState extends GameState {
 
 	@Override
 	public void dispose() {
+		stage.dispose();
 		backdrop.getAtlas().dispose();
-		stage.dispose(); 
 	}
 }

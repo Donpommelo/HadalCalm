@@ -63,6 +63,7 @@ public class StateManager {
 			}
 		}
 
+		clearMemory();
 		Particle.disposeParticlePool();
 		FrameBufferManager.clearAllFrameBuffers();
 	}
