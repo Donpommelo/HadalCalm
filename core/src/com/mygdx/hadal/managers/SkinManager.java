@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.mygdx.hadal.HadalGame;
@@ -53,9 +52,6 @@ public class SkinManager {
         BOSS_GAUGE_RED_PATCH = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL.toString())).createPatch("boss_gauge_red"));
         BOSS_GAUGE_CATCHUP_PATCH = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGE_ATL
                 .toString())).createPatch("boss_gauge_dark_red"));
-
-        //this lets us not declare every attribute of shaders.
-        ShaderProgram.pedantic = false;
     }
 
     public static void dispose() {

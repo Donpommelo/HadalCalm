@@ -161,8 +161,6 @@ public class HadalGame extends ApplicationAdapter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-		System.exit(0);
     }
 
 	/**

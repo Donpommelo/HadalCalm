@@ -88,9 +88,7 @@ public class FadeManager {
         }
     }
 
-    public static void dispose() {
-        black.dispose();
-    }
+    public static void dispose() { black.dispose(); }
 
     /**
      * This makes the game fade at a specific speed. Can be positive or negative to fade out or in

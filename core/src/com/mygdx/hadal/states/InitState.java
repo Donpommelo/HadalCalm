@@ -7,9 +7,8 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.LoadingBackdrop;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.StateManager;
-import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.managers.SkinManager;
+import com.mygdx.hadal.managers.StateManager;
 
 /**
  * This is the very first called state of the game. This is pretty much a loading screen where the AssetManager is loaded.
@@ -57,9 +56,9 @@ public class InitState extends GameState {
 		//we block for 17 milliseconds to attempt to maintain ~60 fps
 		if (HadalGame.assetManager.update(17)) {
 			
-			//If we are done loading, go to title state and set up gsm assets (static atlases and stuff like that)
+//			If we are done loading, go to title state and set up gsm assets (static atlases and stuff like that)
 			SkinManager.loadAssets();
-			StateManager.addState(app, State.TITLE, this);
+			StateManager.addState(app, StateManager.State.TITLE, this);
 			FadeManager.setFadeLevel(1.0f);
 			FadeManager.fadeIn();
 
