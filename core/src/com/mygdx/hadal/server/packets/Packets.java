@@ -313,7 +313,7 @@ public class Packets {
 		public int connID;
 		public String name;
 		public Loadout loadout;
-		public int wins, kills, deaths, assists, score, extraModeScore, lives, ping;
+		public int wins, kills, deaths, assists, score, extraModeScore, lives, currency, ping;
 		public boolean spectator;
 
 		public SyncScore() {}
@@ -322,7 +322,8 @@ public class Packets {
 		 * This is sent from the server to the clients to give them their scores for a player whose score changed
 		 * @param connID: id of the player whose score is being updated.
 		 */
-		public SyncScore(int connID, String name, Loadout loadout, int wins, int kills, int deaths, int assists, int score, int extraModeScore, int lives, int ping, boolean spectator) {
+		public SyncScore(int connID, String name, Loadout loadout, int wins, int kills, int deaths, int assists, int score,
+						 int extraModeScore, int lives, int currency, int ping, boolean spectator) {
 			this.connID = connID;
 			this.name = name;
 			this.loadout = loadout;
@@ -333,6 +334,7 @@ public class Packets {
 			this.score = score;
 			this.extraModeScore = extraModeScore;
 			this.lives = lives;
+			this.currency = currency;
 			this.ping = ping;
 			this.spectator = spectator;
 		}
@@ -1203,6 +1205,8 @@ public class Packets {
 		kryo.register(PacketsLoadout.SyncCharacterServer.class);
 		kryo.register(PacketsLoadout.SyncTeamServer.class);
 		kryo.register(PacketsLoadout.SyncCosmeticServer.class);
+		kryo.register(PacketsLoadout.SyncVendingArtifact.class);
+		kryo.register(PacketsLoadout.SyncVendingScrapSpend.class);
 
 		kryo.register(PacketsAttacks.SingleClientIndependent.class);
 		kryo.register(PacketsAttacks.SingleClientDependent.class);

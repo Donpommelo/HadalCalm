@@ -29,7 +29,7 @@ HumanityModule extends Artifact {
 			
 			@Override
 			public void afterActiveItem(ActiveItem tool) {
-				ActiveItem item = UnlocktoItem.getUnlock(UnlockActives.getRandItemFromPool(state, ""), null);
+				ActiveItem item = UnlocktoItem.getUnlock(UnlockActives.getRandItemFromPool(""), null);
 				p.getPlayer().getMagicHelper().pickup(item);
 				item.setCurrentCharge(0.0f);
 			}

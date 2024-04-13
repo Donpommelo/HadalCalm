@@ -63,7 +63,7 @@ public class Navigations extends HubEvent {
 		final UIHub hub = state.getUiHub();
 		final Navigations me = this;
 
-		for (UnlockLevel c : UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
+		for (UnlockLevel c : UnlockLevel.getUnlocks(checkUnlock, newTags)) {
 			final UnlockLevel selected = c;
 
 			boolean appear = false;
@@ -111,7 +111,7 @@ public class Navigations extends HubEvent {
 		hub.getTableOptions().add(new Text("")).height(UIHub.OPTION_HEIGHT).row();
 
 		if (!"".equals(level) && state.isServer()) {
-			if (!UnlockManager.checkUnlock(state, UnlockType.LEVEL, level)) {
+			if (!UnlockManager.checkUnlock(UnlockType.LEVEL, level)) {
 				UnlockManager.setUnlock(state, UnlockType.LEVEL, level, true);
 				state.getDialogBox().addDialogue("", UIText.NAVIGATION_ACTIVATION.text(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}

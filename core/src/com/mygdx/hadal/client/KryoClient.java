@@ -24,6 +24,7 @@ import com.mygdx.hadal.managers.FadeManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -57,12 +58,15 @@ public class KryoClient {
 	//Me Client
 	private Client client;
 
+	private final HadalGame app;
+
 	public final UserManager usm;
 
     public Listener packetListener;
     
-    public KryoClient(UserManager userManager) {
-    	this.usm = userManager;
+    public KryoClient(HadalGame app, UserManager userManager) {
+		this.app = app;
+		this.usm = userManager;
     }
     
     /**
@@ -199,6 +203,12 @@ public class KryoClient {
 					score.setLives(p.lives);
 					score.setScore(p.score);
 					score.setExtraModeScore(p.extraModeScore);
+					score.setCurrency(p.currency);
+
+					//refresh hub because vending updates currency
+					if (p.connID == usm.getConnID()) {
+						cs.getUiHub().refreshHub(null);
+					}
 				});
 			}
 		}
@@ -348,7 +358,7 @@ public class KryoClient {
 						}
 					}
 
-					StateManager.addClientPlayState(cs.getApp(), p.level, p.mode, LobbyState.class);
+					StateManager.addClientPlayState(app, p.level, p.mode, LobbyState.class);
 					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});
@@ -464,6 +474,8 @@ public class KryoClient {
 			if (!StateManager.states.empty()) {
 				if (StateManager.states.peek() instanceof final ResultsState vs) {
 					vs.getPs().addPacketEffect(() -> vs.readyPlayer(p.playerID));
+				} else if (StateManager.states.peek() instanceof final PlayState ps) {
+					ps.addPacketEffect(() -> SettingArcade.readyUp(ps, p.playerID));
 				}
 			}
 		}
@@ -506,8 +518,11 @@ public class KryoClient {
                                     case PacketsLoadout.SyncEquipServer s -> player.getEquipHelper().syncEquip(s.equip);
                                     case PacketsLoadout.SyncArtifactServer s -> {
                                         player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
-                                        cs.getUiHub().refreshHub(null);
-                                    }
+										if (user.equals(usm.getOwnUser())) {
+											cs.getUiHub().refreshHub(null);
+											cs.getUiHub().refreshHubOptions();
+										}
+									}
                                     case PacketsLoadout.SyncActiveServer s ->
                                             player.getMagicHelper().syncMagic(s.active);
                                     case PacketsLoadout.SyncCharacterServer s ->

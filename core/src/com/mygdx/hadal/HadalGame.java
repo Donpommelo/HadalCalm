@@ -35,7 +35,8 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String VERSION = "1.0.9d";
+	public static final String VERSION = "1.0.9e";
+	public static final boolean SAVE_RESET = true;
 
 	//version url takes player to patch notes page when version is clicked in title screen
 	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/692033/109d";
@@ -88,7 +89,7 @@ public class HadalGame extends ApplicationAdapter {
 			UPNPUtil.upnp("UDP", "hadal-upnp-udp", JSONManager.setting.getPortNumber());
 		}
 
-		client = new KryoClient(usm);
+		client = new KryoClient(this, usm);
 		server = new KryoServer(usm);
 	}
 	

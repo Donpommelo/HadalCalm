@@ -77,7 +77,7 @@ public class UnlockManager {
 	/**
 	 * This returns if a certain unlock item is unlocked or not
 	 */
-	public static boolean checkUnlock(PlayState state, UnlockType type, String name) {
+	public static boolean checkUnlock(UnlockType type, String name) {
 		return switch (type) {
 			case ACTIVE -> JSONManager.record.getUnlockActive().get(name, false);
 			case ARTIFACT -> JSONManager.record.getUnlockArtifact().get(name, false);
@@ -148,7 +148,9 @@ public class UnlockManager {
 		HABERDASHER,
 		QUARTERMASTER,
 		OUTFITTER,
+		VENDING,
 		MISC,
+		CURATED,
 
 		ALL,
 		MULTIPLAYER,

@@ -3,10 +3,12 @@ package com.mygdx.hadal.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.SerializationException;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.users.User;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_TOTAL;
 import static com.mygdx.hadal.managers.JSONManager.JSON;
@@ -26,6 +28,8 @@ public class SavedLoadout {
 	//This is the player's starting name
 	private String name;
 
+	private String version;
+
 	//the name used if the name field is left empty
 	public SavedLoadout() {}
 
@@ -37,6 +41,7 @@ public class SavedLoadout {
 		character = loadout.character;
 		team = loadout.team;
 		name = "";
+		version = loadout.version;
 	}
 
 	/**
@@ -53,7 +58,11 @@ public class SavedLoadout {
 	 * a new loadout is created if no valid loadout is found
 	 * This new loadout has default values for all fields
 	 */
-	public static void createNewLoadout() {
+	public static void createAndSaveNewLoadout() {
+		Gdx.files.local("save/Loadout.json").writeString(JSON.prettyPrint(createNewLoadout()), false);
+	}
+
+	public static SavedLoadout createNewLoadout() {
 		SavedLoadout newLoadout = new SavedLoadout();
 		newLoadout.equip = new String[Loadout.MAX_WEAPON_SLOTS];
 		Arrays.fill(newLoadout.equip, "NOTHING");
@@ -69,8 +78,9 @@ public class SavedLoadout {
 		newLoadout.character = "MOREAU";
 		newLoadout.team = "NONE";
 		newLoadout.name = "";
-		
-		Gdx.files.local("save/Loadout.json").writeString(JSON.prettyPrint(newLoadout), false);
+		newLoadout.version = HadalGame.VERSION;
+
+		return newLoadout;
 	}
 
 	/**
@@ -81,13 +91,17 @@ public class SavedLoadout {
 		SavedLoadout tempLoadout;
 		try {
 			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+			if (!Objects.equals(tempLoadout.version, HadalGame.VERSION) && HadalGame.SAVE_RESET) {
+				SavedLoadout.createAndSaveNewLoadout();
+				tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
+			}
 		} catch (SerializationException e) {
-			SavedLoadout.createNewLoadout();
+			SavedLoadout.createAndSaveNewLoadout();
 			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
 		if (tempLoadout.equip == null || tempLoadout.artifact == null || tempLoadout.cosmetic == null ||
 				tempLoadout.active == null || tempLoadout.character == null || tempLoadout.team == null) {
-			SavedLoadout.createNewLoadout();
+			SavedLoadout.createAndSaveNewLoadout();
 			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
 		return tempLoadout;

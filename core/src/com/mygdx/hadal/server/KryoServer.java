@@ -16,8 +16,11 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
+import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -424,6 +427,14 @@ public class KryoServer {
                                             player.getCosmeticsHelper().setCosmetic(s.cosmetic);
                                             player.getCosmeticsHelper().syncServerCosmeticChange(s.cosmetic);
                                         }
+										case PacketsLoadout.SyncVendingArtifact s -> {
+											Vending.checkUnlock(ps, s.artifact, user);
+											user.setScoreUpdated(true);
+										}
+										case PacketsLoadout.SyncVendingScrapSpend s -> {
+											user.getScoreManager().setCurrency(user.getScoreManager().getCurrency() - s.scrap);
+											user.setScoreUpdated(true);
+										}
                                         default -> {}
                                     }
 								}
@@ -578,8 +589,14 @@ public class KryoServer {
 				 * Ready that player in the results state.
 				 */
 				else if (o instanceof Packets.ClientReady) {
-					if (!StateManager.states.empty() && StateManager.states.peek() instanceof final ResultsState vs) {
-						Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
+					if (!StateManager.states.empty()) {
+						if (StateManager.states.peek() instanceof final ResultsState vs) {
+							Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
+						} else if (StateManager.states.peek() instanceof final PlayState ps) {
+							if (ps.getMode().equals(GameMode.ARCADE)) {
+								SettingArcade.readyUp(ps, c.getID());
+							}
+						}
 					}
 				}
 

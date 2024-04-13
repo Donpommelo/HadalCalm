@@ -1,6 +1,7 @@
 package com.mygdx.hadal.users;
 
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockEquip;
 
 /**
@@ -14,7 +15,7 @@ import com.mygdx.hadal.save.UnlockEquip;
  */
 public class LoadoutManager {
 
-    private Loadout savedLoadout, activeLoadout;
+    private Loadout savedLoadout, activeLoadout, arcadeLoadout;
 
     //player's primary weapon in their last saved loadout. Only used for clients for the effect of a single artifact
     private UnlockEquip lastEquippedPrimary = UnlockEquip.NOTHING;
@@ -22,6 +23,7 @@ public class LoadoutManager {
     public LoadoutManager(Loadout savedLoadout) {
         this.savedLoadout = savedLoadout;
         this.activeLoadout = savedLoadout;
+        this.arcadeLoadout = new Loadout(SavedLoadout.createNewLoadout());
     }
 
     public Loadout getSavedLoadout() { return savedLoadout; }
@@ -31,6 +33,10 @@ public class LoadoutManager {
     public Loadout getActiveLoadout() { return activeLoadout; }
 
     public void setActiveLoadout(Loadout activeLoadout) { this.activeLoadout = activeLoadout; }
+
+    public Loadout getArcadeLoadout() { return arcadeLoadout; }
+
+    public void setArcadeLoadout(Loadout arcadeLoadout) { this.arcadeLoadout = arcadeLoadout; }
 
     public UnlockEquip getLastEquippedPrimary() { return lastEquippedPrimary; }
 

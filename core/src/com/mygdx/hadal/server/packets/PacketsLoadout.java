@@ -253,4 +253,24 @@ public class PacketsLoadout {
             this.cosmetic = cosmetic;
         }
     }
+
+    public static class SyncVendingArtifact extends SyncLoadoutClient {
+        public UnlockArtifact artifact;
+
+        public SyncVendingArtifact() {}
+
+        public SyncVendingArtifact(UnlockArtifact artifact) {
+            this.artifact = artifact;
+        }
+    }
+
+    public static class SyncVendingScrapSpend extends SyncLoadoutClient {
+        public int scrap;
+
+        public SyncVendingScrapSpend() {}
+
+        public SyncVendingScrapSpend(int scrap) {
+            this.scrap = scrap;
+        }
+    }
 }

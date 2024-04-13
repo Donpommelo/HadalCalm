@@ -113,5 +113,5 @@ public class ModeSetting {
     /**
      * This is run when the game ends. Atm, this just cleans up bot pathfinding threads
      */
-    public void processGameEnd() {}
+    public void processGameEnd(PlayState state) {}
 }

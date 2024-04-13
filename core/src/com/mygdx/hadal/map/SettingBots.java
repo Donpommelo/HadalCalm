@@ -99,7 +99,7 @@ public class SettingBots extends ModeSetting {
     }
 
     @Override
-    public void processGameEnd() {
+    public void processGameEnd(PlayState state) {
         BotManager.terminatePathfindingThreads();
     }
 

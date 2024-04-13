@@ -92,7 +92,7 @@ public class Haberdasher extends HubEvent {
 			lastCosmetic = slotChosen;
 
 			//iterate through all cosmetics that are valid with given character and slot
-			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(state, checkUnlock, tags)) {
+			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(checkUnlock, tags)) {
 				if (!c.getCosmeticSlot().equals(slotChosen)) {
 					continue;
 				}
@@ -155,7 +155,7 @@ public class Haberdasher extends HubEvent {
 
 			//keep track of the number of cosmetics for each slot to be displayed in the respective hub option
 			int cosmeticCount = 0;
-			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(state, checkUnlock, tags)) {
+			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(checkUnlock, tags)) {
 				if (!c.getCosmeticSlot().equals(slot)) {
 					continue;
 				}

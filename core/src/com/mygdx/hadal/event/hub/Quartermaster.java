@@ -50,12 +50,12 @@ public class Quartermaster extends HubEvent {
 		final UIHub hub = state.getUiHub();
 		final Quartermaster me = this;
 
-		for (final String item : shopInfo.getPrices().keySet()) {
+		for (final String item : shopInfo.getPrices().keys()) {
 			String name = UnlockManager.getName(UnlockType.valueOf(shopInfo.getType()), item);
 			String desc = UnlockManager.getDesc(UnlockType.valueOf(shopInfo.getType()), item);
 			String descLong = UnlockManager.getDescLong(UnlockType.valueOf(shopInfo.getType()), item);
 
-			if (checkUnlock && !UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
+			if (checkUnlock && !UnlockManager.checkUnlock(UnlockType.valueOf(shopInfo.getType()), item)) {
 				boolean appear = false;
 				if (search.isEmpty()) {
 					appear = true;

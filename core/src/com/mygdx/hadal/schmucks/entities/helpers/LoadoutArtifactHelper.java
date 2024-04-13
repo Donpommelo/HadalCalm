@@ -4,8 +4,9 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -43,7 +44,13 @@ public class LoadoutArtifactHelper {
         loadout.artifacts = new UnlockArtifact[Loadout.MAX_ARTIFACT_SLOTS];
 
         UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.MAX_ARTIFACT_SLOTS];
-        System.arraycopy(artifact, 0, artifactsTemp, 0, Loadout.MAX_ARTIFACT_SLOTS);
+
+        if (SettingArcade.arcade && player.getState().isServer()) {
+            System.arraycopy(player.getUser().getLoadoutManager().getArcadeLoadout().artifacts, 0, artifactsTemp, 0, Loadout.MAX_ARTIFACT_SLOTS);
+        } else {
+            System.arraycopy(artifact, 0, artifactsTemp, 0, Loadout.MAX_ARTIFACT_SLOTS);
+        }
+
         Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
         for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
             addArtifact(artifactsTemp[i], override, save);
@@ -173,6 +180,11 @@ public class LoadoutArtifactHelper {
         if (save) {
             saveArtifacts();
         }
+
+        if (SettingArcade.arcade) {
+            saveArcadeArtifacts();
+        }
+
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
             player.getState().getUiArtifact().syncArtifact();
         }
@@ -187,6 +199,14 @@ public class LoadoutArtifactHelper {
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
             for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
                 JSONManager.loadout.setArtifact(HadalGame.usm.getOwnUser(), i, getActiveLoadout().artifacts[i].toString());
+            }
+        }
+    }
+
+    public void saveArcadeArtifacts() {
+        if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
+            for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
+                player.getUser().getLoadoutManager().getArcadeLoadout().artifacts[i] = getActiveLoadout().artifacts[i];
             }
         }
     }

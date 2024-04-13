@@ -40,7 +40,7 @@ public class UnlockChecker extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (UnlockManager.checkUnlock(state, type, item) == unlock && event.getConnectedEvent() != null) {
+				if (UnlockManager.checkUnlock(type, item) == unlock && event.getConnectedEvent() != null) {
 					event.getConnectedEvent().getEventData().preActivate(this, p);
 				}
 			}

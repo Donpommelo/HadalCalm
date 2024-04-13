@@ -62,7 +62,7 @@ public class Dormitory extends HubEvent {
 
 			lastFilter = user.getLoadoutManager().getActiveLoadout().team;
 
-			for (UnlockCharacter c : UnlockCharacter.getUnlocks(state, checkUnlock, tags)) {
+			for (UnlockCharacter c : UnlockCharacter.getUnlocks(checkUnlock, tags)) {
 				loadingCharacters.add(c);
 			}
 		} else {

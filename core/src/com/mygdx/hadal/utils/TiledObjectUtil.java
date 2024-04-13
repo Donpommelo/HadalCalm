@@ -527,6 +527,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("tag", "HABERDASHER", String.class),
 					object.getProperties().get("unlock", false, boolean.class),
 					object.getProperties().get("closeOnLeave", true, Boolean.class));
+			case "Vending" -> e = new Vending(state, position, size,
+					object.getProperties().get("title", "VENDING", String.class),
+					object.getProperties().get("tag", "VENDING", String.class),
+					object.getProperties().get("numWeapons", 0, Integer.class),
+					object.getProperties().get("numArtifacts", 6, Integer.class),
+					object.getProperties().get("numMagics", 0, Integer.class));
 		}
 
 		if (null != e) {

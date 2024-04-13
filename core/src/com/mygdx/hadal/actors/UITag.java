@@ -83,6 +83,9 @@ public class UITag {
 				case SCOREBOARD:
 					uiExtra.sortIndividualScores(text);
 					break;
+				case WINBOARD:
+					uiExtra.sortWins(text);
+					break;
 				case TEAMSCORE:
 					uiExtra.sortTeamScores(text);
 					break;
@@ -91,6 +94,12 @@ public class UITag {
 					break;
 				case GUNGAME:
 					uiExtra.sortGunGame(text);
+					break;
+				case CURRENCY:
+					text.append(UIText.UI_SCRAP.text(Integer.toString(user.getScoreManager().getCurrency())));
+					break;
+				case ARCADE_ROUND:
+					uiExtra.processArcadeRound(text);
 					break;
 				case EMPTY:
 				default:
@@ -124,6 +133,9 @@ public class UITag {
 		PLAYERS_ALIVE,
 		ALLY_HEALTH,
 		SCOREBOARD,
+		WINBOARD,
+		CURRENCY,
+		ARCADE_ROUND,
 		EMPTY,
 		ALL
 	}

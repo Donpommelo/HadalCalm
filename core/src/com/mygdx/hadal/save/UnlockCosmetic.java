@@ -253,14 +253,14 @@ public enum UnlockCosmetic {
     /**
      * This acquires a list of all unlocked cosmetics (if unlock is true. otherwise just return all cosmetics that satisfy the tags)
      */
-    public static Array<UnlockCosmetic> getUnlocks(PlayState state, boolean unlock, Array<UnlockManager.UnlockTag> tags) {
+    public static Array<UnlockCosmetic> getUnlocks(boolean unlock, Array<UnlockManager.UnlockTag> tags) {
         Array<UnlockCosmetic> items = new Array<>();
 
         for (UnlockCosmetic u : UnlockCosmetic.values()) {
 
             boolean get = UnlockManager.checkTags(u.tags, tags);
 
-            if (unlock && !UnlockManager.checkUnlock(state, UnlockManager.UnlockType.CHARACTER, u.toString())) {
+            if (unlock && !UnlockManager.checkUnlock(UnlockManager.UnlockType.CHARACTER, u.toString())) {
                 get = false;
             }
 

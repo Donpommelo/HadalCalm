@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.hub.HubEvent;
+import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.SavedLoadout;
@@ -80,7 +81,9 @@ public class UIHub {
 	private String info, title = "";
 
 	private hubTypes type = hubTypes.NONE;
-	
+
+	private HubEvent lastHubEvent;
+
 	//is this window currently visible?
 	private boolean active;
 
@@ -154,6 +157,7 @@ public class UIHub {
 	 */
 	public void enter(HubEvent hub) {
 		SoundEffect.DOORBELL.play(0.2f, false);
+		lastHubEvent = hub;
 
 		active = true;
 
@@ -336,8 +340,18 @@ public class UIHub {
 		if (hubTypes.OUTFITTER == type) {
 			refreshOutfitter(hub);
 		}
+		if (hubTypes.VENDING == type) {
+			refreshVending(hub);
+		}
 	}
-	
+
+	public void refreshHubOptions() {
+		if (null != lastHubEvent) {
+			lastHubEvent.leave();
+			lastHubEvent.enter();
+		}
+	}
+
 	/**
 	 * When the player equips/unequips an artifact, this is run, displaying the new artifacts and remaining slots in the info table.
 	 */
@@ -455,6 +469,33 @@ public class UIHub {
 		tableExtra.add(outfitDelete).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE).row();
 	}
 
+	public void refreshVending(HubEvent hub) {
+		tableExtra.clear();
+
+		Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+		if (null == ownPlayer) { return; }
+
+		Text slotsTitle = new Text(UIText.UI_SCRAP.text(String.valueOf(HadalGame.usm.getOwnUser().getScoreManager().getCurrency())));
+		slotsTitle.setScale(0.5f);
+		tableExtra.add(slotsTitle).colspan(12).pad(INFO_PAD).row();
+
+		Text refreshInfo = new Text(UIText.VENDING_REFRESH.text(String.valueOf(Vending.REFRESH_COST))).setButton(true);
+		refreshInfo.setScale(0.5f);
+
+		refreshInfo.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				if (hub instanceof Vending vending) {
+					vending.refreshOptions();
+				}
+			}
+		});
+
+		tableExtra.add(refreshInfo).height(OPTION_HEIGHT_LARGE).pad(INFO_PAD).colspan(12).row();
+	}
+
 	/**
 	 * Helper method that returns a tag depending on which hub event is being used
 	 */
@@ -531,6 +572,7 @@ public class UIHub {
 		HABERDASHER,
 		WALLPAPER,
 		OUTFITTER,
+		VENDING,
 		MISC
 	}
 }

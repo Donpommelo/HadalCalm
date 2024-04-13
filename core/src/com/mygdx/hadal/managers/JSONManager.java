@@ -18,6 +18,8 @@ public class JSONManager {
     //This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
     public static JsonValue dialogs, deathMessages, shops, randomText, uiStrings, gameStrings, tips;
 
+    public static ShopInfo weaponInfo, artifactInfo, magicInfo;
+
     //These are the player's saved field. These store player info.
     public static Record record;
     public static Setting setting;
@@ -41,9 +43,21 @@ public class JSONManager {
         tips = READER.parse(Gdx.files.internal("text/Tips.json"));
         shops = READER.parse(Gdx.files.internal("save/Shops.json"));
 
+        weaponInfo = JSON.fromJson(ShopInfo.class, shops.get("weapons1").toJson(JsonWriter.OutputType.json));
+        artifactInfo = JSON.fromJson(ShopInfo.class, shops.get("artifacts1").toJson(JsonWriter.OutputType.json));
+        magicInfo = JSON.fromJson(ShopInfo.class, shops.get("actives1").toJson(JsonWriter.OutputType.json));
+
         //Load data from saves: hotkeys, records, loadout, settings and unlocks
         PlayerAction.retrieveKeys();
         record = Record.retrieveRecord();
+
+        if (null == record.getVersion() || (!HadalGame.VERSION.equals(record.getVersion()) && HadalGame.SAVE_RESET)) {
+            Record.createNewRecord();
+            SavedLoadout.createAndSaveNewLoadout();
+            Setting.createNewSetting();
+            SavedOutfits.createNewOutfits();
+        }
+
         loadout = SavedLoadout.retrieveLoadout();
         setting = Setting.retrieveSetting();
         outfits = SavedOutfits.retrieveOutfits();

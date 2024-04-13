@@ -65,7 +65,6 @@ public class UIPlay extends AHadalActor {
 	private final TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
 	private final Array<? extends TextureRegion> itemNull, itemSelect, itemUnselect;
 
-
 	//These make the Hp bar blink red when at low Hp.
 	private boolean blinking;
 	private float blinkCdCount;

@@ -10,7 +10,7 @@ public class AmdahlsLotus extends Artifact {
 
 	private static final int SLOT_COST = 1;
 
-	private static final float TIME_THRESHOLD = 0.95f;
+	private static final float TIME_THRESHOLD = 0.05f;
 	private static final float HP_REGEN_BUFF = AmdhalsLotusActivate.HP_REGEN_BUFF;
 	private static final float FUEL_REGEN_BUFF = AmdhalsLotusActivate.FUEL_REGEN_BUFF;
 

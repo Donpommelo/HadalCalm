@@ -127,14 +127,14 @@ public enum UnlockEquip {
 	/**
 	 * This acquires a list of all unlocked weapons (if unlock is true. otherwise just return all weapons that satisfy the tags)
 	 */
-	public static Array<UnlockEquip> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
+	public static Array<UnlockEquip> getUnlocks(boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockEquip> items = new Array<>();
 		
 		for (UnlockEquip u : UnlockEquip.values()) {
 			
 			boolean get = UnlockManager.checkTags(u.tags, tags);
 			
-			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.EQUIP, u.toString())) {
+			if (unlock && !UnlockManager.checkUnlock(UnlockType.EQUIP, u.toString())) {
 				get = false;
 			}
 			if (get) {
@@ -167,7 +167,7 @@ public enum UnlockEquip {
 		defaultTags.addAll(state.getMapEquipTag());
 
 		if ("".equals(pool)) {
-			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(state, false, defaultTags);
+			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(false, defaultTags);
 			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
 

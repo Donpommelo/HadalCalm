@@ -8,7 +8,6 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
 
@@ -32,37 +31,37 @@ public enum UnlockLevel {
 			GameMode.BOSS),
 
 	AGGYDAGGY("dm_aggydaggy", GameText.AGGYDAGGY, GameText.NOTHING, true, MapSize.MEDIUM,
-			GameMode.DEATHMATCH),
+			GameMode.DEATHMATCH, UnlockTag.CURATED),
 	BOTTLENECK("dm_bottleneck", GameText.BOTTLENECK, GameText.NOTHING, true, MapSize.MEDIUM,
-			GameMode.DEATHMATCH),
+			GameMode.DEATHMATCH, UnlockTag.CURATED),
 	BROUHAHA("dm_brouhaha", GameText.BROUHAHA, GameText.NOTHING, true, MapSize.MEDIUM,
-			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+			new GameMode[] {GameMode.DEATHMATCH, GameMode.SURVIVAL}, UnlockTag.CURATED),
 	COQUELICOT("ctf_coquelicot", GameText.COQUELICOT, GameText.NOTHING, true, MapSize.EXTRA_LARGE,
-			GameMode.CTF, GameMode.DEATHMATCH),
+			new GameMode[]{GameMode.CTF, GameMode.DEATHMATCH}, UnlockTag.CURATED),
 	FACILITY("dm_facility", GameText.FACILITY, GameText.NOTHING, true, MapSize.MEDIUM,
-			GameMode.DEATHMATCH),
+			GameMode.DEATHMATCH, UnlockTag.CURATED),
 	FILTRATION("ctf_filtration", GameText.FILTRATION, GameText.NOTHING, true, MapSize.EXTRA_LARGE,
-			GameMode.CTF, GameMode.DEATHMATCH),
+			new GameMode[] {GameMode.CTF, GameMode.DEATHMATCH}, UnlockTag.CURATED),
 	FLOTSAM("dm_flotsam", GameText.FLOTSAM, GameText.NOTHING, true, MapSize.MEDIUM,
-			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+			new GameMode[] {GameMode.DEATHMATCH, GameMode.SURVIVAL}, UnlockTag.CURATED),
 	GREEN("futbol_green", GameText.GREEN, GameText.NOTHING, true, MapSize.SMALL,
-			GameMode.FOOTBALL, GameMode.DEATHMATCH),
+			new GameMode[] {GameMode.FOOTBALL, GameMode.DEATHMATCH}, UnlockTag.CURATED),
 	LAGAN("dm_lagan", GameText.LAGAN, GameText.NOTHING, true, MapSize.SMALL,
-			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+			new GameMode[] {GameMode.DEATHMATCH, GameMode.SURVIVAL}, UnlockTag.CURATED),
 	THRESHOLD("dm_threshold", GameText.THRESHOLD, GameText.NOTHING, true, MapSize.MEDIUM,
-			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+			new GameMode[] {GameMode.DEATHMATCH, GameMode.SURVIVAL}, UnlockTag.CURATED),
 	TOWERS("dm_towers", GameText.TOWERS, GameText.NOTHING, true, MapSize.LARGE,
-			GameMode.DEATHMATCH),
+			GameMode.DEATHMATCH, UnlockTag.CURATED),
 	UNDULATE("ctf_undulate", GameText.UNDULATE, GameText.NOTHING, true, MapSize.EXTRA_LARGE,
-			GameMode.CTF, GameMode.DEATHMATCH),
+			new GameMode[] {GameMode.CTF, GameMode.DEATHMATCH}, UnlockTag.CURATED),
 	WARP("dm_warp", GameText.WARP, GameText.NOTHING, true, MapSize.SMALL,
-			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+			new GameMode[] {GameMode.DEATHMATCH, GameMode.SURVIVAL}, UnlockTag.CURATED),
 	QUADRANT("dm_quadrant", GameText.QUADRANTS, GameText.NOTHING, true, MapSize.LARGE,
-			GameMode.DEATHMATCH),
+			GameMode.DEATHMATCH, UnlockTag.CURATED),
 	WETWORKS("dm_wetworks", GameText.WETWORKS, GameText.NOTHING, true, MapSize.SMALL,
-			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+			new GameMode[] {GameMode.DEATHMATCH, GameMode.SURVIVAL}, UnlockTag.CURATED),
 	ZIGGURAT("dm_ziggurat", GameText.ZIGGURAT, GameText.NOTHING, true, MapSize.SMALL,
-			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+			new GameMode[] {GameMode.DEATHMATCH, GameMode.SURVIVAL}, UnlockTag.CURATED),
 
 	FORMOSAN_BLUE_MAGPIE("dm_formosan_blue_magpie", GameText.FORMOSAN_BLUE_MAGPIE, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
@@ -88,7 +87,7 @@ public enum UnlockLevel {
 	GALLERY("dm_gallery", GameText.GALLERY, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
 	HORIZON("dm_horizon", GameText.HORIZON, GameText.NOTHING, true, MapSize.MEDIUM,
-			GameMode.DEATHMATCH, GameMode.SURVIVAL),
+			new GameMode[] {GameMode.DEATHMATCH, GameMode.SURVIVAL}),
 	REDROCK("dm_redrock", GameText.REDROCK, GameText.NOTHING, true, MapSize.MEDIUM,
 			GameMode.DEATHMATCH),
 
@@ -137,6 +136,7 @@ public enum UnlockLevel {
 
 	SSTUNICATE1("sstunicate1", GameText.LEVEL_HUB, GameText.HUB_DESC, false, MapSize.MEDIUM, GameMode.HUB),
 	HUB_MULTI("sstunicate2", GameText.LEVEL_HUB, GameText.HUB_DESC, true, MapSize.MEDIUM, GameMode.HUB),
+	HUB_BREAK("sstunicate3", GameText.LEVEL_HUB, GameText.HUB_DESC, true, MapSize.SMALL, GameMode.ARCADE),
 
 	;
 	
@@ -145,7 +145,7 @@ public enum UnlockLevel {
 
 	//information about the map
 	private final GameText name, desc;
-	private final Array<UnlockTag> tags = new Array<>();
+	private final Array<UnlockTag> tags;
 
 	//The string id of the map's icon in the map texture atlas
 	private final String imageFile;
@@ -155,19 +155,24 @@ public enum UnlockLevel {
 
 	private final MapSize size;
 
-	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, MapSize size, GameMode... modes) {
+	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, MapSize size, GameMode[] modes, UnlockTag... tags) {
 		this.map = getMapFileName(map);
 		this.name = name;
 		this.desc = desc;
 		this.imageFile = map;
 		this.size = size;
 		this.modes = modes;
+		this.tags = new Array<>(tags);
 
 		if (multiplayer) {
-			tags.add(UnlockTag.MULTIPLAYER);
+			this.tags.add(UnlockTag.MULTIPLAYER);
 		} else {
-			tags.add(UnlockTag.NAVIGATIONS);
+			this.tags.add(UnlockTag.NAVIGATIONS);
 		}
+	}
+
+	UnlockLevel(String map, GameText name, GameText desc, boolean multiplayer, MapSize size, GameMode modes, UnlockTag... tags) {
+		this(map, name, desc, multiplayer, size, new GameMode[] {modes}, tags);
 	}
 
 	UnlockLevel(String map, GameMode... modes) {
@@ -178,14 +183,14 @@ public enum UnlockLevel {
 	/**
 	 * This acquires a list of all unlocked maps (if unlock is true. otherwise just return all maps that satisfy the tags)
 	 */
-	public static Array<UnlockLevel> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
+	public static Array<UnlockLevel> getUnlocks(boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockLevel> items = new Array<>();
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
 			
 			boolean get = UnlockManager.checkTags(u.tags, tags);
 			
-			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.LEVEL, u.toString())) {
+			if (unlock && !UnlockManager.checkUnlock(UnlockType.LEVEL, u.toString())) {
 				get = false;
 			}
 			if (get) {
@@ -193,6 +198,25 @@ public enum UnlockLevel {
 			}
 		}
 		return items;
+	}
+
+	public static UnlockLevel getRandomLevelForMode(GameMode mode, Array<UnlockTag> tags) {
+		Array<UnlockLevel> validLevels = new Array<>();
+		for (UnlockLevel c : UnlockLevel.getUnlocks(false, tags)) {
+			boolean modeCompliant = false;
+			for (int i = 0; i < c.getModes().length; i++) {
+				if (c.getModes()[i] == mode.getCheckCompliance() || c.getModes()[i] == mode) {
+					modeCompliant = true;
+					break;
+				}
+			}
+
+			if (modeCompliant) {
+				validLevels.add(c);
+			}
+		}
+
+		return validLevels.random();
 	}
 
 	public TextureRegion getIcon() {

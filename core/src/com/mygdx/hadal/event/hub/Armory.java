@@ -46,7 +46,7 @@ public class Armory extends HubEvent {
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
 
-		for (UnlockEquip c : UnlockEquip.getUnlocks(state, checkUnlock, tags)) {
+		for (UnlockEquip c : UnlockEquip.getUnlocks(checkUnlock, tags)) {
 			final UnlockEquip selected = c;
 
 			boolean appear = false;

@@ -44,6 +44,7 @@ import com.mygdx.hadal.managers.FadeManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCosmetic;
@@ -532,12 +533,13 @@ public class PlayState extends GameState {
 				if (user.isScoreUpdated()) {
 					changeMade = true;
 					user.setScoreUpdated(false);
+
+					ScoreManager score = user.getScoreManager();
+					HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
+							user.getLoadoutManager().getSavedLoadout(), score.getWins(), score.getKills(), score.getDeaths(),
+							score.getAssists(), score.getScore(), score.getExtraModeScore(),
+							score.getLives(), score.getCurrency(), user.getPing(), user.isSpectator()));
 				}
-				ScoreManager score = user.getScoreManager();
-				HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
-						user.getLoadoutManager().getSavedLoadout(), score.getWins(), score.getKills(), score.getDeaths(),
-						score.getAssists(), score.getScore(), score.getExtraModeScore(),
-						score.getLives(), user.getPing(), user.isSpectator()));
 			}
 			if (changeMade) {
 				scoreWindow.syncScoreTable();
@@ -1129,7 +1131,11 @@ public class PlayState extends GameState {
             }
         }
 
-		transitionToResultsState(resultsText, fadeDelay);
+		if (SettingArcade.arcade) {
+			SettingArcade.processEndOfRound(this, mode);
+		} else {
+			transitionToResultsState(resultsText, fadeDelay);
+		}
 	}
 
 	/**
@@ -1140,7 +1146,7 @@ public class PlayState extends GameState {
 	public void transitionToResultsState(String resultsText, float fadeDelay) {
 
 		//mode-specific end-game processing (Atm this just cleans up bot pathfinding threads)
-		mode.processGameEnd();
+		mode.processGameEnd(this);
 
 		this.resultsText = resultsText;
 
@@ -1587,6 +1593,10 @@ public class PlayState extends GameState {
 	public void setNextState(TransitionState nextState) { this.nextState = nextState; }
 
 	public TransitionState getNextState() { return nextState; }
+
+	public void setNextLevel(UnlockLevel nextLevel) { this.nextLevel = nextLevel; }
+
+	public void setNextMode(GameMode nextMode) { this.nextMode = nextMode; }
 
 	public void setResultsText(String resultsText) { this.resultsText = resultsText; }
 }

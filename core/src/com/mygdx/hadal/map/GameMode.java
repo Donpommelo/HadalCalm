@@ -13,6 +13,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.SettingLoadoutMode.LoadoutMode;
@@ -26,11 +27,11 @@ import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.TextUtil;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -43,7 +44,8 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 public enum GameMode {
 
     HUB("", "placeholder", GameText.HUB, GameText.HUB_DESC,
-            new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(1)) {
+            new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(1),
+            new SettingHub()) {
 
         @Override
         public boolean isInvisibleInHub() { return true; }
@@ -72,14 +74,11 @@ public enum GameMode {
         new SetModifiers(new VisibleHp(), new PlayerBounce(), new PlayerSlide(), new PlayerMini(), new PlayerGiant(),
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
-    DREAM_OF_A_WHALE("arena", "placeholder", GameText.NOTHING, GameText.NOTHING,
-            new SetCameraOnSpawn(),
-            new SettingTeamMode(TeamMode.COOP), new AllyRevive(),
-            new DisplayUITag("SCOREBOARD"), new DisplayUITag("ALLY_HEALTH")) {
-
-        @Override
-        public boolean isInvisibleInHub() { return true; }
-    },
+    ARCADE("", "placeholder", GameText.ARCADE, GameText.ARCADE_DESC,
+            new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(1),
+            new SettingArcade(),
+            new DisplayUITag("ARCADE_ROUND"), new DisplayUITag("WINBOARD"), new DisplayUITag("CURRENCY"),
+            new DisplayUITag(UIText.UI_ENTER_TO_READY.text(PlayerAction.READY_UP.getKeyText()))),
 
     SURVIVAL("arena", "survival", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
         new SetCameraOnSpawn(),
@@ -254,7 +253,11 @@ public enum GameMode {
 
             //only the server saves their chosen settings.
             if (state.isServer()) {
-                setting.saveSetting(state, this);
+
+                //only save settings when entering mode from hub selection
+                if (this.equals(HUB)) {
+                    setting.saveSetting(state, this);
+                }
 
                 //atm, the client does not need to run this b/c it creates events only the server needs to process.
                 String newStart = setting.loadSettingStart(state, this);
@@ -423,9 +426,9 @@ public enum GameMode {
     /**
      * This is run when the game ends. Atm, this just cleans up bot pathfinding threads
      */
-    public void processGameEnd() {
+    public void processGameEnd(PlayState state) {
         for (ModeSetting setting : applicableSettings) {
-            setting.processGameEnd();
+            setting.processGameEnd(state);
         }
     }
 

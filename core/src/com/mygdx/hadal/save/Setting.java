@@ -165,6 +165,7 @@ public class Setting {
 		newSetting.resetServer();
 		newSetting.resetMisc();
 		newSetting.resetModeSettings();
+		newSetting.resetModeSettings();
 
 		Gdx.files.local("save/Settings.json").writeString(JSON.prettyPrint(newSetting), false);
 	}

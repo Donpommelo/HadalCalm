@@ -8,11 +8,11 @@ package com.mygdx.hadal.users;
 public class ScoreManager {
 	
 	//Player's stored score fields for the score window
-	private int wins, kills, deaths, assists, score, teamScore, extraModeScore;
+	private int wins, currency, kills, deaths, assists, score, teamScore, extraModeScore;
 	private int lives = 1;
 
 	//did the player win their last game? This is used to let the client know who won in the results screen.
-	private boolean wonLast;
+	private boolean wonLast, ready;
 	
 	//this unused constructor is needed by kryo for serialization
 	public ScoreManager() {}
@@ -42,6 +42,10 @@ public class ScoreManager {
 
 	public void setWins(int wins) { this.wins = wins; }
 
+	public int getCurrency() { return currency; }
+
+	public void setCurrency(int currency) { this.currency = currency; }
+
 	public int getKills() { return kills; }
 
 	public void setKills(int kills) { this.kills = kills; }
@@ -69,4 +73,8 @@ public class ScoreManager {
 	public int getLives() { return lives; }
 
 	public void setLives(int lives) { this.lives = lives; }
+
+	public boolean isReady() { return ready; }
+
+	public void setReady(boolean ready) { this.ready = ready; }
 }

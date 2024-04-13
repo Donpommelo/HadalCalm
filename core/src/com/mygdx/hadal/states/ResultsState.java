@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.audio.MusicPlayer;
@@ -31,18 +30,18 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
+import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.LoadoutManager;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.users.User;
-import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.constants.Constants.*;
 import static com.mygdx.hadal.managers.SkinManager.SKIN;
@@ -124,9 +123,6 @@ public class ResultsState extends GameState {
     private final Array<PlayerResultsIcon> icons = new Array<>();
 	private final Array<PooledEffect> effects = new Array<>();
 
-    //This is a mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
-	private final ObjectMap<User, Boolean> ready = new ObjectMap<>();
-
 	//list of map options that the host can select as next map if not returning to hub
 	private final Array<UnlockLevel> nextMaps = new Array<>();
 
@@ -180,9 +176,7 @@ public class ResultsState extends GameState {
 
 		//Finally we initialize the ready map with everyone set to not ready. Bots don't need to ready up
 		for (User user : users) {
-			if (user.getConnID() >= 0) {
-				ready.put(user, false);
-			}
+			user.getScoreManager().setReady(user.getConnID() < 0);
 		}
 	}
 
@@ -259,13 +253,16 @@ public class ResultsState extends GameState {
 					});
 					forceReadyOption.setScale(SCALE);
 
+					tableExtra.add(readyOption).height(OPTION_HEIGHT).colspan(2).row();
+					tableExtra.add(forceReadyOption).height(OPTION_HEIGHT).colspan(2).row();
+
 					returnToHub = new CheckBox(UIText.RETURN_HUB.text(), SKIN);
 					returnToHub.setChecked(JSONManager.setting.isReturnToHubOnReady());
 
 					Array<String> compliantMaps = new Array<>();
 					Array<UnlockManager.UnlockTag> unlockTags = new Array<>();
 					nextMaps.clear();
-					for (UnlockLevel c : UnlockLevel.getUnlocks(ps, false, unlockTags)) {
+					for (UnlockLevel c : UnlockLevel.getUnlocks(false, unlockTags)) {
 						for (int i = 0; i < c.getModes().length; i++) {
 							if (c.getModes()[i] == ps.mode.getCheckCompliance()) {
 								compliantMaps.add(c.getName());
@@ -294,8 +291,6 @@ public class ResultsState extends GameState {
 						}
 					});
 
-					tableExtra.add(readyOption).height(OPTION_HEIGHT).colspan(2).row();
-					tableExtra.add(forceReadyOption).height(OPTION_HEIGHT).colspan(2).row();
 					tableExtra.add(returnToHub).height(OPTION_HEIGHT);
 					tableExtra.add(nextMapNames).width(MAP_OPTIONS_WIDTH).height(MAP_OPTIONS_HEIGHT).pad(OPTIONS_PAD);
 				} else {
@@ -550,7 +545,8 @@ public class ResultsState extends GameState {
 			//The server finds the player that readies, sets their readiness and informs all clients by sending that player's index
 			User user = HadalGame.usm.getUsers().get(playerID);
 			if (user != null && !user.isSpectator()) {
-				ready.put(user, true);
+				user.getScoreManager().setReady(true);
+
 				int iconID = users.indexOf(user, false);
 				icons.get(iconID).setReady(true);
 
@@ -559,14 +555,15 @@ public class ResultsState extends GameState {
 		} else {
 
 			//Clients just find the player based on that index and sets them as ready.
-			ready.put(users.get(playerID), true);
+			users.get(playerID).getScoreManager().setReady(true);
+
 			icons.get(playerID).setReady(true);
 		}
 
 		//When all players are ready, reddy will be true and we return to the hub
 		boolean reddy = true;
-		for (boolean b : ready.values()) {
-			if (!b) {
+		for (User user : HadalGame.usm.getUsers().values()) {
+			if (!user.isSpectator() && !user.getScoreManager().isReady()) {
 				reddy = false;
 				break;
 			}

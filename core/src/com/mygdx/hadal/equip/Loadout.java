@@ -13,7 +13,7 @@ public class Loadout {
 
 	public static final int BASE_WEAPON_SLOTS = 3;
 	public static final int MAX_WEAPON_SLOTS = 4;
-	public static final int MAX_ARTIFACT_SLOTS = 12;
+	public static final int MAX_ARTIFACT_SLOTS = 30;
 	public static final int MAX_COSMETIC_SLOTS = 12;
 
 	public UnlockEquip[] multitools;
