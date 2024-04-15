@@ -31,11 +31,6 @@ import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
  */
 public class SettingTeamMode extends ModeSetting {
 
-    private static final String settingTag1 = "team_mode";
-    private static final Integer defaultValue1 = 0;
-    private static final String settingTag2 = "team_num";
-    private static final Integer defaultValue2 = 0;
-
     private SelectBox<String> teamsOptions;
     private SelectBox<String> teamsNumOptions;
 
@@ -65,7 +60,7 @@ public class SettingTeamMode extends ModeSetting {
             teamsOptions = new SelectBox<>(SKIN);
             teamsOptions.setItems(teamChoices);
             teamsOptions.setWidth(UIHub.OPTIONS_WIDTH);
-            teamsOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag1, defaultValue1));
+            teamsOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.TEAM_MODE));
 
             String[] teamNumChoices = UIText.SETTING_TEAM_NUM_OPTIONS.text().split(",");
             Text teamNum = new Text(UIText.SETTING_TEAM_NUM.text());
@@ -75,7 +70,7 @@ public class SettingTeamMode extends ModeSetting {
             teamsNumOptions = new SelectBox<>(SKIN);
             teamsNumOptions.setItems(teamNumChoices);
             teamsNumOptions.setWidth(UIHub.OPTIONS_WIDTH);
-            teamsNumOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag2, defaultValue2));
+            teamsNumOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.TEAM_NUMBER));
 
             //team number option is disabled outside of auto-assigned teams
             teamsNumOptions.setDisabled(teamsOptions.getSelectedIndex() != 1);
@@ -97,16 +92,16 @@ public class SettingTeamMode extends ModeSetting {
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
         if (teamModeChoice) {
-            JSONManager.setting.setModeSetting(mode, settingTag1, teamsOptions.getSelectedIndex());
-            JSONManager.setting.setModeSetting(mode, settingTag2, teamsNumOptions.getSelectedIndex());
+            JSONManager.setting.setModeSetting(mode, SettingSave.TEAM_MODE, teamsOptions.getSelectedIndex());
+            JSONManager.setting.setModeSetting(mode, SettingSave.TEAM_NUMBER, teamsNumOptions.getSelectedIndex());
         }
     }
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
         if (teamModeChoice) {
-            mode.setTeamMode(indexToTeamMode(JSONManager.setting.getModeSetting(mode, settingTag1, defaultValue1)));
-            mode.setTeamNum(indexToTeamNum(JSONManager.setting.getModeSetting(mode, settingTag2, defaultValue2)));
+            mode.setTeamMode(indexToTeamMode(JSONManager.setting.getModeSetting(mode, SettingSave.TEAM_MODE)));
+            mode.setTeamNum(indexToTeamNum(JSONManager.setting.getModeSetting(mode, SettingSave.TEAM_NUMBER)));
         } else {
             mode.setTeamMode(lockedTeamMode);
         }

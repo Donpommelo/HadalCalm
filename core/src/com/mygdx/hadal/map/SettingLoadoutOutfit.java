@@ -16,9 +16,6 @@ import static com.mygdx.hadal.managers.SkinManager.SKIN;
  */
 public class SettingLoadoutOutfit extends ModeSetting {
 
-    public static final String settingTag = "loadout_outfit";
-    public static final Integer defaultValue = 0;
-
     private SelectBox<String> outfitOptions;
 
     private Loadout universalLoadout;
@@ -39,8 +36,8 @@ public class SettingLoadoutOutfit extends ModeSetting {
         outfitOptions = new SelectBox<>(SKIN);
         outfitOptions.setItems(optionChoices);
         outfitOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        if (optionChoices.length > JSONManager.setting.getModeSetting(mode, settingTag, defaultValue)) {
-            outfitOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
+        if (optionChoices.length > JSONManager.setting.getModeSetting(mode, SettingSave.LOADOUT_OUTFIT)) {
+            outfitOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.LOADOUT_OUTFIT));
         }
 
         table.add(outfit);
@@ -49,12 +46,12 @@ public class SettingLoadoutOutfit extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        JSONManager.setting.setModeSetting(mode, settingTag, outfitOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.LOADOUT_OUTFIT, outfitOptions.getSelectedIndex());
     }
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
-        int startOutfit = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
+        int startOutfit = JSONManager.setting.getModeSetting(mode, SettingSave.LOADOUT_OUTFIT);
         if (startOutfit != 0) {
             if (JSONManager.outfits.getOutfits().get(outfitOptions.getSelected()) != null) {
                 universalLoadout = new Loadout(JSONManager.outfits.getOutfits().get(outfitOptions.getSelected()));
@@ -65,7 +62,7 @@ public class SettingLoadoutOutfit extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        int startOutfit = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
+        int startOutfit = JSONManager.setting.getModeSetting(mode, SettingSave.LOADOUT_OUTFIT);
         if (startOutfit != 0) {
             mode.getInitialNotifications().add(UIText.SETTING_OUTFIT_NOTIF.text());
         }
@@ -73,7 +70,7 @@ public class SettingLoadoutOutfit extends ModeSetting {
 
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
-        int startOutfit = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
+        int startOutfit = JSONManager.setting.getModeSetting(mode, SettingSave.LOADOUT_OUTFIT);
         if (startOutfit != 0) {
             System.arraycopy(universalLoadout.multitools, 0, newLoadout.multitools, 0, Loadout.MAX_WEAPON_SLOTS);
             System.arraycopy(universalLoadout.artifacts, 0, newLoadout.artifacts, 0, Loadout.MAX_ARTIFACT_SLOTS);

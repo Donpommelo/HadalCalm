@@ -17,6 +17,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.hub.Vending;
+import com.mygdx.hadal.event.modes.ArcadeNextRound;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.GameMode;
@@ -141,28 +142,6 @@ public class KryoServer {
 								Player player = user.getPlayer();
 								if (player != null) {
 									player.onReceiveSync(p, p.timestamp);
-								}
-							}
-						});
-					}
-				}
-
-				/*
-				 * This packet is sent periodically to inform the server of the client's inputs
-				 * this includes what buttons the client is holding as well as their mouse position
-				 */
-				if (o instanceof final Packets.SyncKeyStrokes p) {
-					final PlayState ps = getPlayState();
-					if (ps != null) {
-						ps.addPacketEffect(() -> {
-							User user = usm.getUsers().get(c.getID());
-							if (user != null) {
-								Player player = user.getPlayer();
-								if (player != null) {
-									if (player.getController() != null) {
-										player.getController().syncClientKeyStrokes(p.mouseX, p.mouseY,
-												p.playerX, p.playerY, p.actions, p.timestamp);
-									}
 								}
 							}
 						});
@@ -738,6 +717,18 @@ public class KryoServer {
 								if (null != packet) {
 									sendToTCP(c.getID(), packet);
 								}
+							}
+						});
+					}
+				}
+
+				else if (o instanceof Packets.SyncClientModeVote p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(c.getID());
+							if (user != null) {
+								ArcadeNextRound.playerVote(ps, user, p.vote);
 							}
 						});
 					}

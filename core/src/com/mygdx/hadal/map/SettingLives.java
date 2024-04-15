@@ -24,9 +24,6 @@ import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
  */
 public class SettingLives extends ModeSetting {
 
-    public static final String settingTag = "lives";
-    public static final Integer defaultValue = 0;
-
     private SelectBox<String> livesOptions;
 
     private int lockedLives;
@@ -48,7 +45,7 @@ public class SettingLives extends ModeSetting {
             livesOptions = new SelectBox<>(SKIN);
             livesOptions.setItems(livesChoices);
             livesOptions.setWidth(UIHub.OPTIONS_WIDTH);
-            livesOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
+            livesOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.LIVES));
 
             table.add(lives);
             table.add(livesOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -58,19 +55,19 @@ public class SettingLives extends ModeSetting {
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
         if (livesChoice) {
-            JSONManager.setting.setModeSetting(mode, settingTag, livesOptions.getSelectedIndex());
+            JSONManager.setting.setModeSetting(mode, SettingSave.LIVES, livesOptions.getSelectedIndex());
         }
     }
 
     @Override
     public String loadUIStart(PlayState state, GameMode mode) {
-        int startLives = livesChoice ? JSONManager.setting.getModeSetting(mode, settingTag, defaultValue) : lockedLives;
+        int startLives = livesChoice ? JSONManager.setting.getModeSetting(mode, SettingSave.LIVES) : lockedLives;
         return startLives != 0 ? "LIVES" : "";
     }
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
-        int startLives = livesChoice ? JSONManager.setting.getModeSetting(mode, settingTag, defaultValue) : lockedLives;
+        int startLives = livesChoice ? JSONManager.setting.getModeSetting(mode, SettingSave.LIVES) : lockedLives;
         if (startLives != 0) {
             for (User user : HadalGame.usm.getUsers().values()) {
                 user.getScoreManager().setLives(startLives);

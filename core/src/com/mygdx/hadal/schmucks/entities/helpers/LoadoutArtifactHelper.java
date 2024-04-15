@@ -204,10 +204,8 @@ public class LoadoutArtifactHelper {
     }
 
     public void saveArcadeArtifacts() {
-        if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
-            for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-                player.getUser().getLoadoutManager().getArcadeLoadout().artifacts[i] = getActiveLoadout().artifacts[i];
-            }
+        for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
+            player.getUser().getLoadoutManager().getArcadeLoadout().artifacts[i] = getActiveLoadout().artifacts[i];
         }
     }
 

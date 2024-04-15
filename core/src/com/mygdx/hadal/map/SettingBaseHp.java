@@ -18,9 +18,6 @@ import static com.mygdx.hadal.managers.SkinManager.SKIN;
  */
 public class SettingBaseHp extends ModeSetting {
 
-    private static final String settingTag = "base_hp";
-    private static final Integer defaultValue = 2;
-
     private SelectBox<String> hpOptions;
 
     private int baseHpIndex;
@@ -34,7 +31,7 @@ public class SettingBaseHp extends ModeSetting {
         hpOptions = new SelectBox<>(SKIN);
         hpOptions.setItems(hpChoices);
         hpOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        hpOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
+        hpOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.BASE_HP));
 
         table.add(hp);
         table.add(hpOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -42,12 +39,12 @@ public class SettingBaseHp extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        JSONManager.setting.setModeSetting(mode, settingTag, hpOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.BASE_HP, hpOptions.getSelectedIndex());
     }
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        baseHpIndex = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
+        baseHpIndex = JSONManager.setting.getModeSetting(mode, SettingSave.BASE_HP);
     }
 
     @Override

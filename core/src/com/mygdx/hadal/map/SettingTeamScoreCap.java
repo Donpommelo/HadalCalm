@@ -18,9 +18,6 @@ import static com.mygdx.hadal.managers.SkinManager.SKIN;
  */
 public class SettingTeamScoreCap extends ModeSetting {
 
-    public static final String settingTag = "team_score_cap";
-    public static final Integer defaultValue = 0;
-
     private SelectBox<String> scoreCapOptions;
 
     private int teamScoreCap;
@@ -35,7 +32,7 @@ public class SettingTeamScoreCap extends ModeSetting {
         scoreCapOptions = new SelectBox<>(SKIN);
         scoreCapOptions.setItems(scoreCapChoices);
         scoreCapOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        scoreCapOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
+        scoreCapOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.TEAM_SCORE_CAP));
 
         table.add(scorecap);
         table.add(scoreCapOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -43,12 +40,12 @@ public class SettingTeamScoreCap extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        JSONManager.setting.setModeSetting(mode, settingTag, scoreCapOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.TEAM_SCORE_CAP, scoreCapOptions.getSelectedIndex());
     }
 
     @Override
     public String loadUIStart(PlayState state, GameMode mode) {
-        int startScoreCap = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
+        int startScoreCap = JSONManager.setting.getModeSetting(mode, SettingSave.TEAM_SCORE_CAP);
         if (startScoreCap != 0) {
             return UIText.SETTING_SCORECAP_UI.text(Integer.toString(startScoreCap));
         }
@@ -57,7 +54,7 @@ public class SettingTeamScoreCap extends ModeSetting {
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        teamScoreCap = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
+        teamScoreCap = JSONManager.setting.getModeSetting(mode, SettingSave.TEAM_SCORE_CAP);
     }
 
     @Override

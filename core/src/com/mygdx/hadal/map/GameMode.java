@@ -13,7 +13,6 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.SettingLoadoutMode.LoadoutMode;
@@ -77,8 +76,7 @@ public enum GameMode {
     ARCADE("", "placeholder", GameText.ARCADE, GameText.ARCADE_DESC,
             new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(1),
             new SettingArcade(),
-            new DisplayUITag("ARCADE_ROUND"), new DisplayUITag("WINBOARD"), new DisplayUITag("CURRENCY"),
-            new DisplayUITag(UIText.UI_ENTER_TO_READY.text(PlayerAction.READY_UP.getKeyText()))),
+            new DisplayUITag("ARCADE_ROUND"), new DisplayUITag("WINBOARD"), new DisplayUITag("CURRENCY")),
 
     SURVIVAL("arena", "survival", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
         new SetCameraOnSpawn(),

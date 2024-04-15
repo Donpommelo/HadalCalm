@@ -15,8 +15,6 @@ import static com.mygdx.hadal.managers.SkinManager.SKIN;
  */
 public class SettingRespawnTime extends ModeSetting {
 
-    private static final String settingTag = "respawn_time";
-    private static final Integer defaultDefaultValue = 4;
     private SelectBox<String> respawnOptions;
 
     private final Integer defaultValue;
@@ -26,7 +24,7 @@ public class SettingRespawnTime extends ModeSetting {
     }
 
     public SettingRespawnTime() {
-        this(defaultDefaultValue);
+        this(SettingSave.RESPAWN_TIME.getStartingValue());
     }
 
     @Override
@@ -38,7 +36,7 @@ public class SettingRespawnTime extends ModeSetting {
         respawnOptions = new SelectBox<>(SKIN);
         respawnOptions.setItems(respawnChoices);
         respawnOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        respawnOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
+        respawnOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue));
 
         table.add(respawn);
         table.add(respawnOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -46,12 +44,12 @@ public class SettingRespawnTime extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        JSONManager.setting.setModeSetting(mode, settingTag, respawnOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.RESPAWN_TIME, respawnOptions.getSelectedIndex());
     }
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        state.setRespawnTime(indexToRespawnTime(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue)));
+        state.setRespawnTime(indexToRespawnTime(JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue)));
     }
 
     private float indexToRespawnTime(int index) {

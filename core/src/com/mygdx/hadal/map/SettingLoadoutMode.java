@@ -19,8 +19,6 @@ import static com.mygdx.hadal.managers.SkinManager.SKIN;
  */
 public class SettingLoadoutMode extends ModeSetting {
 
-    private static final String settingTag = "weapon_drops";
-    private static final Integer defaultValue = 0;
     private static final UnlockEquip[] weaponDropLoadout = {UnlockEquip.SPEARGUN_NERFED, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
 
     private SelectBox<String> dropsOptions;
@@ -35,7 +33,7 @@ public class SettingLoadoutMode extends ModeSetting {
         dropsOptions = new SelectBox<>(SKIN);
         dropsOptions.setItems(loadoutChoices);
         dropsOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        dropsOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
+        dropsOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.WEAPON_DROPS));
 
         table.add(loadout);
         table.add(dropsOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -43,24 +41,24 @@ public class SettingLoadoutMode extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        JSONManager.setting.setModeSetting(mode, settingTag, dropsOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.WEAPON_DROPS, dropsOptions.getSelectedIndex());
     }
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        mode.setLoadoutMode(indexToLoadoutMode(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue)));
+        mode.setLoadoutMode(indexToLoadoutMode(JSONManager.setting.getModeSetting(mode, SettingSave.WEAPON_DROPS)));
     }
 
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
-        if (JSONManager.setting.getModeSetting(mode, settingTag, defaultValue) == 0) {
+        if (JSONManager.setting.getModeSetting(mode, SettingSave.WEAPON_DROPS) == 0) {
             for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
                 if (weaponDropLoadout.length > i) {
                     newLoadout.multitools[i] = weaponDropLoadout[i];
                 }
             }
         }
-        if (JSONManager.setting.getModeSetting(mode, settingTag, defaultValue) == 2) {
+        if (JSONManager.setting.getModeSetting(mode, SettingSave.WEAPON_DROPS) == 2) {
             for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
                 if (weaponDropLoadout.length > i) {
                     newLoadout.multitools[i] = UnlockEquip.getRandWeapFromPool(state, "");

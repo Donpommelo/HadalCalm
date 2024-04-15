@@ -17,6 +17,7 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
+import com.mygdx.hadal.event.modes.ArcadeNextRound;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
@@ -25,6 +26,7 @@ import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.SettingArcade;
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -354,7 +356,7 @@ public class KryoClient {
 					//set mode settings according to what the server sends
 					if (null != p.modeSettings) {
 						for (String key : p.modeSettings.keySet()) {
-							JSONManager.setting.setModeSetting(p.mode, key, p.modeSettings.get(key));
+							JSONManager.setting.setModeSetting(p.mode, SettingSave.getByName(key), p.modeSettings.get(key));
 						}
 					}
 
@@ -565,6 +567,13 @@ public class KryoClient {
 				cs.addPacketEffect(() -> cs.getUiObjective()
 						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen,
 								p.displayOnScreen, p.displayClearCircle));
+			}
+		}
+
+		else if (o instanceof final Packets.SyncArcadeModeChoices p) {
+			final ClientState cs = getClientState();
+			if (null != cs) {
+				cs.addPacketEffect(() -> ArcadeNextRound.updateClientChoices(p.modeChoices, p.mapChoices));
 			}
 		}
 

@@ -533,6 +533,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("numWeapons", 0, Integer.class),
 					object.getProperties().get("numArtifacts", 6, Integer.class),
 					object.getProperties().get("numMagics", 0, Integer.class));
+			case "Arcade" -> e = new ArcadeNextRound(state, position, size);
 		}
 
 		if (null != e) {

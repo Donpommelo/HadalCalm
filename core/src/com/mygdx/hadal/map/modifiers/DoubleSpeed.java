@@ -1,5 +1,6 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -10,14 +11,13 @@ import com.mygdx.hadal.text.UIText;
  */
 public class DoubleSpeed extends ModeModifier {
 
-    private static final String settingTag = "double_speed";
     private static final UIText uiText = UIText.MODIFIER_FAST_UI;
     private static final UIText name = UIText.MODIFIER_FAST;
 
     private static final float physicsMultiplier = 1.0f;
 
     public DoubleSpeed() {
-        super(settingTag, uiText, name);
+        super(SettingSave.MODIFIER_DOUBLE_SPEED, uiText, name);
     }
 
     @Override

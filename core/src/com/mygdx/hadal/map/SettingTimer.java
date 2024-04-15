@@ -20,8 +20,6 @@ import static com.mygdx.hadal.managers.SkinManager.SKIN;
 public class SettingTimer extends ModeSetting {
 
     private final String endText;
-    public static final String settingTag = "timer";
-    private static final Integer defaultDefaultValue = 5;
     private SelectBox<String> timerOptions;
 
     private final Integer defaultValue;
@@ -32,7 +30,7 @@ public class SettingTimer extends ModeSetting {
     }
 
     public SettingTimer(String endText) {
-        this(endText, defaultDefaultValue);
+        this(endText, SettingSave.RESPAWN_TIME.getStartingValue());
     }
 
     @Override
@@ -44,7 +42,7 @@ public class SettingTimer extends ModeSetting {
         timerOptions = new SelectBox<>(SKIN);
         timerOptions.setItems(timerChoices);
         timerOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        timerOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag, defaultValue));
+        timerOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue));
 
         table.add(timer);
         table.add(timerOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -52,12 +50,12 @@ public class SettingTimer extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        JSONManager.setting.setModeSetting(mode, settingTag, timerOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.RESPAWN_TIME, timerOptions.getSelectedIndex());
     }
 
     @Override
     public String loadUIStart(PlayState state, GameMode mode) {
-        int startTimer = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
+        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue);
         if (startTimer != 0) {
             return "TIMER";
         }
@@ -67,7 +65,7 @@ public class SettingTimer extends ModeSetting {
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
 
-        int startTimer = JSONManager.setting.getModeSetting(mode, settingTag, defaultValue);
+        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue);
 
         if (startTimer != 0) {
             state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);

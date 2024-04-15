@@ -2,6 +2,7 @@ package com.mygdx.hadal.map.modifiers;
 
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -14,7 +15,6 @@ import com.mygdx.hadal.text.UIText;
  */
 public class MedievalMode extends ModeModifier {
 
-    private static final String settingTag = "medieval_mode";
     private static final UIText uiText = UIText.MODIFIER_MEDIEVAL_UI;
     private static final UIText name = UIText.MODIFIER_MEDIEVAL;
     private static final UIText desc = UIText.MODIFIER_MEDIEVAL_DESC;
@@ -22,7 +22,7 @@ public class MedievalMode extends ModeModifier {
     private static final UnlockEquip[] BaseEquip = {UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
 
     public MedievalMode() {
-        super(settingTag, uiText, name);
+        super(SettingSave.MODIFIER_MEDIEVAL, uiText, name);
         this.setDesc(desc);
     }
 

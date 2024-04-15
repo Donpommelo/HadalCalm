@@ -8,7 +8,7 @@ package com.mygdx.hadal.users;
 public class ScoreManager {
 	
 	//Player's stored score fields for the score window
-	private int wins, currency, kills, deaths, assists, score, teamScore, extraModeScore;
+	private int wins, currency, kills, deaths, assists, score, teamScore, extraModeScore, nextRoundVote;
 	private int lives = 1;
 
 	//did the player win their last game? This is used to let the client know who won in the results screen.
@@ -69,6 +69,10 @@ public class ScoreManager {
 	public int getExtraModeScore() { return extraModeScore; }
 
 	public void setExtraModeScore(int extraModeScore) {	this.extraModeScore = extraModeScore; }
+
+	public int getNextRoundVote() { return nextRoundVote; }
+
+	public void setNextRoundVote(int nextRoundVote) { this.nextRoundVote = nextRoundVote; }
 
 	public int getLives() { return lives; }
 

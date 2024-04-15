@@ -201,6 +201,7 @@
   "UI_READY" : "<s0>: RDY",
   "UI_NOT_READY" : "<s0>: NOT RDY",
   "UI_ENTER_TO_READY" : "PRESS <s0> TO READY UP",
+  "UI_NUMKEYS_TO_VOTE" : "<s0>, <s1>, <s2>, <s3> TO VOTE FOR NEXT MAP",
   "UI_ARCADE_ROUND" : "ROUND: <s0>",
   "UI_ARCADE_ROUND_LIMIT" : "ROUND: <s0> / <s1>",
   "UI_ARCADE_WIN_CAP" : "<s0> POINTS TO WIN",

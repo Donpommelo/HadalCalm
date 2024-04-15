@@ -3,16 +3,15 @@ package com.mygdx.hadal.map;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.event.modes.ArcadeNextRound;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
@@ -35,21 +34,8 @@ public class SettingArcade extends ModeSetting {
     public static int roundNum, currentRound, winCap;
 
     private final String endText;
-    public static final String settingTag1 = "break_timer";
-    private static final Integer defaultValue1 = 2;
-    public static final String settingTag2 = "round_number";
-    private static final Integer defaultValue2 = 0;
-    public static final String settingTag3 = "win_cap";
-    private static final Integer defaultValue3 = 1;
-    public static final String settingTag4 = "start_currency";
-    private static final Integer defaultValue4 = 2;
-    public static final String settingTag5 = "round_currency";
-    private static final Integer defaultValue5 = 3;
 
     private SelectBox<String> timerOptions, roundCountOptions, startingScrapOptions, roundScrapOptions, winCountOptions;
-
-    private static UnlockLevel nextLevel;
-    private static GameMode mode = GameMode.DEATHMATCH;
 
     public SettingArcade() {
         this.endText = ResultsState.MAGIC_WORD;
@@ -64,7 +50,7 @@ public class SettingArcade extends ModeSetting {
         timerOptions = new SelectBox<>(SKIN);
         timerOptions.setItems(timerChoices);
         timerOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        timerOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag1, defaultValue1));
+        timerOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_BREAK_TIME));
 
         table.add(timer);
         table.add(timerOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -76,7 +62,7 @@ public class SettingArcade extends ModeSetting {
         roundCountOptions = new SelectBox<>(SKIN);
         roundCountOptions.setItems(roundChoices);
         roundCountOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        roundCountOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag2, defaultValue2));
+        roundCountOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_ROUND_NUMBER));
 
         table.add(rounds);
         table.add(roundCountOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -88,7 +74,7 @@ public class SettingArcade extends ModeSetting {
         winCountOptions = new SelectBox<>(SKIN);
         winCountOptions.setItems(winChoices);
         winCountOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        winCountOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag3, defaultValue3));
+        winCountOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_SCORE_CAP));
 
         table.add(wins);
         table.add(winCountOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -100,7 +86,7 @@ public class SettingArcade extends ModeSetting {
         startingScrapOptions = new SelectBox<>(SKIN);
         startingScrapOptions.setItems(currencyChoices);
         startingScrapOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        startingScrapOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag4, defaultValue4));
+        startingScrapOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_CURRENCY_START));
 
         table.add(currency);
         table.add(startingScrapOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -112,7 +98,7 @@ public class SettingArcade extends ModeSetting {
         roundScrapOptions = new SelectBox<>(SKIN);
         roundScrapOptions.setItems(currencyGainChoices);
         roundScrapOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        roundScrapOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, settingTag5, defaultValue5));
+        roundScrapOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_CURRENCY_ROUND));
 
         table.add(currencyGain);
         table.add(roundScrapOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -120,16 +106,16 @@ public class SettingArcade extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        JSONManager.setting.setModeSetting(mode, settingTag1, timerOptions.getSelectedIndex());
-        JSONManager.setting.setModeSetting(mode, settingTag2, roundCountOptions.getSelectedIndex());
-        JSONManager.setting.setModeSetting(mode, settingTag3, winCountOptions.getSelectedIndex());
-        JSONManager.setting.setModeSetting(mode, settingTag4, startingScrapOptions.getSelectedIndex());
-        JSONManager.setting.setModeSetting(mode, settingTag5, roundScrapOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.ARCADE_BREAK_TIME, timerOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.ARCADE_ROUND_NUMBER, roundCountOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.ARCADE_SCORE_CAP, winCountOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.ARCADE_CURRENCY_START, startingScrapOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.ARCADE_CURRENCY_ROUND, roundScrapOptions.getSelectedIndex());
     }
 
     @Override
     public String loadUIStart(PlayState state, GameMode mode) {
-        int startTimer = JSONManager.setting.getModeSetting(mode, settingTag1, defaultValue1);
+        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_BREAK_TIME);
         if (startTimer != 0) {
             return "TIMER";
         }
@@ -144,9 +130,7 @@ public class SettingArcade extends ModeSetting {
             currentRound++;
         }
 
-        getNextMap();
-
-        int startTimer = JSONManager.setting.getModeSetting(mode, settingTag1, defaultValue1);
+        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_BREAK_TIME);
 
         if (startTimer != 0) {
             state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);
@@ -170,24 +154,20 @@ public class SettingArcade extends ModeSetting {
     private void startArcade(GameMode mode) {
         for (User user : HadalGame.usm.getUsers().values()) {
             user.getScoreManager().setReady(false);
+            user.getScoreManager().setNextRoundVote(-1);
             user.getLoadoutManager().setArcadeLoadout(new Loadout(SavedLoadout.createNewLoadout()));
         }
 
-        roundNum = indexToRoundNum(JSONManager.setting.getModeSetting(mode, settingTag2, defaultValue2));
-        winCap = indexToRoundNum(JSONManager.setting.getModeSetting(mode, settingTag3, defaultValue3));
+        roundNum = indexToRoundNum(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_ROUND_NUMBER));
+        winCap = indexToRoundNum(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_SCORE_CAP));
         currentRound = 0;
 
         for (User user : HadalGame.usm.getUsers().values()) {
             user.getScoreManager().setWins(0);
             user.getScoreManager().setCurrency(
-                    indexToStartingCurrency(JSONManager.setting.getModeSetting(mode, settingTag4, defaultValue4)));
+                    indexToStartingCurrency(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_CURRENCY_START)));
             user.setScoreUpdated(true);
         }
-    }
-
-    private void getNextMap() {
-        mode = GameMode.DEATHMATCH;
-        nextLevel = UnlockLevel.getRandomLevelForMode(mode, new Array<>(new UnlockManager.UnlockTag[]{UnlockManager.UnlockTag.CURATED}));
     }
 
     public static void processEndOfRound(PlayState state, GameMode mode) {
@@ -197,8 +177,9 @@ public class SettingArcade extends ModeSetting {
         }
 
         if (mode.equals(GameMode.ARCADE)) {
-            state.setNextLevel(nextLevel);
-            state.setNextMode(mode);
+            int vote = ArcadeNextRound.getVotedOption();
+            state.setNextLevel(ArcadeNextRound.getMapChoices().get(vote));
+            state.setNextMode(ArcadeNextRound.getModeChoices().get(vote).getMode());
         } else {
 
             if (roundNum != 0 && currentRound > roundNum) {
@@ -218,14 +199,15 @@ public class SettingArcade extends ModeSetting {
                 } else {
                     state.setNextLevel(UnlockLevel.HUB_BREAK);
                     state.setNextMode(GameMode.ARCADE);
+                    for (User user : HadalGame.usm.getUsers().values()) {
+                        user.getScoreManager().setCurrency(user.getScoreManager().getCurrency() +
+                                indexToRoundCurrency(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_CURRENCY_ROUND)));
+                    }
                 }
             }
         }
 
         for (User user : HadalGame.usm.getUsers().values()) {
-            user.getScoreManager().setCurrency(user.getScoreManager().getCurrency() +
-                    indexToRoundCurrency(JSONManager.setting.getModeSetting(mode, settingTag5, defaultValue5)));
-
             user.getTransitionManager().beginTransition(state, new Transition()
                     .setNextState(PlayState.TransitionState.NEWLEVEL)
                     .setFadeSpeed(0.0f)
@@ -253,7 +235,9 @@ public class SettingArcade extends ModeSetting {
             }
         }
         if (reddy) {
-            state.loadLevel(nextLevel, mode, PlayState.TransitionState.NEWLEVEL, "");
+            int vote = ArcadeNextRound.getVotedOption();
+            state.loadLevel(ArcadeNextRound.getMapChoices().get(vote), ArcadeNextRound.getModeChoices().get(vote).getMode(),
+                    PlayState.TransitionState.NEWLEVEL, "");
         }
 
         state.getUiExtra().syncUIText(UITag.uiType.WINBOARD);
