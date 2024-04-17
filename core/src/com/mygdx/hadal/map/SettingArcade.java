@@ -21,7 +21,7 @@ import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import static com.mygdx.hadal.managers.SkinManager.SKIN;
-import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_DELAY;
+import static com.mygdx.hadal.users.Transition.*;
 
 /**
  * This mode setting is used for modes where the host can designate a time limit.
@@ -210,8 +210,8 @@ public class SettingArcade extends ModeSetting {
         for (User user : HadalGame.usm.getUsers().values()) {
             user.getTransitionManager().beginTransition(state, new Transition()
                     .setNextState(PlayState.TransitionState.NEWLEVEL)
-                    .setFadeSpeed(0.0f)
-                    .setFadeDelay(DEFAULT_FADE_DELAY)
+                    .setFadeSpeed(SLOW_FADE_OUT_SPEED)
+                    .setFadeDelay(MEDIUM_FADE_DELAY)
                     .setOverride(true));
         }
     }

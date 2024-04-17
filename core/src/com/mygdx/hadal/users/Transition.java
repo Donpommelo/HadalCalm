@@ -11,6 +11,7 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 public class Transition {
 
     public static final float DEFAULT_FADE_OUT_SPEED = 2.0f;
+    public static final float SLOW_FADE_OUT_SPEED = 0.5f;
     public static final float DEFAULT_FADE_DELAY = 0.0f;
     public static final float SHORT_FADE_DELAY = 0.5f;
     public static final float MEDIUM_FADE_DELAY = 1.0f;

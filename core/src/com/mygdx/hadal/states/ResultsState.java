@@ -321,7 +321,7 @@ public class ResultsState extends GameState {
 		syncInfoTable(HadalGame.usm.getConnID());
 
 		//this draws the playstate snapshot over the results and makes it gradually dissolve after a delay
-		stage.addActor(new Backdrop(AssetList.RESULTS_CARD.toString()) {
+		stage.addActor(new Backdrop(AssetList.BLACK.toString()) {
 
 			private boolean songPlaying;
 			private float progress;

@@ -39,7 +39,7 @@ public class HadalGame extends ApplicationAdapter {
 	public static final boolean SAVE_RESET = true;
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/692033/109d";
+	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/692033/109e";
 
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;

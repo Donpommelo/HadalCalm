@@ -76,8 +76,7 @@ import java.util.UUID;
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 import static com.mygdx.hadal.constants.Constants.PPM;
 import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
-import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_OUT_SPEED;
-import static com.mygdx.hadal.users.Transition.SHORT_FADE_DELAY;
+import static com.mygdx.hadal.users.Transition.*;
 
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
