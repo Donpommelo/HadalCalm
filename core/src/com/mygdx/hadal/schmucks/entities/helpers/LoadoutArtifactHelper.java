@@ -53,7 +53,11 @@ public class LoadoutArtifactHelper {
 
         Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
         for (int i = 0; i < Loadout.MAX_ARTIFACT_SLOTS; i++) {
-            addArtifact(artifactsTemp[i], override, save);
+            if (SettingArcade.arcade && player.getState().isServer()) {
+                addArtifact(artifactsTemp[i], true, save);
+            } else {
+                addArtifact(artifactsTemp[i], override, save);
+            }
         }
 
         //add map modifiers as 0-cost, overriding, invisible artifacts

@@ -30,7 +30,7 @@ public class SettingTimer extends ModeSetting {
     }
 
     public SettingTimer(String endText) {
-        this(endText, SettingSave.RESPAWN_TIME.getStartingValue());
+        this(endText, SettingSave.TIMER.getStartingValue());
     }
 
     @Override
@@ -42,7 +42,7 @@ public class SettingTimer extends ModeSetting {
         timerOptions = new SelectBox<>(SKIN);
         timerOptions.setItems(timerChoices);
         timerOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        timerOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue));
+        timerOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.TIMER, defaultValue));
 
         table.add(timer);
         table.add(timerOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -50,12 +50,12 @@ public class SettingTimer extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        JSONManager.setting.setModeSetting(mode, SettingSave.RESPAWN_TIME, timerOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.TIMER, timerOptions.getSelectedIndex());
     }
 
     @Override
     public String loadUIStart(PlayState state, GameMode mode) {
-        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue);
+        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.TIMER, defaultValue);
         if (startTimer != 0) {
             return "TIMER";
         }
@@ -65,7 +65,7 @@ public class SettingTimer extends ModeSetting {
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
 
-        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue);
+        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.TIMER, defaultValue);
 
         if (startTimer != 0) {
             state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);

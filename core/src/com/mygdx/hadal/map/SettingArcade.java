@@ -130,6 +130,10 @@ public class SettingArcade extends ModeSetting {
             currentRound++;
         }
 
+        for (User user : HadalGame.usm.getUsers().values()) {
+            user.setScoreUpdated(true);
+        }
+
         int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_BREAK_TIME);
 
         if (startTimer != 0) {
@@ -156,18 +160,15 @@ public class SettingArcade extends ModeSetting {
             user.getScoreManager().setReady(false);
             user.getScoreManager().setNextRoundVote(-1);
             user.getLoadoutManager().setArcadeLoadout(new Loadout(SavedLoadout.createNewLoadout()));
+
+            user.getScoreManager().setWins(0);
+            user.getScoreManager().setCurrency(
+                    indexToStartingCurrency(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_CURRENCY_START)));
         }
 
         roundNum = indexToRoundNum(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_ROUND_NUMBER));
         winCap = indexToRoundNum(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_SCORE_CAP));
         currentRound = 0;
-
-        for (User user : HadalGame.usm.getUsers().values()) {
-            user.getScoreManager().setWins(0);
-            user.getScoreManager().setCurrency(
-                    indexToStartingCurrency(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_CURRENCY_START)));
-            user.setScoreUpdated(true);
-        }
     }
 
     public static void processEndOfRound(PlayState state, GameMode mode) {
