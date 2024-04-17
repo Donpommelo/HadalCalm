@@ -11,7 +11,6 @@ import com.mygdx.hadal.equip.modeMods.*;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.text.TextFilterUtil;
 
@@ -507,14 +506,14 @@ public enum UnlockArtifact {
 	/**
 	 * This acquires a list of all unlocked artifacts (if unlock is true. otherwise just return all artifacts that satisfy the tags)
 	 */
-	public static Array<UnlockArtifact> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
+	public static Array<UnlockArtifact> getUnlocks(boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockArtifact> items = new Array<>();
 		
 		for (UnlockArtifact u : UnlockArtifact.values()) {
 			
 			boolean get = UnlockManager.checkTags(u.tags, tags);
 			
-			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.ARTIFACT, u.toString())) {
+			if (unlock && !UnlockManager.checkUnlock(UnlockType.ARTIFACT, u.toString())) {
 				get = false;
 			}
 			if (get) {
@@ -528,13 +527,13 @@ public enum UnlockArtifact {
 	 * This method returns the name of a artifact randomly selected from the pool.
 	 * @param pool: comma separated list of names of artifact to choose from. if set to "", return any artifact.
 	 */
-	public static UnlockArtifact getRandArtfFromPool(PlayState state, String pool) {
+	public static UnlockArtifact getRandArtfFromPool(String pool) {
 
 		Array<UnlockTag> defaultTags = new Array<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if ("".equals(pool)) {
-			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(state, false, defaultTags);
+			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(false, defaultTags);
 			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
 

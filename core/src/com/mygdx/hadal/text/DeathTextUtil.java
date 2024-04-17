@@ -5,13 +5,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.managers.JSONManager.JSON;
 
 /**
  * This utility generates custom kill text when a player is killed
@@ -24,9 +25,9 @@ public class DeathTextUtil {
 	 * This returns a death message for a specific kill
 	 * The player can toggle on "verbose death messages" in settings for simple or complex death messages
 	 */
-	public static String getDeathText(GameStateManager gsm, Player perp, Player vic, EnemyType type, DamageSource source,
+	public static String getDeathText(Player perp, Player vic, EnemyType type, DamageSource source,
 									  DamageTag... tags) {
-		if (gsm.getSetting().isVerboseDeathMessage()) {
+		if (JSONManager.setting.isVerboseDeathMessage()) {
 			return getDeathTextVerbose(perp, vic, type, source, tags);
 		} else {
 			return getDeathTextAbridged(perp, vic, type);
@@ -79,12 +80,12 @@ public class DeathTextUtil {
 	private static Array<String> getValidMessages(String tag, boolean namedPerp) {
 		Array<String> possibleMessages = new Array<>();
 		
-		JsonValue values = GameStateManager.deathMessages.get(tag);
+		JsonValue values = JSONManager.deathMessages.get(tag);
 		if (null != values) {
 			
 			//iterate through all messages that match the input tag
 			for (JsonValue d : values) {
-				DeathMessage message = GameStateManager.JSON.fromJson(DeathMessage.class, d.toJson(OutputType.json));
+				DeathMessage message = JSON.fromJson(DeathMessage.class, d.toJson(OutputType.json));
 				if (null != message) {
 					
 					//add multiple instances of the message according to its weight

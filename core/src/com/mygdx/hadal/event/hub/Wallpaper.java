@@ -7,6 +7,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.Shader;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -35,7 +36,7 @@ public class Wallpaper extends HubEvent {
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
 					state.setShaderBase(SHADERS[index]);
-					state.getGsm().getSetting().setCustomShader(index);
+					JSONManager.setting.setCustomShader(index);
 				}
 			});
 			itemChoose.setScale(UIHub.OPTIONS_SCALE);

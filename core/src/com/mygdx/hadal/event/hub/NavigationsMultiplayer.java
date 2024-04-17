@@ -201,7 +201,8 @@ public class NavigationsMultiplayer extends HubEvent {
 		Pattern pattern = Pattern.compile(lastSearch);
 
 		//iterate through all valid maps
-		for (UnlockLevel c : UnlockLevel.getUnlocks(state, checkUnlock, newTags)) {
+		for (UnlockLevel c : UnlockLevel.getUnlocks(checkUnlock, newTags)) {
+
 			final UnlockLevel selected = c;
 
 			boolean appear = false;
@@ -222,6 +223,7 @@ public class NavigationsMultiplayer extends HubEvent {
 					break;
 				}
 			}
+
 
 			if (appear && modeCompliant) {
 				Animation<TextureRegion> sprite = null;

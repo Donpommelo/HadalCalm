@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.GameStateManager;
+
+import static com.mygdx.hadal.managers.SkinManager.*;
 
 /**
  * Simple actor that displays floating text.
@@ -44,8 +44,8 @@ public class Text extends AHadalActor {
 		super(x, y);
 		this.text = text;
 
-		font = HadalGame.FONT_UI;
-		fontColor = HadalGame.DEFAULT_TEXT_COLOR;
+		font = FONT_UI;
+		fontColor = DEFAULT_TEXT_COLOR;
 
 		updateHitBox();
 	}
@@ -58,7 +58,7 @@ public class Text extends AHadalActor {
 		//draw an additional window beneath this actor to indicate a button
 		if (mouseOver) {
 			if (mouseWindow) {
-				GameStateManager.getSimplePatch().draw(batch, getX() - PAD / 2, getY(), getWidth() + PAD, getHeight());
+				SIMPLE_PATCH.draw(batch, getX() - PAD / 2, getY(), getWidth() + PAD, getHeight());
 			}
 		 }
 

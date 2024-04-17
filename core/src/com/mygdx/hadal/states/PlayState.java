@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.*;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.battle.DamageSource;
@@ -39,8 +40,11 @@ import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.FadeManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCosmetic;
@@ -71,8 +75,8 @@ import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 import static com.mygdx.hadal.constants.Constants.PPM;
-import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_OUT_SPEED;
-import static com.mygdx.hadal.users.Transition.SHORT_FADE_DELAY;
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
+import static com.mygdx.hadal.users.Transition.*;
 
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
@@ -201,15 +205,15 @@ public class PlayState extends GameState {
 	
 	/**
 	 * Constructor is called upon player beginning a game.
-	 * @param gsm: StateManager
+	 * @param app: the game
 	 * @param level: the level we are loading into
 	 * @param mode: the mode of the level we are loading into
 	 * @param server: is this the server or not?
 	 * @param reset: do we reset the old player's hp/fuel/ammo in the new playstate?
 	 * @param startID: the id of the starting event the player should be spawned at
 	 */
-	public PlayState(GameStateManager gsm, UnlockLevel level, GameMode mode, boolean server, boolean reset, String startID) {
-		super(gsm);
+	public PlayState(HadalGame app, UnlockLevel level, GameMode mode, boolean server, boolean reset, String startID) {
+		super(app);
 		this.level = level;
 		this.mode = mode;
 		this.server = server;
@@ -259,7 +263,7 @@ public class PlayState extends GameState {
 		this.cameraManager = new CameraManager(this, map);
 
 		//We clear things like music/sound/shaders to periodically free up some memory
-		GameStateManager.clearMemory();
+		StateManager.clearMemory();
 
 		//we clear shaded cosmetics to avoid having too many cached fbos
 		UnlockCosmetic.clearShadedCosmetics();
@@ -271,7 +275,7 @@ public class PlayState extends GameState {
 		anchor = new AnchorPoint(this);
 
 		if (map.getProperties().get("customShader", false, Boolean.class)) {
-			shaderBase = Wallpaper.SHADERS[gsm.getSetting().getCustomShader()];
+			shaderBase = Wallpaper.SHADERS[JSONManager.setting.getCustomShader()];
 			shaderBase.loadShader();
 		} else if (map.getProperties().get("shader", String.class) != null) {
 			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
@@ -334,7 +338,7 @@ public class PlayState extends GameState {
 		this.white = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.WHITE.toString()));
 
 		//set whether to draw hitbox debug lines or not
-		debugHitbox = gsm.getSetting().isDebugHitbox();
+		debugHitbox = JSONManager.setting.isDebugHitbox();
 	}
 			
 	@Override
@@ -369,17 +373,17 @@ public class PlayState extends GameState {
 		resetController();
 
 		//if we faded out before transitioning to this stage, we should fade in upon showing
-		if (gsm.getApp().getFadeLevel() >= 1.0f) {
-			gsm.getApp().fadeIn();
+		if (FadeManager.getFadeLevel() >= 1.0f) {
+			FadeManager.fadeIn();
 		}
 
 		//play track corresponding to map properties or a random song from the combat ost list
 		MusicTrack newTrack;
 		if (map.getProperties().get("music", String.class) != null) {
-			newTrack =  HadalGame.musicPlayer.playSong(MusicTrackType.getByName(
+			newTrack =  MusicPlayer.playSong(MusicTrackType.getByName(
 					map.getProperties().get("music", String.class)), 1.0f);
 		} else {
-			newTrack = HadalGame.musicPlayer.playSong(MusicTrackType.MATCH, 1.0f);
+			newTrack = MusicPlayer.playSong(MusicTrackType.MATCH, 1.0f);
 		}
 
 		if (newTrack != null) {
@@ -396,8 +400,8 @@ public class PlayState extends GameState {
 	public void resetController() {
 		
 		//we check if we are in a playstate (not paused or in setting menu) b/c we don't reset control in those states
-		if (!gsm.getStates().empty()) {
-			if (gsm.getStates().peek() instanceof PlayState) {
+		if (!StateManager.states.empty()) {
+			if (StateManager.states.peek() instanceof PlayState) {
 				controller = new PlayerController(HadalGame.usm.getOwnPlayer());
 
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -528,12 +532,13 @@ public class PlayState extends GameState {
 				if (user.isScoreUpdated()) {
 					changeMade = true;
 					user.setScoreUpdated(false);
+
+					ScoreManager score = user.getScoreManager();
+					HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
+							user.getLoadoutManager().getSavedLoadout(), score.getWins(), score.getKills(), score.getDeaths(),
+							score.getAssists(), score.getScore(), score.getExtraModeScore(),
+							score.getLives(), score.getCurrency(), user.getPing(), user.isSpectator()));
 				}
-				ScoreManager score = user.getScoreManager();
-				HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
-						user.getLoadoutManager().getSavedLoadout(), score.getWins(), score.getKills(), score.getDeaths(),
-						score.getAssists(), score.getScore(), score.getExtraModeScore(),
-						score.getLives(), user.getPing(), user.isSpectator()));
 			}
 			if (changeMade) {
 				scoreWindow.syncScoreTable();
@@ -638,7 +643,7 @@ public class PlayState extends GameState {
 						JSONObject lobbyData = new JSONObject();
 						try {
 							lobbyData.put("playerNum", HadalGame.usm.getNumPlayers());
-							lobbyData.put("playerCapacity", gsm.getSetting().getMaxPlayers() + 1);
+							lobbyData.put("playerCapacity", JSONManager.setting.getMaxPlayers() + 1);
 							lobbyData.put("gameMode", mode.getName());
 							lobbyData.put("gameMap", level.getName());
 						} catch (JSONException jsonException) {
@@ -829,7 +834,7 @@ public class PlayState extends GameState {
 	public void transitionState() {
 		switch (nextState) {
 		case RESPAWN:
-			gsm.getApp().fadeIn();
+			FadeManager.fadeIn();
 			spectatorMode = false;
 			
 			//Make nextState null so we can transition again
@@ -841,16 +846,16 @@ public class PlayState extends GameState {
 			FrameBuffer fbo = resultsStateFreeze();
 
 			//get a results screen
-			gsm.removeState(SettingState.class, false);
-			gsm.removeState(AboutState.class, false);
-			gsm.removeState(PauseState.class, false);
-			gsm.removeState(PlayState.class, false);
-			gsm.addResultsState(this, resultsText, LobbyState.class, fbo);
-			gsm.addResultsState(this, resultsText, TitleState.class, fbo);
+			StateManager.removeState(SettingState.class, false);
+			StateManager.removeState(AboutState.class, false);
+			StateManager.removeState(PauseState.class, false);
+			StateManager.removeState(PlayState.class, false);
+			StateManager.addResultsState(this, resultsText, LobbyState.class, fbo);
+			StateManager.addResultsState(this, resultsText, TitleState.class, fbo);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
-			gsm.getApp().fadeIn();
+			FadeManager.fadeIn();
 			setSpectatorMode();
 			
 			//Make nextState null so we can transition again
@@ -859,37 +864,37 @@ public class PlayState extends GameState {
 		case NEWLEVEL:
 			
 			//remove this state and add a new play state with a fresh loadout
-			gsm.removeState(SettingState.class, false);
-			gsm.removeState(AboutState.class, false);
-			gsm.removeState(PauseState.class, false);
-			gsm.removeState(PlayState.class, false);
-			gsm.addPlayState(nextLevel, nextMode, LobbyState.class, true, nextStartID);
-			gsm.addPlayState(nextLevel, nextMode, TitleState.class, true, nextStartID);
+			StateManager.removeState(SettingState.class, false);
+			StateManager.removeState(AboutState.class, false);
+			StateManager.removeState(PauseState.class, false);
+			StateManager.removeState(PlayState.class, false);
+			StateManager.addPlayState(app, nextLevel, nextMode, LobbyState.class, true, nextStartID);
+			StateManager.addPlayState(app, nextLevel, nextMode, TitleState.class, true, nextStartID);
 			break;
 		case NEXTSTAGE:
 			//remove this state and add a new play state with the player's current loadout and stats
-			gsm.removeState(SettingState.class, false);
-			gsm.removeState(AboutState.class, false);
-			gsm.removeState(PauseState.class, false);
-			gsm.removeState(PlayState.class, false);
+			StateManager.removeState(SettingState.class, false);
+			StateManager.removeState(AboutState.class, false);
+			StateManager.removeState(PauseState.class, false);
+			StateManager.removeState(PlayState.class, false);
 
-			gsm.addPlayState(nextLevel, nextMode, LobbyState.class, false, nextStartID);
-			gsm.addPlayState(nextLevel, nextMode, TitleState.class, false, nextStartID);
+			StateManager.addPlayState(app, nextLevel, nextMode, LobbyState.class, false, nextStartID);
+			StateManager.addPlayState(app, nextLevel, nextMode, TitleState.class, false, nextStartID);
 			break;
 		case TITLE:
-			gsm.removeState(ResultsState.class);
-			gsm.removeState(SettingState.class, false);
-			gsm.removeState(AboutState.class, false);
-			gsm.removeState(PauseState.class, false);
-			gsm.removeState(PlayState.class);
+			StateManager.removeState(ResultsState.class);
+			StateManager.removeState(SettingState.class, false);
+			StateManager.removeState(AboutState.class, false);
+			StateManager.removeState(PauseState.class, false);
+			StateManager.removeState(PlayState.class);
 			
 			//add a notification to the title state if specified in transition state
-			if (!gsm.getStates().isEmpty()) {
-				if (gsm.getStates().peek() instanceof TitleState) {
-					((TitleState) gsm.getStates().peek()).setNotification(resultsText);
+			if (!StateManager.states.isEmpty()) {
+				if (StateManager.states.peek() instanceof TitleState titleState) {
+					titleState.setNotification(resultsText);
 				}
-				if (gsm.getStates().peek() instanceof LobbyState) {
-					((LobbyState) gsm.getStates().peek()).setNotification(resultsText);
+				if (StateManager.states.peek() instanceof LobbyState lobbyState) {
+					lobbyState.setNotification(resultsText);
 				}
 			}
 			break;
@@ -1125,7 +1130,11 @@ public class PlayState extends GameState {
             }
         }
 
-		transitionToResultsState(resultsText, fadeDelay);
+		if (SettingArcade.arcade) {
+			SettingArcade.processEndOfRound(this, mode);
+		} else {
+			transitionToResultsState(resultsText, fadeDelay);
+		}
 	}
 
 	/**
@@ -1136,7 +1145,7 @@ public class PlayState extends GameState {
 	public void transitionToResultsState(String resultsText, float fadeDelay) {
 
 		//mode-specific end-game processing (Atm this just cleans up bot pathfinding threads)
-		mode.processGameEnd();
+		mode.processGameEnd(this);
 
 		this.resultsText = resultsText;
 
@@ -1182,8 +1191,8 @@ public class PlayState extends GameState {
 		//draw extra ui elements for snapshot
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
-		HadalGame.FONT_UI.getData().setScale(END_TEXT_SCALE);
-		HadalGame.FONT_UI.draw(batch, UIText.GAME.text(),HadalGame.CONFIG_WIDTH / 2 - END_TEXT_WIDTH / 2, END_TEXT_Y, END_TEXT_WIDTH,
+		FONT_UI.getData().setScale(END_TEXT_SCALE);
+		FONT_UI.draw(batch, UIText.GAME.text(),HadalGame.CONFIG_WIDTH / 2 - END_TEXT_WIDTH / 2, END_TEXT_Y, END_TEXT_WIDTH,
 				Align.center, true);
 		batch.end();
 
@@ -1242,7 +1251,7 @@ public class PlayState extends GameState {
 		if (user != null) {
 			if (user.isSpectator()) {
 				//cannot exit spectator if server is full
-				if (HadalGame.usm.getNumPlayers() >= gsm.getSetting().getMaxPlayers() + 1) {
+				if (HadalGame.usm.getNumPlayers() >= JSONManager.setting.getMaxPlayers() + 1) {
 					HadalGame.server.sendNotification(user.getConnID(), "", UIText.SERVER_FULL.text(), true, DialogType.SYSTEM);
 					return;
 				}
@@ -1272,8 +1281,8 @@ public class PlayState extends GameState {
 	public void beginTransition(TransitionState state, float fadeSpeed, float fadeDelay, boolean skipFade) {
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
 		if (!skipFade) {
-			gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
-			gsm.getApp().setRunAfterTransition(this::transitionState);
+			FadeManager.fadeSpecificSpeed(fadeSpeed, fadeDelay);
+			FadeManager.setRunAfterTransition(this::transitionState);
 
 			//null nextState is used by user transition for non-timed respawn
 			if (null != state) {
@@ -1583,6 +1592,10 @@ public class PlayState extends GameState {
 	public void setNextState(TransitionState nextState) { this.nextState = nextState; }
 
 	public TransitionState getNextState() { return nextState; }
+
+	public void setNextLevel(UnlockLevel nextLevel) { this.nextLevel = nextLevel; }
+
+	public void setNextMode(GameMode nextMode) { this.nextMode = nextMode; }
 
 	public void setResultsText(String resultsText) { this.resultsText = resultsText; }
 }

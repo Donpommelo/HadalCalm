@@ -12,7 +12,6 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
@@ -21,13 +20,14 @@ import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
+import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
+import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.users.User.UserDto;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -282,38 +282,11 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncKeyStrokes {
-		public float mouseX, mouseY, playerX, playerY;
-		public PlayerAction[] actions;
-		public float timestamp;
-
-		public SyncKeyStrokes() {}
-
-		/**
-		 * This is sent from thte client to the server periodically to indicate what keys are currently held
-		 * This also includes mouse information
-		 * @param mouseX: X-coordinate of client's mouse
-		 * @param mouseY: Y-coordinate of client's mouse
-		 * @param playerX: X-coordinate of client's player (to the client)
-		 * @param playerY: Y-coordinate of client's player (to the client)
-		 * @param actions: Array of actions whose button is currently held
-		 * @param timestamp: Time that this input snapshot was sent
-		 */
-		public SyncKeyStrokes(float mouseX, float mouseY, float playerX, float playerY, PlayerAction[] actions, float timestamp) {
-			this.mouseX = mouseX;
-			this.mouseY = mouseY;
-			this.playerX = playerX;
-			this.playerY = playerY;
-			this.actions = actions;
-			this.timestamp = timestamp;
-		}
-	}
-	
 	public static class SyncScore {
 		public int connID;
 		public String name;
 		public Loadout loadout;
-		public int wins, kills, deaths, assists, score, extraModeScore, lives, ping;
+		public int wins, kills, deaths, assists, score, extraModeScore, lives, currency, ping;
 		public boolean spectator;
 
 		public SyncScore() {}
@@ -322,7 +295,8 @@ public class Packets {
 		 * This is sent from the server to the clients to give them their scores for a player whose score changed
 		 * @param connID: id of the player whose score is being updated.
 		 */
-		public SyncScore(int connID, String name, Loadout loadout, int wins, int kills, int deaths, int assists, int score, int extraModeScore, int lives, int ping, boolean spectator) {
+		public SyncScore(int connID, String name, Loadout loadout, int wins, int kills, int deaths, int assists, int score,
+						 int extraModeScore, int lives, int currency, int ping, boolean spectator) {
 			this.connID = connID;
 			this.name = name;
 			this.loadout = loadout;
@@ -333,6 +307,7 @@ public class Packets {
 			this.score = score;
 			this.extraModeScore = extraModeScore;
 			this.lives = lives;
+			this.currency = currency;
 			this.ping = ping;
 			this.spectator = spectator;
 		}
@@ -1120,6 +1095,28 @@ public class Packets {
 		}
 	}
 
+	public static class SyncArcadeModeChoices {
+		public String[] modeChoices;
+		public String[] mapChoices;
+
+		public SyncArcadeModeChoices() {}
+
+		public SyncArcadeModeChoices(String[] modeChoices, String[] mapChoices) {
+			this.modeChoices = modeChoices;
+			this.mapChoices = mapChoices;
+		}
+	}
+
+	public static class SyncClientModeVote {
+		public int vote;
+
+		public SyncClientModeVote() {}
+
+		public SyncClientModeVote(int vote) {
+			this.vote = vote;
+		}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1135,7 +1132,6 @@ public class Packets {
 		kryo.register(ServerChat.class);
 		kryo.register(ClientChat.class);
     	kryo.register(ClientReady.class);
-		kryo.register(SyncKeyStrokes.class);
     	kryo.register(LoadLevel.class);
     	kryo.register(ClientLoaded.class);
     	kryo.register(ClientPlayerCreated.class);
@@ -1176,6 +1172,8 @@ public class Packets {
 		kryo.register(SyncEmote.class);
 		kryo.register(SyncNotification.class);
 		kryo.register(SyncObjectiveMarker.class);
+		kryo.register(SyncArcadeModeChoices.class);
+		kryo.register(SyncClientModeVote.class);
 
 		kryo.register(PacketsSync.SyncEntity.class);
 		kryo.register(PacketsSync.SyncEntityAngled.class);
@@ -1203,6 +1201,8 @@ public class Packets {
 		kryo.register(PacketsLoadout.SyncCharacterServer.class);
 		kryo.register(PacketsLoadout.SyncTeamServer.class);
 		kryo.register(PacketsLoadout.SyncCosmeticServer.class);
+		kryo.register(PacketsLoadout.SyncVendingArtifact.class);
+		kryo.register(PacketsLoadout.SyncVendingScrapSpend.class);
 
 		kryo.register(PacketsAttacks.SingleClientIndependent.class);
 		kryo.register(PacketsAttacks.SingleClientDependent.class);
@@ -1230,6 +1230,7 @@ public class Packets {
 		kryo.register(int[].class);
 		kryo.register(float[].class);
 		kryo.register(long[].class);
+		kryo.register(String[].class);
 		kryo.register(Vector2.class);
 		kryo.register(Vector2[].class);
 		kryo.register(Vector3.class);
@@ -1237,6 +1238,7 @@ public class Packets {
 		kryo.register(HadalColor.class);
 		kryo.register(SoundEffect.class);
 		kryo.register(UnlockLevel.class);
+		kryo.register(UnlockLevel[].class);
 		kryo.register(UnlockArtifact.class);
 		kryo.register(UnlockArtifact[].class);
 		kryo.register(UnlockActives.class);

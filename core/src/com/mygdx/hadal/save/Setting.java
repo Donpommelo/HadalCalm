@@ -10,14 +10,16 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.HashMap;
 
-import static com.mygdx.hadal.managers.GameStateManager.JSON;
-import static com.mygdx.hadal.managers.GameStateManager.READER;
+import static com.mygdx.hadal.managers.JSONManager.JSON;
+import static com.mygdx.hadal.managers.JSONManager.READER;
 
 /**
  * A Setting contains all saved game settings.
@@ -150,7 +152,7 @@ public class Setting {
 	}
 
 	public void setAudio() {
-		HadalGame.musicPlayer.setVolume(musicVolume * masterVolume);
+		MusicPlayer.setVolume(musicVolume * masterVolume);
 	}
 
 	/**
@@ -163,6 +165,7 @@ public class Setting {
 		newSetting.resetAudio();
 		newSetting.resetServer();
 		newSetting.resetMisc();
+		newSetting.resetModeSettings();
 		newSetting.resetModeSettings();
 
 		Gdx.files.local("save/Settings.json").writeString(JSON.prettyPrint(newSetting), false);
@@ -217,12 +220,16 @@ public class Setting {
 		}
 	}
 
+	public Integer getModeSetting(GameMode mode, SettingSave setting) {
+		return getModeSetting(mode, setting, setting.getStartingValue());
+	}
+
 	/**
 	 * This retrieves a setting specific to a single mode
 	 */
-	public Integer getModeSetting(GameMode mode, String setting, Integer startValue) {
+	public Integer getModeSetting(GameMode mode, SettingSave setting, Integer startValue) {
 		if (modeSettings.containsKey(mode.toString())) {
-			return modeSettings.get(mode.toString()).getOrDefault(setting, startValue);
+			return modeSettings.get(mode.toString()).getOrDefault(setting.name(), startValue);
 		} else {
 			modeSettings.put(mode.toString(), new HashMap<>());
 			return startValue;
@@ -232,12 +239,12 @@ public class Setting {
 	/**
 	 * This sets a setting specific to a single mode
 	 */
-	public void setModeSetting(GameMode mode, String setting, Integer value) {
+	public void setModeSetting(GameMode mode, SettingSave setting, Integer value) {
 		if (modeSettings.containsKey(mode.toString())) {
-			modeSettings.get(mode.toString()).put(setting, value);
+			modeSettings.get(mode.toString()).put(setting.name(), value);
 		} else {
 			HashMap<String, Integer> fug = new HashMap<>();
-			fug.put(setting, value);
+			fug.put(setting.name(), value);
 			modeSettings.put(mode.toString(), fug);
 		}
 	}

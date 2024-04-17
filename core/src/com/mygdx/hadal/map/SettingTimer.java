@@ -5,10 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * This mode setting is used for modes where the host can designate a time limit.
@@ -18,8 +20,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SettingTimer extends ModeSetting {
 
     private final String endText;
-    public static final String settingTag = "timer";
-    private static final Integer defaultDefaultValue = 5;
     private SelectBox<String> timerOptions;
 
     private final Integer defaultValue;
@@ -30,7 +30,7 @@ public class SettingTimer extends ModeSetting {
     }
 
     public SettingTimer(String endText) {
-        this(endText, defaultDefaultValue);
+        this(endText, SettingSave.RESPAWN_TIME.getStartingValue());
     }
 
     @Override
@@ -39,10 +39,10 @@ public class SettingTimer extends ModeSetting {
         Text timer = new Text(UIText.SETTING_TIMER.text());
         timer.setScale(UIHub.DETAILS_SCALE);
 
-        timerOptions = new SelectBox<>(GameStateManager.getSkin());
+        timerOptions = new SelectBox<>(SKIN);
         timerOptions.setItems(timerChoices);
         timerOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        timerOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        timerOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue));
 
         table.add(timer);
         table.add(timerOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -50,12 +50,12 @@ public class SettingTimer extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        state.getGsm().getSetting().setModeSetting(mode, settingTag, timerOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.RESPAWN_TIME, timerOptions.getSelectedIndex());
     }
 
     @Override
     public String loadUIStart(PlayState state, GameMode mode) {
-        int startTimer = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue);
         if (startTimer != 0) {
             return "TIMER";
         }
@@ -65,7 +65,7 @@ public class SettingTimer extends ModeSetting {
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
 
-        int startTimer = state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue);
+        int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue);
 
         if (startTimer != 0) {
             state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);

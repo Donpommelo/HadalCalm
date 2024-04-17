@@ -3,7 +3,7 @@ package com.mygdx.hadal.text;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.utils.ConsoleCommandUtil;
 
 /**
@@ -79,10 +79,10 @@ public class TextFilterUtil {
 	/**
 	 * This filters ingame text like and dialog. This is used exclusively to use the player's name in dialog.
 	 */
-	public static String filterGameText(GameStateManager gsm, String text) {
+	public static String filterGameText(String text) {
 		String filteredText = text;
 		filteredText = filterText(filteredText);
-		filteredText = filterName(gsm, filteredText);
+		filteredText = filterName(filteredText);
 
 		return filteredText;
 	}
@@ -94,7 +94,7 @@ public class TextFilterUtil {
 		String filteredText = text;
 		
 		while (filteredText.contains(tag)) {
-			JsonValue value = GameStateManager.randomText.get(tag);
+			JsonValue value = JSONManager.randomText.get(tag);
 			
 			int randomIndex = MathUtils.random(value.asStringArray().length - 1);
 			filteredText = filteredText.replaceFirst(tag, value.asStringArray()[randomIndex]);
@@ -116,10 +116,10 @@ public class TextFilterUtil {
 	/**
 	 * filters every "<name>" into the player's chosen name
 	 */
-	private static String filterName(GameStateManager gsm, String text) {
+	private static String filterName(String text) {
 		String filteredText = text;
 		
-		filteredText = filteredText.replaceAll("<name>", gsm.getLoadout().getName());
+		filteredText = filteredText.replaceAll("<name>", JSONManager.loadout.getName());
 		
 		return filteredText;
 	}
@@ -141,8 +141,8 @@ public class TextFilterUtil {
 		String filteredText = text;
 
 		if (text.contains("<tip>")) {
-			int randomIndex = MathUtils.random(GameStateManager.tips.asStringArray().length - 1);
-			filteredText = filteredText.replaceAll("<tip>", GameStateManager.tips.asStringArray()[randomIndex]);
+			int randomIndex = MathUtils.random(JSONManager.tips.asStringArray().length - 1);
+			filteredText = filteredText.replaceAll("<tip>", JSONManager.tips.asStringArray()[randomIndex]);
 		}
 
 		return filteredText;

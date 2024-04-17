@@ -108,12 +108,12 @@ public class PlayerBodyData extends BodyData {
 
 		//when the player is damaged (or spectator target is damaged) we shake the screen a little
 		if (player.getUser().equals(HadalGame.usm.getOwnUser()) && damage > 0.0f) {
-			CameraUtil.inflictTrauma(player.getState().getGsm(), damage);
+			CameraUtil.inflictTrauma(damage);
 		}
 		if (player.getState().getKillFeed() != null) {
 			if (player.getState().isSpectatorMode() || player.getState().getKillFeed().isRespawnSpectator()) {
 				if (player.equals(player.getState().getUiSpectator().getSpectatorTarget()) && damage > 0.0f) {
-					CameraUtil.inflictTrauma(player.getState().getGsm(), damage);
+					CameraUtil.inflictTrauma(damage);
 				}
 			}
 		}

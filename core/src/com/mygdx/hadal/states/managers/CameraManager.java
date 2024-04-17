@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.CameraUtil;
 
@@ -86,7 +87,7 @@ public class CameraManager {
                     aimFocusVector.set(HadalGame.usm.getOwnPlayer().getPixelPosition());
 
                     //if enabled, camera tracks mouse position
-                    if (state.getGsm().getSetting().isMouseCameraTrack()) {
+                    if (JSONManager.setting.isMouseCameraTrack()) {
                         mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                         HadalGame.viewportCamera.unproject(mousePosition);
                         mousePosition.sub(aimFocusVector.x, aimFocusVector.y, 0);
@@ -116,7 +117,7 @@ public class CameraManager {
      */
     public void resize() {
         //This refocuses the camera to avoid camera moving after resizing
-        if (state.getGsm().getSetting().isMouseCameraTrack()) {
+        if (JSONManager.setting.isMouseCameraTrack()) {
             tmpVector2.set(aimFocusVector.x, aimFocusVector.y);
         } else if (null == cameraTarget && null != HadalGame.usm.getOwnPlayer()) {
             if (HadalGame.usm.getOwnPlayer().getBody() != null && HadalGame.usm.getOwnPlayer().isAlive()) {

@@ -4,17 +4,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * This mode setting is used for modes where the player can set their respawn time
  */
 public class SettingRespawnTime extends ModeSetting {
 
-    private static final String settingTag = "respawn_time";
-    private static final Integer defaultDefaultValue = 4;
     private SelectBox<String> respawnOptions;
 
     private final Integer defaultValue;
@@ -24,7 +24,7 @@ public class SettingRespawnTime extends ModeSetting {
     }
 
     public SettingRespawnTime() {
-        this(defaultDefaultValue);
+        this(SettingSave.RESPAWN_TIME.getStartingValue());
     }
 
     @Override
@@ -33,10 +33,10 @@ public class SettingRespawnTime extends ModeSetting {
         Text respawn = new Text(UIText.SETTING_RESPAWN.text());
         respawn.setScale(UIHub.DETAILS_SCALE);
 
-        respawnOptions = new SelectBox<>(GameStateManager.getSkin());
+        respawnOptions = new SelectBox<>(SKIN);
         respawnOptions.setItems(respawnChoices);
         respawnOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        respawnOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        respawnOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue));
 
         table.add(respawn);
         table.add(respawnOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -44,12 +44,12 @@ public class SettingRespawnTime extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        state.getGsm().getSetting().setModeSetting(mode, settingTag, respawnOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.RESPAWN_TIME, respawnOptions.getSelectedIndex());
     }
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        state.setRespawnTime(indexToRespawnTime(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue)));
+        state.setRespawnTime(indexToRespawnTime(JSONManager.setting.getModeSetting(mode, SettingSave.RESPAWN_TIME, defaultValue)));
     }
 
     private float indexToRespawnTime(int index) {

@@ -7,7 +7,6 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.*;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.GameText;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -89,14 +88,14 @@ public enum UnlockActives {
 	/**
 	 * This acquires a list of all unlocked actives (if unlock is true. otherwise just return all actives that satisfy the tags)
 	 */
-	public static Array<UnlockActives> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
+	public static Array<UnlockActives> getUnlocks(boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockActives> items = new Array<>();
 		
 		for (UnlockActives u : UnlockActives.values()) {
 			
 			boolean get = UnlockManager.checkTags(u.tags, tags);
 			
-			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.ACTIVE, u.toString())) {
+			if (unlock && !UnlockManager.checkUnlock(UnlockType.ACTIVE, u.toString())) {
 				get = false;
 			}
 			
@@ -124,13 +123,13 @@ public enum UnlockActives {
 	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
 	 * @return the string name of the randomly selected item
 	 */
-	public static UnlockActives getRandItemFromPool(PlayState state, String pool) {
+	public static UnlockActives getRandItemFromPool(String pool) {
 
 		Array<UnlockTag> defaultTags = new Array<>();
 		defaultTags.add(UnlockTag.RANDOM_POOL);
 		
 		if ("".equals(pool)) {
-			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(state, false, defaultTags);
+			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(false, defaultTags);
 			return unlocks.get(MathUtils.random(unlocks.size - 1));
 		}
 

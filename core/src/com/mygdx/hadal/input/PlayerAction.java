@@ -5,56 +5,59 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.SerializationException;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.text.UIText;
+
+import static com.mygdx.hadal.managers.JSONManager.JSON;
+import static com.mygdx.hadal.managers.JSONManager.READER;
 
 /**
  * This enum maps to each possible action the player can perform to an input.
  * @author Gnaddam Ghermicelli
  */
 public enum PlayerAction {
-	WALK_RIGHT(Input.Keys.D, true, false, UIText.WALK_RIGHT),
-	WALK_LEFT(Input.Keys.A, true, false, UIText.WALK_LEFT),
-	JUMP(Input.Keys.W, true, false, UIText.JUMP),
-	CROUCH(Input.Keys.S, true, false, UIText.FASTFALL),
-	FIRE(Input.Buttons.LEFT, true, false, UIText.SHOOT),
-	BOOST(Input.Buttons.RIGHT, false, false, UIText.BOOST),
-	INTERACT(Input.Keys.E, false, false, UIText.INTERACT),
-	ACTIVE_ITEM(Input.Keys.SPACE, false, true, UIText.USE_MAGIC),
-	RELOAD(Input.Keys.R, false, false, UIText.RELOAD),
-	DIALOGUE(Input.Keys.Z, false, false, UIText.DIALOG),
-	SWITCH_TO_LAST(Input.Keys.Q, false, false, UIText.SWITCH_TO_LAST),
-	SWITCH_TO_1(Input.Keys.NUM_1, false, false, UIText.SWITCH_TO_1),
-	SWITCH_TO_2(Input.Keys.NUM_2, false, false, UIText.SWITCH_TO_2),
-	SWITCH_TO_3(Input.Keys.NUM_3, false, false, UIText.SWITCH_TO_3),
-	SWITCH_TO_4(Input.Keys.NUM_4, false, false, UIText.SWITCH_TO_4),
-	WEAPON_CYCLE_UP(-1000, false, false, UIText.WEAPON_CYCLE_UP),
-	WEAPON_CYCLE_DOWN(1000, false, false, UIText.WEAPON_CYCLE_DOWN),
-	MESSAGE_WINDOW(Input.Keys.T, false, false, UIText.CHAT),
-	SCORE_WINDOW(Input.Keys.TAB, true, false, UIText.SCORE_WINDOW),
-	CHAT_WHEEL(Input.Keys.C, true, false, UIText.CHAT_WHEEL),
-	PING(Input.Keys.X, false, false, UIText.PING),
-	PAUSE(Input.Keys.P, false, false, UIText.PAUSE),
-	EXIT_MENU(Input.Keys.ESCAPE, false, false, UIText.EXIT);
+	WALK_RIGHT(Input.Keys.D, true, UIText.WALK_RIGHT),
+	WALK_LEFT(Input.Keys.A, true, UIText.WALK_LEFT),
+	JUMP(Input.Keys.W, true, UIText.JUMP),
+	CROUCH(Input.Keys.S, true, UIText.FASTFALL),
+	FIRE(Input.Buttons.LEFT, true, UIText.SHOOT),
+	BOOST(Input.Buttons.RIGHT, false, UIText.BOOST),
+	INTERACT(Input.Keys.E, false, UIText.INTERACT),
+	ACTIVE_ITEM(Input.Keys.SPACE, false, UIText.USE_MAGIC),
+	RELOAD(Input.Keys.R, false, UIText.RELOAD),
+	DIALOGUE(Input.Keys.Z, false, UIText.DIALOG),
+	SWITCH_TO_LAST(Input.Keys.Q, false, UIText.SWITCH_TO_LAST),
+	SWITCH_TO_1(Input.Keys.NUM_1, false, UIText.SWITCH_TO_1),
+	SWITCH_TO_2(Input.Keys.NUM_2, false,  UIText.SWITCH_TO_2),
+	SWITCH_TO_3(Input.Keys.NUM_3, false, UIText.SWITCH_TO_3),
+	SWITCH_TO_4(Input.Keys.NUM_4, false, UIText.SWITCH_TO_4),
+	WEAPON_CYCLE_UP(-1000, false, UIText.WEAPON_CYCLE_UP),
+	WEAPON_CYCLE_DOWN(1000, false, UIText.WEAPON_CYCLE_DOWN),
+	MESSAGE_WINDOW(Input.Keys.T, false, UIText.CHAT),
+	SCORE_WINDOW(Input.Keys.TAB, true, UIText.SCORE_WINDOW),
+	CHAT_WHEEL(Input.Keys.C, true, UIText.CHAT_WHEEL),
+	PING(Input.Keys.X, false, UIText.PING),
+	PAUSE(Input.Keys.P, false, UIText.PAUSE),
+	EXIT_MENU(Input.Keys.ESCAPE, false, UIText.EXIT),
+	READY_UP(Input.Keys.ENTER, false, UIText.READY_UP);
 
-	//this is the code for the key this action is bound to
-	private int key;
-	
+	//this is the default key bound to this action that will be used when resetting
+	private final int defaultKey;
+
 	//this boolean notes actions that are "toggleable"
 	//these are relevant for resetting when the input processor is temporarily disabled.
 	private final boolean toggleable;
 
-	//Does the client inform the server if they have this button pressed or not?
-	private final boolean synced;
-
 	//this is the text that shows up in the ui to represent this action
 	private final UIText text;
 
-	PlayerAction(int key, boolean toggleable, boolean synced, UIText text) {
+	//this is the code for the key this action is bound to
+	private int key;
+
+	PlayerAction(int key, boolean toggleable, UIText text) {
+		this.defaultKey = key;
 		this.key = key;
 		this.toggleable = toggleable;
-		this.synced = synced;
 		this.text = text;
 	}
 	
@@ -69,35 +72,13 @@ public enum PlayerAction {
 	
 	public boolean isToggleable() { return toggleable; }
 
-	public boolean isSynced() { return synced; }
-
 	/**
 	 * Reset key to default bindings
 	 */
 	public static void resetKeys() {
-		WALK_RIGHT.setKey(Input.Keys.D);
-		WALK_LEFT.setKey(Input.Keys.A);
-		JUMP.setKey(Input.Keys.W);
-		CROUCH.setKey(Input.Keys.S);
-		FIRE.setKey(Input.Buttons.LEFT);
-		BOOST.setKey(Input.Buttons.RIGHT);
-		INTERACT.setKey(Input.Keys.E);
-		ACTIVE_ITEM.setKey(Input.Keys.SPACE);
-		RELOAD.setKey(Input.Keys.R);
-		DIALOGUE.setKey(Input.Keys.Z);
-		SWITCH_TO_LAST.setKey(Input.Keys.Q);
-		SWITCH_TO_1.setKey(Input.Keys.NUM_1);
-		SWITCH_TO_2.setKey(Input.Keys.NUM_2);
-		SWITCH_TO_3.setKey(Input.Keys.NUM_3);
-		SWITCH_TO_4.setKey(Input.Keys.NUM_4);
-		WEAPON_CYCLE_UP.setKey(-1000);
-		WEAPON_CYCLE_DOWN.setKey(1000);
-		MESSAGE_WINDOW.setKey(Input.Keys.T);
-		SCORE_WINDOW.setKey(Input.Keys.TAB);
-		CHAT_WHEEL.setKey(Input.Keys.C);
-		PING.setKey(Input.Keys.X);
-		PAUSE.setKey(Input.Keys.P);
-		EXIT_MENU.setKey(Input.Keys.ESCAPE);
+		for (PlayerAction action : PlayerAction.values()) {
+			action.setKey(action.defaultKey);
+		}
 	}
 	
 	/**
@@ -106,13 +87,13 @@ public enum PlayerAction {
 	 */
 	public static void retrieveKeys() {
 		try {
-			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.local("save/Keybind.json"))) {
+			for (JsonValue d : READER.parse(Gdx.files.local("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
 		} catch (SerializationException e) {
 			resetKeys();
 			saveKeys();
-			for (JsonValue d : GameStateManager.READER.parse(Gdx.files.local("save/Keybind.json"))) {
+			for (JsonValue d : READER.parse(Gdx.files.local("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
 		}
@@ -129,7 +110,7 @@ public enum PlayerAction {
 			map.put(a.toString(), a.getKey());
 		}
 		
-		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.JSON.toJson(map), true);
+		Gdx.files.local("save/Keybind.json").writeString(JSON.toJson(map), true);
 	}
 
 	/**

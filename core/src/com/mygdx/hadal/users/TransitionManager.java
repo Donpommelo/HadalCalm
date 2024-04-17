@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.PlayerController;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
@@ -152,7 +153,7 @@ public class TransitionManager {
             short hitboxFilter = user.getHitboxFilter().getFilter();
 
             //create player and set it as our own
-            HadalGame.usm.setOwnPlayer(state.createPlayer(startPoint, state.getGsm().getLoadout().getName(), new Loadout(state.getGsm().getLoadout()),
+            HadalGame.usm.setOwnPlayer(state.createPlayer(startPoint, JSONManager.loadout.getName(), new Loadout(JSONManager.loadout),
                     playerData, user, reset, false, hitboxFilter));
 
             //focus camera on start point unless otherwise specified

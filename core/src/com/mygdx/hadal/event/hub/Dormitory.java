@@ -10,6 +10,7 @@ import com.mygdx.hadal.actors.HubOptionPlayer;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.FrameBufferManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -61,7 +62,7 @@ public class Dormitory extends HubEvent {
 
 			lastFilter = user.getLoadoutManager().getActiveLoadout().team;
 
-			for (UnlockCharacter c : UnlockCharacter.getUnlocks(state, checkUnlock, tags)) {
+			for (UnlockCharacter c : UnlockCharacter.getUnlocks(checkUnlock, tags)) {
 				loadingCharacters.add(c);
 			}
 		} else {
@@ -113,7 +114,7 @@ public class Dormitory extends HubEvent {
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncCharacterClient(selected));
 						}
-						state.getGsm().getLoadout().setCharacter(HadalGame.usm.getOwnUser(), selected.toString());
+						JSONManager.loadout.setCharacter(HadalGame.usm.getOwnUser(), selected.toString());
 					}
 
 					@Override

@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.saves;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -35,7 +36,7 @@ public class QuestChecker extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (state.getGsm().getRecord().getFlags().get(quest) == val && event.getConnectedEvent() != null) {
+				if (JSONManager.record.getFlags().get(quest) == val && event.getConnectedEvent() != null) {
 					event.getConnectedEvent().getEventData().preActivate(this, p);
 				}
 			}

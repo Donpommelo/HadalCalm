@@ -3,7 +3,6 @@ package com.mygdx.hadal.statuses;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
@@ -19,6 +18,7 @@ import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
 /**
  */
@@ -72,8 +72,8 @@ public class TrickOrTreating extends Status {
 					playerLocation.y + playerSize.y / 2 + 35,
 					candyIcon.getRegionWidth() * CANDY_ICON_SCALE, candyIcon.getRegionHeight() * CANDY_ICON_SCALE);
 
-			HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
-			HadalGame.FONT_UI.draw(batch, "X " + player.getUser().getScoreManager().getExtraModeScore(),
+			FONT_UI.getData().setScale(FONT_SCALE);
+			FONT_UI.draw(batch, "X " + player.getUser().getScoreManager().getExtraModeScore(),
 					playerLocation.x - playerSize.x / 2 + 15,
 					playerLocation.y + playerSize.y / 2 + 50);
 		}

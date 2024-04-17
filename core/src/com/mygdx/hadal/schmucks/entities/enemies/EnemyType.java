@@ -99,7 +99,23 @@ public enum EnemyType {
 			return new Torpedofish(state, startPos, extraField, filter);
 		}
 	},
-	
+
+	BOMBFISH("BOMBFISH") {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField) {
+			return new BombFish(state, startPos, extraField, filter);
+		}
+	},
+
+	SNIPERFISH("SNIPERFISH") {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField) {
+			return new SniperFish(state, startPos, extraField, filter);
+		}
+	},
+
 	SPLITTER_SMALL("KAMABOKLING") {
 
 		@Override

@@ -1,7 +1,7 @@
 package com.mygdx.hadal.audio;
 
 import com.badlogic.gdx.audio.Music;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 
 /**
  * The music player manages music tracks including fade transitions
@@ -13,29 +13,23 @@ public class MusicPlayer {
 	private static final float DEFAULT_FADE_IN_SPEED = 1.0f;
 	private static final float DEFAULT_FADE_OUT_SPEED = -1.0f;
 
-	private final GameStateManager gsm;
-	
 	//this is the song currently playing
-    private Music currentSong;
-    private MusicTrack currentTrack;
+    private static Music currentSong;
+    private static MusicTrack currentTrack;
 	
     //this is the song to be played next
-	private MusicTrack nextTrack;
+	private static MusicTrack nextTrack;
 
 	//the "mode" of the music. This determines behavior when trying to switch songs
-	private MusicTrackType currentTrackType;
+	private static MusicTrackType currentTrackType;
 
     //this is the rate at which the sound volume changes (default: 0, -x for fading out and +x for fading in)
-  	private float fade;
+  	private static float fade;
 
   	//the volume of the sound and the max volume the sound will fade in to.
-  	private float volume, maxVolume, nextVolume;
+  	private static float volume, maxVolume, nextVolume;
   	
-    public MusicPlayer(GameStateManager gsm) {
-    	this.gsm = gsm;
-    }
-	 
-    public void controller(float delta) {
+    public static void controller(float delta) {
 
     	//process music fading. Gradually change music volume until it reaches 0.0 or max volume.
 		if (0.0f != fade) {
@@ -78,13 +72,13 @@ public class MusicPlayer {
 	/**
 	 * 	Play a song. music can be null to indicate we want to stop the current song.
  	 */
-	public void playSong(MusicTrack music, float volume) {
+	public static void playSong(MusicTrack music, float volume) {
 
     	//if we are playing another track, we make it fade out first
     	if (null != currentSong) {
 			fade = DEFAULT_FADE_OUT_SPEED;
 			nextTrack = music;
-			nextVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
+			nextVolume = volume * JSONManager.setting.getMusicVolume() * JSONManager.setting.getMasterVolume();
 		} else {
 			//if starting a new song, set designated track as next song and fade in
     		if (null != music) {
@@ -96,7 +90,7 @@ public class MusicPlayer {
 				currentTrack = music;
 				currentSong.setLooping(true);
 				currentSong.play();
-				maxVolume = volume * gsm.getSetting().getMusicVolume() * gsm.getSetting().getMasterVolume();
+				maxVolume = volume * JSONManager.setting.getMusicVolume() * JSONManager.setting.getMasterVolume();
 			}
 			fade = DEFAULT_FADE_IN_SPEED;
 		}
@@ -105,7 +99,7 @@ public class MusicPlayer {
 	/**
 	 * Play a random song of a specific musicTrackType
 	 */
-	public MusicTrack playSong(MusicTrackType type, float volume) {
+	public static MusicTrack playSong(MusicTrackType type, float volume) {
 
 		MusicTrack track = null;
 
@@ -125,7 +119,7 @@ public class MusicPlayer {
 	 * A magical function to address some wonkiness between the music fade and a new song on the next scene
 	 * And by "magical" I mean neither I nor the person who told me to use it knew why it solved the issue
 	 */
-	private float freshenUpSong() {
+	private static float freshenUpSong() {
 		float volume = 1.0f;
 		if (null != currentSong) {
 			volume = currentSong.getVolume();
@@ -137,19 +131,19 @@ public class MusicPlayer {
 		return volume;
 	}
 
-	public void play() {
+	public static void play() {
 	    if (null != currentSong) {
 	        currentSong.play();
 	    }
 	}
 
-	public void pause() {
+	public static void pause() {
 	    if (null != currentSong) {
 	        currentSong.pause();
 	    }
 	}
 
-	public void stop() {
+	public static void stop() {
 		if (null != currentSong) {
 	        currentSong.stop();
 			currentSong = null;
@@ -157,28 +151,28 @@ public class MusicPlayer {
 	    }
 	}
 
-	public void setVolume(float vol) {
+	public static void setVolume(float vol) {
 	    if (null != currentSong) {
 	        currentSong.setVolume(vol);
 	    }
 	}
 
 	// Clean up and dispose of player. Called when game closes.
-	public void dispose() { 
+	public static void dispose() {
 		if (null != currentSong) {
 			currentSong.dispose(); 
 		}
 	}
 
-	public void setMusicState(MusicTrackType state) { currentTrackType = state; }
+	public static void setMusicState(MusicTrackType state) { currentTrackType = state; }
 
-	public void setMusicPosition(float position) {
+	public static void setMusicPosition(float position) {
 		if (null != currentSong) {
 			currentSong.setPosition(position);
 		}
 	}
 
-	public Music getCurrentSong() { return currentSong; }
+	public static Music getCurrentSong() { return MusicPlayer.currentSong; }
 
-	public MusicTrack getCurrentTrack() { return currentTrack; }
+	public static MusicTrack getCurrentTrack() { return MusicPlayer.currentTrack; }
 }

@@ -70,11 +70,11 @@ public enum MusicTrack {
 	 * This is called when a play state is initiated
 	 * It disposes of music to free up the memory
 	 */
-	public static void clearMusic(MusicPlayer musicPlayer) {
+	public static void clearMusic() {
 		for (MusicTrack track: MusicTrack.values()) {
 
 			//we don't want to dispose the current track because a playstate can be created while music stays the same
-			if (null != track.music && track != musicPlayer.getCurrentTrack()) {
+			if (null != track.music && track != MusicPlayer.getCurrentTrack()) {
 				track.music.dispose();
 				track.music = null;
 			}

@@ -9,16 +9,19 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TableWindow;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
 
 import static com.mygdx.hadal.constants.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION;
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * The Setting State allows the player to change their display settings, key bindings and other stuff like that.
@@ -87,8 +90,8 @@ public class SettingState extends GameState {
 	/**
 	 * Constructor will be called when the player enters the setting state from the title menu or the pause menu.
 	 */
-	public SettingState(GameStateManager gsm, GameState peekState) {
-		super(gsm);
+	public SettingState(HadalGame app, GameState peekState) {
+		super(app);
 		this.peekState = peekState;
 		
 		if (peekState instanceof PauseState pauseState) {
@@ -117,7 +120,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						saveSettings();
 						displaySelected();
 			        }
@@ -129,7 +132,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						saveSettings();
 						controlsSelected();
 			        }
@@ -141,7 +144,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						saveSettings();
 						audioSelected();
 			        }
@@ -153,7 +156,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						saveSettings();
 						serverSelected();
 			        }
@@ -165,7 +168,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						saveSettings();
 						miscSelected();
 			        }
@@ -177,11 +180,11 @@ public class SettingState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+						SoundEffect.NEGATIVE.play(1.0f, false);
 						saveSettings();
 
 						//if exiting to title screen, play transition. Otherwise, just remove this state
-						transitionOut(() -> gsm.removeState(SettingState.class));
+						transitionOut(() -> StateManager.removeState(SettingState.class));
 			        }
 			    });
 				exitOption.setScale(OPTIONS_SCALE);
@@ -191,7 +194,7 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH3.play(1.0f, false);
 						resetSettings();
 			        }
 			    });
@@ -236,8 +239,8 @@ public class SettingState extends GameState {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
 		//start off with display selected unless this menu is called from lobby
-		if (gsm.getStates().size() > 1) {
-			if (gsm.getStates().get(gsm.getStates().size() - 2) instanceof LobbyState) {
+		if (StateManager.states.size() > 1) {
+			if (StateManager.states.get(StateManager.states.size() - 2) instanceof LobbyState) {
 				serverSelected();
 			} else {
 				displaySelected();
@@ -260,11 +263,11 @@ public class SettingState extends GameState {
 		Text screen = new Text(UIText.RESOLUTION.text());
 		screen.setScale(DETAILS_SCALE);
 		
-		resolutionOptions = new SelectBox<>(GameStateManager.getSkin());
+		resolutionOptions = new SelectBox<>(SKIN);
 		resolutionOptions.setItems(UIText.RESOLUTION_OPTIONS.text().split(","));
 		resolutionOptions.setWidth(100);
 		
-		resolutionOptions.setSelectedIndex(gsm.getSetting().getResolution());
+		resolutionOptions.setSelectedIndex(JSONManager.setting.getResolution());
 
 		Text framerate = new Text(UIText.FRAMERATE.text());
 		framerate.setScale(DETAILS_SCALE);
@@ -278,19 +281,19 @@ public class SettingState extends GameState {
 		Text cursorcolor = new Text(UIText.CURSOR_COLOR.text());
 		cursorcolor.setScale(DETAILS_SCALE);
 
-		framerateOptions = new SelectBox<>(GameStateManager.getSkin());
+		framerateOptions = new SelectBox<>(SKIN);
 		framerateOptions.setItems(UIText.FRAMERATE_OPTIONS.text().split(","));
 		
-		framerateOptions.setSelectedIndex(gsm.getSetting().getFramerate());
+		framerateOptions.setSelectedIndex(JSONManager.setting.getFramerate());
 
 		ChangeListener cursorChange = new ChangeListener() {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
-				gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
-				gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
-				gsm.getSetting().setCursor();
+				JSONManager.setting.setCursorType(cursorOptions.getSelectedIndex());
+				JSONManager.setting.setCursorSize(cursorSize.getSelectedIndex());
+				JSONManager.setting.setCursorColor(cursorColor.getSelectedIndex());
+				JSONManager.setting.setCursor();
 			}
 		};
 
@@ -302,40 +305,40 @@ public class SettingState extends GameState {
 			}
 		};
 
-		cursorOptions = new SelectBox<>(GameStateManager.getSkin());
+		cursorOptions = new SelectBox<>(SKIN);
 		cursorOptions.setItems(UIText.CURSOR_TYPE_OPTIONS.text().split(","));
-		cursorOptions.setSelectedIndex(gsm.getSetting().getCursorType());
+		cursorOptions.setSelectedIndex(JSONManager.setting.getCursorType());
 		cursorOptions.addListener(cursorChange);
 
-		cursorSize = new SelectBox<>(GameStateManager.getSkin());
+		cursorSize = new SelectBox<>(SKIN);
 		cursorSize.setItems(UIText.CURSOR_SIZE_OPTIONS.text().split(","));
-		cursorSize.setSelectedIndex(gsm.getSetting().getCursorSize());
+		cursorSize.setSelectedIndex(JSONManager.setting.getCursorSize());
 		cursorSize.addListener(cursorChange);
 
-		cursorColor = new SelectBox<>(GameStateManager.getSkin());
+		cursorColor = new SelectBox<>(SKIN);
 		cursorColor.setItems(UIText.CURSOR_COLOR_OPTIONS.text().split(","));
-		cursorColor.setSelectedIndex(gsm.getSetting().getCursorColor());
+		cursorColor.setSelectedIndex(JSONManager.setting.getCursorColor());
 		cursorColor.addListener(cursorChange);
 
-		fullscreen = new CheckBox(UIText.FULLSCREEN.text(), GameStateManager.getSkin());
-		vsync = new CheckBox(UIText.VSYNC.text(), GameStateManager.getSkin());
-		autoIconify = new CheckBox(UIText.ALT_TAB.text(), GameStateManager.getSkin());
-		debugHitbox = new CheckBox(UIText.DEBUG_OUTLINES.text(), GameStateManager.getSkin());
-		displayNames = new CheckBox(UIText.VISIBLE_NAMES.text(), GameStateManager.getSkin());
-		displayHp = new CheckBox(UIText.VISIBLE_HP.text(), GameStateManager.getSkin());
-		mouseCameraTrack = new CheckBox(UIText.CAMERA_AIM.text(), GameStateManager.getSkin());
-		screenShake = new CheckBox(UIText.SCREEN_SHAKE.text(), GameStateManager.getSkin());
+		fullscreen = new CheckBox(UIText.FULLSCREEN.text(), SKIN);
+		vsync = new CheckBox(UIText.VSYNC.text(), SKIN);
+		autoIconify = new CheckBox(UIText.ALT_TAB.text(), SKIN);
+		debugHitbox = new CheckBox(UIText.DEBUG_OUTLINES.text(), SKIN);
+		displayNames = new CheckBox(UIText.VISIBLE_NAMES.text(), SKIN);
+		displayHp = new CheckBox(UIText.VISIBLE_HP.text(), SKIN);
+		mouseCameraTrack = new CheckBox(UIText.CAMERA_AIM.text(), SKIN);
+		screenShake = new CheckBox(UIText.SCREEN_SHAKE.text(), SKIN);
 
 		TooltipManager.addTooltip(mouseCameraTrack, UIText.CAMERA_AIM_DESC.text());
 
-		fullscreen.setChecked(gsm.getSetting().isFullscreen());
-		vsync.setChecked(gsm.getSetting().isVSync());
-		autoIconify.setChecked(gsm.getSetting().isAutoIconify());
-		debugHitbox.setChecked(gsm.getSetting().isDebugHitbox());
-		displayNames.setChecked(gsm.getSetting().isDisplayNames());
-		displayHp.setChecked(gsm.getSetting().isDisplayHp());
-		mouseCameraTrack.setChecked(gsm.getSetting().isMouseCameraTrack());
-		screenShake.setChecked(gsm.getSetting().isScreenShake());
+		fullscreen.setChecked(JSONManager.setting.isFullscreen());
+		vsync.setChecked(JSONManager.setting.isVSync());
+		autoIconify.setChecked(JSONManager.setting.isAutoIconify());
+		debugHitbox.setChecked(JSONManager.setting.isDebugHitbox());
+		displayNames.setChecked(JSONManager.setting.isDisplayNames());
+		displayHp.setChecked(JSONManager.setting.isDisplayHp());
+		mouseCameraTrack.setChecked(JSONManager.setting.isMouseCameraTrack());
+		screenShake.setChecked(JSONManager.setting.isScreenShake());
 
 		fullscreen.addListener(displayChange);
 		vsync.addListener(displayChange);
@@ -406,7 +409,7 @@ public class SettingState extends GameState {
 			keybinds.remove();
 		}
 		
-		keybinds = new ScrollPane(actions, GameStateManager.getSkin());
+		keybinds = new ScrollPane(actions, SKIN);
 		keybinds.setSize(DETAILS_WIDTH, DETAILS_HEIGHT);
 		keybinds.setFadeScrollBars(false);
 		
@@ -424,11 +427,11 @@ public class SettingState extends GameState {
 		
 		details.add(new Text(UIText.AUDIO .text())).colspan(2).pad(TITLE_PAD).row();
 		
-		Text soundText = new Text(UIText.SOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getSoundVolume() * 100))));
+		Text soundText = new Text(UIText.SOUND_VOLUME.text(Integer.toString((int)(JSONManager.setting.getSoundVolume() * 100))));
 		soundText.setScale(DETAILS_SCALE);
 		
-		sound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
-		sound.setValue(gsm.getSetting().getSoundVolume());
+		sound = new Slider(0.0f, 1.0f, 0.01f, false, SKIN);
+		sound.setValue(JSONManager.setting.getSoundVolume());
 		
 		sound.addListener(new ChangeListener() {
 			
@@ -444,7 +447,7 @@ public class SettingState extends GameState {
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					gsm.getSetting().indexToHitsound(
+					JSONManager.setting.indexToHitsound(
 						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
 				}
 			}
@@ -455,11 +458,11 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text musicText = new Text(UIText.MUSIC_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMusicVolume() * 100))));
+		Text musicText = new Text(UIText.MUSIC_VOLUME.text(Integer.toString((int)(JSONManager.setting.getMusicVolume() * 100))));
 		musicText.setScale(DETAILS_SCALE);
 		
-		music = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
-		music.setValue(gsm.getSetting().getMusicVolume());
+		music = new Slider(0.0f, 1.0f, 0.01f, false, SKIN);
+		music.setValue(JSONManager.setting.getMusicVolume());
 		
 		music.addListener(new ChangeListener() {
 			
@@ -473,8 +476,8 @@ public class SettingState extends GameState {
 
 			@Override
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				gsm.getSetting().setMusicVolume(music.getValue() * master.getValue());
-				gsm.getSetting().setAudio();
+				JSONManager.setting.setMusicVolume(music.getValue() * master.getValue());
+				JSONManager.setting.setAudio();
 			}
 
 			@Override
@@ -483,11 +486,11 @@ public class SettingState extends GameState {
 			}
 		});
 
-		Text masterText = new Text(UIText.MASTER_VOLUME.text(Integer.toString((int)(gsm.getSetting().getMasterVolume() * 100))));
+		Text masterText = new Text(UIText.MASTER_VOLUME.text(Integer.toString((int)(JSONManager.setting.getMasterVolume() * 100))));
 		masterText.setScale(DETAILS_SCALE);
 		
-		master = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
-		master.setValue(gsm.getSetting().getMasterVolume());
+		master = new Slider(0.0f, 1.0f, 0.01f, false, SKIN);
+		master.setValue(JSONManager.setting.getMasterVolume());
 		
 		master.addListener(new ChangeListener() {
 			
@@ -503,12 +506,12 @@ public class SettingState extends GameState {
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting master volume, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					gsm.getSetting().indexToHitsound(
+					JSONManager.setting.indexToHitsound(
 						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
 				}
 
-				gsm.getSetting().setMusicVolume(master.getValue());
-				gsm.getSetting().setAudio();
+				JSONManager.setting.setMusicVolume(master.getValue());
+				JSONManager.setting.setAudio();
 			}
 
 			@Override
@@ -520,9 +523,9 @@ public class SettingState extends GameState {
 		Text hitsoundText = new Text(UIText.HITSOUND.text());
 		hitsoundText.setScale(0.25f);
 		
-		hitsoundOptions = new SelectBox<>(GameStateManager.getSkin());
+		hitsoundOptions = new SelectBox<>(SKIN);
 		hitsoundOptions.setItems(UIText.HITSOUND_OPTIONS.text().split(","));
-		hitsoundOptions.setSelectedIndex(gsm.getSetting().getHitsound());
+		hitsoundOptions.setSelectedIndex(JSONManager.setting.getHitsound());
 		
 		hitsoundOptions.addListener(new ChangeListener() {
 			
@@ -531,17 +534,17 @@ public class SettingState extends GameState {
 				
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					gsm.getSetting().indexToHitsound(
+					JSONManager.setting.indexToHitsound(
 						hitsoundOptions.getSelectedIndex()).playNoModifiers(hitsound.getValue() * master.getValue());
 				}
 			}
 		});
 		
-		Text hitsoundVolumeText = new Text(UIText.HITSOUND_VOLUME.text(Integer.toString((int)(gsm.getSetting().getHitsoundVolume() * 100))));
+		Text hitsoundVolumeText = new Text(UIText.HITSOUND_VOLUME.text(Integer.toString((int)(JSONManager.setting.getHitsoundVolume() * 100))));
 		hitsoundVolumeText.setScale(DETAILS_SCALE);
 		
-		hitsound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
-		hitsound.setValue(gsm.getSetting().getHitsoundVolume());
+		hitsound = new Slider(0.0f, 1.0f, 0.01f, false, SKIN);
+		hitsound.setValue(JSONManager.setting.getHitsoundVolume());
 		hitsound.addListener(new ChangeListener() {
 
 			@Override
@@ -556,7 +559,7 @@ public class SettingState extends GameState {
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					gsm.getSetting().indexToHitsound(
+					JSONManager.setting.indexToHitsound(
 						hitsoundOptions.getSelectedIndex()).playNoModifiers(hitsound.getValue() * master.getValue());
 				}
 			}
@@ -601,21 +604,21 @@ public class SettingState extends GameState {
 		Text slots = new Text(UIText.ARTIFACT_SLOTS.text());
 		slots.setScale(DETAILS_SCALE);
 		
-		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
+		portNumber = new TextField(String.valueOf(JSONManager.setting.getPortNumber()), SKIN);
 		portNumber.setMaxLength(5);
 		portNumber.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
 
-		serverPassword = new TextField(gsm.getSetting().getServerPassword(), GameStateManager.getSkin());
+		serverPassword = new TextField(JSONManager.setting.getServerPassword(), SKIN);
 		serverPassword.setMaxLength(20);
 
-		playerCapacity = new SelectBox<>(GameStateManager.getSkin());
+		playerCapacity = new SelectBox<>(SKIN);
 		playerCapacity.setItems(CAPACITY_CHOICES);
 		playerCapacity.setWidth(100);
-		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
+		playerCapacity.setSelectedIndex(JSONManager.setting.getMaxPlayers());
 
-		artifactSlots = new SelectBox<>(GameStateManager.getSkin());
+		artifactSlots = new SelectBox<>(SKIN);
 		artifactSlots.setItems(ARTIFACT_CHOICES);
-		artifactSlots.setSelectedIndex(gsm.getSetting().getArtifactSlots());
+		artifactSlots.setSelectedIndex(JSONManager.setting.getArtifactSlots());
 		
 		details.add(maxPlayers);
 		details.add(playerCapacity).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
@@ -637,26 +640,26 @@ public class SettingState extends GameState {
 		
 		details.add(new Text(UIText.MISC.text())).colspan(2).pad(TITLE_PAD).row();
 
-		randomNameAlliteration = new CheckBox(UIText.NAME_ALLITERATION.text(), GameStateManager.getSkin());
-		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
+		randomNameAlliteration = new CheckBox(UIText.NAME_ALLITERATION.text(), SKIN);
+		randomNameAlliteration.setChecked(JSONManager.setting.isRandomNameAlliteration());
 		
-		consoleEnabled = new CheckBox(UIText.CONSOLE_ENABLED.text(), GameStateManager.getSkin());
-		consoleEnabled.setChecked(gsm.getSetting().isConsoleEnabled());
+		consoleEnabled = new CheckBox(UIText.CONSOLE_ENABLED.text(), SKIN);
+		consoleEnabled.setChecked(JSONManager.setting.isConsoleEnabled());
 		
-		verboseDeathMessage = new CheckBox(UIText.VERBOSE_DEATH_MESSAGE.text(), GameStateManager.getSkin());
-		verboseDeathMessage.setChecked(gsm.getSetting().isVerboseDeathMessage());
+		verboseDeathMessage = new CheckBox(UIText.VERBOSE_DEATH_MESSAGE.text(), SKIN);
+		verboseDeathMessage.setChecked(JSONManager.setting.isVerboseDeathMessage());
 		
-		multiplayerPause = new CheckBox(UIText.MULTIPLAYER_PAUSE.text(), GameStateManager.getSkin());
-		multiplayerPause.setChecked(gsm.getSetting().isMultiplayerPause());
+		multiplayerPause = new CheckBox(UIText.MULTIPLAYER_PAUSE.text(), SKIN);
+		multiplayerPause.setChecked(JSONManager.setting.isMultiplayerPause());
 		
-		exportChatLog = new CheckBox(UIText.EXPORT_CHAT.text(), GameStateManager.getSkin());
-		exportChatLog.setChecked(gsm.getSetting().isExportChatLog());
+		exportChatLog = new CheckBox(UIText.EXPORT_CHAT.text(), SKIN);
+		exportChatLog.setChecked(JSONManager.setting.isExportChatLog());
 
-		enableUPNP = new CheckBox(UIText.UPNP.text(), GameStateManager.getSkin());
-		enableUPNP.setChecked(gsm.getSetting().isEnableUPNP());
+		enableUPNP = new CheckBox(UIText.UPNP.text(), SKIN);
+		enableUPNP.setChecked(JSONManager.setting.isEnableUPNP());
 
-		hideHUD = new CheckBox(UIText.HIDE_HUD.text(), GameStateManager.getSkin());
-		hideHUD.setChecked(gsm.getSetting().isHideHUD());
+		hideHUD = new CheckBox(UIText.HIDE_HUD.text(), SKIN);
+		hideHUD.setChecked(JSONManager.setting.isHideHUD());
 
 		details.add(randomNameAlliteration).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(consoleEnabled).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
@@ -674,48 +677,48 @@ public class SettingState extends GameState {
 		switch (currentTab) {
 			case CONTROLS -> PlayerAction.saveKeys();
 			case DISPLAY -> {
-				boolean screenChanged = (gsm.getSetting().getResolution() != resolutionOptions.getSelectedIndex()
-						|| gsm.getSetting().isFullscreen() != fullscreen.isChecked()
-						|| gsm.getSetting().isVSync() != vsync.isChecked());
+				boolean screenChanged = (JSONManager.setting.getResolution() != resolutionOptions.getSelectedIndex()
+						|| JSONManager.setting.isFullscreen() != fullscreen.isChecked()
+						|| JSONManager.setting.isVSync() != vsync.isChecked());
 
-				gsm.getSetting().setResolution(resolutionOptions.getSelectedIndex());
-				gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
-				gsm.getSetting().setFullscreen(fullscreen.isChecked());
-				gsm.getSetting().setVsync(vsync.isChecked());
-				gsm.getSetting().setAutoIconify(autoIconify.isChecked());
-				gsm.getSetting().setDebugHitbox(debugHitbox.isChecked());
-				gsm.getSetting().setDisplayNames(displayNames.isChecked());
-				gsm.getSetting().setDisplayHp(displayHp.isChecked());
-				gsm.getSetting().setMouseCameraTrack(mouseCameraTrack.isChecked());
-				gsm.getSetting().setScreenShake(screenShake.isChecked());
-				gsm.getSetting().setDisplay(gsm.getApp(), playState, screenChanged);
-				gsm.getSetting().saveSetting();
+				JSONManager.setting.setResolution(resolutionOptions.getSelectedIndex());
+				JSONManager.setting.setFramerate(framerateOptions.getSelectedIndex());
+				JSONManager.setting.setFullscreen(fullscreen.isChecked());
+				JSONManager.setting.setVsync(vsync.isChecked());
+				JSONManager.setting.setAutoIconify(autoIconify.isChecked());
+				JSONManager.setting.setDebugHitbox(debugHitbox.isChecked());
+				JSONManager.setting.setDisplayNames(displayNames.isChecked());
+				JSONManager.setting.setDisplayHp(displayHp.isChecked());
+				JSONManager.setting.setMouseCameraTrack(mouseCameraTrack.isChecked());
+				JSONManager.setting.setScreenShake(screenShake.isChecked());
+				JSONManager.setting.setDisplay(app, playState, screenChanged);
+				JSONManager.setting.saveSetting();
 			}
 			case AUDIO -> {
-				gsm.getSetting().setSoundVolume(sound.getValue());
-				gsm.getSetting().setMusicVolume(music.getValue());
-				gsm.getSetting().setMasterVolume(master.getValue());
-				gsm.getSetting().setHitsoundType(hitsoundOptions.getSelectedIndex());
-				gsm.getSetting().setHitsoundVolume(hitsound.getValue());
-				gsm.getSetting().setAudio();
-				gsm.getSetting().saveSetting();
+				JSONManager.setting.setSoundVolume(sound.getValue());
+				JSONManager.setting.setMusicVolume(music.getValue());
+				JSONManager.setting.setMasterVolume(master.getValue());
+				JSONManager.setting.setHitsoundType(hitsoundOptions.getSelectedIndex());
+				JSONManager.setting.setHitsoundVolume(hitsound.getValue());
+				JSONManager.setting.setAudio();
+				JSONManager.setting.saveSetting();
 			}
 			case SERVER -> {
-				gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
-				gsm.getSetting().setPortNumber(Integer.parseInt(portNumber.getText()));
-				gsm.getSetting().setServerPassword(serverPassword.getText());
-				gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
-				gsm.getSetting().saveSetting();
+				JSONManager.setting.setMaxPlayers(playerCapacity.getSelectedIndex());
+				JSONManager.setting.setPortNumber(Integer.parseInt(portNumber.getText()));
+				JSONManager.setting.setServerPassword(serverPassword.getText());
+				JSONManager.setting.setArtifactSlots(artifactSlots.getSelectedIndex());
+				JSONManager.setting.saveSetting();
 			}
 			case MISC -> {
-				gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
-				gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
-				gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
-				gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
-				gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
-				gsm.getSetting().setEnableUPNP(enableUPNP.isChecked());
-				gsm.getSetting().setHideHUD(hideHUD.isChecked());
-				gsm.getSetting().saveSetting();
+				JSONManager.setting.setRandomNameAlliteration(randomNameAlliteration.isChecked());
+				JSONManager.setting.setConsoleEnabled(consoleEnabled.isChecked());
+				JSONManager.setting.setVerboseDeathMessage(verboseDeathMessage.isChecked());
+				JSONManager.setting.setMultiplayerPause(multiplayerPause.isChecked());
+				JSONManager.setting.setExportChatLog(exportChatLog.isChecked());
+				JSONManager.setting.setEnableUPNP(enableUPNP.isChecked());
+				JSONManager.setting.setHideHUD(hideHUD.isChecked());
+				JSONManager.setting.saveSetting();
 			}
 		}
 		updateSharedSettings();
@@ -726,13 +729,13 @@ public class SettingState extends GameState {
 	 */
 	private void resetSettings() {
 		PlayerAction.resetKeys();
-		gsm.getSetting().resetDisplay();
-		gsm.getSetting().setDisplay(gsm.getApp(), playState, true);
-		gsm.getSetting().resetAudio();
-		gsm.getSetting().setAudio();
-		gsm.getSetting().resetServer();
-		gsm.getSetting().resetMisc();
-		gsm.getSetting().saveSetting();
+		JSONManager.setting.resetDisplay();
+		JSONManager.setting.setDisplay(app, playState, true);
+		JSONManager.setting.resetAudio();
+		JSONManager.setting.setAudio();
+		JSONManager.setting.resetServer();
+		JSONManager.setting.resetMisc();
+		JSONManager.setting.saveSetting();
 		updateSharedSettings();
 
 		switch (currentTab) {
@@ -748,7 +751,7 @@ public class SettingState extends GameState {
 	 * This updates the settings that are visible from the score window
 	 */
 	private void updateSharedSettings() {
-		gsm.setSharedSetting(gsm.getSetting().generateSharedSetting());
+		JSONManager.sharedSetting = JSONManager.setting.generateSharedSetting();
 		
 		//the server should update their scoretable when settings are changed
 		if (playState != null) {
@@ -794,8 +797,8 @@ public class SettingState extends GameState {
 		//If the state has been unpaused, remove it
 		if (toRemove) {
 			transitionOut(() -> {
-				gsm.removeState(SettingState.class, false);
-				gsm.removeState(PauseState.class);
+				StateManager.removeState(SettingState.class, false);
+				StateManager.removeState(PauseState.class);
 			});
 		}
 	}

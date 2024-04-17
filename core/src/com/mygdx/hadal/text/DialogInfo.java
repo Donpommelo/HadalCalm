@@ -1,7 +1,5 @@
 package com.mygdx.hadal.text;
 
-import com.mygdx.hadal.managers.GameStateManager;
-
 /**
  * A DialogInfo is information about a single Dialog.
  * These are read from json
@@ -38,11 +36,11 @@ public class DialogInfo {
 	
 	//This is run before adding a dialog to the dialog box or message window.
 	//This filters and formats the text
-	public void setDisplayedText(GameStateManager gsm) {
+	public void setDisplayedText() {
 		if ("".equals(name)) {
-			displayedText = TextFilterUtil.filterGameText(gsm, text);
+			displayedText = TextFilterUtil.filterGameText(text);
 		} else {
-			displayedText = TextFilterUtil.filterGameText(gsm, name + ": " + text);
+			displayedText = TextFilterUtil.filterGameText(name + ": " + text);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -10,12 +11,11 @@ import com.mygdx.hadal.text.UIText;
  */
 public class VisibleHp extends ModeModifier {
 
-    private static final String settingTag = "visible_hp";
     private static final UIText uiText = UIText.MODIFIER_VISIBLE_HP_UI;
     private static final UIText name = UIText.MODIFIER_VISIBLE_HP;
 
     public VisibleHp() {
-        super(settingTag, uiText, name);
+        super(SettingSave.MODIFIER_VISIBLE_HP, uiText, name);
     }
 
     @Override

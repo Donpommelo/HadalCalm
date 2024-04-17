@@ -1,5 +1,6 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -10,12 +11,11 @@ import com.mygdx.hadal.text.UIText;
  */
 public class PlayerSlide extends ModeModifier {
 
-    private static final String settingTag = "player_slide";
     private static final UIText uiText = UIText.MODIFIER_SLIDE_UI;
     private static final UIText name = UIText.MODIFIER_SLIDE;
 
     public PlayerSlide() {
-        super(settingTag, uiText, name);
+        super(SettingSave.MODIFIER_SLIPPERY, uiText, name);
     }
 
     @Override

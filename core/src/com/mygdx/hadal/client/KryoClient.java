@@ -17,11 +17,16 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
+import com.mygdx.hadal.event.modes.ArcadeNextRound;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.FadeManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.map.SettingArcade;
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -41,6 +46,7 @@ import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
@@ -53,15 +59,16 @@ public class KryoClient {
 	
 	//Me Client
 	private Client client;
-	
-	public final GameStateManager gsm;
+
+	private final HadalGame app;
+
 	public final UserManager usm;
 
     public Listener packetListener;
     
-    public KryoClient(GameStateManager gameStateManager, UserManager userManager) {
-    	this.gsm = gameStateManager;
-    	this.usm = userManager;
+    public KryoClient(HadalGame app, UserManager userManager) {
+		this.app = app;
+		this.usm = userManager;
     }
     
     /**
@@ -94,9 +101,9 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName(), HadalGame.VERSION, null));
+                sendTCP(new Packets.PlayerConnect(true, JSONManager.loadout.getName(), HadalGame.VERSION, null));
                 usm.setConnID(c.getID());
-				usm.getUsers().put(c.getID(), new User(c.getID(), gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
+				usm.getUsers().put(c.getID(), new User(c.getID(), JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 
 			}
         	
@@ -116,11 +123,11 @@ public class KryoClient {
 						addNotification(cs, "", UIText.DISCONNECTED.text(), false, DialogType.SYSTEM);
 						cs.returnToTitle(1.0f);
 					} else {
-						gsm.removeState(ResultsState.class);
-						gsm.removeState(SettingState.class, false);
-						gsm.removeState(AboutState.class, false);
-						gsm.removeState(PauseState.class, false);
-						gsm.removeState(ClientState.class);
+						StateManager.removeState(ResultsState.class);
+						StateManager.removeState(SettingState.class, false);
+						StateManager.removeState(AboutState.class, false);
+						StateManager.removeState(PauseState.class, false);
+						StateManager.removeState(ClientState.class);
 					}
 				});
             }
@@ -160,7 +167,7 @@ public class KryoClient {
 					if (null != p.worldPos) {
 						p.sound.playSourced(cs, p.worldPos, p.volume, p.pitch);
 					} else {
-						p.sound.play(gsm, p.volume, p.singleton);
+						p.sound.play(p.volume, p.singleton);
 					}
 				});
 			}
@@ -198,6 +205,12 @@ public class KryoClient {
 					score.setLives(p.lives);
 					score.setScore(p.score);
 					score.setExtraModeScore(p.extraModeScore);
+					score.setCurrency(p.currency);
+
+					//refresh hub because vending updates currency
+					if (p.connID == usm.getConnID()) {
+						cs.getUiHub().refreshHub(null);
+					}
 				});
 			}
 		}
@@ -298,8 +311,8 @@ public class KryoClient {
 		 * Server rejects our connection. Display msg on lobby screen.
 		 */
 		else if (o instanceof final Packets.ConnectReject p) {
-			if (!gsm.getStates().isEmpty()) {
-				if (gsm.getStates().peek() instanceof LobbyState lobby) {
+			if (!StateManager.states.isEmpty()) {
+				if (StateManager.states.peek() instanceof LobbyState lobby) {
 					lobby.setNotification(p.msg);
 					lobby.setInputDisabled(false);
 				}
@@ -311,8 +324,8 @@ public class KryoClient {
 		 * Server requests a password. Display password field on lobby screen.
 		 */
 		else if (o instanceof Packets.PasswordRequest) {
-			if (!gsm.getStates().isEmpty()) {
-				if (gsm.getStates().peek() instanceof LobbyState lobby) {
+			if (!StateManager.states.isEmpty()) {
+				if (StateManager.states.peek() instanceof LobbyState lobby) {
 					lobby.openPasswordRequest();
 				}
 			}
@@ -330,26 +343,26 @@ public class KryoClient {
 				cs.setNextState(TransitionState.NEWLEVEL);
 			}
 			Gdx.app.postRunnable(() -> {
-				gsm.getApp().fadeOut();
-				gsm.getApp().setRunAfterTransition(() -> {
-					gsm.removeState(ResultsState.class, false);
-					gsm.removeState(SettingState.class, false);
-					gsm.removeState(AboutState.class, false);
-					gsm.removeState(PauseState.class, false);
+				FadeManager.fadeOut();
+				FadeManager.setRunAfterTransition(() -> {
+					StateManager.removeState(ResultsState.class, false);
+					StateManager.removeState(SettingState.class, false);
+					StateManager.removeState(AboutState.class, false);
+					StateManager.removeState(PauseState.class, false);
 
 					boolean spectator = null != cs && cs.isSpectatorMode();
-					gsm.removeState(ClientState.class, false);
+					StateManager.removeState(ClientState.class, false);
 
 					//set mode settings according to what the server sends
 					if (null != p.modeSettings) {
 						for (String key : p.modeSettings.keySet()) {
-							gsm.getSetting().setModeSetting(p.mode, key, p.modeSettings.get(key));
+							JSONManager.setting.setModeSetting(p.mode, SettingSave.getByName(key), p.modeSettings.get(key));
 						}
 					}
 
-					gsm.addClientPlayState(p.level, p.mode, LobbyState.class);
+					StateManager.addClientPlayState(app, p.level, p.mode, LobbyState.class);
 					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
-							gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
+							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});
 			});
 		}
@@ -359,7 +372,7 @@ public class KryoClient {
 		 * Ask the server to let us connect
 		 */
 		else if (o instanceof Packets.ServerLoaded) {
-			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName(), HadalGame.VERSION, null);
+			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, JSONManager.loadout.getName(), HadalGame.VERSION, null);
 			sendTCP(connected);
 		}
 
@@ -387,8 +400,8 @@ public class KryoClient {
 		 * We go to the pause state.
 		 */
 		else if (o instanceof final Packets.Paused p) {
-			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof final ClientState cs) {
-				cs.addPacketEffect(() -> cs.getGsm().addPauseState(cs, p.pauser, ClientState.class, true));
+			if (!StateManager.states.empty() && StateManager.states.peek() instanceof final ClientState cs) {
+				cs.addPacketEffect(() -> StateManager.addPauseState(cs, p.pauser, ClientState.class, true));
 			}
 		}
 
@@ -397,14 +410,14 @@ public class KryoClient {
 		 * We return to the ClientState
 		 */
 		else if (o instanceof Packets.Unpaused) {
-			if (!gsm.getStates().empty()) {
-				if (gsm.getStates().peek() instanceof final PauseState ps) {
+			if (!StateManager.states.empty()) {
+				if (StateManager.states.peek() instanceof final PauseState ps) {
 					ps.setToRemove(true);
 				}
-				if (gsm.getStates().peek() instanceof final SettingState ss) {
+				if (StateManager.states.peek() instanceof final SettingState ss) {
 					ss.setToRemove(true);
 				}
-				if (gsm.getStates().peek() instanceof final AboutState as) {
+				if (StateManager.states.peek() instanceof final AboutState as) {
 					as.setToRemove(true);
 				}
 			}
@@ -449,7 +462,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					gsm.setHostSetting(p.settings);
+					JSONManager.hostSetting = p.settings;
 					cs.getScoreWindow().syncSettingTable();
 				});
 			}
@@ -460,9 +473,11 @@ public class KryoClient {
 		 * Update that player's readiness in the results screen
 		 */
 		else if (o instanceof final Packets.ClientReady p) {
-			if (!gsm.getStates().empty()) {
-				if (gsm.getStates().peek() instanceof final ResultsState vs) {
+			if (!StateManager.states.empty()) {
+				if (StateManager.states.peek() instanceof final ResultsState vs) {
 					vs.getPs().addPacketEffect(() -> vs.readyPlayer(p.playerID));
+				} else if (StateManager.states.peek() instanceof final PlayState ps) {
+					ps.addPacketEffect(() -> SettingArcade.readyUp(ps, p.playerID));
 				}
 			}
 		}
@@ -501,25 +516,24 @@ public class KryoClient {
 						Player player = user.getPlayer();
 						if (null != player) {
 							if (null != player.getPlayerData()) {
-								if (p instanceof PacketsLoadout.SyncEquipServer s) {
-									player.getEquipHelper().syncEquip(s.equip);
-								}
-								else if (p instanceof PacketsLoadout.SyncArtifactServer s) {
-									player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
-									cs.getUiHub().refreshHub(null);
-								}
-								else if (p instanceof PacketsLoadout.SyncActiveServer s) {
-									player.getMagicHelper().syncMagic(s.active);
-								}
-								else if (p instanceof PacketsLoadout.SyncCharacterServer s) {
-									player.getCosmeticsHelper().setCharacter(s.character);
-								}
-								else if (p instanceof PacketsLoadout.SyncTeamServer s) {
-									player.getCosmeticsHelper().setTeam(s.team);
-								}
-								else if (p instanceof PacketsLoadout.SyncCosmeticServer s) {
-									player.getCosmeticsHelper().setCosmetic(s.cosmetic);
-								}
+                                switch (p) {
+                                    case PacketsLoadout.SyncEquipServer s -> player.getEquipHelper().syncEquip(s.equip);
+                                    case PacketsLoadout.SyncArtifactServer s -> {
+                                        player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
+										if (user.equals(usm.getOwnUser())) {
+											cs.getUiHub().refreshHub(null);
+											cs.getUiHub().refreshHubOptions();
+										}
+									}
+                                    case PacketsLoadout.SyncActiveServer s ->
+                                            player.getMagicHelper().syncMagic(s.active);
+                                    case PacketsLoadout.SyncCharacterServer s ->
+                                            player.getCosmeticsHelper().setCharacter(s.character);
+                                    case PacketsLoadout.SyncTeamServer s -> player.getCosmeticsHelper().setTeam(s.team);
+                                    case PacketsLoadout.SyncCosmeticServer s ->
+                                            player.getCosmeticsHelper().setCosmetic(s.cosmetic);
+                                    default -> {}
+                                }
 							}
 						}
 					}
@@ -553,6 +567,13 @@ public class KryoClient {
 				cs.addPacketEffect(() -> cs.getUiObjective()
 						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen,
 								p.displayOnScreen, p.displayClearCircle));
+			}
+		}
+
+		else if (o instanceof final Packets.SyncArcadeModeChoices p) {
+			final ClientState cs = getClientState();
+			if (null != cs) {
+				cs.addPacketEffect(() -> ArcadeNextRound.updateClientChoices(p.modeChoices, p.mapChoices));
 			}
 		}
 
@@ -1033,8 +1054,8 @@ public class KryoClient {
 	 * @return The current clientstate
 	 */
 	public ClientState getClientState() {
-		if (!gsm.getStates().empty()) {
-			GameState currentState = gsm.getStates().peek();
+		if (!StateManager.states.empty()) {
+			GameState currentState = StateManager.states.peek();
 			if (currentState instanceof ClientState clientState) {
 				return clientState;
 			} else if (currentState instanceof PauseState pauseState) {
@@ -1078,6 +1099,14 @@ public class KryoClient {
 			client.sendUDP(p);
 		}
 	}
-	
+
+	public void dispose() throws IOException {
+		if (client != null) {
+			client.stop();
+			client.dispose();
+			client = null;
+		}
+	}
+
 	public Client getClient() {	return client; }
 }

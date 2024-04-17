@@ -5,11 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.TooltipManager;
+import com.mygdx.hadal.text.UIText;
+
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * This mode setting is used for modes where the host can designate weapon drop mode
@@ -17,8 +19,6 @@ import com.mygdx.hadal.text.TooltipManager;
  */
 public class SettingLoadoutMode extends ModeSetting {
 
-    private static final String settingTag = "weapon_drops";
-    private static final Integer defaultValue = 0;
     private static final UnlockEquip[] weaponDropLoadout = {UnlockEquip.SPEARGUN_NERFED, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
 
     private SelectBox<String> dropsOptions;
@@ -30,10 +30,10 @@ public class SettingLoadoutMode extends ModeSetting {
         loadout.setScale(UIHub.DETAILS_SCALE);
         TooltipManager.addTooltip(loadout, UIText.SETTING_LOADOUT_MODE_DESC.text());
 
-        dropsOptions = new SelectBox<>(GameStateManager.getSkin());
+        dropsOptions = new SelectBox<>(SKIN);
         dropsOptions.setItems(loadoutChoices);
         dropsOptions.setWidth(UIHub.OPTIONS_WIDTH);
-        dropsOptions.setSelectedIndex(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue));
+        dropsOptions.setSelectedIndex(JSONManager.setting.getModeSetting(mode, SettingSave.WEAPON_DROPS));
 
         table.add(loadout);
         table.add(dropsOptions).height(UIHub.DETAIL_HEIGHT).pad(UIHub.DETAIL_PAD).row();
@@ -41,24 +41,24 @@ public class SettingLoadoutMode extends ModeSetting {
 
     @Override
     public void saveSetting(PlayState state, GameMode mode) {
-        state.getGsm().getSetting().setModeSetting(mode, settingTag, dropsOptions.getSelectedIndex());
+        JSONManager.setting.setModeSetting(mode, SettingSave.WEAPON_DROPS, dropsOptions.getSelectedIndex());
     }
 
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
-        mode.setLoadoutMode(indexToLoadoutMode(state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue)));
+        mode.setLoadoutMode(indexToLoadoutMode(JSONManager.setting.getModeSetting(mode, SettingSave.WEAPON_DROPS)));
     }
 
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
-        if (state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) == 0) {
+        if (JSONManager.setting.getModeSetting(mode, SettingSave.WEAPON_DROPS) == 0) {
             for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
                 if (weaponDropLoadout.length > i) {
                     newLoadout.multitools[i] = weaponDropLoadout[i];
                 }
             }
         }
-        if (state.getGsm().getSetting().getModeSetting(mode, settingTag, defaultValue) == 2) {
+        if (JSONManager.setting.getModeSetting(mode, SettingSave.WEAPON_DROPS) == 2) {
             for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
                 if (weaponDropLoadout.length > i) {
                     newLoadout.multitools[i] = UnlockEquip.getRandWeapFromPool(state, "");

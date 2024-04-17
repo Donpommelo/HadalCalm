@@ -10,7 +10,8 @@ import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.FadeManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -52,8 +53,8 @@ public class ClientState extends PlayState {
 	private final ObjectMap<UUID, Float> timeSinceLastMissedCreate = new ObjectMap<>();
 	private final Array<UUID> missedCreatesToRemove = new Array<>();
 
-	public ClientState(GameStateManager gsm, UnlockLevel level, GameMode mode) {
-		super(gsm, level, mode,false, true, "");
+	public ClientState(HadalGame app, UnlockLevel level, GameMode mode) {
+		super(app, level, mode,false, true, "");
 		entityLists.add(hitboxes);
 		entityLists.add(entities);
 		entityLists.add(effects);
@@ -83,8 +84,8 @@ public class ClientState extends PlayState {
 	public void resetController() {
 
 		//we check if we are in a playstate (not paused or in setting menu) b/c we don't reset control in those states
-		if (!gsm.getStates().empty()) {
-			if (gsm.getStates().peek() instanceof PlayState) {
+		if (!StateManager.states.empty()) {
+			if (StateManager.states.peek() instanceof PlayState) {
 				if (null != HadalGame.usm.getOwnPlayer()) {
 					//Whenever the controller is reset, the client gets a new client controller.
 					controller = new PlayerController(HadalGame.usm.getOwnPlayer());
@@ -247,7 +248,7 @@ public class ClientState extends PlayState {
 	public void transitionState() {
 		switch (nextState) {
 		case RESPAWN:
-			gsm.getApp().fadeIn();
+			FadeManager.fadeIn();
 			spectatorMode = false;
 			
 			//Make nextState null so we can transition again
@@ -259,16 +260,16 @@ public class ClientState extends PlayState {
 			FrameBuffer fbo = resultsStateFreeze();
 
 			//immediately transition to the results screen
-			gsm.removeState(SettingState.class, false);
-			gsm.removeState(AboutState.class, false);
-			gsm.removeState(PauseState.class, false);
-			gsm.removeState(ClientState.class, false);
-			gsm.addResultsState(this, resultsText, LobbyState.class, fbo);
-			gsm.addResultsState(this, resultsText, TitleState.class, fbo);
+			StateManager.removeState(SettingState.class, false);
+			StateManager.removeState(AboutState.class, false);
+			StateManager.removeState(PauseState.class, false);
+			StateManager.removeState(ClientState.class, false);
+			StateManager.addResultsState(this, resultsText, LobbyState.class, fbo);
+			StateManager.addResultsState(this, resultsText, TitleState.class, fbo);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
-			gsm.getApp().fadeIn();
+			FadeManager.fadeIn();
 
 			setSpectatorMode();
 
@@ -285,24 +286,24 @@ public class ClientState extends PlayState {
 		case NEWLEVEL:
 		case NEXTSTAGE:
 			//In these cases, we wait for the server to create a new playstate in which we connect again
-			gsm.removeState(SettingState.class, false);
-			gsm.removeState(AboutState.class, false);
-			gsm.removeState(PauseState.class, false);
+			StateManager.removeState(SettingState.class, false);
+			StateManager.removeState(AboutState.class, false);
+			StateManager.removeState(PauseState.class, false);
 			break;
 		case TITLE:
-			gsm.removeState(ResultsState.class);
-			gsm.removeState(SettingState.class, false);
-			gsm.removeState(AboutState.class, false);
-			gsm.removeState(PauseState.class, false);
-			gsm.removeState(ClientState.class);
+			StateManager.removeState(ResultsState.class);
+			StateManager.removeState(SettingState.class, false);
+			StateManager.removeState(AboutState.class, false);
+			StateManager.removeState(PauseState.class, false);
+			StateManager.removeState(ClientState.class);
 
 			//add a notification to the title state if specified in transition state
-			if (!gsm.getStates().isEmpty()) {
-				if (gsm.getStates().peek() instanceof TitleState) {
-					((TitleState) gsm.getStates().peek()).setNotification(resultsText);
+			if (!StateManager.states.isEmpty()) {
+				if (StateManager.states.peek() instanceof TitleState titleState) {
+					titleState.setNotification(resultsText);
 				}
-				if (gsm.getStates().peek() instanceof LobbyState) {
-					((LobbyState) gsm.getStates().peek()).setNotification(resultsText);
+				if (StateManager.states.peek() instanceof LobbyState lobbyState) {
+					lobbyState.setNotification(resultsText);
 				}
 			}
 			break;

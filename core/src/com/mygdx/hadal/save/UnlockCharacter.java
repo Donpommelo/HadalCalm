@@ -12,7 +12,6 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.GameText;
 
 /**
@@ -116,14 +115,14 @@ public enum UnlockCharacter {
 	/**
 	 * This acquires a list of all unlocked characters (if unlock is true. otherwise just return all characters that satisfy the tags)
 	 */
-	public static Array<UnlockCharacter> getUnlocks(PlayState state, boolean unlock, Array<UnlockTag> tags) {
+	public static Array<UnlockCharacter> getUnlocks(boolean unlock, Array<UnlockTag> tags) {
 		Array<UnlockCharacter> items = new Array<>();
 		
 		for (UnlockCharacter u : UnlockCharacter.values()) {
 			
 			boolean get = UnlockManager.checkTags(u.tags, tags);
 			
-			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.CHARACTER, u.toString())) {
+			if (unlock && !UnlockManager.checkUnlock(UnlockType.CHARACTER, u.toString())) {
 				get = false;
 			}
 			
@@ -134,8 +133,8 @@ public enum UnlockCharacter {
 		return items;
 	}
 
-	public static UnlockCharacter getRandCharFromPool(PlayState state) {
-		Array<UnlockCharacter> unlocks = UnlockCharacter.getUnlocks(state, false, new Array<>());
+	public static UnlockCharacter getRandCharFromPool() {
+		Array<UnlockCharacter> unlocks = UnlockCharacter.getUnlocks(false, new Array<>());
 		return unlocks.get(MathUtils.random(unlocks.size - 1));
 	}
 

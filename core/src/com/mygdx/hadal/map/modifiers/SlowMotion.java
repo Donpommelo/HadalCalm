@@ -1,5 +1,6 @@
 package com.mygdx.hadal.map.modifiers;
 
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -10,14 +11,13 @@ import com.mygdx.hadal.text.UIText;
  */
 public class SlowMotion extends ModeModifier {
 
-    private static final String settingTag = "slow_motion";
     private static final UIText uiText = UIText.MODIFIER_SLOW_UI;
     private static final UIText name = UIText.MODIFIER_SLOW;
 
     private static final float physicsMultiplier = -0.5f;
 
     public SlowMotion() {
-        super(settingTag, uiText, name);
+        super(SettingSave.MODIFIER_SLOW, uiText, name);
     }
 
     @Override

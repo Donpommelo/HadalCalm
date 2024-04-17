@@ -16,6 +16,7 @@ import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
@@ -91,7 +92,7 @@ public class Haberdasher extends HubEvent {
 			lastCosmetic = slotChosen;
 
 			//iterate through all cosmetics that are valid with given character and slot
-			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(state, checkUnlock, tags)) {
+			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(checkUnlock, tags)) {
 				if (!c.getCosmeticSlot().equals(slotChosen)) {
 					continue;
 				}
@@ -99,7 +100,7 @@ public class Haberdasher extends HubEvent {
 					continue;
 				}
 				boolean appear = false;
-				if ("".equals(search)) {
+				if (search.isEmpty()) {
 					appear = true;
 				} else {
 					Matcher matcher = pattern.matcher(c.getName().toLowerCase());
@@ -154,7 +155,7 @@ public class Haberdasher extends HubEvent {
 
 			//keep track of the number of cosmetics for each slot to be displayed in the respective hub option
 			int cosmeticCount = 0;
-			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(state, checkUnlock, tags)) {
+			for (UnlockCosmetic c : UnlockCosmetic.getUnlocks(checkUnlock, tags)) {
 				if (!c.getCosmeticSlot().equals(slot)) {
 					continue;
 				}
@@ -249,7 +250,7 @@ public class Haberdasher extends HubEvent {
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncCosmeticClient(choice));
 						}
-						state.getGsm().getLoadout().setCosmetic(HadalGame.usm.getOwnUser(), choice.getCosmeticSlot().getSlotNumber(), choice.toString());
+						JSONManager.loadout.setCosmetic(HadalGame.usm.getOwnUser(), choice.getCosmeticSlot().getSlotNumber(), choice.toString());
 
 						me.enter();
 						hub.refreshHub(me);

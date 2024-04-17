@@ -13,7 +13,7 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SpawnEnemyWaves extends ModeSetting {
 
     @Override
-    public void processGameEnd() {
+    public void processGameEnd(PlayState state) {
         BotManager.terminatePathfindingThreads();
     }
 

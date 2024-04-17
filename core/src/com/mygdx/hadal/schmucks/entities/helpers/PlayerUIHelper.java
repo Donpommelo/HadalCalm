@@ -8,11 +8,14 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
 import java.util.Objects;
+
+import static com.mygdx.hadal.managers.SkinManager.FONT_SPRITE;
 
 /**
  * PlayerUIHelper renders ui elements attached to the player.
@@ -102,7 +105,7 @@ public class PlayerUIHelper {
 
             batch.draw(reloadBar, textX + BAR_OFFSET_X, textY + BAR_OFFSET_Y,
                     reloadBar.getRegionWidth() * UI_SCALE * reloadDelayed, reloadBar.getRegionHeight() * UI_SCALE);
-            HadalGame.FONT_SPRITE.draw(batch, UIText.RELOADING.text(), textX + TEXT_OFFSET_X,
+            FONT_SPRITE.draw(batch, UIText.RELOADING.text(), textX + TEXT_OFFSET_X,
                     textY + reloadMeter.getRegionHeight() * UI_SCALE);
             batch.draw(reloadMeter, textX, textY, reloadMeter.getRegionWidth() * UI_SCALE, reloadMeter.getRegionHeight() * UI_SCALE);
 
@@ -119,7 +122,7 @@ public class PlayerUIHelper {
             chargeDelayed = Math.min(1.0f, chargeDelayed + (chargePercent - chargeDelayed) * METER_DELAY);
             batch.draw(reloadBar, textX + BAR_OFFSET_X, textY + BAR_OFFSET_Y,
                     reloadBar.getRegionWidth() * UI_SCALE * chargeDelayed, reloadBar.getRegionHeight() * UI_SCALE);
-            HadalGame.FONT_SPRITE.draw(batch, currentTool.getChargeText(), textX + TEXT_OFFSET_X,
+            FONT_SPRITE.draw(batch, currentTool.getChargeText(), textX + TEXT_OFFSET_X,
                     textY + reloadMeter.getRegionHeight() * UI_SCALE);
             batch.draw(reloadMeter, textX, textY, reloadMeter.getRegionWidth() * UI_SCALE, reloadMeter.getRegionHeight() * UI_SCALE);
         } else {
@@ -128,7 +131,7 @@ public class PlayerUIHelper {
 
         //render "out of ammo"
         if (currentTool.isOutofAmmo()) {
-            HadalGame.FONT_SPRITE.draw(batch, UIText.OUT_OF_AMMO.text(), textX + TEXT_OFFSET_X,
+            FONT_SPRITE.draw(batch, UIText.OUT_OF_AMMO.text(), textX + TEXT_OFFSET_X,
                     textY + reloadMeter.getRegionHeight() * UI_SCALE);
         }
 
@@ -147,7 +150,7 @@ public class PlayerUIHelper {
             }
 
             if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
-                if (state.getGsm().getSetting().isDisplayHp()) {
+                if (JSONManager.setting.isDisplayHp()) {
                     hpRatio = state.getUiPlay().getHpRatio();
                     fuelRatio = state.getUiPlay().getFuelRatio();
                     fuelCutoffRatio = state.getUiPlay().getFuelCutoffRatio();
@@ -170,9 +173,9 @@ public class PlayerUIHelper {
             }
         }
 
-        if (state.getGsm().getSetting().isDisplayNames()) {
+        if (JSONManager.setting.isDisplayNames()) {
             //draw player name
-            HadalGame.FONT_SPRITE.draw(batch, player.getName(),
+            FONT_SPRITE.draw(batch, player.getName(),
                     playerLocation.x - player.getSize().x / 2,
                     playerLocation.y + player.getSize().y / 2 + NAME_OFFSET_Y);
         }

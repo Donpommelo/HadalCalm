@@ -5,7 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.hadal.managers.GameStateManager;
+
+import static com.mygdx.hadal.managers.SkinManager.SIMPLE_PATCH;
 
 /**
  * A button table is just a table with a window sprite drawn around it when moused over
@@ -35,7 +36,7 @@ public class TableButton extends Table {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if (mouseOver) {
-            GameStateManager.getSimplePatch().draw(batch, getX(), getY(), getWidth(), getHeight());
+            SIMPLE_PATCH.draw(batch, getX(), getY(), getWidth(), getHeight());
         }
         super.draw(batch, parentAlpha);
     }

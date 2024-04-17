@@ -13,7 +13,8 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
@@ -45,7 +46,7 @@ public class BotLoadoutProcessor {
                 UnlockEquip.getRandWeapFromPool(state, ""),
                 UnlockEquip.getRandWeapFromPool(state, "")};
         botLoadout.artifacts = getRandomArtifacts(state);
-        botLoadout.character = UnlockCharacter.getRandCharFromPool(state);
+        botLoadout.character = UnlockCharacter.getRandCharFromPool();
         botLoadout.activeItem = getRandomActiveItem();
         botLoadout.team = AlignmentFilter.getRandomColor();
         botLoadout.cosmetics = getRandomCosmetics(botLoadout.character);
@@ -518,18 +519,19 @@ public class BotLoadoutProcessor {
      * This gives a bot a set of random artifacts from a curated list, obeying artifact slot restrictions
      */
     public static UnlockArtifact[] getRandomArtifacts(PlayState state) {
-        UnlockArtifact[] artifacts = new UnlockArtifact[]{ UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING,  UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING, UnlockArtifact.NOTHING };
+        UnlockArtifact[] artifacts = new UnlockArtifact[Loadout.MAX_ARTIFACT_SLOTS];
+        Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 
         //easy bots or bots in single player when the player has no artifacts do not use artifacts
         if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
-                (GameStateManager.Mode.SINGLE.equals(GameStateManager.currentMode) &&
+                (StateManager.Mode.SINGLE.equals(StateManager.currentMode) &&
                         0 == HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed())) {
             return artifacts;
         }
 
         Array<UnlockArtifact> artifactOptions = new Array<>();
 
-        int slots = state.getGsm().getSetting().getArtifactSlots();
+        int slots = JSONManager.setting.getArtifactSlots();
         int currentSlot = 0;
         boolean mobilityFound = 1 == slots;
 

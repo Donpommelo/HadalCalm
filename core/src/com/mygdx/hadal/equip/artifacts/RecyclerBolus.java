@@ -39,7 +39,7 @@ public class RecyclerBolus extends Artifact {
 			
 			@Override
 			public void statChanges() {
-				p.setStat(Stats.MAX_HP, p.getStat(Stats.MAX_HP_PERCENT) + currentStacks * HP_BUFF);
+				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + currentStacks * HP_BUFF);
 			}
 		};
 	}

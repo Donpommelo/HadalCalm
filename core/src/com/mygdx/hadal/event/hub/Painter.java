@@ -10,6 +10,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -115,7 +116,7 @@ public class Painter extends HubEvent {
 						} else {
 							HadalGame.client.sendTCP(new PacketsLoadout.SyncTeamClient(selected));
 						}
-						state.getGsm().getLoadout().setTeam(HadalGame.usm.getOwnUser(), selected.toString());
+						JSONManager.loadout.setTeam(HadalGame.usm.getOwnUser(), selected.toString());
 					}
 				});
 

@@ -19,6 +19,7 @@ public class DesktopLauncher {
 	private static final String TITLE = "Hadal Calm";
 
 	public static void main(String[] arg) throws FileNotFoundException {
+		if (StartupHelper.startNewJvmIfRequired()) return;
 
 		final Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 

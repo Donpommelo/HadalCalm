@@ -1,6 +1,7 @@
 package com.mygdx.hadal.map.modifiers;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -10,12 +11,11 @@ import com.mygdx.hadal.text.UIText;
  */
 public class ZeroGravity extends ModeModifier {
 
-    private static final String settingTag = "zero_gravity";
     private static final UIText uiText = UIText.MODIFIER_ZERO_GRAV_UI;
     private static final UIText name = UIText.MODIFIER_ZERO_GRAV;
 
     public ZeroGravity() {
-        super(settingTag, uiText, name);
+        super(SettingSave.MODIFIER_ZERO_GRAVITY, uiText, name);
     }
 
     @Override

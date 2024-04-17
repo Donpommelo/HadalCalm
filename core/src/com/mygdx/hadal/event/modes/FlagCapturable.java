@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
@@ -33,6 +32,7 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
+import static com.mygdx.hadal.managers.SkinManager.FONT_SPRITE;
 
 /**
  * A FlagCapturable is an event that serves as an objective for ctf mode that can be captured
@@ -263,7 +263,7 @@ public class FlagCapturable extends Event {
 			float textY = entityLocation.y + returnMeter.getRegionHeight() * UI_SCALE + size.y / 2;
 
 			batch.draw(returnBar, textX + 10, textY + 4, returnBar.getRegionWidth() * UI_SCALE * returnDelayed, returnBar.getRegionHeight() * UI_SCALE);
-			HadalGame.FONT_SPRITE.draw(batch, UIText.CTF_RETURN.text(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);
+			FONT_SPRITE.draw(batch, UIText.CTF_RETURN.text(), textX + 12, textY + returnMeter.getRegionHeight() * UI_SCALE);
 			batch.draw(returnMeter, textX, textY, returnMeter.getRegionWidth() * UI_SCALE, returnMeter.getRegionHeight() * UI_SCALE);
 
 			if (returnDelayed > returnPercent) {

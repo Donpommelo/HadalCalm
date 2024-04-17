@@ -1,11 +1,9 @@
 package com.mygdx.hadal.input;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.event.modes.ArcadeNextRound;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.schmucks.entities.Player;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * The Action Controller receives actions from a player controller or packets from clients and uses them to make a player 
@@ -61,6 +59,7 @@ public class ActionController {
 			}
 			player.getShootHelper().setShooting(false);
 		}
+
 	}
 	
 	public void keyDown(PlayerAction action, boolean onReset) {
@@ -131,43 +130,20 @@ public class ActionController {
 		else if (action == PlayerAction.PING) {
 			player.getPingHelper().ping();
 		}
-	}
 
-	private float lastTimestamp;
-	private final Vector2 relativeMouse = new Vector2();
-	private HashSet<PlayerAction> keysHeld = new HashSet<>();
-	/**
-	 * This is run when receiving client inputs. Set client keys as pressed/released and set attack angle
-	 */
-	public void syncClientKeyStrokes(float mouseX, float mouseY, float clientX, float clientY,
-		PlayerAction[] actions, float timestamp) {
-
-		//we want to ignore snapshots sent out of order in favor of the most recent snapshot
-		if (timestamp > lastTimestamp) {
-			lastTimestamp = timestamp;
-
-			relativeMouse.set(mouseX, mouseY).sub(clientX, clientY).add(player.getPixelPosition());
-
-			//we want the relative mouse location to get the angle the client is shooting at
-			//this makes high-lag mess with the aim less
-			player.getMouseHelper().setDesiredLocation(relativeMouse.x, relativeMouse.y);
-
-			HashSet<PlayerAction> keysHeldNew = new HashSet<>(Arrays.asList(actions));
-
-			for (PlayerAction a : keysHeldNew) {
-				if (!keysHeld.contains(a)) {
-					keyDown(a);
-				}
+		if (player.getState().getMode().equals(GameMode.ARCADE)) {
+			if (action == PlayerAction.SWITCH_TO_1) {
+				ArcadeNextRound.playerVote(player.getState(), player.getUser(), 0);
+			} else if (action == PlayerAction.SWITCH_TO_2) {
+				ArcadeNextRound.playerVote(player.getState(), player.getUser(), 1);
+			} else if (action == PlayerAction.SWITCH_TO_3) {
+				ArcadeNextRound.playerVote(player.getState(), player.getUser(), 2);
+			} else if (action == PlayerAction.SWITCH_TO_4) {
+				ArcadeNextRound.playerVote(player.getState(), player.getUser(), 3);
 			}
-			for (PlayerAction a : keysHeld) {
-				if (!keysHeldNew.contains(a)) {
-					keyUp(a);
-				}
-			}
-			keysHeld = keysHeldNew;
 		}
 	}
-	
+
 	public void keyDown(PlayerAction action) { keyDown(action, false); }
 
 	public void keyUp(PlayerAction action) { keyUp(action, false); }

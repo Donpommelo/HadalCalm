@@ -6,10 +6,11 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
 
 import static com.mygdx.hadal.constants.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION_SLOW;
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
+import static com.mygdx.hadal.managers.SkinManager.SIMPLE_PATCH;
 
 /**
  * This icon is displayed at the start of levels to show the player the currently playing song
@@ -40,9 +41,9 @@ public class MusicIcon extends AHadalActor {
 
 		text = track.getMusicName();
 
-		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
+		FONT_UI.getData().setScale(FONT_SCALE);
 		layout = new GlyphLayout();
-		layout.setText(HadalGame.FONT_UI, text);
+		layout.setText(FONT_UI, text);
 		setWidth(layout.width);
 		setHeight(layout.height);
 
@@ -60,11 +61,11 @@ public class MusicIcon extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 
-		GameStateManager.getSimplePatch().draw(batch, getX() - PAD_X / 2, getY() - PAD_Y / 2,
+		SIMPLE_PATCH.draw(batch, getX() - PAD_X / 2, getY() - PAD_Y / 2,
 			getWidth() + PAD_X, getHeight() + PAD_Y);
 
-		HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
-		HadalGame.FONT_UI.draw(batch, text, getX(), getY() + getHeight() / 2 + layout.height / 2, MAX_WIDTH, Align.left, true);
+		FONT_UI.getData().setScale(FONT_SCALE);
+		FONT_UI.draw(batch, text, getX(), getY() + getHeight() / 2 + layout.height / 2, MAX_WIDTH, Align.left, true);
 
 		batch.draw(musicIcon.getKeyFrame(animCdCount, true), getX() + ICON_OFFSET_X, getY() + ICON_OFFSET_Y,
 				ICON_WIDTH, ICON_HEIGHT);

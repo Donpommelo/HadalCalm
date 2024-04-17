@@ -8,12 +8,14 @@ import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.text.Dialog;
-import com.mygdx.hadal.text.DialogInfo;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.text.Dialog;
+import com.mygdx.hadal.text.DialogInfo;
+
+import static com.mygdx.hadal.managers.SkinManager.*;
 
 /**
  * The Dialogue box is an actor that appears in the stage when a dialogue is initiated. This happens through activating a
@@ -126,11 +128,11 @@ public class DialogBox extends AHadalActor {
 			}
 		}
 		
-		JsonValue dialog = GameStateManager.dialogs.get(id);
+		JsonValue dialog = JSONManager.dialogs.get(id);
 		
 		if (null != dialog) {
 			for (JsonValue d : dialog) {
-				addDialogue(GameStateManager.JSON.fromJson(DialogInfo.class, d.toJson(OutputType.json)), radio, trigger, type);
+				addDialogue(JSONManager.JSON.fromJson(DialogInfo.class, d.toJson(OutputType.json)), radio, trigger, type);
 			}	
 		}
 	}
@@ -142,7 +144,7 @@ public class DialogBox extends AHadalActor {
 	public void addDialogue(DialogInfo info, EventData radio, EventData trigger, DialogType type) {
 
 		//this does text filtering/formatting for the new text
-		info.setDisplayedText(ps.getGsm());
+		info.setDisplayedText();
 
 		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
 		if (0 == dialogs.size) {
@@ -151,7 +153,7 @@ public class DialogBox extends AHadalActor {
 			currX = 0;
 			currY = 0;
 
-			SoundEffect.BLOP.play(ps.getGsm(), 1.0f, false);
+			SoundEffect.BLOP.play(1.0f, false);
 		}
 		dialogs.addLast(new Dialog(info, radio, trigger, type));
 	}
@@ -187,7 +189,7 @@ public class DialogBox extends AHadalActor {
 				currY = 0;
 			}
 			
-			SoundEffect.BLOP.play(ps.getGsm(), 1.0f, false);
+			SoundEffect.BLOP.play(1.0f, false);
 		}
 	}
 	
@@ -199,33 +201,33 @@ public class DialogBox extends AHadalActor {
 
 			//system messages are red to distinguish them from story dialog
 			if (DialogType.SYSTEM.equals(first.getType())) {
-				HadalGame.FONT_UI.setColor(Color.RED);
+				FONT_UI.setColor(Color.RED);
 			}
 			
 			if (first.getInfo().isSmall()) {
-				HadalGame.FONT_UI.getData().setScale(FONT_SCALE_SMALL);
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
+				FONT_UI.getData().setScale(FONT_SCALE_SMALL);
+				SIMPLE_PATCH.draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= MAX_X_SMALL * TEXT_APPEAR_THRESHOLD) {
-					HadalGame.FONT_UI.draw(batch, first.getInfo().getDisplayedText(), getX() + 20, getY() - 20,
+					FONT_UI.draw(batch, first.getInfo().getDisplayedText(), getX() + 20, getY() - 20,
 							MAX_TEXT_WIDTH_SMALL, Align.left, true);
-					GameStateManager.getSimplePatch().draw(batch, getX() + MAX_X_SMALL - ADVANCE_WIDTH, getY() - MAX_Y_SMALL,
+					SIMPLE_PATCH.draw(batch, getX() + MAX_X_SMALL - ADVANCE_WIDTH, getY() - MAX_Y_SMALL,
 							ADVANCE_WIDTH, ADVANCE_HEIGHT);
-					HadalGame.FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + MAX_X_SMALL - ADVANCE_WIDTH,
+					FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + MAX_X_SMALL - ADVANCE_WIDTH,
 						getY() - MAX_Y_SMALL - 8 + ADVANCE_HEIGHT, MAX_TEXT_WIDTH_SMALL, Align.left, true);
 				}
 			} else {
-				HadalGame.FONT_UI.getData().setScale(FONT_SCALE);
-				GameStateManager.getDialogPatch().draw(batch, getX(), getY() - currY, currX, currY);
+				FONT_UI.getData().setScale(FONT_SCALE);
+				SIMPLE_PATCH.draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= MAX_X * TEXT_APPEAR_THRESHOLD) {
-					HadalGame.FONT_UI.draw(batch, first.getInfo().getDisplayedText(), getX() + 150, getY() - 20,
+					FONT_UI.draw(batch, first.getInfo().getDisplayedText(), getX() + 150, getY() - 20,
 							MAX_TEXT_WIDTH, Align.left, true);
-					GameStateManager.getSimplePatch().draw(batch, getX() + MAX_X - ADVANCE_WIDTH, getY() - MAX_Y,
+					SIMPLE_PATCH.draw(batch, getX() + MAX_X - ADVANCE_WIDTH, getY() - MAX_Y,
 							ADVANCE_WIDTH, ADVANCE_HEIGHT);
-					HadalGame.FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + MAX_X - ADVANCE_WIDTH,
+					FONT_UI.draw(batch, PlayerAction.DIALOGUE.getKeyText(), getX() + 15 + MAX_X - ADVANCE_WIDTH,
 						getY() - MAX_Y - 8 + ADVANCE_HEIGHT, MAX_TEXT_WIDTH, Align.left, true);
 				}
 				 
@@ -237,7 +239,7 @@ public class DialogBox extends AHadalActor {
 
 			//Return color to default values.
 			if (DialogType.SYSTEM.equals(first.getType())) {
-				HadalGame.FONT_UI.setColor(HadalGame.DEFAULT_TEXT_COLOR);
+				FONT_UI.setColor(DEFAULT_TEXT_COLOR);
 		    }
 		}
     }

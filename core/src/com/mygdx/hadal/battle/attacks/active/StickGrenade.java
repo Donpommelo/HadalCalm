@@ -26,7 +26,7 @@ public class StickGrenade extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 1.0f);
+        SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 0.5f);
 
         Hitbox hbox = new RangedHitbox(state, startPosition, STICK_GRENADE_SIZE, STICK_GRENADE_LIFESPAN, startVelocity,
                 user.getHitboxFilter(), false, false, user, Sprite.CABER);

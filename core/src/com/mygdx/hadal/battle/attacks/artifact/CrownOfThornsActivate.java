@@ -19,14 +19,14 @@ public class CrownOfThornsActivate extends SyncedAttacker {
     private static final float THORN_DURATION = 0.35f;
     private static final float THORN_SPEED = 36.0f;
     private static final float THORN_KNOCKBACK = 15.0f;
-    private static final Vector2 PROJECTILE_SIZE = new Vector2(72, 9);
+    private static final Vector2 PROJECTILE_SIZE = new Vector2(56, 11);
 
-    private static final Sprite PROJ_SPRITE = Sprite.BULLET;
+    private static final Sprite PROJ_SPRITE = Sprite.SHRAPNEL;
 
     public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                              Vector2[] startVelocity, float[] extraFields) {
 
-        SoundEffect.SPIKE.playSourced(state, user.getPixelPosition(), 0.2f);
+        SoundEffect.SPIKE.playSourced(state, user.getPixelPosition(), 0.5f);
 
         Hitbox[] hboxes = new Hitbox[THORNS_NUMBER];
 

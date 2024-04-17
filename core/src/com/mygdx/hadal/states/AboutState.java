@@ -11,17 +11,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TableWindow;
+import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.text.TooltipManager;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.constants.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION;
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * The AboutState is selected from the title screen and gives information about the game
@@ -90,8 +92,8 @@ public class AboutState extends GameState {
 	/**
 	 * Constructor will be called when the player enters the about state from the title menu.
 	 */
-	public AboutState(final GameStateManager gsm, GameState peekState) {
-		super(gsm);
+	public AboutState(HadalGame app, GameState peekState) {
+		super(app);
 		this.peekState = peekState;
 
 		if (peekState instanceof PauseState pauseState) {
@@ -121,7 +123,7 @@ public class AboutState extends GameState {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						soundRoomSelected();
 					}
 				});
@@ -132,7 +134,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						aboutSelected();
 			        }
 			    });
@@ -143,7 +145,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						tipsSelected();
 			        }
 			    });
@@ -154,7 +156,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						miscSelected();
 			        }
 			    });
@@ -165,7 +167,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						creditsSelected();
 			        }
 			    });
@@ -176,8 +178,8 @@ public class AboutState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-						transitionOut(() -> gsm.removeState(AboutState.class));
+						SoundEffect.NEGATIVE.play(1.0f, false);
+						transitionOut(() -> StateManager.removeState(AboutState.class));
 			        }
 			    });
 				exitOption.setScale(OPTIONS_SCALE);
@@ -216,7 +218,7 @@ public class AboutState extends GameState {
 		trackText.setScale(DETAILS_SCALE);
 
 		//the slider sets its position based on the song duration
-		musicTime = new Slider(0.0f, 0.0f, 1.0f, false, GameStateManager.getSkin()) {
+		musicTime = new Slider(0.0f, 0.0f, 1.0f, false, SKIN) {
 
 			//hack necessary to set length
 			@Override
@@ -229,8 +231,8 @@ public class AboutState extends GameState {
 
 			@Override
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				if (HadalGame.musicPlayer.getCurrentSong() != null) {
-					HadalGame.musicPlayer.setMusicPosition(musicTime.getValue());
+				if (MusicPlayer.getCurrentSong() != null) {
+					MusicPlayer.setMusicPosition(musicTime.getValue());
 				}
 			}
 
@@ -249,8 +251,8 @@ public class AboutState extends GameState {
 
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-					SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-					HadalGame.musicPlayer.playSong(track, 1.0f);
+					SoundEffect.NEGATIVE.play(1.0f, false);
+					MusicPlayer.playSong(track, 1.0f);
 					setTrack(track, true);
 				}
 			});
@@ -265,7 +267,7 @@ public class AboutState extends GameState {
 			musicTracks.remove();
 		}
 
-		musicTracks = new ScrollPane(tracks, GameStateManager.getSkin());
+		musicTracks = new ScrollPane(tracks, SKIN);
 		musicTracks.setFadeScrollBars(false);
 
 		trackTime = new Text("");
@@ -279,14 +281,14 @@ public class AboutState extends GameState {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-				if (HadalGame.musicPlayer.getCurrentSong() != null) {
-					if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
-						HadalGame.musicPlayer.pause();
+				SoundEffect.NEGATIVE.play(1.0f, false);
+				if (MusicPlayer.getCurrentSong() != null) {
+					if (MusicPlayer.getCurrentSong().isPlaying()) {
+						MusicPlayer.pause();
 						pause.setText(UIText.PLAY.text());
 					} else {
-						HadalGame.musicPlayer.getCurrentSong().setPosition(musicTime.getValue());
-						HadalGame.musicPlayer.play();
+						MusicPlayer.getCurrentSong().setPosition(musicTime.getValue());
+						MusicPlayer.play();
 						pause.setText(UIText.PAUSE.text());
 					}
 					pause.setHeight(OPTION_HEIGHT);
@@ -302,8 +304,8 @@ public class AboutState extends GameState {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
-				HadalGame.musicPlayer.stop();
+				SoundEffect.NEGATIVE.play(1.0f, false);
+				MusicPlayer.stop();
 				setTrack(null, false);
 			}
 		});
@@ -316,20 +318,20 @@ public class AboutState extends GameState {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
+				SoundEffect.NEGATIVE.play(1.0f, false);
 
-				if (HadalGame.musicPlayer.getCurrentSong() != null) {
-					HadalGame.musicPlayer.getCurrentSong().setPosition(HadalGame.musicPlayer.getCurrentTrack().getTrackLength());
+				if (MusicPlayer.getCurrentSong() != null) {
+					MusicPlayer.getCurrentSong().setPosition(MusicPlayer.getCurrentTrack().getTrackLength());
 				}
 			}
 		});
 
 		//this checkbox controls whther the music should continue playing after exiting the sound room
-		continuePlaying = new CheckBox(UIText.CONTINUE.text(), GameStateManager.getSkin());
+		continuePlaying = new CheckBox(UIText.CONTINUE.text(), SKIN);
 		TooltipManager.addTooltip(continuePlaying, UIText.CONTINUE_DESC.text());
 
 		//loop options decide whether to loop, shuffle, cycle when a song completes
-		loopOptions = new SelectBox<>(GameStateManager.getSkin());
+		loopOptions = new SelectBox<>(SKIN);
 		loopOptions.setItems(UIText.LOOP_OPTIONS.text().split(","));
 		loopOptions.setWidth(100);
 
@@ -349,8 +351,8 @@ public class AboutState extends GameState {
 		soundRoomExtra.add(continuePlaying).colspan(3).height(OPTION_HEIGHT).pad(DETAIL_PAD).row();
 		soundRoomExtra.add(loopOptions).colspan(3).height(OPTION_HEIGHT).pad(DETAIL_PAD).row();
 
-		HadalGame.musicPlayer.setMusicState(MusicTrackType.NOTHING);
-		setTrack(HadalGame.musicPlayer.getCurrentTrack(), true);
+		MusicPlayer.setMusicState(MusicTrackType.NOTHING);
+		setTrack(MusicPlayer.getCurrentTrack(), true);
 	}
 
 	private void tipsSelected() {
@@ -390,7 +392,7 @@ public class AboutState extends GameState {
 			
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+				SoundEffect.UISWITCH1.play(1.0f, false);
 				Gdx.net.openURI("https://donpommelo.itch.io/");
 	        }
 	    });
@@ -403,7 +405,7 @@ public class AboutState extends GameState {
 			
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+				SoundEffect.UISWITCH1.play(1.0f, false);
 				Gdx.net.openURI("https://www.instagram.com/shoebanfoo/");
 	        }
 	    });
@@ -416,7 +418,7 @@ public class AboutState extends GameState {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+				SoundEffect.UISWITCH1.play(1.0f, false);
 				Gdx.net.openURI("https://soundcloud.com/vcrchitect/");
 			}
 		});
@@ -446,15 +448,15 @@ public class AboutState extends GameState {
 		peekState.update(delta);
 
 		//set music slider position if a song is playing
-		if (musicTime != null && HadalGame.musicPlayer.getCurrentSong() != null) {
+		if (musicTime != null && MusicPlayer.getCurrentSong() != null) {
 
-			if (!musicTime.isDragging() && HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
-				musicTime.setValue(HadalGame.musicPlayer.getCurrentSong().getPosition());
+			if (!musicTime.isDragging() && MusicPlayer.getCurrentSong().isPlaying()) {
+				musicTime.setValue(MusicPlayer.getCurrentSong().getPosition());
 			}
 			trackTime.setText(secondsToMinutes((int) musicTime.getValue()) + " / " +
-				secondsToMinutes(HadalGame.musicPlayer.getCurrentTrack().getTrackLength()));
+				secondsToMinutes(MusicPlayer.getCurrentTrack().getTrackLength()));
 
-			if (musicTime.getValue() >= HadalGame.musicPlayer.getCurrentTrack().getTrackLength()) {
+			if (musicTime.getValue() >= MusicPlayer.getCurrentTrack().getTrackLength()) {
 				if (!loopChecked) {
 					loopChecked = true;
 
@@ -464,7 +466,7 @@ public class AboutState extends GameState {
 
 							//when cycling, play the next song or thte first song if reaching the end of the list
 							MusicTrack nextTrack = MusicTrack.values()[(currentTrackIndex + 1) % MusicTrack.values().length];
-							HadalGame.musicPlayer.playSong(nextTrack, 1.0f);
+							MusicPlayer.playSong(nextTrack, 1.0f);
 							setTrack(nextTrack, true);
 						}
 						case 2 -> {
@@ -476,11 +478,11 @@ public class AboutState extends GameState {
 
 							//play a song from the random list and remove it to ensure cycling through all songs before reshuffling
 							MusicTrack randomTrack = shuffleTracks.get(MathUtils.random(shuffleTracks.size- 1));
-							HadalGame.musicPlayer.playSong(randomTrack, 1.0f);
+							MusicPlayer.playSong(randomTrack, 1.0f);
 							setTrack(randomTrack, false);
 							shuffleTracks.removeValue(randomTrack, false);
 						}
-						case 3 -> HadalGame.musicPlayer.stop();
+						case 3 -> MusicPlayer.stop();
 					}
 				}
 			} else {
@@ -493,8 +495,8 @@ public class AboutState extends GameState {
 		//If the state has been unpaused, remove it
 		if (toRemove) {
 			transitionOut(() -> {
-				gsm.removeState(AboutState.class, false);
-				gsm.removeState(PauseState.class);
+				StateManager.removeState(AboutState.class, false);
+				StateManager.removeState(PauseState.class);
 			});
 		}
 	}
@@ -522,9 +524,9 @@ public class AboutState extends GameState {
 
 		//if we want to continue playing the song after closing, set music state to free
 		if (continuePlaying != null) {
-			if (continuePlaying.isChecked() && HadalGame.musicPlayer.getCurrentSong() != null) {
-				if (HadalGame.musicPlayer.getCurrentSong().isPlaying()) {
-					HadalGame.musicPlayer.setMusicState(MusicTrackType.FREE);
+			if (continuePlaying.isChecked() && MusicPlayer.getCurrentSong() != null) {
+				if (MusicPlayer.getCurrentSong().isPlaying()) {
+					MusicPlayer.setMusicState(MusicTrackType.FREE);
 				}
 			}
 		}

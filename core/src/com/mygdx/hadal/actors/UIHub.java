@@ -13,8 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.hub.HubEvent;
+import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -26,6 +27,8 @@ import com.mygdx.hadal.utils.TextUtil;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_TOTAL;
 import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION_SLOW;
+import static com.mygdx.hadal.managers.SkinManager.SIMPLE_PATCH;
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * The UiHub is an actor that pops up whenever the player interacts with hub elements that pop up a ui window
@@ -78,7 +81,9 @@ public class UIHub {
 	private String info, title = "";
 
 	private hubTypes type = hubTypes.NONE;
-	
+
+	private HubEvent lastHubEvent;
+
 	//is this window currently visible?
 	private boolean active;
 
@@ -123,7 +128,7 @@ public class UIHub {
 		    public void draw(Batch batch, float alpha) {
 				super.draw(batch, alpha);
 				font.getData().setScale(0.3f);
-				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), INFO_WIDTH, INFO_HEIGHT);
+				SIMPLE_PATCH.draw(batch, getX(), getY(), INFO_WIDTH, INFO_HEIGHT);
 				font.draw(batch, info, getX() + 5, getY() + INFO_HEIGHT - 25, INFO_WIDTH - 10, -1, true);
 		    }
 		};
@@ -151,7 +156,8 @@ public class UIHub {
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
 	public void enter(HubEvent hub) {
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.2f, false);
+		SoundEffect.DOORBELL.play(0.2f, false);
+		lastHubEvent = hub;
 
 		active = true;
 
@@ -165,7 +171,7 @@ public class UIHub {
 			Text search = new Text(UIText.SEARCH.text());
 			search.setScale(OPTIONS_SCALE);
 
-			searchName = new TextField("", GameStateManager.getSkin()) {
+			searchName = new TextField("", SKIN) {
 
 				@Override
 				protected InputListener createInputListener () {
@@ -197,7 +203,7 @@ public class UIHub {
 			Text searchTags = new Text(UIText.FILTER_TAGS.text());
 			searchTags.setScale(OPTIONS_SCALE);
 
-			tagFilter = new SelectBox<>(GameStateManager.getSkin());
+			tagFilter = new SelectBox<>(SKIN);
 			tagFilter.setItems(hub.getSearchTags());
 
 			if (null != hub.getLastTag()) {
@@ -224,7 +230,7 @@ public class UIHub {
 			Text searchCost = new Text(UIText.FILTER_COST.text());
 			searchCost.setScale(OPTIONS_SCALE);
 
-			slotsFilter = new SelectBox<>(GameStateManager.getSkin());
+			slotsFilter = new SelectBox<>(SKIN);
 			slotsFilter.setItems(UIText.FILTER_COST_OPTIONS.text().split(","));
 			slotsFilter.setSelectedIndex(hub.getLastSlot() + 1);
 
@@ -241,7 +247,7 @@ public class UIHub {
 			tableSearch.add(slotsFilter).padBottom(OPTION_PAD).row();
 		}
 
-		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
+		this.options = new ScrollPane(tableOptions, SKIN);
 		options.setFadeScrollBars(false);
 		options.setScrollingDisabled(false, true);
 
@@ -307,7 +313,7 @@ public class UIHub {
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
-		SoundEffect.WOOSH.play(state.getGsm(), 1.0f, 0.8f, false);
+		SoundEffect.WOOSH.play(1.0f, 0.8f, false);
 
 		active = false;
 
@@ -334,8 +340,18 @@ public class UIHub {
 		if (hubTypes.OUTFITTER == type) {
 			refreshOutfitter(hub);
 		}
+		if (hubTypes.VENDING == type) {
+			refreshVending(hub);
+		}
 	}
-	
+
+	public void refreshHubOptions() {
+		if (null != lastHubEvent) {
+			lastHubEvent.leave();
+			lastHubEvent.enter();
+		}
+	}
+
 	/**
 	 * When the player equips/unequips an artifact, this is run, displaying the new artifacts and remaining slots in the info table.
 	 */
@@ -405,7 +421,7 @@ public class UIHub {
 	 */
 	public void refreshOutfitter(HubEvent hub) {
 		tableExtra.clear();
-		TextField outfitName = new TextField("", GameStateManager.getSkin());
+		TextField outfitName = new TextField("", SKIN);
 		outfitName.setMaxLength(MAX_NAME_LENGTH_TOTAL);
 		outfitName.setMessageText(UIText.OUTFIT_NAME.text());
 
@@ -417,19 +433,19 @@ public class UIHub {
 			   @Override
 			   public void clicked(InputEvent e, float x, float y) {
 				if (!outfitName.getText().isEmpty()) {
-					state.getGsm().getSavedOutfits().addOutfit(outfitName.getText(), new SavedLoadout(state.getGsm().getLoadout()));
+					JSONManager.outfits.addOutfit(outfitName.getText(), new SavedLoadout(JSONManager.loadout));
 					hub.enter();
 					refreshHub(hub);
 				}
 			   }
 		});
 
-		String[] outfitOptions = new String[state.getGsm().getSavedOutfits().getOutfits().size];
+		String[] outfitOptions = new String[JSONManager.outfits.getOutfits().size];
 		for (int i = 0; i < outfitOptions.length; i++) {
-			outfitOptions[i] = state.getGsm().getSavedOutfits().getOutfits().keys().toArray().get(i);
+			outfitOptions[i] = JSONManager.outfits.getOutfits().keys().toArray().get(i);
 		}
 
-		SelectBox<String> outfits = new SelectBox<>(GameStateManager.getSkin());
+		SelectBox<String> outfits = new SelectBox<>(SKIN);
 		outfits.setItems(outfitOptions);
 
 		Text outfitDelete = new Text(UIText.OUTFIT_DELETE.text()).setButton(true);
@@ -440,7 +456,7 @@ public class UIHub {
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
 				if (null != outfits.getSelected()) {
-					state.getGsm().getSavedOutfits().removeOutfit(outfits.getSelected());
+					JSONManager.outfits.removeOutfit(outfits.getSelected());
 				}
 				hub.enter();
 				refreshHub(hub);
@@ -451,6 +467,33 @@ public class UIHub {
 		tableExtra.add(outfitSave).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE).row();
 		tableExtra.add(outfits).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE);
 		tableExtra.add(outfitDelete).pad(INFO_PAD).height(OPTION_HEIGHT_LARGE).row();
+	}
+
+	public void refreshVending(HubEvent hub) {
+		tableExtra.clear();
+
+		Player ownPlayer = HadalGame.usm.getOwnPlayer();
+
+		if (null == ownPlayer) { return; }
+
+		Text slotsTitle = new Text(UIText.UI_SCRAP.text(String.valueOf(HadalGame.usm.getOwnUser().getScoreManager().getCurrency())));
+		slotsTitle.setScale(0.5f);
+		tableExtra.add(slotsTitle).colspan(12).pad(INFO_PAD).row();
+
+		Text refreshInfo = new Text(UIText.VENDING_REFRESH.text(String.valueOf(Vending.REFRESH_COST))).setButton(true);
+		refreshInfo.setScale(0.5f);
+
+		refreshInfo.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+				if (hub instanceof Vending vending) {
+					vending.refreshOptions();
+				}
+			}
+		});
+
+		tableExtra.add(refreshInfo).height(OPTION_HEIGHT_LARGE).pad(INFO_PAD).colspan(12).row();
 	}
 
 	/**
@@ -529,6 +572,7 @@ public class UIHub {
 		HABERDASHER,
 		WALLPAPER,
 		OUTFITTER,
+		VENDING,
 		MISC
 	}
 }

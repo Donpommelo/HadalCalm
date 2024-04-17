@@ -8,13 +8,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
-import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.text.DeathTextUtil;
 import com.mygdx.hadal.text.TextFilterUtil;
+
+import static com.mygdx.hadal.managers.SkinManager.FONT_UI_ALT;
 
 /**
  * A Kill Feed Message is a single actor displayed in the Kill Feed to represent a single death.
@@ -47,9 +48,8 @@ public class KillFeedMessage extends AHadalActor {
     //The actor is drawn at an x-offset to make the text align left while still being constant distance from right side
     private final float textX;
 
-    public KillFeedMessage(PlayState ps, Player perp, Player vic, EnemyType type, DamageSource source, DamageTag... tags) {
-        this(TextFilterUtil.filterGameText(ps.getGsm(), DeathTextUtil.getDeathText(ps.getGsm(), perp, vic, type, source, tags)),
-                true);
+    public KillFeedMessage(Player perp, Player vic, EnemyType type, DamageSource source, DamageTag... tags) {
+        this(TextFilterUtil.filterGameText(DeathTextUtil.getDeathText(perp, vic, type, source, tags)), true);
     }
 
     public KillFeedMessage(String text, boolean killFeed) {
@@ -67,8 +67,8 @@ public class KillFeedMessage extends AHadalActor {
 
         message = text;
         layout = new GlyphLayout();
-        HadalGame.FONT_UI_ALT.getData().setScale(fontScale);
-        layout.setText(HadalGame.FONT_UI_ALT, message, Color.WHITE, targetWidth, ALIGN, true);
+        FONT_UI_ALT.getData().setScale(fontScale);
+        layout.setText(FONT_UI_ALT, message, Color.WHITE, targetWidth, ALIGN, true);
         setWidth(layout.width);
         setHeight(layout.height);
 
@@ -87,9 +87,9 @@ public class KillFeedMessage extends AHadalActor {
         //draw grey box under message
         batch.draw(grey, textX - PAD / 2, getY() - PAD / 2, getWidth() + PAD, getHeight() + PAD);
 
-        HadalGame.FONT_UI_ALT.getData().setScale(fontScale);
-        HadalGame.FONT_UI_ALT.setColor(Color.WHITE);
-        HadalGame.FONT_UI_ALT.draw(batch, message, textX, getY() + getHeight() / 2 + layout.height / 2, targetWidth, ALIGN, true);
+        FONT_UI_ALT.getData().setScale(fontScale);
+        FONT_UI_ALT.setColor(Color.WHITE);
+        FONT_UI_ALT.draw(batch, message, textX, getY() + getHeight() / 2 + layout.height / 2, targetWidth, ALIGN, true);
     }
 
     /**

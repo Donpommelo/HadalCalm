@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
@@ -28,7 +29,7 @@ public class UIObjective extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 
-		if (state.getGsm().getSetting().isHideHUD()) { return; }
+		if (JSONManager.setting.isHideHUD()) { return; }
 
 		//draw all objective markers. Delete the ones attached to dead objects
 		for (ObjectiveMarker marker : objectives) {

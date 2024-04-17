@@ -43,7 +43,6 @@ public class SniperBullet extends SyncedAttacker {
         hbox.addStrategy(new DamageHeadshot(state, hbox, user.getBodyData(), BONUS_DAMAGE, MAX_CHARGE));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.SNIPER_RIFLE, DamageTag.BULLET, DamageTag.RANGED));
-        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_CONCRETE_HIT, 0.5f).setSynced(false));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BULLET_TRAIL, 0.0f, 0.5f)
                 .setRotate(true).setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_BODY_HIT, 0.5f, true).setSynced(false));

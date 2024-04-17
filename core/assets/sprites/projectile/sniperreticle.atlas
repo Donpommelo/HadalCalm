@@ -1,0 +1,362 @@
+
+sniperreticle.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+sniper_fish_crosshair
+  rotate: false
+  xy: 2, 1698
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 0
+sniper_fish_crosshair
+  rotate: false
+  xy: 311, 1698
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 1
+sniper_fish_crosshair
+  rotate: false
+  xy: 620, 1698
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 2
+sniper_fish_crosshair
+  rotate: false
+  xy: 929, 1698
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 3
+sniper_fish_crosshair
+  rotate: false
+  xy: 1238, 1698
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 4
+sniper_fish_crosshair
+  rotate: false
+  xy: 1547, 1698
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 5
+sniper_fish_crosshair
+  rotate: false
+  xy: 2, 1396
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 6
+sniper_fish_crosshair
+  rotate: false
+  xy: 2, 1094
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 7
+sniper_fish_crosshair
+  rotate: false
+  xy: 2, 792
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 8
+sniper_fish_crosshair
+  rotate: false
+  xy: 2, 490
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 9
+sniper_fish_crosshair
+  rotate: false
+  xy: 2, 188
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 10
+sniper_fish_crosshair
+  rotate: false
+  xy: 311, 1396
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 11
+sniper_fish_crosshair
+  rotate: false
+  xy: 311, 1094
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 12
+sniper_fish_crosshair
+  rotate: false
+  xy: 311, 792
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 13
+sniper_fish_crosshair
+  rotate: false
+  xy: 311, 490
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 14
+sniper_fish_crosshair
+  rotate: false
+  xy: 311, 188
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 15
+sniper_fish_crosshair
+  rotate: false
+  xy: 620, 1396
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 16
+sniper_fish_crosshair
+  rotate: false
+  xy: 620, 1094
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 17
+sniper_fish_crosshair
+  rotate: false
+  xy: 620, 792
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 18
+sniper_fish_crosshair
+  rotate: false
+  xy: 620, 490
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 19
+sniper_fish_crosshair
+  rotate: false
+  xy: 620, 188
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 20
+sniper_fish_crosshair
+  rotate: false
+  xy: 929, 1396
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 21
+sniper_fish_crosshair
+  rotate: false
+  xy: 929, 1094
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 22
+sniper_fish_crosshair
+  rotate: false
+  xy: 929, 792
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 23
+sniper_fish_crosshair
+  rotate: false
+  xy: 929, 490
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 24
+sniper_fish_crosshair
+  rotate: false
+  xy: 929, 188
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 25
+sniper_fish_crosshair
+  rotate: false
+  xy: 1238, 1396
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 26
+sniper_fish_crosshair
+  rotate: false
+  xy: 1547, 1396
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 27
+sniper_fish_crosshair
+  rotate: false
+  xy: 1238, 1094
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 28
+sniper_fish_crosshair
+  rotate: false
+  xy: 1547, 1094
+  size: 307, 300
+  orig: 307, 300
+  offset: 0, 0
+  index: 29
+sniper_fish_direction
+  rotate: false
+  xy: 2, 6
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 0
+sniper_fish_direction
+  rotate: false
+  xy: 334, 6
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 1
+sniper_fish_direction
+  rotate: false
+  xy: 666, 6
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 2
+sniper_fish_direction
+  rotate: false
+  xy: 998, 6
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 3
+sniper_fish_direction
+  rotate: false
+  xy: 1238, 912
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 4
+sniper_fish_direction
+  rotate: false
+  xy: 1570, 912
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 5
+sniper_fish_direction
+  rotate: false
+  xy: 1238, 730
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 6
+sniper_fish_direction
+  rotate: false
+  xy: 1238, 548
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 7
+sniper_fish_direction
+  rotate: false
+  xy: 1238, 366
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 8
+sniper_fish_direction
+  rotate: false
+  xy: 1330, 184
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 9
+sniper_fish_direction
+  rotate: false
+  xy: 1330, 2
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 10
+sniper_fish_direction
+  rotate: false
+  xy: 1570, 730
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 11
+sniper_fish_direction
+  rotate: false
+  xy: 1570, 548
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 12
+sniper_fish_direction
+  rotate: false
+  xy: 1570, 366
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 13
+sniper_fish_direction
+  rotate: false
+  xy: 1662, 184
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 14
+sniper_fish_direction
+  rotate: false
+  xy: 1662, 2
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 15
+
+sniperreticle2.png
+size: 2048,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+sniper_fish_direction
+  rotate: false
+  xy: 2, 2
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 16
+sniper_fish_direction
+  rotate: false
+  xy: 334, 2
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 17
+sniper_fish_direction
+  rotate: false
+  xy: 666, 2
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 18
+sniper_fish_direction
+  rotate: false
+  xy: 998, 2
+  size: 330, 180
+  orig: 330, 180
+  offset: 0, 0
+  index: 19

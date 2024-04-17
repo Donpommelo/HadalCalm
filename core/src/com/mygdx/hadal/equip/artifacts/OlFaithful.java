@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -27,7 +28,7 @@ public class OlFaithful extends Artifact {
 
 				UnlockEquip savedEquip = null;
 				if (p.getPlayer().getUser() == HadalGame.usm.getOwnUser()) {
-					savedEquip = UnlockEquip.getByName(state.getGsm().getLoadout().getEquip()[0]);
+					savedEquip = UnlockEquip.getByName(JSONManager.loadout.getEquip()[0]);
 				} else {
 					if (p.getPlayer().getUser() != null) {
 						savedEquip = p.getPlayer().getUser().getLoadoutManager().getLastEquippedPrimary();

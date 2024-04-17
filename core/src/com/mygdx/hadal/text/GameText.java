@@ -1,7 +1,7 @@
 package com.mygdx.hadal.text;
 
 import com.badlogic.gdx.utils.JsonValue;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 
 /**
  * A GameText is a string that shows up as information about in-game items. (as opposed to ui elements)
@@ -797,6 +797,8 @@ public enum GameText {
     TRICK_OR_TREAT_DESC("MODE_TRICK_OR_TREAT_DESC"),
     SANDBOX("MODE_SANDBOX"),
     SANDBOX_DESC("MODE_SANDBOX_DESC"),
+    ARCADE("MODE_ARCADE"),
+    ARCADE_DESC("MODE_ARCADE_DESC"),
 
     LEVEL_HUB("LEVEL_HUB"),
     LEVEL_HUB_DESC("LEVEL_HUB_DESC"),
@@ -913,18 +915,18 @@ public enum GameText {
         //no replacements means a static text. Read from file and cache
         if (0 == replace.length) {
             if (null == cachedText) {
-                JsonValue text = GameStateManager.gameStrings.get(key);
+                JsonValue text = JSONManager.gameStrings.get(key);
                 if (null != text) {
                     cachedText = text.asString();
                 } else {
-                    cachedText = GameStateManager.gameStrings.get(STRING_NOT_FOUND.key).asString();
+                    cachedText = JSONManager.gameStrings.get(STRING_NOT_FOUND.key).asString();
                 }
             }
             return cachedText;
         } else {
 
             //iterate through replace tags and replace with input strings
-            JsonValue text = GameStateManager.gameStrings.get(key);
+            JsonValue text = JSONManager.gameStrings.get(key);
             if (null != text) {
                 String tempText = text.asString();
                 for (int i = 0; i < replace.length; i++) {
@@ -934,7 +936,7 @@ public enum GameText {
                 }
                 return tempText;
             } else {
-                return GameStateManager.gameStrings.get(STRING_NOT_FOUND.key).asString();
+                return JSONManager.gameStrings.get(STRING_NOT_FOUND.key).asString();
             }
         }
     }

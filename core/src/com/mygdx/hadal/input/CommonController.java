@@ -3,7 +3,10 @@ package com.mygdx.hadal.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -56,6 +59,8 @@ public class CommonController extends InputAdapter {
 					state.getUiSpectator().findValidSpectatorTarget();
 				}
 			}
+		} else if (keycode == PlayerAction.READY_UP.getKey()) {
+			keyUp(PlayerAction.READY_UP);
 		}
 		return false;
 	}
@@ -68,22 +73,22 @@ public class CommonController extends InputAdapter {
 
 		if (action == PlayerAction.PAUSE) {
 			if (state.isServer()) {
-				if (GameStateManager.currentMode == GameStateManager.Mode.SINGLE) {
+				if (StateManager.currentMode == StateManager.Mode.SINGLE) {
 
 					//in single player, pausing pauses the game normally
-					state.getGsm().addPauseState(state, state.getGsm().getLoadout().getName(), PlayState.class, true);
+					StateManager.addPauseState(state, JSONManager.loadout.getName(), PlayState.class, true);
 				} else {
 
 					//in multiplayer, pausing depends on setting
-					state.getGsm().addPauseState(state, state.getGsm().getLoadout().getName(), PlayState.class, state.getGsm().getSetting().isMultiplayerPause());
+					StateManager.addPauseState(state, JSONManager.loadout.getName(), PlayState.class, JSONManager.setting.isMultiplayerPause());
 				}
 			} else {
 
 				//clients bring up their own menu if pause is disabled and messages server otherwise
-				if (state.getGsm().getHostSetting().isMultiplayerPause()) {
-					HadalGame.client.sendTCP(new Packets.Paused(state.getGsm().getLoadout().getName()));
+				if (JSONManager.hostSetting.isMultiplayerPause()) {
+					HadalGame.client.sendTCP(new Packets.Paused(JSONManager.loadout.getName()));
 				} else {
-					state.getGsm().addPauseState(state, "", ClientState.class, false);
+					StateManager.addPauseState(state, "", ClientState.class, false);
 				}
 			}
 		} else if (action == PlayerAction.MESSAGE_WINDOW) {
@@ -92,6 +97,14 @@ public class CommonController extends InputAdapter {
 			state.getScoreWindow().setVisibility(false);
 		} else if (action == PlayerAction.CHAT_WHEEL) {
 			state.getChatWheel().setVisibility(false);
+		} else if (action == PlayerAction.READY_UP) {
+			if (state.getMode().equals(GameMode.ARCADE)) {
+				if (state.isServer()) {
+					SettingArcade.readyUp(state, 0);
+				} else {
+					HadalGame.client.sendTCP(new Packets.ClientReady());
+				}
+			}
 		}
 	}
 

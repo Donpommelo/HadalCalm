@@ -8,6 +8,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -44,11 +45,11 @@ public class Arcanery extends HubEvent {
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUiHub();
 
-		for (UnlockActives c : UnlockActives.getUnlocks(state, checkUnlock, tags)) {
+		for (UnlockActives c : UnlockActives.getUnlocks(checkUnlock, tags)) {
 			final UnlockActives selected = c;
 
 			boolean appear = false;
-			if ("".equals(search)) {
+			if (search.isEmpty()) {
 				appear = true;
 			} else {
 				Matcher matcher = pattern.matcher(selected.getName().toLowerCase());
@@ -70,7 +71,7 @@ public class Arcanery extends HubEvent {
 						if (null == ownPlayer.getPlayerData()) { return; }
 
 						ownPlayer.getMagicHelper().pickup(UnlocktoItem.getUnlock(selected, ownPlayer));
-						state.getGsm().getLoadout().setActive(HadalGame.usm.getOwnUser(), selected.toString());
+						JSONManager.loadout.setActive(HadalGame.usm.getOwnUser(), selected.toString());
 					}
 
 					@Override

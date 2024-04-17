@@ -1,6 +1,6 @@
 package com.mygdx.hadal.save;
 
-import java.util.LinkedHashMap;
+import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * A ShopInfo includes information about what a shop is selling + prices.
@@ -13,12 +13,12 @@ public class ShopInfo {
 	private String type;
 	
 	//mapping of items to prices sold at this shop
-	private LinkedHashMap<String, Integer> prices;
+	private ObjectMap<String, Integer> prices;
 	
 	public ShopInfo() {}
 
 	public String getType() { return type; }
 
-	public LinkedHashMap<String, Integer> getPrices() { return prices; }
+	public ObjectMap<String, Integer> getPrices() { return prices; }
 }
 

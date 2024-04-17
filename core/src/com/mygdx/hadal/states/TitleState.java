@@ -15,17 +15,21 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Backdrop;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TableWindow;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.Mode;
-import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.managers.FadeManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.StateManager.Mode;
+import com.mygdx.hadal.managers.StateManager.State;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.NameGenerator;
 
 import static com.mygdx.hadal.constants.Constants.*;
+import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
  * The TitleState is created upon initializing the game and will display an image.
@@ -106,8 +110,8 @@ public class TitleState extends GameState {
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 */
-	public TitleState(final GameStateManager gsm) {
-		super(gsm);
+	public TitleState(HadalGame app) {
+		super(app);
 		this.diatom1 = Particle.DIATOM.getParticle();
 		this.diatom1.setPosition(DIATOM_1_X, DIATOM_1_Y);
 		this.diatom2 = Particle.DIATOM.getParticle();
@@ -195,7 +199,7 @@ public class TitleState extends GameState {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						Gdx.net.openURI(HadalGame.VERSION_URL);
 					}
 				});
@@ -214,13 +218,13 @@ public class TitleState extends GameState {
 
 						inputDisabled = true;
 
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 
 						//Save current name into records.
-						gsm.getLoadout().setName(enterName.getText());
+						JSONManager.loadout.setName(enterName.getText());
 
 						//Enter the Lobby State.
-						transitionOut(() -> getGsm().addState(State.LOBBY, me));
+						transitionOut(() -> StateManager.addState(app, State.LOBBY, me));
 					}
 				});
 				
@@ -238,18 +242,18 @@ public class TitleState extends GameState {
 
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						
 						//Save current name into records.
-						gsm.getLoadout().setName(enterName.getText());
+						JSONManager.loadout.setName(enterName.getText());
 						
 						//Start up the server in singleplayer mode
 						HadalGame.server.init(false);
-						GameStateManager.currentMode = Mode.SINGLE;
+						StateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
-						gsm.getApp().setRunAfterTransition(() -> gsm.gotoHubState(TitleState.class));
-						gsm.getApp().fadeOut();
+						FadeManager.setRunAfterTransition(() -> StateManager.gotoHubState(app, TitleState.class));
+						FadeManager.fadeOut();
 			        }
 			    });
 				
@@ -263,10 +267,10 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						
 						//Enter the Setting State.
-						transitionOut(() -> getGsm().addState(State.SETTING, me));
+						transitionOut(() -> StateManager.addState(app, State.SETTING, me));
 			        }
 			    });
 				
@@ -279,10 +283,10 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
+						SoundEffect.UISWITCH1.play(1.0f, false);
 						
 						//Enter the About State.
-						transitionOut(() -> getGsm().addState(State.ABOUT, me));
+						transitionOut(() -> StateManager.addState(app, State.ABOUT, me));
 			        }
 			    });
 				
@@ -291,8 +295,8 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						if (gsm.getSetting().isExportChatLog()) {
-							gsm.exportChatLogs();
+						if (JSONManager.setting.isExportChatLog()) {
+							StateManager.exportChatLogs();
 						}
 						Gdx.app.exit();
 			        }
@@ -304,8 +308,8 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
-						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
-						enterName.setText(NameGenerator.generateFirstLast(gsm.getSetting().isRandomNameAlliteration()));
+						SoundEffect.UISWITCH3.play(1.0f, false);
+						enterName.setText(NameGenerator.generateFirstLast(JSONManager.setting.isRandomNameAlliteration()));
 			        	setNotification(UIText.RAND_NAME_GEN.text());
 				        }
 				});
@@ -322,7 +326,7 @@ public class TitleState extends GameState {
 			         }
 		         });
 
-				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
+				enterName = new TextField(JSONManager.loadout.getName(), SKIN);
 				enterName.setMaxLength(MAX_NAME_LENGTH_TOTAL);
 				enterName.setMessageText(UIText.ENTER_NAME.text());
 
@@ -342,11 +346,11 @@ public class TitleState extends GameState {
 		};
 		app.newMenu(stage);
 
-		if (gsm.getApp().getFadeLevel() >= 1.0f) {
-			gsm.getApp().fadeIn();
+		if (FadeManager.getFadeLevel() >= 1.0f) {
+			FadeManager.fadeIn();
 		}
 
-		HadalGame.musicPlayer.playSong(MusicTrackType.TITLE, 1.0f);
+		MusicPlayer.playSong(MusicTrackType.TITLE, 1.0f);
 
 		inputDisabled = true;
 		transitionIn(() -> inputDisabled = false);

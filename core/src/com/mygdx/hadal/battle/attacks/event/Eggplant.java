@@ -8,7 +8,8 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -61,8 +62,8 @@ public class Eggplant extends SyncedAttacker {
 
                         if (picker instanceof PlayerBodyData playerBodyData) {
                             //in single player, scrap gives the player 1 unit of currency
-                            if (GameStateManager.currentMode == GameStateManager.Mode.SINGLE) {
-                                state.getGsm().getRecord().incrementScrap(1);
+                            if (StateManager.currentMode == StateManager.Mode.SINGLE) {
+                                JSONManager.record.incrementScrap(1);
                             } else if (score) {
 
                                 //in eggplant mode, we increase the players score by 1

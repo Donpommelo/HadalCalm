@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.JSONManager;
 
 /**
  * These utils describe various tools for moving the camera.
@@ -102,11 +102,10 @@ public class CameraUtil {
     private static float traumaCount;
     /**
      * This adds some additive screen-shake
-     * @param gsm: game state manager used to check settings to see if we add any shake or not
      * @param amount: amount of damage (or equivalent metric) of screen-shake to add
      */
-    public static void inflictTrauma(GameStateManager gsm, float amount) {
-        if (!gsm.getSetting().isScreenShake()) { return; }
+    public static void inflictTrauma(float amount) {
+        if (!JSONManager.setting.isScreenShake()) { return; }
 
         float adjustedAmount = amount * TRAUMA_MULTIPLIER;
 

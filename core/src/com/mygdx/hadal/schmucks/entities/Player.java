@@ -144,7 +144,7 @@ public class Player extends Schmuck {
 
 		this.effectHelper = new PlayerEffectHelper(state, this);
 		this.uiHelper = new PlayerUIHelper(state, this);
-		this.hitsoundHelper = new HitsoundHelper(state, this);
+		this.hitsoundHelper = new HitsoundHelper(this);
 		this.mouseHelper = new MouseHelper(state, this);
 		this.shootHelper = new ShootHelper(state, this);
 		this.fuelHelper = new FuelHelper(this);

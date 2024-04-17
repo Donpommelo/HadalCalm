@@ -8,6 +8,7 @@ import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -245,7 +246,7 @@ public class ConsoleCommandUtil {
 		try {
 			int scrap = Integer.parseInt(command);
 			if (0 <= scrap) {
-				state.getGsm().getRecord().setScrap(scrap);
+				JSONManager.record.setScrap(scrap);
 				state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
 				return 0;
 			}
