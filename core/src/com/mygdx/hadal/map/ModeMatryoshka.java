@@ -62,7 +62,7 @@ public class ModeMatryoshka extends ModeSetting {
                         //we don't want players to respawn instantly if they die by falling
                         user.getTransitionManager().beginTransition(state,
                                 new Transition()
-                                        .setNextState(PlayState.TransitionState.RESULTS)
+                                        .setNextState(PlayState.TransitionState.RESPAWN)
                                         .setFadeDelay(state.getRespawnTime(vic))
                                         .setOverride(true));
                     }
