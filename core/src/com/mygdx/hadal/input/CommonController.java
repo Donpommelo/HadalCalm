@@ -100,7 +100,7 @@ public class CommonController extends InputAdapter {
 		} else if (action == PlayerAction.READY_UP) {
 			if (state.getMode().equals(GameMode.ARCADE)) {
 				if (state.isServer()) {
-					SettingArcade.readyUp(state, 0);
+					SettingArcade.readyUp(state, 0, true);
 				} else {
 					HadalGame.client.sendTCP(new Packets.ClientReady());
 				}

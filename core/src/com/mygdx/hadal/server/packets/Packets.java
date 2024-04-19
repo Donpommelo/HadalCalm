@@ -271,14 +271,17 @@ public class Packets {
 
 	public static class ClientReady {
 		public int playerID;
+		public boolean ready;
 		public ClientReady() {}
 		
 		/**
 		 * This is sent from the server to all clients to indicate that a client is ready to return to the hub
  		 * @param playerID: the id of the client who is ready
+		 * @param ready: is the player readying or un-readying? To avoid desyncs
 		 */
-		public ClientReady(int playerID) {
+		public ClientReady(int playerID, boolean ready) {
 			this.playerID = playerID;
+			this.ready = ready;
 		}
 	}
 	

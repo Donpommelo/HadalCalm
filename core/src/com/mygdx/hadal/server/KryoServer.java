@@ -573,7 +573,7 @@ public class KryoServer {
 							Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
 						} else if (StateManager.states.peek() instanceof final PlayState ps) {
 							if (ps.getMode().equals(GameMode.ARCADE)) {
-								SettingArcade.readyUp(ps, c.getID());
+								SettingArcade.readyUp(ps, c.getID(), true);
 							}
 						}
 					}

@@ -477,7 +477,7 @@ public class KryoClient {
 				if (StateManager.states.peek() instanceof final ResultsState vs) {
 					vs.getPs().addPacketEffect(() -> vs.readyPlayer(p.playerID));
 				} else if (StateManager.states.peek() instanceof final PlayState ps) {
-					ps.addPacketEffect(() -> SettingArcade.readyUp(ps, p.playerID));
+					ps.addPacketEffect(() -> SettingArcade.readyUp(ps, p.playerID, p.ready));
 				}
 			}
 		}

@@ -153,11 +153,13 @@ public class SettingArcade extends ModeSetting {
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
         arcade = true;
+        for (User user : HadalGame.usm.getUsers().values()) {
+            user.getScoreManager().setReady(false);
+        }
     }
 
     private void startArcade(GameMode mode) {
         for (User user : HadalGame.usm.getUsers().values()) {
-            user.getScoreManager().setReady(false);
             user.getScoreManager().setNextRoundVote(-1);
             user.getLoadoutManager().setArcadeLoadout(new Loadout(SavedLoadout.createNewLoadout()));
 
@@ -173,7 +175,6 @@ public class SettingArcade extends ModeSetting {
 
     public static void processEndOfRound(PlayState state, GameMode mode) {
         for (User user : HadalGame.usm.getUsers().values()) {
-            user.getScoreManager().setReady(false);
             user.setScoreUpdated(true);
         }
 
@@ -217,15 +218,15 @@ public class SettingArcade extends ModeSetting {
         }
     }
 
-    public static void readyUp(PlayState state, int playerID) {
+    public static void readyUp(PlayState state, int playerID, boolean readyOverride) {
         User readyUser = HadalGame.usm.getUsers().get(playerID);
         if (state.isServer()) {
             if (readyUser != null && !readyUser.isSpectator()) {
                 readyUser.getScoreManager().setReady(!readyUser.getScoreManager().isReady());
+                HadalGame.server.sendToAllTCP(new Packets.ClientReady(playerID, readyUser.getScoreManager().isReady()));
             }
-            HadalGame.server.sendToAllTCP(new Packets.ClientReady(playerID));
         } else {
-            readyUser.getScoreManager().setReady(!readyUser.getScoreManager().isReady());
+            readyUser.getScoreManager().setReady(readyOverride);
         }
 
         boolean reddy = true;
