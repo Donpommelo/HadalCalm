@@ -1,7 +1,7 @@
 package com.mygdx.hadal.input;
 
 import com.mygdx.hadal.constants.MoveState;
-import com.mygdx.hadal.event.modes.ArcadeNextRound;
+import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.schmucks.entities.Player;
 
@@ -133,13 +133,13 @@ public class ActionController {
 
 		if (player.getState().getMode().equals(GameMode.ARCADE)) {
 			if (action == PlayerAction.SWITCH_TO_1) {
-				ArcadeNextRound.playerVote(player.getState(), player.getUser(), 0);
+				ArcadeMarquis.playerVote(player.getState(), player.getUser(), 0);
 			} else if (action == PlayerAction.SWITCH_TO_2) {
-				ArcadeNextRound.playerVote(player.getState(), player.getUser(), 1);
+				ArcadeMarquis.playerVote(player.getState(), player.getUser(), 1);
 			} else if (action == PlayerAction.SWITCH_TO_3) {
-				ArcadeNextRound.playerVote(player.getState(), player.getUser(), 2);
+				ArcadeMarquis.playerVote(player.getState(), player.getUser(), 2);
 			} else if (action == PlayerAction.SWITCH_TO_4) {
-				ArcadeNextRound.playerVote(player.getState(), player.getUser(), 3);
+				ArcadeMarquis.playerVote(player.getState(), player.getUser(), 3);
 			}
 		}
 	}

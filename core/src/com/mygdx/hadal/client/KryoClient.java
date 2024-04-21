@@ -17,7 +17,7 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
-import com.mygdx.hadal.event.modes.ArcadeNextRound;
+import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
@@ -573,7 +573,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.SyncArcadeModeChoices p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> ArcadeNextRound.updateClientChoices(p.modeChoices, p.mapChoices));
+				cs.addPacketEffect(() -> ArcadeMarquis.updateClientChoices(p.modeChoices, p.mapChoices));
 			}
 		}
 

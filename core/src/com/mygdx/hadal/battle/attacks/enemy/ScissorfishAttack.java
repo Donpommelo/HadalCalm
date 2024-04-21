@@ -31,7 +31,7 @@ public class ScissorfishAttack extends SyncedAttacker {
 
         startVelo.set(MELEE_RANGE, MELEE_RANGE).setAngleDeg(startVelocity.angleDeg());
 
-        Hitbox hbox = new Hitbox(state, startPosition, MELEE_SIZE, MELEE_INTERVAL, user.getLinearVelocity(), user.getHitboxFilter(), true, true, user, Sprite.IMPACT);
+        Hitbox hbox = new Hitbox(state, startPosition, MELEE_SIZE, MELEE_INTERVAL, user.getLinearVelocity(), user.getHitboxFilter(), true, true, user, Sprite.NOTHING);
         hbox.makeUnreflectable();
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), ATTACK_1_DAMAGE, DEFAULT_MELEE_KB,

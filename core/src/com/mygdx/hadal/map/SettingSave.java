@@ -38,13 +38,13 @@ public enum SettingSave {
 
     private final int startingValue;
 
+
     SettingSave() {
         this(0);
     }
 
-    SettingSave(int startingValue) {
-        this.startingValue = startingValue;
-    }
+    SettingSave(int startingValue) { this.startingValue = startingValue; }
+
 
     public int getStartingValue() { return startingValue; }
 

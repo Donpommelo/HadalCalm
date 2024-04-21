@@ -788,6 +788,8 @@
   "MODE_SANDBOX_DESC" : "Used for testing.",
   "MODE_ARCADE" : "Arcade",
   "MODE_ARCADE_DESC" : "Play through a series of levels, buying upgrades between each.",
+  "MODE_DEATHMATCH_ELIMINATION" : "Surivival Deathmatch",
+  "MODE_DEATHMATCH_TEAM2" : "Team Deathmatch",
 
   "LEVEL_HUB" : "S.S. TUNICATE",
   "LEVEL_HUB_DESC" : "Hub Area",

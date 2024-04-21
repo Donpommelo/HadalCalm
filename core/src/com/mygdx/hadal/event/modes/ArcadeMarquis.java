@@ -26,15 +26,15 @@ import java.util.Map;
 
 import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
-public class ArcadeNextRound extends Event {
+public class ArcadeMarquis extends Event {
 
-    private static final int CHOICE_NUMBER = 3;
+    private static final int CHOICE_NUMBER = 4;
     private static final float CHOICE_SCALE = 0.4f;
 
     private static final Array<ArcadeMode> modeChoices = new Array<>();
     private static final Array<UnlockLevel> mapChoices = new Array<>();
 
-    public ArcadeNextRound(PlayState state, Vector2 startPos, Vector2 size) {
+    public ArcadeMarquis(PlayState state, Vector2 startPos, Vector2 size) {
         super(state, startPos, size);
 
         if (state.isServer()) {
@@ -65,13 +65,16 @@ public class ArcadeNextRound extends Event {
         modeChoices.add(ArcadeMode.DEATHMATCH);
         mapChoices.add(getApplicableMap(GameMode.DEATHMATCH));
 
-        for (int i = 0; i < CHOICE_NUMBER; i++) {
+        while (modeChoices.size < CHOICE_NUMBER) {
             int index = MathUtils.random(ArcadeMode.values().length - 1);
             ArcadeMode randomMode = ArcadeMode.values()[index];
 
-            modeChoices.add(randomMode);
-            mapChoices.add(getApplicableMap(randomMode.getMode()));
+            if (!modeChoices.contains(randomMode, false) || randomMode.equals(ArcadeMode.DEATHMATCH)) {
+                modeChoices.add(randomMode);
+                mapChoices.add(getApplicableMap(randomMode.getMode()));
+            }
         }
+
         updateText();
 
         String[] modeNames = new String[modeChoices.size];
@@ -144,7 +147,7 @@ public class ArcadeNextRound extends Event {
         text.append(UIText.UI_ENTER_TO_READY.text(PlayerAction.READY_UP.getKeyText())).append("\n\n");
         for (int i = 0; i < modeChoices.size; i++) {
             text.append("(").append(i + 1).append(") ")
-                    .append(modeChoices.get(i).getMode().getName()).append(": ")
+                    .append(modeChoices.get(i).getName()).append(": ")
                     .append(mapChoices.get(i).getName()).append("\n");
         }
     }

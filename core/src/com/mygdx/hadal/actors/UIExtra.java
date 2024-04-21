@@ -378,15 +378,19 @@ public class UIExtra extends AHadalActor {
 
 	public void processArcadeRound(StringBuilder text) {
 		if (null != state.getScoreWindow()) {
-			if (SettingArcade.roundNum == 0) {
+			if (SettingArcade.overtime) {
 				text.append(UIText.UI_ARCADE_ROUND.text(String.valueOf(SettingArcade.currentRound))).append("\n");
 			} else {
-				text.append(UIText.UI_ARCADE_ROUND_LIMIT.text(String.valueOf(SettingArcade.currentRound),
-						String.valueOf(SettingArcade.roundNum))).append("\n");
-			}
+				if (SettingArcade.roundNum == 0) {
+					text.append(UIText.UI_ARCADE_ROUND.text(String.valueOf(SettingArcade.currentRound))).append("\n");
+				} else {
+					text.append(UIText.UI_ARCADE_ROUND_LIMIT.text(String.valueOf(SettingArcade.currentRound),
+							String.valueOf(SettingArcade.roundNum))).append("\n");
+				}
 
-			if (SettingArcade.winCap != 0) {
-				text.append(UIText.UI_ARCADE_WIN_CAP.text(String.valueOf(SettingArcade.winCap))).append("\n");
+				if (SettingArcade.winCap != 0) {
+					text.append(UIText.UI_ARCADE_WIN_CAP.text(String.valueOf(SettingArcade.winCap))).append("\n");
+				}
 			}
 		}
 	}
