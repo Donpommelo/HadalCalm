@@ -2,6 +2,7 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Stats;
@@ -70,7 +71,7 @@ public class UIPlay extends AHadalActor {
 	private float blinkCdCount;
 	
 	//fields displayed in this ui
-	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
+	protected float hpRatio, hpCurrent, hpMax, fuelRatio, fuelCutoffRatio;
 	protected String weaponText, ammoText;
 	protected float numWeaponSlots;
 	protected float activePercent;
@@ -130,8 +131,9 @@ public class UIPlay extends AHadalActor {
 		//Calc the fields needed to draw the bars
 		if (null != player) {
 			if (null != player.getPlayerData()) {
-				hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
+				hpCurrent = player.getPlayerData().getCurrentHp();
 				hpMax = player.getPlayerData().getStat(Stats.MAX_HP);
+				hpRatio = hpCurrent / hpMax;
 				fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getStat(Stats.MAX_FUEL);
 				fuelCutoffRatio = player.getAirblastHelper().getAirblastCost() / player.getPlayerData().getStat(Stats.MAX_FUEL);
 				weaponText = player.getEquipHelper().getCurrentTool().getText();
@@ -244,7 +246,7 @@ public class UIPlay extends AHadalActor {
 		FONT_UI.draw(batch, weaponText, MAIN_X + 48, MAIN_Y + 40);
 		FONT_UI.getData().setScale(FONT_SCALE_SMALL);
 		FONT_UI.draw(batch, ammoText, MAIN_X + 48, MAIN_Y + 60);
-		FONT_UI.draw(batch, (int) (hpRatio * hpMax) + "/" + (int) hpMax, MAIN_X + 155, MAIN_Y + 66);
+		FONT_UI.draw(batch, MathUtils.round(hpCurrent) + "/" + MathUtils.round(hpMax), MAIN_X + 155, MAIN_Y + 66);
 		
 		for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
 			if (i < numWeaponSlots) {

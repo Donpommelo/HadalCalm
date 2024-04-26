@@ -44,7 +44,8 @@ public class Bee extends SyncedAttacker {
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BEE_BASE_DAMAGE, BEE_KNOCKBACK, damageSource,
                 DamageTag.BEES, DamageTag.RANGED).setRepeatable(true));
-        hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), BEE_HOMING, HOME_RADIUS).setDisruptable(true));
+        hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), BEE_HOMING, HOME_RADIUS)
+                .setDisruptable(true).setSteering(false));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), BEE_SPREAD));
         hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.6f, true)
                 .setSyncType(SyncType.NOSYNC));

@@ -10,7 +10,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_MULT_SCALE;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_PRE_SCALE_FRACTURE_PLATE;
 
 public class FracturePlate extends Artifact {
 
@@ -58,7 +58,7 @@ public class FracturePlate extends Artifact {
 				}
 				return finalDamage;
 			}
-		}.setPriority(PRIORITY_MULT_SCALE).setUserOnly(true);
+		}.setPriority(PRIORITY_PRE_SCALE_FRACTURE_PLATE).setUserOnly(true);
 	}
 
 	@Override

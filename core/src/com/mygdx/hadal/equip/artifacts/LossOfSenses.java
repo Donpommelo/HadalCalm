@@ -10,7 +10,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_FATAL_CHECK;
 
 public class LossOfSenses extends Artifact {
 
@@ -53,7 +53,7 @@ public class LossOfSenses extends Artifact {
 				damageStored = Math.max(damageStored - damage, 0.0f);
 				return 0;
 			}
-		}.setPriority(PRIORITY_LAST);
+		}.setPriority(PRIORITY_FATAL_CHECK);
 	}
 
 	@Override

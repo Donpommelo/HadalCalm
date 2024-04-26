@@ -9,13 +9,11 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
+import com.mygdx.hadal.strategies.hitbox.DamagePulse;
 
 public class SeraphSpiral extends SyncedAttacker {
 
@@ -26,6 +24,7 @@ public class SeraphSpiral extends SyncedAttacker {
     private static final float KNOCKBACK = 10.0f;
 
     private static final float GRID_DISTANCE = 224;
+    private static final float PULSE_INTERVAL = 0.06f;
 
     private static final Sprite PROJ_SPRITE = Sprite.DIATOM_D;
 
@@ -68,9 +67,7 @@ public class SeraphSpiral extends SyncedAttacker {
 
             private final Vector2 startLocation = new Vector2();
             private float distance = GRID_DISTANCE * 2;
-            private float pulseCount;
             private boolean firstLoop;
-            private static final float pulseInterval = 0.06f;
             @Override
             public void create() { this.startLocation.set(hbox.getPixelPosition()); }
 
@@ -90,27 +87,12 @@ public class SeraphSpiral extends SyncedAttacker {
                         hbox.setLinearVelocity(hbox.getLinearVelocity().rotate90(clockwise));
                     }
                 }
-                pulseCount += delta;
-                while (pulseCount >= pulseInterval) {
-                    pulseCount -= pulseInterval;
-
-                    Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hbox.getSize(), pulseInterval,
-                            new Vector2(), user.getHitboxFilter(), true, false, creator.getSchmuck(), Sprite.NOTHING);
-                    pulse.makeUnreflectable();
-
-                    pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-                    pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
-                            DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true));
-                    pulse.addStrategy(new FixedToEntity(state, pulse, user.getBodyData(), spiral, new Vector2(), new Vector2()).setRotate(true));
-                    pulse.addStrategy(new ContactUnitSound(state, pulse, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
-                            .setSynced(false));
-
-                    if (!state.isServer()) {
-                        ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
-                    }
-                }
             }
         });
+        spiral.addStrategy(new ContactUnitSound(state, spiral, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
+                .setSynced(false));
+        spiral.addStrategy(new DamagePulse(state, spiral, user.getBodyData(), spiral.getSize(), BASE_DAMAGE, KNOCKBACK,
+                DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setInterval(PULSE_INTERVAL));
 
         return spiral;
     }

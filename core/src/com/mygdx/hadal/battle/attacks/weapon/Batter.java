@@ -68,6 +68,7 @@ public class Batter extends SyncedAttacker {
 
         user.getBodyData().addStatus(new StatusComposite(state, LIFESPAN, false, user.getBodyData(), user.getBodyData(),
                 new StatChangeStatus(state, Stats.AIR_DRAG, 6.5f, user.getBodyData()),
+                new StatChangeStatus(state, Stats.KNOCKBACK_RES, 0.8f, user.getBodyData()),
                 new StatChangeStatus(state, Stats.DAMAGE_RES, 0.5f, user.getBodyData())));
 
         Vector2 push = new Vector2(startVelocity).nor().scl(velocity);

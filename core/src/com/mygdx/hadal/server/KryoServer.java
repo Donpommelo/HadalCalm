@@ -341,7 +341,7 @@ public class KryoServer {
 							//this just updates user's "last primary weapon" which is only used for a single artifact rn
 							User userUpdated = usm.getUsers().get(c.getID());
 							if (userUpdated != null) {
-								userUpdated.getLoadoutManager().setLastEquippedPrimary(p.loadout.multitools[0]);
+								userUpdated.getEffectManager().setLastEquippedPrimary(p.loadout.multitools[0]);
 							}
 
 							//sync client ui elements

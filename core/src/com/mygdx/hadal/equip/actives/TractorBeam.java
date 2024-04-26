@@ -34,7 +34,7 @@ public class TractorBeam extends ActiveItem {
 	private static final float SECONDARY_DAMAGE = 30.0f;
 	private static final float KNOCKBACK = 35.0f;
 	private static final float PROJECTILE_SPEED = 40.0f;
-	private static final float HOME_POWER = 300.0f;
+	private static final float HOME_POWER = 500.0f;
 	private static final float LIFESPAN = 4.0f;
 	
 	private static final Sprite PROJ_SPRITE = Sprite.OPEN_HAND;
@@ -68,7 +68,7 @@ public class TractorBeam extends ActiveItem {
 							}
 						}
 						
-						Hitbox grab = new RangedHitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, new Vector2(),
+						Hitbox grab = new RangedHitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, new Vector2(hbox.getLinearVelocity()),
 								user.getPlayer().getHitboxFilter(), false, true, user.getPlayer(), PROJ_SPRITE_2);
 						grab.setRestitution(1.0f);
 						grab.setSyncDefault(false);

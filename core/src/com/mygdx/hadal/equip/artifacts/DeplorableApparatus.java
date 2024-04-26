@@ -7,7 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ParticleToggleable;
 import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_PROC;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_PROC;
 
 public class DeplorableApparatus extends Artifact {
 

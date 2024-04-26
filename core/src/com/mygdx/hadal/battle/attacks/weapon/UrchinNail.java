@@ -26,7 +26,7 @@ public class UrchinNail extends SyncedAttacker {
     public static final Vector2 PROJECTILE_SIZE = new Vector2(60, 18);
     public static final float LIFESPAN = 2.5f;
     public static final float LIFESPAN_STUCK = 20.0f;
-    public static final float BASE_DAMAGE = 18.0f;
+    public static final float BASE_DAMAGE = 21.0f;
     private static final float RECOIL = 0.9f;
     private static final float KNOCKBACK = 1.0f;
     private static final int SPREAD = 1;

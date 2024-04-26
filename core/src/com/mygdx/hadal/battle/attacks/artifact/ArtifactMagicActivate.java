@@ -19,7 +19,7 @@ public class ArtifactMagicActivate extends SyncedAttacker {
         SoundEffect.MAGIC1_ACTIVE.playSourced(state, user.getPixelPosition(), 0.4f);
 
         ParticleEntity particle = new ParticleEntity(state, user, Particle.RING, 1.0f, DURATION, true,
-                SyncType.NOSYNC);
+                SyncType.NOSYNC).setScale(0.4f);
 
         if (!state.isServer()) {
             ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);

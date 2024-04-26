@@ -10,7 +10,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_SCALE;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_SCALE;
 
 public class CursedCilice extends Artifact {
 

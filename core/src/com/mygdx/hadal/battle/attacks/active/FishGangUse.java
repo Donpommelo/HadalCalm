@@ -22,7 +22,7 @@ public class FishGangUse extends SyncedAttacker {
         if (user instanceof Player player) {
             for (int i = 0; i < NUM_FISH; i++) {
                 float randFloat = MathUtils.random();
-                if (randFloat > 0.4f) {
+                if (randFloat < 0.34f) {
                     new Scissorfish(state, startPosition, 0.0f, player.getHitboxFilter()) {
 
                         @Override
@@ -33,7 +33,7 @@ public class FishGangUse extends SyncedAttacker {
                         }
                     };
 
-                } else if (randFloat > 0.7f) {
+                } else if (randFloat < 0.68f) {
                     new Spittlefish(state, startPosition, 0.0f, player.getHitboxFilter()) {
 
                         @Override

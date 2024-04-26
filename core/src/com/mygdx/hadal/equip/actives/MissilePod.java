@@ -18,6 +18,7 @@ public class MissilePod extends ActiveItem {
 	
 	private static final float DURATION = 1.2f;
 	private static final float PROC_CD = 0.1f;
+	private static final float MISSILE_SPEED = 25.0f;
 
 	public MissilePod(Player user) {
 		super(user, MAX_CHARGE);
@@ -37,7 +38,7 @@ public class MissilePod extends ActiveItem {
 					missileNum++;
 
 					SyncedAttack.HOMING_MISSILE.initiateSyncedAttackSingle(state, inflicted.getSchmuck(),
-							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, 5), missileNum);
+							inflicted.getSchmuck().getPixelPosition(), new Vector2(0, MISSILE_SPEED), missileNum);
 
 				}
 				procCdCount += delta;

@@ -22,6 +22,7 @@ public class User {
     private final LoadoutManager loadoutManager;
     private final StringManager stringManager;
     private final TransitionManager transitionManager;
+    private final EffectManager effectManager;
 
     //Keeps track of player's score as well as in-game stats
     private ScoreManager scoreManager;
@@ -52,6 +53,7 @@ public class User {
         this.statsManager = new StatsManager();
         this.stringManager = new StringManager(this, name);
         this.transitionManager = new TransitionManager(this);
+        this.effectManager = new EffectManager(this);
         scoreUpdated = true;
 
         hitboxFilter = AlignmentFilter.getUnusedAlignment();
@@ -73,6 +75,11 @@ public class User {
         transitionManager.newLevelReset();
         scoreManager.newLevelReset();
         statsManager.newLevelReset();
+        effectManager.newLevelReset();
+    }
+
+    public void afterPlayerCreate(Player player) {
+        effectManager.afterPlayerCreate(player);
     }
 
     /**
@@ -125,6 +132,8 @@ public class User {
     public StringManager getStringManager() { return stringManager; }
 
     public TransitionManager getTransitionManager() { return transitionManager; }
+
+    public EffectManager getEffectManager() { return effectManager; }
 
     public boolean isScoreUpdated() { return scoreUpdated; }
 

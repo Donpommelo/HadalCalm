@@ -2,13 +2,17 @@ package com.mygdx.hadal.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 
 /**
  * A Particle represents a single particle effect.
@@ -232,7 +236,15 @@ public enum Particle {
 			if (null == effect.value) {
 				effect.key.draw(batch, delta);
 			} else if (effect.value.isEffectNotCulled()) {
-				effect.key.draw(batch, delta);
+				if (!effect.value.isShowOnInvis()
+						&& null != effect.value.getAttachedEntity()
+						&& effect.value.getAttachedEntity() instanceof Player player
+						&& player.getEffectHelper().isInvisible()
+						&& !HadalGame.usm.isOwnTeam(player.getUser())) {
+					effect.key.update(delta);
+				} else {
+					effect.key.draw(batch, delta);
+				}
 			} else {
 				//this ensures we run update even for culled particles; necessary for setting emitter location
 				effect.key.update(delta);

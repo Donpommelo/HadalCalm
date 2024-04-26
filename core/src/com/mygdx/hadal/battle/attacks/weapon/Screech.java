@@ -19,7 +19,7 @@ import com.mygdx.hadal.strategies.hitbox.*;
 public class Screech extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(120, 120);
-    public static final int RANGE = 24;
+    public static final int RANGE = 27;
     public static final float LIFESPAN = 0.3f;
     public static final float BASE_DAMAGE = 12.0f;
     private static final float RECOIL = 1.5f;

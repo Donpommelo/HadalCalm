@@ -22,7 +22,7 @@ public class KingKamabokoShot extends SyncedAttacker {
     private static final int KNOCKBACK = 25;
     private static final float LIFESPAN = 3.0f;
 
-    private static final float HOME_POWER = 60.0f;
+    private static final float HOME_POWER = 360.0f;
     private static final int HOME_RADIUS = 100;
     private static final float FRAG_SPEED = 10.0f;
     private static final int NUM_PROJ = 6;

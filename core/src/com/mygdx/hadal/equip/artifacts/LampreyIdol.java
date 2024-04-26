@@ -2,16 +2,16 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_SCALE;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_SCALE;
 
 public class LampreyIdol extends Artifact {
 

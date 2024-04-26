@@ -14,7 +14,7 @@ public class PearlRevolver extends RangedWeapon {
 	private static final int CLIP_SIZE = 6;
 	private static final int AMMO_SIZE = 48;
 	private static final float SHOOT_CD = 0.3f;
-	private static final float RELOAD_TIME = 0.6f;
+	private static final float RELOAD_TIME = 0.5f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 55.0f;
 

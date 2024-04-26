@@ -1,5 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.constants.BodyConstants;
@@ -21,6 +22,8 @@ import java.util.Arrays;
  */
 public class HomingUnit extends HitboxStrategy {
 
+	private static final float MIN_ANGLE = 5.0f;
+
 	//this is the schmuck we are homing towards
 	private Schmuck homing;
 	
@@ -28,6 +31,9 @@ public class HomingUnit extends HitboxStrategy {
 	private Schmuck homeAttempt;
 	private Fixture closestFixture;
 	private float shortestFraction = 1.0f;
+
+	//this decides between 2 different homing movements.
+	private boolean steering = true;
 
 	//when airblasted, should this hbox be disrupted and look for another homing target?
 	private boolean disruptable;
@@ -41,10 +47,11 @@ public class HomingUnit extends HitboxStrategy {
 	//this is the distance that the hbox will search for a homing target.
 	private final int homeRadius;
 	
-	private float controllerCount = 0;
+	private float controllerCount;
 
 	//this makes the hbox fixed to the user until it finds a homing target (used for vengeful spirits)
 	private boolean fixedUntilHome;
+	private float homeVelocity;
 	private HadalEntity target;
 
 	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float homePower, int homeRadius) {
@@ -85,7 +92,12 @@ public class HomingUnit extends HitboxStrategy {
 
 			while (controllerCount >= Constants.INTERVAL) {
 				controllerCount -= Constants.INTERVAL;
-				homing();
+
+				if (steering) {
+					steering();
+				} else {
+					homing();
+				}
 			}
 		} else {
 			entityLocation.set(hbox.getPosition());
@@ -121,8 +133,12 @@ public class HomingUnit extends HitboxStrategy {
 							if (closestFixture.getUserData() instanceof BodyData homingData) {
 								homing = homingData.getSchmuck();
 
-								//fixed hboxes arae permantently unfixed upon finding a homing target
-								fixedUntilHome = false;
+								if (fixedUntilHome) {
+									hbox.setLinearVelocity(new Vector2(homing.getPosition()).sub(hbox.getPosition()).nor().scl(homeVelocity));
+
+									//fixed hboxes are permanently unfixed upon finding a homing target
+									fixedUntilHome = false;
+								}
 							}
 						}
 					}
@@ -163,7 +179,7 @@ public class HomingUnit extends HitboxStrategy {
 		float squareDistance = homingPush.set(homeLocation).sub(entityLocation).len2();
 		float squareSpeed = hbox.getLinearVelocity().len2();
 
-		//if this hbox is moving , we check its distance to its target
+		//if this hbox is moving, we check its distance to its target
 		//this is the amount of seconds the hbox will attempt to predict its target's position
 		float maxPredictionTime = 0.5f;
 		if (squareSpeed > 0) {
@@ -187,18 +203,48 @@ public class HomingUnit extends HitboxStrategy {
 		hbox.applyForceToCenter(homingPush);
 	}
 
+	private final Vector2 currentVelocity = new Vector2();
+	private final Vector2 desiredDirection = new Vector2();
+	private final Vector2 currentDirection = new Vector2();
+	private final Vector2 lateralDirection = new Vector2();
+	private void steering() {
+		currentVelocity.set(hbox.getLinearVelocity());
+		desiredDirection.set(homing.getPosition()).sub(hbox.getPosition()).nor();
+		currentDirection.set(currentVelocity).nor();
+
+		float angleDifference = desiredDirection.angleDeg(currentDirection);
+
+		if (Math.abs(angleDifference) > MIN_ANGLE) {
+			if (Math.signum(MathUtils.sinDeg(angleDifference)) == 1) {
+				lateralDirection.set(currentDirection).rotateDeg(94);
+			} else {
+				lateralDirection.set(currentDirection).rotateDeg(-94);
+			}
+
+			lateralDirection.nor().scl(homePower);
+
+			hbox.applyForceToCenter(lateralDirection);
+		}
+	}
+
 	public HomingUnit setDisruptable(boolean disruptable) {
 		this.disruptable = disruptable;
 		return this;
 	}
 
-	public HomingUnit setFixedUntilHome(boolean fixedUntilHome) {
+	public HomingUnit setFixedUntilHome(boolean fixedUntilHome, float homeVelocity) {
 		this.fixedUntilHome = fixedUntilHome;
+		this.homeVelocity = homeVelocity;
 		return this;
 	}
 
 	public HomingUnit setTarget(HadalEntity target) {
 		this.target = target;
+		return this;
+	}
+
+	public HomingUnit setSteering(boolean steering) {
+		this.steering = steering;
 		return this;
 	}
 }

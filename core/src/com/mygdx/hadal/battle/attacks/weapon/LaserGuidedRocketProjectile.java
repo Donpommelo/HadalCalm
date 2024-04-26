@@ -21,9 +21,9 @@ public class LaserGuidedRocketProjectile extends SyncedAttacker {
     public static final float BASE_DAMAGE = 20.0f;
     private static final float RECOIL = 8.0f;
     private static final float KNOCKBACK = 0.0f;
-    private static final float HOME_POWER = 250.0f;
+    private static final float HOME_POWER = 400.0f;
 
-    public static final float EXPLOSION_DAMAGE = 40.0f;
+    public static final float EXPLOSION_DAMAGE = 55.0f;
     private static final int EXPLOSION_RADIUS = 200;
     private static final float EXPLOSION_KNOCKBACK = 35.0f;
 

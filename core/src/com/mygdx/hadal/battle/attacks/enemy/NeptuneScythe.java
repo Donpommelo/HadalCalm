@@ -12,7 +12,6 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -28,6 +27,7 @@ public class NeptuneScythe extends SyncedAttacker {
     private static final float FREQUENCY = 1.2f;
     private static final float SPREAD = 90.0f;
     private static final float ANGLE_FREQUENCY = 0.8f;
+    private static final float PULSE_INTERVAL = 0.06f;
 
     private static final Sprite PROJ_SPRITE = Sprite.DIATOM_SHOT_B;
 
@@ -56,15 +56,18 @@ public class NeptuneScythe extends SyncedAttacker {
                 .setPitch(0.6f).setSyncType(SyncType.NOSYNC));
         scythe.addStrategy(new DieParticles(state, scythe, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL)
                 .setSyncType(SyncType.NOSYNC));
+        scythe.addStrategy(new ContactUnitSound(state, scythe, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
+                .setSynced(false));
+        scythe.addStrategy(new DamagePulse(state, scythe, user.getBodyData(), scythe.getSize(), BASE_DAMAGE, KNOCKBACK,
+                DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setInterval(PULSE_INTERVAL));
 
         scythe.addStrategy(new HitboxStrategy(state, scythe, user.getBodyData()) {
 
-            private float delayCount, controllerCount, pulseCount;
+            private float delayCount, controllerCount;
             private float timer;
             private float angle;
             private static final float delay = 0.5f;
             private static final float pushInterval = 1 / 60f;
-            private static final float pulseInterval = 0.06f;
             private final Vector2 offset = new Vector2();
             private final Vector2 centerPos = new Vector2();
             @Override
@@ -74,7 +77,6 @@ public class NeptuneScythe extends SyncedAttacker {
                 if (delayCount < delay) {
                     delayCount += delta;
                 } else {
-                    pulseCount += delta;
                     timer += delta;
                 }
                 controllerCount += delta;
@@ -92,25 +94,6 @@ public class NeptuneScythe extends SyncedAttacker {
                         hbox.setTransform(centerPos, angle);
                     } else {
                         hbox.die();
-                    }
-                }
-
-                while (pulseCount >= pulseInterval) {
-                    pulseCount -= pulseInterval;
-
-                    Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hbox.getSize(), pulseInterval,
-                            new Vector2(0, 0), user.getHitboxFilter(), true, false, user, Sprite.NOTHING);
-                    pulse.makeUnreflectable();
-
-                    pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-                    pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
-                            DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true));
-                    pulse.addStrategy(new FixedToEntity(state, pulse, user.getBodyData(), scythe, new Vector2(), new Vector2()).setRotate(true));
-                    pulse.addStrategy(new ContactUnitSound(state, pulse, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
-                            .setSynced(false));
-
-                    if (!state.isServer()) {
-                        ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
                     }
                 }
             }

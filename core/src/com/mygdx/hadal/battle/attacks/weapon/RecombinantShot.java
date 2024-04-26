@@ -22,8 +22,8 @@ import com.mygdx.hadal.strategies.hitbox.*;
 public class RecombinantShot extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(40, 40);
-    public static final float LIFESPAN = 1.5f;
-    public static final float BASE_DAMAGE = 19.0f;
+    public static final float LIFESPAN = 1.2f;
+    public static final float BASE_DAMAGE = 17.0f;
     private static final float RECOIL = 11.0f;
     private static final float KNOCKBACK = 2.2f;
 

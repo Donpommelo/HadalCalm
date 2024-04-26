@@ -724,18 +724,18 @@ public class PlayState extends GameState {
 		if (entity.isVisible(entityLocation)) {
 
 			//for shaded entities, add them to a map instead of rendering right away so we can render them at once
-			if (entity.getShaderHelper().getShader() != null && entity.getShaderHelper().getShader() != Shader.NOTHING) {
-				Array<HadalEntity> shadedEntities = dynamicShaderEntities.get(entity.getShaderHelper().getShader());
-				if (null == shadedEntities) {
-					shadedEntities = new Array<>();
-					dynamicShaderEntities.put(entity.getShaderHelper().getShader(), shadedEntities);
-				}
-				shadedEntities.add(entity);
-			} else if (entity.getShaderStatic() != null && entity.getShaderStatic() != Shader.NOTHING) {
+			if (entity.getShaderStatic() != null && entity.getShaderStatic() != Shader.NOTHING) {
 				Array<HadalEntity> shadedEntities = staticShaderEntities.get(entity.getShaderStatic());
 				if (null == shadedEntities) {
 					shadedEntities = new Array<>();
 					staticShaderEntities.put(entity.getShaderStatic(), shadedEntities);
+				}
+				shadedEntities.add(entity);
+			} else if (entity.getShaderHelper().getShader() != null && entity.getShaderHelper().getShader() != Shader.NOTHING) {
+				Array<HadalEntity> shadedEntities = dynamicShaderEntities.get(entity.getShaderHelper().getShader());
+				if (null == shadedEntities) {
+					shadedEntities = new Array<>();
+					dynamicShaderEntities.put(entity.getShaderHelper().getShader(), shadedEntities);
 				}
 				shadedEntities.add(entity);
 			} else {
@@ -748,22 +748,6 @@ public class PlayState extends GameState {
 	 * This renders shaded entities so we can minimize shader switches
 	 */
 	public void renderShadedEntities() {
-		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : dynamicShaderEntities) {
-			//for each shader, render all entities using it at once so we only need to set it once
-			batch.setShader(entry.key.getShaderProgram());
-			for (HadalEntity entity : entry.value) {
-				entityLocation.set(entity.getPixelPosition());
-
-				//unlike static shaders, dynamic shaders need controller updated
-				entity.getShaderHelper().processShaderController(timer);
-				entity.render(batch, entityLocation);
-
-				if (entity.getShaderHelper().getShaderCount() <= 0.0f) {
-					entity.getShaderHelper().setShader(Shader.NOTHING, 0.0f);
-				}
-			}
-		}
-		dynamicShaderEntities.clear();
 
 		//do same thing for static shaders
 		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : staticShaderEntities) {
@@ -783,6 +767,23 @@ public class PlayState extends GameState {
 			}
 		}
 		staticShaderEntities.clear();
+
+		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : dynamicShaderEntities) {
+			//for each shader, render all entities using it at once so we only need to set it once
+			batch.setShader(entry.key.getShaderProgram());
+			for (HadalEntity entity : entry.value) {
+				entityLocation.set(entity.getPixelPosition());
+
+				//unlike static shaders, dynamic shaders need controller updated
+				entity.getShaderHelper().processShaderController(timer);
+				entity.render(batch, entityLocation);
+
+				if (entity.getShaderHelper().getShaderCount() <= 0.0f) {
+					entity.getShaderHelper().setShader(Shader.NOTHING, 0.0f);
+				}
+			}
+		}
+		dynamicShaderEntities.clear();
 
 		batch.setShader(null);
 	}
@@ -993,7 +994,7 @@ public class PlayState extends GameState {
 		}
 
 		//teleportation particles for reset players (indicates returning to hub)
-		if (reset && isServer()) {
+		if (reset && isServer() && user.getEffectManager().isShowSpawnParticles()) {
 			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2),
 					Particle.TELEPORT, 2.5f, true, SyncType.CREATESYNC).setPrematureOff(1.5f);
 		}

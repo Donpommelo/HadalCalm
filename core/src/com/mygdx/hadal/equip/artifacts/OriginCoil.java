@@ -10,24 +10,24 @@ import com.mygdx.hadal.constants.Stats;
 
 public class OriginCoil extends Artifact {
 
-	private static final int slotCost = 1;
+	private static final int SLOT_COST = 1;
 	
-	private static final float slow = 0.02f;
-	private static final float trackBoost = 10.0f;
-	private static final float boostMultiplier = 1.2f;
-	private static final float delay = 1.0f;
+	private static final float SLOW = 0.02f;
+	private static final float TRACK_BOOST = 10.0f;
+	private static final float BOOST_MULTIPLIER = 1.2f;
+	private static final float DELAY = 1.0f;
 
-	private static final float bonusClipSize = 0.25f;
+	private static final float BONUS_CLIP_SIZE = 0.25f;
 	
-	private static final float boostInterval = 1 / 60f;
+	private static final float BOOST_INTERVAL = 1 / 60f;
 	
 	public OriginCoil() {
-		super(slotCost);
+		super(SLOT_COST);
 	}
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClipSize, p) {
+		enchantment = new StatChangeStatus(state, Stats.RANGED_CLIP, BONUS_CLIP_SIZE, p) {
 
 			private final Vector2 startVelo = new Vector2();
 			@Override
@@ -37,13 +37,13 @@ public class OriginCoil extends Artifact {
 				hbox.setSynced(true);
 				hbox.setSyncedDelete(true);
 
-				startVelo.set(hbox.getStartVelo()).scl(boostMultiplier);
-				hbox.getStartVelo().scl(slow);
-				hbox.setLifeSpan(hbox.getLifeSpan() + delay);
+				startVelo.set(hbox.getStartVelo()).scl(BOOST_MULTIPLIER);
+				hbox.getStartVelo().scl(SLOW);
+				hbox.setLifeSpan(hbox.getLifeSpan() + DELAY);
 				hbox.addStrategy(new HitboxStrategy(state, hbox, p) {
 					
 					float controllerCount;
-					private float count = delay;
+					private float count = DELAY;
 					@Override
 					public void create() {
 						hbox.getBody().setGravityScale(0.0f);
@@ -56,16 +56,16 @@ public class OriginCoil extends Artifact {
 						count -= delta;
 						controllerCount += delta;
 						if (!activated) {
-							while (controllerCount >= boostInterval) {
+							while (controllerCount >= BOOST_INTERVAL) {
 								if (count > 0) {
-									lastPush.set(p.getPlayer().getMouseHelper().getPosition()).sub(hbox.getPosition()).nor().scl(hbox.getMass() * trackBoost);
-									lastPush.add(hbox.getStartVelo().nor().scl(hbox.getMass() * trackBoost));
+									lastPush.set(p.getPlayer().getMouseHelper().getPosition()).sub(hbox.getPosition()).nor().scl(hbox.getMass() * TRACK_BOOST);
+									lastPush.add(hbox.getStartVelo().nor().scl(hbox.getMass() * TRACK_BOOST));
 									hbox.applyForceToCenter(lastPush);
 								} else {
 									hbox.getBody().setLinearVelocity(lastPush.nor().scl(startVelo.len()));
 									activated = true;
 								}
-								controllerCount -= boostInterval;
+								controllerCount -= BOOST_INTERVAL;
 							}
 						}
 					}
@@ -77,6 +77,6 @@ public class OriginCoil extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (bonusClipSize * 100))};
+				String.valueOf((int) (BONUS_CLIP_SIZE * 100))};
 	}
 }

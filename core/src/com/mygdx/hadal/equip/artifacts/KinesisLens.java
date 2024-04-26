@@ -13,9 +13,9 @@ public class KinesisLens extends Artifact {
 
 	private static final int SLOT_COST = 3;
 	
-	private static final float PROJ_SPD_REDUCTION = -0.4f;
+	private static final float PROJ_SPD_REDUCTION = -0.2f;
 	private static final float BONUS_PROJ_LIFESPAN = 0.4f;
-	private static final float HOME_POWER = 120.0f;
+	private static final float HOME_POWER = 0.5f;
 
 	public KinesisLens() {
 		super(SLOT_COST);
@@ -31,8 +31,7 @@ public class KinesisLens extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsMovement()) { return; }
-				
-				hbox.addStrategy(new HomingMouse(state, hbox, p, HOME_POWER));
+				hbox.addStrategy(new HomingMouse(state, hbox, p, hbox.getStartVelo().len2() * HOME_POWER));
 				hbox.setGravity(0.0f);
 			}
 		});

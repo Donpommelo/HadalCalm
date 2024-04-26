@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 
 /**
  * These utils describe various tools for moving the camera.
@@ -104,19 +106,25 @@ public class CameraUtil {
      * This adds some additive screen-shake
      * @param amount: amount of damage (or equivalent metric) of screen-shake to add
      */
-    public static void inflictTrauma(float amount) {
-        if (!JSONManager.setting.isScreenShake()) { return; }
+    public static void inflictTrauma(float amount, PlayerBodyData player) {
+        if (!JSONManager.setting.isScreenShake() &&
+                (null == player || 0 == player.getStat(Stats.CAMERA_SHAKE))) { return; }
 
-        float adjustedAmount = amount * TRAUMA_MULTIPLIER;
+        float shakeBonus = 1.0f;
+        if (null != player) {
+            shakeBonus = 1.0f + player.getStat(Stats.CAMERA_SHAKE);
+        }
+
+        float adjustedAmount = amount * TRAUMA_MULTIPLIER * shakeBonus;
 
         //small instances of trauma are set to a constant value but have a cooldown
         if (MIN_TRAUMA > adjustedAmount) {
             if (0.0f <= traumaCount) {
                 traumaCount = TRAUMA_COOLDOWN;
-                trauma = Math.min(1.0f, MIN_TRAUMA);
+                trauma = Math.min(shakeBonus, MIN_TRAUMA * shakeBonus);
             }
         } else {
-            trauma = Math.min(1.0f, adjustedAmount + trauma);
+            trauma = Math.min(shakeBonus, adjustedAmount + trauma);
         }
     }
 
