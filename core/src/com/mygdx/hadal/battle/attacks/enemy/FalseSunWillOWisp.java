@@ -48,7 +48,7 @@ public class FalseSunWillOWisp extends SyncedAttacker {
         hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
                 .setSynced(false));
-        hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), HOMING, HOMING_RADIUS));
+        hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), HOMING, HOMING_RADIUS).setSteering(false));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
 
         return hbox;

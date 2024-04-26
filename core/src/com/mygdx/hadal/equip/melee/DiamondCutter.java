@@ -13,13 +13,13 @@ import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.strategies.hitbox.DamagePulse;
 
 public class DiamondCutter extends MeleeWeapon {
 
 	private static final float SWING_CD = 0.0f;
 	private static final float BASE_DAMAGE = DiamondCutterProjectile.BASE_DAMAGE;
 	private static final float RANGE = DiamondCutterProjectile.RANGE;
-	private static final float SPIN_INTERVAL = DiamondCutterProjectile.SPIN_INTERVAL;
 
 	//keeps track of attack speed without input buffer doing an extra mouse click
 	private static final float INNATE_ATTACK_COOLDOWN = 0.5f;
@@ -126,6 +126,6 @@ public class DiamondCutter extends MeleeWeapon {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf(BASE_DAMAGE),
-				String.valueOf(SPIN_INTERVAL)};
+				String.valueOf(DamagePulse.PULSE_INTERVAL)};
 	}
 }

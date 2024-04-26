@@ -13,7 +13,7 @@ public class DuelingCorkgun extends RangedWeapon {
 	private static final int CLIP_SIZE = 1;
 	private static final int AMMO_SIZE = 36;
 	private static final float SHOOT_CD = 0.4f;
-	private static final float RELOAD_TIME = 0.8f;
+	private static final float RELOAD_TIME = 1.1f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 55.0f;
 

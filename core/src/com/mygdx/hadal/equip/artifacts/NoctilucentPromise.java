@@ -9,7 +9,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_FATAL_CHECK;
 
 public class NoctilucentPromise extends Artifact {
 
@@ -41,7 +41,7 @@ public class NoctilucentPromise extends Artifact {
 				}
 				return damage;
 			}
-		}.setPriority(PRIORITY_LAST).setUserOnly(true);
+		}.setPriority(PRIORITY_FATAL_CHECK).setUserOnly(true);
 	}
 
 	@Override

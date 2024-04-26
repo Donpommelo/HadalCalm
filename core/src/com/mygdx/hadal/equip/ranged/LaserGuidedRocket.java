@@ -15,7 +15,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private static final float SHOOT_CD = 0.5f;
 	private static final float RELOAD_TIME = 1.0f;
 	private static final int RELOAD_AMOUNT = 1;
-	private static final float PROJECTILE_SPEED = 7.5f;
+	private static final float PROJECTILE_SPEED = 15.0f;
 
 	private static final Vector2 PROJECTILE_SIZE = LaserGuidedRocketProjectile.PROJECTILE_SIZE;
 	private static final float LIFESPAN = LaserGuidedRocketProjectile.LIFESPAN;

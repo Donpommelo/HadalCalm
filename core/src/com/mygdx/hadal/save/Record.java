@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.SerializationException;
-import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.JSONManager;
 
 import static com.mygdx.hadal.managers.JSONManager.JSON;
 import static com.mygdx.hadal.managers.JSONManager.READER;
@@ -24,7 +24,7 @@ public class Record {
 	//this is the last ip connected to
 	private String lastIp;
 
-	private String version;
+	private int saveVersion;
 
 	//This is a map of the player's unlocks
 	private ObjectMap<String, Integer> hiScores;
@@ -151,7 +151,7 @@ public class Record {
 		newRecord.hiScores.put("DM_ZIGGURAT", 0);
 
 		newRecord.lastIp = "";
-		newRecord.version = HadalGame.VERSION;
+		newRecord.saveVersion = JSONManager.SAVE_VERSION;
 
 		Gdx.files.local("save/Records.json").writeString(JSON.prettyPrint(newRecord), false);
 	}
@@ -216,5 +216,5 @@ public class Record {
 
 	public ObjectMap<String, Boolean> getUnlockLevel() { return unlockLevel; }
 
-	public String getVersion() { return version; }
+	public int getSaveVersion() { return saveVersion; }
 }

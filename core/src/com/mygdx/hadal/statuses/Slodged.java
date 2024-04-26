@@ -32,7 +32,9 @@ public class Slodged extends Status {
 	public void onInflict() {
 		if (!Particle.NOTHING.equals(particle)) {
 			ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), particle, LINGER, duration + LINGER,
-					true, SyncType.NOSYNC).setPrematureOff(LINGER);
+					true, SyncType.NOSYNC)
+					.setPrematureOff(LINGER)
+					.setShowOnInvis(true);
 			if (!state.isServer()) {
 				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
 			}

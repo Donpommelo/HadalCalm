@@ -13,9 +13,8 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamagePulse;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -24,9 +23,8 @@ public class DiamondCutterProjectile extends SyncedAttacker {
     private static final Vector2 PROJECTILE_SIZE = new Vector2(120, 120);
     private static final float KNOCKBACK = 0.0f;
     private static final float SPIN_SPEED = 8.0f;
-    public static final float BASE_DAMAGE = 8.5f;
+    public static final float BASE_DAMAGE = 50.0f;
     public static final float RANGE = 90.0f;
-    public static final float SPIN_INTERVAL = 0.017f;
 
     private static final Sprite PROJ_SPRITE = Sprite.BUZZSAW;
 
@@ -41,12 +39,10 @@ public class DiamondCutterProjectile extends SyncedAttacker {
                 .setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
-            private float controllerCount;
             @Override
             public void create() { hbox.setAngularVelocity(SPIN_SPEED); }
 
             private final Vector2 entityLocation = new Vector2();
-            private final Vector2 pulseVelocity = new Vector2();
             private final Vector2 projOffset = new Vector2();
             @Override
             public void controller(float delta) {
@@ -56,24 +52,6 @@ public class DiamondCutterProjectile extends SyncedAttacker {
                 projOffset.set(0, RANGE).setAngleDeg(((Player) user).getMouseHelper().getAttackAngle());
                 entityLocation.set(user.getPosition());
                 hbox.setTransform(entityLocation.x - projOffset.x / PPM,entityLocation.y - projOffset.y / PPM, hbox.getAngle());
-
-                controllerCount += delta;
-                while (controllerCount >= SPIN_INTERVAL) {
-                    controllerCount -= SPIN_INTERVAL;
-
-                    Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, SPIN_INTERVAL, pulseVelocity,
-                            user.getHitboxFilter(), true, true, user, Sprite.NOTHING);
-                    pulse.setEffectsVisual(false);
-                    pulse.makeUnreflectable();
-
-                    pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-                    pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
-                            DamageSource.DIAMOND_CUTTER, DamageTag.MELEE).setStaticKnockback(true));
-
-                    if (!state.isServer()) {
-                        ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
-                    }
-                }
             }
 
             @Override
@@ -86,6 +64,8 @@ public class DiamondCutterProjectile extends SyncedAttacker {
                 }
             }
         });
+        hbox.addStrategy(new DamagePulse(state, hbox, user.getBodyData(), PROJECTILE_SIZE, BASE_DAMAGE, KNOCKBACK,
+                DamageSource.DIAMOND_CUTTER, DamageTag.MELEE));
 
         if (user instanceof Player player) {
             player.getSpecialWeaponHelper().setDiamondCutterHbox(hbox);

@@ -22,13 +22,13 @@ public class HomingMissile extends SyncedAttacker {
     private static final Vector2 TORPEDO_SIZE = new Vector2(60, 14);
     private static final float TORPEDO_LIFESPAN = 8.0f;
     private static final int TORPEDO_SPREAD = 30;
-    private static final float TORPEDO_HOMING = 100;
+    private static final float TORPEDO_HOMING = 400;
     private static final int TORPEDO_HOMING_RADIUS = 100;
     private static final Sprite MISSILE_SPRITE = Sprite.MISSILE_B;
 
     private final DamageSource damageSource;
 
-    public HomingMissile (DamageSource damageSource) {
+    public HomingMissile(DamageSource damageSource) {
         this.damageSource = damageSource;
     }
 

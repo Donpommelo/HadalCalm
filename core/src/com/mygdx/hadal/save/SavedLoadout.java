@@ -8,7 +8,6 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.users.User;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH_TOTAL;
 import static com.mygdx.hadal.managers.JSONManager.JSON;
@@ -91,10 +90,6 @@ public class SavedLoadout {
 		SavedLoadout tempLoadout;
 		try {
 			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
-			if (!Objects.equals(tempLoadout.version, HadalGame.VERSION) && HadalGame.SAVE_RESET) {
-				SavedLoadout.createAndSaveNewLoadout();
-				tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
-			}
 		} catch (SerializationException e) {
 			SavedLoadout.createAndSaveNewLoadout();
 			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));

@@ -158,7 +158,7 @@ public class BodyData extends HadalData {
 		//in the case of re-adding a status, the behavior depends on the status' stack type
 		Status old = getStatus(s.getClass());
 		if (old != null) {
-			switch(s.getStackType()) {
+			switch (s.getStackType()) {
 			case ADD:
 				added = true;
 				break;
@@ -166,9 +166,11 @@ public class BodyData extends HadalData {
 				break;
 			case REPLACE:
 				old.setDuration(s.getDuration());
+				statusProcTime(new ProcTime.BeforeStatusInfliction(old));
 				break;
 			case INCREMENT_DURATION:
 				old.setDuration(old.getDuration() + s.getDuration());
+				statusProcTime(new ProcTime.BeforeStatusInfliction(old));
 				break;
 			}
 		} else {
@@ -176,6 +178,8 @@ public class BodyData extends HadalData {
 		}
 		
 		if (added) {
+			statusProcTime(new ProcTime.BeforeStatusInfliction(s));
+
 			statuses.add(s);
 			s.onInflict();
 			calcStats();
@@ -408,7 +412,7 @@ public class BodyData extends HadalData {
 	 */
 	public void setStat(int index, float amount) {
 		buffedStats[index] = amount;
-		
+
 		//prevent overheal and overfuel
 		if (index == Stats.MAX_HP) {
 			currentHp = currentHp / buffedStats[index] * amount;

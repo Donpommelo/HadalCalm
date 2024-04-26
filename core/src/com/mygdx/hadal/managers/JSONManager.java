@@ -11,6 +11,11 @@ import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.save.Record;
 
 public class JSONManager {
+
+    //these version numbers are used to decide whether we need to create a brand new save due to structrual changes
+    public static final int SAVE_VERSION = 1;
+    public static final int LAST_COMPATIBLE_SAVE_VERSION = 1;
+
     //Json reader here. Use this instead of creating new ones elsewhere.
     public static final Json JSON = new Json();
     public static final JsonReader READER = new JsonReader();
@@ -51,7 +56,7 @@ public class JSONManager {
         PlayerAction.retrieveKeys();
         record = Record.retrieveRecord();
 
-        if (null == record.getVersion() || (!HadalGame.VERSION.equals(record.getVersion()) && HadalGame.SAVE_RESET)) {
+        if (record.getSaveVersion() < JSONManager.LAST_COMPATIBLE_SAVE_VERSION) {
             Record.createNewRecord();
             SavedLoadout.createAndSaveNewLoadout();
             Setting.createNewSetting();

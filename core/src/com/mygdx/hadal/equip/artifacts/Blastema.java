@@ -10,7 +10,7 @@ import com.mygdx.hadal.statuses.Regeneration;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_PROC;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_PROC;
 
 public class Blastema extends Artifact {
 

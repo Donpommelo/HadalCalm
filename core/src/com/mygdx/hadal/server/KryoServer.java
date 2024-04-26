@@ -17,7 +17,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.hub.Vending;
-import com.mygdx.hadal.event.modes.ArcadeNextRound;
+import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.map.GameMode;
@@ -341,7 +341,7 @@ public class KryoServer {
 							//this just updates user's "last primary weapon" which is only used for a single artifact rn
 							User userUpdated = usm.getUsers().get(c.getID());
 							if (userUpdated != null) {
-								userUpdated.getLoadoutManager().setLastEquippedPrimary(p.loadout.multitools[0]);
+								userUpdated.getEffectManager().setLastEquippedPrimary(p.loadout.multitools[0]);
 							}
 
 							//sync client ui elements
@@ -728,7 +728,7 @@ public class KryoServer {
 						ps.addPacketEffect(() -> {
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
-								ArcadeNextRound.playerVote(ps, user, p.vote);
+								ArcadeMarquis.playerVote(ps, user, p.vote);
 							}
 						});
 					}

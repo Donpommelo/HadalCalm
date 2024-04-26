@@ -276,7 +276,29 @@ public abstract class ProcTime {
 			return this;
 		}
 	}
-	
+
+	public static class startHover extends ProcTime {
+
+		public startHover() {}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			status.startHover();
+			return this;
+		}
+	}
+
+	public static class endHover extends ProcTime {
+
+		public endHover() {}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			status.endHover();
+			return this;
+		}
+	}
+
 	public static class BeforeActiveUse extends ProcTime {
 		public final ActiveItem tool;
 		
@@ -301,6 +323,20 @@ public abstract class ProcTime {
 		@Override
 		public ProcTime statusProcTime(Status status) {
 			status.afterActiveItem(tool);
+			return this;
+		}
+	}
+
+	public static class BeforeStatusInfliction extends ProcTime {
+		public final Status status;
+
+		public BeforeStatusInfliction(Status status) {
+			this.status = status;
+		}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			status.beforeStatusInflict(this.status);
 			return this;
 		}
 	}

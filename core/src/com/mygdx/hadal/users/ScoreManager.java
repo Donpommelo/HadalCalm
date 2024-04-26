@@ -1,5 +1,7 @@
 package com.mygdx.hadal.users;
 
+import com.mygdx.hadal.map.SettingArcade;
+
 /**
  * This represents saved fields for a player.
  * Atm, extraModeScore is used for revive timer (to keep track of how many times player was revived) and trick-or-treat candy
@@ -15,7 +17,11 @@ public class ScoreManager {
 	private boolean wonLast, ready;
 	
 	//this unused constructor is needed by kryo for serialization
-	public ScoreManager() {}
+	public ScoreManager() {
+		if (SettingArcade.arcade) {
+			SettingArcade.addNewUser(this);
+		}
+	}
 	
 	/**
 	 * Upon a new level, reset stats

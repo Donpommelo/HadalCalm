@@ -262,7 +262,7 @@ public class Boss5 extends EnemyFloating {
 	private static final float sporeSpeed = 15.0f;
 	private static final float sporeInterval = 1.0f;
 	private static final int SPORE_FRAG_NUMBER = 16;
-	private static final float FRAG_SPEED = 40.0f;
+	private static final float FRAG_SPEED = 15.0f;
 	private static final float FRAG_VELO_SPREAD = 0.4f;
 
 	private void sporeBurst() {
@@ -277,7 +277,7 @@ public class Boss5 extends EnemyFloating {
 				public void execute() {
 					float[] fragAngles = new float[SPORE_FRAG_NUMBER * 2];
 					for (int i = 0; i < SPORE_FRAG_NUMBER; i++) {
-						newVelocity.setToRandomDirection().scl(FRAG_SPEED).scl(
+						newVelocity.setToRandomDirection().nor().scl(FRAG_SPEED).scl(
 								MathUtils.random() * FRAG_VELO_SPREAD + 1 - FRAG_VELO_SPREAD / 2);
 						fragAngles[2 * i] = newVelocity.x;
 						fragAngles[2 * i + 1] = newVelocity.y;

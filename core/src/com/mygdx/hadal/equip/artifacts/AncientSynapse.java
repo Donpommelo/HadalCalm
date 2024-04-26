@@ -2,14 +2,14 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST_LAST;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_LAST;
 
 public class AncientSynapse extends Artifact {
 
@@ -47,7 +47,7 @@ public class AncientSynapse extends Artifact {
 				damageLeft += damage;
 				return 0;
 			}
-		}.setPriority(PRIORITY_LAST_LAST);
+		}.setPriority(PRIORITY_LAST);
 	}
 
 	@Override

@@ -21,7 +21,8 @@ public class VengefulSpirit extends SyncedAttacker {
 
     public static final float SPIRIT_DEFAULT_DAMAGE = 45.0f;
     private static final int SPIRIT_SIZE = 50;
-    private static final float SPIRIT_HOMING = 120;
+    private static final float SPIRIT_VELOCITY = 15.0f;
+    private static final float SPIRIT_HOMING = 300;
     private static final int SPIRIT_HOMING_RADIUS = 40;
     private static final float SPIRIT_KNOCKBACK = 25.0f;
     private static final float SPIRIT_LIFESPAN = 7.5f;
@@ -86,7 +87,7 @@ public class VengefulSpirit extends SyncedAttacker {
                 //attached hboxes will follow the player until they have a target to home in on
                 if (attached) {
                     hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPIRIT_HOMING, SPIRIT_HOMING_RADIUS)
-                            .setFixedUntilHome(true).setTarget(user));
+                            .setFixedUntilHome(true, SPIRIT_VELOCITY).setTarget(user));
                 } else {
                     hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPIRIT_HOMING, SPIRIT_HOMING_RADIUS));
                 }

@@ -60,7 +60,7 @@ public class PlayerEffectHelper {
 
     public void toggleRunningEffects(boolean running) {
         this.running = running;
-        if (running && !invisible) {
+        if (running) {
             dustCloud.turnOn();
             runSound.turnOn();
         } else {
@@ -71,7 +71,7 @@ public class PlayerEffectHelper {
 
     public void toggleHoverEffects(boolean hovering) {
         this.hovering = hovering;
-        if (hovering && !invisible) {
+        if (hovering) {
             hoverBubbles.turnOn();
             hoverSound.turnOn();
         } else {
@@ -81,7 +81,7 @@ public class PlayerEffectHelper {
     }
 
     public void toggleReloadEffects(boolean reloading) {
-        if (reloading && !invisible) {
+        if (reloading) {
             reloadSound.turnOn();
         } else {
             reloadSound.turnOff();

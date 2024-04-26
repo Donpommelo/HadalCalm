@@ -50,7 +50,7 @@ public class CameraShaker extends Event {
 
 			while (controllerCount >= interval) {
 				controllerCount -= interval;
-				CameraUtil.inflictTrauma(shake);
+				CameraUtil.inflictTrauma(shake, null);
 			}
 
 			timeLeft -= delta;

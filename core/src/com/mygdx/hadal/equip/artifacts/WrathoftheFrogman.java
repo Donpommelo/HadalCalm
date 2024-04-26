@@ -13,7 +13,7 @@ public class WrathoftheFrogman extends Artifact {
 	private static final int slotCost = 2;
 	
 	private static final float procCd = 0.65f;
-	private static final float projSpeed = 5.0f;
+	private static final float projSpeed = 25.0f;
 
 	public WrathoftheFrogman() {
 		super(slotCost);

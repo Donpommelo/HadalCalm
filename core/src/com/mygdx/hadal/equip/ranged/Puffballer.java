@@ -47,7 +47,7 @@ public class Puffballer extends RangedWeapon {
 		fragAngles[1] = pos1.y;
 
 		for (int i = 0; i < SPORE_FRAG_NUMBER; i++) {
-			newVelocity.setToRandomDirection().scl(FRAG_SPEED).scl(MathUtils.random() * FRAG_VELO_SPREAD + 1 - FRAG_VELO_SPREAD / 2);
+			newVelocity.setToRandomDirection().nor().scl(FRAG_SPEED).scl(MathUtils.random() * FRAG_VELO_SPREAD + 1 - FRAG_VELO_SPREAD / 2);
 			fragAngles[2 * i + 2] = newVelocity.x;
 			fragAngles[2 * i + 3] = newVelocity.y;
 		}

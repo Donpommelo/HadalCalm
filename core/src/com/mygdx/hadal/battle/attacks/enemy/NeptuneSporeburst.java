@@ -15,6 +15,7 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
+import org.jetbrains.annotations.NotNull;
 
 public class NeptuneSporeburst extends SyncedAttacker {
 
@@ -52,7 +53,7 @@ public class NeptuneSporeburst extends SyncedAttacker {
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), SPORE_DAMAGE, SPORE_KB,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-        hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPORE_HOMING, SPORE_HOMING_RADIUS));
+        hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPORE_HOMING, SPORE_HOMING_RADIUS).setSteering(false));
         hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(false));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, LINGER)
@@ -68,16 +69,7 @@ public class NeptuneSporeburst extends SyncedAttacker {
                     if (extraFields.length > i * 2 + 1) {
                         newVelocity.set(extraFields[i * 2], extraFields[i * 2 + 1]);
 
-                        RangedHitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), SPORE_FRAG_SIZE, SPORE_FRAG_LIFESPAN,
-                                new Vector2(newVelocity), user.getHitboxFilter(), false, false, user, FRAG_SPRITE) {
-
-                            @Override
-                            public void create() {
-                                super.create();
-                                getBody().setLinearDamping(FRAG_DAMPEN);
-                            }
-                        };
-                        frag.setRestitution(1.0f);
+                        RangedHitbox frag = getFrag();
 
                         frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
                         frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), SPORE_FRAG_DAMAGE, SPORE_FRAG_KB,
@@ -91,6 +83,21 @@ public class NeptuneSporeburst extends SyncedAttacker {
                         }
                     }
                 }
+            }
+
+            @NotNull
+            private RangedHitbox getFrag() {
+                RangedHitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), SPORE_FRAG_SIZE, SPORE_FRAG_LIFESPAN,
+                        new Vector2(newVelocity), user.getHitboxFilter(), false, false, user, FRAG_SPRITE) {
+
+                    @Override
+                    public void create() {
+                        super.create();
+                        getBody().setLinearDamping(FRAG_DAMPEN);
+                    }
+                };
+                frag.setRestitution(1.0f);
+                return frag;
             }
         });
 

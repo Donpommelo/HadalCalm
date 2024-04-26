@@ -25,7 +25,7 @@ public class CommuterParasolActivate extends SyncedAttacker {
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
 
-        Hitbox hbox = new Hitbox(state, user.getPixelPosition(), SIZE, LIFESPAN, new Vector2(0, 0),
+        Hitbox hbox = new Hitbox(state, user.getPixelPosition(), SIZE, LIFESPAN, new Vector2(),
                 user.getHitboxFilter(), true, false, user, SPRITE);
         hbox.makeUnreflectable();
 
@@ -40,7 +40,6 @@ public class CommuterParasolActivate extends SyncedAttacker {
                         if (fixB.getEntity().isAlive()) {
                             Vector2 newVelo = new Vector2(fixB.getEntity().getPosition()).sub(user.getPosition());
                             fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().setAngleDeg(newVelo.angleDeg()));
-
                             SoundEffect.SPRING.playSourced(state, user.getPixelPosition(), 0.2f);
                         }
                     }

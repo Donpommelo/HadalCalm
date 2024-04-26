@@ -3,18 +3,22 @@ package com.mygdx.hadal.strategies.hitbox;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_LAST;
 
 /**
  * This strategy gives a hbox "damaging knockback". If an enemy is knocked back by the hbox, it will damage itself upon contact with a wall or unit (the other unit to be contacted will also be damaged)
@@ -24,16 +28,17 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	
 	//this is the lifespan of the hbox that gets created when the hbox contacts a unit
-	private static final float LIFESPAN = 1.0f;
+	private static final float LIFESPAN = 0.6f;
 	
 	//this is the minimum speed the target must be moving to inflict damage
-	private static final float SPEED_THRESHOLD = 30.0f;
+	private static final float SPEED_THRESHOLD = 15.0f;
 
 	//this is the window of time before the effect activates. prevents it from instakilling a unit already touching a wall.
 	private static final float PROC_CD = 0.03f;
 	
 	//this is the maximum amount of damage that this effect can inflict
 	private static final float MAX_DAMAGE = 150.0f;
+	private static final float DAMAGE_MULTIPLIER = 0.2f;
 
 	//this is the effect/item/weapon source of the knockback
 	private final DamageSource source;
@@ -49,7 +54,20 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 			if (UserDataType.BODY.equals(fixB.getType())) {
 
 				final BodyData vic = (BodyData) fixB;
-				
+
+				vic.addStatus(new Status(state, LIFESPAN, false, creator, vic) {
+
+					@Override
+					public void statChanges() {
+						inflicted.setStat(Stats.GROUND_SPD, -1.0f);
+						inflicted.setStat(Stats.AIR_SPD, -1.0f);
+						inflicted.setStat(Stats.FASTFALL_POW, -1.0f);
+						inflicted.setStat(Stats.HOVER_POW, -1.0f);
+						inflicted.setStat(Stats.JUMP_NUM, -1.0f);
+					}
+
+				}.setPriority(PRIORITY_LAST));
+
 				//hbox size is slightly larger than target so it can contact walls/other units
 				Vector2 hitboxSize = new Vector2();
 				hitboxSize.set(vic.getSchmuck().getSize()).add(5, 5);
@@ -69,7 +87,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 						if (procCdCount < PROC_CD) {
 							procCdCount += delta;
 						}
-						lastVelo = Math.min(vic.getSchmuck().getLinearVelocity().len2(), MAX_DAMAGE);
+						lastVelo = Math.min(vic.getSchmuck().getLinearVelocity().len2() * DAMAGE_MULTIPLIER, MAX_DAMAGE);
 					}
 					
 					@Override

@@ -17,7 +17,7 @@ public class MagicBeanstalker extends RangedWeapon {
 	private static final float SHOOT_CD = 0.0f;
 	private static final float RELOAD_TIME = 1.4f;
 	private static final int RELOAD_AMOUNT = 0;
-	private static final float PROJECTILE_SPEED = 42.0f;
+	private static final float PROJECTILE_SPEED = 46.0f;
 	private static final float MAX_CHARGE = 0.4f;
 
 	private static final Vector2 SEED_SIZE = MagicBean.SEED_SIZE;

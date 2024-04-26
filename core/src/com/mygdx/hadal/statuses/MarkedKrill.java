@@ -22,7 +22,9 @@ public class MarkedKrill extends Status {
     @Override
     public void onInflict() {
         ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.KRILL_ALERT, LINGER, duration + LINGER,
-                true, SyncType.NOSYNC).setPrematureOff(LINGER);
+                true, SyncType.NOSYNC)
+                .setPrematureOff(LINGER)
+                .setShowOnInvis(true);
         if (!state.isServer()) {
             ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
         }

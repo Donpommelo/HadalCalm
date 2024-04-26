@@ -15,11 +15,11 @@ public class OrbitUser extends HitboxStrategy {
 	
 	//this is the angle of the hbox compared to the player, the distance and the speed that it rotates
 	private final float  distance, speed;
-	private float angle;
+	private final float startAngle;
 	
 	public OrbitUser(PlayState state, Hitbox proj, BodyData user, float startAngle, float distance, float speed) {
 		super(state, proj, user);
-		this.angle = startAngle;
+		this.startAngle = startAngle;
 		this.distance = distance;
 		this.speed = speed;
 	}
@@ -28,9 +28,7 @@ public class OrbitUser extends HitboxStrategy {
 	private final Vector2 offset = new Vector2();
 	@Override
 	public void controller(float delta) {
-		
-		angle += speed * delta;
-		
+		float angle = startAngle + state.getTimer() * speed;
 		if (creator.getSchmuck().getBody() != null && creator.getSchmuck().isAlive()) {
 			playerPos.set(creator.getSchmuck().getPosition());
 			offset.set(0, distance).setAngleDeg(angle);

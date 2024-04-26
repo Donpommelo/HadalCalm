@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.enemy.MovementSwim.SwimmingState;
 
 public class Scissorfish extends EnemySwimming {
 
-	private static final int baseHp = 100;
+	private static final int baseHp = 160;
 
 	private static final int scrapDrop = 2;
 	

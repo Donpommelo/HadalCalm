@@ -29,7 +29,7 @@ public class MovementJumpHelper {
     private final Player player;
 
     private float jumpCdCount, jumpEffectCount;
-    private boolean hoveringAttempt, jumpBuffered, jumping;
+    private boolean hoveringAttempt, hovering, jumpBuffered, jumping;
     private int extraJumpsUsed = 0;
 
     public MovementJumpHelper(PlayState state, Player player) {
@@ -45,6 +45,10 @@ public class MovementJumpHelper {
                 hover();
             }
         } else {
+            if (hovering) {
+                player.getPlayerData().statusProcTime(new ProcTime.endHover());
+            }
+            hovering = false;
             player.getEffectHelper().toggleHoverEffects(false);
         }
     }
@@ -103,8 +107,16 @@ public class MovementJumpHelper {
 
             player.getPlayerData().statusProcTime(new ProcTime.whileHover(hoverDirection));
 
+            if (!hovering) {
+                player.getPlayerData().statusProcTime(new ProcTime.startHover());
+            }
+            hovering = true;
             player.getEffectHelper().toggleHoverEffects(true);
         } else {
+            if (hovering) {
+                player.getPlayerData().statusProcTime(new ProcTime.endHover());
+            }
+            hovering = false;
             player.getEffectHelper().toggleHoverEffects(false);
         }
     }

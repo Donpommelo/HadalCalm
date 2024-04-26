@@ -10,9 +10,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
 
 public class FalseSunBell extends SyncedAttacker {
@@ -43,37 +41,11 @@ public class FalseSunBell extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.0f, LINGER)
                 .setParticleSize(30.0f).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), HOMING_SPEED, HOMING_RADIUS));
-
-        hbox.addStrategy((new HitboxStrategy(state, hbox, user.getBodyData()) {
-
-            private float controllerCount;
-            @Override
-            public void controller(float delta) {
-
-                controllerCount += delta;
-
-                //hitbox continuously damages players that touch it
-                while (controllerCount >= BELL_INTERVAL) {
-                    controllerCount -= BELL_INTERVAL;
-
-                    Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), hbox.getSize(), BELL_INTERVAL, new Vector2(),
-                            user.getHitboxFilter(), true, false, user, Sprite.NOTHING);
-                    pulse.setSyncDefault(false);
-                    pulse.makeUnreflectable();
-                    pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-                    pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
-                            DamageSource.ENEMY_ATTACK, DamageTag.MELEE).setStaticKnockback(true));
-                    pulse.addStrategy(new FixedToEntity(state, pulse, user.getBodyData(), hbox, new Vector2(), new Vector2()).setRotate(true));
-                    pulse.addStrategy(new ContactUnitSound(state, pulse, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
-                            .setSynced(false));
-
-                    if (!state.isServer()) {
-                        ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
-                    }
-                }
-            }
-        }));
+        hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), HOMING_SPEED, HOMING_RADIUS).setSteering(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
+                .setSynced(false));
+        hbox.addStrategy(new DamagePulse(state, hbox, user.getBodyData(), hbox.getSize(), BASE_DAMAGE, KNOCKBACK,
+                DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setInterval(BELL_INTERVAL));
 
         return hbox;
     }

@@ -19,13 +19,13 @@ public class Diatom extends SyncedAttacker {
     public static final Vector2 PROJECTILE_SIZE = new Vector2(45, 15);
 
     public static final float PROJECTILE_SPEED_MAX = 60.0f;
-    private static final float PROJECTILE_SPEED_MIN = 30.0f;
+    private static final float PROJECTILE_SPEED_MIN = 40.0f;
 
     public static final float LIFESPAN_MAX = 0.8f;
     private static final float LIFESPAN_MIN = 0.4f;
 
-    public static final float BASE_DAMAGE_MAX = 55.0f;
-    public static final float BASE_DAMAGE_MIN = 25.0f;
+    public static final float BASE_DAMAGE_MAX = 60.0f;
+    public static final float BASE_DAMAGE_MIN = 30.0f;
 
     private static final float RECOIL = 4.5f;
 
@@ -35,7 +35,7 @@ public class Diatom extends SyncedAttacker {
     private static final float SIZE_MAX = 2.5f;
     private static final float SIZE_MIN = 1.0f;
 
-    private static final float SPREAD_MAX = 25.0f;
+    private static final float SPREAD_MAX = 20.0f;
 
     private static final float PARTICLE_SIZE_MAX = 90.0f;
     private static final float PARTICLE_SIZE_MIN = 60.0f;

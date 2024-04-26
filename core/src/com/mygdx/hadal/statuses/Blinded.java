@@ -28,8 +28,10 @@ public class Blinded extends Status {
 	@Override
 	public void onInflict() {
 		ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
-				true, SyncType.NOSYNC);
-		particleEntity.setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
+				true, SyncType.NOSYNC)
+				.setPrematureOff(LINGER)
+				.setShowOnInvis(true);
+		particleEntity.setOffset(0, inflicted.getSchmuck().getSize().y / 2);
 
 		if (!state.isServer()) {
 			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);

@@ -65,12 +65,14 @@ public class TransitionManager {
                             forewarnTime = transitionTime;
                         }
 
-                        if (spawnOverridden) {
-                            new ParticleEntity(state, new Vector2(overrideSpawnLocation).sub(0, startPoint.getSize().y),
-                                    Particle.TELEPORT_PRE, forewarnTime, true, SyncType.CREATESYNC);
-                        } else {
-                            new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
-                                    Particle.TELEPORT_PRE, forewarnTime, true, SyncType.CREATESYNC);
+                        if (user.getEffectManager().isShowSpawnParticles()) {
+                            if (spawnOverridden) {
+                                new ParticleEntity(state, new Vector2(overrideSpawnLocation).sub(0, startPoint.getSize().y),
+                                        Particle.TELEPORT_PRE, forewarnTime, true, SyncType.CREATESYNC);
+                            } else {
+                                new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
+                                        Particle.TELEPORT_PRE, forewarnTime, true, SyncType.CREATESYNC);
+                            }
                         }
                     }
                 }

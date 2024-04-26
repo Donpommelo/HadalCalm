@@ -1,11 +1,11 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.constants.Stats;
 
-import static com.mygdx.hadal.constants.Constants.PRIORITY_LAST_LAST;
+import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_LAST;
 
 public class NutrilogCrunchbarPlus extends Artifact {
 
@@ -37,7 +37,7 @@ public class NutrilogCrunchbarPlus extends Artifact {
 				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + BONUS_HP);
 				p.setStat(Stats.KNOCKBACK_RES, p.getStat(Stats.KNOCKBACK_RES) + BONUS_KNOCKBACK_RES);
 			}
-		}.setPriority(PRIORITY_LAST_LAST);
+		}.setPriority(PRIORITY_LAST);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.StatusPriority;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -11,8 +12,6 @@ import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-
-import static com.mygdx.hadal.constants.Constants.PRIORITY_DEFAULT;
 
 /**
  * A status is a thing that afflicts a schmuck and has some affect for its duration.
@@ -36,7 +35,7 @@ public class Status implements Comparable<Status> {
 	private UnlockArtifact artifact;
 
 	//Status priority determins the order in which multiple statuses will proc their effects (small number = goes first)
-	private int priority = PRIORITY_DEFAULT;
+	private int priority = StatusPriority.PRIORITY_DEFAULT;
 
 	//does this status activate for the server only? for the player's own character only?
 	private boolean serverOnly, userOnly;
@@ -119,10 +118,16 @@ public class Status implements Comparable<Status> {
 
 	public void whileHover(Vector2 hoverDirection) {}
 
+	public void startHover() {}
+
+	public void endHover() {}
+
 	public void beforeActiveItem(ActiveItem tool) {}
 	
 	public void afterActiveItem(ActiveItem tool) {}
-	
+
+	public void beforeStatusInflict(Status status) {}
+
 	public void afterBossSpawn(Enemy boss) {}
 
 	public float getDuration() { return duration; }

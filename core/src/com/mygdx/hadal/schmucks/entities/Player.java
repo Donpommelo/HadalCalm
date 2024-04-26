@@ -257,6 +257,10 @@ public class Player extends Schmuck {
 		if (this.equals(HadalGame.usm.getOwnPlayer())) {
 			activateStartingEvents();
 		}
+
+		//for user-specific functions after player create. atm, this is just for 1 artifact that needs to check a user field
+		//for silent spawn
+		user.afterPlayerCreate(this);
 	}
 
 	public void activateStartingEvents() {

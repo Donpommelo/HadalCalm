@@ -13,9 +13,9 @@ public class InformantsTie extends Artifact {
 
 	private static final int SLOT_COST = 3;
 
-	private static final float PROJ_SPD_REDUCTION = -0.5f;
-	private static final float BONUS_PROJ_LIFESPAN = 0.5f;
-	private static final float HOME_POWER = 60.0f;
+	private static final float PROJ_SPD_REDUCTION = -0.25f;
+	private static final float BONUS_PROJ_LIFESPAN = 0.4f;
+	private static final float HOME_POWER = 0.25f;
 	private static final int HOME_RADIUS = 50;
 
 	public InformantsTie() {
@@ -33,7 +33,7 @@ public class InformantsTie extends Artifact {
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsMovement()) { return; }
 				
-				hbox.addStrategy(new HomingUnit(state, hbox, p, HOME_POWER, HOME_RADIUS));
+				hbox.addStrategy(new HomingUnit(state, hbox, p, hbox.getStartVelo().len2() * HOME_POWER, HOME_RADIUS));
 				hbox.setGravity(0.0f);
 			}
 		});

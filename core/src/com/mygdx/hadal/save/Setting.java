@@ -13,6 +13,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.states.PlayState;
 
@@ -228,6 +229,14 @@ public class Setting {
 	 * This retrieves a setting specific to a single mode
 	 */
 	public Integer getModeSetting(GameMode mode, SettingSave setting, Integer startValue) {
+
+		//in arcade mode, we use the default value for setting, unless there is a specific override value
+		if (SettingArcade.arcade) {
+			if (null != SettingArcade.currentMode) {
+				return SettingArcade.currentMode.getUniqueSettings().get(setting.name(), setting.getStartingValue());
+			}
+		}
+
 		if (modeSettings.containsKey(mode.toString())) {
 			return modeSettings.get(mode.toString()).getOrDefault(setting.name(), startValue);
 		} else {

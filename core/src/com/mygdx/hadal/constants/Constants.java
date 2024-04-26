@@ -44,15 +44,6 @@ public class Constants {
     public static final float TRANSITION_DURATION_SLOW = 0.5f;
     public static final Interpolation INTP_FASTSLOW = Interpolation.fastSlow;
 
-    //status priorities
-    public static final int PRIORITY_DEFAULT = 0;
-    public static final int PRIORITY_SET = 6;
-    public static final int PRIORITY_PROC = 7;
-    public static final int PRIORITY_MULT_SCALE= 8;
-    public static final int PRIORITY_SCALE = 9;
-    public static final int PRIORITY_LAST = 10;
-    public static final int PRIORITY_LAST_LAST = 11;
-
     //pickup types
     public static final int PICKUP_HEALTH = 0;
     public static final int PICKUP_FUEL = 1;

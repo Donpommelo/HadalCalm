@@ -25,7 +25,7 @@ public class Screecher extends RangedWeapon {
 	private static final int CLIP_SIZE = 60;
 	private static final int AMMO_SIZE = 240;
 	private static final float SHOOT_CD = 0.15f;
-	private static final float RELOAD_TIME = 1.2f;
+	private static final float RELOAD_TIME = 1.0f;
 	private static final int RELOAD_AMOUNT = 0;
 	private static final float PROJECTILE_SPEED = 12.0f;
 	private static final int SPREAD = 1;

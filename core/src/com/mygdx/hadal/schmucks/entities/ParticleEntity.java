@@ -60,6 +60,9 @@ public class ParticleEntity extends HadalEntity {
 	//does this effect rotate to match an attached entity?
 	private boolean rotate;
 
+	//does this particle render if attached to an invisible character?
+	private boolean showOnInvis;
+
 	//this is the default angle of the particle velocity
 	private float velocity;
 
@@ -435,13 +438,22 @@ public class ParticleEntity extends HadalEntity {
 		return this;
 	}
 
+	public ParticleEntity setShowOnInvis(boolean showOnInvis) {
+		this.showOnInvis = showOnInvis;
+		return this;
+	}
+
 	public void setSyncExtraFields(boolean syncExtraFields) { this.syncExtraFields = syncExtraFields; }
 	
 	public PooledEffect getEffect() { return effect; }
 	
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }
-	
+
+	public HadalEntity getAttachedEntity() { return attachedEntity; }
+
 	public void setAttachedId(UUID attachedId) { this.attachedId = attachedId; }
 
 	public void setOffset(float offsetX, float offsetY) { this.offset.set(offsetX, offsetY); }
+
+	public boolean isShowOnInvis() { return showOnInvis; }
 }

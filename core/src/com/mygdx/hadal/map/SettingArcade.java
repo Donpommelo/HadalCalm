@@ -8,7 +8,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.modes.ArcadeNextRound;
+import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -16,6 +16,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.Transition;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -30,8 +31,9 @@ import static com.mygdx.hadal.users.Transition.*;
  */
 public class SettingArcade extends ModeSetting {
 
-    public static boolean arcade;
+    public static boolean arcade, overtime;
     public static int roundNum, currentRound, winCap;
+    public static ArcadeMode currentMode;
 
     private final String endText;
 
@@ -171,6 +173,7 @@ public class SettingArcade extends ModeSetting {
         roundNum = indexToRoundNum(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_ROUND_NUMBER));
         winCap = indexToRoundNum(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_SCORE_CAP));
         currentRound = 0;
+        overtime = false;
     }
 
     public static void processEndOfRound(PlayState state, GameMode mode) {
@@ -179,14 +182,17 @@ public class SettingArcade extends ModeSetting {
         }
 
         if (mode.equals(GameMode.ARCADE)) {
-            int vote = ArcadeNextRound.getVotedOption();
-            state.setNextLevel(ArcadeNextRound.getMapChoices().get(vote));
-            state.setNextMode(ArcadeNextRound.getModeChoices().get(vote).getMode());
+            int vote = ArcadeMarquis.getVotedOption();
+            currentMode = ArcadeMarquis.getModeChoices().get(vote);
+
+            state.setNextLevel(ArcadeMarquis.getMapChoices().get(vote));
+            state.setNextMode(currentMode.getMode());
         } else {
 
             if (roundNum != 0 && currentRound > roundNum) {
-                endArcadeMode(state);
-                return;
+                if (endArcadeMode(state)) {
+                    return;
+                }
             } else {
                 boolean winCapReached = false;
                 for (User user : HadalGame.usm.getUsers().values()) {
@@ -196,8 +202,9 @@ public class SettingArcade extends ModeSetting {
                     }
                 }
                 if (winCap != 0 && winCapReached) {
-                    endArcadeMode(state);
-                    return;
+                    if (endArcadeMode(state)) {
+                        return;
+                    }
                 } else {
                     state.setNextLevel(UnlockLevel.HUB_BREAK);
                     state.setNextMode(GameMode.ARCADE);
@@ -236,22 +243,46 @@ public class SettingArcade extends ModeSetting {
                 break;
             }
         }
-        if (reddy) {
-            int vote = ArcadeNextRound.getVotedOption();
-            state.loadLevel(ArcadeNextRound.getMapChoices().get(vote), ArcadeNextRound.getModeChoices().get(vote).getMode(),
+        if (reddy && state.isServer()) {
+            int vote = ArcadeMarquis.getVotedOption();
+            currentMode = ArcadeMarquis.getModeChoices().get(vote);
+            state.loadLevel(ArcadeMarquis.getMapChoices().get(vote), currentMode.getMode(),
                     PlayState.TransitionState.NEWLEVEL, "");
         }
 
         state.getUiExtra().syncUIText(UITag.uiType.WINBOARD);
     }
 
-    private static void endArcadeMode(PlayState state) {
+    public static void addNewUser(ScoreManager score) {
+        int baseCurrency = indexToStartingCurrency(JSONManager.setting.getModeSetting(GameMode.ARCADE, SettingSave.ARCADE_CURRENCY_START));
+        baseCurrency += (indexToRoundCurrency(JSONManager.setting.getModeSetting(GameMode.ARCADE, SettingSave.ARCADE_CURRENCY_ROUND))
+                * currentRound);
+        score.setCurrency(baseCurrency);
+    }
+
+    private static boolean endArcadeMode(PlayState state) {
         arcade = false;
 
+        int highScore = 0;
+        int numHighScore = 0;
         for (User user : HadalGame.usm.getUsers().values()) {
-            user.getScoreManager().setScore(user.getScoreManager().getWins());
+            if (user.getScoreManager().getScore() == highScore) {
+                numHighScore++;
+            } else if (user.getScoreManager().getScore() > highScore) {
+                highScore = user.getScoreManager().getScore();
+                numHighScore = 1;
+            }
         }
-        state.levelEnd(ResultsState.MAGIC_WORD, false, DEFAULT_FADE_DELAY);
+
+        if (numHighScore == 1) {
+            for (User user : HadalGame.usm.getUsers().values()) {
+                user.getScoreManager().setScore(user.getScoreManager().getWins());
+            }
+            state.levelEnd(ResultsState.MAGIC_WORD, false, DEFAULT_FADE_DELAY);
+            return true;
+        }
+        overtime = true;
+        return false;
     }
 
     /**

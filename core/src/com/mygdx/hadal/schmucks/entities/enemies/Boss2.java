@@ -246,8 +246,7 @@ public class Boss2 extends EnemyFloating {
 		}
 	}
 	
-	private static final int bulletSpeed1 = 18;
-	private static final int bulletSpeed2 = 5;
+	private static final int bulletSpeed = 18;
 	private static final float bulletWindup1 = 0.6f;
 	private static final float bulletWindup2 = 0.2f;
 	private static final float bulletInterval1 = 0.4f;
@@ -262,13 +261,13 @@ public class Boss2 extends EnemyFloating {
 		EnemyUtils.windupParticles(state, this, bulletWindup2, Particle.OVERCHARGE, HadalColor.MAGENTA, 80.0f);
 		for (int i = 0; i < bulletNumber; i++) {
 			if (phase == 1) {
-				shootKamaboko(state, this, bulletSpeed1, bulletInterval1, 1);
+				shootKamaboko(state, this, bulletSpeed, bulletInterval1, 1);
 			}
 			if (phase == 2) {
-				shootKamaboko(state, this, bulletSpeed2, bulletInterval2, 2);
+				shootKamaboko(state, this, bulletSpeed, bulletInterval2, 2);
 			}
 			if (phase == 3) {
-				shootKamaboko(state, this, bulletSpeed2, bulletInterval3, 3);
+				shootKamaboko(state, this, bulletSpeed, bulletInterval3, 3);
 			}
 		}
 		

@@ -13,10 +13,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.*;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -25,13 +22,12 @@ public class Nebula extends SyncedAttacker {
     private static final Vector2 PROJECTILE_SIZE = new Vector2(80, 80);
     private static final Vector2 PULSE_SIZE = new Vector2(160, 160);
     private static final float KNOCKBACK = 0.0f;
-    public static final float BASE_DAMAGE = 2.5f;
-    public static final float SPIN_INTERVAL = 0.017f;
+    public static final float BASE_DAMAGE = 18.0f;
 
-    public static final float MAX_RANGE = 400.0f;
-    public static final float MAX_RANGE_GUTTER = 420.0f;
-    public static final float SPEED_FAST = 28.0f;
-    public static final float SPEED_SLOW = 14.0f;
+    public static final float MAX_RANGE = 420.0f;
+    public static final float MAX_RANGE_GUTTER = 440.0f;
+    public static final float SPEED_FAST = 30.0f;
+    public static final float SPEED_SLOW = 16.0f;
     public static final float SPEED_INTERVAL = 1.2f;
     public static final float RECHARGE_SPEED_MULTIPLIER = 2.5f;
     public static final float MIN_RETRACT_AGE = 0.5f;
@@ -55,9 +51,7 @@ public class Nebula extends SyncedAttacker {
         nebula.addStrategy(new HitboxStrategy(state, nebula, user.getBodyData()) {
 
             private float hboxAge;
-            private float controllerCount;
             private float homingSpeed = SPEED_FAST;
-            private final Vector2 pulseVelocity = new Vector2();
             private final Vector2 userPosition = new Vector2();
             private final Vector2 hboxPosition = new Vector2();
             private final Vector2 homeDifference = new Vector2();
@@ -102,24 +96,6 @@ public class Nebula extends SyncedAttacker {
                         hbox.setLinearVelocity(homeDifference);
                     }
                 }
-
-                controllerCount += delta;
-                while (controllerCount >= SPIN_INTERVAL) {
-                    controllerCount -= SPIN_INTERVAL;
-
-                    Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), PULSE_SIZE, SPIN_INTERVAL, pulseVelocity,
-                            user.getHitboxFilter(), true, true, user, Sprite.NOTHING);
-                    pulse.setEffectsVisual(false);
-                    pulse.makeUnreflectable();
-
-                    pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-                    pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
-                            DamageSource.NEBULIZER, DamageTag.MELEE).setStaticKnockback(true));
-
-                    if (!state.isServer()) {
-                        ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
-                    }
-                }
             }
 
             @Override
@@ -132,6 +108,8 @@ public class Nebula extends SyncedAttacker {
                 }
             }
         });
+        nebula.addStrategy(new DamagePulse(state, nebula, user.getBodyData(), PULSE_SIZE, BASE_DAMAGE, KNOCKBACK,
+                DamageSource.NEBULIZER, DamageTag.RANGED));
 
         if (user instanceof Player player) {
             player.getSpecialWeaponHelper().setDeathOrbHbox(nebula);
