@@ -16,12 +16,10 @@ public class ViseOfShame extends Artifact {
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
-			
+
 			@Override
-			public void onInflict() {
-				if (p.getPlayer().getBody() == null) {
-					p.getPlayer().setScaleModifier(SIZE_MODIFIER);
-				}
+			public void playerCreate(boolean reset) {
+				p.getPlayer().changeScaleModifier(SIZE_MODIFIER);
 			}
 		};
 	}

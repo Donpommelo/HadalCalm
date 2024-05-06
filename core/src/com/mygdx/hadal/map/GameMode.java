@@ -74,8 +74,8 @@ public enum GameMode {
             new PlayerInvisible(), new ZeroGravity(), new DoubleSpeed(), new SlowMotion(), new MedievalMode())),
 
     ARCADE("", "placeholder", GameText.ARCADE, GameText.ARCADE_DESC,
-            new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingBots(1),
-            new SettingArcade(),
+            new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingArcade(),
+            new SettingBots(),
             new DisplayUITag("ARCADE_ROUND"), new DisplayUITag("WINBOARD"), new DisplayUITag("CURRENCY")),
 
     SURVIVAL("arena", "survival", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
@@ -315,6 +315,12 @@ public enum GameMode {
             setting.modifyNewPlayer(state, this, newLoadout, p, hitboxFilter);
         }
         state.getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
+    }
+
+    public void postCreatePlayer(PlayState state, Player p) {
+        for (ModeSetting setting : applicableSettings) {
+            setting.postCreatePlayer(state, this, p);
+        }
     }
 
     /**

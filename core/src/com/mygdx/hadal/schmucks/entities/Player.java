@@ -12,6 +12,7 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
+import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.helpers.*;
@@ -54,6 +55,9 @@ public class Player extends Schmuck {
 
 	//this makes the player animate faster in the air for the "luigi legs"
 	private static final float AIR_ANIMATION_SLOW = 3.0f;
+
+	private static final float MAX_SCALE = 0.8f;
+	private static final float MIN_SCALE = -0.6f;
 
 	private float scaleModifier = 0.0f;
 	private float gravityModifier = 1.0f;
@@ -209,9 +213,7 @@ public class Player extends Schmuck {
 		equipHelper.switchWeapon(currentSlot);
 
 		//Activate on-spawn effects
-		if (reset) {
-			playerData.statusProcTime(new ProcTime.PlayerCreate());
-		}
+		playerData.statusProcTime(new ProcTime.PlayerCreate(reset));
 
 		//we scale size here to account for any player size modifiers
 		size.scl(1.0f + scaleModifier);
@@ -261,6 +263,12 @@ public class Player extends Schmuck {
 		//for user-specific functions after player create. atm, this is just for 1 artifact that needs to check a user field
 		//for silent spawn
 		user.afterPlayerCreate(this);
+
+		//for mode-specific effects that require a
+		state.getMode().postCreatePlayer(state, this);
+
+		//if buttons were held, before spawning, they should start off pressed
+		((PlayerController) state.getController()).syncController();
 	}
 
 	public void activateStartingEvents() {
@@ -586,9 +594,11 @@ public class Player extends Schmuck {
 				uiHelper.isTyping());
 	}
 
-	public void setScaleModifier(float scaleModifier) {
+	public void changeScaleModifier(float scaleChange) {
+		this.scaleModifier += scaleChange;
+		this.scaleModifier = Math.min(scaleModifier, MAX_SCALE);
+		this.scaleModifier = Math.max(scaleModifier, MIN_SCALE);
 		this.spriteHelper.setScale(SCALE * (1.0f + scaleModifier));
-		this.scaleModifier = scaleModifier;
 	}
 
 	public void setGravityModifier(float gravityModifier) { this.gravityModifier = gravityModifier; }

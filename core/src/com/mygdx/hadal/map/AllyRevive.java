@@ -98,7 +98,13 @@ public class AllyRevive extends ModeSetting {
                             }
                         }
                     }
-                    state.transitionToResultsState(resultsText, LONG_FADE_DELAY);
+
+                    if (SettingArcade.arcade) {
+                        SettingArcade.processEndOfRound(state, mode);
+                    } else {
+                        state.transitionToResultsState(resultsText, LONG_FADE_DELAY);
+                    }
+
                 } else {
                     user.getTransitionManager().beginTransition(state,
                             new Transition()

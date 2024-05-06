@@ -55,8 +55,8 @@ public class InitState extends GameState {
 
 		//we block for 17 milliseconds to attempt to maintain ~60 fps
 		if (HadalGame.assetManager.update(17)) {
-			
-//			If we are done loading, go to title state and set up gsm assets (static atlases and stuff like that)
+
+			//If we are done loading, go to title state and set up gsm assets (static atlases and stuff like that)
 			SkinManager.loadAssets();
 			StateManager.addState(app, StateManager.State.TITLE, this);
 			FadeManager.setFadeLevel(1.0f);
@@ -76,6 +76,6 @@ public class InitState extends GameState {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		backdrop.getAtlas().dispose();
+//		backdrop.getAtlas().dispose();
 	}
 }

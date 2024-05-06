@@ -18,7 +18,7 @@ import com.mygdx.hadal.users.User;
 public class ModeMatryoshka extends ModeSetting {
 
     private static final int LIVES_NUM = 8;
-    private static final float[] SIZE_SCALE_LIST = {0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f};
+    private static final float[] SIZE_SCALE_LIST = {-0.6f, -0.4f, -0.2f, 0.0f, 0.2f, 0.4f, 0.6f, 0.8f};
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
@@ -37,7 +37,7 @@ public class ModeMatryoshka extends ModeSetting {
         //when a new player is spawned, their size is set according to the number of lives they have left
         if (null != p.getUser()) {
             int livesLeft = Math.min(p.getUser().getScoreManager().getLives(), SIZE_SCALE_LIST.length) - 1;
-            p.setScaleModifier(SIZE_SCALE_LIST[livesLeft]);
+            p.changeScaleModifier(SIZE_SCALE_LIST[livesLeft]);
             p.setDontMoveCamera(true);
         }
     }

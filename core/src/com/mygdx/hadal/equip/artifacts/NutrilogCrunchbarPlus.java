@@ -5,8 +5,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-import static com.mygdx.hadal.constants.StatusPriority.PRIORITY_LAST;
-
 public class NutrilogCrunchbarPlus extends Artifact {
 
 	private static final int SLOT_COST = 1;
@@ -24,12 +22,10 @@ public class NutrilogCrunchbarPlus extends Artifact {
 
 		//run this status last to override -size modifiers for balance reasons
 		enchantment = new Status(state, p) {
-			
+
 			@Override
-			public void onInflict() {
-				if (p.getPlayer().getBody() == null) {
-					p.getPlayer().setScaleModifier(SIZE_MODIFIER);
-				}
+			public void playerCreate(boolean reset) {
+				p.getPlayer().changeScaleModifier(SIZE_MODIFIER);
 			}
 			
 			@Override
@@ -37,7 +33,7 @@ public class NutrilogCrunchbarPlus extends Artifact {
 				p.setStat(Stats.MAX_HP_PERCENT, p.getStat(Stats.MAX_HP_PERCENT) + BONUS_HP);
 				p.setStat(Stats.KNOCKBACK_RES, p.getStat(Stats.KNOCKBACK_RES) + BONUS_KNOCKBACK_RES);
 			}
-		}.setPriority(PRIORITY_LAST);
+		};
 	}
 
 	@Override

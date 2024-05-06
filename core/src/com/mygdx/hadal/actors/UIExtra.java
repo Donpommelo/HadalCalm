@@ -11,6 +11,7 @@ import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeGunGame;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingTeamMode;
@@ -93,7 +94,7 @@ public class UIExtra extends AHadalActor {
 				if (null != user.getPlayer().getPlayerData() &&
 						(!user.equals(HadalGame.usm.getOwnUser()) || SettingArcade.arcade)) {
 					if (user.getPlayer().getHitboxFilter() == viewingUserTeam) {
-						if (SettingArcade.arcade) {
+						if (SettingArcade.arcade && state.getMode().equals(GameMode.ARCADE)) {
 							if (user.getScoreManager().isReady()) {
 								FONT_UI.draw(batch, UIText.UI_READY.text(TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH_SUPER_SHORT)),
 										HadalGame.CONFIG_WIDTH - NAME_MAX_LENGTH - HP_WIDTH - START_X_EXTRA, currentY, NAME_MAX_LENGTH,

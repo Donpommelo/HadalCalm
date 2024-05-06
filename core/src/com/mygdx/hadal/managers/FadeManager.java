@@ -44,7 +44,6 @@ public class FadeManager {
             batch.end();
         }
 
-
         //only fade when the states specifies that transitions should fade (i.e. no fade when closing pause menu)
         if (StateManager.states.peek().processTransitions()) {
 

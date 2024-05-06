@@ -58,6 +58,9 @@ public class SkinManager {
         if (null != FONT_UI) {
             FONT_UI.dispose();
         }
+        if (null != FONT_UI) {
+            FONT_UI.dispose();
+        }
         if (null != FONT_UI_ALT) {
             FONT_UI_ALT.dispose();
         }

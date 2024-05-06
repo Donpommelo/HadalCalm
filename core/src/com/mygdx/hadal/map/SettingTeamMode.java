@@ -219,7 +219,12 @@ public class SettingTeamMode extends ModeSetting {
                     }
                 }
             }
-            state.transitionToResultsState(resultsText, LONG_FADE_DELAY);
+
+            if (SettingArcade.arcade) {
+                SettingArcade.processEndOfRound(state, mode);
+            } else {
+                state.transitionToResultsState(resultsText, LONG_FADE_DELAY);
+            }
         } else {
 
             //the player that dies respawns if there are still others left and becomes a spectator otherwise

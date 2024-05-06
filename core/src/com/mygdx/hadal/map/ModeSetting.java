@@ -76,6 +76,8 @@ public class ModeSetting {
      */
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {}
 
+    public void postCreatePlayer(PlayState state, GameMode mode, Player p) {}
+
     /**
      * This is run when a player dies.
      * @param perp : the schmuck (not necessarily player) that killed

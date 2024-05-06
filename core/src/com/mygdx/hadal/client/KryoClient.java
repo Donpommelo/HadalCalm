@@ -477,7 +477,7 @@ public class KryoClient {
 				if (StateManager.states.peek() instanceof final ResultsState vs) {
 					vs.getPs().addPacketEffect(() -> vs.readyPlayer(p.playerID));
 				} else if (StateManager.states.peek() instanceof final PlayState ps) {
-					ps.addPacketEffect(() -> SettingArcade.readyUp(ps, p.playerID, p.ready));
+					ps.addPacketEffect(() -> SettingArcade.readyUp(ps, p.playerID));
 				}
 			}
 		}
@@ -909,7 +909,7 @@ public class KryoClient {
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
 					newPlayer.setHitboxFilter(p.hitboxFilter);
-					newPlayer.setScaleModifier(p.scaleModifier);
+					newPlayer.changeScaleModifier(p.scaleModifier);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
 
 					if (p.connID == usm.getConnID()) {

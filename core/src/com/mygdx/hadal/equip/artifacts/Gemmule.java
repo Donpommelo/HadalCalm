@@ -20,8 +20,10 @@ public class Gemmule extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public void playerCreate() {
-				p.addStatus(new Invulnerability(state, BONUS_INVULNERABILITY, p, p));
+			public void playerCreate(boolean reset) {
+				if (reset) {
+					p.addStatus(new Invulnerability(state, BONUS_INVULNERABILITY, p, p));
+				}
 			}
 		};
 	}

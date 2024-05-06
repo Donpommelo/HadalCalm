@@ -19,7 +19,7 @@ public class MedievalMode extends ModeModifier {
     private static final UIText name = UIText.MODIFIER_MEDIEVAL;
     private static final UIText desc = UIText.MODIFIER_MEDIEVAL_DESC;
 
-    private static final UnlockEquip[] BaseEquip = {UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
+    private static final UnlockEquip[] BASE_EQUIP = {UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
 
     public MedievalMode() {
         super(SettingSave.MODIFIER_MEDIEVAL, uiText, name);
@@ -34,8 +34,8 @@ public class MedievalMode extends ModeModifier {
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
-            if (BaseEquip.length > i) {
-                newLoadout.multitools[i] = BaseEquip[i];
+            if (BASE_EQUIP.length > i) {
+                newLoadout.multitools[i] = BASE_EQUIP[i];
             }
         }
         newLoadout.activeItem = UnlockActives.JUMP_KICK;

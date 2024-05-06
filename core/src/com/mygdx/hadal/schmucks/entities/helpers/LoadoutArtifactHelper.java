@@ -60,6 +60,11 @@ public class LoadoutArtifactHelper {
             }
         }
 
+        //sync arcade loadout here. Normally, this is synced when adding/removing artifact, but it is skipped if loadout is empty
+        if (SettingArcade.arcade) {
+            saveArcadeArtifacts();
+        }
+
         //add map modifiers as 0-cost, overriding, invisible artifacts
         for (UnlockArtifact modifier : player.getState().getMapModifiers()) {
             addArtifact(modifier, false, false);

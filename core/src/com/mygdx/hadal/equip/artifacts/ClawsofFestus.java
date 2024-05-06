@@ -23,16 +23,13 @@ public class ClawsofFestus extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
 
-			private boolean created;
+			private boolean created, deleted;
 			private Fixture leftSensor, rightSensor;
 			private FeetData leftData, rightData;
 			@Override
 			public void onRemove() {
 				created = false;
-				if (null != inflicted.getSchmuck().getBody()) {
-					inflicted.getSchmuck().getBody().destroyFixture(leftSensor);
-					inflicted.getSchmuck().getBody().destroyFixture(rightSensor);
-				}
+				deleted = true;
 			}
 
 			@Override
@@ -61,6 +58,13 @@ public class ClawsofFestus extends Artifact {
 
 						boolean touchingWall = 0 < leftData.getNumContacts() || 0 < rightData.getNumContacts();
 						player.getGroundedHelper().setGroundedOverride(touchingWall);
+
+						if (deleted) {
+							if (null != leftSensor && null != rightSensor) {
+								player.getBody().destroyFixture(leftSensor);
+								player.getBody().destroyFixture(rightSensor);
+							}
+						}
 					}
 				}
 			}

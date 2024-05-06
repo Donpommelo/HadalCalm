@@ -15,6 +15,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
@@ -487,6 +488,8 @@ public class BotLoadoutProcessor {
         }
     }
 
+    private static final int ARCADE_MAX_BOT_SLOTS = 6;
+
     private static final UnlockArtifact[] mobility2 = { UnlockArtifact.CASTAWAYS_TRAVELOGUE, UnlockArtifact.FENS_CLIPPED_WINGS,
             UnlockArtifact.MOON_FLUTHER, UnlockArtifact.NICE_SHOES, UnlockArtifact.VOID_HYPONOME };
     private static final UnlockArtifact[] mobility1 = { UnlockArtifact.CURSED_CILICE, UnlockArtifact.NACREOUS_RUDDER };
@@ -531,7 +534,12 @@ public class BotLoadoutProcessor {
 
         Array<UnlockArtifact> artifactOptions = new Array<>();
 
-        int slots = JSONManager.setting.getArtifactSlots();
+        int slots;
+        if (SettingArcade.arcade) {
+            slots = Math.min(ARCADE_MAX_BOT_SLOTS, SettingArcade.currentRound);
+        } else {
+            slots = JSONManager.setting.getArtifactSlots();
+        }
         int currentSlot = 0;
         boolean mobilityFound = 1 == slots;
 

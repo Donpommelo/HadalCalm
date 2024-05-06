@@ -101,8 +101,6 @@ public class Setting {
 	/**
 	 * This sets the player's cursor according to their saved settings
 	 * cursorType == 0: default cursor
-	 * cursorType == 1: crosshair cursor
-	 * cursorType == 2: dot cursor
 	 */
 	private static final int PIXMAP_SIZE = 128;
 	public void setCursor() {
@@ -233,14 +231,20 @@ public class Setting {
 		//in arcade mode, we use the default value for setting, unless there is a specific override value
 		if (SettingArcade.arcade) {
 			if (null != SettingArcade.currentMode) {
-				return SettingArcade.currentMode.getUniqueSettings().get(setting.name(), setting.getStartingValue());
+				if (SettingArcade.currentMode.getUniqueSettings().containsKey(setting.name())) {
+					return SettingArcade.currentMode.getUniqueSettings().get(setting.name());
+				}
+				if (modeSettings.get(mode.name()).containsKey(setting.name())) {
+					return modeSettings.get(mode.name()).get(setting.name());
+				}
+				return setting.getStartingValue();
 			}
 		}
 
-		if (modeSettings.containsKey(mode.toString())) {
-			return modeSettings.get(mode.toString()).getOrDefault(setting.name(), startValue);
+		if (modeSettings.containsKey(mode.name())) {
+			return modeSettings.get(mode.name()).getOrDefault(setting.name(), startValue);
 		} else {
-			modeSettings.put(mode.toString(), new HashMap<>());
+			modeSettings.put(mode.name(), new HashMap<>());
 			return startValue;
 		}
 	}

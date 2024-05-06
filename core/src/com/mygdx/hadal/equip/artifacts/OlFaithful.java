@@ -23,8 +23,8 @@ public class OlFaithful extends Artifact {
 				new Status(state, p) {
 			
 			@Override
-			public void playerCreate() {
-				if (state.getMode().isHub()) { return; }
+			public void playerCreate(boolean reset) {
+				if (state.getMode().isHub() || !reset) { return; }
 
 				UnlockEquip savedEquip = null;
 				if (p.getPlayer().getUser() == HadalGame.usm.getOwnUser()) {

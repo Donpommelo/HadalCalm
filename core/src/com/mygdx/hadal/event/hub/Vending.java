@@ -28,7 +28,9 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
  */
 public class Vending extends HubEvent {
 
-	public static final int REFRESH_COST = 4;
+	public static final int REFRESH_COST_BASE = 1;
+	public static final int REFRESH_COST_GROWTH = 1;
+	public static int REFRESH_COST_CURRENT;
 
 	private final Array<String> weapons = new Array<>();
 	private final Array<String> artifacts = new Array<>();
@@ -43,6 +45,8 @@ public class Vending extends HubEvent {
 		this.numArtifact = numArtifact;
 		this.numMagic = numMagic;
 		setChoices();
+
+		REFRESH_COST_CURRENT = REFRESH_COST_BASE;
 	}
 
 	@Override
@@ -147,16 +151,19 @@ public class Vending extends HubEvent {
 	}
 
 	public void refreshOptions() {
-		if (HadalGame.usm.getOwnUser().getScoreManager().getCurrency() >= REFRESH_COST) {
+		if (HadalGame.usm.getOwnUser().getScoreManager().getCurrency() >= REFRESH_COST_CURRENT) {
 			if (state.isServer()) {
-				HadalGame.usm.getOwnUser().getScoreManager().setCurrency(HadalGame.usm.getOwnUser().getScoreManager().getCurrency() - REFRESH_COST);
+				HadalGame.usm.getOwnUser().getScoreManager().setCurrency(HadalGame.usm.getOwnUser().getScoreManager().getCurrency() - REFRESH_COST_CURRENT);
 			} else {
-				HadalGame.client.sendTCP(new PacketsLoadout.SyncVendingScrapSpend(REFRESH_COST));
+				HadalGame.client.sendTCP(new PacketsLoadout.SyncVendingScrapSpend(REFRESH_COST_CURRENT));
 			}
 
+			HadalGame.usm.getOwnUser().setScoreUpdated(true);
 			setChoices();
 			enter();
 			state.getUiHub().refreshHub(this);
+
+			REFRESH_COST_CURRENT += REFRESH_COST_GROWTH;
 		}
 	}
 

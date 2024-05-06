@@ -100,7 +100,7 @@ public class HadalGame extends ApplicationAdapter {
 	public void render() {
 
 		float delta = Gdx.graphics.getDeltaTime();
-		
+
 		//update the state, update the ui, render the state, then render the ui.
 		StateManager.update(delta);
 		currentMenu.act(delta);
@@ -110,7 +110,7 @@ public class HadalGame extends ApplicationAdapter {
 
 		viewportCamera.apply();
 		StateManager.render(delta);
-		
+
 		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		currentMenu.draw();
@@ -120,6 +120,8 @@ public class HadalGame extends ApplicationAdapter {
 
 		//music player controller is used for fading tracks
 		MusicPlayer.controller(delta);
+
+
 	}
 	
 	/**

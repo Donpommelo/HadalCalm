@@ -135,10 +135,11 @@ public class PlayerController extends InputAdapter {
 	 * This resets all toggled controls to prevent stuff like locking a button after unpausing and such
 	 */
 	public void syncController() {
+
 		if (player == null) { return; }
 		if (player.getPlayerData() == null) { return; }
 		if (player.getController() == null) { return; }
-		
+
 		//Let game account for all buttons held down before the processor is created.
 		for (PlayerAction a : PlayerAction.values()) {
 			if (a.isToggleable()) {
@@ -167,5 +168,7 @@ public class PlayerController extends InputAdapter {
 		}
 	}
 
-	public void setPlayer(Player player) {this.player = player;	}
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 }
