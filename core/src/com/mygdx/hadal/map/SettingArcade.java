@@ -11,10 +11,13 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.SavedLoadout;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
+import com.mygdx.hadal.statuses.Celebrating;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.Transition;
@@ -30,6 +33,8 @@ import static com.mygdx.hadal.users.Transition.*;
  * @author Blashutanga Bluryl
  */
 public class SettingArcade extends ModeSetting {
+
+    private static final UnlockEquip[] BASE_EQUIP = {UnlockEquip.SPEARGUN, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
 
     public static boolean arcade, overtime;
     public static int roundNum, currentRound, winCap;
@@ -160,6 +165,22 @@ public class SettingArcade extends ModeSetting {
         }
     }
 
+    @Override
+    public void postCreatePlayer(PlayState state, GameMode mode, Player p) {
+        if (state.isServer() && p.getUser().getScoreManager().isWonLast()) {
+            p.getPlayerData().addStatus(new Celebrating(state, p.getPlayerData(), p.getPlayerData()));
+        }
+    }
+
+    @Override
+    public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+        for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
+            if (BASE_EQUIP.length > i) {
+                newLoadout.multitools[i] = BASE_EQUIP[i];
+            }
+        }
+    }
+
     private void startArcade(GameMode mode) {
         for (User user : HadalGame.usm.getUsers().values()) {
             user.getScoreManager().setNextRoundVote(-1);
@@ -189,10 +210,8 @@ public class SettingArcade extends ModeSetting {
             state.setNextMode(currentMode.getMode());
         } else {
 
-            if (roundNum != 0 && currentRound > roundNum) {
-                if (endArcadeMode(state)) {
-                    return;
-                }
+            if (roundNum != 0 && currentRound > roundNum && endArcadeMode(state)) {
+                return;
             } else {
                 boolean winCapReached = false;
                 for (User user : HadalGame.usm.getUsers().values()) {
@@ -201,10 +220,8 @@ public class SettingArcade extends ModeSetting {
                         break;
                     }
                 }
-                if (winCap != 0 && winCapReached) {
-                    if (endArcadeMode(state)) {
-                        return;
-                    }
+                if (winCap != 0 && winCapReached && endArcadeMode(state)) {
+                    return;
                 } else {
                     state.setNextLevel(UnlockLevel.HUB_BREAK);
                     state.setNextMode(GameMode.ARCADE);
@@ -225,15 +242,15 @@ public class SettingArcade extends ModeSetting {
         }
     }
 
-    public static void readyUp(PlayState state, int playerID, boolean readyOverride) {
+    public static void readyUp(PlayState state, int playerID) {
         User readyUser = HadalGame.usm.getUsers().get(playerID);
         if (state.isServer()) {
             if (readyUser != null && !readyUser.isSpectator()) {
-                readyUser.getScoreManager().setReady(!readyUser.getScoreManager().isReady());
-                HadalGame.server.sendToAllTCP(new Packets.ClientReady(playerID, readyUser.getScoreManager().isReady()));
+                readyUser.getScoreManager().setReady(true);
+                HadalGame.server.sendToAllTCP(new Packets.ClientReady(playerID));
             }
         } else {
-            readyUser.getScoreManager().setReady(readyOverride);
+            readyUser.getScoreManager().setReady(true);
         }
 
         boolean reddy = true;
@@ -266,10 +283,10 @@ public class SettingArcade extends ModeSetting {
         int highScore = 0;
         int numHighScore = 0;
         for (User user : HadalGame.usm.getUsers().values()) {
-            if (user.getScoreManager().getScore() == highScore) {
+            if (user.getScoreManager().getWins() == highScore) {
                 numHighScore++;
-            } else if (user.getScoreManager().getScore() > highScore) {
-                highScore = user.getScoreManager().getScore();
+            } else if (user.getScoreManager().getWins() > highScore) {
+                highScore = user.getScoreManager().getWins();
                 numHighScore = 1;
             }
         }

@@ -264,6 +264,16 @@ public class PacketsLoadout {
         }
     }
 
+    public static class SyncDisposalArtifact extends SyncLoadoutClient {
+        public UnlockArtifact artifact;
+
+        public SyncDisposalArtifact() {}
+
+        public SyncDisposalArtifact(UnlockArtifact artifact) {
+            this.artifact = artifact;
+        }
+    }
+
     public static class SyncVendingScrapSpend extends SyncLoadoutClient {
         public int scrap;
 

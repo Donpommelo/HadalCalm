@@ -3,8 +3,8 @@ package com.mygdx.hadal.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.server.packets.Packets;
@@ -100,7 +100,7 @@ public class CommonController extends InputAdapter {
 		} else if (action == PlayerAction.READY_UP) {
 			if (state.getMode().equals(GameMode.ARCADE)) {
 				if (state.isServer()) {
-					SettingArcade.readyUp(state, 0, true);
+					SettingArcade.readyUp(state, 0);
 				} else {
 					HadalGame.client.sendTCP(new Packets.ClientReady());
 				}

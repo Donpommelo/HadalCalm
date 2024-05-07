@@ -1,0 +1,155 @@
+{
+"resolution": 1,
+"framerate": 1,
+"cursorColor": 4,
+"maxPlayers": 9,
+"artifactSlots": 4,
+"portNumber": 11100,
+"hitsoundType": 1,
+"autoIconify": true,
+"displayNames": true,
+"displayHp": true,
+"randomNameAlliteration": true,
+"consoleEnabled": true,
+"verboseDeathMessage": true,
+"enableUPNP": true,
+"mouseCameraTrack": true,
+"screenShake": true,
+"returnToHubOnReady": true,
+"soundVolume": 1,
+"musicVolume": 1,
+"masterVolume": 0.07,
+"hitsoundVolume": 0.5,
+"serverPassword": "",
+"modeSettings": {
+	"SURVIVAL": {},
+	"KINGMAKER": {},
+	"FOOTBALL": {},
+	"TRICK_OR_TREAT": {},
+	"GUN_GAME": {},
+	"MATRYOSHKA": {},
+	"RESURRECTION": {},
+	"BOSS": {},
+	"HUB": {},
+	"CTF": {},
+	"DEATHMATCH": {
+		"RESPAWN_TIME": {
+			"class": "java.lang.Integer",
+			"value": 4
+		},
+		"LOADOUT_OUTFIT": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"MODIFIER_SLIPPERY": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"MODIFIER_MEDIEVAL": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"TEAM_NUMBER": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"TIMER": {
+			"class": "java.lang.Integer",
+			"value": 3
+		},
+		"BOT_DIFFICUlTY": {
+			"class": "java.lang.Integer",
+			"value": 2
+		},
+		"MODIFIER_ZERO_GRAVITY": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"BOT_NUMBER": {
+			"class": "java.lang.Integer",
+			"value": 1
+		},
+		"MODIFIER_VISIBLE_HP": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"MODIFIER_DOUBLE_SPEED": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"BASE_HP": {
+			"class": "java.lang.Integer",
+			"value": 2
+		},
+		"WEAPON_DROPS": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"MODIFIER_BOUNCE": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"SCORE_CAP": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"LIVES": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"MODIFIER_BIG": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"MODIFIER_SMALL": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"MODIFIER_INVISIBLE": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"TEAM_MODE": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"MODIFIER_SLOW": {
+			"class": "java.lang.Integer",
+			"value": 0
+		}
+	},
+	"EGGPLANTS": {},
+	"SANDBOX": {},
+	"ARCADE": {
+		"ARCADE_SCORE_CAP": {
+			"class": "java.lang.Integer",
+			"value": 1
+		},
+		"ARCADE_ROUND_NUMBER": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"ARCADE_CURRENCY_START": {
+			"class": "java.lang.Integer",
+			"value": 2
+		},
+		"BOT_DIFFICUlTY": {
+			"class": "java.lang.Integer",
+			"value": 2
+		},
+		"BOT_NUMBER": {
+			"class": "java.lang.Integer",
+			"value": 0
+		},
+		"ARCADE_CURRENCY_ROUND": {
+			"class": "java.lang.Integer",
+			"value": 3
+		},
+		"ARCADE_BREAK_TIME": {
+			"class": "java.lang.Integer",
+			"value": 2
+		}
+	},
+	"CAMPAIGN": {}
+}
+}

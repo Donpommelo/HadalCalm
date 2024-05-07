@@ -13,7 +13,7 @@ import com.mygdx.hadal.save.Record;
 public class JSONManager {
 
     //these version numbers are used to decide whether we need to create a brand new save due to structrual changes
-    public static final int SAVE_VERSION = 1;
+    public static final int SAVE_VERSION = 2;
     public static final int LAST_COMPATIBLE_SAVE_VERSION = 1;
 
     //Json reader here. Use this instead of creating new ones elsewhere.
@@ -70,6 +70,7 @@ public class JSONManager {
         //set the game's display to match the player's saved settings
         setting.setDisplay(app, null, true);
         setting.setCursor();
+//        CursorManager.setCursor();
         sharedSetting = setting.generateSharedSetting();
         hostSetting = setting.generateSharedSetting();
     }

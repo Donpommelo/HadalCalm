@@ -57,7 +57,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.managers.CameraManager;
+import com.mygdx.hadal.managers.CameraManager;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.ScoreManager;
@@ -291,7 +291,7 @@ public class PlayState extends GameState {
 			//Server must first reset each score at the start of a level (unless just a stage transition)
 			if (reset) {
 				for (User user : HadalGame.usm.getUsers().values()) {
-					user.newLevelReset();
+					user.newLevelReset(this);
 				}
 			}
 
@@ -1015,11 +1015,17 @@ public class PlayState extends GameState {
 	private final ObjectMap<AlignmentFilter, Integer> teamDeaths = new ObjectMap<>();
 	private final ObjectMap<AlignmentFilter, Integer> teamScores = new ObjectMap<>();
 	private final Array<AlignmentFilter> teamScoresList = new Array<>();
+
+	//this is used to avoid running this multiple times
+	private boolean levelEnded;
 	/**
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
 	 * @param text: text displayed in results state
 	 */
 	public void levelEnd(String text, boolean victory, float fadeDelay) {
+		if (levelEnded) { return; }
+		levelEnded = true;
+
 		String resultsText = text;
 
 		//list of non-spectator users to be sorted

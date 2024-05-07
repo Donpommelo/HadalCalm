@@ -533,6 +533,9 @@ public class TiledObjectUtil {
 					object.getProperties().get("numWeapons", 0, Integer.class),
 					object.getProperties().get("numArtifacts", 6, Integer.class),
 					object.getProperties().get("numMagics", 0, Integer.class));
+			case "Disposal" -> e = new Disposal(state, position, size,
+					object.getProperties().get("title", "DISPOSAL", String.class),
+					object.getProperties().get("tag", "DISPOSAL", String.class));
 			case "Arcade" -> e = new ArcadeMarquis(state, position, size);
 		}
 

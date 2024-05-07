@@ -16,6 +16,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
+import com.mygdx.hadal.event.hub.Disposal;
 import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.StateManager;
@@ -410,6 +411,10 @@ public class KryoServer {
 											Vending.checkUnlock(ps, s.artifact, user);
 											user.setScoreUpdated(true);
 										}
+										case PacketsLoadout.SyncDisposalArtifact s -> {
+											Disposal.sellArtifact(ps, s.artifact, user);
+											user.setScoreUpdated(true);
+										}
 										case PacketsLoadout.SyncVendingScrapSpend s -> {
 											user.getScoreManager().setCurrency(user.getScoreManager().getCurrency() - s.scrap);
 											user.setScoreUpdated(true);
@@ -573,7 +578,7 @@ public class KryoServer {
 							Gdx.app.postRunnable(() -> vs.readyPlayer(c.getID()));
 						} else if (StateManager.states.peek() instanceof final PlayState ps) {
 							if (ps.getMode().equals(GameMode.ARCADE)) {
-								SettingArcade.readyUp(ps, c.getID(), true);
+								SettingArcade.readyUp(ps, c.getID());
 							}
 						}
 					}

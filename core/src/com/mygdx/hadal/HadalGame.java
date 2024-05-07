@@ -11,10 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.client.KryoClient;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.SkinManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.users.UserManager;
@@ -35,10 +32,10 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String VERSION = "1.0.9f";
+	public static final String VERSION = "1.0.9g";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/719793/109f";
+	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/727272/109g";
 
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -100,7 +97,7 @@ public class HadalGame extends ApplicationAdapter {
 	public void render() {
 
 		float delta = Gdx.graphics.getDeltaTime();
-		
+
 		//update the state, update the ui, render the state, then render the ui.
 		StateManager.update(delta);
 		currentMenu.act(delta);
@@ -110,7 +107,7 @@ public class HadalGame extends ApplicationAdapter {
 
 		viewportCamera.apply();
 		StateManager.render(delta);
-		
+
 		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		currentMenu.draw();
@@ -120,6 +117,8 @@ public class HadalGame extends ApplicationAdapter {
 
 		//music player controller is used for fading tracks
 		MusicPlayer.controller(delta);
+
+//		CursorManager.draw(batch);
 	}
 	
 	/**
@@ -154,6 +153,7 @@ public class HadalGame extends ApplicationAdapter {
 		MusicPlayer.dispose();
 		FadeManager.dispose();
 		SkinManager.dispose();
+		CursorManager.dispose();
 
         try {
 			client.dispose();
@@ -161,8 +161,6 @@ public class HadalGame extends ApplicationAdapter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-		System.exit(0);
     }
 
 	/**

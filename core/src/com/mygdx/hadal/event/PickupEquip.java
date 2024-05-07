@@ -43,6 +43,9 @@ public class PickupEquip extends Event {
 	//When equip is changed, there is a cooldown before sending packets to sync other players
 	private static final float SYNC_CD = 0.1f;
 
+	//If a weapon is already present here, this is the cooldown before it can be refreshed
+	private static final float WEAPON_REROLL_CD = 29.0f;
+
 	//This is the weapon that will be picked up when interacting with this event.
 	private Equippable equip;
 	private UnlockEquip unlock;
@@ -55,6 +58,9 @@ public class PickupEquip extends Event {
 
 	//has the equip changed since the last sync was sent?
 	private boolean equipChanged;
+
+	//how long since last weapon switch? Used by server so rerolling weapons is slower than replacing a missing one
+	private float weaponLifespan;
 
 	public PickupEquip(PlayState state, Vector2 startPos, String pool) {
 		super(state, startPos, new Vector2(Event.DEFAULT_PICKUP_EVENT_SIZE, Event.DEFAULT_PICKUP_EVENT_SIZE));
@@ -77,6 +83,8 @@ public class PickupEquip extends Event {
 
 	@Override
 	public void create() {
+		final PickupEquip me = this;
+
 		this.eventData = new InteractableEventData(this) {
 			
 			@Override
@@ -95,10 +103,12 @@ public class PickupEquip extends Event {
 					if (activator.getEvent() instanceof TriggerAlt trigger) {
 						String msg = trigger.getMessage();
 						if ("roll".equals(msg)) {
-							rollWeapon();
-							standardParticle.turnOn();
-
-							equipChanged = true;
+							if (weaponLifespan > WEAPON_REROLL_CD || me.unlock.equals(UnlockEquip.NOTHING)) {
+								weaponLifespan = 0.0f;
+								rollWeapon();
+								standardParticle.turnOn();
+								equipChanged = true;
+							}
 						} else {
 							unlock = UnlockEquip.getRandWeapFromPool(state, msg);
 							setEquip(UnlocktoItem.getUnlock(unlock, null));
@@ -137,6 +147,9 @@ public class PickupEquip extends Event {
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
+
+		weaponLifespan += delta;
+
 		if (equipChanged) {
 			syncAccumulator += delta;
 
@@ -210,6 +223,8 @@ public class PickupEquip extends Event {
 		setEventSprite(equip.getEventSprite());
 
 		if (equip instanceof NothingWeapon || equip instanceof SpeargunNerfed) {
+			this.unlock = UnlockEquip.NOTHING;
+
 			if (standardParticle != null) {
 				standardParticle.turnOff();
 			}

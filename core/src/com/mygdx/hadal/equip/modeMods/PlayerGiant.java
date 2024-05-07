@@ -17,7 +17,7 @@ public class PlayerGiant extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public void onInflict() { p.getPlayer().setScaleModifier(PLAYER_SCALE); }
+			public void onInflict() { p.getPlayer().changeScaleModifier(PLAYER_SCALE); }
 		};
 	}
 }

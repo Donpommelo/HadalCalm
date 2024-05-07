@@ -550,7 +550,7 @@ public class ResultsState extends GameState {
 				int iconID = users.indexOf(user, false);
 				icons.get(iconID).setReady(true);
 
-				HadalGame.server.sendToAllTCP(new Packets.ClientReady(iconID, true));
+				HadalGame.server.sendToAllTCP(new Packets.ClientReady(iconID));
 			}
 		} else {
 

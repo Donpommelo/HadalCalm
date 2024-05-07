@@ -103,8 +103,20 @@ public class SettingBots extends ModeSetting {
     @Override
     public void loadSettingMisc(PlayState state, GameMode mode) {
         if (!state.isServer()) { return; }
-        int botNumberIndex = botsChoice ? JSONManager.setting.getModeSetting(mode, SettingSave.BOT_NUMBER) : lockedBots;
-        mode.setBotDifficulty(indexToBotDifficulty(JSONManager.setting.getModeSetting(mode, SettingSave.BOT_DIFFICUlTY)));
+
+        int botNumberIndex;
+        if (SettingArcade.arcade) {
+            if (mode.equals(GameMode.ARCADE)) {
+                botNumberIndex = 1;
+            } else {
+                botNumberIndex = botsChoice ? JSONManager.setting.getModeSetting(GameMode.ARCADE, SettingSave.BOT_NUMBER) : lockedBots;
+            }
+
+            mode.setBotDifficulty(indexToBotDifficulty(JSONManager.setting.getModeSetting(GameMode.ARCADE, SettingSave.BOT_DIFFICUlTY)));
+        } else {
+            botNumberIndex = botsChoice ? JSONManager.setting.getModeSetting(mode, SettingSave.BOT_NUMBER) : lockedBots;
+            mode.setBotDifficulty(indexToBotDifficulty(JSONManager.setting.getModeSetting(mode, SettingSave.BOT_DIFFICUlTY)));
+        }
 
         Array<User> oldBots = new Array<>();
 

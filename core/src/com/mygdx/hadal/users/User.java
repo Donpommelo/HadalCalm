@@ -71,9 +71,9 @@ public class User {
      * Run when entering a new level
      * This makes sure things like saved start points, score, stats are reset
      */
-    public void newLevelReset() {
+    public void newLevelReset(PlayState state) {
         transitionManager.newLevelReset();
-        scoreManager.newLevelReset();
+        scoreManager.newLevelReset(state);
         statsManager.newLevelReset();
         effectManager.newLevelReset();
     }

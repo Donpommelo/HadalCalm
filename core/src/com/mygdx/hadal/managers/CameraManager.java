@@ -1,4 +1,4 @@
-package com.mygdx.hadal.states.managers;
+package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;

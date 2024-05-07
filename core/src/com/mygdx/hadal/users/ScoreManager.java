@@ -1,6 +1,8 @@
 package com.mygdx.hadal.users;
 
+import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingArcade;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * This represents saved fields for a player.
@@ -26,7 +28,7 @@ public class ScoreManager {
 	/**
 	 * Upon a new level, reset stats
 	 */
-	public void newLevelReset() {
+	public void newLevelReset(PlayState state) {
 		this.kills = 0;
 		this.deaths = 0;
 		this.assists = 0;
@@ -34,7 +36,10 @@ public class ScoreManager {
 		this.teamScore = 0;
 		this.extraModeScore = 0;
 		this.lives = 1;
-		wonLast = false;
+
+		if (!SettingArcade.arcade || !state.getMode().equals(GameMode.ARCADE)) {
+			wonLast = false;
+		}
 	}
 	
 	public void win() {

@@ -110,7 +110,7 @@ public class Status implements Comparable<Status> {
 	
 	public void onHitboxCreation(Hitbox hbox) {}
 	
-	public void playerCreate() {}
+	public void playerCreate(boolean reset) {}
 	
 	public void scrapPickup() {}
 	

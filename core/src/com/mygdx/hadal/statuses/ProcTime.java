@@ -230,12 +230,13 @@ public abstract class ProcTime {
 	}
 	
 	public static class PlayerCreate extends ProcTime {
-		
-		public PlayerCreate() {}
+		public final boolean reset;
+
+		public PlayerCreate(boolean reset) { this.reset = reset; }
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			status.playerCreate();
+			status.playerCreate(reset);
 			return this;
 		}
 	}

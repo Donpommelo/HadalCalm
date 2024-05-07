@@ -149,6 +149,7 @@ public class UnlockManager {
 		QUARTERMASTER,
 		OUTFITTER,
 		VENDING,
+		DISPOSAL,
 		MISC,
 		CURATED,
 

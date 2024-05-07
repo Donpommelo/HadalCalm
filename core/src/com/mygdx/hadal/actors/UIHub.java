@@ -480,7 +480,7 @@ public class UIHub {
 		slotsTitle.setScale(0.5f);
 		tableExtra.add(slotsTitle).colspan(12).pad(INFO_PAD).row();
 
-		Text refreshInfo = new Text(UIText.VENDING_REFRESH.text(String.valueOf(Vending.REFRESH_COST))).setButton(true);
+		Text refreshInfo = new Text(UIText.VENDING_REFRESH.text(String.valueOf(Vending.REFRESH_COST_CURRENT))).setButton(true);
 		refreshInfo.setScale(0.5f);
 
 		refreshInfo.addListener(new ClickListener() {
@@ -573,6 +573,7 @@ public class UIHub {
 		WALLPAPER,
 		OUTFITTER,
 		VENDING,
+		DISPOSAL,
 		MISC
 	}
 }

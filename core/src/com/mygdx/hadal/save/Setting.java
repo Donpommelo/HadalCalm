@@ -5,7 +5,6 @@ import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.SerializationException;
@@ -28,9 +27,9 @@ import static com.mygdx.hadal.managers.JSONManager.READER;
  */
 public class Setting {
 
-	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots,
+	private int screen, resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots,
 		portNumber, hitsoundType, customShader;
-	private boolean fullscreen, autoIconify, vsync, debugHitbox, displayNames, displayHp, randomNameAlliteration,
+	private boolean autoIconify, vsync, debugHitbox, displayNames, displayHp, randomNameAlliteration,
 		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack, screenShake,
 		returnToHubOnReady;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
@@ -76,13 +75,20 @@ public class Setting {
     	DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
 
 		if (screenChanged) {
-			//set fullscreen + vsync. No vsync is used if not in fullscreen
-			if (fullscreen) {
-				Gdx.graphics.setFullscreenMode(displayMode);
-				Gdx.graphics.setVSync(vsync);
-			} else {
-				indexToResolution();
-				Gdx.graphics.setVSync(false);
+			switch (screen) {
+				case 1:
+					Gdx.graphics.setUndecorated(true);
+					Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+					return;
+				case 2:
+					Gdx.graphics.setUndecorated(false);
+					indexToResolution();
+					Gdx.graphics.setVSync(false);
+					return;
+				default:
+					Gdx.graphics.setFullscreenMode(displayMode);
+					Gdx.graphics.setVSync(vsync);
+					return;
 			}
 		}
 
@@ -101,8 +107,6 @@ public class Setting {
 	/**
 	 * This sets the player's cursor according to their saved settings
 	 * cursorType == 0: default cursor
-	 * cursorType == 1: crosshair cursor
-	 * cursorType == 2: dot cursor
 	 */
 	private static final int PIXMAP_SIZE = 128;
 	public void setCursor() {
@@ -112,44 +116,37 @@ public class Setting {
 			lastCursor.dispose();
 		}
 
-		//cursor type 0: cursor is standard arrow
-		if (cursorType == 0) {
-			Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
-			lastCursor = null;
-		} else {
+		//draw designated cursor to pixmap
+		Pixmap cursor = new Pixmap(Gdx.files.internal(indexToCursorType()));
 
-			//draw designated cursor to pixmap
-			Pixmap cursor = new Pixmap(Gdx.files.internal(indexToCursorType()));
+		Pixmap pm = new Pixmap(PIXMAP_SIZE, PIXMAP_SIZE, Pixmap.Format.RGBA8888);
 
-			Pixmap pm = new Pixmap(PIXMAP_SIZE, PIXMAP_SIZE, Pixmap.Format.RGBA8888);
+		int scaledWidth = (int) (indexToCursorScale() * cursor.getWidth());
+		int scaledHeight = (int) (indexToCursorScale() * cursor.getHeight());
 
-			int scaledWidth = (int) (indexToCursorScale() * cursor.getWidth());
-			int scaledHeight = (int) (indexToCursorScale() * cursor.getHeight());
-
-			pm.drawPixmap(cursor,
+		pm.drawPixmap(cursor,
 				0, 0, cursor.getWidth() + 1, cursor.getHeight() + 1,
 				(PIXMAP_SIZE - scaledWidth) / 2, (PIXMAP_SIZE - scaledHeight) / 2, scaledWidth, scaledHeight);
 
-			//color pixmap with chosen color
-			Color newColor = indexToCursorColor();
-			for (int y = 0; y < pm.getHeight(); y++) {
-				for (int x = 0; x < pm.getWidth(); x++) {
-					Color color = new Color();
-					Color.rgba8888ToColor(color, pm.getPixel(x, y));
-					if (color.a != 0.0f) {
-						pm.setColor(newColor.r, newColor.g, newColor.b, color.a);
-						pm.fillRectangle(x, y, 1, 1);
-					}
+		//color pixmap with chosen color
+		Color newColor = indexToCursorColor();
+		for (int y = 0; y < pm.getHeight(); y++) {
+			for (int x = 0; x < pm.getWidth(); x++) {
+				Color color = new Color();
+				Color.rgba8888ToColor(color, pm.getPixel(x, y));
+				if (color.a != 0.0f) {
+					pm.setColor(newColor.r, newColor.g, newColor.b, color.a);
+					pm.fillRectangle(x, y, 1, 1);
 				}
 			}
-
-			//set new cursor and dispose of last used cursor to prevent memory leak
-			Cursor newCursor = Gdx.graphics.newCursor(pm, PIXMAP_SIZE / 2, PIXMAP_SIZE / 2);
-	    	Gdx.graphics.setCursor(newCursor);
-			lastCursor = newCursor;
-	    	pm.dispose();
-	    	cursor.dispose();
 		}
+
+		//set new cursor and dispose of last used cursor to prevent memory leak
+		Cursor newCursor = Gdx.graphics.newCursor(pm, PIXMAP_SIZE / 2, PIXMAP_SIZE / 2);
+		Gdx.graphics.setCursor(newCursor);
+		lastCursor = newCursor;
+		pm.dispose();
+		cursor.dispose();
 	}
 
 	public void setAudio() {
@@ -175,7 +172,7 @@ public class Setting {
 	public void resetDisplay() {
 		resolution = 1;
 		framerate = 1;
-		fullscreen = true;
+		screen = 0;
 		vsync = false;
 		autoIconify = true;
 		displayNames = true;
@@ -233,14 +230,20 @@ public class Setting {
 		//in arcade mode, we use the default value for setting, unless there is a specific override value
 		if (SettingArcade.arcade) {
 			if (null != SettingArcade.currentMode) {
-				return SettingArcade.currentMode.getUniqueSettings().get(setting.name(), setting.getStartingValue());
+				if (SettingArcade.currentMode.getUniqueSettings().containsKey(setting.name())) {
+					return SettingArcade.currentMode.getUniqueSettings().get(setting.name());
+				}
+				if (modeSettings.get(mode.name()).containsKey(setting.name())) {
+					return modeSettings.get(mode.name()).get(setting.name());
+				}
+				return setting.getStartingValue();
 			}
 		}
 
-		if (modeSettings.containsKey(mode.toString())) {
-			return modeSettings.get(mode.toString()).getOrDefault(setting.name(), startValue);
+		if (modeSettings.containsKey(mode.name())) {
+			return modeSettings.get(mode.name()).getOrDefault(setting.name(), startValue);
 		} else {
-			modeSettings.put(mode.toString(), new HashMap<>());
+			modeSettings.put(mode.name(), new HashMap<>());
 			return startValue;
 		}
 	}
@@ -307,19 +310,18 @@ public class Setting {
 
 	public String indexToCursorType() {
 		return switch (cursorType) {
-			case 1 -> "cursors/crosshair_a.png";
-			case 2 -> "cursors/crosshair_b.png";
-			case 3 -> "cursors/crosshair_c.png";
-			case 4 -> "cursors/crosshair_d.png";
-			case 5 -> "cursors/crosshair_e.png";
-			case 6 -> "cursors/crosshair_f.png";
-			case 7 -> "cursors/crosshair_g.png";
-			case 8 -> "cursors/crosshair_h.png";
-			case 9 -> "cursors/crosshair_i.png";
-			case 10 -> "cursors/crosshair_j.png";
-			case 11 -> "cursors/crosshair_k.png";
-			case 12 -> "cursors/crosshair_l.png";
-			default -> "";
+			case 1 -> "cursors/crosshair_b.png";
+			case 2 -> "cursors/crosshair_c.png";
+			case 3 -> "cursors/crosshair_d.png";
+			case 4 -> "cursors/crosshair_e.png";
+			case 5 -> "cursors/crosshair_f.png";
+			case 6 -> "cursors/crosshair_g.png";
+			case 7 -> "cursors/crosshair_h.png";
+			case 8 -> "cursors/crosshair_i.png";
+			case 9 -> "cursors/crosshair_j.png";
+			case 10 -> "cursors/crosshair_k.png";
+			case 11 -> "cursors/crosshair_l.png";
+			default -> "cursors/crosshair_a.png";
 		};
 	}
 
@@ -367,7 +369,7 @@ public class Setting {
 
 	public void setFramerate(int framerate) { this.framerate = framerate; }
 
-	public void setFullscreen(boolean fullscreen) { this.fullscreen = fullscreen; }
+	public void setScreen(int screen) { this.screen = screen; }
 
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
 
@@ -421,11 +423,11 @@ public class Setting {
 
 	public void setServerPassword(String serverPassword) { this.serverPassword = serverPassword; }
 
+	public int getScreen() { return screen; }
+
 	public int getResolution() { return resolution; }
 
 	public int getFramerate() { return framerate; }
-
-	public boolean isFullscreen() { return fullscreen; }
 
 	public boolean isVSync() { return vsync; }
 
