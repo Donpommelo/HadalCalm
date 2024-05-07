@@ -26,6 +26,8 @@ import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.UPNPUtil;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import okhttp3.Dispatcher;
+import okhttp3.OkHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +38,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import static com.mygdx.hadal.constants.Constants.*;
 import static com.mygdx.hadal.managers.SkinManager.SKIN;
@@ -114,7 +117,8 @@ public class LobbyState extends GameState {
     private boolean connectionAttempted;
     private float connectionDuration;
 
-    private Thread daemonThread;
+    public static Dispatcher dispatcher;
+    public static OkHttpClient client;
 
     public LobbyState(HadalGame app, GameState peekState) {
         super(app);
@@ -334,26 +338,18 @@ public class LobbyState extends GameState {
         app.newMenu(stage);
         stage.setScrollFocus(options);
 
-        daemonThread = new Thread(() -> {
-            if (HadalGame.socket == null) {
-                connectSocket();
-                configSocketEvents();
-            } else if (!HadalGame.socket.connected()) {
-                connectSocket();
-                configSocketEvents();
-            }
+        if (HadalGame.socket == null) {
+            connectSocket();
+            configSocketEvents();
+        } else if (!HadalGame.socket.connected()) {
+            connectSocket();
+            configSocketEvents();
+        }
 
-            if (HadalGame.socket != null) {
-                HadalGame.socket.emit("end");
-            }
-            retrieveLobbies();
-        });
-
-        // Set the thread as daemon
-        daemonThread.setDaemon(true);
-
-        // Start the thread
-        daemonThread.start();
+        if (HadalGame.socket != null) {
+            HadalGame.socket.emit("end");
+        }
+        retrieveLobbies();
 
         if (FadeManager.getFadeLevel() >= 1.0f) {
             FadeManager.fadeIn();
@@ -368,7 +364,19 @@ public class LobbyState extends GameState {
     public void connectSocket() {
         try {
             URI uri = URI.create(SERVER_IP);
-            HadalGame.socket = IO.socket(uri);
+
+            dispatcher = new Dispatcher();
+            client = new OkHttpClient.Builder()
+                    .dispatcher(dispatcher)
+                    .readTimeout(1, TimeUnit.MINUTES) // important for HTTP long-polling
+                    .build();
+
+            IO.Options options = new IO.Options();
+            options.callFactory = client;
+            options.webSocketFactory = client;
+
+            HadalGame.socket = IO.socket(uri, options);
+
             HadalGame.socket.connect();
 
             connectionAttempted = true;
@@ -582,16 +590,14 @@ public class LobbyState extends GameState {
     @Override
     public void dispose() {
         stage.dispose();
+
         if (HadalGame.socket != null) {
             HadalGame.socket.disconnect();
-            HadalGame.socket.close();
-            HadalGame.socket = null;
-        }
-        if (null != daemonThread) {
-            try {
-                daemonThread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+
+            if (client != null) {
+                client.connectionPool().evictAll();
+                client.dispatcher().cancelAll();
+                client.dispatcher().executorService().shutdownNow();
             }
         }
     }

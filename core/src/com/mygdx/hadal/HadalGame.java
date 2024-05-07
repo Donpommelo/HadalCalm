@@ -11,10 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.client.KryoClient;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.SkinManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.users.UserManager;
@@ -121,7 +118,7 @@ public class HadalGame extends ApplicationAdapter {
 		//music player controller is used for fading tracks
 		MusicPlayer.controller(delta);
 
-
+//		CursorManager.draw(batch);
 	}
 	
 	/**
@@ -156,6 +153,7 @@ public class HadalGame extends ApplicationAdapter {
 		MusicPlayer.dispose();
 		FadeManager.dispose();
 		SkinManager.dispose();
+		CursorManager.dispose();
 
         try {
 			client.dispose();
@@ -163,8 +161,6 @@ public class HadalGame extends ApplicationAdapter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-		System.exit(0);
     }
 
 	/**

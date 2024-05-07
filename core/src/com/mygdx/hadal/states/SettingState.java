@@ -1,6 +1,9 @@
 package com.mygdx.hadal.states;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -10,14 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TableWindow;
+import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.text.TooltipManager;
+import com.mygdx.hadal.text.UIText;
 
 import static com.mygdx.hadal.constants.Constants.INTP_FASTSLOW;
 import static com.mygdx.hadal.constants.Constants.TRANSITION_DURATION;
@@ -78,10 +81,10 @@ public class SettingState extends GameState {
 	//These are all of the display and buttons visible to the player.
 	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, resetOption;
 	private TextField portNumber, serverPassword;
-	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
+	private SelectBox<String> screenOptions, resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, artifactSlots, playerCapacity;
 	private Slider sound, music, master, hitsound;
-	private CheckBox fullscreen, vsync, autoIconify, debugHitbox, displayNames, displayHp, randomNameAlliteration, consoleEnabled,
+	private CheckBox vsync, autoIconify, debugHitbox, displayNames, displayHp, randomNameAlliteration, consoleEnabled,
 		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack, screenShake;
 		
 	//this is the current setting tab the player is using
@@ -260,9 +263,18 @@ public class SettingState extends GameState {
 		
 		details.add(new Text(UIText.DISPLAY.text())).colspan(2).pad(TITLE_PAD).row();
 		
-		Text screen = new Text(UIText.RESOLUTION.text());
+		Text screen = new Text(UIText.SCREEN.text());
 		screen.setScale(DETAILS_SCALE);
-		
+
+		screenOptions = new SelectBox<>(SKIN);
+		screenOptions.setItems(UIText.SCREEN_OPTIONS.text().split(","));
+		screenOptions.setWidth(100);
+
+		screenOptions.setSelectedIndex(JSONManager.setting.getScreen());
+
+		Text resolution = new Text(UIText.RESOLUTION.text());
+		resolution.setScale(DETAILS_SCALE);
+
 		resolutionOptions = new SelectBox<>(SKIN);
 		resolutionOptions.setItems(UIText.RESOLUTION_OPTIONS.text().split(","));
 		resolutionOptions.setWidth(100);
@@ -294,6 +306,7 @@ public class SettingState extends GameState {
 				JSONManager.setting.setCursorSize(cursorSize.getSelectedIndex());
 				JSONManager.setting.setCursorColor(cursorColor.getSelectedIndex());
 				JSONManager.setting.setCursor();
+//				CursorManager.setCursor();
 			}
 		};
 
@@ -320,7 +333,6 @@ public class SettingState extends GameState {
 		cursorColor.setSelectedIndex(JSONManager.setting.getCursorColor());
 		cursorColor.addListener(cursorChange);
 
-		fullscreen = new CheckBox(UIText.FULLSCREEN.text(), SKIN);
 		vsync = new CheckBox(UIText.VSYNC.text(), SKIN);
 		autoIconify = new CheckBox(UIText.ALT_TAB.text(), SKIN);
 		debugHitbox = new CheckBox(UIText.DEBUG_OUTLINES.text(), SKIN);
@@ -331,7 +343,6 @@ public class SettingState extends GameState {
 
 		TooltipManager.addTooltip(mouseCameraTrack, UIText.CAMERA_AIM_DESC.text());
 
-		fullscreen.setChecked(JSONManager.setting.isFullscreen());
 		vsync.setChecked(JSONManager.setting.isVSync());
 		autoIconify.setChecked(JSONManager.setting.isAutoIconify());
 		debugHitbox.setChecked(JSONManager.setting.isDebugHitbox());
@@ -340,7 +351,6 @@ public class SettingState extends GameState {
 		mouseCameraTrack.setChecked(JSONManager.setting.isMouseCameraTrack());
 		screenShake.setChecked(JSONManager.setting.isScreenShake());
 
-		fullscreen.addListener(displayChange);
 		vsync.addListener(displayChange);
 		autoIconify.addListener(displayChange);
 		debugHitbox.addListener(displayChange);
@@ -348,19 +358,21 @@ public class SettingState extends GameState {
 		displayHp.addListener(displayChange);
 		mouseCameraTrack.addListener(displayChange);
 		screenShake.addListener(displayChange);
+		screenOptions.addListener(displayChange);
 		resolutionOptions.addListener(displayChange);
 		framerateOptions.addListener(displayChange);
 
 		details.add(screen);
+		details.add(screenOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(resolution);
 		details.add(resolutionOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(framerate);
 		details.add(framerateOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
-		details.add(fullscreen);
-		details.add(vsync).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
-		details.add(autoIconify);
-		details.add(debugHitbox).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
-		details.add(displayNames);
-		details.add(displayHp).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(vsync);
+		details.add(autoIconify).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(debugHitbox);
+		details.add(displayNames).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(displayHp).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(cursortype);
 		details.add(cursorOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(cursorsize);
@@ -678,12 +690,12 @@ public class SettingState extends GameState {
 			case CONTROLS -> PlayerAction.saveKeys();
 			case DISPLAY -> {
 				boolean screenChanged = (JSONManager.setting.getResolution() != resolutionOptions.getSelectedIndex()
-						|| JSONManager.setting.isFullscreen() != fullscreen.isChecked()
+						|| JSONManager.setting.getScreen() != screenOptions.getSelectedIndex()
 						|| JSONManager.setting.isVSync() != vsync.isChecked());
 
 				JSONManager.setting.setResolution(resolutionOptions.getSelectedIndex());
 				JSONManager.setting.setFramerate(framerateOptions.getSelectedIndex());
-				JSONManager.setting.setFullscreen(fullscreen.isChecked());
+				JSONManager.setting.setScreen(screenOptions.getSelectedIndex());
 				JSONManager.setting.setVsync(vsync.isChecked());
 				JSONManager.setting.setAutoIconify(autoIconify.isChecked());
 				JSONManager.setting.setDebugHitbox(debugHitbox.isChecked());

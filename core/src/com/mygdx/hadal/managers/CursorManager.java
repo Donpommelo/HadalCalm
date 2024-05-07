@@ -2,22 +2,25 @@ package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.hadal.HadalGame;
 
 public class CursorManager {
 
     private static final int PIXMAP_SIZE = 128;
+    private static final int MOUSE_DISPLACEMENT = 64;
 
-    //this is the last cursor used. We save this so we can dispose of it properly
-    private static Cursor lastCursor;
+    public static final Vector2 MOUSE_POSITION = new Vector2();
+    public static final Vector2 CURSOR_POSITION = new Vector2();
 
-    public void setCursor() {
+    public static Texture currentCursor;
 
-        //when we set a new cursor, we dispose of the old one (if existent)
-        if (lastCursor != null) {
-            lastCursor.dispose();
-        }
+    public static void setCursor() {
 
         //draw designated cursor to pixmap
         Pixmap cursor = new Pixmap(Gdx.files.internal(indexToCursorType()));
@@ -44,15 +47,49 @@ public class CursorManager {
             }
         }
 
-        //set new cursor and dispose of last used cursor to prevent memory leak
-        Cursor newCursor = Gdx.graphics.newCursor(pm, PIXMAP_SIZE / 2, PIXMAP_SIZE / 2);
-        Gdx.graphics.setCursor(newCursor);
-        lastCursor = newCursor;
+        if (null != currentCursor) {
+            currentCursor.dispose();
+        }
+
+        currentCursor = new Texture(pm);
+
         pm.dispose();
         cursor.dispose();
+
+        Gdx.input.setCursorCatched(true);
     }
 
-    public String indexToCursorType() {
+    //This tracks the location of the user's (host) mouse
+    private static final Vector3 tmpVec3 = new Vector3();
+
+    public static void draw(SpriteBatch batch) {
+
+//        MOUSE_POSITION.add(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+        MOUSE_POSITION.set(Gdx.input.getX(), Gdx.input.getY());
+
+        MOUSE_POSITION.set(
+                MathUtils.clamp(MOUSE_POSITION.x, 0, HadalGame.CONFIG_WIDTH),
+                MathUtils.clamp(MOUSE_POSITION.y, 0, HadalGame.CONFIG_HEIGHT));
+
+        tmpVec3.set(MOUSE_POSITION.x, MOUSE_POSITION.y, 0);
+        HadalGame.viewportCamera.unproject(tmpVec3);
+
+        batch.begin();
+
+        CURSOR_POSITION.set(tmpVec3.x, tmpVec3.y);
+        batch.draw(currentCursor, CURSOR_POSITION.x - MOUSE_DISPLACEMENT, CURSOR_POSITION.y - MOUSE_DISPLACEMENT);
+
+        batch.end();
+
+    }
+
+    public static void dispose() {
+        if (null != currentCursor) {
+            currentCursor.dispose();
+        }
+    }
+
+    public static String indexToCursorType() {
         return switch (JSONManager.setting.getCursorType()) {
             case 1 -> "cursors/crosshair_b.png";
             case 2 -> "cursors/crosshair_c.png";
@@ -72,7 +109,7 @@ public class CursorManager {
     /**
      * Convert cursor color from index in list
      */
-    public Color indexToCursorColor() {
+    public static Color indexToCursorColor() {
         return switch (JSONManager.setting.getCursorColor()) {
             case 0 -> Color.BLACK;
             case 1 -> Color.CYAN;
@@ -84,7 +121,7 @@ public class CursorManager {
         };
     }
 
-    public float indexToCursorScale() {
+    public static float indexToCursorScale() {
         return switch (JSONManager.setting.getCursorSize()) {
             case 0 -> 0.5f;
             case 2 -> 1.0f;
