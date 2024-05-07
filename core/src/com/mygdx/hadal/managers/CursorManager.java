@@ -2,6 +2,7 @@ package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,7 +19,8 @@ public class CursorManager {
     public static final Vector2 MOUSE_POSITION = new Vector2();
     public static final Vector2 CURSOR_POSITION = new Vector2();
 
-    public static Texture currentCursor;
+    private static Texture lastCursorTexture;
+    private static Cursor lastCursor;
 
     public static void setCursor() {
 
@@ -47,45 +49,67 @@ public class CursorManager {
             }
         }
 
-        if (null != currentCursor) {
-            currentCursor.dispose();
+        if (null != lastCursorTexture) {
+            lastCursorTexture.dispose();
+        }
+        if (lastCursor != null) {
+            lastCursor.dispose();
         }
 
-        currentCursor = new Texture(pm);
+        if (JSONManager.setting.isMouseRestrict()) {
+            lastCursorTexture = new Texture(pm);
+            Gdx.input.setCursorCatched(true);
+
+            lastCursor = null;
+        } else {
+            Cursor newCursor = Gdx.graphics.newCursor(pm, PIXMAP_SIZE / 2, PIXMAP_SIZE / 2);
+            Gdx.graphics.setCursor(newCursor);
+            lastCursor = newCursor;
+
+            Gdx.input.setCursorCatched(false);
+
+            lastCursorTexture = null;
+        }
 
         pm.dispose();
         cursor.dispose();
-
-        Gdx.input.setCursorCatched(true);
     }
 
     //This tracks the location of the user's (host) mouse
     private static final Vector3 tmpVec3 = new Vector3();
 
     public static void draw(SpriteBatch batch) {
+        if (JSONManager.setting.isMouseRestrict() && null != lastCursorTexture) {
 
-//        MOUSE_POSITION.add(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-        MOUSE_POSITION.set(Gdx.input.getX(), Gdx.input.getY());
 
-        MOUSE_POSITION.set(
-                MathUtils.clamp(MOUSE_POSITION.x, 0, HadalGame.CONFIG_WIDTH),
-                MathUtils.clamp(MOUSE_POSITION.y, 0, HadalGame.CONFIG_HEIGHT));
+            MOUSE_POSITION.set(Gdx.input.getX(), Gdx.input.getY());
 
-        tmpVec3.set(MOUSE_POSITION.x, MOUSE_POSITION.y, 0);
-        HadalGame.viewportCamera.unproject(tmpVec3);
+            MOUSE_POSITION.set(
+                    MathUtils.clamp(MOUSE_POSITION.x, 0, Gdx.graphics.getWidth()),
+                    MathUtils.clamp(MOUSE_POSITION.y, 0, Gdx.graphics.getHeight()));
 
-        batch.begin();
+            Gdx.input.setCursorPosition((int) MOUSE_POSITION.x, (int) MOUSE_POSITION.y);
 
-        CURSOR_POSITION.set(tmpVec3.x, tmpVec3.y);
-        batch.draw(currentCursor, CURSOR_POSITION.x - MOUSE_DISPLACEMENT, CURSOR_POSITION.y - MOUSE_DISPLACEMENT);
+            tmpVec3.set(MOUSE_POSITION.x, MOUSE_POSITION.y, 0);
+            HadalGame.viewportUI.unproject(tmpVec3);
 
-        batch.end();
+            batch.setProjectionMatrix(HadalGame.viewportUI.getCamera().combined);
+            batch.begin();
 
+            CURSOR_POSITION.set(tmpVec3.x, tmpVec3.y);
+
+            batch.draw(lastCursorTexture, CURSOR_POSITION.x - MOUSE_DISPLACEMENT, CURSOR_POSITION.y - MOUSE_DISPLACEMENT);
+
+            batch.end();
+        }
     }
 
     public static void dispose() {
-        if (null != currentCursor) {
-            currentCursor.dispose();
+        if (null != lastCursorTexture) {
+            lastCursorTexture.dispose();
+        }
+        if (lastCursor != null) {
+            lastCursor.dispose();
         }
     }
 

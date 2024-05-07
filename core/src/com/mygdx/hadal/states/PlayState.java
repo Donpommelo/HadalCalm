@@ -237,7 +237,7 @@ public class PlayState extends GameState {
 		tmr = new OrthogonalTiledMapRenderer(map, batch) {
 
 			@Override
-			public void render () {
+			public void render() {
 				beginRender();
 
 				if (shaderTile.getShaderProgram() != null) {

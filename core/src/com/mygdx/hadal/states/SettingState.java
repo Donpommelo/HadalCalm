@@ -17,6 +17,7 @@ import com.mygdx.hadal.actors.TableWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.managers.CursorManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.text.TooltipManager;
@@ -84,7 +85,7 @@ public class SettingState extends GameState {
 	private SelectBox<String> screenOptions, resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, artifactSlots, playerCapacity;
 	private Slider sound, music, master, hitsound;
-	private CheckBox vsync, autoIconify, debugHitbox, displayNames, displayHp, randomNameAlliteration, consoleEnabled,
+	private CheckBox mouseRestrict, vsync, autoIconify, debugHitbox, displayNames, displayHp, randomNameAlliteration, consoleEnabled,
 		verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack, screenShake;
 		
 	//this is the current setting tab the player is using
@@ -305,8 +306,7 @@ public class SettingState extends GameState {
 				JSONManager.setting.setCursorType(cursorOptions.getSelectedIndex());
 				JSONManager.setting.setCursorSize(cursorSize.getSelectedIndex());
 				JSONManager.setting.setCursorColor(cursorColor.getSelectedIndex());
-				JSONManager.setting.setCursor();
-//				CursorManager.setCursor();
+				CursorManager.setCursor();
 			}
 		};
 
@@ -315,6 +315,7 @@ public class SettingState extends GameState {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				saveSettings();
+				CursorManager.setCursor();
 			}
 		};
 
@@ -333,6 +334,7 @@ public class SettingState extends GameState {
 		cursorColor.setSelectedIndex(JSONManager.setting.getCursorColor());
 		cursorColor.addListener(cursorChange);
 
+		mouseRestrict = new CheckBox(UIText.MOUSE_RESTRICT.text(), SKIN);
 		vsync = new CheckBox(UIText.VSYNC.text(), SKIN);
 		autoIconify = new CheckBox(UIText.ALT_TAB.text(), SKIN);
 		debugHitbox = new CheckBox(UIText.DEBUG_OUTLINES.text(), SKIN);
@@ -343,6 +345,7 @@ public class SettingState extends GameState {
 
 		TooltipManager.addTooltip(mouseCameraTrack, UIText.CAMERA_AIM_DESC.text());
 
+		mouseRestrict.setChecked(JSONManager.setting.isMouseRestrict());
 		vsync.setChecked(JSONManager.setting.isVSync());
 		autoIconify.setChecked(JSONManager.setting.isAutoIconify());
 		debugHitbox.setChecked(JSONManager.setting.isDebugHitbox());
@@ -351,6 +354,7 @@ public class SettingState extends GameState {
 		mouseCameraTrack.setChecked(JSONManager.setting.isMouseCameraTrack());
 		screenShake.setChecked(JSONManager.setting.isScreenShake());
 
+		mouseRestrict.addListener(displayChange);
 		vsync.addListener(displayChange);
 		autoIconify.addListener(displayChange);
 		debugHitbox.addListener(displayChange);
@@ -368,11 +372,12 @@ public class SettingState extends GameState {
 		details.add(resolutionOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(framerate);
 		details.add(framerateOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
-		details.add(vsync);
-		details.add(autoIconify).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
-		details.add(debugHitbox);
-		details.add(displayNames).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
-		details.add(displayHp).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(mouseRestrict);
+		details.add(vsync).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(autoIconify);
+		details.add(debugHitbox).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
+		details.add(displayNames);
+		details.add(displayHp).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(cursortype);
 		details.add(cursorOptions).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(cursorsize);
@@ -696,6 +701,7 @@ public class SettingState extends GameState {
 				JSONManager.setting.setResolution(resolutionOptions.getSelectedIndex());
 				JSONManager.setting.setFramerate(framerateOptions.getSelectedIndex());
 				JSONManager.setting.setScreen(screenOptions.getSelectedIndex());
+				JSONManager.setting.setMouseRestrict(mouseRestrict.isChecked());
 				JSONManager.setting.setVsync(vsync.isChecked());
 				JSONManager.setting.setAutoIconify(autoIconify.isChecked());
 				JSONManager.setting.setDebugHitbox(debugHitbox.isChecked());

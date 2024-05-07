@@ -118,7 +118,7 @@ public class HadalGame extends ApplicationAdapter {
 		//music player controller is used for fading tracks
 		MusicPlayer.controller(delta);
 
-//		CursorManager.draw(batch);
+		CursorManager.draw(batch);
 	}
 	
 	/**
