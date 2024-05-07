@@ -69,8 +69,8 @@ public class JSONManager {
 
         //set the game's display to match the player's saved settings
         setting.setDisplay(app, null, true);
-        setting.setCursor();
-//        CursorManager.setCursor();
+        CursorManager.setCursor();
+
         sharedSetting = setting.generateSharedSetting();
         hostSetting = setting.generateSharedSetting();
     }

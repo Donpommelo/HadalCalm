@@ -3,9 +3,6 @@ package com.mygdx.hadal.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.SerializationException;
 import com.mygdx.hadal.HadalGame;
@@ -29,7 +26,7 @@ public class Setting {
 
 	private int screen, resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots,
 		portNumber, hitsoundType, customShader;
-	private boolean autoIconify, vsync, debugHitbox, displayNames, displayHp, randomNameAlliteration,
+	private boolean mouseRestrict, autoIconify, vsync, debugHitbox, displayNames, displayHp, randomNameAlliteration,
 		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack, screenShake,
 		returnToHubOnReady;
 	private float soundVolume, musicVolume, masterVolume, hitsoundVolume;
@@ -39,9 +36,6 @@ public class Setting {
 
 	//list of mode-specific settings for each mode
 	private HashMap<String, HashMap<String, Integer>> modeSettings;
-
-	//this is the last cursor used. We save this so we can dispose of it properly
-	private static Cursor lastCursor;
 
 	public Setting() {}
 
@@ -104,51 +98,6 @@ public class Setting {
 		game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
-	/**
-	 * This sets the player's cursor according to their saved settings
-	 * cursorType == 0: default cursor
-	 */
-	private static final int PIXMAP_SIZE = 128;
-	public void setCursor() {
-
-		//when we set a new cursor, we dispose of the old one (if existent)
-		if (lastCursor != null) {
-			lastCursor.dispose();
-		}
-
-		//draw designated cursor to pixmap
-		Pixmap cursor = new Pixmap(Gdx.files.internal(indexToCursorType()));
-
-		Pixmap pm = new Pixmap(PIXMAP_SIZE, PIXMAP_SIZE, Pixmap.Format.RGBA8888);
-
-		int scaledWidth = (int) (indexToCursorScale() * cursor.getWidth());
-		int scaledHeight = (int) (indexToCursorScale() * cursor.getHeight());
-
-		pm.drawPixmap(cursor,
-				0, 0, cursor.getWidth() + 1, cursor.getHeight() + 1,
-				(PIXMAP_SIZE - scaledWidth) / 2, (PIXMAP_SIZE - scaledHeight) / 2, scaledWidth, scaledHeight);
-
-		//color pixmap with chosen color
-		Color newColor = indexToCursorColor();
-		for (int y = 0; y < pm.getHeight(); y++) {
-			for (int x = 0; x < pm.getWidth(); x++) {
-				Color color = new Color();
-				Color.rgba8888ToColor(color, pm.getPixel(x, y));
-				if (color.a != 0.0f) {
-					pm.setColor(newColor.r, newColor.g, newColor.b, color.a);
-					pm.fillRectangle(x, y, 1, 1);
-				}
-			}
-		}
-
-		//set new cursor and dispose of last used cursor to prevent memory leak
-		Cursor newCursor = Gdx.graphics.newCursor(pm, PIXMAP_SIZE / 2, PIXMAP_SIZE / 2);
-		Gdx.graphics.setCursor(newCursor);
-		lastCursor = newCursor;
-		pm.dispose();
-		cursor.dispose();
-	}
-
 	public void setAudio() {
 		MusicPlayer.setVolume(musicVolume * masterVolume);
 	}
@@ -174,6 +123,7 @@ public class Setting {
 		framerate = 1;
 		screen = 0;
 		vsync = false;
+		mouseRestrict = true;
 		autoIconify = true;
 		displayNames = true;
 		displayHp = true;
@@ -300,46 +250,6 @@ public class Setting {
 		};
 	}
 
-	public float indexToCursorScale() {
-		return switch (cursorSize) {
-			case 0 -> 0.5f;
-			case 2 -> 1.0f;
-			default -> 0.75f;
-		};
-	}
-
-	public String indexToCursorType() {
-		return switch (cursorType) {
-			case 1 -> "cursors/crosshair_b.png";
-			case 2 -> "cursors/crosshair_c.png";
-			case 3 -> "cursors/crosshair_d.png";
-			case 4 -> "cursors/crosshair_e.png";
-			case 5 -> "cursors/crosshair_f.png";
-			case 6 -> "cursors/crosshair_g.png";
-			case 7 -> "cursors/crosshair_h.png";
-			case 8 -> "cursors/crosshair_i.png";
-			case 9 -> "cursors/crosshair_j.png";
-			case 10 -> "cursors/crosshair_k.png";
-			case 11 -> "cursors/crosshair_l.png";
-			default -> "cursors/crosshair_a.png";
-		};
-	}
-
-	/**
-	 * Convert cursor color from index in list
-	 */
-	public Color indexToCursorColor() {
-		return switch (cursorColor) {
-			case 0 -> Color.BLACK;
-			case 1 -> Color.CYAN;
-			case 2 -> Color.LIME;
-			case 3 -> Color.MAGENTA;
-			case 4 -> Color.RED;
-			case 6 -> Color.YELLOW;
-			default -> Color.WHITE;
-		};
-	}
-
 	/**
 	 * Get a sound effect corresponding to the player's currently used hitsound.
 	 */
@@ -370,6 +280,8 @@ public class Setting {
 	public void setFramerate(int framerate) { this.framerate = framerate; }
 
 	public void setScreen(int screen) { this.screen = screen; }
+
+	public void setMouseRestrict(boolean mouseRestrict) { this.mouseRestrict = mouseRestrict; }
 
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
 
@@ -428,6 +340,8 @@ public class Setting {
 	public int getResolution() { return resolution; }
 
 	public int getFramerate() { return framerate; }
+
+	public boolean isMouseRestrict() { return mouseRestrict; }
 
 	public boolean isVSync() { return vsync; }
 
