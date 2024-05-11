@@ -24,11 +24,11 @@ public class Nebula extends SyncedAttacker {
     private static final float KNOCKBACK = 0.0f;
     public static final float BASE_DAMAGE = 18.0f;
 
-    public static final float MAX_RANGE = 420.0f;
-    public static final float MAX_RANGE_GUTTER = 440.0f;
-    public static final float SPEED_FAST = 30.0f;
-    public static final float SPEED_SLOW = 16.0f;
-    public static final float SPEED_INTERVAL = 1.2f;
+    public static final float MAX_RANGE = 450.0f;
+    public static final float MAX_RANGE_GUTTER = 470.0f;
+    public static final float SPEED_FAST = 40.0f;
+    public static final float SPEED_SLOW = 20.0f;
+    public static final float SPEED_INTERVAL = 1.8f;
     public static final float RECHARGE_SPEED_MULTIPLIER = 2.5f;
     public static final float MIN_RETRACT_AGE = 0.5f;
 
