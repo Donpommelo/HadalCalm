@@ -6,8 +6,8 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.users.User;
 
 /**
  * A PlayerAlignmentChanger changes a player's hitbox filter. This changes what "team" they are on.
@@ -44,6 +44,7 @@ public class PlayerAlignmentChanger extends Event {
 
 					short newIndex;
 					if (pvp && user != null) {
+						p.setPvpOverride(true);
 						if (state.getMode().isTeamDesignated() || TeamMode.TEAM_MANUAL.equals(state.getMode().getTeamMode())) {
 							if (AlignmentFilter.NONE.equals(user.getLoadoutManager().getActiveLoadout().team)) {
 								newIndex = user.getHitboxFilter().getFilter();
@@ -54,6 +55,7 @@ public class PlayerAlignmentChanger extends Event {
 							newIndex = user.getHitboxFilter().getFilter();
 						}
 					} else {
+						p.setPvpOverride(false);
 						newIndex = filter;
 					}
 
@@ -67,5 +69,11 @@ public class PlayerAlignmentChanger extends Event {
 				}
 			}
 		};
+	}
+
+	@Override
+	public void loadDefaultProperties() {
+		setClientSyncType(eventSyncTypes.ECHO_ACTIVATE);
+		setServerSyncType(eventSyncTypes.ECHO_ACTIVATE_EXCLUDE);
 	}
 }

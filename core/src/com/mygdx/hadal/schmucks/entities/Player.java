@@ -108,7 +108,10 @@ public class Player extends Schmuck {
 	
 	//should we reset this player's playerData stuff upon creation
 	private final boolean reset;
-	
+
+	//this is used for player alignment setter in hub so client can set filter
+	private boolean pvpOverride;
+
 	//this is the point we are starting at.
 	private Event start;
 
@@ -268,7 +271,9 @@ public class Player extends Schmuck {
 		state.getMode().postCreatePlayer(state, this);
 
 		//if buttons were held, before spawning, they should start off pressed
-		((PlayerController) state.getController()).syncController();
+		if (null != state.getController()) {
+			((PlayerController) state.getController()).syncController();
+		}
 	}
 
 	public void activateStartingEvents() {
@@ -412,7 +417,7 @@ public class Player extends Schmuck {
 	@Override
 	public Object onServerCreate(boolean catchup) {
 		return new Packets.CreatePlayer(entityID, user.getConnID(), getPixelPosition(), name, user.getLoadoutManager().getActiveLoadout(),
-				hitboxFilter, scaleModifier, dontMoveCamera, start == null ? null : start.getTriggeredID());
+				hitboxFilter, scaleModifier, dontMoveCamera, pvpOverride, start == null ? null : start.getTriggeredID());
 	}
 
 	//this is the type of death we have. Send to client so they can process the death on their end.
@@ -674,4 +679,6 @@ public class Player extends Schmuck {
 	public void setDontMoveCamera(boolean dontMoveCamera) {	this.dontMoveCamera = dontMoveCamera; }
 
 	public boolean isDontMoveCamera() { return dontMoveCamera; }
+
+	public void setPvpOverride(boolean pvpOverride) { this.pvpOverride = pvpOverride; }
 }

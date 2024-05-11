@@ -453,6 +453,7 @@ public class Packets {
 		public short hitboxFilter;
 		public float scaleModifier;
 		public boolean dontMoveCamera;
+		public boolean pvpOverride;
 		public String startTriggeredId;
 		public CreatePlayer() {}
 		
@@ -469,10 +470,12 @@ public class Packets {
 		 * @param hitboxFilter: collision filter of the new player
 		 * @param scaleModifier: player body size modification
 		 * @param dontMoveCamera: should the client's camera be constant when they die (used for matryoshka mode respawn)
+		 * @param pvpOverride: should this player's hitbox always be set to their alignment? (used for hub training room)
 		 * @param startTriggeredId: id of the start event to trigger upon creating player
 		 */
 		public CreatePlayer(UUID entityID, int connID, Vector2 startPosition, String name, Loadout loadout,
-					short hitboxFilter, float scaleModifier, boolean dontMoveCamera, String startTriggeredId) {
+					short hitboxFilter, float scaleModifier, boolean dontMoveCamera, boolean pvpOverride,
+					String startTriggeredId) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
             this.connID = connID;
@@ -481,7 +484,8 @@ public class Packets {
             this.loadout = loadout;
             this.hitboxFilter = hitboxFilter;
             this.scaleModifier = scaleModifier;
-            this.dontMoveCamera = dontMoveCamera;
+			this.dontMoveCamera = dontMoveCamera;
+			this.pvpOverride = pvpOverride;
 			this.startTriggeredId = startTriggeredId;
         }
 	}

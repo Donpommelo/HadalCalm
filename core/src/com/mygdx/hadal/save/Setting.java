@@ -127,7 +127,7 @@ public class Setting {
 		autoIconify = true;
 		displayNames = true;
 		displayHp = true;
-		cursorType = 7;
+		cursorType = 6;
 		cursorSize = 0;
 		cursorColor = 4;
 		mouseCameraTrack = true;

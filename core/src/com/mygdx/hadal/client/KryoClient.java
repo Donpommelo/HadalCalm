@@ -903,12 +903,18 @@ public class KryoClient {
 						event = TiledObjectUtil.getTriggeredEvents().get(p.startTriggeredId);
 					}
 
+					//if override is on, set hitbox filter to user's filter
+					//(needed since user filters are not consistent between server/client)
+					short hitboxFilterOverride = p.pvpOverride ? user.getHitboxFilter().getFilter() : p.hitboxFilter;
+
+					System.out.println(p.pvpOverride + " " + user.getHitboxFilter().getFilter() + " " + p.hitboxFilter);
+
 					Player newPlayer = cs.createPlayer(event, p.name, p.loadout, null, user,
-							true, p.connID == usm.getConnID(), p.hitboxFilter);
+							true, p.connID == usm.getConnID(), hitboxFilterOverride);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
 					newPlayer.setStartPos(p.startPosition);
-					newPlayer.setHitboxFilter(p.hitboxFilter);
+					newPlayer.setHitboxFilter(hitboxFilterOverride);
 					newPlayer.changeScaleModifier(p.scaleModifier);
 					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
 

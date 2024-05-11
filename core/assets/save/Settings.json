@@ -1,12 +1,16 @@
 {
+"screen": 2,
 "resolution": 1,
 "framerate": 1,
-"cursorColor": 4,
+"cursorType": 8,
+"cursorSize": 1,
+"cursorColor": 3,
 "maxPlayers": 9,
 "artifactSlots": 4,
 "portNumber": 11100,
 "hitsoundType": 1,
 "autoIconify": true,
+"vsync": true,
 "displayNames": true,
 "displayHp": true,
 "randomNameAlliteration": true,
@@ -18,7 +22,7 @@
 "returnToHubOnReady": true,
 "soundVolume": 1,
 "musicVolume": 1,
-"masterVolume": 0.07,
+"masterVolume": 0.5,
 "hitsoundVolume": 0.5,
 "serverPassword": "",
 "modeSettings": {
@@ -59,7 +63,7 @@
 		},
 		"BOT_DIFFICUlTY": {
 			"class": "java.lang.Integer",
-			"value": 2
+			"value": 0
 		},
 		"MODIFIER_ZERO_GRAVITY": {
 			"class": "java.lang.Integer",
@@ -67,7 +71,7 @@
 		},
 		"BOT_NUMBER": {
 			"class": "java.lang.Integer",
-			"value": 1
+			"value": 0
 		},
 		"MODIFIER_VISIBLE_HP": {
 			"class": "java.lang.Integer",
@@ -120,36 +124,7 @@
 	},
 	"EGGPLANTS": {},
 	"SANDBOX": {},
-	"ARCADE": {
-		"ARCADE_SCORE_CAP": {
-			"class": "java.lang.Integer",
-			"value": 1
-		},
-		"ARCADE_ROUND_NUMBER": {
-			"class": "java.lang.Integer",
-			"value": 0
-		},
-		"ARCADE_CURRENCY_START": {
-			"class": "java.lang.Integer",
-			"value": 2
-		},
-		"BOT_DIFFICUlTY": {
-			"class": "java.lang.Integer",
-			"value": 2
-		},
-		"BOT_NUMBER": {
-			"class": "java.lang.Integer",
-			"value": 0
-		},
-		"ARCADE_CURRENCY_ROUND": {
-			"class": "java.lang.Integer",
-			"value": 3
-		},
-		"ARCADE_BREAK_TIME": {
-			"class": "java.lang.Integer",
-			"value": 2
-		}
-	},
+	"ARCADE": {},
 	"CAMPAIGN": {}
 }
 }

@@ -491,8 +491,6 @@
     <property name="particle_amb" value="PORTAL"/>
     <property name="particle_offsetY" type="float" value="-20"/>
     <property name="sprite" value="PORTAL"/>
-    <property name="syncClient" value="USER"/>
-    <property name="syncServer" value="USER"/>
     <property name="triggeringId" value="toHub"/>
    </properties>
   </object>
@@ -640,6 +638,8 @@
    <properties>
     <property name="duration" type="float" value="1"/>
     <property name="particle" value="TELEPORT"/>
+    <property name="syncClient" value="ECHO_ACTIVATE"/>
+    <property name="syncServer" value="ECHO_ACTIVATE_EXCLUDE"/>
     <property name="triggeredId" value="toFitePart"/>
     <property name="triggeringId" value="fromFite"/>
    </properties>
@@ -690,8 +690,6 @@
   </object>
   <object id="142" name="Multitrigger" type="Multitrigger" x="1312" y="1760" width="32" height="32">
    <properties>
-    <property name="syncClient" value="ECHO_ACTIVATE"/>
-    <property name="syncServer" value="ECHO_ACTIVATE_EXCLUDE"/>
     <property name="triggeredId" value="fightSync"/>
     <property name="triggeringId" value="setFite,toFitePart"/>
    </properties>
