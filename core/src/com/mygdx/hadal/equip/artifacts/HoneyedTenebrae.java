@@ -14,7 +14,7 @@ public class HoneyedTenebrae extends Artifact {
 
 	private static final int SLOT_COST = 2;
 
-	private static final float DAMAGE_RESISTANCE = 0.8f;
+	private static final float DAMAGE_RESISTANCE = 0.7f;
 
 	public HoneyedTenebrae() {
 		super(SLOT_COST);

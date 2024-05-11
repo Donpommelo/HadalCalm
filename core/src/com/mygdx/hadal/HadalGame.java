@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.StateManager.State;
@@ -154,6 +155,7 @@ public class HadalGame extends ApplicationAdapter {
 		FadeManager.dispose();
 		SkinManager.dispose();
 		CursorManager.dispose();
+		BotManager.terminatePathfindingThreads();
 
         try {
 			client.dispose();

@@ -10,8 +10,8 @@ public class SaltSkullMarmalade extends Artifact {
 
 	private static final int SLOT_COST = 2;
 
-	private static final float BONUS_CAMERA_SHAKE = 0.6f;
-	private static final float HP_REGEN = 7.0f;
+	private static final float BONUS_CAMERA_SHAKE = 1.1f;
+	private static final float HP_REGEN = 6.0f;
 
 	public SaltSkullMarmalade() {
 		super(SLOT_COST);

@@ -590,7 +590,6 @@ public class LobbyState extends GameState {
     @Override
     public void dispose() {
         stage.dispose();
-
         if (HadalGame.socket != null) {
             HadalGame.socket.disconnect();
 

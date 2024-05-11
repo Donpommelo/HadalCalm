@@ -14,13 +14,13 @@ import com.mygdx.hadal.strategies.hitbox.*;
 
 public class StickGrenade extends SyncedAttacker {
 
-    public static final float STICK_GRENADE_EXPLOSION_DAMAGE = 28.0f;
+    public static final float STICK_GRENADE_EXPLOSION_DAMAGE = 35.0f;
     private static final Vector2 STICK_GRENADE_SIZE = new Vector2(19, 70);
     private static final float STICK_GRENADE_LIFESPAN = 3.0f;
     private static final float STICK_GRENADE_BASE_DAMAGE = 8.0f;
     private static final float STICK_GRENADE_BASE_KNOCKBACK = 3.0f;
     private static final float STICK_GRENADE_EXPLOSION_KNOCKBACK = 12.0f;
-    private static final int STICK_GRENADE_EXPLOSION_RADIUS = 100;
+    private static final int STICK_GRENADE_EXPLOSION_RADIUS = 120;
     private static final float GRENADE_ROTATION_SPEED = 8.0f;
 
     @Override
