@@ -907,8 +907,6 @@ public class KryoClient {
 					//(needed since user filters are not consistent between server/client)
 					short hitboxFilterOverride = p.pvpOverride ? user.getHitboxFilter().getFilter() : p.hitboxFilter;
 
-					System.out.println(p.pvpOverride + " " + user.getHitboxFilter().getFilter() + " " + p.hitboxFilter);
-
 					Player newPlayer = cs.createPlayer(event, p.name, p.loadout, null, user,
 							true, p.connID == usm.getConnID(), hitboxFilterOverride);
 

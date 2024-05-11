@@ -101,8 +101,6 @@ public class Disposal extends HubEvent {
 
 		user.getScoreManager().setCurrency(user.getScoreManager().getCurrency() + cost);
 
-		System.out.println("SELL ARTIFACT: " + selected +" " + user.getPlayer());
-
 		if (null != user.getPlayer()) {
 			user.getPlayer().getArtifactHelper().removeArtifact(selected, true);
 
