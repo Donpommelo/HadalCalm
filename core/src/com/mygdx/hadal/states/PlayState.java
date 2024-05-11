@@ -1605,4 +1605,6 @@ public class PlayState extends GameState {
 	public void setNextMode(GameMode nextMode) { this.nextMode = nextMode; }
 
 	public void setResultsText(String resultsText) { this.resultsText = resultsText; }
+
+	public void setLevelEnded(boolean levelEnded) { this.levelEnded = levelEnded; }
 }

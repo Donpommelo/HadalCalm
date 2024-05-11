@@ -278,8 +278,6 @@ public class SettingArcade extends ModeSetting {
     }
 
     private static boolean endArcadeMode(PlayState state) {
-        arcade = false;
-
         int highScore = 0;
         int numHighScore = 0;
         for (User user : HadalGame.usm.getUsers().values()) {
@@ -295,6 +293,11 @@ public class SettingArcade extends ModeSetting {
             for (User user : HadalGame.usm.getUsers().values()) {
                 user.getScoreManager().setScore(user.getScoreManager().getWins());
             }
+
+            arcade = false;
+
+            //need to set this boolean so the state can end, since levelEnd() was called to process arcade ending
+            state.setLevelEnded(false);
             state.levelEnd(ResultsState.MAGIC_WORD, false, DEFAULT_FADE_DELAY);
             return true;
         }
