@@ -40,7 +40,7 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 void main() {
-  vec4 color = texture2D(u_texture, v_texCoords);
+  vec4 color = texture(u_texture, v_texCoords);
   vec3 colorRGB = color.rgb;
   vec3 colorHSV = rgb2hsv(colorRGB);
   float dst = 0.1;

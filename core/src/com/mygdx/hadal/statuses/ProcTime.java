@@ -128,15 +128,17 @@ public abstract class ProcTime {
 	public static class Kill extends ProcTime {
 		public final BodyData vic;
 		public final DamageSource source;
-		
-		public Kill(BodyData vic, DamageSource source) {
+		public final DamageTag[] tags;
+
+		public Kill(BodyData vic, DamageSource source, DamageTag...  tags) {
 			this.vic = vic;
 			this.source = source;
+			this.tags = tags;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			status.onKill(vic, source);
+			status.onKill(vic, source, tags);
 			return this;
 		}
 	}
@@ -144,15 +146,17 @@ public abstract class ProcTime {
 	public static class Death extends ProcTime {
 		public final BodyData perp;
 		public final DamageSource source;
+		public final DamageTag[] tags;
 
-		public Death(BodyData perp, DamageSource source) {
+		public Death(BodyData perp, DamageSource source, DamageTag... tags) {
 			this.perp = perp;
 			this.source = source;
+			this.tags = tags;
 		}
 		
 		@Override
 		public ProcTime statusProcTime(Status status) {
-			status.onDeath(perp, source);
+			status.onDeath(perp, source, tags);
 			return this;
 		}
 	}

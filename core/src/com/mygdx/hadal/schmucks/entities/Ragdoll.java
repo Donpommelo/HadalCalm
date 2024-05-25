@@ -58,6 +58,8 @@ public class Ragdoll extends HadalEntity {
 	private boolean fade, fadeStarted;
 	private Shader fadeShader;
 
+	private boolean spinning = true;
+
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity,
 				   boolean setVelo, boolean sensor, boolean synced) {
 		super(state, startPos, size);
@@ -105,6 +107,7 @@ public class Ragdoll extends HadalEntity {
 	private final Vector2 newVelocity = new Vector2();
 	@Override
 	public void create() {
+
 		this.hadalData = new HadalData(UserDataType.BODY, this);
 		this.body = new HadalBody(hadalData, startPos, size, BodyConstants.BIT_SENSOR, (short) (BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR), (short) -1)
 				.setFixedRotate(false)
@@ -113,7 +116,9 @@ public class Ragdoll extends HadalEntity {
 				.addToWorld(world);
 
 		//this makes ragdolls spin and move upon creation
-		setAngularVelocity(startAngle);
+		if (spinning) {
+			setAngularVelocity(startAngle);
+		}
 		float newDegrees = startVelo.angleDeg() + MathUtils.random(-SPREAD, SPREAD + 1);
 		newVelocity.set(startVelo).add(1, 1);
 		
@@ -190,6 +195,11 @@ public class Ragdoll extends HadalEntity {
 		this.fade = true;
 		this.fadeDuration = fadeDuration;
 		this.fadeShader = fadeShader;
+		return this;
+	}
+
+	public Ragdoll setSpinning(boolean spinning) {
+		this.spinning = spinning;
 		return this;
 	}
 }

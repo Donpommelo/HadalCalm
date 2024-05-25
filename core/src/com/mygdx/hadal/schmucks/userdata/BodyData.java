@@ -388,8 +388,8 @@ public class BodyData extends HadalData {
 	 */
 	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
 		if (schmuck.queueDeletion()) {
-			perp.statusProcTime(new ProcTime.Kill(this, source));
-			statusProcTime(new ProcTime.Death(perp, source));
+			perp.statusProcTime(new ProcTime.Kill(this, source, tags));
+			statusProcTime(new ProcTime.Death(perp, source, tags));
 		}		
 	}
 	

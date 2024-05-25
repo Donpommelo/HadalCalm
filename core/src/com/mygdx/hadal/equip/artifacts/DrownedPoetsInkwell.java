@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -21,7 +22,7 @@ public class DrownedPoetsInkwell extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				p.getPlayer().getUser().getEffectManager().setShowSpawnParticles(false);
 			}
 		}.setServerOnly(true);

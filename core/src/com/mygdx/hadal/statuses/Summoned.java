@@ -29,7 +29,7 @@ public class Summoned extends Status {
 	}
 	
 	@Override
-	public void onKill(BodyData vic, DamageSource source) {
+	public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
 		if (vic.getSchmuck() instanceof Player) {
 			state.getMode().processPlayerDeath(state, summoner, null, DamageSource.MISC);
 		}

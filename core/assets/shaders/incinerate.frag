@@ -7,8 +7,7 @@ varying vec2 v_texCoords;
 
 uniform sampler2D u_texture;
 
-uniform float scale = 5.0;
-uniform float smoothness = 0.25;
+const float dissolveThreshold = 1.0;
 
 uniform float completion;
 uniform float u_random;
@@ -40,15 +39,11 @@ float noise (in vec2 st) {
 }
 
 void main() {
-  vec4 from = texture(u_texture, v_texCoords);
-  vec4 to = vec4(0.0, 0.0, 0.0, 0.0);
-
-  float n = noise(v_texCoords * scale);
-
-  float p = mix(-smoothness, 1.0 + smoothness, completion);
-  float lower = p - smoothness;
-  float higher = p + smoothness;
-
-  float q = smoothstep(lower, higher, n);
-  gl_FragColor = mix(from, to, 1.0 - q);
+  vec4 color = texture(u_texture, v_texCoords);
+  float noise = texture(u_texture, v_texCoords * 0.1 + vec2(sin(completion), cos(completion))).r;
+  if (noise < dissolveThreshold) {
+    discard;
+  } else {
+    gl_FragColor = color;
+  }
 }

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -25,7 +26,7 @@ public class ButtonmanButtons extends Artifact {
 			
 			private int currentStacks;
 			@Override
-			public void onKill(BodyData vic, DamageSource source) {
+			public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
 				if (vic instanceof PlayerBodyData) {
 					if (currentStacks < MAX_STACKS) {
 						currentStacks++;
@@ -35,7 +36,7 @@ public class ButtonmanButtons extends Artifact {
 			}
 			
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				currentStacks = 0;
 				p.calcStats();
 			}

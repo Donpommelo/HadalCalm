@@ -19,7 +19,7 @@ public class BouncingBladeProjectile extends SyncedAttacker {
     public static final Vector2 PROJECTILE_SIZE = new Vector2(50, 50);
     public static final float LIFESPAN = 1.5f;
     public static final int DURABILITY = 5;
-    public static final float BASE_DAMAGE = 42.0f;
+    public static final float BASE_DAMAGE = 48.0f;
     private static final float RECOIL = 6.0f;
     private static final float KNOCKBACK = 25.0f;
 

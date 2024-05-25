@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -25,7 +26,7 @@ public class TyphonFang extends Artifact {
 		enchantment = new StatusComposite(state, p, new Status(state, p) {
 			
 			@Override
-			public void onKill(BodyData vic, DamageSource source) {
+			public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
 				if (p.getPlayer().getEquipHelper().getCurrentTool() instanceof RangedWeapon weapon) {
 					SyncedAttack.ARTIFACT_AMMO_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 

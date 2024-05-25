@@ -1,5 +1,6 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,7 +15,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.hub.HubEvent;
 import com.mygdx.hadal.event.hub.Vending;
-import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -174,15 +174,16 @@ public class UIHub {
 			searchName = new TextField("", SKIN) {
 
 				@Override
-				protected InputListener createInputListener () {
+				protected InputListener createInputListener() {
 
 					//when typing, filter results accordingly
 					return new TextFieldClickListener() {
 
 						@Override
 						public boolean keyUp(InputEvent event, int keycode) {
-							if (PlayerAction.EXIT_MENU.getKey() == keycode) {
+							if (Input.Keys.ESCAPE == keycode) {
 								leave();
+								return true;
 							} else {
 								tableOptions.clear();
 								hub.addOptions(sanitizeSearchInput(searchName.getText()), indexToFilterSlot(), indexToFilterTag());

@@ -209,7 +209,6 @@ public class SettingArcade extends ModeSetting {
             state.setNextLevel(ArcadeMarquis.getMapChoices().get(vote));
             state.setNextMode(currentMode.getMode());
         } else {
-
             if (roundNum != 0 && currentRound > roundNum && endArcadeMode(state)) {
                 return;
             } else {
@@ -290,11 +289,11 @@ public class SettingArcade extends ModeSetting {
         }
 
         if (numHighScore == 1) {
+            arcade = false;
+
             for (User user : HadalGame.usm.getUsers().values()) {
                 user.getScoreManager().setScore(user.getScoreManager().getWins());
             }
-
-            arcade = false;
 
             //need to set this boolean so the state can end, since levelEnd() was called to process arcade ending
             state.setLevelEnded(false);

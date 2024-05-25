@@ -233,8 +233,7 @@ public class PlayerSpriteHelper {
         float headX = (flip ? headWidth * scale : 0) + playerLocation.x - HB_WIDTH * scale / 2 + headConnectXReal * scale;
         float headY = playerLocation.y - HB_HEIGHT * scale / 2 + HEAD_CONNECT_Y * scale + yOffsetHead * scale;
 
-        //head type cosmetics replace the head, so we don't want to draw the base head unless not rendering cosmetics,
-        // or only rendering 1 non-head cosmetic
+        //head type cosmetics replace the head, so we don't want to draw the base head unless not rendering cosmetics or only rendering 1 non-head cosmetic
         boolean head = player.getUser().getLoadoutManager().getActiveLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank();
         if (null != lockedCosmetic) {
             head = true;
@@ -278,6 +277,7 @@ public class PlayerSpriteHelper {
     public void despawn(DespawnType type, Vector2 playerLocation, Vector2 playerVelocity) {
         switch (type) {
             case GIB -> createGibs(playerLocation, playerVelocity);
+            case BIFURCATE -> createBifurcation(playerLocation, playerVelocity);
             case VAPORIZE -> createVaporization(playerLocation, playerVelocity);
             case TELEPORT -> createWarpAnimation(playerLocation);
         }
@@ -326,26 +326,12 @@ public class PlayerSpriteHelper {
     private static final int RAGDOLL_WIDTH = 100;
     private static final int RAGDOLL_HEIGHT = 120;
     private void createVaporization(Vector2 playerLocation, Vector2 playerVelocity) {
-        FrameBuffer ragdollBuffer = new FrameBuffer(Pixmap.Format.RGBA4444, RAGDOLL_WIDTH, RAGDOLL_HEIGHT, false);
-        ragdollBuffer.begin();
-
-        //clear buffer, set camera
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        state.getBatch().getProjectionMatrix().setToOrtho2D(0, 0, ragdollBuffer.getWidth(), ragdollBuffer.getHeight());
-
-        //render player
-        state.getBatch().begin();
-        render(state.getBatch(), player.getMouseHelper().getAttackAngle(), player.getMoveState(),
-                0.0f, 0.0f,false, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(0.5f),
-                true, null, false);
-        state.getBatch().end();
-
-        ragdollBuffer.end();
+        FrameBuffer ragdollBuffer = getRagdollBuffer();
         TextureRegion ragdollTexture = new TextureRegion(ragdollBuffer.getColorBufferTexture(), 0,
-                ragdollBuffer.getHeight(), ragdollBuffer.getWidth(), -ragdollBuffer.getHeight());
+                RAGDOLL_FBO_HEIGHT, RAGDOLL_FBO_WIDTH, -RAGDOLL_FBO_HEIGHT);
 
-        Ragdoll bodyRagdoll = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT),
+        Ragdoll bodyRagdoll = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT)
+                .scl(1.0f + player.getScaleModifier()),
                 ragdollTexture, playerVelocity, 2.0f, 0.0f, true, false) {
 
             @Override
@@ -368,12 +354,71 @@ public class PlayerSpriteHelper {
         }
     }
 
+    private void createBifurcation(Vector2 playerLocation, Vector2 playerVelocity) {
+        FrameBuffer ragdollBuffer = getRagdollBuffer();
+        TextureRegion ragdollTexture1 = new TextureRegion(ragdollBuffer.getColorBufferTexture(), 0,
+                RAGDOLL_FBO_HEIGHT, RAGDOLL_FBO_WIDTH, -RAGDOLL_FBO_HEIGHT / 2);
+        TextureRegion ragdollTexture2 = new TextureRegion(ragdollBuffer.getColorBufferTexture(), 0,
+                RAGDOLL_FBO_HEIGHT / 2, RAGDOLL_FBO_WIDTH, -RAGDOLL_FBO_HEIGHT / 2);
+
+        Ragdoll ragdollOne = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT / 2.0f)
+                .scl(1.0f + player.getScaleModifier()),
+                ragdollTexture1, playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false) {
+
+            //we need to dispose of the fbo when the ragdolls are done
+            @Override
+            public void dispose() {
+                super.dispose();
+                ragdollBuffer.dispose();
+            }
+
+        }.setFade().setSpinning(false);
+
+        Ragdoll ragdollTwo = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT / 2.0f)
+                .scl(1.0f + player.getScaleModifier()),
+                ragdollTexture2, new Vector2(playerVelocity).scl(-1), GIB_DURATION, GIB_GRAVITY, true, false).setFade();
+
+        if (!state.isServer()) {
+            ((ClientState) state).addEntity(ragdollOne.getEntityID(), ragdollOne, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(ragdollTwo.getEntityID(), ragdollTwo, false, ClientState.ObjectLayer.STANDARD);
+        }
+    }
+
     private void createWarpAnimation(Vector2 playerLocation) {
         ParticleEntity particle = new ParticleEntity(state, playerLocation.sub(0, player.getSize().y / 2), Particle.TELEPORT,
                 2.5f, true, SyncType.NOSYNC).setPrematureOff(1.5f);
         if (!state.isServer()) {
             ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.STANDARD);
         }
+    }
+
+    private static final int RAGDOLL_FBO_WIDTH = 667;
+    private static final int RAGDOLL_FBO_HEIGHT = 800;
+    private FrameBuffer getRagdollBuffer() {
+        FrameBuffer ragdollBuffer = new FrameBuffer(Pixmap.Format.RGBA4444, RAGDOLL_FBO_WIDTH, RAGDOLL_FBO_HEIGHT, false);
+        ragdollBuffer.begin();
+
+        //clear buffer, set camera
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        state.getBatch().getProjectionMatrix().setToOrtho2D(0, 0, ragdollBuffer.getWidth(), ragdollBuffer.getHeight());
+
+        //render player
+        state.getBatch().begin();
+
+        //keep track of scale here to make fbo consistent size, but frags scale to size modifiers
+        float scaleTemp = scale;
+        setScale(1.0f);
+        render(state.getBatch(), player.getMouseHelper().getAttackAngle(), player.getMoveState(),
+                0.0f, 0.0f,false, new Vector2(RAGDOLL_FBO_WIDTH, RAGDOLL_FBO_HEIGHT).scl(0.5f),
+                true, null, false);
+        setScale(scaleTemp);
+        state.getBatch().end();
+
+        ragdollBuffer.end();
+
+        return ragdollBuffer;
     }
 
     /**
@@ -399,6 +444,7 @@ public class PlayerSpriteHelper {
     public enum DespawnType {
         LEVEL_TRANSITION,
         GIB,
+        BIFURCATE,
         VAPORIZE,
         TELEPORT,
     }

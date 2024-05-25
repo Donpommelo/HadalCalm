@@ -10,7 +10,6 @@ uniform sampler2D u_texture;
 uniform float scale = 5.0;
 uniform float smoothness = 0.1;
 
-uniform vec2 u_resolution;
 uniform float completion;
 uniform float u_random;
 
@@ -41,7 +40,7 @@ float noise (in vec2 st) {
 }
 
 void main() {
-  vec4 from = texture2D(u_texture, v_texCoords);
+  vec4 from = texture(u_texture, v_texCoords);
   vec3 color = vec3(1.0, 1.0, 1.0);
   vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
 

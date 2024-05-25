@@ -14,7 +14,7 @@ uniform float u_time;
 const float outerRadius = .20, innerRadius = .10, intensity = 1.0;
 
 void main() {
-	vec4 color = texture2D(u_texture, v_texCoords) * v_color;
+	vec4 color = texture(u_texture, v_texCoords) * v_color;
 	vec2 coord = gl_FragCoord.xy / u_resolution;
 	vec2 playerCoord = u_player.xy / u_resolution;
 

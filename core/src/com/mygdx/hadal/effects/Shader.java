@@ -16,20 +16,17 @@ public enum Shader {
 	NOTHING("", "", true),
 	BLACKWHITE("pass", "blackwhite", true),
 	CENSURE("pass", "censure", true),
-	EMBOSS("pass", "emboss", true, new Resolution()),
 	FADE("pass", "fade", true, new Completion()),
 	INVISIBLE("pass", "pass", true),
 	GREYSCALE("pass", "greyscale", true),
-	OUTLINE("pass", "outline", true),
 	SEPIA("pass", "sepia", true),
 	STATIC("pass", "static", true, new Timer()),
 	TRANSLUCENT("pass", "translucent", true, new Timer()),
-	WATER("pass", "water", true, new Timer()),
 	PULSE_RED("pass", "pulsered", true, new Timer(), new SetVariable("speed", 10)),
 	PULSE_RED_HP("pass", "pulsered", true, new Timer(), new PlayerHpScale()),
 	PULSE_WHITE("pass", "pulsewhite", true, new Timer()),
 	WHITE("pass", "white", true),
-	INVERT("pass", "invert", true),
+	INVERT("pass", "invert_luminance", true),
 	CLOUD("pass", "cloud", true, new Resolution(), new Timer(), new CameraCoord()),
 	SPLASH("pass", "splash", true, new Resolution(), new Timer()),
 	DRIP("pass", "drip", true, new Resolution(), new Timer()),
@@ -40,8 +37,21 @@ public enum Shader {
 	WORM("pass", "worm", true, new Resolution(), new Timer()),
 	WHIRLPOOL("pass", "whirlpool", true, new Resolution(), new Timer(), new ObjectiveCoord()),
 	PLAYER_LIGHT("pass", "darkness", false, new Resolution(), new PlayerCoord(), new Light()),
-	PERLIN_FADE("pass", "perlin", false, new Resolution(), new Completion(), new RandomSeed()),
-	PERLIN_COLOR_FADE("pass", "perlin_color", false, new Resolution(), new Completion(), new RandomSeed()),
+	PERLIN_FADE("pass", "perlin", false, new Completion(), new RandomSeed()),
+	PERLIN_COLOR_FADE("pass", "perlin_color", false, new Completion(), new RandomSeed()),
+
+	//Unused
+	INCINERATE("pass", "incinerate", false, new Completion(), new RandomSeed()),
+
+	CHROMA_ABERRATION("pass", "chroma_aberration", true, new Timer()),
+	FROSTED_GLASS("pass", "frosted_glass", true, new Timer()),
+	HUE_SHIFT("pass", "hue_shift", true, new Timer()),
+	WATER("pass", "water", true, new Timer()),
+
+	EMBOSS("pass", "emboss", true, new Resolution()),
+	OUTLINE("pass", "outline", true),
+	VIGNETTE("pass", "vignette", true),
+
 	;
 	
 	//filename for the vertex and fragment shaders

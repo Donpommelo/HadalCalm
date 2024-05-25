@@ -38,7 +38,6 @@ public enum PlayerAction {
 	CHAT_WHEEL(Input.Keys.C, true, UIText.CHAT_WHEEL),
 	PING(Input.Keys.X, false, UIText.PING),
 	PAUSE(Input.Keys.ESCAPE, false, UIText.PAUSE),
-	EXIT_MENU(Input.Keys.BACKSPACE, false, UIText.EXIT),
 	READY_UP(Input.Keys.ENTER, false, UIText.READY_UP);
 
 	//this is the default key bound to this action that will be used when resetting
@@ -90,7 +89,7 @@ public enum PlayerAction {
 			for (JsonValue d : READER.parse(Gdx.files.local("save/Keybind.json"))) {
 				PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 			}
-		} catch (SerializationException e) {
+		} catch (SerializationException | IllegalArgumentException e) {
 			resetKeys();
 			saveKeys();
 			for (JsonValue d : READER.parse(Gdx.files.local("save/Keybind.json"))) {

@@ -2,6 +2,7 @@ package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -57,7 +58,7 @@ public class Shocked extends Status {
 	}
 	
 	@Override
-	public void onDeath(BodyData perp, DamageSource source) {
+	public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 		//lightning should activate on death so that killing a unit does not end the chain
 		chain();
 	}

@@ -41,7 +41,7 @@ public class MouthfulofBees extends Artifact {
 			}
 			
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				for (int i = 0; i < BEES_ON_DEATH; i++) {
 					SyncedAttack.BEE.initiateSyncedAttackSingle(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(),
 							new Vector2(0, BEE_SPEED));

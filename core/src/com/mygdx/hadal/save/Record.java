@@ -164,7 +164,7 @@ public class Record {
 		Record tempRecord;
 		try {
 			tempRecord = JSON.fromJson(Record.class, READER.parse(Gdx.files.local("save/Records.json")).toJson(JsonWriter.OutputType.json));
-		} catch (SerializationException e) {
+		} catch (SerializationException | IllegalArgumentException e) {
 			Record.createNewRecord();
 			tempRecord = JSON.fromJson(Record.class, READER.parse(Gdx.files.local("save/Records.json")).toJson(JsonWriter.OutputType.json));
 		}

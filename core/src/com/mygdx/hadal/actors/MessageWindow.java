@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.JSONManager;
@@ -239,7 +238,7 @@ public class MessageWindow {
 		            public boolean keyDown(InputEvent event, int keycode) {
 
 						//unless we are exiting/entering, typing should indicate that the player is typing
-						if (Keys.ENTER != keycode && PlayerAction.EXIT_MENU.getKey() != keycode) {
+						if (Keys.ENTER != keycode && Keys.ESCAPE != keycode) {
 							typing = true;
 						}
 
@@ -253,8 +252,6 @@ public class MessageWindow {
 		            public boolean keyUp(InputEvent event, int keycode) {
 		                if (Keys.ENTER == keycode) {
 		                	sendMessage();
-		                } else if (PlayerAction.EXIT_MENU.getKey() == keycode) {
-		                	toggleWindow();
 		                }
 		                return super.keyUp(event, keycode);
 		            }

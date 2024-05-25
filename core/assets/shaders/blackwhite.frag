@@ -8,7 +8,7 @@ varying vec2 v_texCoords;
 uniform sampler2D u_texture;
 
 void main() {
-  vec4 color = texture2D(u_texture, v_texCoords);
+  vec4 color = texture(u_texture, v_texCoords);
 
   float average = (color.r + color.b + color.g) / 3.0;
 

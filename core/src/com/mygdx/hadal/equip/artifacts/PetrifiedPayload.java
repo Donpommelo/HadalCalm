@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -32,7 +33,7 @@ public class PetrifiedPayload extends Artifact {
 				new Status(state, p) {
 			
 			@Override
-			public void onKill(BodyData vic, DamageSource source) {
+			public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
 				if (vic instanceof PlayerBodyData) {
 					WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
 							explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxFilter(), false, DamageSource.PETRIFIED_PAYLOAD);
@@ -43,7 +44,7 @@ public class PetrifiedPayload extends Artifact {
 			}
 			
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				WeaponUtils.createExplosion(state, perp.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
 						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxFilter(), false, DamageSource.PETRIFIED_PAYLOAD);
 			}

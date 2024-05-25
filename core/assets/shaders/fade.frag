@@ -9,7 +9,7 @@ uniform sampler2D u_texture;
 uniform float completion;
 
 void main() {
-  vec4 color = texture2D(u_texture, v_texCoords);
+  vec4 color = texture(u_texture, v_texCoords);
   color.a = mix(color.a, 0.0, completion);
   gl_FragColor = v_color * color;
 }

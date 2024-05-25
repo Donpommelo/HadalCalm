@@ -1,6 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.MeleeWeapon;
@@ -61,7 +62,7 @@ public class Invisibility extends Status {
 	}
 	
 	@Override
-	public void onDeath(BodyData perp, DamageSource source) {
+	public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().getEffectHelper().setInvisible(false);
 		}

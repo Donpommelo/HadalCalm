@@ -13,7 +13,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private static final int CLIP_SIZE = 4;
 	private static final int AMMO_SIZE = 24;
 	private static final float SHOOT_CD = 0.25f;
-	private static final float RELOAD_TIME = 0.7f;
+	private static final float RELOAD_TIME = 0.6f;
 	private static final int RELOAD_AMOUNT = 1;
 	private static final float PROJECTILE_SPEED = 48.0f;
 

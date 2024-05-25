@@ -117,7 +117,6 @@ public class LobbyState extends GameState {
     private boolean connectionAttempted;
     private float connectionDuration;
 
-    public static Dispatcher dispatcher;
     public static OkHttpClient client;
 
     public LobbyState(HadalGame app, GameState peekState) {
@@ -365,9 +364,8 @@ public class LobbyState extends GameState {
         try {
             URI uri = URI.create(SERVER_IP);
 
-            dispatcher = new Dispatcher();
             client = new OkHttpClient.Builder()
-                    .dispatcher(dispatcher)
+                    .dispatcher(new Dispatcher())
                     .readTimeout(1, TimeUnit.MINUTES) // important for HTTP long-polling
                     .build();
 
@@ -591,7 +589,8 @@ public class LobbyState extends GameState {
     public void dispose() {
         stage.dispose();
         if (HadalGame.socket != null) {
-            HadalGame.socket.disconnect();
+            HadalGame.socket.close();
+            HadalGame.socket = null;
 
             if (client != null) {
                 client.connectionPool().evictAll();

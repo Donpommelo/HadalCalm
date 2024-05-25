@@ -54,7 +54,7 @@ public class Setting {
 		Setting tempSetting;
 		try {
 			tempSetting = JSON.fromJson(Setting.class, READER.parse(Gdx.files.local("save/Settings.json")).toJson(JsonWriter.OutputType.json));
-		} catch (SerializationException e) {
+		} catch (SerializationException | IllegalArgumentException e) {
 			Setting.createNewSetting();
 			tempSetting = JSON.fromJson(Setting.class, READER.parse(Gdx.files.local("save/Settings.json")).toJson(JsonWriter.OutputType.json));
 		}

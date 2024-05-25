@@ -2,6 +2,7 @@ package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -61,7 +62,7 @@ public class Blinded extends Status {
 	}
 	
 	@Override
-	public void onDeath(BodyData perp, DamageSource source) {
+	public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().setBlinded(0);
 		}

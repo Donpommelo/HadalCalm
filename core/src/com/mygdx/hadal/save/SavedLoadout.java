@@ -90,7 +90,7 @@ public class SavedLoadout {
 		SavedLoadout tempLoadout;
 		try {
 			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
-		} catch (SerializationException e) {
+		} catch (SerializationException | IllegalArgumentException e) {
 			SavedLoadout.createAndSaveNewLoadout();
 			tempLoadout = JSON.fromJson(SavedLoadout.class, READER.parse(Gdx.files.local("save/Loadout.json")).toJson(JsonWriter.OutputType.json));
 		}
