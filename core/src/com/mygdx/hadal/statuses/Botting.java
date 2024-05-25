@@ -2,6 +2,7 @@ package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -23,7 +24,7 @@ public class Botting extends Status {
 	}
 
 	@Override
-	public void onKill(BodyData vic, DamageSource source) {
+	public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
 		if (bot.getChatWheelDesire() > MathUtils.random()) {
 			state.getChatWheel().emote(bot, MathUtils.random(7), bot.getUser().getConnID());
 		}

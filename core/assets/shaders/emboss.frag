@@ -11,7 +11,7 @@ uniform sampler2D u_texture;
 uniform float u_strength = 1.0;
 
 void main() {
-  vec4 color = texture2D(u_texture, v_texCoords);
+  vec4 color = texture(u_texture, v_texCoords);
   // if it's not transparent
   if (color.a > 0.0) {
     // find the size of one pixel by reading the input size
@@ -21,10 +21,10 @@ void main() {
     vec4 new_color = vec4(vec3(0.5), 1);
 
     // move up one pixel diagonally and read the current color, multiply it by the input strength, then add it to our pixel color
-    new_color += texture2D(u_texture, v_texCoords + pixel_size) * u_strength;
+    new_color += texture(u_texture, v_texCoords + pixel_size) * u_strength;
 
     // move down one pixel diagonally and read the current color, multiply it by the input strength, then subtract it to our pixel color
-    new_color -= texture2D(u_texture, v_texCoords - pixel_size) * u_strength;
+    new_color -= texture(u_texture, v_texCoords - pixel_size) * u_strength;
 
     // sum the RGB values for our new color
     float combined = new_color.r + new_color.g + new_color.b;

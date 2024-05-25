@@ -39,7 +39,7 @@ public class SavedOutfits {
         SavedOutfits tempOutfits;
         try {
             tempOutfits = JSON.fromJson(SavedOutfits.class, READER.parse(Gdx.files.local("save/Outfits.json")).toJson(JsonWriter.OutputType.json));
-        } catch (SerializationException e) {
+        } catch (SerializationException | IllegalArgumentException e) {
             SavedOutfits.createNewOutfits();
             tempOutfits = JSON.fromJson(SavedOutfits.class, READER.parse(Gdx.files.local("save/Outfits.json")).toJson(JsonWriter.OutputType.json));
         }

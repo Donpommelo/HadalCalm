@@ -606,6 +606,8 @@ public class Player extends Schmuck {
 		this.spriteHelper.setScale(SCALE * (1.0f + scaleModifier));
 	}
 
+	public float getScaleModifier() { return scaleModifier; }
+
 	public void setGravityModifier(float gravityModifier) { this.gravityModifier = gravityModifier; }
 
 	public void setRestitutionModifier(float restitutionModifier) { this.restitutionModifier = restitutionModifier; }

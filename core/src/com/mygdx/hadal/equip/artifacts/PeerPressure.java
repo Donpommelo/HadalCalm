@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.schmucks.entities.enemies.KBKBuddy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -65,7 +66,7 @@ public class PeerPressure extends Artifact {
 			}
 			
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				if (buddy != null) {
 					if (buddy.isAlive()) {
 						buddy.getBodyData().die(buddy.getBodyData(), DamageSource.MISC);

@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
@@ -50,7 +51,7 @@ public class KBKLarge extends EnemySwimming {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()) {
 			
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				EnemyType.SPLITTER_MEDIUM.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);
 				EnemyType.SPLITTER_MEDIUM.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);
 				EnemyType.SPLITTER_MEDIUM.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);

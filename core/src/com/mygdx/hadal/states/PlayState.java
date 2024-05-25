@@ -1185,15 +1185,16 @@ public class PlayState extends GameState {
 	 * @return a snapshot of the player's current perspective. Used for transitioning to results state
 	 */
 	protected FrameBuffer resultsStateFreeze() {
-		FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA4444, 1280, 720, false);
+		FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA4444, (int) HadalGame.CONFIG_WIDTH, (int) HadalGame.CONFIG_HEIGHT, false);
 		fbo.begin();
 
 		//clear buffer, set camera
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		batch.getProjectionMatrix().setToOrtho2D(0, 0, fbo.getWidth(), fbo.getHeight());
 
-		render(1.0f / 60.0f);
+		render(0.0f);
 
 		//draw extra ui elements for snapshot
 		batch.setProjectionMatrix(hud.combined);

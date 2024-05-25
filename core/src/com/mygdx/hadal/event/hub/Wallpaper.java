@@ -17,7 +17,8 @@ import com.mygdx.hadal.states.PlayState;
 public class Wallpaper extends HubEvent {
 
 	public static final Shader[] SHADERS = {Shader.NOTHING, Shader.SPLASH, Shader.WAVE, Shader.DRIP, Shader.WIGGLE_STATIC,
-		Shader.PLASMA, Shader.WHIRLPOOL, Shader.NORTHERN_LIGHTS, Shader.CLOUD};
+		Shader.PLASMA, Shader.WHIRLPOOL, Shader.NORTHERN_LIGHTS, Shader.CLOUD, Shader.WATER, Shader.HUE_SHIFT,
+			Shader.CHROMA_ABERRATION, Shader.FROSTED_GLASS};
 
 	public Wallpaper(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
 		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.WALLPAPER);

@@ -96,9 +96,9 @@ public class Status implements Comparable<Status> {
 
 	public float onHeal(float damage, BodyData perp, DamageTag... tags) { return damage; }
 	
-	public void onKill(BodyData vic, DamageSource source) {}
+	public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {}
 	
-	public void onDeath(BodyData perp, DamageSource source) {}
+	public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {}
 
 	public void whileAttacking(float delta, Equippable tool) {}
 	

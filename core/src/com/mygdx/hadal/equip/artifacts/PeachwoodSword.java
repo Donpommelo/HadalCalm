@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -24,7 +25,7 @@ public class PeachwoodSword extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public void onKill(BodyData vic, DamageSource source) {
+			public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
 				if (vic instanceof PlayerBodyData) {
 					SyncedAttack.VENGEFUL_SPIRIT_PEACHWOOD.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
 							new Vector2[] {vic.getSchmuck().getPixelPosition()}, new Vector2[] {},
@@ -37,7 +38,7 @@ public class PeachwoodSword extends Artifact {
 			}
 			
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				SyncedAttack.VENGEFUL_SPIRIT_PEACHWOOD.initiateSyncedAttackMulti(state, p.getSchmuck(), new Vector2(),
 						new Vector2[] {p.getSchmuck().getPixelPosition()}, new Vector2[] {},
 						0.0f, 0.0f, SPIRIT_DAMAGE_PLAYER);

@@ -33,8 +33,6 @@ public class CommonController extends InputAdapter {
 			keyDown(PlayerAction.SCORE_WINDOW);
 		} else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			keyDown(PlayerAction.CHAT_WHEEL);
-		} else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
-			keyDown(PlayerAction.EXIT_MENU);
 		}
 		return false;
 	}
@@ -126,10 +124,6 @@ public class CommonController extends InputAdapter {
 			state.getScoreWindow().setVisibility(true);
 		} else if (action == PlayerAction.CHAT_WHEEL) {
 			state.getChatWheel().setVisibility(true);
-		} else if (action == PlayerAction.EXIT_MENU) {
-			if (state.getUiHub().isActive()) {
-				state.getUiHub().leave();
-			}
 		}
 	}
 

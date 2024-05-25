@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.MoveState;
@@ -51,7 +52,7 @@ public class BombFish extends EnemySwimming {
 		getBodyData().addStatus(new Status(state, getBodyData()) {
 
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				if (!source.equals(DamageSource.ENEMY_ATTACK) && !perp.equals(inflicted)) {
 					SyncedAttack.BOMBFISH_ATTACK.initiateSyncedAttackMulti(state, inflicted.getSchmuck(), new Vector2(),
 							new Vector2[] {}, new Vector2[] {});

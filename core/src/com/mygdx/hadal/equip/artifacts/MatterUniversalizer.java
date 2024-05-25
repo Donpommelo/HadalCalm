@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -24,7 +25,7 @@ public class MatterUniversalizer extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public void onKill(BodyData vic, DamageSource source) {
+			public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
 				SyncedAttack.ARTIFACT_FUEL_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 
 				if (vic instanceof PlayerBodyData) {

@@ -31,7 +31,7 @@ float random(float offset, vec2 tex_coord, float time) {
 void main() {
 
   // find the current pixel color
-  vec4 color = texture2D(u_texture, v_texCoords);
+  vec4 color = texture(u_texture, v_texCoords);
 
   // if it's not transparent
   if (color.a > 0.0) {

@@ -35,7 +35,7 @@ public class Scraprip extends SyncedAttacker {
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.SCRAPRIPPER,
-                DamageTag.MELEE).setConstantKnockback(true, startVelocity));
+                DamageTag.MELEE, DamageTag.CUTTING).setConstantKnockback(true, startVelocity));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(HITBOX_SIZE.x / 2 / PPM)));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.8f, true).setSynced(false));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION, 0.0f, 0.2f)

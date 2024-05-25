@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.Sprite;
@@ -80,7 +81,7 @@ public class TrickOrTreating extends Status {
 	}
 
 	@Override
-	public void onDeath(BodyData perp, DamageSource source) {
+	public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 		if (0 < candyCount && state.isServer()) {
 			PickupUtils.spawnCandy(state, player, player.getPixelPosition(), player.getLinearVelocity(), candyCount);
 			incrementCandyCount(-candyCount);

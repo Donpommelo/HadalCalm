@@ -10,7 +10,7 @@ uniform float speed;
 uniform sampler2D u_texture;
 
 void main() {
-  vec4 color = texture2D(u_texture, v_texCoords);
+  vec4 color = texture(u_texture, v_texCoords);
 
   float whiteness = (sin(u_time * speed) + 3) / 4;
   color.r = mix(color.r, 0.9, whiteness);

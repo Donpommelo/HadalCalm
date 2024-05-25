@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.constants.BodyConstants;
@@ -111,7 +112,7 @@ public class Enemy extends Schmuck {
 		getBodyData().addStatus(new Status(state, getBodyData()) {
 			
 			@Override
-			public void onDeath(BodyData perp, DamageSource source) {
+			public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 				for (EnemyStrategy s : strategies) {
 					s.die(perp, source);
 					remove.add(s);

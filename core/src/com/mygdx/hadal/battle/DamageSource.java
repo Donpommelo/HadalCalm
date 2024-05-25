@@ -78,6 +78,7 @@ public enum DamageSource {
     TRICK_GUN(DamageSourceType.WEAPON, GameText.TRICK_GUN),
     TRIDENT(DamageSourceType.WEAPON, GameText.TRIDENT),
     UNDERMINER(DamageSourceType.WEAPON, GameText.UNDERMINER),
+    URCHIN_NAILGUN(DamageSourceType.WEAPON, GameText.URCHIN_NAILGUN),
     VAJRA(DamageSourceType.WEAPON, GameText.VAJRA),
     WAVE_BEAM(DamageSourceType.WEAPON, GameText.WAVE_BEAM),
     X_BOMBER(DamageSourceType.WEAPON, GameText.X_BOMBER),

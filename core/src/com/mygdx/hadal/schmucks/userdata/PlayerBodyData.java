@@ -16,6 +16,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.utils.CameraUtil;
+import com.mygdx.hadal.utils.CombatUtil;
 
 /**
  * This is the data for a player and contains player-specific fields like airblast, jump stats, loadout etc.
@@ -130,19 +131,7 @@ public class PlayerBodyData extends BodyData {
 
 		if (player.isAlive()) {
 
-			DespawnType type = DespawnType.GIB;
-
-			//in the case of a disconnect, this is a special death with teleport particles instead of frags
-			if (source == DamageSource.DISCONNECT) {
-				type = DespawnType.TELEPORT;
-			} else {
-				for (DamageTag tag : tags) {
-					if (tag == DamageTag.FIRE || tag == DamageTag.ENERGY) {
-						type = DespawnType.VAPORIZE;
-						break;
-					}
-				}
-			}
+			DespawnType type = CombatUtil.getDespawnType(source, tags);
 
 			//despawn sprite helper. This triggers death animations
 			player.getSpriteHelper().despawn(type, player.getPixelPosition(), player.getLinearVelocity());

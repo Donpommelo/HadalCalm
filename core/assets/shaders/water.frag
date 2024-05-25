@@ -26,5 +26,5 @@ void main() {
   coord.y += cos((coord.y + speed) * u_frequency) * strength;
 
   // use the color at the offset location for our new pixel color
-  gl_FragColor = texture2D(u_texture, coord) * v_color.a;
+  gl_FragColor = texture(u_texture, coord) * v_color.a;
 }
