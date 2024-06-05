@@ -54,7 +54,7 @@ public class ClientState extends PlayState {
 	private final Array<UUID> missedCreatesToRemove = new Array<>();
 
 	public ClientState(HadalGame app, UnlockLevel level, GameMode mode) {
-		super(app, level, mode,false, true, "");
+		super(app, level, mode, false, true, "");
 		entityLists.add(hitboxes);
 		entityLists.add(entities);
 		entityLists.add(effects);

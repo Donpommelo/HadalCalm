@@ -51,6 +51,9 @@ public enum GameMode {
 
         @Override
         public boolean isHub() { return true; }
+
+        @Override
+        public boolean isFriendlyFire() { return false; }
     },
 
     CAMPAIGN("", "placeholder", GameText.CAMPAIGN, GameText.CAMPAIGN_DESC,
@@ -76,7 +79,11 @@ public enum GameMode {
     ARCADE("", "placeholder", GameText.ARCADE, GameText.ARCADE_DESC,
             new SettingTeamMode(TeamMode.COOP), new SettingLives(0), new SettingArcade(),
             new SettingBots(),
-            new DisplayUITag("ARCADE_ROUND"), new DisplayUITag("WINBOARD"), new DisplayUITag("CURRENCY")),
+            new DisplayUITag("ARCADE_ROUND"), new DisplayUITag("WINBOARD"), new DisplayUITag("CURRENCY")) {
+
+        @Override
+        public boolean isFriendlyFire() { return false; }
+    },
 
     SURVIVAL("arena", "survival", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
         new SetCameraOnSpawn(),
@@ -470,6 +477,8 @@ public enum GameMode {
     public boolean isInvisibleInHub() { return false; }
 
     public boolean isHub() { return false; }
+
+    public boolean isFriendlyFire() { return true; }
 
     public boolean isJoinMidGame() { return joinMidGame; }
 

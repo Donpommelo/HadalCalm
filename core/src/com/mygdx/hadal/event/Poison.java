@@ -99,7 +99,7 @@ public class Poison extends Event {
 			this.perp = perp;
 
 			//this prevents team killing using poison in the hub
-			if (perp.getHitboxFilter() == BodyConstants.PLAYER_HITBOX && state.getMode().isHub()) {
+			if (perp.getHitboxFilter() == BodyConstants.PLAYER_HITBOX && !state.getMode().isFriendlyFire()) {
 				this.filter = BodyConstants.PLAYER_HITBOX;
 			}
 		}

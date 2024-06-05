@@ -29,7 +29,7 @@ public class SpawnerObjective extends Event {
 	private static final float EGGPLANT_INTERVAL = 4.0f;
 	private static final int EGGPLANT_AMOUNT = 3;
 
-	private static final float CANDY_INTERVAL = 20.0f;
+	private static final float CANDY_INTERVAL = 10.0f;
 
 	private final static float PARTICLE_DURATION = 5.0f;
 
