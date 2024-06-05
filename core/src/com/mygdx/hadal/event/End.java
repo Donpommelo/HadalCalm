@@ -20,12 +20,13 @@ import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_DELAY;
 public class End extends Event {
 
 	private final String text;
-	private final boolean victory;
+	private final boolean victory, incrementWins;
 
-	public End(PlayState state, String text, boolean victory) {
+	public End(PlayState state, String text, boolean victory, boolean incrementWins) {
 		super(state);
 		this.text = text;
 		this.victory = victory;
+		this.incrementWins = incrementWins;
 	}
 	
 	@Override
@@ -35,7 +36,7 @@ public class End extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.levelEnd(text, victory, DEFAULT_FADE_DELAY);
+				state.levelEnd(text, victory, incrementWins, DEFAULT_FADE_DELAY);
 			}
 		};
 	}

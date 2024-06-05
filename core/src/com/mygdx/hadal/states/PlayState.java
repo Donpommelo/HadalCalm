@@ -217,7 +217,9 @@ public class PlayState extends GameState {
 		this.level = level;
 		this.mode = mode;
 		this.server = server;
-		this.startID = startID;
+
+		//start id is set when loadlevel is called, but might be null otherwise; use empty string as default
+		this.startID = null == startID ? "" : startID;
 
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), true);
@@ -1021,8 +1023,11 @@ public class PlayState extends GameState {
 	/**
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
 	 * @param text: text displayed in results state
+	 * @param victory: indicates a win for all players in pve
+	 * @param incrementWins: Should player's wins be incremented? (false for arcade break room)
+	 * @param fadeDelay: Duration of
 	 */
-	public void levelEnd(String text, boolean victory, float fadeDelay) {
+	public void levelEnd(String text, boolean victory, boolean incrementWins, float fadeDelay) {
 		if (levelEnded) { return; }
 		levelEnded = true;
 
@@ -1110,7 +1115,9 @@ public class PlayState extends GameState {
 				if (TeamMode.FFA.equals(mode.getTeamMode())) {
 					if (score.getScore() == winningScore.getScore() && score.getKills() == winningScore.getKills()
 							&& score.getDeaths() == winningScore.getDeaths()) {
-						score.win();
+						if (incrementWins) {
+							score.win();
+						}
 					}
 				} else {
 					AlignmentFilter faction;
@@ -1126,15 +1133,19 @@ public class PlayState extends GameState {
 					}
 
 					if (user.getHitboxFilter().equals(winningTeam) || user.getTeamFilter().equals(winningTeam)) {
-						score.win();
+						if (incrementWins) {
+							score.win();
+						}
 					}
 				}
 			}
 		} else if (victory) {
 			//in coop, all players get a win if the team wins
-            for (User user : activeUsers) {
-				user.getScoreManager().win();
-            }
+			if (incrementWins) {
+				for (User user : activeUsers) {
+					user.getScoreManager().win();
+				}
+			}
         }
 
 		if (SettingArcade.arcade) {
@@ -1382,12 +1393,11 @@ public class PlayState extends GameState {
 	 * @return a save point to spawn a respawned player at
 	 */
 	public StartPoint getSavePoint(String startID, User user) {
-
 		if (!isServer()) { return null; }
 
 		Array<StartPoint> validStarts = new Array<>();
 		Array<StartPoint> readyStarts = new Array<>();
-		
+
 		//get a list of all start points that match the startID
 		for (StartPoint s : savePoints) {
 			if (mode.isTeamDesignated() && AlignmentFilter.currentTeams.length > s.getTeamIndex()) {
@@ -1398,7 +1408,7 @@ public class PlayState extends GameState {
 				validStarts.add(s);
 			}
 		}
-		
+
 		//if no start points are found, we return the first save point (if existent)
 		if (validStarts.isEmpty()) {
 			if (mode.isTeamDesignated()) {
@@ -1418,7 +1428,7 @@ public class PlayState extends GameState {
 				readyStarts.add(s);
 			}
 		}
-		
+
 		//if any start points haven't been used recently, pick one of them randomly. Otherwise pick a random valid start point
 		if (readyStarts.isEmpty()) {
 			int randomIndex = MathUtils.random(validStarts.size - 1);

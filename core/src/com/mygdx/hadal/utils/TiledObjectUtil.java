@@ -430,7 +430,8 @@ public class TiledObjectUtil {
 					object.getProperties().get("dialogType", "DIALOG", String.class));
 			case "End" -> e = new End(state,
 					object.getProperties().get("text", "", String.class),
-					object.getProperties().get("victory", true, boolean.class));
+					object.getProperties().get("victory", true, boolean.class),
+					object.getProperties().get("incrementWins", true, boolean.class));
 			case "Warp" -> e = new LevelWarp(state,
 					object.getProperties().get("level", String.class),
 					object.getProperties().get("reset", false, Boolean.class),

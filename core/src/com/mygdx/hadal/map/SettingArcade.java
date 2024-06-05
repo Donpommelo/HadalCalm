@@ -151,6 +151,7 @@ public class SettingArcade extends ModeSetting {
         end.setName("End");
         end.getProperties().put("text", endText);
         end.getProperties().put("triggeredId", "runOnGlobalTimerConclude");
+        end.getProperties().put("incrementWins", false);
 
         TiledObjectUtil.parseAddTiledEvent(state, end);
 
@@ -297,7 +298,7 @@ public class SettingArcade extends ModeSetting {
 
             //need to set this boolean so the state can end, since levelEnd() was called to process arcade ending
             state.setLevelEnded(false);
-            state.levelEnd(ResultsState.MAGIC_WORD, false, DEFAULT_FADE_DELAY);
+            state.levelEnd(ResultsState.MAGIC_WORD, false, true, DEFAULT_FADE_DELAY);
             return true;
         }
         overtime = true;

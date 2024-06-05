@@ -31,7 +31,7 @@ public class WeaponUtils {
 		//this prevents players from damaging allies with explosives in the hub
 		short actualFilter = filter;
 
-		if (user.getHitboxFilter() == BodyConstants.PLAYER_HITBOX && state.getMode().isHub()) {
+		if (user.getHitboxFilter() == BodyConstants.PLAYER_HITBOX && !state.getMode().isFriendlyFire()) {
 			actualFilter = BodyConstants.PLAYER_HITBOX;
 		}
 
