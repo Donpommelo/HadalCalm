@@ -8,13 +8,13 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-public class HoneyedTenebrae extends Artifact {
+public class Finifugality extends Artifact {
 
 	private static final int SLOT_COST = 2;
 
-	private static final float DAMAGE_MULTIPLIER = 0.2f;
+	private static final int ARMOR_AMOUNT = 2;
 
-	public HoneyedTenebrae() {
+	public Finifugality() {
 		super(SLOT_COST);
 	}
 
@@ -23,9 +23,11 @@ public class HoneyedTenebrae extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
-				vic.getSchmuck().getSpecialHpHelper().addConditionalHp(damage * DAMAGE_MULTIPLIER, DamageSource.HONEYED_TENEBRAE);
-				return damage;
+			public int onCalcArmorReceive(int armor, float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
+				if (damage >= p.getCurrentHp()) {
+					return armor + ARMOR_AMOUNT;
+				}
+				return armor;
 			}
 		};
 	}
@@ -33,6 +35,6 @@ public class HoneyedTenebrae extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int ) (DAMAGE_MULTIPLIER * 100))};
+				String.valueOf(ARMOR_AMOUNT)};
 	}
 }

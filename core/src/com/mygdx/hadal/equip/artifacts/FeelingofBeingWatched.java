@@ -1,20 +1,22 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.Shader;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.constants.Stats;
 
 public class FeelingofBeingWatched extends Artifact {
 
 	private static final int SLOT_COST = 1;
 	
 	private static final float FUEL_THRESHOLD = 5.0f;
-	private static final float DAMAGE_BUFF = 0.4f;
 	private static final float BUFF_DURATION = 3.0f;
 	private static final float BUFF_COOLDOWN = 6.0f;
+	private static final int CRIT_AMOUNT = 1;
 
 	public FeelingofBeingWatched() {
 		super(SLOT_COST);
@@ -35,7 +37,13 @@ public class FeelingofBeingWatched extends Artifact {
 					procCdCount -= BUFF_COOLDOWN;
 
 					p.getPlayer().getShaderHelper().setShader(Shader.PULSE_RED, BUFF_DURATION);
-					p.addStatus(new StatChangeStatus(state, BUFF_DURATION, Stats.DAMAGE_AMP, DAMAGE_BUFF, p, p));
+					p.addStatus(new Status(state, BUFF_DURATION, false, p, p) {
+
+						@Override
+						public int onCalcDealCrit(int crit, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
+							return crit + CRIT_AMOUNT;
+						}
+					});
 				}
 			}
 		};
@@ -44,7 +52,6 @@ public class FeelingofBeingWatched extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (DAMAGE_BUFF * 100)),
 				String.valueOf((int) BUFF_DURATION),
 				String.valueOf((int) BUFF_COOLDOWN) };
 	}

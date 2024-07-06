@@ -12,7 +12,7 @@ public class Leatherback extends Artifact {
 
 	private static final int SLOT_COST = 1;
 
-	private static final float DAMAGE_RESISTANCE = 0.6f;
+	private static final int ARMOR_AMOUNT = 2;
 
 	public Leatherback() {
 		super(SLOT_COST);
@@ -21,33 +21,34 @@ public class Leatherback extends Artifact {
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new Status(state, p) {
-			
+
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
+			public int onCalcArmorReceive(int armor, float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (damaging != null) {
 					boolean flip = Math.abs(p.getPlayer().getMouseHelper().getAttackAngle()) > 90;
 					if (damaging.isPositionBasedOnUser()) {
 						if (flip) {
 							if ((perp.getSchmuck().getPixelPosition().x - p.getSchmuck().getPixelPosition().x) < p.getSchmuck().getSize().x / 2) {
-								return damage * DAMAGE_RESISTANCE;
+								return armor + ARMOR_AMOUNT;
 							}
 						} else {
 							if ((perp.getSchmuck().getPixelPosition().x - p.getSchmuck().getPixelPosition().x) > p.getSchmuck().getSize().x / 2) {
-								return damage * DAMAGE_RESISTANCE;
+								return armor + ARMOR_AMOUNT;
 							}
 						}
 					} else {
 						if (flip) {
 							if ((damaging.getPixelPosition().x - p.getSchmuck().getPixelPosition().x) < p.getSchmuck().getSize().x / 2) {
-								return damage * DAMAGE_RESISTANCE;							}
-						} else {
-							if ((damaging.getPixelPosition().x - p.getSchmuck().getPixelPosition().x) > p.getSchmuck().getSize().x / 2) {
-								return damage * DAMAGE_RESISTANCE;
+								return armor + ARMOR_AMOUNT;
+							} else {
+								if ((damaging.getPixelPosition().x - p.getSchmuck().getPixelPosition().x) > p.getSchmuck().getSize().x / 2) {
+									return armor + ARMOR_AMOUNT;
+								}
 							}
 						}
 					}
 				}
-				return damage;
+				return armor;
 			}
 		};
 	}
@@ -55,6 +56,6 @@ public class Leatherback extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (DAMAGE_RESISTANCE * 100))};
+				String.valueOf(ARMOR_AMOUNT)};
 	}
 }

@@ -79,6 +79,7 @@ public class Player extends Schmuck {
 	private final EventInteractHelper eventHelper;
 	private final PingHelper pingHelper;
 	private final SpecialWeaponHelper specialWeaponHelper;
+	private final ArtifactIconHelper artifactIconHelper;
 
 	private final LoadoutHelper loadoutHelper;
 	private final LoadoutEquipHelper equipHelper;
@@ -162,6 +163,7 @@ public class Player extends Schmuck {
 		this.groundedHelper = new GroundedHelper(this);
 		this.eventHelper = new EventInteractHelper(this);
 		this.pingHelper = new PingHelper(state, this);
+		this.artifactIconHelper = new ArtifactIconHelper(this);
 
 		setReliableCreate(true);
 	}
@@ -354,6 +356,8 @@ public class Player extends Schmuck {
 		jumpHelper.controllerUniversal(delta, playerPosition);
 		shootHelper.controllerUniversal(delta, playerPosition);
 		mouseHelper.controller(playerPosition);
+
+		artifactIconHelper.controller(delta);
 	}
 	
 	/**
@@ -381,6 +385,8 @@ public class Player extends Schmuck {
 			spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
 					groundedHelper.isGrounded(), entityLocation,
 					true, null, true);
+
+			artifactIconHelper.render(batch, entityLocation);
 		}
 
 		boolean visible = false;
@@ -661,6 +667,8 @@ public class Player extends Schmuck {
 	public PingHelper getPingHelper() { return pingHelper; }
 
 	public SpecialWeaponHelper getSpecialWeaponHelper() { return specialWeaponHelper; }
+
+	public ArtifactIconHelper getArtifactIconHelper() { return artifactIconHelper; }
 
 	public LoadoutHelper getLoadoutHelper() { return loadoutHelper; }
 

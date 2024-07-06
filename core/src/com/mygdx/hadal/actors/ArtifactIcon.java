@@ -44,7 +44,7 @@ public class ArtifactIcon extends AHadalActor {
 		this.textOffsetY = textOffsetY;
 		this.targetWidth = targetWidth;
 		
-		this.icon = artifact.getFrame();
+		this.icon = artifact.getFrameSmall();
 
 		FONT_UI.getData().setScale(FONT_SCALE);
 		layout = new GlyphLayout();

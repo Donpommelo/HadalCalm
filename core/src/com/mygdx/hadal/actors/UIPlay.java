@@ -71,7 +71,7 @@ public class UIPlay extends AHadalActor {
 	private float blinkCdCount;
 	
 	//fields displayed in this ui
-	protected float hpRatio, hpCurrent, hpMax, fuelRatio, fuelCutoffRatio;
+	protected float hpRatio, hpCurrent, hpConditional, hpMax, fuelRatio, fuelCutoffRatio;
 	protected String weaponText, ammoText;
 	protected float numWeaponSlots;
 	protected float activePercent;
@@ -140,6 +140,13 @@ public class UIPlay extends AHadalActor {
 				ammoText = player.getEquipHelper().getCurrentTool().getAmmoText();
 				numWeaponSlots = player.getEquipHelper().getNumWeaponSlots();
 				activePercent = player.getMagicHelper().getMagic().chargePercent();
+
+				hpConditional = player.getSpecialHpHelper().getConditionalHp();
+
+				if (hpConditional != 0.0f) {
+					hpDelayed = hpRatio;
+					hpRatio = Math.max(hpCurrent - hpConditional, 0.0f) / hpMax;
+				}
 			}
 		}
 
@@ -154,14 +161,17 @@ public class UIPlay extends AHadalActor {
 	private static final float UI_TIME = 1 / 60.0f;
 	@Override
 	public void act(float delta) {
-		uiAccumulator += delta;
-		while (UI_TIME <= uiAccumulator) {
-			uiAccumulator -= UI_TIME;
 
-			if (hpDelayed > hpRatio) {
-				hpDelayed -= HP_CATCHUP;
-			} else {
-				hpDelayed = hpRatio;
+		if (0 == hpConditional) {
+			uiAccumulator += delta;
+			while (UI_TIME <= uiAccumulator) {
+				uiAccumulator -= UI_TIME;
+
+				if (hpDelayed > hpRatio) {
+					hpDelayed -= HP_CATCHUP;
+				} else {
+					hpDelayed = hpRatio;
+				}
 			}
 		}
 

@@ -118,6 +118,7 @@ public enum DamageSource {
     CROWN_OF_THORNS(DamageSourceType.ARTIFACT, GameText.CROWN_OF_THORNS),
     THE_FINGER(DamageSourceType.ARTIFACT, GameText.THE_FINGER),
     FORAGERS_HIVE(DamageSourceType.ARTIFACT, GameText.FORAGERS_HIVE),
+    HONEYED_TENEBRAE(DamageSourceType.ARTIFACT, GameText.HONEYED_TENEBRAE),
     LAMPREY_IDOL(DamageSourceType.ARTIFACT, GameText.LAMPREY_IDOL),
     MOUTHFUL_OF_BEES(DamageSourceType.ARTIFACT, GameText.MOUTHFUL_OF_BEES),
     NURDLER(DamageSourceType.ARTIFACT, GameText.NURDLER),

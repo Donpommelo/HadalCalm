@@ -77,7 +77,9 @@ public enum AssetList {
 	BLACK("black.png", Texture.class),
 	WHITE("white.png", Texture.class),
 
-	ARTIFACT_ATL("sprites/artifact.atlas", TextureAtlas.class),
+	ARTIFACT_BIG_ATL("sprites/artifact/artifactbig.atlas", TextureAtlas.class),
+	ARTIFACT_SMALL_ATL("sprites/artifact/artifactsmall.atlas", TextureAtlas.class),
+	ARTIFACT_WHITE_ATL("sprites/artifact/artifactwhite.atlas", TextureAtlas.class),
 	COSMETICS_ATL("sprites/cosmetics.atlas", TextureAtlas.class),
 
 	//misc stuff from totlc

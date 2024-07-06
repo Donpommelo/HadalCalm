@@ -20,33 +20,39 @@ import com.mygdx.hadal.text.TextFilterUtil;
  */
 public enum UnlockArtifact {
 	
-	NUMBER_ONE_BOSS_MUG(new Number1BossMug(), "artifact_1bossmug",
+	NUMBER_ONE_BOSS_MUG(new Number1BossMug(), "bossmug",
 			GameText.NUMBER_ONE_BOSS_MUG, GameText.NUMBER_ONE_BOSS_MUG_DESC, GameText.NUMBER_ONE_BOSS_MUG_DESC_LONG,
 			false, false, UnlockTag.DEFENSE, UnlockTag.HEAL),
-	EIGHT_BALL(new EightBall(), "artifact_8ball",
+	EIGHT_BALL(new EightBall(), "8ball",
 			GameText.EIGHT_BALL, GameText.EIGHT_BALL_DESC, GameText.EIGHT_BALL_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.WEAPON_DAMAGE),
-	ABYSSAL_INSIGNIA(new AbyssalInsignia(), "artifact_abyssal",
+	ABYSSAL_INSIGNIA(new AbyssalInsignia(),
 			GameText.ABYSSAL_INSIGNIA, GameText.ABYSSAL_INSIGNIA_DESC, GameText.ABYSSAL_INSIGNIA_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.WEAPON_DAMAGE),
-	ADMINISTRATOR_CARD(new AdministratorCard(),
+	ADMINISTRATOR_CARD(new AdministratorCard(), "admincard",
 			GameText.ADMINISTRATOR_CARD, GameText.ADMINISTRATOR_CARD_DESC, GameText.ADMINISTRATOR_CARD_DESC_LONG,
 			false, true, UnlockTag.GIMMICK),
-	ALBATROSS_NECKLACE(new AlbatrossNecklace(),
+	AEOLIPYLE(new Aeolipyle(),
+			GameText.AEOLIPYLE, GameText.AEOLIPYLE_DESC, GameText.AEOLIPYLE_DESC_LONG,
+			false, false, UnlockTag.GIMMICK),
+	ALBATROSS_NECKLACE(new AlbatrossNecklace(), "albatross",
 			GameText.ALBATROSS_NECKLACE, GameText.ALBATROSS_NECKLACE_DESC, GameText.ALBATROSS_NECKLACE_DESC_LONG,
 			false, false, UnlockTag.DEFENSE, UnlockTag.GIMMICK),
-	AMDAHLS_LOTUS(new AmdahlsLotus(),
+	AMDAHLS_LOTUS(new AmdahlsLotus(), "lotusflower",
 			GameText.AMDAHLS_LOTUS, GameText.AMDAHLS_LOTUS_DESC, GameText.AMDAHLS_LOTUS_DESC_LONG,
 			false, false, UnlockTag.FUEL, UnlockTag.HEAL),
-	ANARCHISTS_COOKBOOK(new AnarchistsCookbook(),
+	ANARCHISTS_COOKBOOK(new AnarchistsCookbook(), "anarchybook",
 			GameText.ANARCHISTS_COOKBOOK, GameText.ANARCHISTS_COOKBOOK_DESC, GameText.ANARCHISTS_COOKBOOK_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.PASSIVE_DAMAGE),
-	ANCHOR_AMULET(new AnchorTalisman(),
+	ANCHOR_AMULET(new AnchorTalisman(), "anchoramulet",
 			GameText.ANCHOR_AMULET, GameText.ANCHOR_AMULET_DESC, GameText.ANCHOR_AMULET_DESC_LONG,
 			false, false, UnlockTag.DEFENSE),
-	ANCIENT_SYNAPSE(new AncientSynapse(),
+	ANCIENT_SYNAPSE(new AncientSynapse(), "synapse",
 			GameText.ANCIENT_SYNAPSE, GameText.ANCIENT_SYNAPSE_DESC, GameText.ANCIENT_SYNAPSE_DESC_LONG,
 			false, false, UnlockTag.DEFENSE),
+	AQUA_MICANS(new AquaMicans(),
+			GameText.AQUA_MICANS, GameText.AQUA_MICANS_DESC, GameText.AQUA_MICANS_DESC_LONG,
+			false, false, UnlockTag.OFFENSE, UnlockTag.MAGIC),
 	AU_COURANT(new AuCourant(),
 			GameText.AU_COURANT, GameText.AU_COURANT_DESC, GameText.AU_COURANT_DESC_LONG,
 			false, false, UnlockTag.AMMO),
@@ -58,14 +64,14 @@ public enum UnlockArtifact {
 			false, false, UnlockTag.WEAPON_DAMAGE),
 	BENTHIC_DESIRES(new BenthicDesires(),
 			GameText.BENTHIC_DESIRES, GameText.BENTHIC_DESIRES_DESC, GameText.BENTHIC_DESIRES_DESC_LONG,
-			false, false, UnlockTag.FUEL, UnlockTag.HEAL),
+			false, false, UnlockTag.DEFENSE, UnlockTag.HEAL),
 	BLASTEMA(new Blastema(),
 			GameText.BLASTEMA, GameText.BLASTEMA_DESC, GameText.BLASTEMA_DESC_LONG,
 			false, false, UnlockTag.HEAL),
-	BLOODWOODS_GLOVE(new BloodwoodsGlove(),
+	BLOODWOODS_GLOVE(new BloodwoodsGlove(), "glove",
 			GameText.BLOODWOODS_GLOVE, GameText.BLOODWOODS_GLOVE_DESC, GameText.BLOODWOODS_GLOVE_DESC_LONG,
 			false, false, UnlockTag.MAGIC),
-	BOOK_OF_BURIAL(new BookofBurial(),
+	BOOK_OF_BURIAL(new BookofBurial(), "burialbook",
 			GameText.BOOK_OF_BURIAL, GameText.BOOK_OF_BURIAL_DESC, GameText.BOOK_OF_BURIAL_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.PASSIVE_DAMAGE),
 	BOTTOM_OF_THE_BARREL(new BottomoftheBarrel(),
@@ -87,12 +93,13 @@ public enum UnlockArtifact {
 	BUTTONMAN_BUTTONS(new ButtonmanButtons(),
 			GameText.BUTTONMAN_BUTTONS, GameText.BUTTONMAN_BUTTONS_DESC, GameText.BUTTONMAN_BUTTONS_DESC_LONG,
 			false, false, UnlockTag.FUEL, UnlockTag.OFFENSE, UnlockTag.WEAPON_DAMAGE),
-	CALL_OF_THE_VOID(new CalloftheVoid(), GameText.CALL_OF_THE_VOID, GameText.CALL_OF_THE_VOID_DESC, GameText.CALL_OF_THE_VOID_DESC_LONG,
+	CALL_OF_THE_VOID(new CalloftheVoid(),
+			GameText.CALL_OF_THE_VOID, GameText.CALL_OF_THE_VOID_DESC, GameText.CALL_OF_THE_VOID_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.WEAPON_DAMAGE),
-	CARLOCS_THESIS(new CarlocsThesis(),
+	CARLOCS_THESIS(new CarlocsThesis(), "thesis",
 			GameText.CARLOCS_THESIS, GameText.CARLOCS_THESIS_DESC, GameText.CARLOCS_THESIS_DESC_LONG,
 			false, false, UnlockTag.DEFENSE),
-	CASTAWAYS_TRAVELOGUE(new CastawaysTravelogue(),
+	CASTAWAYS_TRAVELOGUE(new CastawaysTravelogue(), "travelog",
 			GameText.CASTAWAYS_TRAVELOGUE, GameText.CASTAWAYS_TRAVELOGUE_DESC, GameText.CASTAWAYS_TRAVELOGUE_DESC_LONG,
 			false, false, UnlockTag.FUEL),
 	CATALOG_OF_WANT(new CatalogofWant(),
@@ -126,7 +133,10 @@ public enum UnlockArtifact {
 	CONFIDENCE(new Confidence(),
 			GameText.CONFIDENCE, GameText.CONFIDENCE_DESC, GameText.CONFIDENCE_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.WEAPON_DAMAGE),
-	CRIME_DISCOURAGEMENT_STICK(new CrimeDiscouragementStick(),
+	CONTEMPT_FOR_LIFE(new ContemptForLife(),
+			GameText.CONTEMPT_FOR_LIFE, GameText.CONTEMPT_FOR_LIFE_DESC, GameText.CONTEMPT_FOR_LIFE_DESC_LONG,
+			false, false, UnlockTag.OFFENSE, UnlockTag.WEAPON_DAMAGE),
+	CRIME_DISCOURAGEMENT_STICK(new CrimeDiscouragementStick(), "crimestick",
 			GameText.CRIME_DISCOURAGEMENT_STICK, GameText.CRIME_DISCOURAGEMENT_STICK_DESC, GameText.CRIME_DISCOURAGEMENT_STICK_DESC_LONG,
 			false, false, UnlockTag.OFFENSE),
 	CROWN_OF_THORNS(new CrownOfThorns(),
@@ -186,6 +196,9 @@ public enum UnlockArtifact {
 	THE_FINGER(new TheFinger(),
 			GameText.THE_FINGER, GameText.THE_FINGER_DESC, GameText.THE_FINGER_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.GIMMICK),
+	FINIFUGALITY(new Finifugality(),
+			GameText.FINIFUGALITY, GameText.FINIFUGALITY_DESC, GameText.FINIFUGALITY_DESC_LONG,
+			false, false, UnlockTag.OFFENSE),
 	FISHEYE_CATARACT(new FisheyeCataract(),
 			GameText.FISHEYE_CATARACT, GameText.FISHEYE_CATARACT_DESC, GameText.FISHEYE_CATARACT_DESC_LONG,
 			false, false, UnlockTag.DEFENSE, UnlockTag.GIMMICK),
@@ -204,15 +217,18 @@ public enum UnlockArtifact {
 	GOMEZS_AMYGDALA(new GomezsAmygdala(),
 			GameText.GOMEZS_AMYGDALA, GameText.GOMEZS_AMYGDALA_DESC, GameText.GOMEZS_AMYGDALA_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.MOBILITY),
-	GOOD_HEALTH(new GoodHealth(),
+	GOOD_HEALTH(new GoodHealth(), "goodhealth",
 			GameText.GOOD_HEALTH, GameText.GOOD_HEALTH_DESC, GameText.GOOD_HEALTH_DESC_LONG,
 			false, false, UnlockTag.DEFENSE),
 	HEART_OF_SPEROS(new HeartofSperos(),
 			GameText.HEART_OF_SPEROS, GameText.HEART_OF_SPEROS_DESC, GameText.HEART_OF_SPEROS_DESC_LONG,
 			false, false, UnlockTag.AMMO),
+	HEARTSNATCHER(new Heartsnatcher(),
+			GameText.HEARTSNATCHER, GameText.HEARTSNATCHER_DESC, GameText.HEARTSNATCHER_DESC_LONG,
+			false, false, UnlockTag.OFFENSE, UnlockTag.WEAPON_DAMAGE),
 	HONEYED_TENEBRAE(new HoneyedTenebrae(),
 			GameText.HONEYED_TENEBRAE, GameText.HONEYED_TENEBRAE_DESC, GameText.HONEYED_TENEBRAE_DESC_LONG,
-			false, false, UnlockTag.DEFENSE),
+			false, false, UnlockTag.OFFENSE),
 	HOOD_OF_HABIT(new HoodofHabit(),
 			GameText.HOOD_OF_HABIT, GameText.HOOD_OF_HABIT_DESC, GameText.HOOD_OF_HABIT_DESC_LONG,
 			false, false),
@@ -246,7 +262,7 @@ public enum UnlockArtifact {
 	KINESIS_LENS(new KinesisLens(),
 			GameText.KINESIS_LENS, GameText.KINESIS_LENS_DESC, GameText.KINESIS_LENS_DESC_LONG,
 			false, false, UnlockTag.PROJECTILE_MODIFIER),
-	KUMQUAT(new Kumquat(),
+	KUMQUAT(new Kumquat(), "kumquat",
 			GameText.KUMQUAT, GameText.KUMQUAT_DESC, GameText.KUMQUAT_DESC_LONG,
 			false, false, UnlockTag.HEAL),
 	LAMPREY_IDOL(new LampreyIdol(),
@@ -297,7 +313,7 @@ public enum UnlockArtifact {
 	NACREOUS_RUDDER(new NacreousRudder(),
 			GameText.NACREOUS_RUDDER, GameText.NACREOUS_RUDDER_DESC, GameText.NACREOUS_RUDDER_DESC_LONG,
 			false, false, UnlockTag.MOBILITY),
-	NICE_SHOES(new NiceShoes(),
+	NICE_SHOES(new NiceShoes(), "niceshoe",
 			GameText.NICE_SHOES, GameText.NICE_SHOES_DESC, GameText.NICE_SHOES_DESC_LONG,
 			false, false, UnlockTag.MOBILITY),
 	NOCTILUCENT_PROMISE(new NoctilucentPromise(),
@@ -309,7 +325,7 @@ public enum UnlockArtifact {
 	NURDLER(new Nurdler(),
 			GameText.NURDLER, GameText.NURDLER_DESC, GameText.NURDLER_DESC_LONG,
 			false, false, UnlockTag.OFFENSE, UnlockTag.PASSIVE_DAMAGE),
-	NUTRILOG_CRUNCHBAR_PLUS(new NutrilogCrunchbarPlus(),
+	NUTRILOG_CRUNCHBAR_PLUS(new NutrilogCrunchbarPlus(), "nutrilogcrunch",
 			GameText.NUTRILOG_CRUNCHBAR_PLUS, GameText.NUTRILOG_CRUNCHBAR_PLUS_DESC, GameText.NUTRILOG_CRUNCHBAR_PLUS_DESC_LONG,
 			false, false, UnlockTag.DEFENSE, UnlockTag.GIMMICK),
 	OBLIGE_LA_MORT(new ObligeLaMort(),
@@ -411,7 +427,7 @@ public enum UnlockArtifact {
 	TENUOUS_GRIP_ON_REALITY(new TenuousGripOnReality(),
 			GameText.TENUOUS_GRIP_ON_REALITY, GameText.TENUOUS_GRIP_ON_REALITY_DESC, GameText.TENUOUS_GRIP_ON_REALITY_DESC_LONG,
 			false, false),
-	TOME_OF_PHILOPATRY(new TomeOfPhilopatry(),
+	TOME_OF_PHILOPATRY(new TomeOfPhilopatry(), "philopatrytome",
 			GameText.TOME_OF_PHILOPATRY, GameText.TOME_OF_PHILOPATRY_DESC, GameText.TOME_OF_PHILOPATRY_DESC_LONG,
 			false, false, UnlockTag.PROJECTILE_MODIFIER),
 	TOUCH_ME_NOT(new TouchMeNot(),
@@ -487,7 +503,7 @@ public enum UnlockArtifact {
 	private boolean invisible;
 
 	UnlockArtifact(Artifact artifact) {
-		this(artifact, "artifact", GameText.NOTHING, GameText.NOTHING, GameText.NOTHING, true, true);
+		this(artifact, "", GameText.NOTHING, GameText.NOTHING, GameText.NOTHING, true, true);
 	}
 
 	UnlockArtifact(Artifact artifact, String spriteId, GameText name, GameText desc, GameText descLong,
@@ -510,7 +526,7 @@ public enum UnlockArtifact {
 
 	UnlockArtifact(Artifact artifact, GameText name, GameText desc, GameText descLong,
 				   boolean omitHub, boolean omitRandom, UnlockTag... tags) {
-		this(artifact, "artifact", name, desc, descLong, omitHub, omitRandom, tags);
+		this(artifact, "", name, desc, descLong, omitHub, omitRandom, tags);
 	}
 
 	UnlockArtifact(Artifact artifact, boolean invisible) {
@@ -521,8 +537,25 @@ public enum UnlockArtifact {
 	/**
 	 * This returns the sprite representing this artifact in the ui
 	 */
-	public TextureRegion getFrame() {
-		return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_ATL.toString())).findRegion(spriteId);
+	public TextureRegion getFrameBig() {
+		if (spriteId.isEmpty()) {
+			return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_BIG_ATL.toString())).findRegion("artifact");
+		}
+		return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_BIG_ATL.toString())).findRegion(spriteId);
+	}
+
+	public TextureRegion getFrameSmall() {
+		if (spriteId.isEmpty()) {
+			return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_BIG_ATL.toString())).findRegion("artifact");
+		}
+		return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_SMALL_ATL.toString())).findRegion(spriteId);
+	}
+
+	public TextureRegion getFrameLines() {
+		if (spriteId.isEmpty()) {
+			return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_BIG_ATL.toString())).findRegion("artifact");
+		}
+		return ((TextureAtlas) HadalGame.assetManager.get(AssetList.ARTIFACT_WHITE_ATL.toString())).findRegion(spriteId);
 	}
 
 	/**

@@ -17,8 +17,6 @@ import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
-import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
 import com.mygdx.hadal.statuses.ProcTime.ReceiveHeal;
 import com.mygdx.hadal.statuses.Status;
 
@@ -49,6 +47,13 @@ public class BodyData extends HadalData {
 
 	//variance multiplier applied to every instance of damage
 	private static final float DAMAGE_VARIANCE = 0.1f;
+
+	public static final float BASE_CRIT_MULTIPLIER = 0.8f;
+	public static final float BASE_MINI_CRIT_MULTIPLIER = 0.4f;
+
+	public static final float ARMOR_1_MULTIPLIER = -0.2f;
+	public static final float ARMOR_2_MULTIPLIER = -0.5f;
+	public static final float ARMOR_3_MULTIPLIER = -0.8f;
 
 	//The Schmuck that owns this data
 	protected Schmuck schmuck;
@@ -283,12 +288,6 @@ public class BodyData extends HadalData {
 		damage += baseDamage * (perp.getStat(Stats.DAMAGE_AMP));
 		damage += baseDamage * (-DAMAGE_VARIANCE + MathUtils.random() * 2 * DAMAGE_VARIANCE);
 
-		//proc effects and inflict damage
-		if (procEffects) {
-			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, source, tags))).damage;
-			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, source, tags))).damage;
-		}
-
 		//damage effects should be processed for all characters except clients on server who process them themselves
 		boolean processDamageEffects = true;
 		if (schmuck.getState().isServer()) {
@@ -301,7 +300,38 @@ public class BodyData extends HadalData {
 			}
 		}
 
+
+		int crit = ((ProcTime.CalcInflictCrit) perp.statusProcTime(new ProcTime.CalcInflictCrit(0, this, hbox, source, tags))).crit;
+		if (crit == 1) {
+			damage *= (1 + BASE_MINI_CRIT_MULTIPLIER);
+			schmuck.getDamageEffectHelper().addCritFlash();
+		} else if (crit >= 2) {
+			damage *= (1 + BASE_CRIT_MULTIPLIER);
+			schmuck.getDamageEffectHelper().addCritFlash();
+		} else {
+
+			//armor is calculated
+			int armor = ((ProcTime.CalcArmorReceive) statusProcTime(new ProcTime.CalcArmorReceive(0, damage, perp, hbox, source, tags))).armor;
+			armor = ((ProcTime.CalcArmorInflict) statusProcTime(new ProcTime.CalcArmorInflict(armor, damage, perp, hbox, source, tags))).armor;
+
+			if (armor == 1) {
+				damage *= (1 + ARMOR_1_MULTIPLIER);
+			} else if (armor == 2) {
+				damage *= (1 + ARMOR_2_MULTIPLIER);
+			} else if (armor >= 3) {
+				damage *= (1 + ARMOR_3_MULTIPLIER);
+			}
+		}
+
+		//proc effects and inflict damage
+		if (procEffects) {
+			damage = ((ProcTime.InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, hbox, source, tags))).damage;
+			damage = ((ProcTime.ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, hbox, source, tags))).damage;
+		}
+
 		if (processDamageEffects) {
+
+			damage = schmuck.getSpecialHpHelper().receiveShieldDamage(damage);
 
 			currentHp -= damage;
 

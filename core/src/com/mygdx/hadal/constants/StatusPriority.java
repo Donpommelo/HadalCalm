@@ -14,7 +14,6 @@ public class StatusPriority {
     //These effects both modify and vary with incoming damage.
     public static final int PRIORITY_PRE_SCALE_FRACTURE_PLATE = 8;
     public static final int PRIORITY_PRE_SCALE_FARADAYS_CAGE = 11;
-    public static final int PRIORITY_PRE_SCALE_HONEYED_TENEBRAE = 12;
 
     //Effects that scale to incoming damage must go after all effects that modify final value
     public static final int PRIORITY_SCALE = 13;

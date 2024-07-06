@@ -14,8 +14,6 @@ public class ErsatzSmile extends Artifact {
 
 	private static final int SLOT_COST = 2;
 
-	private static final float DAMAGE_AMP = 0.8f;
-
 	public ErsatzSmile() {
 		super(SLOT_COST);
 	}
@@ -25,7 +23,8 @@ public class ErsatzSmile extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
+			public int onCalcDealCrit(int crit, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
+				int backstab = 0;
 				if (damaging != null) {
 					boolean flip = false;
 
@@ -38,25 +37,26 @@ public class ErsatzSmile extends Artifact {
 					if (damaging.isPositionBasedOnUser()) {
 						if (flip) {
 							if ((p.getSchmuck().getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) < vic.getSchmuck().getSize().x / 2) {
-								return damage * (1.0f + DAMAGE_AMP);
+								backstab = 1;
 							}
 						} else {
 							if ((p.getSchmuck().getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) > vic.getSchmuck().getSize().x / 2) {
-								return damage * (1.0f + DAMAGE_AMP);
+								backstab = 1;
 							}
 						}
 					} else {
 						if (flip) {
 							if ((damaging.getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) < vic.getSchmuck().getSize().x / 2) {
-								return damage * (1.0f + DAMAGE_AMP);							}
+								backstab = 1;
+							}
 						} else {
 							if ((damaging.getPixelPosition().x - vic.getSchmuck().getPixelPosition().x) > vic.getSchmuck().getSize().x / 2) {
-								return damage * (1.0f + DAMAGE_AMP);
+								backstab = 1;
 							}
 						}
 					}
 				}
-				return damage;
+				return crit + backstab;
 			}
 		};
 	}
@@ -64,6 +64,6 @@ public class ErsatzSmile extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (DAMAGE_AMP * 100))};
+				String.valueOf((int) BodyData.BASE_CRIT_MULTIPLIER * 100)};
 	}
 }

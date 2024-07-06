@@ -12,6 +12,7 @@ import com.mygdx.hadal.battle.attacks.general.*;
 import com.mygdx.hadal.battle.attacks.special.Emote;
 import com.mygdx.hadal.battle.attacks.special.Ping;
 import com.mygdx.hadal.battle.attacks.weapon.*;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.packets.PacketsAttacks;
@@ -135,7 +136,8 @@ public enum SyncedAttack {
     VENGEFUL_SPIRIT(new VengefulSpirit(DamageSource.SPIRIT_RELEASE)),
     VENGEFUL_SPIRIT_PEACHWOOD(new VengefulSpirit(DamageSource.PEACHWOOD_SWORD)),
 
-    HEALING_FIELD(new HealingFieldUse()),
+    HEALING_FIELD(new HealingFieldUse(UnlockArtifact.NOTHING)),
+    HEALING_FIELD_MUG(new HealingFieldUse(UnlockArtifact.NUMBER_ONE_BOSS_MUG)),
     SPRING(new SpringLoaderUse()),
     SUPPLY_DROP(new SupplyDropUse()),
     TERRAFORM(new Terraform()),
@@ -153,6 +155,7 @@ public enum SyncedAttack {
     ARTIFACT_MAGIC_ACTIVATE(new ArtifactMagicActivate()),
     AMDALHS_LOTUS(new AmdhalsLotusActivate()),
     BRITTLING_POWDER(new BrittlingPowderActivate()),
+    CASTAWAYS_TRAVELOGUE(new CastawaysTravelogueActivate()),
     COMMUTERS_PARASOL(new CommuterParasolActivate()),
     CROWN_OF_THORNS(new CrownOfThornsActivate()),
     FRACTURE_PLATE(new FracturePlateActivate()),

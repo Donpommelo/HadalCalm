@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Regeneration;
@@ -31,6 +32,7 @@ public class Kumquat extends Artifact {
 					if (p.getCurrentHp() / p.getStat(Stats.MAX_HP) <= HP_THRESHOLD) {
 						activated = true;
 
+						p.getPlayer().getArtifactIconHelper().addArtifactFlash(UnlockArtifact.KUMQUAT);
 						SyncedAttack.KUMQUAT.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 
 						float healAmount = REGEN_AMOUNT * p.getStat(Stats.MAX_HP) / REGEN_DURATION;

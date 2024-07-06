@@ -1,6 +1,5 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -37,8 +36,7 @@ public class CastawaysTravelogue extends Artifact {
 
 				if (procCdCount >= PROC_CD) {
 					if (inflicted.getCurrentFuel() <= FUEL_THRESHOLD) {
-						SyncedAttack.ARTIFACT_FUEL_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
-
+						SyncedAttack.CASTAWAYS_TRAVELOGUE.initiateSyncedAttackNoHbox(state, p.getPlayer(), p.getPlayer().getPixelPosition(), true);
 						p.addStatus(new StatChangeStatus(state, FUEL_DURATION, Stats.FUEL_REGEN, FUEL_REGEN, p, p));
 						procCdCount = 0.0f;
 					}

@@ -11,8 +11,8 @@ import com.mygdx.hadal.statuses.Status;
 public class MouthbreatherCertificate extends Artifact {
 
 	private static final int SLOT_COST = 1;
-	
-	private static final float DAMAGE_RESISTANCE = 0.9f;
+
+	private static final int ARMOR_AMOUNT = 3;
 	
 	public MouthbreatherCertificate() {
 		super(SLOT_COST);
@@ -23,11 +23,11 @@ public class MouthbreatherCertificate extends Artifact {
 		enchantment = new Status(state, p) {
 
 			@Override
-			public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
+			public int onCalcArmorReceive(int armor, float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
 				if (perp.equals(p) && damage > 0) {
-					return damage * (1.0f - DAMAGE_RESISTANCE);
+					return armor + ARMOR_AMOUNT;
 				}
-				return damage;
+				return armor;
 			}
 		};
 	}
@@ -35,6 +35,6 @@ public class MouthbreatherCertificate extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (DAMAGE_RESISTANCE * 100))};
+				String.valueOf(ARMOR_AMOUNT)};
 	}
 }

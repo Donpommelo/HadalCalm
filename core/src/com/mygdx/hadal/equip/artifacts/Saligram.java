@@ -1,15 +1,18 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.statuses.Status;
 
 public class Saligram extends Artifact {
 
 	private static final int SLOT_COST = 1;
-	
-	private static final float DAMAGE_RES = 0.15f;
+
+	private static final int ARMOR_AMOUNT = 1;
 	
 	public Saligram() {
 		super(SLOT_COST);
@@ -17,12 +20,18 @@ public class Saligram extends Artifact {
 
 	@Override
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
-		enchantment = new StatChangeStatus(state, Stats.DAMAGE_RES, DAMAGE_RES, p);
+		enchantment = new Status(state, p) {
+
+			@Override
+			public int onCalcArmorReceive(int armor, float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) {
+				return armor + ARMOR_AMOUNT;
+			}
+		};
 	}
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (DAMAGE_RES * 100))};
+				String.valueOf(ARMOR_AMOUNT)};
 	}
 }

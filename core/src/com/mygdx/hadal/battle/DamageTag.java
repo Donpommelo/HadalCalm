@@ -8,7 +8,7 @@ package com.mygdx.hadal.battle;
 public enum DamageTag {
 	DEFLECT,
 	REFLECT,
-	
+
 	MELEE,
 	RANGED,
 	

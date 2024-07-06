@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -43,6 +44,7 @@ public class Number1BossMug extends Artifact {
 				if (procCdCount >= PROC_CD && damage > 0) {
 					procCdCount = 0;
 
+					p.getPlayer().getArtifactIconHelper().addArtifactFlash(UnlockArtifact.NUMBER_ONE_BOSS_MUG);
 					SyncedAttack.HEALING_FIELD.initiateSyncedAttackNoHbox(state, p.getSchmuck(), p.getSchmuck().getPixelPosition(), true,
 							FIELD_SIZE, FIELD_HEAL, HEAL_DURATION);
 				}

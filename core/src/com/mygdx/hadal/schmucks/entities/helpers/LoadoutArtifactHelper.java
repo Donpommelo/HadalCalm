@@ -79,6 +79,9 @@ public class LoadoutArtifactHelper {
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
             player.getState().getUiArtifact().syncArtifact();
         }
+
+        //set this boolean so score window is updated
+        player.getUser().setScoreUpdated(true);
     }
 
     /**
@@ -197,6 +200,10 @@ public class LoadoutArtifactHelper {
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
             player.getState().getUiArtifact().syncArtifact();
         }
+
+        //set this boolean so score window is updated
+        player.getUser().setScoreUpdated(true);
+
         syncServerArtifactChange(getActiveLoadout().artifacts, save);
         player.getPlayerData().calcStats();
     }

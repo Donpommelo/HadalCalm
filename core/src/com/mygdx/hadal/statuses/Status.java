@@ -94,6 +94,12 @@ public class Status implements Comparable<Status> {
 	
 	public float onReceiveDamage(float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) { return damage; }
 
+	public int onCalcDealCrit(int crit, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) { return crit; }
+
+	public int onCalcArmorInflict(int armor, float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) { return armor; }
+
+	public int onCalcArmorReceive(int armor, float damage, BodyData perp, Hitbox damaging, DamageSource source, DamageTag... tags) { return armor; }
+
 	public float onHeal(float damage, BodyData perp, DamageTag... tags) { return damage; }
 	
 	public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {}
