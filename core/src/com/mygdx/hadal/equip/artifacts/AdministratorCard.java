@@ -28,7 +28,8 @@ public class AdministratorCard extends Artifact {
 			@Override
 			public void playerCreate(boolean reset) {
 				if (state.getMode().isHub()) { return; }
-				
+				p.getPlayer().getArtifactIconHelper().addArtifactFlash(UnlockArtifact.ADMINISTRATOR_CARD);
+
 				int artifactsAdded = 0;
 
 				while (artifactsAdded < NUM_ARTIFACTS) {

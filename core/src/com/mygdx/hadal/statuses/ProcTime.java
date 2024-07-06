@@ -75,7 +75,77 @@ public abstract class ProcTime {
 			return this;
 		}
 	}
-	
+
+	public static class CalcInflictCrit extends ProcTime {
+		public int crit;
+		public final BodyData vic;
+		public final Hitbox hbox;
+		public final DamageSource source;
+		public final DamageTag[] tags;
+
+		public CalcInflictCrit(int crit, BodyData vic, Hitbox hbox, DamageSource source, DamageTag...  tags) {
+			this.crit = crit;
+			this.vic = vic;
+			this.hbox = hbox;
+			this.source = source;
+			this.tags = tags;
+		}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			crit = status.onCalcDealCrit(crit, vic, hbox, source, tags);
+			return this;
+		}
+	}
+
+	public static class CalcArmorInflict extends ProcTime {
+		public int armor;
+		public final float damage;
+		public final BodyData vic;
+		public final Hitbox hbox;
+		public final DamageSource source;
+		public final DamageTag[] tags;
+
+		public CalcArmorInflict(int armor, float damage, BodyData vic, Hitbox hbox, DamageSource source, DamageTag...  tags) {
+			this.armor = armor;
+			this.damage = damage;
+			this.vic = vic;
+			this.hbox = hbox;
+			this.source = source;
+			this.tags = tags;
+		}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			armor = status.onCalcArmorInflict(armor, damage, vic, hbox, source, tags);
+			return this;
+		}
+	}
+
+	public static class CalcArmorReceive extends ProcTime {
+		public int armor;
+		public final float damage;
+		public final BodyData perp;
+		public final Hitbox hbox;
+		public final DamageSource source;
+		public final DamageTag[] tags;
+
+		public CalcArmorReceive(int armor, float damage, BodyData perp, Hitbox hbox, DamageSource source, DamageTag...  tags) {
+			this.armor = armor;
+			this.damage = damage;
+			this.perp = perp;
+			this.hbox = hbox;
+			this.source = source;
+			this.tags = tags;
+		}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			armor = status.onCalcArmorReceive(armor, damage, perp, hbox, source, tags);
+			return this;
+		}
+	}
+
 	public static class ReceiveHeal extends ProcTime {
 		public float heal;
 		public final BodyData perp;

@@ -1,23 +1,22 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class SamuraiShark extends Artifact {
 
 	private static final int slotCost = 1;
-	
-	private final float critChance = 0.15f;
-	private final float critDamageBoost = 0.75f;
-	private final float critSpeedMultiplier = 1.0f;
-	
+
+	private static final float CRIT_CHANCE = 0.3f;
+	private static final int CRIT_AMOUNT = 1;
+
 	public SamuraiShark() {
 		super(slotCost);
 	}
@@ -26,16 +25,10 @@ public class SamuraiShark extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
 				new Status(state, p) {
-			
-			@Override
-			public void onHitboxCreation(Hitbox hbox) {
-				if (!hbox.isEffectsHit()) { return; }
 
-				if (MathUtils.randomBoolean(critChance)) {
-					hbox.setStartVelo(hbox.getStartVelo().scl(1.0f + critSpeedMultiplier));
-					hbox.addStrategy(new DieParticles(state, hbox, p, Particle.EXPLOSION).setSyncType(SyncType.NOSYNC));
-					hbox.setDamageMultiplier(1.0f + critDamageBoost);
-				}
+			@Override
+			public int onCalcDealCrit(int crit, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
+				return crit + (MathUtils.randomBoolean(CRIT_CHANCE) ? CRIT_AMOUNT : 0);
 			}
 		});
 	}
@@ -43,8 +36,6 @@ public class SamuraiShark extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) (critChance * 100)),
-				String.valueOf((int) (critDamageBoost * 100)),
-				String.valueOf((int) (critSpeedMultiplier * 100))};
+				String.valueOf((int) (CRIT_CHANCE * 100))};
 	}
 }

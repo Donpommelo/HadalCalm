@@ -72,7 +72,7 @@ public class Reliquary extends HubEvent {
 				}
 			}
 			if (appear) {
-				HubOption option = new HubOption(c.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED, c.getFrame()));
+				HubOption option = new HubOption(c.getName(), new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED, c.getFrameBig()));
 
 				option.addListener(new ClickListener() {
 

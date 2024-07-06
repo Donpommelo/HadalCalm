@@ -77,7 +77,7 @@ public class Vending extends HubEvent {
 			HubOption option = new HubOption(UIText.ARTIFACT_OPTION_VENDING.text(selected.getName(),
 					Integer.toString(JSONManager.artifactInfo.getPrices().get(c))),
 					new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED,
-					selected.getFrame()));
+					selected.getFrameBig()));
 
 			option.addListener(new ClickListener() {
 

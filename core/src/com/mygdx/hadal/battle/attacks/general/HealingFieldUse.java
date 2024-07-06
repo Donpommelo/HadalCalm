@@ -5,6 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.event.HealingArea;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.states.ClientState;
@@ -12,8 +14,18 @@ import com.mygdx.hadal.states.PlayState;
 
 public class HealingFieldUse extends SyncedAttacker {
 
+    private final UnlockArtifact effectSource;
+
+    public HealingFieldUse(UnlockArtifact effectSource) {
+        this.effectSource = effectSource;
+    }
+
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
+
+        if (effectSource.equals(UnlockArtifact.NUMBER_ONE_BOSS_MUG)) {
+            ((Player) user).getArtifactIconHelper().addArtifactFlash(UnlockArtifact.NUMBER_ONE_BOSS_MUG);
+        }
 
         Vector2 fieldSize = new Vector2();
         float heal = 0.0f;

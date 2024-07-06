@@ -6,7 +6,9 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -21,6 +23,9 @@ public class AmdhalsLotusActivate extends SyncedAttacker {
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
         SoundEffect.MAGIC18_BUFF.playSourced(state, user.getPixelPosition(), 0.5f);
+
+        ((Player) user).getArtifactIconHelper().addArtifactFlash(UnlockArtifact.AMDAHLS_LOTUS);
+
         ParticleEntity particle = new ParticleEntity(state, user, Particle.RING, 1.0f, 1.0f, true, SyncType.NOSYNC)
                 .setScale(0.4f);
 

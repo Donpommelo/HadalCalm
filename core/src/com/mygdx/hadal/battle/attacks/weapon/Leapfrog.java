@@ -1,6 +1,7 @@
 package com.mygdx.hadal.battle.attacks.weapon;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -61,11 +62,12 @@ public class Leapfrog extends SyncedAttacker {
                 }
 
                 batch.draw(projectileSprite.getKeyFrame(animationTime, false),
-                        (flip ? 0 : spriteSize.x) + entityLocation.x - spriteSize.x / 2,
+                        (flip ? entityLocation.x - spriteSize.x / 2 : entityLocation.x + spriteSize.x / 2),
                         entityLocation.y - spriteSize.y / 2 + spriteOffset.y,
-                        spriteSize.x / 2,
-                        (flip ? 1 : -1) * spriteSize.y / 2,
-                        (flip ? 1 : -1) * spriteSize.x, spriteSize.y, 1, 1, 0);
+                        (flip ? 1 : -1) * spriteSize.x / 2,
+                        spriteSize.y / 2,
+                        (flip ? spriteSize.x : -spriteSize.x), spriteSize.y, 1, 1,
+                        MathUtils.radDeg * getAngle());
             }
         };
         hbox.setGravity(7);

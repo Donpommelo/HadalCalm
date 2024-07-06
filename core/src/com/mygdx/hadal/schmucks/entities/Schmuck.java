@@ -8,6 +8,8 @@ import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.entities.helpers.DamageEffectHelper;
+import com.mygdx.hadal.schmucks.entities.helpers.SpecialHpHelper;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
@@ -38,6 +40,8 @@ public class Schmuck extends HadalEntity {
     
 	//This particle is triggered upon receiving damage
 	public final ParticleEntity impact;
+	private final DamageEffectHelper damageEffectHelper;
+	private final SpecialHpHelper specialHpHelper;
 
 	//This is the filter of this unit and hitboxes it spawns
 	protected short hitboxFilter;
@@ -57,6 +61,9 @@ public class Schmuck extends HadalEntity {
 		this.hitboxFilter = hitboxFilter;
 		this.baseHp = baseHp;
 
+		this.damageEffectHelper = new DamageEffectHelper(state, this);
+		this.specialHpHelper = new SpecialHpHelper(this);
+
 		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, SyncType.NOSYNC);
 		if (!state.isServer()) {
 			((ClientState) state).addEntity(impact.getEntityID(), impact, false, PlayState.ObjectLayer.EFFECT);
@@ -74,7 +81,9 @@ public class Schmuck extends HadalEntity {
 	 */
 	@Override
 	public void controller(float delta) {
-		
+
+		specialHpHelper.controller(delta);
+
 		//Apply base hp regen
 		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTag.REGEN);
 		
@@ -164,4 +173,8 @@ public class Schmuck extends HadalEntity {
 	public void setBaseHp(int baseHp) { this.baseHp = baseHp; }
 
 	public String getName() { return name; }
+
+	public DamageEffectHelper getDamageEffectHelper() {	return damageEffectHelper; }
+
+	public SpecialHpHelper getSpecialHpHelper() { return specialHpHelper; }
 }

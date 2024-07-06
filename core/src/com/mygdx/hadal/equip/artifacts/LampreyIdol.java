@@ -1,9 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -19,9 +17,7 @@ public class LampreyIdol extends Artifact {
 	
 	private static final float LIFESTEAL_PLAYER = 0.1f;
 	private static final float LIFESTEAL_ENEMY = 0.02f;
-	private static final float DAMAGE = 2.5f;
-	private static final float HP_THRESHOLD = 0.5f;
-	
+
 	public LampreyIdol() {
 		super(SLOT_COST);
 	}
@@ -30,20 +26,6 @@ public class LampreyIdol extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatusComposite(state, p,
 				new Status(state, p) {
-			
-			private float procCdCount;
-			private static final float procCd = 1.0f;
-			@Override
-			public void timePassing(float delta) {
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
-					
-					if ((p.getCurrentHp() / p.getStat(Stats.MAX_HP)) >= HP_THRESHOLD) {
-						p.receiveDamage(DAMAGE, new Vector2(), p, true, null, DamageSource.LAMPREY_IDOL);
-					}
-				}
-				procCdCount += delta;
-			}
 			
 			@Override
 			public float onDealDamage(float damage, BodyData vic, Hitbox damaging, DamageSource source, DamageTag... tags) {
@@ -61,8 +43,6 @@ public class LampreyIdol extends Artifact {
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf((int) (LIFESTEAL_PLAYER * 100)),
-				String.valueOf((int) (LIFESTEAL_ENEMY * 100)),
-				String.valueOf((int) (HP_THRESHOLD * 100)),
-				String.valueOf(DAMAGE)};
+				String.valueOf((int) (LIFESTEAL_ENEMY * 100))};
 	}
 }

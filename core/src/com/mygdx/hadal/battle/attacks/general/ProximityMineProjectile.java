@@ -12,8 +12,10 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -47,6 +49,10 @@ public class ProximityMineProjectile extends SyncedAttacker {
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
         final float mineDamage = extraFields.length > 0 ? extraFields[0] : MINE_DEFAULT_DAMAGE;
+
+        if (damageSource.equals(DamageSource.BOOK_OF_BURIAL)) {
+            ((Player) user).getArtifactIconHelper().addArtifactFlash(UnlockArtifact.BOOK_OF_BURIAL);
+        }
 
         final boolean[] primed = new boolean[] { false };
         Hitbox hbox = new RangedHitbox(state, startPosition, MINE_SIZE, MINE_LIFESPAN, new Vector2(0, -MINE_SPEED),
