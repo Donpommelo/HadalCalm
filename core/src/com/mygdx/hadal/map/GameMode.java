@@ -51,9 +51,6 @@ public enum GameMode {
 
         @Override
         public boolean isHub() { return true; }
-
-        @Override
-        public boolean isFriendlyFire() { return false; }
     },
 
     CAMPAIGN("", "placeholder", GameText.CAMPAIGN, GameText.CAMPAIGN_DESC,
@@ -82,7 +79,7 @@ public enum GameMode {
             new DisplayUITag("ARCADE_ROUND"), new DisplayUITag("WINBOARD"), new DisplayUITag("CURRENCY")) {
 
         @Override
-        public boolean isFriendlyFire() { return false; }
+        public boolean isArcadeBreakroom() { return true; }
     },
 
     SURVIVAL("arena", "survival", GameText.SURVIVAL, GameText.SURVIVAL_DESC,
@@ -292,8 +289,8 @@ public enum GameMode {
         playerstart.getProperties().put("triggeringId", spawnTriggerId.toString());
         multi.getProperties().put("triggeringId", startTriggerId.toString());
 
+        TiledObjectUtil.parseAddTiledEvent(state, playerstart);
         if (state.isServer()) {
-            TiledObjectUtil.parseAddTiledEvent(state, playerstart);
             TiledObjectUtil.parseAddTiledEvent(state, timer);
             TiledObjectUtil.parseAddTiledEvent(state, multi);
         }
@@ -478,7 +475,9 @@ public enum GameMode {
 
     public boolean isHub() { return false; }
 
-    public boolean isFriendlyFire() { return true; }
+    public boolean isArcadeBreakroom() { return false; }
+
+    public boolean isFriendlyFire() { return !isHub() && !isArcadeBreakroom(); }
 
     public boolean isJoinMidGame() { return joinMidGame; }
 

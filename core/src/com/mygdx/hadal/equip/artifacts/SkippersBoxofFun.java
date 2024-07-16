@@ -33,7 +33,7 @@ public class SkippersBoxofFun extends Artifact {
 				}
 				procCdCount += delta;
 			}
-		});
+		}).setUserOnly(true);
 	}
 
 	@Override

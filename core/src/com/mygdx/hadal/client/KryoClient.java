@@ -921,9 +921,9 @@ public class KryoClient {
 
 						if (!p.dontMoveCamera) {
 							//set camera to look at new client player.
+							cs.getCameraManager().setCameraTarget(null);
 							cs.getCameraManager().setCameraPosition(p.startPosition);
 							cs.getCameraManager().getCameraFocusAimVector().setZero();
-							cs.getCameraManager().setCameraTarget(null);
 						}
 					}
 				});

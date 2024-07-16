@@ -19,7 +19,7 @@ public class MeteorStrike extends ActiveItem {
 	private static final float BASE_DAMAGE = 28.0f;
 
 	private static final int METEOR_NUMBER = 18;
-	private static final float METEOR_INTERVAL = 0.2f;
+	private static final float METEOR_DURATION = 3.6f;
 	private static final float SPREAD = 15.0f;
 	
 	public MeteorStrike(Player user) {
@@ -28,18 +28,18 @@ public class MeteorStrike extends ActiveItem {
 
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		WeaponUtils.createMeteors(state, user.getPlayer(), new Vector2(mouseLocation).scl(1 / PPM), METEOR_NUMBER, METEOR_INTERVAL,
+		WeaponUtils.createMeteors(state, user.getPlayer(), new Vector2(mouseLocation).scl(1 / PPM), METEOR_NUMBER, METEOR_DURATION / METEOR_NUMBER,
 				BASE_DAMAGE, SPREAD);
 	}
 	
 	@Override
-	public float getUseDuration() { return METEOR_INTERVAL * METEOR_NUMBER; }
+	public float getUseDuration() { return METEOR_DURATION; }
 
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
 				String.valueOf((int) MAX_CHARGE),
-				String.valueOf(METEOR_INTERVAL * METEOR_NUMBER),
+				String.valueOf(METEOR_DURATION),
 				String.valueOf(METEOR_NUMBER),
 				String.valueOf((int) BASE_DAMAGE)};
 	}

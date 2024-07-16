@@ -27,7 +27,7 @@ public class AdministratorCard extends Artifact {
 			private final Array<UnlockArtifact> unlocks = new Array<>();
 			@Override
 			public void playerCreate(boolean reset) {
-				if (state.getMode().isHub()) { return; }
+				if (!state.getMode().isFriendlyFire()) { return; }
 				p.getPlayer().getArtifactIconHelper().addArtifactFlash(UnlockArtifact.ADMINISTRATOR_CARD);
 
 				int artifactsAdded = 0;

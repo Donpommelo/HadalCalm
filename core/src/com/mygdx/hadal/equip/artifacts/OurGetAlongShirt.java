@@ -41,7 +41,7 @@ public class OurGetAlongShirt extends Artifact {
 			private Hitbox[] links;
 			@Override
 			public void timePassing(float delta) {
-//				if (state.getMode().isHub()) { return; }
+				if (!state.getMode().isFriendlyFire()) { return; }
 
 				if (null != links && links.length > 0) {
 					if (!links[0].isAlive()) {
