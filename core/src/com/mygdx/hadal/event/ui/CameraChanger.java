@@ -41,7 +41,7 @@ public class CameraChanger extends Event {
 					state.getCameraManager().setCameraTarget(null);
 				}
 				state.getCameraManager().setCameraOffset(offsetX, offsetY);
-				
+
 				if (zoom != 0.0f) {
 					state.getCameraManager().setZoom(zoom);
 				}

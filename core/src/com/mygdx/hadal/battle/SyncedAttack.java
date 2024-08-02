@@ -151,11 +151,9 @@ public enum SyncedAttack {
     RESERVED_FUEL(new ReservedFuelUse()),
 
     ARTIFACT_AMMO_ACTIVATE(new ArtifactAmmoActivate()),
-    ARTIFACT_FUEL_ACTIVATE(new ArtifactFuelActivate()),
     ARTIFACT_MAGIC_ACTIVATE(new ArtifactMagicActivate()),
     AMDALHS_LOTUS(new AmdhalsLotusActivate()),
     BRITTLING_POWDER(new BrittlingPowderActivate()),
-    CASTAWAYS_TRAVELOGUE(new CastawaysTravelogueActivate()),
     COMMUTERS_PARASOL(new CommuterParasolActivate()),
     CROWN_OF_THORNS(new CrownOfThornsActivate()),
     FRACTURE_PLATE(new FracturePlateActivate()),
@@ -168,6 +166,14 @@ public enum SyncedAttack {
     SKIPPERS_BOX_OF_FUN(new SkippersBoxOfFunActivate()),
     VOLATILE_DERMIS(new VolatileDermisActivate()),
     WHITE_SMOKER(new WhiteSmokerActivate()),
+
+    CELESTIAL_ANOINTMENT(new ArtifactIconActivate(UnlockArtifact.CELESTIAL_ANOINTMENT)),
+    CLEPSYDRA(new ArtifactIconActivate(UnlockArtifact.CLEPSYDRAE)),
+    GLUTTONOUS_GREY_GLOVE(new ArtifactIconActivate(UnlockArtifact.GLUTTONOUS_GREY_GLOVE)),
+
+    CASTAWAYS_TRAVELOGUE(new ArtifactFuelActivate(UnlockArtifact.CASTAWAYS_TRAVELOGUE)),
+    CURSED_CILICE(new ArtifactFuelActivate(UnlockArtifact.CURSED_CILICE)),
+    MATTER_UNIVERSALIZER(new ArtifactFuelActivate(UnlockArtifact.MATTER_UNIVERSALIZER)),
 
     PICKUP(new Pickup()),
     EGGPLANT(new Eggplant()),

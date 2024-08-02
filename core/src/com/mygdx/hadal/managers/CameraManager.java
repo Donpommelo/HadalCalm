@@ -5,7 +5,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.CameraUtil;
 

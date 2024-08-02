@@ -39,7 +39,7 @@ public class CursedCilice extends Artifact {
 					p.fuelGain(damage * AMOUNT);
 					if (procCdCount >= PROC_CD) {
 						procCdCount = 0;
-						SyncedAttack.ARTIFACT_FUEL_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
+						SyncedAttack.CURSED_CILICE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 					}
 				}
 				return damage;

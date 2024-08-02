@@ -64,6 +64,6 @@ public class ErsatzSmile extends Artifact {
 	@Override
 	public String[] getDescFields() {
 		return new String[] {
-				String.valueOf((int) BodyData.BASE_CRIT_MULTIPLIER * 100)};
+				String.valueOf((int) (BodyData.BASE_CRIT_MULTIPLIER * 100))};
 	}
 }

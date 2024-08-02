@@ -14,7 +14,7 @@ import static com.mygdx.hadal.constants.Constants.PPM;
  */
 public class DamagePulse extends HitboxStrategy {
 
-	public static float PULSE_INTERVAL = 0.1f;
+	public static final float PULSE_INTERVAL = 0.1f;
 
 	private final Vector2 pulseSize;
 	private final float damage, knockback;

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -49,6 +50,7 @@ public class Clepsydrae extends Artifact {
 			@Override
 			public void afterActiveItem(ActiveItem tool) {
 				if (storedCharge > 0.0f) {
+					SyncedAttack.CLEPSYDRA.initiateSyncedAttackNoHbox(state, p.getPlayer(), p.getPlayer().getPixelPosition(), true);
 					chargeSpend = SPEND_DURATION;
 					spentRate = storedCharge / SPEND_DURATION;
 					storedCharge = 0.0f;
