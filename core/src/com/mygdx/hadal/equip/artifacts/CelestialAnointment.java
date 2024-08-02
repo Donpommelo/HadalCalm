@@ -46,6 +46,8 @@ public class CelestialAnointment extends Artifact {
 			
 			@Override
 			public void afterActiveItem(ActiveItem tool) {
+				SyncedAttack.CELESTIAL_ANOINTMENT.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
+
 				item = tool;
 				delay = item.getUseDuration() + BASE_DELAY;
 				echoing = true;

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
@@ -29,9 +30,11 @@ public class GluttonousGreyGlove extends Artifact {
 			@Override
 			public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
 				if (MathUtils.randomBoolean(CHANCE_PLAYER) && vic instanceof PlayerBodyData) {
+					SyncedAttack.GLUTTONOUS_GREY_GLOVE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 					SyncedAttack.PICKUP.initiateSyncedAttackSingle(state, vic.getSchmuck(), vic.getSchmuck().getPixelPosition(),
 							vic.getSchmuck().getLinearVelocity(), Constants.PICKUP_HEALTH, HEAL);
 				} else if (MathUtils.randomBoolean(CHANCE_MONSTER)) {
+					SyncedAttack.GLUTTONOUS_GREY_GLOVE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 					SyncedAttack.PICKUP.initiateSyncedAttackSingle(state, vic.getSchmuck(), vic.getSchmuck().getPixelPosition(),
 							vic.getSchmuck().getLinearVelocity(), Constants.PICKUP_HEALTH, HEAL);
 				}

@@ -6,6 +6,7 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -22,15 +23,15 @@ public class SkippersBoxOfFunActivate extends SyncedAttacker {
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
         SoundEffect.MAGIC27_EVIL.playSourced(state, user.getPixelPosition(), 0.5f);
 
+        ((Player) user).getArtifactIconHelper().addArtifactFlash(UnlockArtifact.SKIPPERS_BOX_OF_FUN);
+
         ParticleEntity particle =  new ParticleEntity(state, user, Particle.SMOKE_TOTLC, 1.0f, DURATION, true, SyncType.NOSYNC);
 
         if (!state.isServer()) {
             ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
         }
 
-        if (user instanceof Player player) {
-            Equippable equip = UnlocktoItem.getUnlock(UnlockEquip.getRandWeapFromPool(state, ""), null);
-            player.getEquipHelper().pickup(equip);
-        }
+        Equippable equip = UnlocktoItem.getUnlock(UnlockEquip.getRandWeapFromPool(state, ""), null);
+        ((Player) user).getEquipHelper().pickup(equip);
     }
 }

@@ -26,7 +26,7 @@ public class MatterUniversalizer extends Artifact {
 
 			@Override
 			public void onKill(BodyData vic, DamageSource source, DamageTag... tags) {
-				SyncedAttack.ARTIFACT_FUEL_ACTIVATE.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
+				SyncedAttack.MATTER_UNIVERSALIZER.initiateSyncedAttackNoHbox(state, p.getPlayer(), new Vector2(), true);
 
 				if (vic instanceof PlayerBodyData) {
 					p.fuelGain(AMOUNT_PLAYER);
