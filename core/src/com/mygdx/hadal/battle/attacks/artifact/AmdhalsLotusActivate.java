@@ -33,7 +33,7 @@ public class AmdhalsLotusActivate extends SyncedAttacker {
             ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
         }
 
-        user.getBodyData().addStatus(new StatusComposite(state, state.getUiExtra().getTimer(), false, user.getBodyData(), user.getBodyData(),
+        user.getBodyData().addStatus(new StatusComposite(state, state.getTimerManager().getTimer(), false, user.getBodyData(), user.getBodyData(),
                 new StatChangeStatus(state, Stats.FUEL_REGEN, FUEL_REGEN_BUFF, user.getBodyData()),
                 new StatChangeStatus(state, Stats.HP_REGEN, HP_REGEN_BUFF, user.getBodyData())));
     }

@@ -29,8 +29,8 @@ public class AmdahlsLotus extends Artifact {
 			}
 
 			private void activateBuff() {
-				if (!activated && state.getUiExtra().getMaxTimer() > 0) {
-					if (state.getUiExtra().getTimer() <= state.getUiExtra().getMaxTimer() * TIME_THRESHOLD) {
+				if (!activated && state.getTimerManager().getMaxTimer() > 0) {
+					if (state.getTimerManager().getTimer() <= state.getTimerManager().getMaxTimer() * TIME_THRESHOLD) {
 						activated = true;
 						SyncedAttack.AMDALHS_LOTUS.initiateSyncedAttackNoHbox(state, p.getPlayer(), p.getPlayer().getPixelPosition(), true);
 					}

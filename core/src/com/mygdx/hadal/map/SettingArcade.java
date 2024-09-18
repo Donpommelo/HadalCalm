@@ -144,7 +144,7 @@ public class SettingArcade extends ModeSetting {
         int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_BREAK_TIME);
 
         if (startTimer != 0) {
-            state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);
+            state.getTimerManager().changeTimer(indexToTimer(startTimer), -1.0f);
         }
 
         RectangleMapObject end = new RectangleMapObject();
@@ -267,7 +267,7 @@ public class SettingArcade extends ModeSetting {
                     PlayState.TransitionState.NEWLEVEL, "");
         }
 
-        state.getUiExtra().syncUIText(UITag.uiType.WINBOARD);
+        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.WINBOARD);
     }
 
     public static void addNewUser(ScoreManager score) {

@@ -21,9 +21,9 @@ public class ModeKingmaker extends ModeSetting {
     private final Vector2 objectiveLocation = new Vector2();
     @Override
     public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation, Array<RallyPoint.RallyPointMultiplier> path) {
-        if (!state.getUiObjective().getObjectives().isEmpty()) {
-            objectiveLocation.set(state.getUiObjective().getObjectives().get(0).getObjectiveLocation()).scl(1 / PPM);
-            if (state.getUiObjective().getObjectives().get(0).getObjectiveTarget() instanceof CrownHoldable crown) {
+        if (!state.getUIManager().getUiObjective().getObjectives().isEmpty()) {
+            objectiveLocation.set(state.getUIManager().getUiObjective().getObjectives().get(0).getObjectiveLocation()).scl(1 / PPM);
+            if (state.getUIManager().getUiObjective().getObjectives().get(0).getObjectiveTarget() instanceof CrownHoldable crown) {
 
                 //this is kinda sketchy code that relies on the fact that capturable flags are only created in 1 place
                 //and that they are always added as the second strategy

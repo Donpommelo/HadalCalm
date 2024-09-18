@@ -40,11 +40,11 @@ public class Navigations extends HubEvent {
 
 	@Override
 	public void enter() {
-		state.getUiHub().setType(type);
-		state.getUiHub().setTitle(title);
+		state.getUIManager().getUiHub().setType(type);
+		state.getUIManager().getUiHub().setTitle(title);
 
 		if (UnlockTag.NAVIGATIONS.equals(tag)) {
-			state.getUiHub().enter(this);
+			state.getUIManager().getUiHub().enter(this);
 		}
 
 		open = true;
@@ -60,7 +60,7 @@ public class Navigations extends HubEvent {
 		}
 
 		Pattern pattern = Pattern.compile(search);
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		final Navigations me = this;
 
 		for (UnlockLevel c : UnlockLevel.getUnlocks(checkUnlock, newTags)) {
@@ -113,7 +113,7 @@ public class Navigations extends HubEvent {
 		if (!"".equals(level) && state.isServer()) {
 			if (!UnlockManager.checkUnlock(UnlockType.LEVEL, level)) {
 				UnlockManager.setUnlock(state, UnlockType.LEVEL, level, true);
-				state.getDialogBox().addDialogue("", UIText.NAVIGATION_ACTIVATION.text(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
+				state.getUIManager().getDialogBox().addDialogue("", UIText.NAVIGATION_ACTIVATION.text(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 		}
 	}

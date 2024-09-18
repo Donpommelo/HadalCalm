@@ -81,7 +81,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	@Override
 	public void addOptions(String search, int slots, UnlockTag tag) {
 		super.addOptions(search, slots, tag);
-		state.getUiHub().setTitle(modeChosen.getName());
+		state.getUIManager().getUiHub().setTitle(modeChosen.getName());
 		addTabs();
 
 		lastSearch = search;
@@ -95,7 +95,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.getTableTabs().clear();
 		hub.setTitle(UIText.GAME_MODES.text());
 		final NavigationsMultiplayer me = this;
@@ -122,8 +122,8 @@ public class NavigationsMultiplayer extends HubEvent {
 
 						modeChosen = selected;
 
-						state.getUiHub().setType(type);
-						state.getUiHub().enter(me);
+						state.getUIManager().getUiHub().setType(type);
+						state.getUIManager().getUiHub().enter(me);
 						addOptions(lastSearch, -1, lastTag);
 						menuDepth = 1;
 					}
@@ -144,7 +144,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	 * This is called when viewing maps to display options to view settings nad modifiers
 	 */
 	private void addTabs() {
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.getTableTabs().clear();
 
 		Text map = new Text(UIText.TAB_MAPS.text()).setButton(true);
@@ -189,7 +189,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	 * This adds map options to the hub ui
 	 */
 	private void addMaps() {
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		final NavigationsMultiplayer me = this;
 		hub.getTableOptions().clear();
 
@@ -281,7 +281,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	 * Adding settings to the hub ui just calls each mode setting of the mode
 	 */
 	private void addSettings() {
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.getTableOptions().clear();
 
 		for (ModeSetting setting : modeChosen.getSettings()) {
@@ -293,7 +293,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	 * Adding modifiers to the hub ui just calls each mode modifier of the mode
 	 */
 	private void addModifiers() {
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.getTableOptions().clear();
 
 		for (ModeSetting setting : modeChosen.getSettings()) {

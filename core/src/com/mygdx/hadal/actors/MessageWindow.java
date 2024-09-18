@@ -158,7 +158,7 @@ public class MessageWindow {
 
 			//when opening this window, focus keyboard and scroll on it
 			//we turn off chat wheel so it doesn't get stuck
-			state.getChatWheel().setVisibility(false);
+			state.getUIManager().getChatWheel().setVisibility(false);
 			stage.setKeyboardFocus(enterMessage);
 			stage.setScrollFocus(textLog);
 

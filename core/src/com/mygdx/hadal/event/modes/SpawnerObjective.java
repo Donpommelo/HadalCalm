@@ -55,11 +55,11 @@ public class SpawnerObjective extends Event {
 
 		//in eggplant mode, this event should be visible in the objective ui
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
-			state.getUiObjective().addObjective(this, Sprite.NASU,true, true, true);
+			state.getUIManager().getUiObjective().addObjective(this, Sprite.NASU,true, true, true);
 		}
 
 		if (GameMode.TRICK_OR_TREAT.equals(state.getMode())) {
-			state.getUiObjective().addObjective(this, Sprite.NOTIFICATIONS_GHOST,true, false, true);
+			state.getUIManager().getUiObjective().addObjective(this, Sprite.NOTIFICATIONS_GHOST,true, false, true);
 			setScaleAlign(ClientIllusion.alignType.CENTER);
 			setEventSprite(Sprite.CANDY_GHOST);
 		}

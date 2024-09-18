@@ -70,7 +70,7 @@ public class Eggplant extends SyncedAttacker {
                                 state.getMode().processPlayerScoreChange(state, playerBodyData.getPlayer(), 1);
                             }
 
-                            state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
+                            state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCRAP);
 
                             //activate effects that activate upon picking up scrap
                             playerBodyData.statusProcTime(new ProcTime.ScrapPickup());

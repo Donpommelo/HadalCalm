@@ -68,7 +68,7 @@ public class SettingTimer extends ModeSetting {
         int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.TIMER, defaultValue);
 
         if (startTimer != 0) {
-            state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);
+            state.getTimerManager().changeTimer(indexToTimer(startTimer), -1.0f);
         }
 
         RectangleMapObject end = new RectangleMapObject();

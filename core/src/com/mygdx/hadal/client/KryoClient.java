@@ -209,7 +209,7 @@ public class KryoClient {
 
 					//refresh hub because vending updates currency
 					if (p.connID == usm.getConnID()) {
-						cs.getUiHub().refreshHub(null);
+						cs.getUIManager().getUiHub().refreshHub(null);
 					}
 				});
 			}
@@ -429,7 +429,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.SyncNotification p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getKillFeed().addNotification(p.message, false));
+				cs.addPacketEffect(() -> cs.getUIManager().getKillFeed().addNotification(p.message, false));
 			}
 		}
 
@@ -439,7 +439,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.ServerChat p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getMessageWindow().addText(p.text, p.type, p.connID));
+				cs.addPacketEffect(() -> cs.getUIManager().getMessageWindow().addText(p.text, p.type, p.connID));
 			}
 		}
 
@@ -463,7 +463,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					JSONManager.hostSetting = p.settings;
-					cs.getScoreWindow().syncSettingTable();
+					cs.getUIManager().getScoreWindow().syncSettingTable();
 				});
 			}
 		}
@@ -521,8 +521,8 @@ public class KryoClient {
                                     case PacketsLoadout.SyncArtifactServer s -> {
                                         player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
 										if (user.equals(usm.getOwnUser())) {
-											cs.getUiHub().refreshHub(null);
-											cs.getUiHub().refreshHubOptions();
+											cs.getUIManager().getUiHub().refreshHub(null);
+											cs.getUIManager().getUiHub().refreshHubOptions();
 										}
 									}
                                     case PacketsLoadout.SyncActiveServer s ->
@@ -550,9 +550,9 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					AlignmentFilter.currentTeams = p.teams;
 					AlignmentFilter.teamScores = p.scores;
-					cs.getUiExtra().setMaxTimer(p.maxTimer);
-					cs.getUiExtra().setTimer(p.timer);
-					cs.getUiExtra().setTimerIncr(p.timerIncr);
+					cs.getTimerManager().setMaxTimer(p.maxTimer);
+					cs.getTimerManager().setTimer(p.timer);
+					cs.getTimerManager().setTimerIncr(p.timerIncr);
 				});
 			}
 		}
@@ -564,7 +564,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.SyncObjectiveMarker p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getUiObjective()
+				cs.addPacketEffect(() -> cs.getUIManager().getUiObjective()
 						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen,
 								p.displayOnScreen, p.displayClearCircle));
 			}
@@ -1084,7 +1084,7 @@ public class KryoClient {
 	 * @param type: the type of dialog (system message, story dialog, etc)
 	 */
 	public void addNotification(ClientState cs, String name, String text, boolean override, DialogType type) {
-		cs.getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
+		cs.getUIManager().getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
 	}
 
 	private void registerPackets() {

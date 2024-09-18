@@ -66,10 +66,10 @@ public class FootballGoal extends Event {
 
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
                         if (p.getUser().getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
-                            state.getKillFeed().addNotification(UIText.FOOTBALL_GOAL.text(playerName), false);
+                            state.getUIManager().getKillFeed().addNotification(UIText.FOOTBALL_GOAL.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, 1);
                         } else {
-                            state.getKillFeed().addNotification(UIText.FOOTBALL_GOAL_OWN.text(playerName), false);
+                            state.getUIManager().getKillFeed().addNotification(UIText.FOOTBALL_GOAL_OWN.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, -1);
                         }
                     }

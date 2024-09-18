@@ -27,7 +27,7 @@ public class EventUtils {
     public static void setObjectiveMarker(PlayState state, HadalEntity event, Sprite sprite, HadalColor color,
                                           boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen, boolean displayClearCircle) {
         if (state.isServer()) {
-            state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
+            state.getUIManager().getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
             HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(event.getEntityID(), color,
                     displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle, sprite));
         }
@@ -45,7 +45,7 @@ public class EventUtils {
             for (ObjectMap.Entry<Integer, User> user : HadalGame.usm.getUsers()) {
                 if (user.value.isSpectator() || user.value.getTeamFilter() == team) {
                     if (user.key == 0) {
-                        state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
+                        state.getUIManager().getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
                     } else {
                         HadalGame.server.sendToTCP(user.key, new Packets.SyncObjectiveMarker(event.getEntityID(), color,
                                 displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle, sprite));

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.EnemyUtils;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.constants.MoveState;
@@ -50,7 +51,7 @@ public class Turret extends Enemy {
 		this.desiredAngle = startAngle;
 		this.scale = scale;
 		
-		this.turretBase = new Animation<TextureRegion>(PlayState.SPRITE_ANIMATION_SPEED, base.getFrames());
+		this.turretBase = new Animation<TextureRegion>(SpriteConstants.SPRITE_ANIMATION_SPEED, base.getFrames());
 		
 		switch(type) {
 		case TURRET_FLAK:
@@ -62,7 +63,7 @@ public class Turret extends Enemy {
 		default:
 			break;
 		}
-		this.turretBarrel = new Animation<TextureRegion>(PlayState.SPRITE_ANIMATION_SPEED, turretBarrelSprite.getFrames());
+		this.turretBarrel = new Animation<TextureRegion>(SpriteConstants.SPRITE_ANIMATION_SPEED, turretBarrelSprite.getFrames());
 		moveState = MoveState.DEFAULT;
 		currentState = TurretState.STARTING;
 	}

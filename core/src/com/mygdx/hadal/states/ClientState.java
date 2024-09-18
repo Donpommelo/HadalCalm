@@ -229,7 +229,7 @@ public class ClientState extends PlayState {
 				}
 			}
 			if (changeMade) {
-				scoreWindow.syncScoreTable();
+				getUIManager().getScoreWindow().syncScoreTable();
 			}
 		}
 	}

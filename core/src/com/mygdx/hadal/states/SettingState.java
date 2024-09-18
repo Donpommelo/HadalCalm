@@ -774,7 +774,7 @@ public class SettingState extends GameState {
 		//the server should update their scoretable when settings are changed
 		if (playState != null) {
 			if (playState.isServer()) {
-				playState.getScoreWindow().syncSettingTable();
+				playState.getUIManager().getScoreWindow().syncSettingTable();
 			}
 		}
 	}

@@ -249,7 +249,7 @@ public class PauseState extends GameState {
 					if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
 						ps.getController().keyDown(keycode);
 					} else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-						ps.getScoreWindow().setVisibility(true);
+						ps.getUIManager().getScoreWindow().setVisibility(true);
 					}
 				}
 				return false;
@@ -263,7 +263,7 @@ public class PauseState extends GameState {
 					//we return true here so that the client does not process another pause after the unpause
 					return true;
 				} else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-					ps.getScoreWindow().setVisibility(false);
+					ps.getUIManager().getScoreWindow().setVisibility(false);
 				}
 				return false; 
 			}
@@ -303,7 +303,7 @@ public class PauseState extends GameState {
 						}
 					}
 				}
-				ps.getUiHub().refreshHub(null);
+				ps.getUIManager().getUiHub().refreshHub(null);
 			}
 			StateManager.removeState(PauseState.class);
 		}

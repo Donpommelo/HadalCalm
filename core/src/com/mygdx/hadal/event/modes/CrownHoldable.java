@@ -65,7 +65,7 @@ public class CrownHoldable extends Event {
 		}
 
 		//make objective marker track this event
-		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT,true, false, false);
+		state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT,true, false, false);
 
 		//we must set this event's layer to make it render underneath players
 		setLayer(PlayState.ObjectLayer.HBOX);
@@ -89,7 +89,7 @@ public class CrownHoldable extends Event {
 							//a player captures the crown. Alert players.
 							body.setGravityScale(0.0f);
 							String playerName = TextUtil.getPlayerColorName(target, MAX_NAME_LENGTH);
-							state.getKillFeed().addNotification(UIText.KM_PICKUP.text(playerName), true);
+							state.getUIManager().getKillFeed().addNotification(UIText.KM_PICKUP.text(playerName), true);
 						}
 					}
 				}
@@ -119,7 +119,7 @@ public class CrownHoldable extends Event {
 				body.setGravityScale(1.0f);
 				returnTimer = RETURN_TIME;
 
-				state.getKillFeed().addNotification(UIText.KM_DROPPED.text(), true);
+				state.getUIManager().getKillFeed().addNotification(UIText.KM_DROPPED.text(), true);
 			} else {
 				hbLocation.set(target.getPosition());
 				setTransform(hbLocation, getAngle());
@@ -136,7 +136,7 @@ public class CrownHoldable extends Event {
 			returnTimer -= delta;
 			if (returnTimer <= 0.0f) {
 				queueDeletion();
-				state.getKillFeed().addNotification(UIText.KM_RETURN.text(), true);
+				state.getUIManager().getKillFeed().addNotification(UIText.KM_RETURN.text(), true);
 			}
 		}
 	}

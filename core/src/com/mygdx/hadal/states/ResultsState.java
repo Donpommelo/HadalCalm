@@ -304,16 +304,16 @@ public class ResultsState extends GameState {
 		};
 
 		//we pull up and lock the playstate message window so players can chat in the aftergame.
-		if (!ps.getMessageWindow().isActive()) {
-			ps.getMessageWindow().toggleWindow();
+		if (!ps.getUIManager().getMessageWindow().isActive()) {
+			ps.getUIManager().getMessageWindow().toggleWindow();
 		}
 
 		//we start off playing no music. Results music only starts after playstate transition fade occurs
 		MusicPlayer.playSong(MusicTrackType.NOTHING, 1.0f);
 
-		ps.getMessageWindow().setLocked(true);
-		ps.getMessageWindow().table.setPosition(MESSAGE_X, MESSAGE_Y);
-		stage.addActor(ps.getMessageWindow().table);
+		ps.getUIManager().getMessageWindow().setLocked(true);
+		ps.getUIManager().getMessageWindow().table.setPosition(MESSAGE_X, MESSAGE_Y);
+		stage.addActor(ps.getUIManager().getMessageWindow().table);
 		FadeManager.fadeIn();
 		app.newMenu(stage);
 
@@ -602,7 +602,7 @@ public class ResultsState extends GameState {
 	public void update(float delta) {
 
 		//we update the message window to take input
-		ps.getMessageWindow().table.act(delta);
+		ps.getUIManager().getMessageWindow().table.act(delta);
 
 		//this lets us continue to process packets. (mostly used for disconnects)
 		ps.processCommonStateProperties(delta, true);

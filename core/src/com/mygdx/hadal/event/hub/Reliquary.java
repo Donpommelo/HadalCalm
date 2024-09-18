@@ -36,9 +36,9 @@ public class Reliquary extends HubEvent {
 
 	@Override
 	public void enter() {
-		state.getUiHub().setType(type);
-		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(this);
+		state.getUIManager().getUiHub().setType(type);
+		state.getUIManager().getUiHub().setTitle(title);
+		state.getUIManager().getUiHub().enter(this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -52,7 +52,7 @@ public class Reliquary extends HubEvent {
 		}
 
 		Pattern pattern = Pattern.compile(search);
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 
 		for (UnlockArtifact c : UnlockArtifact.getUnlocks(checkUnlock, newTags)) {
 			final UnlockArtifact selected = c;

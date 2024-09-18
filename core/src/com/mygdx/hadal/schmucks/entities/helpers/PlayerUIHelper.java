@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
@@ -74,7 +75,7 @@ public class PlayerUIHelper {
         this.hpBarFade = Sprite.UI_MAIN_HEALTH_MISSING.getFrame();
         this.fuelBar = Sprite.UI_MAIN_FUELBAR.getFrame();
         this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrame();
-        this.typingBubble =  new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_SLOW,
+        this.typingBubble =  new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_SLOW,
                 Objects.requireNonNull(Sprite.NOTIFICATIONS_CHAT.getFrames()));
         typingBubble.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
     }
@@ -151,9 +152,9 @@ public class PlayerUIHelper {
 
             if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
                 if (JSONManager.setting.isDisplayHp()) {
-                    hpRatio = state.getUiPlay().getHpRatio();
-                    fuelRatio = state.getUiPlay().getFuelRatio();
-                    fuelCutoffRatio = state.getUiPlay().getFuelCutoffRatio();
+                    hpRatio = state.getUIManager().getUiPlay().getHpRatio();
+                    fuelRatio = state.getUIManager().getUiPlay().getFuelRatio();
+                    fuelCutoffRatio = state.getUIManager().getUiPlay().getFuelCutoffRatio();
                     if (barRight) {
                         batch.draw(fuelBar, hpX, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT * fuelRatio);
                         batch.draw(hpBarFade, hpX + HP_WIDTH, playerLocation.y + BAR_Y, HP_WIDTH, HP_HEIGHT);

@@ -27,7 +27,7 @@ public class Wallpaper extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		
 		for (int i = 0; i < SHADERS.length; i++) {
 			final int index = i;

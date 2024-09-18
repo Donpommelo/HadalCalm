@@ -338,7 +338,7 @@ public class ScoreWindow {
 		tableScore.add(tableArtifact).height(scoreHeight).padRight(SCORE_PAD_X).padBottom(scorePad).align(Align.center).row();
 
 		//Adding new entries necessitates refreshing ui to account for new player's score
-		state.getUiExtra().syncUIText(UITag.uiType.ALL);
+		state.getUIManager().getUiExtra().syncUIText(UITag.uiType.ALL);
 	}
 
 	/**

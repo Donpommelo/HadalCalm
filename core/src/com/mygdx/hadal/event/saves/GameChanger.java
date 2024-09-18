@@ -39,7 +39,7 @@ public class GameChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (changeTimer) {
-					state.getUiExtra().changeTimer(timerSet, timerIncr);
+					state.getTimerManager().changeTimer(timerSet, timerIncr);
 				}
 				state.getMode().processPlayerScoreChange(state, p, scoreIncr);
 			}

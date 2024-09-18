@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -45,8 +46,8 @@ public class Drone extends EnemySwimming {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE, startAngle, filter, baseHp, attackCd, scrapDrop);
 		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
 		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
-		eyeSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, Sprite.DRONE_EYE.getFrames());
-		dotSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST,	Sprite.DRONE_DOT.getFrames());
+		eyeSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST, Sprite.DRONE_EYE.getFrames());
+		dotSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST,	Sprite.DRONE_DOT.getFrames());
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		
 		this.eyeType = (int) extraField;

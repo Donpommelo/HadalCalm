@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
@@ -46,7 +47,7 @@ public class EnemyCrawling extends Enemy {
 		this.currentState = CrawlingState.STILL;
 		
 		if (!Sprite.NOTHING.equals(sprite)) {
-			this.floatingSprite = new Animation<>(PlayState.SPRITE_ANIMATION_SPEED_FAST, sprite.getFrames());
+			this.floatingSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST, sprite.getFrames());
 			this.floatingSprite.setPlayMode(PlayMode.LOOP_PINGPONG);
 		}
 	}

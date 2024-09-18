@@ -49,7 +49,7 @@ public class Painter extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 
 		Loadout loadout = HadalGame.usm.getOwnUser().getLoadoutManager().getActiveLoadout();
 
@@ -83,7 +83,7 @@ public class Painter extends HubEvent {
 			loadCount = 0.0f;
 
 			if (!loadingCharacters.isEmpty()) {
-				final UIHub hub = state.getUiHub();
+				final UIHub hub = state.getUIManager().getUiHub();
 
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
 

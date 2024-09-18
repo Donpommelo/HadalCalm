@@ -29,7 +29,7 @@ public class Outfitter extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 
 		for (ObjectMap.Entry<String, SavedLoadout> c : JSONManager.outfits.getOutfits()) {
 			final SavedLoadout selected = c.value;

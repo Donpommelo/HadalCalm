@@ -42,7 +42,7 @@ public class ObjectiveChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
-					state.getUiObjective().addObjective(event.getConnectedEvent(), icon, displayOffScreen, displayOnScreen, displayClearCircle);
+					state.getUIManager().getUiObjective().addObjective(event.getConnectedEvent(), icon, displayOffScreen, displayOnScreen, displayClearCircle);
 				}
 			}
 		};

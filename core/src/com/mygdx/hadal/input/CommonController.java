@@ -49,12 +49,12 @@ public class CommonController extends InputAdapter {
 			keyUp(PlayerAction.CHAT_WHEEL);
 		} else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
 			if (state.isSpectatorMode()) {
-				state.getUiSpectator().toggleSpectatorUI();
+				state.getUIManager().getUiSpectator().toggleSpectatorUI();
 			}
 		} else if (keycode == Input.Buttons.RIGHT) {
-			if (state.getKillFeed() != null) {
-				if (state.isSpectatorMode() || state.getKillFeed().isRespawnSpectator()) {
-					state.getUiSpectator().findValidSpectatorTarget();
+			if (state.getUIManager().getKillFeed() != null) {
+				if (state.isSpectatorMode() || state.getUIManager().getKillFeed().isRespawnSpectator()) {
+					state.getUIManager().getUiSpectator().findValidSpectatorTarget();
 				}
 			}
 		} else if (keycode == PlayerAction.READY_UP.getKey()) {
@@ -90,11 +90,11 @@ public class CommonController extends InputAdapter {
 				}
 			}
 		} else if (action == PlayerAction.MESSAGE_WINDOW) {
-			state.getMessageWindow().toggleWindow();
+			state.getUIManager().getMessageWindow().toggleWindow();
 		} else if (action == PlayerAction.SCORE_WINDOW) {
-			state.getScoreWindow().setVisibility(false);
+			state.getUIManager().getScoreWindow().setVisibility(false);
 		} else if (action == PlayerAction.CHAT_WHEEL) {
-			state.getChatWheel().setVisibility(false);
+			state.getUIManager().getChatWheel().setVisibility(false);
 		} else if (action == PlayerAction.READY_UP) {
 			if (state.getMode().equals(GameMode.ARCADE)) {
 				if (state.isServer()) {
@@ -117,13 +117,13 @@ public class CommonController extends InputAdapter {
 		}
 
 		if (action == PlayerAction.DIALOGUE) {
-			if (state.getDialogBox() != null) {
-				state.getDialogBox().nextDialogue();
+			if (state.getUIManager().getDialogBox() != null) {
+				state.getUIManager().getDialogBox().nextDialogue();
 			}
 		} else if (action == PlayerAction.SCORE_WINDOW) {
-			state.getScoreWindow().setVisibility(true);
+			state.getUIManager().getScoreWindow().setVisibility(true);
 		} else if (action == PlayerAction.CHAT_WHEEL) {
-			state.getChatWheel().setVisibility(true);
+			state.getUIManager().getChatWheel().setVisibility(true);
 		}
 	}
 

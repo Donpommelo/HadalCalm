@@ -84,9 +84,9 @@ public class ReviveGravestone extends Event {
 				true, false, false, user.getTeamFilter());
 
 		if (state.isSpectatorMode()) {
-			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
+			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		} else if (HadalGame.usm.getOwnUser().getTeamFilter() == user.getTeamFilter()) {
-			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
+			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		}
 
 		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();
@@ -146,9 +146,9 @@ public class ReviveGravestone extends Event {
 
 				if (lastReviver != null && numReturning > 0) {
 					String reviverName = TextUtil.getPlayerColorName(lastReviver, MAX_NAME_LENGTH);
-					state.getKillFeed().addNotification(UIText.GRAVE_REVIVER.text(playerName, reviverName), true);
+					state.getUIManager().getKillFeed().addNotification(UIText.GRAVE_REVIVER.text(playerName, reviverName), true);
 				} else {
-					state.getKillFeed().addNotification(UIText.GRAVE_REVIVE.text(playerName), true);
+					state.getUIManager().getKillFeed().addNotification(UIText.GRAVE_REVIVE.text(playerName), true);
 				}
 
 				user.getTransitionManager().setOverrideSpawn(getPixelPosition());

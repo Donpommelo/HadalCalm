@@ -39,10 +39,7 @@ import com.mygdx.hadal.event.utility.PositionDummy;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.StateManager;
-import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingTeamMode.TeamMode;
@@ -57,7 +54,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.managers.CameraManager;
 import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.ScoreManager;
@@ -100,6 +96,8 @@ public class PlayState extends GameState {
 	protected final World world;
 
 	private final CameraManager cameraManager;
+	private final UIManager uiManager;
+	private final TimerManager timerManager;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
@@ -155,20 +153,6 @@ public class PlayState extends GameState {
 	//is this the server or client?
 	private final boolean server;
 
-	//Various play state ui elements. Some are initialixed right away while others require the stage to be made first.
-	protected final UIArtifacts uiArtifact = new UIArtifacts(this);
-	protected final UIExtra uiExtra = new UIExtra(this);
-	protected final UIObjective uiObjective = new UIObjective(this);
-	protected final UISpectator uiSpectator = new UISpectator(this);
-	protected final ChatWheel chatWheel = new ChatWheel(this);
-	protected final DialogBox dialogBox = new DialogBox(this);
-
-	protected UIPlay uiPlay;
-	protected UIHub uiHub;
-	protected MessageWindow messageWindow;
-	protected KillFeed killFeed;
-	protected ScoreWindow scoreWindow;
-
 	//Background and black screen used for transitions
 	private final TextureRegion bg, white;
 	private Shader shaderBase = Shader.NOTHING, shaderTile = Shader.NOTHING;
@@ -192,12 +176,6 @@ public class PlayState extends GameState {
 	
 	//do we draw the hitbox lines?
 	private boolean debugHitbox;
-
-	//global variables.
-	public static final float SPRITE_ANIMATION_SPEED_SLOW = 0.15f;
-	public static final float SPRITE_ANIMATION_SPEED = 0.08f;
-	public static final float SPRITE_ANIMATION_SPEED_FAST = 0.04f;
-	public static final float SPRITE_ANIMATION_SPEED_SUPER_FAST = 0.02f;
 
 	//Special designated events parsed from map.
 	// Event run when a timer runs out or spectating host presses their interact button
@@ -263,6 +241,8 @@ public class PlayState extends GameState {
 		};
 
 		this.cameraManager = new CameraManager(this, map);
+		this.uiManager = new UIManager(this);
+		this.timerManager = new TimerManager(this);
 
 		//We clear things like music/sound/shaders to periodically free up some memory
 		StateManager.clearMemory();
@@ -351,25 +331,7 @@ public class PlayState extends GameState {
 			this.stage = new Stage();
 		}
 
-		//If ui elements have not been created, create them. (upon first showing the state)
-		if (uiPlay == null) {
-			uiPlay = new UIPlay(this);
-			
-			uiHub = new UIHub(this);
-			messageWindow = new MessageWindow(this, stage);
-			killFeed = new KillFeed(this);
-			scoreWindow = new ScoreWindow(this);
-		}
-
-		//Add and sync ui elements in case of unpause or new playState
-		stage.addActor(uiPlay);
-		stage.addActor(uiObjective);
-		stage.addActor(uiExtra);
-		stage.addActor(dialogBox);
-		stage.addActor(uiSpectator);
-
-		chatWheel.addTable(stage);
-		uiArtifact.addTable(stage);
+		getUIManager().initUIElements(stage);
 
 		app.newMenu(stage);
 		resetController();
@@ -543,7 +505,7 @@ public class PlayState extends GameState {
 				}
 			}
 			if (changeMade) {
-				scoreWindow.syncScoreTable();
+				getUIManager().getScoreWindow().syncScoreTable();
 			}
 		}
 	}
@@ -659,10 +621,9 @@ public class PlayState extends GameState {
 
 		if (!postGame) {
 			//Increment the game timer, if exists
-			uiExtra.incrementTimer(delta);
+			getTimerManager().incrementTimer(delta);
 			timer += delta;
-
-			cameraManager.controller(delta);
+			getCameraManager().controller(delta);
 		}
 	}
 	
@@ -818,7 +779,7 @@ public class PlayState extends GameState {
 	@Override
 	public void resize() {
 		
-		cameraManager.resize();
+		getCameraManager().resize();
 
 		if (shaderBase.getShaderProgram() != null) {
 			shaderBase.getShaderProgram().bind();
@@ -1316,7 +1277,7 @@ public class PlayState extends GameState {
 
 		//fadeSpeed = 0 means we skip the fade. Only relevant during special transitions
 		if (TransitionState.RESPAWN.equals(state) && !skipFade && fadeDelay != 0.0f) {
-			killFeed.addKillInfo(fadeDelay + 1.0f / fadeSpeed);
+			getUIManager().getKillFeed().addKillInfo(fadeDelay + 1.0f / fadeSpeed);
 		}
 	}
 	
@@ -1360,8 +1321,8 @@ public class PlayState extends GameState {
 	 * @param enemy: This is the boss whose hp will be used for the boss hp bar
 	 */
 	public void setBoss(Enemy enemy) {
-		uiPlay.setBoss(enemy, enemy.getName());
-		uiExtra.setBoss();
+		getUIManager().getUiPlay().setBoss(enemy, enemy.getName());
+		getUIManager().getUiExtra().setBoss();
 	}
 	
 	/**
@@ -1369,8 +1330,8 @@ public class PlayState extends GameState {
 	 * We also have to tell the client to do the same.
 	 */
 	public void clearBoss() {
-		uiPlay.clearBoss();
-		uiExtra.clearBoss();
+		getUIManager().getUiPlay().clearBoss();
+		getUIManager().getUiExtra().clearBoss();
 	}
 	
 	/**
@@ -1503,12 +1464,12 @@ public class PlayState extends GameState {
 	 */
 	public void setSpectatorMode() {
 		spectatorMode = true;
-		uiSpectator.enableSpectatorUI();
+		getUIManager().getUiSpectator().enableSpectatorUI();
 
-		cameraManager.setSpectator();
+		getCameraManager().setSpectator();
 
 		//this makes the player's artifacts disappear as a spectator
-		uiArtifact.syncArtifact();
+		getUIManager().getUiArtifact().syncArtifact();
 	}
 	
 	public enum TransitionState {
@@ -1571,35 +1532,17 @@ public class PlayState extends GameState {
 
 	public void toggleVisibleHitboxes(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
 
-	public UIPlay getUiPlay() { return uiPlay; }
-
-	public UIExtra getUiExtra() { return uiExtra; }
-
-	public UIArtifacts getUiArtifact() { return uiArtifact; }
-	
-	public UIHub getUiHub() { return uiHub; }
-	
-	public UIObjective getUiObjective() { return uiObjective; }
-
-	public UISpectator getUiSpectator() { return uiSpectator; }
-
 	public PositionDummy getDummyPoint(String id) {	return dummyPoints.get(id); }
 	
 	public void addDummyPoint(PositionDummy dummy, String id) {	dummyPoints.put(id, dummy); }
 	
 	public CameraManager getCameraManager() { return cameraManager; }
 
+	public UIManager getUIManager() { return uiManager; }
+
+	public TimerManager getTimerManager() { return timerManager; }
+
 	public InputProcessor getController() { return controller; }
-
-	public MessageWindow getMessageWindow() { return messageWindow; }
-
-	public KillFeed getKillFeed() { return killFeed; }
-
-	public ChatWheel getChatWheel() { return chatWheel; }
-	
-	public ScoreWindow getScoreWindow() { return scoreWindow; }	
-	
-	public DialogBox getDialogBox() { return dialogBox; }
 
 	public float getTimeModifier() { return timeModifier; }
 

@@ -50,7 +50,7 @@ public class Dormitory extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 
 		User user = HadalGame.usm.getOwnUser();
 
@@ -84,7 +84,7 @@ public class Dormitory extends HubEvent {
 			loadCount = 0.0f;
 
 			if (!loadingCharacters.isEmpty()) {
-				final UIHub hub = state.getUiHub();
+				final UIHub hub = state.getUIManager().getUiHub();
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
 				if (null == ownPlayer) { return; }

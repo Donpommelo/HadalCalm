@@ -18,8 +18,8 @@ public class ObjectiveCoord extends ShaderStrategy {
 	private final Vector2 objectiveLocation = new Vector2();
 	@Override
 	public void playController(PlayState state, ShaderProgram shader, float delta) {
-		if (!state.getUiObjective().getObjectives().isEmpty()) {
-			objectiveLocation.set(state.getUiObjective().getObjectives().get(0).getObjectiveLocation());
+		if (!state.getUIManager().getUiObjective().getObjectives().isEmpty()) {
+			objectiveLocation.set(state.getUIManager().getUiObjective().getObjectives().get(0).getObjectiveLocation());
 			screenCoord.x = objectiveLocation.x;
 			screenCoord.y = objectiveLocation.y;
 			HadalGame.viewportCamera.project(screenCoord);

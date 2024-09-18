@@ -104,9 +104,9 @@ public class ConsoleCommandUtil {
 
 			if ("/help".equals(command)) {
 				if (state.isServer()) {
-					state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
+					state.getUIManager().getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
 				} else {
-					state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getUser().getConnID());
+					state.getUIManager().getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getUser().getConnID());
 				}
 				return 0;
 			}
@@ -247,7 +247,7 @@ public class ConsoleCommandUtil {
 			int scrap = Integer.parseInt(command);
 			if (0 <= scrap) {
 				JSONManager.record.setScrap(scrap);
-				state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
+				state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCRAP);
 				return 0;
 			}
 		} catch (NumberFormatException ignored) {}

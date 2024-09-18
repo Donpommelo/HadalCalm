@@ -77,7 +77,7 @@ public class LoadoutArtifactHelper {
 
         //If this is the player being controlled by the user, update artifact ui
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
-            player.getState().getUiArtifact().syncArtifact();
+            player.getState().getUIManager().getUiArtifact().syncArtifact();
         }
 
         //set this boolean so score window is updated
@@ -198,7 +198,7 @@ public class LoadoutArtifactHelper {
         }
 
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
-            player.getState().getUiArtifact().syncArtifact();
+            player.getState().getUIManager().getUiArtifact().syncArtifact();
         }
 
         //set this boolean so score window is updated

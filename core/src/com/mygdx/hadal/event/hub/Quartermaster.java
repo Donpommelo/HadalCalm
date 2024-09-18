@@ -36,9 +36,9 @@ public class Quartermaster extends HubEvent {
 
 	@Override
 	public void enter() {
-		state.getUiHub().setType(type);
-		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(this);
+		state.getUIManager().getUiHub().setType(type);
+		state.getUIManager().getUiHub().setTitle(title);
+		state.getUIManager().getUiHub().enter(this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -47,7 +47,7 @@ public class Quartermaster extends HubEvent {
 	public void addOptions(String search, int slots, UnlockManager.UnlockTag tag) {
 		super.addOptions(search, slots, tag);
 		Pattern pattern = Pattern.compile(search);
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		final Quartermaster me = this;
 
 		for (final String item : shopInfo.getPrices().keys()) {
@@ -80,7 +80,7 @@ public class Quartermaster extends HubEvent {
 								//leave and enter to reset available inventory
 								me.leave();
 								me.enter();
-								state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
+								state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCRAP);
 							}
 						}
 

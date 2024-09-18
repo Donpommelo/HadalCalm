@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
@@ -572,7 +573,7 @@ public class TiledObjectUtil {
 						Sprite.valueOf(object.getProperties().get("sprite", String.class)),
 						true,
 						object.getProperties().get("frame", 0, int.class),
-						object.getProperties().get("speed", PlayState.SPRITE_ANIMATION_SPEED, float.class),
+						object.getProperties().get("speed", SpriteConstants.SPRITE_ANIMATION_SPEED, float.class),
 						PlayMode.valueOf(object.getProperties().get("mode", "NORMAL", String.class)));
 			} else {
 				e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));

@@ -57,7 +57,7 @@ public class TrickOrTreating extends Status {
 			recentReturnTime -= delta;
 			if (0.0f > recentReturnTime) {
 				String playerName = TextUtil.getPlayerColorName(player, MAX_NAME_LENGTH);
-				state.getKillFeed().addNotification(UIText.CANDY_RETRIEVED.text(playerName, "" + recentReturnCount), true);
+				state.getUIManager().getKillFeed().addNotification(UIText.CANDY_RETRIEVED.text(playerName, "" + recentReturnCount), true);
 
 				recentReturn = false;
 				recentReturnCount = 0;

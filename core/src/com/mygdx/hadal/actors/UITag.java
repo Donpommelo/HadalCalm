@@ -72,7 +72,7 @@ public class UITag {
 					}
 					break;
 				case TIMER:
-					text.append(UIText.UI_TIMER.text(uiExtra.getDisplayedTimer()));
+					text.append(UIText.UI_TIMER.text(state.getTimerManager().getDisplayedTimer()));
 					break;
 				case MISC:
 					text.append(misc);
