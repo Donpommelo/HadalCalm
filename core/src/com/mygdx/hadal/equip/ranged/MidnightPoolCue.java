@@ -11,7 +11,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 public class MidnightPoolCue extends RangedWeapon {
@@ -105,7 +105,7 @@ public class MidnightPoolCue extends RangedWeapon {
 				chargeSound = new SoundEntity(state, user, SoundEffect.BOW_STRETCH, 0.0f, 1.0f, 1.0f,
 						true, true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(chargeSound.getEntityID(), chargeSound, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(chargeSound.getEntityID(), chargeSound, false, PlayState.ObjectLayer.EFFECT);
 				}
 			}
 		} else if (chargeSound != null) {

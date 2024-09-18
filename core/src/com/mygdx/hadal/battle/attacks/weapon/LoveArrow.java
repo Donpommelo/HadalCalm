@@ -16,7 +16,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -99,14 +99,14 @@ public class LoveArrow extends SyncedAttacker {
                             ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
                                     true, SyncType.NOSYNC);
                             if (!state.isServer()) {
-                                ((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectLayer.HBOX);
+                                ((PlayStateClient) state).addEntity(heal.getEntityID(), heal, false, PlayStateClient.ObjectLayer.HBOX);
                             }
                             hurtbox.die();
                         } else if (((BodyData) fixB).getSchmuck().getHitboxFilter() != user.getHitboxFilter()) {
                             ParticleEntity hurt = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
                                     true, SyncType.NOSYNC);
                             if (!state.isServer()) {
-                                ((ClientState) state).addEntity(hurt.getEntityID(), hurt, false, ClientState.ObjectLayer.HBOX);
+                                ((PlayStateClient) state).addEntity(hurt.getEntityID(), hurt, false, PlayStateClient.ObjectLayer.HBOX);
                             }
                         }
                     }
@@ -114,7 +114,7 @@ public class LoveArrow extends SyncedAttacker {
             }
         });
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(healbox.getEntityID(), healbox, false, ClientState.ObjectLayer.HBOX);
+            ((PlayStateClient) state).addEntity(healbox.getEntityID(), healbox, false, PlayStateClient.ObjectLayer.HBOX);
         }
         return hurtbox;
     }

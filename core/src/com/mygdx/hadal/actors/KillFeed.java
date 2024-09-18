@@ -10,6 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.server.packets.Packets;
@@ -186,7 +187,7 @@ public class KillFeed {
         notification.addActor(message);
 
         if (global && ps.isServer()) {
-            HadalGame.server.sendToAllTCP(new Packets.SyncNotification(text));
+            PacketManager.serverTCPAll(ps, new Packets.SyncNotification(text));
         }
     }
 
@@ -197,7 +198,7 @@ public class KillFeed {
      */
     public void sendNotification(String text, Player player) {
         if (!HadalGame.usm.getOwnUser().equals(player.getUser())) {
-            HadalGame.server.sendToTCP(player.getUser().getConnID(), new Packets.SyncNotification(text));
+            PacketManager.serverTCP(player.getUser().getConnID(), new Packets.SyncNotification(text));
         } else {
             addNotification(text, false);
         }

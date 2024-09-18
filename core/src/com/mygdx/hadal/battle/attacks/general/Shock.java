@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.users.User;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Shocked;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
@@ -76,7 +76,7 @@ public class Shock extends SyncedAttacker {
                         0.0f, 3.0f).setRotate(true).setSyncType(SyncType.NOSYNC));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.HBOX);
+                    ((PlayStateClient) state).addEntity(trail.getEntityID(), trail, false, PlayStateClient.ObjectLayer.HBOX);
                 }
             }
         }

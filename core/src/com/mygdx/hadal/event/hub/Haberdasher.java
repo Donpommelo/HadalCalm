@@ -17,6 +17,7 @@ import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
@@ -75,7 +76,7 @@ public class Haberdasher extends HubEvent {
 	@Override
 	public void addOptions(String search, int slots, UnlockManager.UnlockTag tag) {
 		super.addOptions(search, slots, tag);
-		state.getUiHub().setTitle(slotChosen.getSlotName());
+		state.getUIManager().getUiHub().setTitle(slotChosen.getSlotName());
 
 		Pattern pattern = Pattern.compile(search);
 
@@ -115,7 +116,7 @@ public class Haberdasher extends HubEvent {
 		} else {
 			//if reopening with no change, add existing sprites to hub
 			for (HubOptionPlayer sprite : sprites) {
-				state.getUiHub().addActor(sprite, sprite.getWidth(), 1);
+				state.getUIManager().getUiHub().addActor(sprite, sprite.getWidth(), 1);
 			}
 		}
 	}
@@ -123,7 +124,7 @@ public class Haberdasher extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.setTitle(UIText.COSMETIC_SLOTS.text());
 		final Haberdasher me = this;
 		menuDepth = 0;
@@ -183,8 +184,8 @@ public class Haberdasher extends HubEvent {
 
 					slotChosen = selected;
 
-					state.getUiHub().setType(type);
-					state.getUiHub().enter(me);
+					state.getUIManager().getUiHub().setType(type);
+					state.getUIManager().getUiHub().enter(me);
 					addOptions(lastSearch, -1, lastTag);
 					menuDepth = 1;
 				}
@@ -204,7 +205,7 @@ public class Haberdasher extends HubEvent {
 			loadCount = 0.0f;
 
 			if (!loadingCosmetics.isEmpty()) {
-				final UIHub hub = state.getUiHub();
+				final UIHub hub = state.getUIManager().getUiHub();
 				final HubEvent me = this;
 
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
@@ -248,7 +249,7 @@ public class Haberdasher extends HubEvent {
 						if (state.isServer()) {
 							ownPlayer.getCosmeticsHelper().syncServerCosmeticChange(choice);
 						} else {
-							HadalGame.client.sendTCP(new PacketsLoadout.SyncCosmeticClient(choice));
+							PacketManager.clientTCP(new PacketsLoadout.SyncCosmeticClient(choice));
 						}
 						JSONManager.loadout.setCosmetic(HadalGame.usm.getOwnUser(), choice.getCosmeticSlot().getSlotNumber(), choice.toString());
 

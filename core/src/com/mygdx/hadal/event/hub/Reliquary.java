@@ -11,6 +11,7 @@ import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -36,9 +37,9 @@ public class Reliquary extends HubEvent {
 
 	@Override
 	public void enter() {
-		state.getUiHub().setType(type);
-		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(this);
+		state.getUIManager().getUiHub().setType(type);
+		state.getUIManager().getUiHub().setTitle(title);
+		state.getUIManager().getUiHub().enter(this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -52,7 +53,7 @@ public class Reliquary extends HubEvent {
 		}
 
 		Pattern pattern = Pattern.compile(search);
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 
 		for (UnlockArtifact c : UnlockArtifact.getUnlocks(checkUnlock, newTags)) {
 			final UnlockArtifact selected = c;
@@ -86,7 +87,7 @@ public class Reliquary extends HubEvent {
 						if (state.isServer()) {
 							ownPlayer.getArtifactHelper().addArtifact(selected, false, true);
 						} else {
-							HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactAddClient(selected, true));
+							PacketManager.clientTCP(new PacketsLoadout.SyncArtifactAddClient(selected, true));
 						}
 						hub.refreshHub(null);
 					}

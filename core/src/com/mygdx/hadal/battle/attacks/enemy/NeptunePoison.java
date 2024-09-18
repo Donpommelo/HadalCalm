@@ -10,7 +10,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
@@ -69,7 +69,7 @@ public class NeptunePoison extends SyncedAttacker {
                            .setParticle(Particle.POLLEN_POISON, POISON_PARTICLE_LIFESPAN, POISON_PARTICLE_INTERVAL));
 
                    if (!state.isServer()) {
-                       ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                       ((PlayStateClient) state).addEntity(hbox.getEntityID(), hbox, false, PlayStateClient.ObjectLayer.HBOX);
                    }
                }
            }

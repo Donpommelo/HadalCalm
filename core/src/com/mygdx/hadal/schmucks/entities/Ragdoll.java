@@ -10,7 +10,7 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
@@ -155,7 +155,7 @@ public class Ragdoll extends HadalEntity {
 
 		ragdollDuration -= delta;
 		if (ragdollDuration <= 0) {
-			((ClientState) state).removeEntity(entityID);
+			((PlayStateClient) state).removeEntity(entityID);
 		}
 	}
 	

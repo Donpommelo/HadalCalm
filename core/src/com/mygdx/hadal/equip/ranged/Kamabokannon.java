@@ -11,7 +11,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 public class Kamabokannon extends RangedWeapon {
@@ -86,7 +86,7 @@ public class Kamabokannon extends RangedWeapon {
 				oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.0f, 0.8f, 1.0f,
 						true, true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(oozeSound.getEntityID(), oozeSound, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(oozeSound.getEntityID(), oozeSound, false, PlayState.ObjectLayer.EFFECT);
 				}
 			} else {
 				oozeSound.turnOn();

@@ -6,7 +6,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 public class BossPoisonCloud extends SyncedAttacker {
@@ -27,7 +27,7 @@ public class BossPoisonCloud extends SyncedAttacker {
                 user.getHitboxFilter(), DamageSource.ENEMY_ATTACK);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(poison.getEntityID(), poison, false, ClientState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(poison.getEntityID(), poison, false, PlayStateClient.ObjectLayer.EFFECT);
         }
     }
 }

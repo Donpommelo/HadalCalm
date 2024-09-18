@@ -13,7 +13,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -55,7 +55,7 @@ public class TeslaActivation extends SyncedAttacker {
                     .setParticleSize(50).setSyncType(SyncType.NOSYNC));
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
+                ((PlayStateClient) state).addEntity(pulse.getEntityID(), pulse, false, PlayStateClient.ObjectLayer.HBOX);
             }
         }
 

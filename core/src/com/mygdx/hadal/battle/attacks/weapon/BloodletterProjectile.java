@@ -17,7 +17,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -98,7 +98,7 @@ public class BloodletterProjectile extends SyncedAttacker {
                                 ParticleEntity particleEntity = new ParticleEntity(state, schmuck, Particle.VAMPIRE, 1.0f,
                                         2.0f,true, SyncType.NOSYNC);
                                 if (!state.isServer()) {
-                                    ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+                                    ((PlayStateClient) state).addEntity(particleEntity.getEntityID(), particleEntity, false, PlayStateClient.ObjectLayer.EFFECT);
                                 }
                             }
                         }
@@ -141,14 +141,14 @@ public class BloodletterProjectile extends SyncedAttacker {
                         ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.KAMABOKO_IMPACT, 1.0f,
                                 true, SyncType.NOSYNC).setColor(HadalColor.RED);
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectLayer.HBOX);
+                            ((PlayStateClient) state).addEntity(heal.getEntityID(), heal, false, PlayStateClient.ObjectLayer.HBOX);
                         }
 
                         hbox.die();
                     }
                 });
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                    ((PlayStateClient) state).addEntity(hbox.getEntityID(), hbox, false, PlayStateClient.ObjectLayer.HBOX);
                 }
             }
         });

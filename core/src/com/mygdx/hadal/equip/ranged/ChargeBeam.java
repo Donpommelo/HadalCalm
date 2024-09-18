@@ -10,7 +10,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 public class ChargeBeam extends RangedWeapon {
@@ -76,7 +76,7 @@ public class ChargeBeam extends RangedWeapon {
 			if (state.isServer()) {
 				charge.queueDeletion();
 			} else {
-				((ClientState) state).removeEntity(charge.getEntityID());
+				((PlayStateClient) state).removeEntity(charge.getEntityID());
 			}
 			charge = null;
 		}
@@ -84,7 +84,7 @@ public class ChargeBeam extends RangedWeapon {
 			if (state.isServer()) {
 				overcharge.queueDeletion();
 			} else {
-				((ClientState) state).removeEntity(overcharge.getEntityID());
+				((PlayStateClient) state).removeEntity(overcharge.getEntityID());
 			}
 			overcharge = null;
 		}
@@ -107,7 +107,7 @@ public class ChargeBeam extends RangedWeapon {
 				charge.setScale(0.6f);
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(charge.getEntityID(), charge, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(charge.getEntityID(), charge, false, PlayState.ObjectLayer.EFFECT);
 				}
 			}
 			charge.setOffset(particleOrigin.x, particleOrigin.y);
@@ -122,7 +122,7 @@ public class ChargeBeam extends RangedWeapon {
 				overcharge.setScale(0.6f);
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(overcharge.getEntityID(), overcharge, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(overcharge.getEntityID(), overcharge, false, PlayState.ObjectLayer.EFFECT);
 				}
 			}
 			overcharge.setOffset(particleOrigin.x, particleOrigin.y);

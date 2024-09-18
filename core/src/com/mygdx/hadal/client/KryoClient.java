@@ -22,6 +22,7 @@ import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
 import com.mygdx.hadal.managers.FadeManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.managers.JSONManager;
@@ -31,13 +32,10 @@ import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.*;
+import com.mygdx.hadal.server.packets.*;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.users.User.UserDto;
-import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.server.packets.PacketsAttacks;
-import com.mygdx.hadal.server.packets.PacketsLoadout;
-import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
@@ -92,7 +90,7 @@ public class KryoClient {
 
 		usm.resetUsers();
 
-        registerPackets();
+        PacketManager.clientPackets(client, new PacketSender());
 
         packetListener = new Listener() {
         	
@@ -101,10 +99,9 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                sendTCP(new Packets.PlayerConnect(true, JSONManager.loadout.getName(), HadalGame.VERSION, null));
-                usm.setConnID(c.getID());
-				usm.getUsers().put(c.getID(), new User(c.getID(), JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
-
+                PacketManager.clientTCP(new PacketsConnection.LobbyInfoRequest());
+//                usm.setConnID(c.getID());
+//				usm.getUsers().put(c.getID(), new User(c.getID(), JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 			}
         	
         	/**
@@ -112,7 +109,7 @@ public class KryoClient {
         	 */
         	@Override
         	public void disconnected(Connection c) {
-        		final ClientState cs = getClientState();
+        		final PlayStateClient cs = getClientState();
 				
 				//return to the lobby state. (if our client state is still there, we can do a fade out transition first.
         		Gdx.app.postRunnable(() -> {
@@ -127,7 +124,7 @@ public class KryoClient {
 						StateManager.removeState(SettingState.class, false);
 						StateManager.removeState(AboutState.class, false);
 						StateManager.removeState(PauseState.class, false);
-						StateManager.removeState(ClientState.class);
+						StateManager.removeState(PlayStateClient.class);
 					}
 				});
             }
@@ -160,7 +157,7 @@ public class KryoClient {
 		 * A sound is played on the server side that we should echo
 		 */
 		if (o instanceof final Packets.SyncSoundSingle p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
@@ -179,7 +176,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof final Packets.SyncScore p) {
 
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					ScoreManager score;
@@ -209,7 +206,7 @@ public class KryoClient {
 
 					//refresh hub because vending updates currency
 					if (p.connID == usm.getConnID()) {
-						cs.getUiHub().refreshHub(null);
+						cs.getUIManager().getUiHub().refreshHub(null);
 					}
 				});
 			}
@@ -220,7 +217,7 @@ public class KryoClient {
 		 * If we have a copy of that event in our world, we want to activate it as well.
 		 */
 		else if (o instanceof final Packets.ActivateEvent p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
@@ -241,7 +238,7 @@ public class KryoClient {
 		}
 
 		else if (o instanceof final Packets.ActivateEventByTrigger p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
@@ -260,7 +257,7 @@ public class KryoClient {
 		}
 
 		else if (o instanceof Packets.SyncPickup p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
@@ -274,7 +271,7 @@ public class KryoClient {
 		}
 
 		else if (o instanceof Packets.SyncPickupTriggered p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
@@ -291,7 +288,7 @@ public class KryoClient {
 		 * Server responds to our latency checking packet. record the time and update our latency.
 		 */
 		else if (o instanceof final Packets.LatencyAck p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> cs.syncLatency(p.serverTimestamp, p.clientTimestamp));
 			}
@@ -301,7 +298,7 @@ public class KryoClient {
 		 * Server tells us a player has disconnected so we must remove them from user list.
 		 */
 		else if (o instanceof final Packets.RemoveScore p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> usm.getUsers().remove(p.connID));
 			}
@@ -310,7 +307,7 @@ public class KryoClient {
 		/*
 		 * Server rejects our connection. Display msg on lobby screen.
 		 */
-		else if (o instanceof final Packets.ConnectReject p) {
+		else if (o instanceof final PacketsConnection.ConnectReject p) {
 			if (!StateManager.states.isEmpty()) {
 				if (StateManager.states.peek() instanceof LobbyState lobby) {
 					lobby.setNotification(p.msg);
@@ -336,7 +333,7 @@ public class KryoClient {
 		 * Load the level and tell the server we finished.
 		 */
 		else if (o instanceof final Packets.LoadLevel p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 
 			//we must set the playstate's next state so that other transitions (respawns) do not override this transition
 			if (null != cs) {
@@ -351,7 +348,7 @@ public class KryoClient {
 					StateManager.removeState(PauseState.class, false);
 
 					boolean spectator = null != cs && cs.isSpectatorMode();
-					StateManager.removeState(ClientState.class, false);
+					StateManager.removeState(PlayStateClient.class, false);
 
 					//set mode settings according to what the server sends
 					if (null != p.modeSettings) {
@@ -361,7 +358,7 @@ public class KryoClient {
 					}
 
 					StateManager.addClientPlayState(app, p.level, p.mode, LobbyState.class);
-					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
+					PacketManager.clientTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});
 			});
@@ -373,7 +370,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof Packets.ServerLoaded) {
 			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, JSONManager.loadout.getName(), HadalGame.VERSION, null);
-			sendTCP(connected);
+			PacketManager.clientTCP(connected);
 		}
 
 		/*
@@ -381,7 +378,7 @@ public class KryoClient {
 		 * Begin transitioning to the specified state.
 		 */
 		else if (o instanceof final Packets.ClientStartTransition p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 						cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay, p.skipFade);
@@ -400,8 +397,8 @@ public class KryoClient {
 		 * We go to the pause state.
 		 */
 		else if (o instanceof final Packets.Paused p) {
-			if (!StateManager.states.empty() && StateManager.states.peek() instanceof final ClientState cs) {
-				cs.addPacketEffect(() -> StateManager.addPauseState(cs, p.pauser, ClientState.class, true));
+			if (!StateManager.states.empty() && StateManager.states.peek() instanceof final PlayStateClient cs) {
+				cs.addPacketEffect(() -> StateManager.addPauseState(cs, p.pauser, PlayStateClient.class, true));
 			}
 		}
 
@@ -427,9 +424,9 @@ public class KryoClient {
 		Server sends a notification to the client. Display it
 		 */
 		else if (o instanceof final Packets.SyncNotification p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getKillFeed().addNotification(p.message, false));
+				cs.addPacketEffect(() -> cs.getUIManager().getKillFeed().addNotification(p.message, false));
 			}
 		}
 
@@ -437,9 +434,9 @@ public class KryoClient {
 		 * Server sends a chat message to the client
 		 */
 		else if (o instanceof final Packets.ServerChat p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getMessageWindow().addText(p.text, p.type, p.connID));
+				cs.addPacketEffect(() -> cs.getUIManager().getMessageWindow().addText(p.text, p.type, p.connID));
 			}
 		}
 
@@ -448,7 +445,7 @@ public class KryoClient {
 		 * Display the notification
 		 */
 		else if (o instanceof final Packets.ServerNotification p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> addNotification(cs, p.name, p.text, p.override, p.type));
 			}
@@ -459,11 +456,11 @@ public class KryoClient {
 		 * Update our settings to the ones specified
 		 */
 		else if (o instanceof final Packets.SyncSharedSettings p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					JSONManager.hostSetting = p.settings;
-					cs.getScoreWindow().syncSettingTable();
+					cs.getUIManager().getScoreWindow().syncSettingTable();
 				});
 			}
 		}
@@ -487,7 +484,7 @@ public class KryoClient {
 		 * Change their loadout on the client side
 		 */
 		else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					User user = usm.getUsers().get(p.connID);
@@ -508,7 +505,7 @@ public class KryoClient {
 		 * Change their loadout on the client side
 		 */
 		else if (o instanceof final PacketsLoadout.SyncLoadoutServer p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					User user = usm.getUsers().get(p.connID);
@@ -521,8 +518,8 @@ public class KryoClient {
                                     case PacketsLoadout.SyncArtifactServer s -> {
                                         player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
 										if (user.equals(usm.getOwnUser())) {
-											cs.getUiHub().refreshHub(null);
-											cs.getUiHub().refreshHubOptions();
+											cs.getUIManager().getUiHub().refreshHub(null);
+											cs.getUIManager().getUiHub().refreshHubOptions();
 										}
 									}
                                     case PacketsLoadout.SyncActiveServer s ->
@@ -545,14 +542,14 @@ public class KryoClient {
 		 * When a client player is spawned, we are told some ui elements like the current time and team setup
 		 */
 		else if (o instanceof final Packets.SyncUI p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					AlignmentFilter.currentTeams = p.teams;
 					AlignmentFilter.teamScores = p.scores;
-					cs.getUiExtra().setMaxTimer(p.maxTimer);
-					cs.getUiExtra().setTimer(p.timer);
-					cs.getUiExtra().setTimerIncr(p.timerIncr);
+					cs.getTimerManager().setMaxTimer(p.maxTimer);
+					cs.getTimerManager().setTimer(p.timer);
+					cs.getTimerManager().setTimerIncr(p.timerIncr);
 				});
 			}
 		}
@@ -562,16 +559,16 @@ public class KryoClient {
 		 * (events can use a global objective setter event)
 		 */
 		else if (o instanceof final Packets.SyncObjectiveMarker p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getUiObjective()
+				cs.addPacketEffect(() -> cs.getUIManager().getUiObjective()
 						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen,
 								p.displayOnScreen, p.displayClearCircle));
 			}
 		}
 
 		else if (o instanceof final Packets.SyncArcadeModeChoices p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> ArcadeMarquis.updateClientChoices(p.modeChoices, p.mapChoices));
 			}
@@ -581,7 +578,7 @@ public class KryoClient {
 		 * We are told by the server each player's extra score info. Set it so we can display in the results state.
 		 */
 		else if (o instanceof final Packets.SyncExtraResultsInfo p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 
@@ -616,9 +613,18 @@ public class KryoClient {
 		 * Server has kicked client. Get yeeted.
 		 */
 		else if (o instanceof Packets.ClientYeet) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.returnToTitle(0.0f);
+			}
+		}
+
+		else if (o instanceof PacketsConnection.LobbyInfoResponse p) {
+			if (!StateManager.states.empty()) {
+				GameState currentState = StateManager.states.peek();
+				if (currentState instanceof LobbyState lobbyState) {
+					lobbyState.updateLobbies(p.lobbies);
+				}
 			}
 		}
 	}
@@ -634,7 +640,7 @@ public class KryoClient {
 		 * Create a Client Illusion with the specified dimensions
 		 */
 		if (o instanceof final Packets.CreateEntity p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.angle, p.sprite, p.align);
@@ -651,7 +657,7 @@ public class KryoClient {
 		 * Server tells us to execute a synced attack. Do so with the parameters provided
 		 */
 		if (o instanceof final PacketsAttacks.SingleServerIndependent p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
@@ -689,7 +695,7 @@ public class KryoClient {
 		 * Server tells us to execute a synced attack that creates multiple hitboxes. Do so with the parameters provided
 		 */
 		if (o instanceof final PacketsAttacks.MultiServerIndependent p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
@@ -743,7 +749,7 @@ public class KryoClient {
 		}
 
 		if (o instanceof final PacketsAttacks.SyncedAttackNoHboxServer p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
@@ -767,7 +773,7 @@ public class KryoClient {
 		 * Delete packets go into the sync packets list. This is so they are carried out according to their timestamp to avoid deleting stuff too early.
 		 */
 		else if (o instanceof final Packets.DeleteEntity p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
 			}
@@ -779,7 +785,7 @@ public class KryoClient {
 		 * Create the designated particles and set its attachedId so that it will connect once it is created.
 		 */
 		else if (o instanceof final Packets.CreateParticles p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					ParticleEntity entity;
@@ -806,7 +812,7 @@ public class KryoClient {
 		}
 
 		else if (o instanceof final Packets.CreateFlag p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					FlagCapturable entity = new FlagCapturable(cs, p.pos, null, p.teamIndex);
@@ -817,7 +823,7 @@ public class KryoClient {
 		}
 
 		else if (o instanceof final Packets.CreateCrown p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					CrownHoldable entity = new CrownHoldable(cs, p.pos);
@@ -828,7 +834,7 @@ public class KryoClient {
 		}
 
 		else if (o instanceof final Packets.CreateGrave p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					User user = usm.getUsers().get(p.connID);
@@ -846,7 +852,7 @@ public class KryoClient {
 		 * Create entity and set its attachedId so that it will connect once it is created.
 		 */
 		else if (o instanceof final Packets.CreateSound p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					SoundEntity entity = new SoundEntity(cs, null, p.sound, p.lifespan, p.volume, p.pitch, p.looped, p.on, SyncType.NOSYNC);
@@ -862,7 +868,7 @@ public class KryoClient {
 		 * Create the enemy based on server specifications
 		 */
 		else if (o instanceof final Packets.CreateEnemy p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					Enemy enemy = p.type.generateEnemy(cs, p.pos, p.hitboxFilter, 0);
@@ -884,7 +890,7 @@ public class KryoClient {
 		 * If it is ourselves, we set the camera to face it and update the state's player field
 		 */
 		else if (o instanceof final Packets.CreatePlayer p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 
@@ -936,7 +942,7 @@ public class KryoClient {
 		 * We create the event using its provided map object blueprint
 		 */
 		else if (o instanceof final Packets.CreateEvent p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					EventDto dto = p.blueprint;
@@ -957,7 +963,7 @@ public class KryoClient {
 		 * Server tells us to create a ragdoll. Ragdolls are not synced.
 		 */
 		else if (o instanceof final Packets.CreateRagdoll p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo,
@@ -975,7 +981,7 @@ public class KryoClient {
 		 * Event Creation for specific Pickup event.
 		 */
 		else if (o instanceof final Packets.CreatePickup p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					PickupEquip pickup;
@@ -994,7 +1000,7 @@ public class KryoClient {
 		}
 
 		else if (o instanceof final Packets.CreateStartSyncedEvent p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
@@ -1019,7 +1025,7 @@ public class KryoClient {
 	public boolean receiveSyncPacket(Object o) {
 
 		if (o instanceof final PacketsSync.SyncPlayerSnapshot p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (cs != null) {
 				cs.addPacketEffect(() -> {
 					User user = usm.getUsers().get((int) p.connID);
@@ -1034,7 +1040,7 @@ public class KryoClient {
 		}
 
 		if (o instanceof PacketsSync.SyncEntity p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
 			}
@@ -1042,7 +1048,7 @@ public class KryoClient {
 		}
 		
 		else if (o instanceof Packets.SyncSound p) {
-			final ClientState cs = getClientState();
+			final PlayStateClient cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p,p.timestamp));
 			}
@@ -1057,19 +1063,19 @@ public class KryoClient {
 	 * Similar to getPlayState for server. This returns the ClientState, even if it is underneath a pause or setting state.
 	 * @return The current clientstate
 	 */
-	public ClientState getClientState() {
+	public PlayStateClient getClientState() {
 		if (!StateManager.states.empty()) {
 			GameState currentState = StateManager.states.peek();
-			if (currentState instanceof ClientState clientState) {
+			if (currentState instanceof PlayStateClient clientState) {
 				return clientState;
 			} else if (currentState instanceof PauseState pauseState) {
-				return (ClientState) (pauseState.getPs());
+				return (PlayStateClient) (pauseState.getPs());
 			} else if (currentState instanceof SettingState settingState) {
-				return (ClientState) (settingState.getPlayState());
+				return (PlayStateClient) (settingState.getPlayState());
 			} else if (currentState instanceof AboutState aboutState) {
-				return (ClientState) (aboutState.getPlayState());
+				return (PlayStateClient) (aboutState.getPlayState());
 			} else if (currentState instanceof ResultsState resultsState) {
-				return (ClientState) (resultsState.getPs());
+				return (PlayStateClient) (resultsState.getPs());
 			}
 		}
 		return null;
@@ -1083,25 +1089,8 @@ public class KryoClient {
 	 * @param override: ncan this notification be overridden by other notifications
 	 * @param type: the type of dialog (system message, story dialog, etc)
 	 */
-	public void addNotification(ClientState cs, String name, String text, boolean override, DialogType type) {
-		cs.getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
-	}
-
-	private void registerPackets() {
-		Kryo kryo = client.getKryo();
-		Packets.allPackets(kryo);
-	}
-	
-	public void sendTCP(Object p) {
-		if (null != client) {
-			client.sendTCP(p);
-		}
-	}
-	
-	public void sendUDP(Object p) {
-		if (null != client) {
-			client.sendUDP(p);
-		}
+	public void addNotification(PlayStateClient cs, String name, String text, boolean override, DialogType type) {
+		cs.getUIManager().getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
 	}
 
 	public void dispose() throws IOException {

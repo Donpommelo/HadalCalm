@@ -19,7 +19,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.Transition;
@@ -76,7 +76,7 @@ public class ReviveGravestone extends Event {
 		ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
 				.setScale(1.8f).setColor(color);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.EFFECT);
 		}
 
 		//make objective marker track this event
@@ -84,9 +84,9 @@ public class ReviveGravestone extends Event {
 				true, false, false, user.getTeamFilter());
 
 		if (state.isSpectatorMode()) {
-			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
+			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		} else if (HadalGame.usm.getOwnUser().getTeamFilter() == user.getTeamFilter()) {
-			state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
+			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		}
 
 		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();
@@ -146,9 +146,9 @@ public class ReviveGravestone extends Event {
 
 				if (lastReviver != null && numReturning > 0) {
 					String reviverName = TextUtil.getPlayerColorName(lastReviver, MAX_NAME_LENGTH);
-					state.getKillFeed().addNotification(UIText.GRAVE_REVIVER.text(playerName, reviverName), true);
+					state.getUIManager().getKillFeed().addNotification(UIText.GRAVE_REVIVER.text(playerName, reviverName), true);
 				} else {
-					state.getKillFeed().addNotification(UIText.GRAVE_REVIVE.text(playerName), true);
+					state.getUIManager().getKillFeed().addNotification(UIText.GRAVE_REVIVE.text(playerName), true);
 				}
 
 				user.getTransitionManager().setOverrideSpawn(getPixelPosition());

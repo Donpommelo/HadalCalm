@@ -11,7 +11,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 import org.jetbrains.annotations.NotNull;
@@ -97,7 +97,7 @@ public class Puffball extends SyncedAttacker {
                         frag.addStrategy(new FlashNearDeath(state, frag, user.getBodyData(), FLASH_LIFESPAN));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);
+                            ((PlayStateClient) state).addEntity(frag.getEntityID(), frag, false, PlayStateClient.ObjectLayer.HBOX);
                         }
                     }
                 }

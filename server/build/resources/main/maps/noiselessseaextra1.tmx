@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="14">
+ <properties>
+  <property name="music" value="EXTRA_ROOM"/>
+  <property name="startUI" value="NOISELESS SEA,EMPTY,SCRAP"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="50" height="70">
+  <data encoding="base64" compression="zlib">
+   eAHtmMsOAiEMRV248b3Q//9W2dyENEMHmHZixmNCCgO0ve1JHD2d+FABKkAFqMCeFXiVYFnj0hByToyZoQUdeYzM9It+0I8ZbtbuwNX/clV/Va1xMrq/J1dZOh7F8b12Xs1vZf4sY7Qu3vnKfZhfT4PiRWqRT1lPb+9ejwbFi9Iif7K9ubbOjWhQzAgt8iXbyq/n+YwGxd2qRX5ke/JdOrNFg2Jv0SIfsks5rj2L0KD4s1p0X3YtZ7sfqUE5zGjRXVmbp7fO0KA8RrXonqyXd72XqUG5jGjRHdk6V2/eet+Qnyjb+zvexvNyr/fQYSvnr+lH3zsoXPkc2V24givLRMQaruAqgiPrA67gyjIRsYYruIrgyPqAK7iyTESs4QquIjiyPuAKriwTEWu4gqsIjqyPbK7eJeB1h/EpMer/x1tzq7917tefo6Ov33v1kX7QjwzWjsqV1cWaClCBY1TgC+FVY/s=
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="768" y="224">
+   <polyline points="0,0 0,320 -320,640 -320,1600 480,1600 480,640 160,320 160,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="13" name="Dropthrough" type="Dropthrough" x="768" y="536" width="160" height="8"/>
+  <object id="2" name="Start" type="Start" x="832" y="448" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="3" name="Sensor" type="Sensor" x="768" y="224" width="160" height="96">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="4" name="Warp" type="Warp" x="832" y="128" width="32" height="32">
+   <properties>
+    <property name="level" value="NOISELESSSEA3"/>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="5" name="Bounds" type="Bounds" x="352" y="320" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="6" name="Bounds" type="Bounds" x="1312" y="1920" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="7" name="Multitrigger" type="Multitrigger" x="128" y="64" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="8" name="Prefab" type="PrefabSpawnerUnlock" x="800" y="1728" width="96" height="96">
+   <properties>
+    <property name="name" value="ABYSSAL_INSIGNIA"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock1"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="9" name="Timer" type="Timer" x="128" y="128" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="10" name="Multitrigger" type="Multitrigger" x="192" y="128" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,unlock1"/>
+   </properties>
+  </object>
+  <object id="11" name="Current" type="Current" x="448" y="1248" width="128" height="384">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="8"/>
+   </properties>
+  </object>
+  <object id="12" name="Current" type="Current" x="1120" y="864" width="128" height="384">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="8"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

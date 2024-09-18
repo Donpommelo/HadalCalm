@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="71">
+ <properties>
+  <property name="customShader" type="bool" value="true"/>
+  <property name="pvp" type="bool" value="true"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <tileset firstgid="25" source="main.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="60" height="50">
+  <data encoding="base64" compression="zlib">
+   eAHtmdvKwzAMgwf/+biL7f2fdfaFIAS3dEKpE3ChmGao1ue0mbNdLnVUBaoCVYGqQFWgKlAVWLMCb2b7mzjfF8R11rudV+K8mWYlZrD+me8X4vw3zSrMLeuv+WaOHxOtwKxgRX1mYnauaB3y99WfYXZewYrYMkf5znjHMYfROqRk7ZmjfKPfcbBurUOqeQUros9ztO6NfMdb1lFc4Dsa2+dd+WzPyIqaqJlnZlUzr8CqYl6JVcH8ajfx74Av3GyRyPpmdVFZ/FmJ+oV+TLHGsr5ZXc+L9yLqF/oxRf/A+mZ1PS++L3q26FrRn7G+WV3P69dHmBWsnov1zeo8Z3TsMatYPS/rm9VFrBhz5qgPVvanrG9WB7asyPpmdVmcyMv6ZnXImxVZ36wuixN5Wd+sDnmzIuub1WVxIi/rm9Uhb1ZkfbO6LE7kZX1D5z18v4/xa8VeBh6ZuLXnwn84z+5jwRv19T6m2MswnK45sud6lvfD7hv1fhgb+VvoXh1aVniJ4ufeTYjP0P+fOc8tq7LnPop/JnM2K2rSMkfrmmoM61DGvIIVEcxba5tqfAbWljlaN1RjM7GCuWJVoCpQFRhdgQeCTROk
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="5" x="416" y="544">
+   <polyline points="0,0 160,0 320,-160 736,-160 896,0 1056,0 1216,160 1216,640 1056,640 896,800 160,800 0,640 -160,640 -160,160 0,0"/>
+  </object>
+  <object id="6" x="800" y="736">
+   <polyline points="0,0 288,0 352,64 224,192 64,192 -64,64 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="event-layer">
+  <object id="7" name="Start" type="Start" x="320" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="14" name="Multitrigger" type="Multitrigger" x="128" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2,w3"/>
+   </properties>
+  </object>
+  <object id="16" name="Prefab" type="PrefabWeapon" x="288" y="1088" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="17" name="Prefab" type="PrefabWeapon" x="1504" y="1088" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="18" name="Prefab" type="PrefabWeapon" x="896" y="640" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="800" y="512" width="288" height="8"/>
+  <object id="22" name="Prefab" type="PrefabSpawner" x="896" y="416" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value=""/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="23" name="Prefab" type="PrefabSpawner" x="896" y="1248" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value=""/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="256" y="928" width="288" height="8"/>
+  <object id="29" name="Dropthrough" type="Dropthrough" x="1344" y="928" width="288" height="8"/>
+  <object id="30" name="Buzzsaw" type="Buzzsaw" x="592" y="1264" width="128" height="128">
+   <properties>
+    <property name="damage" type="float" value="5"/>
+    <property name="triggeredId" value="saw1"/>
+   </properties>
+  </object>
+  <object id="31" name="MovePoint" type="MovePoint" x="640" y="1312" width="32" height="32">
+   <properties>
+    <property name="connections" value="saw1"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="move2"/>
+    <property name="triggeringId" value="dummy2"/>
+   </properties>
+  </object>
+  <object id="32" name="Dummy" type="Dummy" x="576" y="1312" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy1"/>
+    <property name="triggeringId" value="dummy2"/>
+   </properties>
+  </object>
+  <object id="33" name="Dummy" type="Dummy" x="1280" y="1312" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy2"/>
+    <property name="triggeringId" value="dummy1"/>
+   </properties>
+  </object>
+  <object id="34" name="Dummy" type="Dummy" x="416" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy3"/>
+    <property name="triggeringId" value="dummy4"/>
+   </properties>
+  </object>
+  <object id="35" name="Dummy" type="Dummy" x="576" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy4"/>
+    <property name="triggeringId" value="dummy5"/>
+   </properties>
+  </object>
+  <object id="36" name="Dummy" type="Dummy" x="736" y="384" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy5"/>
+    <property name="triggeringId" value="dummy6"/>
+   </properties>
+  </object>
+  <object id="37" name="Dummy" type="Dummy" x="1120" y="384" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy6"/>
+    <property name="triggeringId" value="dummy7"/>
+   </properties>
+  </object>
+  <object id="38" name="Dummy" type="Dummy" x="1280" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy7"/>
+    <property name="triggeringId" value="dummy8"/>
+   </properties>
+  </object>
+  <object id="39" name="Dummy" type="Dummy" x="1440" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy8"/>
+    <property name="triggeringId" value="dummy9"/>
+   </properties>
+  </object>
+  <object id="40" name="Buzzsaw" type="Buzzsaw" x="1168" y="432" width="128" height="128">
+   <properties>
+    <property name="damage" type="float" value="5"/>
+    <property name="triggeredId" value="saw2"/>
+   </properties>
+  </object>
+  <object id="41" name="MovePoint" type="MovePoint" x="1216" y="480" width="32" height="32">
+   <properties>
+    <property name="connections" value="saw2"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="move10"/>
+    <property name="triggeringId" value="dummy10"/>
+   </properties>
+  </object>
+  <object id="42" name="Dummy" type="Dummy" x="1280" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy9"/>
+    <property name="triggeringId" value="dummy10"/>
+   </properties>
+  </object>
+  <object id="43" name="Dummy" type="Dummy" x="1120" y="384" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy10"/>
+    <property name="triggeringId" value="dummy11"/>
+   </properties>
+  </object>
+  <object id="44" name="Dummy" type="Dummy" x="736" y="384" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy11"/>
+    <property name="triggeringId" value="dummy12"/>
+   </properties>
+  </object>
+  <object id="45" name="Dummy" type="Dummy" x="576" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy12"/>
+    <property name="triggeringId" value="dummy3"/>
+   </properties>
+  </object>
+  <object id="46" name="Prefab" type="PrefabSpawner" x="352" y="832" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="5"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value=""/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="47" name="Prefab" type="PrefabSpawner" x="1440" y="832" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="5"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value=""/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="48" name="Buzzsaw" type="Buzzsaw" x="880" y="880" width="128" height="128">
+   <properties>
+    <property name="damage" type="float" value="5"/>
+    <property name="triggeredId" value="saw3"/>
+   </properties>
+  </object>
+  <object id="49" name="MovePoint" type="MovePoint" x="928" y="928" width="32" height="32">
+   <properties>
+    <property name="connections" value="saw3"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="move13"/>
+    <property name="triggeringId" value="dummy13"/>
+   </properties>
+  </object>
+  <object id="50" name="Dummy" type="Dummy" x="864" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy13"/>
+    <property name="triggeringId" value="dummy14"/>
+   </properties>
+  </object>
+  <object id="51" name="Dummy" type="Dummy" x="704" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy14"/>
+    <property name="triggeringId" value="dummy15"/>
+   </properties>
+  </object>
+  <object id="52" name="Dummy" type="Dummy" x="768" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy15"/>
+    <property name="triggeringId" value="dummy16"/>
+   </properties>
+  </object>
+  <object id="53" name="Dummy" type="Dummy" x="1088" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy16"/>
+    <property name="triggeringId" value="dummy17"/>
+   </properties>
+  </object>
+  <object id="54" name="Dummy" type="Dummy" x="1152" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy17"/>
+    <property name="triggeringId" value="dummy18"/>
+   </properties>
+  </object>
+  <object id="55" name="Dummy" type="Dummy" x="992" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy18"/>
+    <property name="triggeringId" value="dummy13"/>
+   </properties>
+  </object>
+  <object id="56" name="Bounds" type="Bounds" x="64" y="192" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="57" name="Bounds" type="Bounds" x="1792" y="1536" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="58" name="Start" type="Start" x="928" y="1248" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="59" name="Start" type="Start" x="928" y="640" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="60" name="Start" type="Start" x="1536" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="objective">
+  <object id="65" name="ObjectiveSpawn" type="ObjectiveSpawn" x="928" y="1088" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="66" name="Dummy" type="Dummy" x="1440" y="640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg3"/>
+   </properties>
+  </object>
+  <object id="67" name="Dummy" type="Dummy" x="416" y="640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="68" name="MovePoint" type="MovePoint" x="928" y="1088" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="syncConnected" type="bool" value="true"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="69" name="Dummy" type="Dummy" x="1440" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg3"/>
+    <property name="triggeringId" value="egg4"/>
+   </properties>
+  </object>
+  <object id="70" name="Dummy" type="Dummy" x="416" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg4"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

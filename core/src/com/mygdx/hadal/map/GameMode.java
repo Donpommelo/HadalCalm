@@ -284,7 +284,7 @@ public enum GameMode {
         JSONManager.setting.saveSetting();
 
         //ui text set directly instead of through an event, since ui is initiated immediately
-        state.getUiExtra().changeTypes(uiTriggerId.toString(), true);
+        state.getUIManager().getUiExtra().changeTypes(uiTriggerId.toString(), true);
 
         playerstart.getProperties().put("triggeringId", spawnTriggerId.toString());
         multi.getProperties().put("triggeringId", startTriggerId.toString());
@@ -318,7 +318,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.modifyNewPlayer(state, this, newLoadout, p, hitboxFilter);
         }
-        state.getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
+        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
     }
 
     public void postCreatePlayer(PlayState state, Player p) {
@@ -360,7 +360,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerDeath(state, this, perp, vic, source, tags);
         }
-        state.getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
+        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
     }
 
     /**
@@ -381,7 +381,7 @@ public enum GameMode {
 
                 //tell score window and ui extra to update next interval
                 user.setScoreUpdated(true);
-                state.getUiExtra().syncUIText(UITag.uiType.SCORE);
+                state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCORE);
             }
         }
     }
@@ -401,7 +401,7 @@ public enum GameMode {
             }
 
             //tell ui extra to sync updated score
-            state.getUiExtra().syncUIText(UITag.uiType.TEAMSCORE);
+            state.getUIManager().getUiExtra().syncUIText(UITag.uiType.TEAMSCORE);
         }
     }
 
@@ -414,7 +414,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerLivesOut(state, this, p);
         }
-        state.getKillFeed().addNotification(UIText.ELIMINATED.text(TextUtil.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
+        state.getUIManager().getKillFeed().addNotification(UIText.ELIMINATED.text(TextUtil.getPlayerColorName(p, MAX_NAME_LENGTH)), true);
     }
 
     /**

@@ -9,7 +9,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -63,7 +63,7 @@ public class Bomb extends SyncedAttacker {
         sparks.addStrategy(new FixedToEntity(state, sparks, user.getBodyData(), hbox, new Vector2(), new Vector2()));
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(sparks.getEntityID(), sparks, false, ClientState.ObjectLayer.HBOX);
+            ((PlayStateClient) state).addEntity(sparks.getEntityID(), sparks, false, PlayStateClient.ObjectLayer.HBOX);
         }
 
         return hbox;

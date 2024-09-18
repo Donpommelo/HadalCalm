@@ -28,10 +28,7 @@ import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -233,7 +230,7 @@ public class ResultsState extends GameState {
 						if (ps.isServer()) {
 							readyPlayer(0);
 						} else {
-							HadalGame.client.sendTCP(new Packets.ClientReady());
+							PacketManager.clientTCP(new Packets.ClientReady());
 						}
 					}
 				});
@@ -304,16 +301,16 @@ public class ResultsState extends GameState {
 		};
 
 		//we pull up and lock the playstate message window so players can chat in the aftergame.
-		if (!ps.getMessageWindow().isActive()) {
-			ps.getMessageWindow().toggleWindow();
+		if (!ps.getUIManager().getMessageWindow().isActive()) {
+			ps.getUIManager().getMessageWindow().toggleWindow();
 		}
 
 		//we start off playing no music. Results music only starts after playstate transition fade occurs
 		MusicPlayer.playSong(MusicTrackType.NOTHING, 1.0f);
 
-		ps.getMessageWindow().setLocked(true);
-		ps.getMessageWindow().table.setPosition(MESSAGE_X, MESSAGE_Y);
-		stage.addActor(ps.getMessageWindow().table);
+		ps.getUIManager().getMessageWindow().setLocked(true);
+		ps.getUIManager().getMessageWindow().table.setPosition(MESSAGE_X, MESSAGE_Y);
+		stage.addActor(ps.getUIManager().getMessageWindow().table);
 		FadeManager.fadeIn();
 		app.newMenu(stage);
 
@@ -549,8 +546,7 @@ public class ResultsState extends GameState {
 
 				int iconID = users.indexOf(user, false);
 				icons.get(iconID).setReady(true);
-
-				HadalGame.server.sendToAllTCP(new Packets.ClientReady(iconID));
+				PacketManager.serverTCPAll(ps, new Packets.ClientReady(iconID));
 			}
 		} else {
 
@@ -602,7 +598,7 @@ public class ResultsState extends GameState {
 	public void update(float delta) {
 
 		//we update the message window to take input
-		ps.getMessageWindow().table.act(delta);
+		ps.getUIManager().getMessageWindow().table.act(delta);
 
 		//this lets us continue to process packets. (mostly used for disconnects)
 		ps.processCommonStateProperties(delta, true);

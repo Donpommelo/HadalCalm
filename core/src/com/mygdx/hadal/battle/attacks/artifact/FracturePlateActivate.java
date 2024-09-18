@@ -6,7 +6,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 public class FracturePlateActivate extends SyncedAttacker {
@@ -19,7 +19,7 @@ public class FracturePlateActivate extends SyncedAttacker {
         ParticleEntity particle = new ParticleEntity(state, user, Particle.SHIELD, 1.0f, DURATION,true, SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
+            ((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.HBOX);
         }
     }
 }

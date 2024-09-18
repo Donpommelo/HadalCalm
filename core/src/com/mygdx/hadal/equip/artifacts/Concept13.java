@@ -6,7 +6,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
@@ -66,7 +66,7 @@ public class Concept13 extends Artifact {
 							if (hbox.getState().isServer()) {
 								hbox.queueDeletion();
 							} else {
-								((ClientState) state).removeEntity(hbox.getEntityID());
+								((PlayStateClient) state).removeEntity(hbox.getEntityID());
 							}
 						}
 					});
@@ -74,7 +74,7 @@ public class Concept13 extends Artifact {
 							DamageSource.DIAMOND_CUTTER, DamageTag.MELEE));
 
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+						((PlayStateClient) state).addEntity(hbox.getEntityID(), hbox, false, PlayStateClient.ObjectLayer.HBOX);
 					}
 				}
 			}

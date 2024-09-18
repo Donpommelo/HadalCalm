@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -61,7 +61,7 @@ public class FalseSunStarOrbit extends SyncedAttacker {
                     true, true, SyncType.NOSYNC);
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.HBOX);
+                ((PlayStateClient) state).addEntity(sound.getEntityID(), sound, false, PlayStateClient.ObjectLayer.HBOX);
             }
         }
 

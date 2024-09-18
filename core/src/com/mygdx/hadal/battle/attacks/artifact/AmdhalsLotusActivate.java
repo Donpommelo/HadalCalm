@@ -10,7 +10,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.StatusComposite;
@@ -30,10 +30,10 @@ public class AmdhalsLotusActivate extends SyncedAttacker {
                 .setScale(0.4f);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
+            ((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.HBOX);
         }
 
-        user.getBodyData().addStatus(new StatusComposite(state, state.getUiExtra().getTimer(), false, user.getBodyData(), user.getBodyData(),
+        user.getBodyData().addStatus(new StatusComposite(state, state.getTimerManager().getTimer(), false, user.getBodyData(), user.getBodyData(),
                 new StatChangeStatus(state, Stats.FUEL_REGEN, FUEL_REGEN_BUFF, user.getBodyData()),
                 new StatChangeStatus(state, Stats.HP_REGEN, HP_REGEN_BUFF, user.getBodyData())));
     }

@@ -7,7 +7,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -43,7 +43,7 @@ public class ParticleCreator extends Event {
 			particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, SyncType.NOSYNC);
 
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particles.getEntityID(), particles, false, PlayState.ObjectLayer.EFFECT);
+				((PlayStateClient) state).addEntity(particles.getEntityID(), particles, false, PlayState.ObjectLayer.EFFECT);
 			}
 		} else {
 			this.particle = particle;
@@ -79,7 +79,7 @@ public class ParticleCreator extends Event {
 				} else {
 					ParticleEntity tempParticles = new ParticleEntity(state, attachedEntity, particle, 1.0f, duration, true, SyncType.NOSYNC);
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(tempParticles.getEntityID(), tempParticles, false, PlayState.ObjectLayer.EFFECT);
+						((PlayStateClient) state).addEntity(tempParticles.getEntityID(), tempParticles, false, PlayState.ObjectLayer.EFFECT);
 					}
 				}
 			}

@@ -21,9 +21,6 @@ public class Record {
 	//This is a map of the player's quest flags
 	private ObjectMap<String, Integer> flags;
 	
-	//this is the last ip connected to
-	private String lastIp;
-
 	private int saveVersion;
 
 	//This is a map of the player's unlocks
@@ -54,11 +51,6 @@ public class Record {
 		saveRecord();
 	}
 	
-	public void setlastIp(String lastIp) {
-		this.lastIp = lastIp;
-		saveRecord();
-	}
-
 	/**
 	 * This simple saves the record in a designated file
 	 */
@@ -150,7 +142,6 @@ public class Record {
 		newRecord.hiScores.put("DM_WETWORKS", 0);
 		newRecord.hiScores.put("DM_ZIGGURAT", 0);
 
-		newRecord.lastIp = "";
 		newRecord.saveVersion = JSONManager.SAVE_VERSION;
 
 		Gdx.files.local("save/Records.json").writeString(JSON.prettyPrint(newRecord), false);
@@ -172,8 +163,6 @@ public class Record {
 	}
 
 	public int getScrap() { return scrap; }
-	
-	public String getLastIp() { return lastIp; }
 	
 	/**
 	 * This acquires the number of single-player-mode artifact slots based on quest completion

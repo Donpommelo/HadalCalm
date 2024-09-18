@@ -81,7 +81,7 @@ public class SettingState extends GameState {
 
 	//These are all of the display and buttons visible to the player.
 	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, resetOption;
-	private TextField portNumber, serverPassword;
+	private TextField serverPassword;
 	private SelectBox<String> screenOptions, resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, artifactSlots, playerCapacity;
 	private Slider sound, music, master, hitsound;
@@ -612,18 +612,11 @@ public class SettingState extends GameState {
 		Text maxPlayers = new Text(UIText.SERVER_SIZE.text());
 		maxPlayers.setScale(DETAILS_SCALE);
 
-		Text port = new Text(UIText.PORT_NUMBER.text());
-		port.setScale(DETAILS_SCALE);
-
 		Text password = new Text(UIText.SERVER_PASSWORD.text());
 		password.setScale(DETAILS_SCALE);
 
 		Text slots = new Text(UIText.ARTIFACT_SLOTS.text());
 		slots.setScale(DETAILS_SCALE);
-		
-		portNumber = new TextField(String.valueOf(JSONManager.setting.getPortNumber()), SKIN);
-		portNumber.setMaxLength(5);
-		portNumber.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
 
 		serverPassword = new TextField(JSONManager.setting.getServerPassword(), SKIN);
 		serverPassword.setMaxLength(20);
@@ -639,8 +632,6 @@ public class SettingState extends GameState {
 		
 		details.add(maxPlayers);
 		details.add(playerCapacity).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
-		details.add(port);
-		details.add(portNumber).colspan(2).width(100).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(password);
 		details.add(serverPassword).colspan(2).width(100).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(slots);
@@ -723,7 +714,6 @@ public class SettingState extends GameState {
 			}
 			case SERVER -> {
 				JSONManager.setting.setMaxPlayers(playerCapacity.getSelectedIndex());
-				JSONManager.setting.setPortNumber(Integer.parseInt(portNumber.getText()));
 				JSONManager.setting.setServerPassword(serverPassword.getText());
 				JSONManager.setting.setArtifactSlots(artifactSlots.getSelectedIndex());
 				JSONManager.setting.saveSetting();
@@ -774,7 +764,7 @@ public class SettingState extends GameState {
 		//the server should update their scoretable when settings are changed
 		if (playState != null) {
 			if (playState.isServer()) {
-				playState.getScoreWindow().syncSettingTable();
+				playState.getUIManager().getScoreWindow().syncSettingTable();
 			}
 		}
 	}

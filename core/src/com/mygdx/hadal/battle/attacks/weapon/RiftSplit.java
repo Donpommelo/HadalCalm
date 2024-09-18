@@ -12,7 +12,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -85,7 +85,7 @@ public class RiftSplit extends SyncedAttacker {
                         .setRotate(true).setSyncType(SyncType.NOSYNC));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(shockwave.getEntityID(), shockwave, false, ClientState.ObjectLayer.HBOX);
+                    ((PlayStateClient) state).addEntity(shockwave.getEntityID(), shockwave, false, PlayStateClient.ObjectLayer.HBOX);
                 }
             }
         });

@@ -9,11 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -21,9 +21,9 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -306,9 +306,9 @@ public class Hitbox extends HadalEntity {
 			//for catchup packets, resend synced attack packet (otherwise, create packet should already be sent)
 			if (catchup) {
 				if (syncedMulti) {
-					attack.syncAttackMultiServer(startVelo, new Hitbox[] {this}, extraFields, 0, synced, true);
+					attack.syncAttackMultiServer(state, startVelo, new Hitbox[] {this}, extraFields, 0, synced, true);
 				} else {
-					attack.syncAttackSingleServer(this, extraFields, 0, synced, true);
+					attack.syncAttackSingleServer(state, this, extraFields, 0, synced, true);
 				}
 			}
 			return null;
@@ -339,10 +339,10 @@ public class Hitbox extends HadalEntity {
 		if (body != null && synced && isSyncInstant()) {
 			float angle = getAngle();
 			if (angle == 0.0f) {
-				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
+				PacketManager.serverUDPAll(state, new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 						state.getTimer()));
 			} else {
-				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
+				PacketManager.serverUDPAll(state, new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
 						state.getTimer(), angle));
 			}
 		}
@@ -363,13 +363,13 @@ public class Hitbox extends HadalEntity {
 			if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp) {
 				die();
 				serverDeleteReceived = false;
-				((ClientState) state).removeEntity(entityID);
+				((PlayStateClient) state).removeEntity(entityID);
 			}
 		} else {
 			if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp + PlayState.SYNC_TIME) {
 				die();
 				serverDeleteReceived = false;
-				((ClientState) state).removeEntity(entityID);
+				((PlayStateClient) state).removeEntity(entityID);
 			}
 		}
 	}

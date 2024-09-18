@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -88,7 +88,7 @@ public class FixedToEntity extends HitboxStrategy {
 				if (hbox.getState().isServer()) {
 					target.queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(target.getEntityID());
+					((PlayStateClient) state).removeEntity(target.getEntityID());
 				}
 			}
 		}

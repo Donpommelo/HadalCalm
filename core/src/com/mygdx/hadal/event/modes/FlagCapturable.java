@@ -21,7 +21,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.CarryingFlag;
 import com.mygdx.hadal.statuses.Status;
@@ -93,12 +93,12 @@ public class FlagCapturable extends Event {
 			ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
 					.setColor(teamColor);
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+				((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.EFFECT);
 			}
 		}
 
 		//make objective marker track this event
-		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
+		state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 
 
 		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();
@@ -142,7 +142,7 @@ public class FlagCapturable extends Event {
 
 										event.getBody().setGravityScale(0.0f);
 										String playerName = TextUtil.getPlayerColorName(target, MAX_NAME_LENGTH);
-										state.getKillFeed().addNotification(UIText.CTF_PICKUP.text(playerName), true);
+										state.getUIManager().getKillFeed().addNotification(UIText.CTF_PICKUP.text(playerName), true);
 
 										spawner.setFlagPresent(false);
 									}
@@ -205,7 +205,7 @@ public class FlagCapturable extends Event {
 
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
 					teamColor = TextUtil.getColorName(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon(), teamColor);
-					state.getKillFeed().addNotification(UIText.CTF_RETURNED.text(teamColor), true);
+					state.getUIManager().getKillFeed().addNotification(UIText.CTF_RETURNED.text(teamColor), true);
 				}
 			}
 
@@ -345,7 +345,7 @@ public class FlagCapturable extends Event {
 
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
 			String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-			state.getKillFeed().addNotification(UIText.CTF_DROPPED.text(teamColor), true);
+			state.getUIManager().getKillFeed().addNotification(UIText.CTF_DROPPED.text(teamColor), true);
 		}
 	}
 

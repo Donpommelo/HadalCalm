@@ -8,7 +8,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Spring;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 public class SpringLoaderUse extends SyncedAttacker {
@@ -24,8 +24,8 @@ public class SpringLoaderUse extends SyncedAttacker {
         ParticleEntity particle = new ParticleEntity(state, startPosition, Particle.MOMENTUM, 1.0f, true, SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(spring.getEntityID(), spring, false, ClientState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(spring.getEntityID(), spring, false, PlayStateClient.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.EFFECT);
         }
     }
 }

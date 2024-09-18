@@ -11,7 +11,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -93,9 +93,9 @@ public class TridentProjectile extends SyncedAttacker {
                         .setRotate(true).setSyncType(SyncType.NOSYNC));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(center.getEntityID(), center, false, ClientState.ObjectLayer.HBOX);
-                    ((ClientState) state).addEntity(right.getEntityID(), right, false, ClientState.ObjectLayer.HBOX);
-                    ((ClientState) state).addEntity(left.getEntityID(), left, false, ClientState.ObjectLayer.HBOX);
+                    ((PlayStateClient) state).addEntity(center.getEntityID(), center, false, PlayStateClient.ObjectLayer.HBOX);
+                    ((PlayStateClient) state).addEntity(right.getEntityID(), right, false, PlayStateClient.ObjectLayer.HBOX);
+                    ((PlayStateClient) state).addEntity(left.getEntityID(), left, false, PlayStateClient.ObjectLayer.HBOX);
                 }
             }
         });

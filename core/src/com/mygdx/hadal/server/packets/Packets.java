@@ -23,6 +23,8 @@ import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
+import com.mygdx.hadal.server.LobbyInfo;
+import com.mygdx.hadal.server.LobbyInfoDynamic;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.users.ScoreManager;
@@ -37,20 +39,6 @@ import java.util.UUID;
  * @author Wogganov Wrarnando
  */
 public class Packets {
-
-	public static class ConnectReject {
-		public String msg;
-		public ConnectReject() {}
-		
-		/**
-		 * ConnectReject is sent from the Server to the Client to reject a connection.
-		 * This is done when the server is full, or if the server is in the middle of a game.
-		 * @param msg: message to be displayed by the client
-		 */
-		public ConnectReject(String msg) {
-			this.msg = msg;
-		}
-	}
 
 	public static class PasswordRequest {
 		/**
@@ -1126,7 +1114,15 @@ public class Packets {
      * @param kryo The kryo object
      */
     public static void allPackets(Kryo kryo) {
-		kryo.register(ConnectReject.class);
+		kryo.register(PacketsConnection.LobbyInfoRequest.class);
+		kryo.register(PacketsConnection.LobbyInfoResponse.class);
+		kryo.register(PacketsConnection.ConnectToLobby.class);
+		kryo.register(PacketsConnection.ConnectReject.class);
+		kryo.register(PacketsConnection.CreateLobbyRequest.class);
+		kryo.register(LobbyInfo.class);
+		kryo.register(LobbyInfoDynamic.class);
+		kryo.register(LobbyInfo[].class);
+
 		kryo.register(PasswordRequest.class);
     	kryo.register(PlayerConnect.class);
     	kryo.register(ServerLoaded.class);

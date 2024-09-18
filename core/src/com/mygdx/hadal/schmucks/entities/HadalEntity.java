@@ -7,16 +7,16 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.effects.Shader;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.helpers.ShaderHelper;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
+import com.mygdx.hadal.states.PlayStateClient;
 
 import java.util.UUID;
 
@@ -196,7 +196,7 @@ public abstract class HadalEntity {
 	
 	public void onServerSyncFast() {
 		if (body != null && syncInstant) {
-			HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
+			PacketManager.serverUDPAll(state, new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 					state.getTimer()));
 		}
 	}
@@ -318,7 +318,7 @@ public abstract class HadalEntity {
 	public void onClientDelete() {
 		if (serverDeleteReceived && state.getTimer() >= serverDeleteTimestamp) {
 			serverDeleteReceived = false;
-			((ClientState) state).removeEntity(entityID);
+			((PlayStateClient) state).removeEntity(entityID);
 		}
 	}
 	

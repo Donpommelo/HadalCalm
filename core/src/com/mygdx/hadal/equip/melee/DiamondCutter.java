@@ -11,7 +11,7 @@ import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.DamagePulse;
 
@@ -70,7 +70,7 @@ public class DiamondCutter extends MeleeWeapon {
 				sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.0f, 0.8f, 1.0f, true,
 						true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(sawSound.getEntityID(), sawSound, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(sawSound.getEntityID(), sawSound, false, PlayState.ObjectLayer.EFFECT);
 				}
 			} else {
 				sawSound.turnOn();

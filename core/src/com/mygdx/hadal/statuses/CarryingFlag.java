@@ -36,7 +36,7 @@ public class CarryingFlag extends Status {
 		//on death, notify players that flag was dropped
 		if (perp instanceof PlayerBodyData playerData) {
 			String playerName = TextUtil.getPlayerColorName(playerData.getPlayer(), MAX_NAME_LENGTH);
-			state.getKillFeed().addNotification(UIText.CTF_DEFENDED.text(playerName), true);
+			state.getUIManager().getKillFeed().addNotification(UIText.CTF_DEFENDED.text(playerName), true);
 		}
 	}
 

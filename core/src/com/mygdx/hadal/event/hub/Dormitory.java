@@ -11,6 +11,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -50,7 +51,7 @@ public class Dormitory extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 
 		User user = HadalGame.usm.getOwnUser();
 
@@ -84,7 +85,7 @@ public class Dormitory extends HubEvent {
 			loadCount = 0.0f;
 
 			if (!loadingCharacters.isEmpty()) {
-				final UIHub hub = state.getUiHub();
+				final UIHub hub = state.getUIManager().getUiHub();
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
 				if (null == ownPlayer) { return; }
@@ -112,7 +113,7 @@ public class Dormitory extends HubEvent {
 							ownPlayer.getCosmeticsHelper().setCharacter(selected);
 							ownPlayer.getCosmeticsHelper().syncServerCharacterChange(selected);
 						} else {
-							HadalGame.client.sendTCP(new PacketsLoadout.SyncCharacterClient(selected));
+							PacketManager.clientTCP(new PacketsLoadout.SyncCharacterClient(selected));
 						}
 						JSONManager.loadout.setCharacter(HadalGame.usm.getOwnUser(), selected.toString());
 					}

@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -46,7 +46,7 @@ public class JumpKickProjectile extends SyncedAttacker {
                     .setScale(0.5f).setPrematureOff(PARTICLE_LIFESPAN)
                     .setColor(TextUtil.getPlayerColor(player));
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+                ((PlayStateClient) state).addEntity(particles.getEntityID(), particles, false, PlayStateClient.ObjectLayer.EFFECT);
             }
         }
 

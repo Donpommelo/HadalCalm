@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -60,7 +60,7 @@ public class Meteors extends SyncedAttacker {
         ParticleEntity particle = new ParticleEntity(state, user, Particle.RING, 1.0f, meteorDuration, true,
                 SyncType.NOSYNC).setScale(0.4f);
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
+            ((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.HBOX);
         }
 
         Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(1, 1), meteorDuration, new Vector2(),
@@ -129,7 +129,7 @@ public class Meteors extends SyncedAttacker {
                         .setSyncType(SyncType.NOSYNC));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                            ((PlayStateClient) state).addEntity(hbox.getEntityID(), hbox, false, PlayStateClient.ObjectLayer.HBOX);
                         }
                     }
                     meteorCount++;

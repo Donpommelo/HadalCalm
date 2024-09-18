@@ -10,7 +10,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
@@ -63,8 +63,8 @@ public class Spring extends Event {
 								1.0f, true, SyncType.NOSYNC);
 
 						if (!state.isServer()) {
-							((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false,
-									ClientState.ObjectLayer.EFFECT);
+							((PlayStateClient) state).addEntity(particleEntity.getEntityID(), particleEntity, false,
+									PlayStateClient.ObjectLayer.EFFECT);
 						}
 					}
 				}

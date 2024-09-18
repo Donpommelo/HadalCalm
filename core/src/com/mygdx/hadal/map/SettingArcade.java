@@ -10,6 +10,7 @@ import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -144,7 +145,7 @@ public class SettingArcade extends ModeSetting {
         int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_BREAK_TIME);
 
         if (startTimer != 0) {
-            state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);
+            state.getTimerManager().changeTimer(indexToTimer(startTimer), -1.0f);
         }
 
         RectangleMapObject end = new RectangleMapObject();
@@ -247,7 +248,7 @@ public class SettingArcade extends ModeSetting {
         if (state.isServer()) {
             if (readyUser != null && !readyUser.isSpectator()) {
                 readyUser.getScoreManager().setReady(true);
-                HadalGame.server.sendToAllTCP(new Packets.ClientReady(playerID));
+                PacketManager.serverTCPAll(state, new Packets.ClientReady(playerID));
             }
         } else {
             readyUser.getScoreManager().setReady(true);
@@ -267,7 +268,7 @@ public class SettingArcade extends ModeSetting {
                     PlayState.TransitionState.NEWLEVEL, "");
         }
 
-        state.getUiExtra().syncUIText(UITag.uiType.WINBOARD);
+        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.WINBOARD);
     }
 
     public static void addNewUser(ScoreManager score) {

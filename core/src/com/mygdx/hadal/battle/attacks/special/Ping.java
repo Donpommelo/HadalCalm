@@ -7,7 +7,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.Static;
@@ -39,7 +39,7 @@ public class Ping extends SyncedAttacker {
         hboxPing.addStrategy(new Static(state, hboxPing, user.getBodyData()));
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(hboxPing.getEntityID(), hboxPing, false, ClientState.ObjectLayer.HBOX);
+            ((PlayStateClient) state).addEntity(hboxPing.getEntityID(), hboxPing, false, PlayStateClient.ObjectLayer.HBOX);
         }
 
         return hbox;

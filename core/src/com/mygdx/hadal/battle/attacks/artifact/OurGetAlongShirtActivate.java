@@ -10,7 +10,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.users.User;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -117,7 +117,7 @@ public class OurGetAlongShirtActivate extends SyncedAttacker {
                             hbox.queueDeletion();
                         } else {
                             hbox.setAlive(false);
-                            ((ClientState) state).removeEntity(hbox.getEntityID());
+                            ((PlayStateClient) state).removeEntity(hbox.getEntityID());
                         }
                     }
                 });

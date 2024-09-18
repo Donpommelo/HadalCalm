@@ -17,9 +17,10 @@ import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.UPNPUtil;
-import io.socket.client.Socket;
 
 import java.io.IOException;
+
+import static com.mygdx.hadal.constants.ServerConstants.SERVER_PORT;
 
 /**
  * HadalGame is the game. This is created upon launching the game.
@@ -55,9 +56,6 @@ public class HadalGame extends ApplicationAdapter {
     //User Manager keeps track of users for multiplayer
 	public static UserManager usm;
 
-    //socket is used to connect to matchmaking server
-	public static Socket socket;
-
 	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
     
@@ -82,8 +80,8 @@ public class HadalGame extends ApplicationAdapter {
 
 		//enable upnp for both tcp and udp
 		if (JSONManager.setting.isEnableUPNP()) {
-			UPNPUtil.upnp("TCP", "hadal-upnp-tcp", JSONManager.setting.getPortNumber());
-			UPNPUtil.upnp("UDP", "hadal-upnp-udp", JSONManager.setting.getPortNumber());
+			UPNPUtil.upnp("TCP", "hadal-upnp-tcp", SERVER_PORT);
+			UPNPUtil.upnp("UDP", "hadal-upnp-udp", SERVER_PORT);
 		}
 
 		client = new KryoClient(this, usm);

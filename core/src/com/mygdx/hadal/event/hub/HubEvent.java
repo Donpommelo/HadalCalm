@@ -74,7 +74,7 @@ public class HubEvent extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				
-				if (state.getUiHub().isActive()) {
+				if (state.getUIManager().getUiHub().isActive()) {
 					back();
 				} else {
 					enter();
@@ -120,9 +120,9 @@ public class HubEvent extends Event {
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
 	public void enter() {
-		state.getUiHub().setType(type);
-		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(this);
+		state.getUIManager().getUiHub().setType(type);
+		state.getUIManager().getUiHub().setTitle(title);
+		state.getUIManager().getUiHub().enter(this);
 		open = true;
 	}
 
@@ -134,17 +134,17 @@ public class HubEvent extends Event {
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
-		state.getUiHub().leave();
+		state.getUIManager().getUiHub().leave();
 		open = false;
-		lastScroll = state.getUiHub().getOptions().getScrollX();
+		lastScroll = state.getUIManager().getUiHub().getOptions().getScrollX();
 	}
 
 	/**
 	 * Upon opening, set scroll to last scroll amount
 	 */
 	private void setScroll() {
-		state.getUiHub().getOptions().layout();
-		state.getUiHub().getOptions().setScrollX(lastScroll);
+		state.getUIManager().getUiHub().getOptions().layout();
+		state.getUIManager().getUiHub().getOptions().setScrollX(lastScroll);
 	}
 
 	/**

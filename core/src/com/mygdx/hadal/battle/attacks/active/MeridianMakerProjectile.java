@@ -14,7 +14,7 @@ import com.mygdx.hadal.event.Currents;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
@@ -64,7 +64,7 @@ public class MeridianMakerProjectile extends SyncedAttacker {
                             currentVec, LIFESPAN);
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(current.getEntityID(), current, false, ClientState.ObjectLayer.EFFECT);
+                        ((PlayStateClient) state).addEntity(current.getEntityID(), current, false, PlayStateClient.ObjectLayer.EFFECT);
                     }
                 }
             }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
@@ -25,7 +26,7 @@ import com.mygdx.hadal.event.ui.*;
 import com.mygdx.hadal.event.utility.*;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 
@@ -55,12 +56,12 @@ public class TiledObjectUtil {
 
             if (object.getProperties().get("dropthrough", false, boolean.class)) {
 				WallDropthrough wall = new WallDropthrough(state, shape);
-				if (state instanceof ClientState clientState) {
+				if (state instanceof PlayStateClient clientState) {
 					clientState.addEntity(wall.getEntityID(), wall, false, ObjectLayer.STANDARD);
 				}
             } else {
 				Wall wall = new Wall(state, shape);
-				if (state instanceof ClientState clientState) {
+				if (state instanceof PlayStateClient clientState) {
 					clientState.addEntity(wall.getEntityID(), wall, false, ObjectLayer.STANDARD);
 				}
 			}
@@ -87,7 +88,7 @@ public class TiledObjectUtil {
     	for (MapObject object : objects) {
 			Event e = parseTiledEvent(state, object, !state.isServer());
 
-			if (state instanceof ClientState clientState && e != null) {
+			if (state instanceof PlayStateClient clientState && e != null) {
 				clientState.addEntity(e.getEntityID(), e, false, ObjectLayer.STANDARD);
 			}
     	}
@@ -137,7 +138,7 @@ public class TiledObjectUtil {
 	 */
 	public static Event parseAddTiledEvent(PlayState state, MapObject object) {
 		Event e = parseTiledEvent(state, object, false);
-		if (state instanceof ClientState clientState && e != null) {
+		if (state instanceof PlayStateClient clientState && e != null) {
 			clientState.addEntity(e.getEntityID(), e, false, ObjectLayer.STANDARD);
 		}
 		return e;
@@ -149,7 +150,7 @@ public class TiledObjectUtil {
 	 */
 	public static Event parseAddTiledEventWithUUID(PlayState state, MapObject object, UUID entityID, boolean synced) {
 		Event e = parseTiledEvent(state, object, false);
-		if (state instanceof ClientState clientState && e != null) {
+		if (state instanceof PlayStateClient clientState && e != null) {
 			clientState.addEntity(entityID, e, synced, ObjectLayer.STANDARD);
 		}
 		return e;
@@ -572,7 +573,7 @@ public class TiledObjectUtil {
 						Sprite.valueOf(object.getProperties().get("sprite", String.class)),
 						true,
 						object.getProperties().get("frame", 0, int.class),
-						object.getProperties().get("speed", PlayState.SPRITE_ANIMATION_SPEED, float.class),
+						object.getProperties().get("speed", SpriteConstants.SPRITE_ANIMATION_SPEED, float.class),
 						PlayMode.valueOf(object.getProperties().get("mode", "NORMAL", String.class)));
 			} else {
 				e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));

@@ -10,7 +10,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 public class KumquatActivate extends SyncedAttacker {
@@ -26,7 +26,7 @@ public class KumquatActivate extends SyncedAttacker {
         ParticleEntity particle = new ParticleEntity(state, user, Particle.KAMABOKO_IMPACT, 0.0f, DURATION,
                 true, SyncType.NOSYNC).setColor(HadalColor.PORTLAND_ORANGE);
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
+            ((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.HBOX);
         }
     }
 }

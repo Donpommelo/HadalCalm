@@ -2,8 +2,8 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -67,7 +67,7 @@ public class Rotator extends Event {
 
 			if (syncDelayCount >= 2.0f) {
 				startSynced = true;
-				HadalGame.client.sendTCP(new Packets.RequestStartSyncedEvent(triggeredID));
+				PacketManager.clientTCP(new Packets.RequestStartSyncedEvent(triggeredID));
 			}
 		}
 	}

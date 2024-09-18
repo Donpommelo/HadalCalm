@@ -25,7 +25,7 @@ import static com.mygdx.hadal.managers.JSONManager.READER;
 public class Setting {
 
 	private int screen, resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots,
-		portNumber, hitsoundType, customShader;
+		hitsoundType, customShader;
 	private boolean mouseRestrict, autoIconify, vsync, debugHitbox, displayNames, displayHp, randomNameAlliteration,
 		consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog, enableUPNP, hideHUD, mouseCameraTrack, screenShake,
 		returnToHubOnReady;
@@ -145,7 +145,6 @@ public class Setting {
 
 	public void resetServer() {
 		maxPlayers = 9;
-		portNumber = 11100;
 		serverPassword = "";
 		artifactSlots = 4;
 	}
@@ -331,8 +330,6 @@ public class Setting {
 
 	public void setReturnToHubOnReady(boolean returnToHubOnReady) { this.returnToHubOnReady = returnToHubOnReady; }
 
-	public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
-
 	public void setServerPassword(String serverPassword) { this.serverPassword = serverPassword; }
 
 	public int getScreen() { return screen; }
@@ -391,8 +388,6 @@ public class Setting {
 
 	public boolean isDisplayHp() { return displayHp; }
 
-	public int getPortNumber() { return portNumber; }
-	
 	public int getArtifactSlots() { return artifactSlots; }
 
 	public int getMaxPlayers() { return maxPlayers; }

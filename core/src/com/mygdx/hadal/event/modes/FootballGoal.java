@@ -12,7 +12,7 @@ import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -56,7 +56,7 @@ public class FootballGoal extends Event {
                 }
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+                    ((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
                 }
 
                 //give score credit to the player and give notification
@@ -66,10 +66,10 @@ public class FootballGoal extends Event {
 
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
                         if (p.getUser().getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[teamIndex]) {
-                            state.getKillFeed().addNotification(UIText.FOOTBALL_GOAL.text(playerName), false);
+                            state.getUIManager().getKillFeed().addNotification(UIText.FOOTBALL_GOAL.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, 1);
                         } else {
-                            state.getKillFeed().addNotification(UIText.FOOTBALL_GOAL_OWN.text(playerName), false);
+                            state.getUIManager().getKillFeed().addNotification(UIText.FOOTBALL_GOAL_OWN.text(playerName), false);
                             state.getMode().processPlayerScoreChange(state, p, -1);
                         }
                     }

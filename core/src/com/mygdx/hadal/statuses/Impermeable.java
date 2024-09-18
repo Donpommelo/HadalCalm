@@ -9,7 +9,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -24,7 +24,7 @@ public class Impermeable extends Status {
 		ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f,
 				true, SyncType.NOSYNC).setScale(0.4f);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
 		}
 		
 		//set unit's invisibility to true. this is used to turn off movement particles
@@ -47,7 +47,7 @@ public class Impermeable extends Status {
 		ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f,
 				true, SyncType.NOSYNC).setScale(0.4f);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
 		}
 
 		if (inflicted instanceof PlayerBodyData playerData) {

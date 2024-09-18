@@ -18,7 +18,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -73,7 +73,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
                                 true, SyncType.NOSYNC).setScale(0.5f);
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.HBOX);
+                            ((PlayStateClient) state).addEntity(particles.getEntityID(), particles, false, PlayStateClient.ObjectLayer.HBOX);
                         }
 
                         faded = true;
@@ -184,13 +184,13 @@ public class SpiritBombProjectile extends SyncedAttacker {
                                 1.0f, DamageSource.SPIRIT_BOMB, DamageTag.EXPLOSIVE));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                            ((PlayStateClient) state).addEntity(hbox.getEntityID(), hbox, false, PlayStateClient.ObjectLayer.HBOX);
                         }
                     }
                 });
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ClientState.ObjectLayer.HBOX);
+                    ((PlayStateClient) state).addEntity(explosion.getEntityID(), explosion, false, PlayStateClient.ObjectLayer.HBOX);
                 }
             }
 

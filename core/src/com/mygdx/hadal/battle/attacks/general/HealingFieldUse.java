@@ -9,7 +9,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 public class HealingFieldUse extends SyncedAttacker {
@@ -40,8 +40,8 @@ public class HealingFieldUse extends SyncedAttacker {
                 SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(healingArea.getEntityID(), healingArea, false, ClientState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(healingArea.getEntityID(), healingArea, false, PlayStateClient.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(sound.getEntityID(), sound, false, PlayStateClient.ObjectLayer.EFFECT);
         }
     }
 }

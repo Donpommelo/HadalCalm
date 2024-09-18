@@ -5,6 +5,7 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -77,7 +78,7 @@ public class LoadoutArtifactHelper {
 
         //If this is the player being controlled by the user, update artifact ui
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
-            player.getState().getUiArtifact().syncArtifact();
+            player.getState().getUIManager().getUiArtifact().syncArtifact();
         }
 
         //set this boolean so score window is updated
@@ -198,7 +199,7 @@ public class LoadoutArtifactHelper {
         }
 
         if (player.getUser().equals(HadalGame.usm.getOwnUser())) {
-            player.getState().getUiArtifact().syncArtifact();
+            player.getState().getUIManager().getUiArtifact().syncArtifact();
         }
 
         //set this boolean so score window is updated
@@ -247,7 +248,7 @@ public class LoadoutArtifactHelper {
     public int getArtifactSlotsRemaining() { return getNumArtifactSlots() - getActiveLoadout().getArtifactSlotsUsed(); }
 
     public void syncServerArtifactChange(UnlockArtifact[] artifact, boolean save) {
-        HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncArtifactServer(player.getUser().getConnID(), artifact, save));
+        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncArtifactServer(player.getUser().getConnID(), artifact, save));
     }
 
     private Loadout getActiveLoadout() {

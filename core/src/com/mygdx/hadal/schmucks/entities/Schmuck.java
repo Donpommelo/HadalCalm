@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.entities.helpers.SpecialHpHelper;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.PacketUtil;
@@ -66,7 +66,7 @@ public class Schmuck extends HadalEntity {
 
 		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, SyncType.NOSYNC);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(impact.getEntityID(), impact, false, PlayState.ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(impact.getEntityID(), impact, false, PlayState.ObjectLayer.EFFECT);
 		}
 	}
 

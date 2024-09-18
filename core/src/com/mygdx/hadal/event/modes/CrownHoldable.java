@@ -18,7 +18,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -61,11 +61,11 @@ public class CrownHoldable extends Event {
 		ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
 				.setColor(HadalColor.GOLDEN_YELLOW);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.EFFECT);
 		}
 
 		//make objective marker track this event
-		state.getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT,true, false, false);
+		state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT,true, false, false);
 
 		//we must set this event's layer to make it render underneath players
 		setLayer(PlayState.ObjectLayer.HBOX);
@@ -89,7 +89,7 @@ public class CrownHoldable extends Event {
 							//a player captures the crown. Alert players.
 							body.setGravityScale(0.0f);
 							String playerName = TextUtil.getPlayerColorName(target, MAX_NAME_LENGTH);
-							state.getKillFeed().addNotification(UIText.KM_PICKUP.text(playerName), true);
+							state.getUIManager().getKillFeed().addNotification(UIText.KM_PICKUP.text(playerName), true);
 						}
 					}
 				}
@@ -119,7 +119,7 @@ public class CrownHoldable extends Event {
 				body.setGravityScale(1.0f);
 				returnTimer = RETURN_TIME;
 
-				state.getKillFeed().addNotification(UIText.KM_DROPPED.text(), true);
+				state.getUIManager().getKillFeed().addNotification(UIText.KM_DROPPED.text(), true);
 			} else {
 				hbLocation.set(target.getPosition());
 				setTransform(hbLocation, getAngle());
@@ -136,7 +136,7 @@ public class CrownHoldable extends Event {
 			returnTimer -= delta;
 			if (returnTimer <= 0.0f) {
 				queueDeletion();
-				state.getKillFeed().addNotification(UIText.KM_RETURN.text(), true);
+				state.getUIManager().getKillFeed().addNotification(UIText.KM_RETURN.text(), true);
 			}
 		}
 	}

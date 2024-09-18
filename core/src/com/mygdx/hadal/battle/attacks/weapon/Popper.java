@@ -12,7 +12,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -90,7 +90,7 @@ public class Popper extends SyncedAttacker {
                             DamageSource.PARTY_POPPER, DamageTag.RANGED));
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);
+                        ((PlayStateClient) state).addEntity(frag.getEntityID(), frag, false, PlayStateClient.ObjectLayer.HBOX);
                     }
                 }
             }

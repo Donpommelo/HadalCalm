@@ -12,7 +12,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 
@@ -159,7 +159,7 @@ public class ParticleEntity extends HadalEntity {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(entityID);
+					((PlayStateClient) state).removeEntity(entityID);
 				}
 			}
 		}
@@ -171,7 +171,7 @@ public class ParticleEntity extends HadalEntity {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(entityID);
+					((PlayStateClient) state).removeEntity(entityID);
 				}
 			} else if (lifespan <= prematureTurnOff) {
 

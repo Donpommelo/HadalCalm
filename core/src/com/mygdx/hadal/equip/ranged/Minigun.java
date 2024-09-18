@@ -12,7 +12,7 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Slodged;
 
@@ -96,7 +96,7 @@ public class Minigun extends RangedWeapon {
 			if (slow == null) {
 				slow = new ParticleEntity(user.getState(), user, Particle.STUN, 0.0f, 0.0f, false, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(slow.getEntityID(), slow, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(slow.getEntityID(), slow, false, PlayState.ObjectLayer.EFFECT);
 				}
 			}
 			slow.turnOn();
@@ -104,7 +104,7 @@ public class Minigun extends RangedWeapon {
 			if (state.isServer()) {
 				slow.queueDeletion();
 			} else {
-				((ClientState) state).removeEntity(slow.getEntityID());
+				((PlayStateClient) state).removeEntity(slow.getEntityID());
 			}
 			slow = null;
 		}
@@ -114,7 +114,7 @@ public class Minigun extends RangedWeapon {
 				chargeSound = new SoundEntity(state, user, SoundEffect.MINIGUN_UP, 0.0f, 0.4f, 1.0f,
 						true, true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(chargeSound.getEntityID(), chargeSound, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(chargeSound.getEntityID(), chargeSound, false, PlayState.ObjectLayer.EFFECT);
 				}
 			}
 		} else {
@@ -129,7 +129,7 @@ public class Minigun extends RangedWeapon {
 				fireSound = new SoundEntity(state, user, SoundEffect.MINIGUN_LOOP, 0.0f, 0.4f, 1.0f,
 						true, true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(fireSound.getEntityID(), fireSound, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(fireSound.getEntityID(), fireSound, false, PlayState.ObjectLayer.EFFECT);
 				}
 			} else {
 				fireSound.turnOn();
@@ -153,7 +153,7 @@ public class Minigun extends RangedWeapon {
 			if (state.isServer()) {
 				slow.queueDeletion();
 			} else {
-				((ClientState) state).removeEntity(slow.getEntityID());
+				((PlayStateClient) state).removeEntity(slow.getEntityID());
 			}
 			slow = null;
 		}

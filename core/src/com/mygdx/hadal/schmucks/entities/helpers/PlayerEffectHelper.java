@@ -7,7 +7,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -44,11 +44,11 @@ public class PlayerEffectHelper {
                 true, true, SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(dustCloud.getEntityID(), dustCloud, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(hoverBubbles.getEntityID(), hoverBubbles, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(hoverSound.getEntityID(), hoverSound, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(runSound.getEntityID(), runSound, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(reloadSound.getEntityID(), reloadSound, false, PlayState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(dustCloud.getEntityID(), dustCloud, false, PlayState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(hoverBubbles.getEntityID(), hoverBubbles, false, PlayState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(hoverSound.getEntityID(), hoverSound, false, PlayState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(runSound.getEntityID(), runSound, false, PlayState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(reloadSound.getEntityID(), reloadSound, false, PlayState.ObjectLayer.EFFECT);
         }
     }
 
@@ -111,8 +111,8 @@ public class PlayerEffectHelper {
         if (!state.isServer()) {
             player.getPlayerData().setCurrentHp(0);
 
-            ((ClientState) state).removeEntity(hoverBubbles.getEntityID());
-            ((ClientState) state).removeEntity(dustCloud.getEntityID());
+            ((PlayStateClient) state).removeEntity(hoverBubbles.getEntityID());
+            ((PlayStateClient) state).removeEntity(dustCloud.getEntityID());
         }
     }
 

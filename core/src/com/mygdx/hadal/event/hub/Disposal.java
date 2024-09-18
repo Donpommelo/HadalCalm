@@ -13,6 +13,7 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -36,9 +37,9 @@ public class Disposal extends HubEvent {
 
 	@Override
 	public void enter() {
-		state.getUiHub().setType(type);
-		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(this);
+		state.getUIManager().getUiHub().setType(type);
+		state.getUIManager().getUiHub().setTitle(title);
+		state.getUIManager().getUiHub().enter(this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -53,7 +54,7 @@ public class Disposal extends HubEvent {
 			newTags.add(tag);
 		}
 
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 
 		if (null != HadalGame.usm.getOwnUser()) {
 			for (UnlockArtifact artifact : HadalGame.usm.getOwnUser().getLoadoutManager().getArcadeLoadout().artifacts) {
@@ -73,9 +74,9 @@ public class Disposal extends HubEvent {
 							sellArtifact(state, artifact, HadalGame.usm.getOwnUser());
 							me.leave();
 							me.enter();
-							state.getUiExtra().syncUIText(UITag.uiType.CURRENCY);
+							state.getUIManager().getUiExtra().syncUIText(UITag.uiType.CURRENCY);
 						} else {
-							HadalGame.client.sendTCP(new PacketsLoadout.SyncDisposalArtifact(artifact));
+							PacketManager.clientTCP(new PacketsLoadout.SyncDisposalArtifact(artifact));
 						}
 					}
 
@@ -105,7 +106,7 @@ public class Disposal extends HubEvent {
 			user.getPlayer().getArtifactHelper().removeArtifact(selected, true);
 
 			String playerName = TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH);
-			state.getKillFeed().addNotification(UIText.DISPOSAL_SELL.text(playerName, selected.getName()), true);
+			state.getUIManager().getKillFeed().addNotification(UIText.DISPOSAL_SELL.text(playerName, selected.getName()), true);
 		}
 	}
 }

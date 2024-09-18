@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="45">
+ <properties>
+  <property name="music" value="EXTRA_ROOM"/>
+  <property name="startUI" value="CONGRATULATIONS,EMPTY,SCRAP"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="150" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt3N1um0AQgFG3dRv3NxfN+z9rzYVVFHYI7GS9rHOONDessWj3k4oI6ekEAAAAAAAAAAAAAAAAAAAAAACwz7OpHmK992bkIdZ7b0YeYr33ZuQh1ntvRh5ivfdm5CHWe29GHmK992bkIdZ7b0YeYr33ZuQh1ntvRh5imb/X39f58oDzZ+Ofn1imq+8drvceziddZelqSVd5ulrSVZ6ulnSVp6slXeW17Orrdb7tXP90nR875nPh3Pmxkrc+p6u8Vl1Nzbxc5++p3Fa0vnVPS9dwLhwreetzuspr1dXP0//nQK/buTU1rU3PwH7N1s6z41ueMenqmFr+O1hqa62pSaYNXR1Hy64mr9taa2qiq8fQuqvJvK21pia6egz36Gpya2utqYmuHsO9upqcN5yjq8egq3hdV/WO2tV0j7/2PPR2/1/qqubc0jXoqt5Ru6q5hsy5NddA7J5dPV3nsuEze97Bu7zTuXO6yrtnV6PQVZ6ulnSV16Kr0vsCe49l3meoOXdOV3ktutr6DGDtWM01uG8/jqN1Vbr3vv0MqPSOw6XwfTXvQpSuX1f1jtbV1u9r+Tld5ekqXtdVPV3F67qqp6t4XVf1dBWv66qeruJ1XdVr2dX8vYKXlWPz7yk92yydW3q2qavjaNlVzff4Pa/H0KKrXu8kPBWOrV2f9xnaadHV6HSVp6slXeXpaklXebpa0lVe5v/hfOv+eFS6ogVd0YKuaEFXtKArWtBV3p7fX/koc/s5t67qZZ5fffQh1ntvRh5ivfdm5CHWe29GHmK992bkAQAAAAAAeA//AD/1m44=
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="192" y="2528">
+   <polyline points="0,0 512,0 512,-1152 2208,-1152 2208,160 0,160 0,0"/>
+  </object>
+  <object id="2" x="896" y="1600">
+   <polyline points="0,0 64,-64 192,64 320,-64 384,0 224,160 224,320 160,320 160,160 0,0"/>
+  </object>
+  <object id="3" x="1344" y="1536">
+   <polyline points="0,0 416,0 416,384 0,384 0,0"/>
+  </object>
+  <object id="4" x="1824" y="1536">
+   <polyline points="0,0 96,0 96,288 320,288 320,0 416,0 416,384 0,384 0,0"/>
+  </object>
+  <object id="5" x="864" y="1984">
+   <polyline points="0,0 96,0 96,288 160,288 160,0 256,0 256,288 320,288 320,0 416,0 416,384 0,384 0,0"/>
+  </object>
+  <object id="6" x="1344" y="1984">
+   <polyline points="0,0 416,0 416,96 256,96 256,288 416,288 416,384 0,384 0,288 160,288 160,96 0,96 0,0"/>
+  </object>
+  <object id="7" x="1824" y="1984">
+   <polyline points="0,0 416,0 416,384 320,384 320,96 96,96 96,384 0,384 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="8" name="Start" type="Start" x="288" y="2624" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="9" name="Sensor" type="Sensor" x="192" y="2528" width="64" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="10" name="Warp" type="Warp" x="128" y="2592" width="32" height="32">
+   <properties>
+    <property name="level" value="SLUICEBOSS"/>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="11" name="Multitrigger" type="Multitrigger" x="224" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="12" name="Bounds" type="Bounds" x="256" y="1280" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="13" name="Bounds" type="Bounds" x="2464" y="2784" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="14" name="Sensor" type="Sensor" x="864" y="2656" width="96" height="32">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="c1"/>
+   </properties>
+  </object>
+  <object id="15" name="Particle" type="Particle" x="896" y="2720" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="PARTY"/>
+    <property name="triggeredId" value="c1"/>
+    <property name="triggeringId" value="c1dummy"/>
+   </properties>
+  </object>
+  <object id="16" name="Dummy" type="Dummy" x="896" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="c1dummy"/>
+   </properties>
+  </object>
+  <object id="17" name="Navigation" type="Navigation" x="1440" y="2592" width="96" height="96">
+   <properties>
+    <property name="level" value="PARTY"/>
+    <property name="unlock" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="18" name="Sensor" type="Sensor" x="1056" y="2656" width="96" height="32">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="c2"/>
+   </properties>
+  </object>
+  <object id="19" name="Particle" type="Particle" x="1088" y="2720" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="PARTY"/>
+    <property name="triggeredId" value="c2"/>
+    <property name="triggeringId" value="c2dummy"/>
+   </properties>
+  </object>
+  <object id="20" name="Dummy" type="Dummy" x="1088" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="c2dummy"/>
+   </properties>
+  </object>
+  <object id="21" name="Sensor" type="Sensor" x="1248" y="2656" width="96" height="32">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="c3"/>
+   </properties>
+  </object>
+  <object id="22" name="Particle" type="Particle" x="1280" y="2720" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="PARTY"/>
+    <property name="triggeredId" value="c3"/>
+    <property name="triggeringId" value="c3dummy"/>
+   </properties>
+  </object>
+  <object id="23" name="Dummy" type="Dummy" x="1280" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="c3dummy"/>
+   </properties>
+  </object>
+  <object id="24" name="Sensor" type="Sensor" x="1632" y="2656" width="96" height="32">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="c4"/>
+   </properties>
+  </object>
+  <object id="25" name="Particle" type="Particle" x="1664" y="2720" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="PARTY"/>
+    <property name="triggeredId" value="c4"/>
+    <property name="triggeringId" value="c4dummy"/>
+   </properties>
+  </object>
+  <object id="26" name="Dummy" type="Dummy" x="1664" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="c4dummy"/>
+   </properties>
+  </object>
+  <object id="27" name="Sensor" type="Sensor" x="1824" y="2656" width="96" height="32">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="c5"/>
+   </properties>
+  </object>
+  <object id="28" name="Particle" type="Particle" x="1856" y="2720" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="PARTY"/>
+    <property name="triggeredId" value="c5"/>
+    <property name="triggeringId" value="c5dummy"/>
+   </properties>
+  </object>
+  <object id="29" name="Dummy" type="Dummy" x="1856" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="c5dummy"/>
+   </properties>
+  </object>
+  <object id="30" name="Sensor" type="Sensor" x="2016" y="2656" width="96" height="32">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="c6"/>
+   </properties>
+  </object>
+  <object id="31" name="Particle" type="Particle" x="2048" y="2720" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="PARTY"/>
+    <property name="triggeredId" value="c6"/>
+    <property name="triggeringId" value="c6dummy"/>
+   </properties>
+  </object>
+  <object id="32" name="Dummy" type="Dummy" x="2048" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="c6dummy"/>
+   </properties>
+  </object>
+  <object id="36" name="Sensor" type="Sensor" x="672" y="2528" width="32" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="triggerEnd"/>
+   </properties>
+  </object>
+  <object id="37" name="Prefab" type="PrefabLimit" x="672" y="2912" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="triggerEnd"/>
+    <property name="triggeringId" value="partyCheck"/>
+   </properties>
+  </object>
+  <object id="38" name="QuestCheck" type="QuestCheck" x="736" y="2912" width="32" height="32">
+   <properties>
+    <property name="check" type="int" value="0"/>
+    <property name="quest" value="PARTY"/>
+    <property name="triggeredId" value="partyCheck"/>
+    <property name="triggeringId" value="startParty"/>
+   </properties>
+  </object>
+  <object id="39" name="Multitrigger" type="Multitrigger" x="800" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="startParty"/>
+    <property name="triggeringId" value="partySet,dialog1"/>
+   </properties>
+  </object>
+  <object id="40" name="QuestChange" type="QuestChange" x="864" y="2912" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="quest" value="PARTY"/>
+    <property name="triggeredId" value="partySet"/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="41" name="Dialog" type="Dialog" x="864" y="2976" width="32" height="32">
+   <properties>
+    <property name="textId" value="ENDING0"/>
+    <property name="triggeredId" value="dialog1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

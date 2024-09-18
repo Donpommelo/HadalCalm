@@ -12,7 +12,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -46,7 +46,7 @@ public class KamabokoSpray extends SyncedAttacker {
                 SoundEntity sound = new SoundEntity(state, user, SoundEffect.OOZE, TOTAL_DURATION, 0.6f, 2.0f,
                         true, true, SyncType.NOSYNC);
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.EFFECT);
+                    ((PlayStateClient) state).addEntity(sound.getEntityID(), sound, false, PlayStateClient.ObjectLayer.EFFECT);
                 }
             }
         }

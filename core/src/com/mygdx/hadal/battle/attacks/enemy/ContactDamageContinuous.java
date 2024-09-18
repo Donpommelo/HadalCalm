@@ -8,7 +8,7 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
@@ -61,7 +61,7 @@ public class ContactDamageContinuous extends SyncedAttacker {
                         hbox.queueDeletion();
                     } else {
                         hbox.setAlive(false);
-                        ((ClientState) state).removeEntity(hbox.getEntityID());
+                        ((PlayStateClient) state).removeEntity(hbox.getEntityID());
                     }
                 }
 
@@ -80,7 +80,7 @@ public class ContactDamageContinuous extends SyncedAttacker {
                     pulse.addStrategy(new FixedToEntity(state, pulse, user.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
+                        ((PlayStateClient) state).addEntity(pulse.getEntityID(), pulse, false, PlayStateClient.ObjectLayer.HBOX);
                     }
                 }
             }

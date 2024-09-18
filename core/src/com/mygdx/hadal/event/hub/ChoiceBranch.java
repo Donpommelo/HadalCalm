@@ -38,7 +38,7 @@ public class ChoiceBranch extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		
 		final ChoiceBranch me = this;
 		

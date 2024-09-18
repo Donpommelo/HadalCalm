@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.WorldUtil;
 
@@ -99,7 +99,7 @@ public class Screecher extends RangedWeapon {
 				screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.0f, 0.8f, 1.0f, true,
 						true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(screechSound.getEntityID(), screechSound, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(screechSound.getEntityID(), screechSound, false, PlayState.ObjectLayer.EFFECT);
 				}
 			} else {
 				screechSound.turnOn();

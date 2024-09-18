@@ -21,7 +21,7 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -118,7 +118,7 @@ public class ProximityMineProjectile extends SyncedAttacker {
                                 true, SyncType.NOSYNC).setScale(0.5f);
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.HBOX);
+                            ((PlayStateClient) state).addEntity(particles.getEntityID(), particles, false, PlayStateClient.ObjectLayer.HBOX);
                         }
                     }
                 }
@@ -157,7 +157,7 @@ public class ProximityMineProjectile extends SyncedAttacker {
                 explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ClientState.ObjectLayer.HBOX);
+                    ((PlayStateClient) state).addEntity(explosion.getEntityID(), explosion, false, PlayStateClient.ObjectLayer.HBOX);
                 }
             }
         });

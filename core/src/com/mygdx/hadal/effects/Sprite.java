@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.states.PlayState;
 
 import java.util.Objects;
 
@@ -51,13 +51,13 @@ public enum Sprite {
 	FLASH_GRENADE(SpriteType.PROJECTILE, "flashgrenade"),
 	FLOUNDER_A(SpriteType.PROJECTILE, "flounder_a"),
 	FLOUNDER_B(SpriteType.PROJECTILE, "flounder_b"),
-	FROG_JUMP(SpriteType.FROG, "frog_jump", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	FROG_LAND(SpriteType.FROG, "frog_land", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FROG_JUMP(SpriteType.FROG, "frog_jump", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	FROG_LAND(SpriteType.FROG, "frog_land", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
 	FROG_STAND(SpriteType.FROG, "frog_stand"),
 	FUGU(SpriteType.PROJECTILE, "fugu"),
 	GOLDFISH(SpriteType.PROJECTILE, "goldfish"),
 	DRILL(SpriteType.PROJECTILE, "underminer"),
-	GRENADE(SpriteType.PROJECTILE, "fraggrenade", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
+	GRENADE(SpriteType.PROJECTILE, "fraggrenade", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
 	HARPOON(SpriteType.PROJECTILE, "harpoon"),
 	HURRICANE(SpriteType.PROJECTILE, "storm"),
 	ICEBERG(SpriteType.PROJECTILE, "iceberg"),
@@ -82,7 +82,7 @@ public enum Sprite {
 	NAIL(SpriteType.PROJECTILE, "pin"),
 	NAIL_STUCK(SpriteType.PROJECTILE, "pin_stuck"),
 	NAVAL_MINE(SpriteType.PROJECTILE, "navalmine"),
-	NEMATOCYTE(SpriteType.PROJECTILE, "nematocyte", PlayMode.LOOP_PINGPONG, PlayState.SPRITE_ANIMATION_SPEED),
+	NEMATOCYTE(SpriteType.PROJECTILE, "nematocyte", PlayMode.LOOP_PINGPONG, SpriteConstants.SPRITE_ANIMATION_SPEED),
 	ORB_BLUE(SpriteType.PROJECTILE, "orb_blue"),
 	ORB_PINK(SpriteType.PROJECTILE, "orb_pink"),
 	ORB_ORANGE(SpriteType.PROJECTILE, "orb_orange"),
@@ -92,7 +92,7 @@ public enum Sprite {
 	PEARL(SpriteType.PROJECTILE, "pearl"),
 	POPPER(SpriteType.PROJECTILE, "party"),
 	PUNCH(SpriteType.PROJECTILE, "punch"),
-	PYLON(SpriteType.PROJECTILE, "tesla", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED),
+	PYLON(SpriteType.PROJECTILE, "tesla", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED),
 	SCRAP_A(SpriteType.PROJECTILE, "debris_a"),
 	SCRAP_B(SpriteType.PROJECTILE, "debris_b"),
 	SCRAP_C(SpriteType.PROJECTILE, "debris_c"),
@@ -101,7 +101,7 @@ public enum Sprite {
 	SEED(SpriteType.PROJECTILE, "seed"),
 	SHRAPNEL(SpriteType.PROJECTILE, "bombfish_shrapnel"),
 	SPIT(SpriteType.PROJECTILE, "spit"),
-	SKULL(SpriteType.PROJECTILE, "skull_chatter", PlayMode.LOOP_PINGPONG, PlayState.SPRITE_ANIMATION_SPEED),
+	SKULL(SpriteType.PROJECTILE, "skull_chatter", PlayMode.LOOP_PINGPONG, SpriteConstants.SPRITE_ANIMATION_SPEED),
 	SPLITTER_A(SpriteType.PROJECTILE, "splitter1"),
 	SPLITTER_B(SpriteType.PROJECTILE, "splitter0"),
 	SPORE(SpriteType.PROJECTILE, "spore"),
@@ -110,11 +110,11 @@ public enum Sprite {
 	SPORE_CLUSTER_MILD(SpriteType.PROJECTILE, "spore_cluster_mild"),
 	SPORE_YELLOW(SpriteType.PROJECTILE, "spore_yellow"),
 	SPORE_CLUSTER_YELLOW(SpriteType.PROJECTILE, "spore_cluster_yellow"),
-	STAR_BLUE(SpriteType.PROJECTILE, "blue_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
-	STAR_PURPLE(SpriteType.PROJECTILE, "purple_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
-	STAR_RED(SpriteType.PROJECTILE, "red_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
-	STAR_WHITE(SpriteType.PROJECTILE, "white_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
-	STAR_YELLOW(SpriteType.PROJECTILE, "yellow_star", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED),
+	STAR_BLUE(SpriteType.PROJECTILE, "blue_star", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	STAR_PURPLE(SpriteType.PROJECTILE, "purple_star", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	STAR_RED(SpriteType.PROJECTILE, "red_star", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	STAR_WHITE(SpriteType.PROJECTILE, "white_star", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	STAR_YELLOW(SpriteType.PROJECTILE, "yellow_star", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
 	STICKYBOMB(SpriteType.PROJECTILE, "sticky"),
 	TORPEDO(SpriteType.PROJECTILE, "torpedo"),
 	TRICKBULLET(SpriteType.PROJECTILE, "trick"),
@@ -194,20 +194,20 @@ public enum Sprite {
 	P_STORMCALLER(SpriteType.EVENT, "event_stormcaller"),
 	P_TORPEDO(SpriteType.EVENT, "event_torpedo"),
 
-	FISH_SCISSOR_IDLE(SpriteType.SCISSORFISH, "scissorfish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	FISH_SCISSOR_ATTACK(SpriteType.SCISSORFISH, "scissorfish_attack", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_SUPER_FAST),
-	FISH_SPITTLE_IDLE(SpriteType.SPITTLEFISH, "spittlefish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	FISH_SPITTLE_ATTACK(SpriteType.SPITTLEFISH, "spittlefish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED),
-	FISH_TORPEDO_IDLE(SpriteType.TORPEDOFISH, "torpedofish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	FISH_TORPEDO_ATTACK(SpriteType.TORPEDOFISH, "torpedofish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED),
-	FISH_BOMB_IDLE(SpriteType.BOMBFISH, "bombfish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	FISH_BOMB_ACTIVATE(SpriteType.BOMBFISH, "bombfish_activate", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_SUPER_FAST),
-	FISH_BOMB_ACTIVATION(SpriteType.BOMBFISH, "bombfish_activation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	FISH_BOMB_DEACTIVATION(SpriteType.BOMBFISH, "bombfish_deactivation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	FISH_SNIPER_IDLE(SpriteType.SNIPERFISH, "sniper_fish", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	FISH_SNIPER_ATTACK(SpriteType.SNIPERFISH, "sniper_fish_attack", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	SNIPER_RETICLE(SpriteType.SNIPER_RETICLE, "sniper_fish_crosshair", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	SNIPER_ARROW(SpriteType.SNIPER_RETICLE, "sniper_fish_direction", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SCISSOR_IDLE(SpriteType.SCISSORFISH, "scissorfish", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SCISSOR_ATTACK(SpriteType.SCISSORFISH, "scissorfish_attack", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_SUPER_FAST),
+	FISH_SPITTLE_IDLE(SpriteType.SPITTLEFISH, "spittlefish", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SPITTLE_ATTACK(SpriteType.SPITTLEFISH, "spittlefish_attack", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	FISH_TORPEDO_IDLE(SpriteType.TORPEDOFISH, "torpedofish", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_TORPEDO_ATTACK(SpriteType.TORPEDOFISH, "torpedofish_attack", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	FISH_BOMB_IDLE(SpriteType.BOMBFISH, "bombfish", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_BOMB_ACTIVATE(SpriteType.BOMBFISH, "bombfish_activate", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_SUPER_FAST),
+	FISH_BOMB_ACTIVATION(SpriteType.BOMBFISH, "bombfish_activation", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_BOMB_DEACTIVATION(SpriteType.BOMBFISH, "bombfish_deactivation", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SNIPER_IDLE(SpriteType.SNIPERFISH, "sniper_fish", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	FISH_SNIPER_ATTACK(SpriteType.SNIPERFISH, "sniper_fish_attack", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	SNIPER_RETICLE(SpriteType.SNIPER_RETICLE, "sniper_fish_crosshair", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	SNIPER_ARROW(SpriteType.SNIPER_RETICLE, "sniper_fish_direction", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
 
 	KAMABOKO_BODY(SpriteType.KAMABOKO, "king_kamaboko"),
 	KAMABOKO_CRAWL(SpriteType.KAMABOKO_CRAWL, "crawlaboko"),
@@ -252,17 +252,17 @@ public enum Sprite {
 	NOTIFICATIONS_CLEAR_CIRCLE(SpriteType.NOTIFICATIONS, "clear_circle"),
 	NOTIFICATIONS_DIRECTIONAL_ARROW(SpriteType.NOTIFICATIONS, "arrow_directional"),
 	NOTIFICATIONS_ALERT(SpriteType.NOTIFICATIONS, "alert_red"),
-	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, PlayState.SPRITE_ANIMATION_SPEED),
+	NOTIFICATIONS_ALERT_PING(SpriteType.NOTIFICATIONS, "arrow_ping_red", PlayMode.LOOP_PINGPONG, SpriteConstants.SPRITE_ANIMATION_SPEED),
 	CLEAR_CIRCLE_ALERT(SpriteType.NOTIFICATIONS, "clear_circle_alert"),
 	NOTIFICATIONS_GHOST(SpriteType.NOTIFICATIONS, "ghost_candy_icon"),
 
-	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	EMOTE_NO(SpriteType.EMOTE, "emote_no", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	EMOTE_RAGE(SpriteType.EMOTE, "emote_anger", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	EMOTE_LOVE(SpriteType.EMOTE, "emote_love", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	EMOTE_SLEEP(SpriteType.EMOTE, "emote_sleep", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	EMOTE_SWEAT(SpriteType.EMOTE, "emote_tears", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
-	EMOTE_DICE(SpriteType.EMOTE, "dice_roll", PlayMode.LOOP, PlayState.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_YES(SpriteType.EMOTE, "emote_yes", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_NO(SpriteType.EMOTE, "emote_no", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_RAGE(SpriteType.EMOTE, "emote_anger", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_LOVE(SpriteType.EMOTE, "emote_love", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_SLEEP(SpriteType.EMOTE, "emote_sleep", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_SWEAT(SpriteType.EMOTE, "emote_tears", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
+	EMOTE_DICE(SpriteType.EMOTE, "dice_roll", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
 	EMOTE_READY(SpriteType.EMOTE, "emote_ready", PlayMode.LOOP, 0.5f),
 
 	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, ""),
@@ -298,7 +298,7 @@ public enum Sprite {
 	POOL_FOURTEEN(SpriteType.POOL, "fourteen"),
 	POOL_FIFTEEN(SpriteType.POOL, "fifteen"),
 
-	SPIRIT_BOMB_ACTIVATION(SpriteType.SPIRIT_BOMB, "spirit_bomb_activation", PlayMode.NORMAL, PlayState.SPRITE_ANIMATION_SPEED_SUPER_FAST),
+	SPIRIT_BOMB_ACTIVATION(SpriteType.SPIRIT_BOMB, "spirit_bomb_activation", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED_SUPER_FAST),
 	SPIRIT_BOMB_IDLE(SpriteType.SPIRIT_BOMB, "spirit_bomb_idle"),
 	SPIRIT_BOMB_LOOP(SpriteType.SPIRIT_BOMB, "spirit_bomb_loop"),
 
@@ -324,7 +324,7 @@ public enum Sprite {
 
 	//how is this sprite animated? and how fast?
 	private PlayMode playMode = PlayMode.LOOP;
-	private float animationSpeed = PlayState.SPRITE_ANIMATION_SPEED_FAST;
+	private float animationSpeed = SpriteConstants.SPRITE_ANIMATION_SPEED_FAST;
 
 	//complex sprites are composed of multiple sprites, each repeated a set amount of time
 	private boolean complex;

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="19">
+ <properties>
+  <property name="music" value="LEVEL_WRECK"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="100" height="60">
+  <data encoding="base64" compression="zlib">
+   eAHtmcmOgzAQRJl9OcwcZv7/W2MfLCEid5VRXGBTSIgEL02/504CWRZvJmACJmACJmACMxL4TUlF+9eMST84p1fAMPNlt8hFbrMPTNI+MCNlD/tQ0sax7AMzUvawDyVtHMs+MCNlD/tQ0sax7AMzUvawDyVtHMs+MCNlD/tQ0sax7AMzUvawj320n9Kw77Q/V4aj9sqwxT5qZOLzhVvtGSlqr81exkXPZmtjt+ejOWZ7vlu42cd2FRzznvXxly4vf66x+3/qi9Y1mzGap7aW2PnP1I/1gZjsaWc5oLmv5OMjQXvptNvHPQFUH/cj9GdcH3rmUUT7iOjo2+xDzzyKaB8RHX3bFX203l+w9yFRP9Ys+n33yU40QL/y+wqtwR7tA+CRX2Kv+4uflAlyKE/2wgGZurswHnnq9iFHHga0jxCPvNE+5MjDgPYR4pE32occeRhwNh9vKdvo3vY9pHF840w+sgv0f2d+vnFmJ7P4YFyU+949TlR1N4oPxAPVRXFRji1OGNct80WfiiP4YHgUzi1HhmFLbGa+rYvtOmPW1XYO5fsWHi0uSt/MMPr+Z/iUufKxxcne3Fj+UV5721p5rNkc9ZpxstdFzondjsr/jHEfXXfrHO0D/yex5tX7tX3YR+81NvL8rg/Xx8jrt/e1uz5cH73X2Mjzuz5cHyOv397XztaH+5mACZiACZgAInAD/Xhknw==
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="160" y="992">
+   <polyline points="0,0 288,0 288,-832 2592,-832 2592,-320 2240,-320 2240,-416 2144,-416 2144,-224 2880,-224 2880,-64 1984,-64 1984,-416 1888,-416 1888,32 2592,32 2592,384 2496,384 2400,480 2176,480 2016,320 1792,320 1696,416 1472,416 1312,256 1088,256 992,352 768,352 672,448 0,448 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="2" name="Sensor" type="Sensor" x="160" y="992" width="96" height="448">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="3" name="Warp" type="Warp" x="96" y="1344" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECK3"/>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="4" name="Start" type="Start" x="288" y="1376" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="5" name="Start" type="Start" x="2880" y="864" width="32" height="32">
+   <properties>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="6" name="Sensor" type="Sensor" x="2944" y="768" width="96" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="7" name="Warp" type="Warp" x="3072" y="832" width="32" height="32">
+   <properties>
+    <property name="level" value="SSTUNICATE1"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="8" name="Timer" type="Timer" x="544" y="32" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="9" name="Multitrigger" type="Multitrigger" x="608" y="32" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,w1,e1,e2"/>
+   </properties>
+  </object>
+  <object id="10" name="Multitrigger" type="Multitrigger" x="608" y="96" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="12" name="Bounds" type="Bounds" x="256" y="160" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="13" name="Bounds" type="Bounds" x="2912" y="1568" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="15" name="Prefab" type="PrefabSpawner" x="672" y="1024" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="16" name="Prefab" type="PrefabSpawner" x="672" y="640" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="17" name="Prefab" type="PrefabSpawner" x="1088" y="416" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="18" name="Prefab" type="PrefabSpawner" x="1568" y="384" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

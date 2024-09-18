@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -19,10 +20,9 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.states.PlayState.ObjectLayer;
+import com.mygdx.hadal.states.PlayStateClient;
 
 /**
  * An Event is an entity that acts as a catch-all for all misc entities that do not share qualities with schmucks or hitboxes.
@@ -140,7 +140,7 @@ public class Event extends HadalEntity {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(entityID);
+					((PlayStateClient) state).removeEntity(entityID);
 				}
 			}
 		}
@@ -206,7 +206,7 @@ public class Event extends HadalEntity {
 	public void setStandardParticle(Particle particle) {
 		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, SyncType.NOSYNC);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(standardParticle.getEntityID(), standardParticle, false, ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(standardParticle.getEntityID(), standardParticle, false, ObjectLayer.EFFECT);
 		}
 	}
 
@@ -218,7 +218,7 @@ public class Event extends HadalEntity {
 		ambientParticle.setOffset(xOffset, yOffset);
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, ObjectLayer.EFFECT);
 		}
 	}
 
@@ -312,10 +312,10 @@ public class Event extends HadalEntity {
 		if (synced && body != null && isSyncInstant()) {
 			float angle = getAngle();
 			if (angle == 0.0f) {
-				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
+				PacketManager.serverUDPAll(state, new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 						state.getTimer()));
 			} else {
-				HadalGame.server.sendToAllUDP(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
+				PacketManager.serverUDPAll(state, new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
 						state.getTimer(), angle));
 			}
 		}

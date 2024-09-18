@@ -5,7 +5,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -41,7 +41,7 @@ public class CreateSound extends HitboxStrategy {
 		//this is the sound entity that plays the sound and is attached to the hbox
 		SoundEntity sound = new SoundEntity(state, hbox, effect, 0.0f, volume, pitch, looped, true, syncType);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(sound.getEntityID(), sound, false, PlayStateClient.ObjectLayer.EFFECT);
 		}
 	}
 	

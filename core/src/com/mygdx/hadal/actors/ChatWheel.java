@@ -10,6 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.server.packets.Packets;
@@ -163,7 +164,7 @@ public class ChatWheel {
 						if (state.isServer()) {
 							emote(HadalGame.usm.getOwnPlayer(), option, HadalGame.usm.getConnID());
 						} else {
-							HadalGame.client.sendTCP(new Packets.SyncEmote(option));
+							PacketManager.clientTCP(new Packets.SyncEmote(option));
 						}
 					}
 				}

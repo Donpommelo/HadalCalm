@@ -13,7 +13,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -113,7 +113,7 @@ public class HealingArea extends Event {
 					true, SyncType.NOSYNC);
 
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.EFFECT);
+				((PlayStateClient) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.EFFECT);
 			}
 		}
 	}

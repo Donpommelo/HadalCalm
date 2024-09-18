@@ -7,7 +7,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -58,7 +58,7 @@ public class DieParticles extends HitboxStrategy {
 		}
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+			((PlayStateClient) state).addEntity(particles.getEntityID(), particles, false, PlayStateClient.ObjectLayer.EFFECT);
 		}
 	}
 	

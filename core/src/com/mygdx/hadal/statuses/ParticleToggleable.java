@@ -4,7 +4,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -35,7 +35,7 @@ public class ParticleToggleable extends Status {
 			createParticle();
 
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+				((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.EFFECT);
 			}
 		}
 
@@ -52,7 +52,7 @@ public class ParticleToggleable extends Status {
 			if (state.isServer()) {
 				particle.queueDeletion();
 			} else {
-				((ClientState) state).removeEntity(particle.getEntityID());
+				((PlayStateClient) state).removeEntity(particle.getEntityID());
 			}
 			particle = null;
 		}

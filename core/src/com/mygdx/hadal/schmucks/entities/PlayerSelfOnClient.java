@@ -1,14 +1,14 @@
 package com.mygdx.hadal.schmucks.entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.PacketUtil;
 
@@ -45,9 +45,9 @@ public class PlayerSelfOnClient extends Player {
 			syncAccumulator = 0;
 
 			short conditionCode = getConditionCode();
-			float adjustedTime = state.getTimer() + 2 * ((ClientState) state).getLatency() + 4 * PlayState.SYNC_TIME;
+			float adjustedTime = state.getTimer() + 2 * ((PlayStateClient) state).getLatency() + 4 * PlayState.SYNC_TIME;
 
-			HadalGame.client.sendUDP(new PacketsSync.SyncClientSnapshot(getPosition(), getLinearVelocity(),
+			PacketManager.clientUDP(new PacketsSync.SyncClientSnapshot(getPosition(), getLinearVelocity(),
 					getMouseHelper().getPosition(),	adjustedTime, moveState,
 					PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
 					PacketUtil.percentToByte(getBodyData().getCurrentFuel() / getBodyData().getStat(Stats.MAX_FUEL)),

@@ -15,7 +15,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -218,7 +218,7 @@ public class UnderminerDrill extends SyncedAttacker {
                                 bomb.addStrategy(new FlashShaderNearDeath(state, bomb, user.getBodyData(), 1.0f));
 
                                 if (!state.isServer()) {
-                                    ((ClientState) state).addEntity(bomb.getEntityID(), bomb, false, ClientState.ObjectLayer.HBOX);
+                                    ((PlayStateClient) state).addEntity(bomb.getEntityID(), bomb, false, PlayStateClient.ObjectLayer.HBOX);
                                 }
                             }
                         }

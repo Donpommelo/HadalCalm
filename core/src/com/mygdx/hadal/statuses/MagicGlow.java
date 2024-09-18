@@ -5,7 +5,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -33,7 +33,7 @@ public class MagicGlow extends Status {
 			particle.setColor(HadalColor.RANDOM);
 
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+				((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
 			}
 		}
 		procCdCount += delta;

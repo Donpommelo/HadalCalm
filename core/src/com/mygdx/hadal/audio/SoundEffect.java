@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -233,7 +234,7 @@ public enum SoundEffect {
 	public long playUniversal(PlayState state, Vector2 worldPos, float volume, float pitch, boolean singleton) {
 		//Send a packet to the client and play the sound
 		if (state.isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
+			PacketManager.serverUDPAll(state, new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 		}
 		
 		if (null == worldPos) {
@@ -262,7 +263,7 @@ public enum SoundEffect {
 					playSourced(state, worldPos, volume, pitch);
 				}
 			} else {
-				HadalGame.server.sendToTCP(player.getUser().getConnID(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
+				PacketManager.serverTCP(player.getUser().getConnID(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 			}
 		}
 	}

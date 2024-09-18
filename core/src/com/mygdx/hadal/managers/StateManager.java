@@ -94,11 +94,14 @@ public class StateManager {
 	 * @param startID: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
 	 */
 	public static void addPlayState(HadalGame app, UnlockLevel map, GameMode mode, Class<? extends GameState> lastState, boolean reset, String startID) {
+		PlayState playState = new PlayState(app, map, mode, reset, startID);
+		playState.initializePlayState();
+
 		if (states.empty()) {
-			states.push(new PlayState(app, map, mode,true, reset, startID));
+			states.push(playState);
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(app, map, mode,true, reset, startID));
+			states.push(playState);
 			states.peek().show();
 		}
 	}
@@ -111,10 +114,10 @@ public class StateManager {
 	 */
 	public static void addClientPlayState(HadalGame app, UnlockLevel map, GameMode mode, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new ClientState(app, map, mode));
+			states.push(new PlayStateClient(app, map, mode));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new ClientState(app, map, mode));
+			states.push(new PlayStateClient(app, map, mode));
 			states.peek().show();
 		}
 	}

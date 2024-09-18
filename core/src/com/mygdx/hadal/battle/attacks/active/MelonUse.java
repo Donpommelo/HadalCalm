@@ -9,7 +9,7 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Regeneration;
 
@@ -27,7 +27,7 @@ public class MelonUse extends SyncedAttacker {
                 true, SyncType.NOSYNC).setColor(HadalColor.FRENCH_LIME);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayStateClient.ObjectLayer.EFFECT);
         }
 
         user.getBodyData().addStatus(new Regeneration(state, DURATION, user.getBodyData(), user.getBodyData(),

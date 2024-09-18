@@ -7,6 +7,7 @@ import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -215,7 +216,7 @@ public class LoadoutEquipHelper {
     }
 
     public void syncServerEquipChange(UnlockEquip[] equip) {
-        HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncEquipServer(player.getUser().getConnID(), equip));
+        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncEquipServer(player.getUser().getConnID(), equip));
     }
 
     public void syncServerEquipChangeEcho(int connID, UnlockEquip[] equip) {
@@ -223,7 +224,7 @@ public class LoadoutEquipHelper {
     }
 
     public void syncClientEquipChange(UnlockEquip[] equip) {
-        HadalGame.client.sendTCP(new PacketsLoadout.SyncEquipClient(equip));
+        PacketManager.clientTCP(new PacketsLoadout.SyncEquipClient(equip));
     }
 
     private Loadout getActiveLoadout() {

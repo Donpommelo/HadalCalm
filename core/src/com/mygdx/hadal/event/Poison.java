@@ -13,7 +13,7 @@ import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -71,7 +71,7 @@ public class Poison extends Event {
 			ParticleEntity particleEntity = new ParticleEntity(state, this, poisonParticle, 0, 0,
 					true, SyncType.NOSYNC);
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
+				((PlayStateClient) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
 			}
 		}
 	}
@@ -114,7 +114,7 @@ public class Poison extends Event {
 			ParticleEntity particleEntity = new ParticleEntity(state, this, poisonParticle, particleLifespan, 0,
 					true, SyncType.NOSYNC);
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
+				((PlayStateClient) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
 			}
 		}
 	}
@@ -202,7 +202,7 @@ public class Poison extends Event {
 					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
 					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle,
 							particleLifespan, true, SyncType.NOSYNC);
-					((ClientState) state).addEntity(poison.getEntityID(), poison, false, ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(poison.getEntityID(), poison, false, ObjectLayer.EFFECT);
 				}
 			}
 		}

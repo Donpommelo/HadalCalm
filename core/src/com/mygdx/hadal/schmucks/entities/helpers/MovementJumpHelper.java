@@ -7,7 +7,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 
@@ -170,7 +170,7 @@ public class MovementJumpHelper {
             }
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(entity.getEntityID(), entity, false, PlayState.ObjectLayer.EFFECT);
+                ((PlayStateClient) state).addEntity(entity.getEntityID(), entity, false, PlayState.ObjectLayer.EFFECT);
             }
         }
     }

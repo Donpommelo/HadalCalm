@@ -79,7 +79,6 @@ public enum UIText {
     HITSOUND_VOLUME("AUDIO_HITSOUND_VOLUME"),
     HITSOUND_OPTIONS("AUDIO_HITSOUND_OPTIONS"),
     SERVER_SIZE("SERVER_MAX_SIZE"),
-    PORT_NUMBER("SERVER_PORT"),
     SERVER_PASSWORD("SERVER_PASSWORD"),
     ARTIFACT_SLOTS("SERVER_ARTIFACT_SLOTS"),
     NAME_ALLITERATION("MISC_NAME_ALLITERATION"),
@@ -442,6 +441,11 @@ public enum UIText {
      * @return String to be displayed in game
      */
     public String text(String... replace) {
+
+        //TODO address server not needing strings
+        if (null == JSONManager.uiStrings) {
+            return "";
+        }
 
         //no replacements means a static text. Read from file and cache
         if (0 == replace.length) {

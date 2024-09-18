@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.TrickOrTreating;
@@ -123,10 +123,10 @@ public class TrickorTreatBucket extends Event {
             fire.setOffset((mirror ? -1 : 1) * BUCKET_FIRE_OFFSETX, BUCKET_FIRE_OFFSETY);
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(fire.getEntityID(), fire, false, ClientState.ObjectLayer.EFFECT);
+                ((PlayStateClient) state).addEntity(fire.getEntityID(), fire, false, PlayStateClient.ObjectLayer.EFFECT);
             }
 
-            state.getUiObjective().addObjective(this, Sprite.CANDY_BUCKET, color,true, false, true);
+            state.getUIManager().getUiObjective().addObjective(this, Sprite.CANDY_BUCKET, color,true, false, true);
             lightSet = true;
         }
     }

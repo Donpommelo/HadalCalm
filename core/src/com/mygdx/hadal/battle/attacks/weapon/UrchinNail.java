@@ -17,7 +17,7 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -65,7 +65,7 @@ public class UrchinNail extends SyncedAttacker {
                 particles = new ParticleEntity(state, hbox, Particle.NAIL_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC);
                 particles.setScale(hbox.getScale());
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+                    ((PlayStateClient) state).addEntity(particles.getEntityID(), particles, false, PlayStateClient.ObjectLayer.EFFECT);
                 }
             }
 

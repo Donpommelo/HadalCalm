@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="20">
+ <properties>
+  <property name="music" value="LEVEL_PLENUM_CHAMBER"/>
+  <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="120" height="100">
+  <data encoding="base64" compression="zlib">
+   eAHtnOuO3CAMhbcX9aq2P9r3f9YmWpmd8cByMDbOJGelUYAAhvPZ5L4vL/yjAlSAClABKkAFqAAVyFDgz2Y08ve9M6nPwfYj56b77kw1Zbceo3eefFOwFqPePHV/5FukTkloHt558k3BWox689T9kW+ROiWheXjnyTcFazHqzVP3R75F6pSE5uGdJ98UrMWoN0/dH/kWqVMSmod3nnxTsBaj3jx1f+RbpE5JaB7eefJNwVqMevPU/ZFvkToloXl458k3BWsx6s1T90e+ReqUhObhnSffFKzFqDdP3R/5FqlTEpqHd558U7AWowjPX1vtT8bft2KpnvgK9vt7q4eMNbNOfYa5pYgevRhcMYNneI9nhQ6jNsjXb10Y1X5FffIlX67PmA+siMdRG4xfjB2i06j2K+oj4x6J3w/boH9M/D42Js3zq4YwnWJvvrMcWr402y8yz9k6HalTdiNzamleGzB6Pdu6nm5dL5NvTe1+mTffvkVbDfK16Ua+PL8aWZ9tXtZvxfjta1Srwfhl/DJ+MR+oxU92GeMXY4folM2yZh8ZN+MX84Gavtll5IuxQ3TKZlmzj4yb8Yv5QE3f7DLyxdghOmWzrNlHxs34xXygpm92Gfli7BCdslnW7CPj/rs1RJ75tZ7t1eyOlvH+1ahir/URvmidyHWcfMkX9cOoejYCsa0858r4jWVl6Z18eX6F+kBk/FrfC1n53YMlvqLboOyQepF8rTqsPC+zjjGyHcINrSPXUV8iBzzYN/n6HX/ED3bOR2FMvv58d85HYUy+MXyF8e19r4yYJt84vrJeyzYjpsl3HV+J6ZVxTL5r+Qrj23V7Jt17pkG+6/nKeu2x7V1zk+9avq3vjqzlre+V5DKZfNfx7cWaMPHcki/5ehwn9j6O+Oc1N6Sfs8cvooGlzozfWOxZ25Cvba0k37YCK4+/Vr/vtWvPrr+n17fnfsYv47fvkWM1GL82n7LEdS9+Z//3Tu0+2L/NHSxjPVKbMY++r71yHj2+Z4i1CD3viY3lIsbT6rPHV96xWvnOVGusRyofI3pfe+U8enxlZD+3BBm/HVdEF8v2iHz3eeyMb+9JX5m3hau0OSpfGZ9shfcVOYsGlu2z8JW5XXHtlrlbts/Gd5+jxPLt+r2nzxrbFq7S5hn5ytj1tsVd+0FkPsLH9DxH8mfiOzLvqLoR1/AzYyXfGfUe25LvoyZnKiHfM9F8nMuV+Wa83/5IILbkynz3Y/3ZGV+d79kZk+/rffM9jm+f10Z8szLyPLn3HQS6qsszMM9rbNR2rd7K66P3bEWs2yOxhD7bqml45LL3NF+9z5sx+b49Y1zNsmXPc90m3+Px1dxnYpp8j893521lTL7PwVcY355vI+mRdyf1cQHpf1WdmfM3vR4yfzyfJ9/jMfGME/Il35YPePoZ+4rxsxY7pJxMYph46opwZB0qQAWoABWgAlSAClCBOQX+A4FpV3s=
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="1120" y="160">
+   <polyline points="0,0 224,0 224,608 544,608 544,1440 992,1440 992,1984 320,1984 320,2080 384,2080 448,2144 544,2144 576,2176 608,2176 672,2240 832,2240 864,2272 1888,2272 1888,2528 2560,2528 2560,2688 1344,2688 1344,2496 960,2496 960,2688 576,2688 480,2592 384,2592 288,2496 192,2496 96,2400 96,1760 768,1760 768,1664 160,1664 64,1568 -32,1568 -128,1472 -160,1472 -160,1248 -480,1248 -480,608 0,608 0,0"/>
+  </object>
+  <object id="2" x="960" y="928">
+   <polyline points="0,0 544,0 544,96 0,96 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="3" name="Sensor" type="Sensor" x="1120" y="352" width="224" height="96">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="4" name="Start" type="Start" x="1216" y="480" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="5" name="Warp" type="Warp" x="1216" y="96" width="32" height="32">
+   <properties>
+    <property name="level" value="PLENUMCHAMBER1"/>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="6" name="Multitrigger" type="Multitrigger" x="320" y="64" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="8" name="Dropthrough" type="Dropthrough" x="1120" y="760" width="224" height="8"/>
+  <object id="9" name="Bounds" type="Bounds" x="544" y="448" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="10" name="Bounds" type="Bounds" x="3552" y="2944" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="11" name="Sensor" type="Sensor" x="3584" y="2688" width="96" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="12" name="Start" type="Start" x="3520" y="2784" width="32" height="32">
+   <properties>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="13" name="Warp" type="Warp" x="3744" y="2752" width="32" height="32">
+   <properties>
+    <property name="level" value="PLENUMCHAMBERSHAFT"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="14" name="SchmuckSpawn" type="SchmuckSpawn" x="736" y="1376" width="32" height="32">
+   <properties>
+    <property name="enemyId" value="CRAWLER1"/>
+    <property name="triggeredId" value="e1"/>
+   </properties>
+  </object>
+  <object id="15" name="Timer" type="Timer" x="96" y="448" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="16" name="Multitrigger" type="Multitrigger" x="160" y="448" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,e1,e2,e3,e4"/>
+   </properties>
+  </object>
+  <object id="17" name="SchmuckSpawn" type="SchmuckSpawn" x="1504" y="1792" width="32" height="32">
+   <properties>
+    <property name="enemyId" value="CRAWLER3"/>
+    <property name="triggeredId" value="e2"/>
+   </properties>
+  </object>
+  <object id="18" name="SchmuckSpawn" type="SchmuckSpawn" x="1632" y="2112" width="32" height="32">
+   <properties>
+    <property name="enemyId" value="CRAWLER3"/>
+    <property name="triggeredId" value="e3"/>
+   </properties>
+  </object>
+  <object id="19" name="SchmuckSpawn" type="SchmuckSpawn" x="2240" y="2600" width="32" height="32">
+   <properties>
+    <property name="enemyId" value="TURRET_VOLLEY"/>
+    <property name="triggeredId" value="e4"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

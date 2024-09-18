@@ -4,7 +4,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.constants.Stats;
 
@@ -36,7 +36,7 @@ public class Slodged extends Status {
 					.setPrematureOff(LINGER)
 					.setShowOnInvis(true);
 			if (!state.isServer()) {
-				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+				((PlayStateClient) state).addEntity(particleEntity.getEntityID(), particleEntity, false, PlayStateClient.ObjectLayer.EFFECT);
 			}
 		}
 	}

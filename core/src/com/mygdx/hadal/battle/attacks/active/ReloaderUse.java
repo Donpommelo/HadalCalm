@@ -11,7 +11,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
@@ -31,8 +31,8 @@ public class ReloaderUse extends SyncedAttacker {
         ParticleEntity ambientParticle = new ParticleEntity(state, user, Particle.BRIGHT, 1.0f, DURATION, true,
                 SyncType.NOSYNC).setColor(HadalColor.RED);
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(pickupParticle.getEntityID(), pickupParticle, false, ClientState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, ClientState.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(pickupParticle.getEntityID(), pickupParticle, false, PlayStateClient.ObjectLayer.EFFECT);
+            ((PlayStateClient) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, PlayStateClient.ObjectLayer.EFFECT);
         }
 
         if (user instanceof Player player) {

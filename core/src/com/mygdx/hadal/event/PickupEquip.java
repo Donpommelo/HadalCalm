@@ -3,7 +3,6 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
@@ -11,11 +10,12 @@ import com.mygdx.hadal.equip.ranged.SpeargunNerfed;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
@@ -157,9 +157,9 @@ public class PickupEquip extends Event {
 				syncAccumulator = 0.0f;
 				equipChanged = false;
 				if (state.isServer()) {
-					HadalGame.server.sendToAllTCP(getActivationPacket());
+					PacketManager.serverTCPAll(state, getActivationPacket());
 				} else {
-					HadalGame.client.sendTCP(getActivationPacket());
+					PacketManager.clientTCP(getActivationPacket());
 				}
 			}
 		}
@@ -232,7 +232,7 @@ public class PickupEquip extends Event {
 				if (state.isServer()) {
 					queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(entityID);
+					((PlayStateClient) state).removeEntity(entityID);
 				}
 			} else if (equip instanceof SpeargunNerfed) {
 				this.equip = UnlocktoItem.getUnlock(UnlockEquip.NOTHING, null);

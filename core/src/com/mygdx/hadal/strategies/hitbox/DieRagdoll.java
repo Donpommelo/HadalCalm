@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -32,7 +32,7 @@ public class DieRagdoll extends HitboxStrategy {
 				RAGDOLL_DURATION, 1.0f, false, false, synced).setFade();
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ClientState.ObjectLayer.HBOX);
+			((PlayStateClient) state).addEntity(ragdoll.getEntityID(), ragdoll, false, PlayStateClient.ObjectLayer.HBOX);
 		}
 	}
 }

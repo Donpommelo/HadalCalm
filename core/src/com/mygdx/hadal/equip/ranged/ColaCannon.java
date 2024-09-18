@@ -11,7 +11,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.text.UIText;
@@ -114,7 +114,7 @@ public class ColaCannon extends RangedWeapon {
 						true, SyncType.NOSYNC);
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+					((PlayStateClient) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
 				}
 			}
 		}

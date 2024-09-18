@@ -4,6 +4,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -72,7 +73,7 @@ public class LoadoutMagicHelper {
     }
 
     public void syncServerMagicChange(UnlockActives active) {
-        HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncActiveServer(player.getUser().getConnID(), active));
+        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncActiveServer(player.getUser().getConnID(), active));
     }
 
     public void syncServerMagicChangeEcho(int connID, UnlockActives active) {
@@ -80,7 +81,7 @@ public class LoadoutMagicHelper {
     }
 
     public void syncClientMagicChange(UnlockActives active) {
-        HadalGame.client.sendTCP(new PacketsLoadout.SyncActiveClient(active));
+        PacketManager.clientTCP(new PacketsLoadout.SyncActiveClient(active));
     }
 
     private Loadout getActiveLoadout() {

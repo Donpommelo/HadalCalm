@@ -76,9 +76,9 @@ public class CameraManager {
 
         if (cameraTarget == null) {
             //the camera should be draggable as a spectator or during respawn time
-            if (state.isSpectatorMode() || state.getKillFeed().isRespawnSpectator()) {
+            if (state.isSpectatorMode() || state.getUIManager().getKillFeed().isRespawnSpectator()) {
                 //in spectator mode, the camera moves when dragging the mouse
-                state.getUiSpectator().spectatorDragCamera(spectatorTarget);
+                state.getUIManager().getUiSpectator().spectatorDragCamera(spectatorTarget);
                 aimFocusVector.set(spectatorTarget);
             } else if (null != HadalGame.usm.getOwnPlayer()) {
                 if (null != HadalGame.usm.getOwnPlayer().getPlayerData()) {

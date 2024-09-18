@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.PlayStateClient;
 import com.mygdx.hadal.states.PlayState;
 
 import java.util.UUID;
@@ -113,7 +113,7 @@ public class SoundEntity extends HadalEntity {
 					if (state.isServer()) {
 						this.queueDeletion();
 					} else {
-						((ClientState) state).removeEntity(entityID);
+						((PlayStateClient) state).removeEntity(entityID);
 					}
 				}
 			}
@@ -130,7 +130,7 @@ public class SoundEntity extends HadalEntity {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
-					((ClientState) state).removeEntity(entityID);
+					((PlayStateClient) state).removeEntity(entityID);
 				}
 			}
 		}

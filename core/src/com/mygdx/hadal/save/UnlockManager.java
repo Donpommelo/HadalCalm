@@ -97,35 +97,35 @@ public class UnlockManager {
 		case ACTIVE:
 			JSONManager.record.getUnlockActive().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_ACTIVE.text(getName(type, name)),
+				state.getUIManager().getDialogBox().addDialogue("", UIText.UNLOCK_ACTIVE.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case ARTIFACT:
 			JSONManager.record.getUnlockArtifact().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_ARTIFACT.text(getName(type, name)),
+				state.getUIManager().getDialogBox().addDialogue("", UIText.UNLOCK_ARTIFACT.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case CHARACTER:
 			JSONManager.record.getUnlockCharacter().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_CHARACTER.text(getName(type, name)),
+				state.getUIManager().getDialogBox().addDialogue("", UIText.UNLOCK_CHARACTER.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case EQUIP:
 			JSONManager.record.getUnlockEquip().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_WEAPON.text(getName(type, name)),
+				state.getUIManager().getDialogBox().addDialogue("", UIText.UNLOCK_WEAPON.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;
 		case LEVEL:
 			JSONManager.record.getUnlockLevel().put(name, unlock);
 			if (unlock) {
-				state.getDialogBox().addDialogue("", UIText.UNLOCK_LEVEL.text(getName(type, name)),
+				state.getUIManager().getDialogBox().addDialogue("", UIText.UNLOCK_LEVEL.text(getName(type, name)),
 					"", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 			break;

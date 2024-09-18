@@ -22,11 +22,19 @@ public abstract class GameState {
 	 */
 	public GameState(HadalGame app) {
 		this.app = app;
-		this.batch = app.getBatch();
-		this.camera = app.getCamera();
-		this.hud = app.getHud();		
+
+		//app is null for headless server states
+		if (null != app) {
+			this.batch = app.getBatch();
+			this.camera = app.getCamera();
+			this.hud = app.getHud();
+		} else {
+			this.batch = null;
+			this.camera = null;
+			this.hud = null;
+		}
 	}
-	
+
 	/**
 	 * This is run when this state is first added to the top of the stack. This is usually where we set up the scene2d ui elements of the state.
 	 */
