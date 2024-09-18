@@ -18,10 +18,10 @@ import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.StateManager.Mode;
 import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.UIText;
 
 /**
@@ -141,10 +141,10 @@ public class PauseState extends GameState {
 			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
 			        		
 			        		if (StateManager.currentMode == Mode.SINGLE) {
-				        		ps.loadLevel(UnlockLevel.SSTUNICATE1, TransitionState.NEWLEVEL, "");
+				        		ps.getTransitionManager().loadLevel(UnlockLevel.SSTUNICATE1, TransitionState.NEWLEVEL, "");
 				        	}
 				        	if (StateManager.currentMode == Mode.MULTI) {
-				        		ps.loadLevel(UnlockLevel.HUB_MULTI, TransitionState.NEWLEVEL, "");
+				        		ps.getTransitionManager().loadLevel(UnlockLevel.HUB_MULTI, TransitionState.NEWLEVEL, "");
 				        	}
 	    				}
 			        	SoundEffect.NEGATIVE.play(1.0f, false);
@@ -179,7 +179,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 						unpause();
 						if (ps.isServer()) {
-							ps.becomeSpectator(HadalGame.usm.getOwnUser(), true);
+							ps.getSpectatorManager().becomeSpectator(HadalGame.usm.getOwnUser(), true);
 						} else {
 							HadalGame.client.sendTCP(new Packets.StartSpectate());
 						}
@@ -192,7 +192,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 						unpause();
 						if (ps.isServer()) {
-							ps.exitSpectator(HadalGame.usm.getOwnUser());
+							ps.getSpectatorManager().exitSpectator(HadalGame.usm.getOwnUser());
 						} else {
 							HadalGame.client.sendTCP(new Packets.EndSpectate(new Loadout(JSONManager.loadout)));
 						}
@@ -206,7 +206,7 @@ public class PauseState extends GameState {
 			        	
 			        	//Exiting returns to the title state and stops the server/client, disconnecting.
 						StateManager.removeState(PauseState.class);
-			        	ps.returnToTitle(0.0f);
+			        	ps.getTransitionManager().returnToTitle(0.0f);
 			        	
 			        	SoundEffect.NEGATIVE.play(1.0f, false);
 			        }
@@ -223,7 +223,7 @@ public class PauseState extends GameState {
 				table.add(extraOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 
 				if (ps.getMode().isHub() && StateManager.currentMode == Mode.MULTI) {
-					if (ps.isSpectatorMode()) {
+					if (ps.getSpectatorManager().isSpectatorMode()) {
 						table.add(joinOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 					} else {
 						table.add(spectateOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();

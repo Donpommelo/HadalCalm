@@ -14,13 +14,14 @@ import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -243,7 +244,7 @@ public class NavigationsMultiplayer extends HubEvent {
 					public void clicked(InputEvent e, float x, float y) {
 
 						if (state.isServer()) {
-							state.loadLevel(selected, modeChosen, PlayState.TransitionState.NEWLEVEL, "");
+							state.getTransitionManager().loadLevel(selected, modeChosen, TransitionState.NEWLEVEL, "");
 							//play a particle when the player uses this event
 							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, SyncType.CREATESYNC)
 									.setOffset(0, - me.getSize().y / 2);

@@ -225,7 +225,7 @@ public class UIPlay extends AHadalActor {
 		if (JSONManager.setting.isHideHUD()) { return; }
 				
 		//do not render in spectator mode
-		if (state.isSpectatorMode()) { return; }
+		if (state.getSpectatorManager().isSpectatorMode()) { return; }
 
 		batch.draw(hpMissing, MAIN_X + BAR_X, MAIN_Y + HP_BAR_Y, hpWidthScaled * hpDelayed, hpHeightScaled);
 		batch.draw(hp, MAIN_X + BAR_X, MAIN_Y + HP_BAR_Y, hpWidthScaled * hpRatio, hpHeightScaled);

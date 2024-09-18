@@ -48,12 +48,12 @@ public class CommonController extends InputAdapter {
 		} else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			keyUp(PlayerAction.CHAT_WHEEL);
 		} else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
-			if (state.isSpectatorMode()) {
+			if (state.getSpectatorManager().isSpectatorMode()) {
 				state.getUIManager().getUiSpectator().toggleSpectatorUI();
 			}
 		} else if (keycode == Input.Buttons.RIGHT) {
 			if (state.getUIManager().getKillFeed() != null) {
-				if (state.isSpectatorMode() || state.getUIManager().getKillFeed().isRespawnSpectator()) {
+				if (state.getSpectatorManager().isSpectatorMode() || state.getUIManager().getKillFeed().isRespawnSpectator()) {
 					state.getUIManager().getUiSpectator().findValidSpectatorTarget();
 				}
 			}
@@ -108,7 +108,7 @@ public class CommonController extends InputAdapter {
 
 	public void keyDown(PlayerAction action) {
 		//when spectating, host interact activates the map's designated "spectator event", if existant
-		if (state.isServer() && state.isSpectatorMode()) {
+		if (state.isServer() && state.getSpectatorManager().isSpectatorMode()) {
 			if (action == PlayerAction.INTERACT) {
 				if (state.getSpectatorActivation() != null) {
 					state.getSpectatorActivation().getEventData().onInteract(null);

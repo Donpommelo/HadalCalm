@@ -25,6 +25,7 @@ import com.mygdx.hadal.managers.FadeManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.schmucks.entities.*;
@@ -40,7 +41,6 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -121,7 +121,7 @@ public class KryoClient {
 
 						//If our client state is still here, the server closed
 						addNotification(cs, "", UIText.DISCONNECTED.text(), false, DialogType.SYSTEM);
-						cs.returnToTitle(1.0f);
+						cs.getTransitionManager().returnToTitle(1.0f);
 					} else {
 						StateManager.removeState(ResultsState.class);
 						StateManager.removeState(SettingState.class, false);
@@ -340,7 +340,7 @@ public class KryoClient {
 
 			//we must set the playstate's next state so that other transitions (respawns) do not override this transition
 			if (null != cs) {
-				cs.setNextState(TransitionState.NEWLEVEL);
+				cs.getTransitionManager().setNextState(TransitionState.NEWLEVEL);
 			}
 			Gdx.app.postRunnable(() -> {
 				FadeManager.fadeOut();
@@ -350,7 +350,7 @@ public class KryoClient {
 					StateManager.removeState(AboutState.class, false);
 					StateManager.removeState(PauseState.class, false);
 
-					boolean spectator = null != cs && cs.isSpectatorMode();
+					boolean spectator = null != cs && cs.getSpectatorManager().isSpectatorMode();
 					StateManager.removeState(ClientState.class, false);
 
 					//set mode settings according to what the server sends
@@ -384,7 +384,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-						cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay, p.skipFade);
+						cs.getTransitionManager().beginTransition(p.state, p.fadeSpeed, p.fadeDelay, p.skipFade);
 						if (null != p.startPosition) {
 							cs.getCameraManager().setCameraPosition(p.startPosition);
 							cs.getCameraManager().setCameraTarget(p.startPosition);
@@ -585,7 +585,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 
-					cs.setResultsText(p.resultsText);
+					cs.getEndgameManager().setResultsText(p.resultsText);
 
 					//temporarily store user info so we can attach old player to updated user
 					ObjectMap<Integer, User> usersTemp = new ObjectMap<>(usm.getUsers());
@@ -618,7 +618,7 @@ public class KryoClient {
 		else if (o instanceof Packets.ClientYeet) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.returnToTitle(0.0f);
+				cs.getTransitionManager().returnToTitle(0.0f);
 			}
 		}
 	}
@@ -871,7 +871,7 @@ public class KryoClient {
 					enemy.setBoss(p.boss);
 					if (p.boss) {
 						enemy.setName(p.name);
-						cs.setBoss(enemy);
+						cs.getUIManager().setBoss(enemy);
 					}
 				});
 			}
@@ -907,7 +907,7 @@ public class KryoClient {
 					//(needed since user filters are not consistent between server/client)
 					short hitboxFilterOverride = p.pvpOverride ? user.getHitboxFilter().getFilter() : p.hitboxFilter;
 
-					Player newPlayer = cs.createPlayer(event, p.name, p.loadout, null, user,
+					Player newPlayer = cs.getSpawnManager().createPlayer(event, p.name, p.loadout, null, user,
 							true, p.connID == usm.getConnID(), hitboxFilterOverride);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);

@@ -58,7 +58,7 @@ public class UISpectator extends AHadalActor {
     @Override
     public void draw(Batch batch, float alpha) {
 
-        if (!state.isSpectatorMode()) { return; }
+        if (!state.getSpectatorManager().isSpectatorMode()) { return; }
 
         SIMPLE_PATCH.draw(batch, getX(), getY(), WINDOW_WIDTH, WINDOW_HEIGHT);
 

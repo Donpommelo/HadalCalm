@@ -1,10 +1,10 @@
 package com.mygdx.hadal.event;
 
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * A Level Warp transports the player to another level.
@@ -54,9 +54,9 @@ public class LevelWarp extends Event {
 			warpStart = false;
 			
 			if (reset) {
-				state.loadLevel(UnlockLevel.getByName(level), TransitionState.NEWLEVEL, startId);
+				state.getTransitionManager().loadLevel(UnlockLevel.getByName(level), TransitionState.NEWLEVEL, startId);
 			} else {
-				state.loadLevel(UnlockLevel.getByName(level), TransitionState.NEXTSTAGE, startId);
+				state.getTransitionManager().loadLevel(UnlockLevel.getByName(level), TransitionState.NEXTSTAGE, startId);
 			}
 		}
 	}

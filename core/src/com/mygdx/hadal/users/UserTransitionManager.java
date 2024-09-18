@@ -8,18 +8,18 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 
 import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
 
 /**
  * This manages a user's transitions, most notably respawns.
  */
-public class TransitionManager {
+public class UserTransitionManager {
 
     //The user whose transitions this managers
     private final User user;
@@ -43,7 +43,7 @@ public class TransitionManager {
     //does this respawn reset the player's hp/fuel etc (false for single-player campaign level transitions)
     private boolean reset;
 
-    public TransitionManager(User user) {
+    public UserTransitionManager(User user) {
         this.user = user;
     }
 
@@ -113,7 +113,7 @@ public class TransitionManager {
             //set respawn point upon respawn initializing so we know where it is when we draw spawn particles
             if (TransitionState.RESPAWN.equals(nextState)) {
                 if (!startOverridden) {
-                    startPoint = state.getSavePoint(user);
+                    startPoint = state.getSpawnManager().getSavePoint(user);
 
                     //if desired, set camera to prospective respawn point right away (for initial spawn)
                     if (transition.isCenterCameraOnStart()) {
@@ -130,8 +130,8 @@ public class TransitionManager {
 
             if (user.getConnID() == 0) {
                 //this extra check is for state transitions, not user transitions
-                if (transition.isOverride() || state.getNextState() == null) {
-                    state.beginTransition(nextState, transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade());
+                if (transition.isOverride() || state.getTransitionManager().getNextState() == null) {
+                    state.getTransitionManager().beginTransition(nextState, transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade());
                 }
             } else if (user.getConnID() > 0) {
                 HadalGame.server.sendToTCP(user.getConnID(), new Packets.ClientStartTransition(nextState,
@@ -155,8 +155,8 @@ public class TransitionManager {
             short hitboxFilter = user.getHitboxFilter().getFilter();
 
             //create player and set it as our own
-            HadalGame.usm.setOwnPlayer(state.createPlayer(startPoint, JSONManager.loadout.getName(), new Loadout(JSONManager.loadout),
-                    playerData, user, reset, false, hitboxFilter));
+            HadalGame.usm.setOwnPlayer(state.getSpawnManager().createPlayer(startPoint, JSONManager.loadout.getName(),
+                    new Loadout(JSONManager.loadout), playerData, user, reset, false, hitboxFilter));
 
             //focus camera on start point unless otherwise specified
             if (!user.getPlayer().isDontMoveCamera()) {
@@ -188,7 +188,7 @@ public class TransitionManager {
             if (reset) {
                 beginTransition(state,
                         new Transition()
-                                .setNextState(PlayState.TransitionState.RESPAWN)
+                                .setNextState(TransitionState.RESPAWN)
                                 .setFadeDelay(LONG_FADE_DELAY)
                                 .setFadeSpeed(0.0f)
                                 .setForewarnTime(LONG_FADE_DELAY)
@@ -198,7 +198,7 @@ public class TransitionManager {
             } else {
                 beginTransition(state,
                         new Transition()
-                                .setNextState(PlayState.TransitionState.RESPAWN)
+                                .setNextState(TransitionState.RESPAWN)
                                 .setFadeSpeed(0.0f)
                                 .setReset(false));
             }

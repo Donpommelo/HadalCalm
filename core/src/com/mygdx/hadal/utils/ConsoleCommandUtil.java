@@ -9,6 +9,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -16,7 +17,6 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.text.UIText;
 
@@ -262,7 +262,7 @@ public class ConsoleCommandUtil {
 		
 		try {
 			UnlockLevel level = UnlockLevel.getByName(command.toUpperCase());
-			state.loadLevel(level, TransitionState.NEWLEVEL, "");
+			state.getTransitionManager().loadLevel(level, TransitionState.NEWLEVEL, "");
 			return 0;
 		} catch (IllegalArgumentException ignored) {}
 		

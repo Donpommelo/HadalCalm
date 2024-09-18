@@ -253,7 +253,7 @@ public class TiledObjectUtil {
 				e = new StartPoint(state, position, size,
 						object.getProperties().get("startId", "", String.class),
 						object.getProperties().get("teamIndex", 0, Integer.class));
-				state.addSavePoint((StartPoint) e);
+				state.getSpawnManager().addSavePoint((StartPoint) e);
 
 				//As a quirk of start points, their triggered id is set to a unique value based on their location
 				//This is so clients will know which start point the server tells them they are spawning at.

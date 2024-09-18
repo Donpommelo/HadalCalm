@@ -12,6 +12,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -83,7 +84,7 @@ public class ReviveGravestone extends Event {
 		EventUtils.setObjectiveMarkerTeam(state, this, Sprite.CLEAR_CIRCLE_ALERT, color,
 				true, false, false, user.getTeamFilter());
 
-		if (state.isSpectatorMode()) {
+		if (state.getSpectatorManager().isSpectatorMode()) {
 			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		} else if (HadalGame.usm.getOwnUser().getTeamFilter() == user.getTeamFilter()) {
 			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
@@ -155,7 +156,7 @@ public class ReviveGravestone extends Event {
 				user.getTransitionManager().setOverrideStart(defaultStartPoint);
 				user.getTransitionManager().beginTransition(state,
 						new Transition()
-								.setNextState(PlayState.TransitionState.RESPAWN)
+								.setNextState(TransitionState.RESPAWN)
 								.setFadeDelay(MEDIUM_FADE_DELAY));
 			}
 		}

@@ -307,7 +307,7 @@ public enum SoundEffect {
 		}
 
 		//as a spectator, the center of the camera is treated as the player location
-		if (state.isSpectatorMode()) {
+		if (state.getSpectatorManager().isSpectatorMode()) {
 			playerPosition.set(state.getCamera().position.x, state.getCamera().position.y);
 		}
 

@@ -2,6 +2,7 @@ package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.actors.*;
+import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 
 public class UIManager {
@@ -53,6 +54,24 @@ public class UIManager {
 
         chatWheel.addTable(stage);
         uiArtifact.addTable(stage);
+    }
+
+    /**
+     * This sets the game's boss, filling the boss ui.
+     * @param enemy: This is the boss whose hp will be used for the boss hp bar
+     */
+    public void setBoss(Enemy enemy) {
+        uiPlay.setBoss(enemy, enemy.getName());
+        uiExtra.setBoss();
+    }
+
+    /**
+     * This is called when the boss is defeated, clearing its hp bar from the ui.
+     * We also have to tell the client to do the same.
+     */
+    public void clearBoss() {
+        uiPlay.clearBoss();
+        uiExtra.clearBoss();
     }
 
     public UIPlay getUiPlay() { return uiPlay; }

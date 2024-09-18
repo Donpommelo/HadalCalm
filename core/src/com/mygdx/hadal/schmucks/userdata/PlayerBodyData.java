@@ -112,7 +112,7 @@ public class PlayerBodyData extends BodyData {
 			CameraUtil.inflictTrauma(damage, this);
 		}
 		if (player.getState().getUIManager().getKillFeed() != null) {
-			if (player.getState().isSpectatorMode() || player.getState().getUIManager().getKillFeed().isRespawnSpectator()) {
+			if (player.getState().getSpectatorManager().isSpectatorMode() || player.getState().getUIManager().getKillFeed().isRespawnSpectator()) {
 				if (player.equals(player.getState().getUIManager().getUiSpectator().getSpectatorTarget()) && damage > 0.0f) {
 					CameraUtil.inflictTrauma(damage, this);
 				}

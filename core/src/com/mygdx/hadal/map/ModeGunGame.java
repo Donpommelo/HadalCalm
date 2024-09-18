@@ -62,7 +62,7 @@ public class ModeGunGame extends ModeSetting {
                     state.getUIManager().getKillFeed().sendNotification(message, player);
                 } else {
                     //upon finishing all weapons, we end the game
-                    state.levelEnd(ResultsState.MAGIC_WORD, false, true, LONG_FADE_DELAY);
+                    state.getEndgameManager().levelEnd(ResultsState.MAGIC_WORD, false, true, LONG_FADE_DELAY);
                 }
             }
         }

@@ -38,7 +38,7 @@ public class UIArtifacts {
 	 */
 	public void syncArtifact() {
 		table.clear();
-		if (state.isSpectatorMode()) { return; }
+		if (state.getSpectatorManager().isSpectatorMode()) { return; }
 
 		//When starting up normally, the player's data is not loaded yet, and we do not need to sync.
 		//data will also be null if the player spawns in as a spectator

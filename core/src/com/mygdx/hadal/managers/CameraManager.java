@@ -76,7 +76,7 @@ public class CameraManager {
 
         if (cameraTarget == null) {
             //the camera should be draggable as a spectator or during respawn time
-            if (state.isSpectatorMode() || state.getUIManager().getKillFeed().isRespawnSpectator()) {
+            if (state.getSpectatorManager().isSpectatorMode() || state.getUIManager().getKillFeed().isRespawnSpectator()) {
                 //in spectator mode, the camera moves when dragging the mouse
                 state.getUIManager().getUiSpectator().spectatorDragCamera(spectatorTarget);
                 aimFocusVector.set(spectatorTarget);

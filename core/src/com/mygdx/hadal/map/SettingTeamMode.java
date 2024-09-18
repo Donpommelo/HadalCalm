@@ -10,10 +10,10 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.TooltipManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.ScoreManager;
@@ -223,7 +223,7 @@ public class SettingTeamMode extends ModeSetting {
             if (SettingArcade.arcade) {
                 SettingArcade.processEndOfRound(state, mode);
             } else {
-                state.transitionToResultsState(resultsText, LONG_FADE_DELAY);
+                state.getEndgameManager().transitionToResultsState(resultsText, LONG_FADE_DELAY);
             }
         } else {
 

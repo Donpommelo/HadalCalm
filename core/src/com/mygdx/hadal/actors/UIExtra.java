@@ -137,7 +137,7 @@ public class UIExtra extends AHadalActor {
 
 		//if we are spectating another player, we want to ui to match the spectate target instead of ourselves
 		boolean spectatorFound = false;
-		if (state.isSpectatorMode()) {
+		if (state.getSpectatorManager().isSpectatorMode()) {
 			if (null != state.getUIManager().getUiSpectator().getSpectatorTarget()) {
 				user = state.getUIManager().getUiSpectator().getSpectatorTarget().getUser();
 				spectatorFound = true;

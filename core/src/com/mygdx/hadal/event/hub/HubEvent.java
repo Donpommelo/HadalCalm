@@ -95,7 +95,8 @@ public class HubEvent extends Event {
 	public void controller(float delta) {
 		if (open && closeOnLeave) {
 			if (null != HadalGame.usm.getOwnPlayer()) {
-				if (getPosition().dst2(HadalGame.usm.getOwnPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE && !state.isSpectatorMode()) {
+				if (getPosition().dst2(HadalGame.usm.getOwnPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE
+						&& !state.getSpectatorManager().isSpectatorMode()) {
 					leave();
 					open = false;
 				}

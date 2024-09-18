@@ -549,7 +549,7 @@ public class KryoServer {
 						ps.addPacketEffect(() -> {
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
-								ps.becomeSpectator(user, true);
+								ps.getSpectatorManager().becomeSpectator(user, true);
 							}
 						});
 					}
@@ -563,7 +563,7 @@ public class KryoServer {
 					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							usm.getUsers().get(c.getID()).getLoadoutManager().setActiveLoadout(p.loadout);
-							ps.exitSpectator(usm.getUsers().get(c.getID()));
+							ps.getSpectatorManager().exitSpectator(usm.getUsers().get(c.getID()));
 						});
 					}
 				}
@@ -791,7 +791,7 @@ public class KryoServer {
 	 */
 	public void createNewClientSpectator(PlayState ps, int connID, String name, Loadout loadout) {
 		User user = checkNewUser(connID, name, loadout);
-		ps.addPacketEffect(() -> ps.startSpectator(user));
+		ps.addPacketEffect(() -> ps.getSpectatorManager().startSpectator(user));
 	}
 
 	/**
@@ -811,7 +811,7 @@ public class KryoServer {
 			}
 
 			//Create a new player with the designated fields.
-			ps.createPlayer(newSave, user.getStringManager().getName(), user.getLoadoutManager().getActiveLoadout(),
+			ps.getSpawnManager().createPlayer(newSave, user.getStringManager().getName(), user.getLoadoutManager().getActiveLoadout(),
 					data, user, reset, false, user.getHitboxFilter().getFilter());
 
 			user.setSpectator(false);

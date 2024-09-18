@@ -21,7 +21,7 @@ public class User {
     //managers keep track of loadout, name and transition state respectively
     private final LoadoutManager loadoutManager;
     private final StringManager stringManager;
-    private final TransitionManager transitionManager;
+    private final UserTransitionManager transitionManager;
     private final EffectManager effectManager;
 
     //Keeps track of player's score as well as in-game stats
@@ -52,7 +52,7 @@ public class User {
         this.scoreManager = new ScoreManager();
         this.statsManager = new StatsManager();
         this.stringManager = new StringManager(this, name);
-        this.transitionManager = new TransitionManager(this);
+        this.transitionManager = new UserTransitionManager(this);
         this.effectManager = new EffectManager(this);
         scoreUpdated = true;
 
@@ -131,7 +131,7 @@ public class User {
 
     public StringManager getStringManager() { return stringManager; }
 
-    public TransitionManager getTransitionManager() { return transitionManager; }
+    public UserTransitionManager getTransitionManager() { return transitionManager; }
 
     public EffectManager getEffectManager() { return effectManager; }
 

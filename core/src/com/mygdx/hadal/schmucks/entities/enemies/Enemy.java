@@ -269,7 +269,7 @@ public class Enemy extends Schmuck {
 
 				//clear the boss ui for clients
 				if (p.hpPercent <= 0.0f) {
-					state.clearBoss();
+					state.getUIManager().clearBoss();
 				}
 			}
 		}
@@ -289,7 +289,7 @@ public class Enemy extends Schmuck {
 		
 		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
 		if (isBoss) {
-			state.clearBoss();
+			state.getUIManager().clearBoss();
 		}
 	}
 

@@ -392,7 +392,7 @@ public class Player extends Schmuck {
 		boolean visible = false;
 		
 		//draw hp and fuel bar if using certain effects, looking at self/ally, or in spectator mode
-		if (state.isSpectatorMode() || user.getHitboxFilter() == HadalGame.usm.getOwnUser().getHitboxFilter()) {
+		if (state.getSpectatorManager().isSpectatorMode() || user.getHitboxFilter() == HadalGame.usm.getOwnUser().getHitboxFilter()) {
 			visible = true;
 		} else {
 			if (null != HadalGame.usm.getOwnPlayer()) {
