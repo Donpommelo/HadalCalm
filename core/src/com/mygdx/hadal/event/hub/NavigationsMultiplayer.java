@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox;
 import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.Text;
@@ -17,6 +16,7 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
@@ -251,7 +251,7 @@ public class NavigationsMultiplayer extends HubEvent {
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
+							PacketManager.clientTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
 									DialogBox.DialogType.SYSTEM));
 						}
 						leave();

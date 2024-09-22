@@ -80,8 +80,6 @@ public class TransitionManager {
                     StateManager.removeState(PlayState.class, false);
                     StateManager.addPlayState(state.getApp(), nextLevel, nextMode, LobbyState.class, true, nextStartID);
                     StateManager.addPlayState(state.getApp(), nextLevel, nextMode, TitleState.class, true, nextStartID);
-                } else {
-                    StateManager.removeState(ClientState.class, false);
                 }
                 break;
             case NEXTSTAGE:
@@ -94,8 +92,6 @@ public class TransitionManager {
                     StateManager.removeState(PlayState.class, false);
                     StateManager.addPlayState(state.getApp(), nextLevel, nextMode, LobbyState.class, false, nextStartID);
                     StateManager.addPlayState(state.getApp(), nextLevel, nextMode, TitleState.class, false, nextStartID);
-                } else {
-                    StateManager.removeState(ClientState.class, false);
                 }
                 break;
             case TITLE:

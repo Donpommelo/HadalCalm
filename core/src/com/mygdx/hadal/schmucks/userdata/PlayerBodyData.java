@@ -7,6 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
@@ -151,7 +152,7 @@ public class PlayerBodyData extends BodyData {
 			if (!player.getState().isServer() && this.getPlayer() instanceof PlayerSelfOnClient) {
 				player.setAlive(false);
 				((ClientState) player.getState()).removeEntity(player.getEntityID());
-				HadalGame.client.sendTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source, tags));
+				PacketManager.clientTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source, tags));
 			}
 			
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)

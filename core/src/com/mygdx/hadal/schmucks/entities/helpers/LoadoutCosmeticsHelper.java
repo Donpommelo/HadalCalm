@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -60,15 +60,15 @@ public class LoadoutCosmeticsHelper {
     }
 
     public void syncServerCharacterChange(UnlockCharacter character) {
-        HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCharacterServer(player.getUser().getConnID(), character));
+        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncCharacterServer(player.getUser().getConnID(), character));
     }
 
     public void syncServerTeamChange(AlignmentFilter team) {
-        HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncTeamServer(player.getUser().getConnID(), team));
+        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncTeamServer(player.getUser().getConnID(), team));
     }
 
     public void syncServerCosmeticChange(UnlockCosmetic cosmetic) {
-        HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncCosmeticServer(player.getUser().getConnID(), cosmetic));
+        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncCosmeticServer(player.getUser().getConnID(), cosmetic));
     }
 
     private Loadout getActiveLoadout() {

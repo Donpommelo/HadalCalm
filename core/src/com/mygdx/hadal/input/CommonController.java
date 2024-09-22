@@ -2,8 +2,8 @@ package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingArcade;
@@ -84,7 +84,7 @@ public class CommonController extends InputAdapter {
 
 				//clients bring up their own menu if pause is disabled and messages server otherwise
 				if (JSONManager.hostSetting.isMultiplayerPause()) {
-					HadalGame.client.sendTCP(new Packets.Paused(JSONManager.loadout.getName()));
+					PacketManager.clientTCP(new Packets.Paused(JSONManager.loadout.getName()));
 				} else {
 					StateManager.addPauseState(state, "", ClientState.class, false);
 				}
@@ -100,7 +100,7 @@ public class CommonController extends InputAdapter {
 				if (state.isServer()) {
 					SettingArcade.readyUp(state, 0);
 				} else {
-					HadalGame.client.sendTCP(new Packets.ClientReady());
+					PacketManager.clientTCP(new Packets.ClientReady());
 				}
 			}
 		}

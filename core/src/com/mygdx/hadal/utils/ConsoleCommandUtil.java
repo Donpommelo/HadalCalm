@@ -9,6 +9,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -91,7 +92,7 @@ public class ConsoleCommandUtil {
 						player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
 								null, DamageSource.MISC);
 					} else {
-						HadalGame.client.sendTCP(new Packets.ClientYeet());
+						PacketManager.clientTCP(new Packets.ClientYeet());
 					}
 					return 0;
 				}
@@ -119,7 +120,7 @@ public class ConsoleCommandUtil {
 		if (state.isServer()) {
 			HadalGame.server.addChatToAll(state, message, DialogType.SYSTEM, 0);
 		} else {
-			HadalGame.client.sendTCP(new Packets.ClientChat(message, DialogType.SYSTEM));
+			PacketManager.clientTCP(new Packets.ClientChat(message, DialogType.SYSTEM));
 		}
 	}
 

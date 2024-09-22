@@ -1,10 +1,10 @@
 package com.mygdx.hadal.schmucks.entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
@@ -66,7 +66,7 @@ public class PlayerClientOnHost extends Player {
 		super.onReceiveSync(o, timestamp);
 
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
-			HadalGame.server.sendToAllExceptUDP(getUser().getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getUser().getConnID(),
+			PacketManager.serverUDPAllExcept(state, getUser().getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getUser().getConnID(),
 					p.pos, p.velocity, p.mousePosition,
 					state.getTimer(), p.moveState,
 					p.hpPercent,

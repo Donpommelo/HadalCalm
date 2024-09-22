@@ -1,7 +1,6 @@
 package com.mygdx.hadal.battle;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.attacks.active.*;
 import com.mygdx.hadal.battle.attacks.artifact.*;
 import com.mygdx.hadal.battle.attacks.enemy.*;
@@ -12,6 +11,7 @@ import com.mygdx.hadal.battle.attacks.general.*;
 import com.mygdx.hadal.battle.attacks.special.Emote;
 import com.mygdx.hadal.battle.attacks.special.Ping;
 import com.mygdx.hadal.battle.attacks.weapon.*;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -268,7 +268,7 @@ public enum SyncedAttack {
         hbox.setSyncedMulti(false);
         hbox.setExtraFields(extraFields);
         if (state.isServer()) {
-            syncAttackSingleServer(hbox, extraFields, connID, hbox.isSynced(), false);
+            syncAttackSingleServer(state, hbox, extraFields, connID, hbox.isSynced(), false);
         } else {
 
             //If this client is the originator of this attack, execute it.
@@ -294,7 +294,7 @@ public enum SyncedAttack {
      * @param synced: Does this attack create a synced hitbox?
      * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
      */
-    public void syncAttackSingleServer(Hitbox hbox, float[] extraFields, int connID, boolean synced, boolean catchup) {
+    public void syncAttackSingleServer(PlayState state, Hitbox hbox, float[] extraFields, int connID, boolean synced, boolean catchup) {
         Object packet;
 
         if (synced) {
@@ -321,9 +321,9 @@ public enum SyncedAttack {
 
         //0 connID indicates a server-created attack. If client created, we don't need to send the packet to the creator.
         if (0 == connID) {
-            HadalGame.server.sendToAllUDP(packet);
+            PacketManager.serverUDPAll(state, packet);
         } else {
-            HadalGame.server.sendToAllExceptUDP(connID, packet);
+            PacketManager.serverUDPAllExcept(state, connID, packet);
         }
     }
 
@@ -336,21 +336,21 @@ public enum SyncedAttack {
     public void syncAttackSingleClient(Hitbox hbox, float[] extraFields, boolean synced) {
         if (synced) {
             if (0 == extraFields.length) {
-                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientDependent(hbox.getEntityID(),
+                PacketManager.clientUDP(new PacketsAttacks.SingleClientDependent(hbox.getEntityID(),
                         hbox.getStartPos(),
                         hbox.getStartVelo(), this));
             } else {
-                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientDependentExtra(hbox.getEntityID(),
+                PacketManager.clientUDP(new PacketsAttacks.SingleClientDependentExtra(hbox.getEntityID(),
                         hbox.getStartPos(),
                         hbox.getStartVelo(), extraFields, this));
             }
         } else {
             if (0 == extraFields.length) {
-                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientIndependent(
+                PacketManager.clientUDP(new PacketsAttacks.SingleClientIndependent(
                         hbox.getStartPos(),
                         hbox.getStartVelo(), this));
             } else {
-                HadalGame.client.sendUDP(new PacketsAttacks.SingleClientIndependentExtra(
+                PacketManager.clientUDP(new PacketsAttacks.SingleClientIndependentExtra(
                         hbox.getStartPos(),
                         hbox.getStartVelo(), extraFields, this));
             }
@@ -381,7 +381,7 @@ public enum SyncedAttack {
             boolean isSynced = hboxes[0].isSynced();
 
             if (state.isServer()) {
-                syncAttackMultiServer(weaponVelocity, hboxes, extraFields, connID, isSynced, false);
+                syncAttackMultiServer(state, weaponVelocity, hboxes, extraFields, connID, isSynced, false);
             } else {
                 if (origin) {
                     syncAttackMultiClient(weaponVelocity, hboxes, extraFields, isSynced);
@@ -405,7 +405,8 @@ public enum SyncedAttack {
      * @param extraFields: Any extra fields of the synced attack
      * @param catchup: Is this being synced as a result of catchup packet for newly joined player or missed create?
      */
-    public void syncAttackMultiServer(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, int connID, boolean isSynced, boolean catchup) {
+    public void syncAttackMultiServer(PlayState state, Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, int connID,
+                                      boolean isSynced, boolean catchup) {
         UUID[] hboxID = new UUID[hboxes.length];
         Vector2[] positions = new Vector2[hboxes.length];
         Vector2[] velocities = new Vector2[hboxes.length];
@@ -434,9 +435,9 @@ public enum SyncedAttack {
         }
 
         if (0 == connID) {
-            HadalGame.server.sendToAllUDP(packet);
+            PacketManager.serverUDPAll(state, packet);
         } else {
-            HadalGame.server.sendToAllExceptUDP(connID, packet);
+            PacketManager.serverUDPAllExcept(state, connID, packet);
         }
     }
 
@@ -451,15 +452,15 @@ public enum SyncedAttack {
         }
         if (isSynced) {
             if (0 == extraFields.length) {
-                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientDependent(hboxID, weaponVelocity, positions, velocities, this));
+                PacketManager.clientUDP(new PacketsAttacks.MultiClientDependent(hboxID, weaponVelocity, positions, velocities, this));
             } else {
-                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientDependentExtra(hboxID, weaponVelocity, positions, velocities, extraFields, this));
+                PacketManager.clientUDP(new PacketsAttacks.MultiClientDependentExtra(hboxID, weaponVelocity, positions, velocities, extraFields, this));
             }
         } else {
             if (0 == extraFields.length) {
-                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientIndependent(weaponVelocity, positions, velocities, this));
+                PacketManager.clientUDP(new PacketsAttacks.MultiClientIndependent(weaponVelocity, positions, velocities, this));
             } else {
-                HadalGame.client.sendUDP(new PacketsAttacks.MultiClientIndependentExtra(weaponVelocity, positions, velocities, extraFields, this));
+                PacketManager.clientUDP(new PacketsAttacks.MultiClientIndependentExtra(weaponVelocity, positions, velocities, extraFields, this));
             }
         }
     }
@@ -486,7 +487,7 @@ public enum SyncedAttack {
 
         //clients relay the attack if they are the creator
         if (state.isServer()) {
-            syncAttackNoHboxServer(user, startPosition, independent, extraFields, connID);
+            syncAttackNoHboxServer(state, user, startPosition, independent, extraFields, connID);
         } else if (origin) {
             syncAttackNoHboxClient(startPosition, independent, extraFields);
         }
@@ -496,7 +497,7 @@ public enum SyncedAttack {
         initiateSyncedAttackNoHbox(state, user, startPosition, 0, true, independent, extraFields);
     }
 
-    public void syncAttackNoHboxServer(Schmuck user, Vector2 startPos, boolean independent, float[] extraFields, int connID) {
+    public void syncAttackNoHboxServer(PlayState state, Schmuck user, Vector2 startPos, boolean independent, float[] extraFields, int connID) {
         Object packet;
         if (0 == extraFields.length) {
             packet = new PacketsAttacks.SyncedAttackNoHboxServer(user.getEntityID(), startPos, this);
@@ -505,17 +506,17 @@ public enum SyncedAttack {
         }
 
         if (0 == connID || !independent) {
-            HadalGame.server.sendToAllUDP(packet);
+            PacketManager.serverUDPAll(state, packet);
         } else {
-            HadalGame.server.sendToAllExceptUDP(connID, packet);
+            PacketManager.serverUDPAllExcept(state, connID, packet);
         }
     }
 
     public void syncAttackNoHboxClient(Vector2 startPos, boolean independent, float[] extraFields) {
         if (0 == extraFields.length) {
-            HadalGame.client.sendUDP(new PacketsAttacks.SyncedAttackNoHbox(startPos, independent, this));
+            PacketManager.clientUDP(new PacketsAttacks.SyncedAttackNoHbox(startPos, independent, this));
         } else {
-            HadalGame.client.sendUDP(new PacketsAttacks.SyncedAttackNoHboxExtra(startPos, independent, extraFields, this));
+            PacketManager.clientUDP(new PacketsAttacks.SyncedAttackNoHboxExtra(startPos, independent, extraFields, this));
         }
     }
 }

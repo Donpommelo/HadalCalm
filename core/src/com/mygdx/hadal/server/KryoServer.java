@@ -19,8 +19,9 @@ import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.hub.Disposal;
 import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -117,7 +118,7 @@ public class KryoServer {
 							//remove disconnecting player from users
 							usm.getUsers().remove(c.getID());
 							ps.getUIManager().getScoreWindow().syncScoreTable();
-							sendToAllTCP(new Packets.RemoveScore(c.getID()));
+							PacketManager.serverTCPAll(ps, new Packets.RemoveScore(c.getID()));
 						}
 					});
 				}
@@ -251,7 +252,7 @@ public class KryoServer {
 							
 							//reject clients with wrong version
 							if (!HadalGame.VERSION.equals(p.version)) {
-								sendToTCP(c.getID(), new Packets.ConnectReject(UIText.INCOMPATIBLE.text(HadalGame.VERSION)));
+								PacketManager.serverTCP(c.getID(), new Packets.ConnectReject(UIText.INCOMPATIBLE.text(HadalGame.VERSION)));
 								return;
 							}
 
@@ -260,10 +261,10 @@ public class KryoServer {
 								//password being null indicates the client just attempted to connect.
 								//otherwise, we check whether the password entered matches
 								if (p.password == null) {
-									sendToTCP(c.getID(), new Packets.PasswordRequest());
+									PacketManager.serverTCP(c.getID(), new Packets.PasswordRequest());
 									return;
 								} else if (!JSONManager.setting.getServerPassword().equals(p.password)) {
-									sendToTCP(c.getID(), new Packets.ConnectReject(UIText.INCORRECT_PASSWORD.text()));
+									PacketManager.serverTCP(c.getID(), new Packets.ConnectReject(UIText.INCORRECT_PASSWORD.text()));
 									return;
 								}
 							}
@@ -271,17 +272,17 @@ public class KryoServer {
 
 							//clients joining full servers or in the middle of matches join as spectators
 							if (usm.getNumPlayers() >= JSONManager.setting.getMaxPlayers() + 1) {
-								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
+								PacketManager.serverTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
 								return;
 							}
 
 							//joining midgame in modes which do not allow for it makes client join as spectator
 							if (!ps.getMode().isJoinMidGame()) {
-								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
+								PacketManager.serverTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, true));
 								return;
 							}
 						}
-                        sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, false));
+						PacketManager.serverTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), ps.getMode(), modeSettings, p.firstTime, false));
 					}
 				}
 				
@@ -346,9 +347,9 @@ public class KryoServer {
 							}
 
 							//sync client ui elements
-							sendToTCP(c.getID(), new Packets.SyncUI(ps.getTimerManager().getMaxTimer(), ps.getTimerManager().getTimer(),
+							PacketManager.serverTCP(c.getID(), new Packets.SyncUI(ps.getTimerManager().getMaxTimer(), ps.getTimerManager().getTimer(),
 									ps.getTimerManager().getTimerIncr(),	AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
-							sendToTCP(c.getID(), new Packets.SyncSharedSettings(JSONManager.sharedSetting));
+							PacketManager.serverTCP(c.getID(), new Packets.SyncSharedSettings(JSONManager.sharedSetting));
 						});
 					}
 				}
@@ -363,7 +364,7 @@ public class KryoServer {
 						Player player = user.getPlayer();
 						if (player != null) {
 							if (player.getPlayerData() != null) {
-								HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(
+								PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncWholeLoadout(
 										c.getID(), user.getLoadoutManager().getActiveLoadout(), false));
 							}
 						}
@@ -472,7 +473,7 @@ public class KryoServer {
 									addNotificationToAll(as.getPlayState(), "", UIText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
 									as.setToRemove(true);
 								}
-								HadalGame.server.sendToAllTCP(new Packets.Unpaused());
+								PacketManager.serverTCPAll(player.getState(), new Packets.Unpaused());
 							}
 						}
         			}
@@ -720,7 +721,7 @@ public class KryoServer {
 							if (null != event) {
 								Object packet = event.onServerSyncInitial();
 								if (null != packet) {
-									sendToTCP(c.getID(), packet);
+									PacketManager.serverTCP(c.getID(), packet);
 								}
 							}
 						});
@@ -750,8 +751,8 @@ public class KryoServer {
 			if (StateManager.states.peek() instanceof LobbyState lobby) {
 				lobby.setNotification(UIText.PORT_FAIL.text(Integer.toString(JSONManager.setting.getPortNumber())));
 			}
-		}	
-		registerPackets();
+		}
+		PacketManager.serverPackets(server, new PacketSender());
 		server.start();
 	}
 
@@ -849,7 +850,7 @@ public class KryoServer {
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
 	public void sendNotification(int connID, String name, String text, boolean override, final DialogType type) {
-		sendToTCP(connID, new Packets.ServerNotification(name, text, override, type));
+		PacketManager.serverTCP(connID, new Packets.ServerNotification(name, text, override, type));
 	}
 	
 	/**
@@ -897,47 +898,6 @@ public class KryoServer {
 		}
 	}
 
-	private void registerPackets() {
-		Kryo kryo = server.getKryo();
-		Packets.allPackets(kryo);
-	}
-	
-	public void sendToAllTCP(Object p) {
-		if (server != null) {
-			server.sendToAllTCP(p);
-		}
-	}
-
-	public void sendToAllUDP(Object p) {
-		if (server != null) {
-			server.sendToAllUDP(p);
-		}
-	}
-
-	public void sendToAllExceptTCP(int connID, Object p) {
-		if (server != null) {
-			server.sendToAllExceptTCP(connID, p);
-		}
-	}
-
-	public void sendToAllExceptUDP(int connID, Object p) {
-		if (server != null) {
-			server.sendToAllExceptUDP(connID, p);
-		}
-	}
-	
-	public void sendToTCP(int connID, Object p) {
-		if (server != null) {
-			server.sendToTCP(connID, p);
-		}
-	}
-	
-	public void sendToUDP(int connID, Object p) {
-		if (server != null) {
-			server.sendToUDP(connID, p);
-		}
-	}
-
 	/**
 	 * This boots the designated player from the game
 	 */
@@ -946,7 +906,7 @@ public class KryoServer {
 			if (user.getPlayer() != null) {
 				addNotificationToAll(ps,"", UIText.KICKED.text(user.getPlayer().getName()), true, DialogType.SYSTEM);
 			}
-			sendToTCP(connID, new Packets.ClientYeet());
+			PacketManager.serverTCP(connID, new Packets.ClientYeet());
 		}
 	}
 

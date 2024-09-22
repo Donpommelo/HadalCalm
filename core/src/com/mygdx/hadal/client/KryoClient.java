@@ -14,6 +14,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
@@ -22,19 +23,18 @@ import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
 import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.StateManager;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.server.*;
-import com.mygdx.hadal.users.ScoreManager;
-import com.mygdx.hadal.users.User;
-import com.mygdx.hadal.users.User.UserDto;
+import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.EventDto;
+import com.mygdx.hadal.server.PacketSender;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -42,6 +42,9 @@ import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -92,7 +95,7 @@ public class KryoClient {
 
 		usm.resetUsers();
 
-        registerPackets();
+		PacketManager.clientPackets(client, new PacketSender());
 
         packetListener = new Listener() {
         	
@@ -101,7 +104,7 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                sendTCP(new Packets.PlayerConnect(true, JSONManager.loadout.getName(), HadalGame.VERSION, null));
+				PacketManager.clientTCP(new Packets.PlayerConnect(true, JSONManager.loadout.getName(), HadalGame.VERSION, null));
                 usm.setConnID(c.getID());
 				usm.getUsers().put(c.getID(), new User(c.getID(), JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 
@@ -361,7 +364,7 @@ public class KryoClient {
 					}
 
 					StateManager.addClientPlayState(app, p.level, p.mode, LobbyState.class);
-					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
+					PacketManager.clientTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});
 			});
@@ -373,7 +376,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof Packets.ServerLoaded) {
 			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, JSONManager.loadout.getName(), HadalGame.VERSION, null);
-			sendTCP(connected);
+			PacketManager.clientTCP(connected);
 		}
 
 		/*
@@ -491,7 +494,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					User user = usm.getUsers().get(p.connID);
-					if (null != user && null != cs) {
+					if (null != user) {
 						Player player = user.getPlayer();
 						if (null != player) {
 							if (null != player.getPlayerData()) {
@@ -512,7 +515,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					User user = usm.getUsers().get(p.connID);
-					if (null != user && null != cs) {
+					if (null != user) {
 						Player player = user.getPlayer();
 						if (null != player) {
 							if (null != player.getPlayerData()) {
@@ -1080,28 +1083,11 @@ public class KryoClient {
 	 * @param cs: Client's current clientstate
 	 * @param name: name giving the notification
 	 * @param text: notification text
-	 * @param override: ncan this notification be overridden by other notifications
+	 * @param override: can this notification be overridden by other notifications
 	 * @param type: the type of dialog (system message, story dialog, etc)
 	 */
 	public void addNotification(ClientState cs, String name, String text, boolean override, DialogType type) {
 		cs.getUIManager().getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
-	}
-
-	private void registerPackets() {
-		Kryo kryo = client.getKryo();
-		Packets.allPackets(kryo);
-	}
-	
-	public void sendTCP(Object p) {
-		if (null != client) {
-			client.sendTCP(p);
-		}
-	}
-	
-	public void sendUDP(Object p) {
-		if (null != client) {
-			client.sendUDP(p);
-		}
 	}
 
 	public void dispose() throws IOException {

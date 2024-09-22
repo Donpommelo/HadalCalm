@@ -15,6 +15,7 @@ import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.NameGenerator;
@@ -131,7 +132,7 @@ public class SettingBots extends ModeSetting {
         for (User user : oldBots) {
             user.getHitboxFilter().setUsed(false);
             HadalGame.usm.getUsers().remove(user.getConnID());
-            HadalGame.server.sendToAllTCP(new Packets.RemoveScore(user.getConnID()));
+            PacketManager.serverTCPAll(state, new Packets.RemoveScore(user.getConnID()));
         }
 
         //reset next connId, then create each bot while incrementing connId to ensure each has a unique one.

@@ -380,7 +380,7 @@ public class PlayState extends GameState {
 		//On the very first tick, server tells all clients that it is loaded. Also, initiate bots if applicable
 		if (server && !serverLoaded) {
 	        serverLoaded = true;
-			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
+			PacketManager.serverTCPAll(this, new Packets.ServerLoaded());
 			BotManager.initiateBots(this);
 			HadalGame.usm.getOwnUser().getTransitionManager().levelStartSpawn(this, reset);
 		}
@@ -408,9 +408,9 @@ public class PlayState extends GameState {
 			Object packet = entity.onServerCreate(false);
 			if (packet != null) {
 				if (entity.isReliableCreate()) {
-					HadalGame.server.sendToAllTCP(packet);
+					PacketManager.serverTCPAll(this, packet);
 				} else {
-					HadalGame.server.sendToAllUDP(packet);
+					PacketManager.serverTCPAll(this, packet);
 				}
 			}
 		}
@@ -427,9 +427,9 @@ public class PlayState extends GameState {
 			Object packet = entity.onServerDelete();
 			if (packet != null) {
 				if (entity.isReliableCreate()) {
-					HadalGame.server.sendToAllTCP(packet);
+					PacketManager.serverTCPAll(this, packet);
 				} else {
-					HadalGame.server.sendToAllUDP(packet);
+					PacketManager.serverUDPAll(this, packet);
 				}
 			}
 		}
@@ -474,7 +474,7 @@ public class PlayState extends GameState {
 					user.setScoreUpdated(false);
 
 					ScoreManager score = user.getScoreManager();
-					HadalGame.server.sendToAllUDP(new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
+					PacketManager.serverUDPAll(this, new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
 							user.getLoadoutManager().getSavedLoadout(), score.getWins(), score.getKills(), score.getDeaths(),
 							score.getAssists(), score.getScore(), score.getExtraModeScore(),
 							score.getLives(), score.getCurrency(), user.getPing(), user.isSpectator()));
@@ -640,7 +640,7 @@ public class PlayState extends GameState {
 			}
 		}
 		for (Object o : syncPackets) {
-			HadalGame.server.sendToAllUDP(o);
+			PacketManager.serverUDPAll(this, o);
 		}
 		syncPackets.clear();
 	}
@@ -797,7 +797,7 @@ public class PlayState extends GameState {
 			for (HadalEntity entity : s) {
 				Object packet = entity.onServerCreate(true);
 				if (packet != null) {
-					HadalGame.server.sendToUDP(connID, packet);
+					PacketManager.serverUDP(connID, packet);
 				}
 			}
 		}

@@ -14,6 +14,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.StateManager.Mode;
 import com.mygdx.hadal.managers.StateManager.State;
@@ -71,7 +72,7 @@ public class PauseState extends GameState {
 		
 		//When the server pauses, it sends a message to all clients to pause them as well.
 		if (ps.isServer() && paused) {
-			HadalGame.server.sendToAllTCP(new Packets.Paused(pauser));
+			PacketManager.serverTCPAll(ps, new Packets.Paused(pauser));
 		}
 		
 		SoundEffect.POSITIVE.play(1.0f, false);
@@ -138,9 +139,9 @@ public class PauseState extends GameState {
 			        	
 			        	if (ps.isServer()) {
 			        		//If the server unpauses, send a message and notification to all players to unpause.
-			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
-			        		
-			        		if (StateManager.currentMode == Mode.SINGLE) {
+							PacketManager.serverTCPAll(ps, new Packets.Unpaused());
+
+							if (StateManager.currentMode == Mode.SINGLE) {
 				        		ps.getTransitionManager().loadLevel(UnlockLevel.SSTUNICATE1, TransitionState.NEWLEVEL, "");
 				        	}
 				        	if (StateManager.currentMode == Mode.MULTI) {
@@ -181,7 +182,7 @@ public class PauseState extends GameState {
 						if (ps.isServer()) {
 							ps.getSpectatorManager().becomeSpectator(HadalGame.usm.getOwnUser(), true);
 						} else {
-							HadalGame.client.sendTCP(new Packets.StartSpectate());
+							PacketManager.clientTCP(new Packets.StartSpectate());
 						}
 			        }
 			    });
@@ -194,7 +195,7 @@ public class PauseState extends GameState {
 						if (ps.isServer()) {
 							ps.getSpectatorManager().exitSpectator(HadalGame.usm.getOwnUser());
 						} else {
-							HadalGame.client.sendTCP(new Packets.EndSpectate(new Loadout(JSONManager.loadout)));
+							PacketManager.clientTCP(new Packets.EndSpectate(new Loadout(JSONManager.loadout)));
 						}
 			        }
 			    });
@@ -333,13 +334,13 @@ public class PauseState extends GameState {
 
     		if (paused) {
     			//If the server unpauses, send a message and notification to all players to unpause.
-        		HadalGame.server.sendToAllTCP(new Packets.Unpaused());
-    			HadalGame.server.addNotificationToAll(ps, HadalGame.usm.getOwnUser().getStringManager().getName(), UIText.UNPAUSED.text(), true, DialogType.SYSTEM);
+				PacketManager.serverTCPAll(ps, new Packets.Unpaused());
+				HadalGame.server.addNotificationToAll(ps, HadalGame.usm.getOwnUser().getStringManager().getName(), UIText.UNPAUSED.text(), true, DialogType.SYSTEM);
     		}
 		} else {
 			if (paused) {
 				//If a client unpauses, tell the server so it can echo it to everyone else
-				HadalGame.client.sendTCP(new Packets.Unpaused());
+				PacketManager.clientTCP(new Packets.Unpaused());
 			} else {
 				toRemove = true;
 			}

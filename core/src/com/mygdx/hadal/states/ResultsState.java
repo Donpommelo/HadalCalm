@@ -28,10 +28,7 @@ import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -233,7 +230,7 @@ public class ResultsState extends GameState {
 						if (ps.isServer()) {
 							readyPlayer(0);
 						} else {
-							HadalGame.client.sendTCP(new Packets.ClientReady());
+							PacketManager.clientTCP(new Packets.ClientReady());
 						}
 					}
 				});
@@ -550,7 +547,7 @@ public class ResultsState extends GameState {
 				int iconID = users.indexOf(user, false);
 				icons.get(iconID).setReady(true);
 
-				HadalGame.server.sendToAllTCP(new Packets.ClientReady(iconID));
+				PacketManager.serverTCPAll(ps, new Packets.ClientReady(iconID));
 			}
 		} else {
 

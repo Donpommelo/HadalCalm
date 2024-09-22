@@ -11,6 +11,7 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -114,7 +115,7 @@ public class Painter extends HubEvent {
 							ownPlayer.getCosmeticsHelper().setTeam(selected);
 							ownPlayer.getCosmeticsHelper().syncServerTeamChange(selected);
 						} else {
-							HadalGame.client.sendTCP(new PacketsLoadout.SyncTeamClient(selected));
+							PacketManager.clientTCP(new PacketsLoadout.SyncTeamClient(selected));
 						}
 						JSONManager.loadout.setTeam(HadalGame.usm.getOwnUser(), selected.toString());
 					}

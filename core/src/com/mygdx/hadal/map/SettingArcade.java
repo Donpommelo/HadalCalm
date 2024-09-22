@@ -10,6 +10,7 @@ import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -248,7 +249,7 @@ public class SettingArcade extends ModeSetting {
         if (state.isServer()) {
             if (readyUser != null && !readyUser.isSpectator()) {
                 readyUser.getScoreManager().setReady(true);
-                HadalGame.server.sendToAllTCP(new Packets.ClientReady(playerID));
+                PacketManager.serverTCPAll(state, new Packets.ClientReady(playerID));
             }
         } else {
             readyUser.getScoreManager().setReady(true);

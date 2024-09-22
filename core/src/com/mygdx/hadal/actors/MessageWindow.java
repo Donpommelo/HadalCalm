@@ -19,6 +19,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.TextFilterUtil;
@@ -195,7 +196,7 @@ public class MessageWindow {
 				} else {
 					//if this is a chat command, execute it.
 					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText())) {
-						HadalGame.client.sendTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
+						PacketManager.clientTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
 			}

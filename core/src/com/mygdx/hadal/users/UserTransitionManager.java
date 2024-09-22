@@ -8,6 +8,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -134,7 +135,7 @@ public class UserTransitionManager {
                     state.getTransitionManager().beginTransition(nextState, transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade());
                 }
             } else if (user.getConnID() > 0) {
-                HadalGame.server.sendToTCP(user.getConnID(), new Packets.ClientStartTransition(nextState,
+                PacketManager.serverTCP(user.getConnID(), new Packets.ClientStartTransition(nextState,
                         transition.getFadeSpeed(), transition.getFadeDelay(), transition.isSkipFade(), clientStartPosition));
             }
         }

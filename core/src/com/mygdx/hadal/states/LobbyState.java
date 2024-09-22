@@ -18,6 +18,7 @@ import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.FadeManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -537,7 +538,7 @@ public class LobbyState extends GameState {
                 tablePassword.remove();
                 tablePassword.setVisible(true);
 
-                HadalGame.client.sendTCP(new Packets.PlayerConnect(true, enterName.getText(), HadalGame.VERSION, enterPassword.getText()));
+                PacketManager.clientTCP(new Packets.PlayerConnect(true, enterName.getText(), HadalGame.VERSION, enterPassword.getText()));
             }
         });
 

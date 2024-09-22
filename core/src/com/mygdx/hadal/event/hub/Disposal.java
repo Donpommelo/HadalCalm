@@ -13,6 +13,7 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -75,7 +76,7 @@ public class Disposal extends HubEvent {
 							me.enter();
 							state.getUIManager().getUiExtra().syncUIText(UITag.uiType.CURRENCY);
 						} else {
-							HadalGame.client.sendTCP(new PacketsLoadout.SyncDisposalArtifact(artifact));
+							PacketManager.clientTCP(new PacketsLoadout.SyncDisposalArtifact(artifact));
 						}
 					}
 

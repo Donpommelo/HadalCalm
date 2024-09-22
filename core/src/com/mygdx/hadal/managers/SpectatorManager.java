@@ -56,7 +56,7 @@ public class SpectatorManager {
                 new Transition()
                         .setNextState(TransitionManager.TransitionState.SPECTATOR)
                         .setFadeDelay(SHORT_FADE_DELAY));
-        HadalGame.server.sendToTCP(user.getConnID(),
+        PacketManager.serverTCP(user.getConnID(),
                 new Packets.ClientStartTransition(TransitionState.SPECTATOR, DEFAULT_FADE_OUT_SPEED, SHORT_FADE_DELAY,
                         false, null));
 

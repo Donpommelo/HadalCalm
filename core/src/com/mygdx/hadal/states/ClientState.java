@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -169,7 +170,7 @@ public class ClientState extends PlayState {
 		latencyAccumulator += delta;
 		if (latencyAccumulator >= LATENCY_CHECK) {
 			latencyAccumulator = 0;
-			HadalGame.client.sendUDP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
+			PacketManager.clientUDP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
 		}
 
 		missedCreatesToRemove.clear();
