@@ -14,6 +14,7 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -51,9 +52,9 @@ public class Vending extends HubEvent {
 
 	@Override
 	public void enter() {
-		state.getUiHub().setType(type);
-		state.getUiHub().setTitle(title);
-		state.getUiHub().enter(this);
+		state.getUIManager().getUiHub().setType(type);
+		state.getUIManager().getUiHub().setTitle(title);
+		state.getUIManager().getUiHub().enter(this);
 		open = true;
 		addOptions(lastSearch, lastSlot, lastTag);
 	}
@@ -68,7 +69,7 @@ public class Vending extends HubEvent {
 			newTags.add(tag);
 		}
 
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 
 		for (String c : artifacts) {
 			final UnlockArtifact selected = UnlockArtifact.getByName(c);
@@ -88,9 +89,9 @@ public class Vending extends HubEvent {
 
 						me.leave();
 						me.enter();
-						state.getUiExtra().syncUIText(UITag.uiType.CURRENCY);
+						state.getUIManager().getUiExtra().syncUIText(UITag.uiType.CURRENCY);
 					} else {
-						HadalGame.client.sendTCP(new PacketsLoadout.SyncVendingArtifact(selected));
+						PacketManager.clientTCP(new PacketsLoadout.SyncVendingArtifact(selected));
 					}
 				}
 
@@ -155,13 +156,13 @@ public class Vending extends HubEvent {
 			if (state.isServer()) {
 				HadalGame.usm.getOwnUser().getScoreManager().setCurrency(HadalGame.usm.getOwnUser().getScoreManager().getCurrency() - REFRESH_COST_CURRENT);
 			} else {
-				HadalGame.client.sendTCP(new PacketsLoadout.SyncVendingScrapSpend(REFRESH_COST_CURRENT));
+				PacketManager.clientTCP(new PacketsLoadout.SyncVendingScrapSpend(REFRESH_COST_CURRENT));
 			}
 
 			HadalGame.usm.getOwnUser().setScoreUpdated(true);
 			setChoices();
 			enter();
-			state.getUiHub().refreshHub(this);
+			state.getUIManager().getUiHub().refreshHub(this);
 
 			REFRESH_COST_CURRENT += REFRESH_COST_GROWTH;
 		}
@@ -176,7 +177,7 @@ public class Vending extends HubEvent {
 				user.getPlayer().getArtifactHelper().addArtifact(selected, true, false);
 
 				String playerName = TextUtil.getPlayerColorName(user.getPlayer(), MAX_NAME_LENGTH);
-				state.getKillFeed().addNotification(UIText.VENDING_PURCHASE.text(playerName, selected.getName()), true);
+				state.getUIManager().getKillFeed().addNotification(UIText.VENDING_PURCHASE.text(playerName, selected.getName()), true);
 			}
 		}
 	}

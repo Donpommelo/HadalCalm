@@ -126,7 +126,7 @@ public class TrickorTreatBucket extends Event {
                 ((ClientState) state).addEntity(fire.getEntityID(), fire, false, ClientState.ObjectLayer.EFFECT);
             }
 
-            state.getUiObjective().addObjective(this, Sprite.CANDY_BUCKET, color,true, false, true);
+            state.getUIManager().getUiObjective().addObjective(this, Sprite.CANDY_BUCKET, color,true, false, true);
             lightSet = true;
         }
     }

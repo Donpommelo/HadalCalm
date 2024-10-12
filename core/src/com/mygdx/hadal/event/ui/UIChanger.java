@@ -35,7 +35,7 @@ public class UIChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.getUiExtra().changeTypes(types, changeType);
+				state.getUIManager().getUiExtra().changeTypes(types, changeType);
 			}
 		};
 	}

@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -84,7 +85,7 @@ public class EventData extends HadalData {
 				if (p.equals(HadalGame.usm.getOwnPlayer())) {
 					onActivate(activator, p);
 				} else if (event.getState().isServer()) {
-					HadalGame.server.sendToTCP(p.getUser().getConnID(), getActivationPacket(p));
+					PacketManager.serverTCP(p.getUser().getConnID(), getActivationPacket(p));
 				}
 			}
 			break;
@@ -103,7 +104,7 @@ public class EventData extends HadalData {
 				if (!event.getState().isServer()) {
 					echoActivation(p);
 				} else {
-					HadalGame.server.sendToAllExceptTCP(p.getUser().getConnID(), getActivationPacket(p));
+					PacketManager.serverTCPAllExcept(p.getUser().getConnID(), getActivationPacket(p));
 				}
 			}
 			onActivate(activator, p);
@@ -116,9 +117,9 @@ public class EventData extends HadalData {
 	 */
 	private void echoActivation(Player p) {
 		if (event.getState().isServer()) {
-			HadalGame.server.sendToAllTCP(getActivationPacket(p));
+			PacketManager.serverTCPAll(getActivationPacket(p));
 		} else {
-			HadalGame.client.sendTCP(getActivationPacket(p));
+			PacketManager.clientTCP(getActivationPacket(p));
 		}
 	}
 

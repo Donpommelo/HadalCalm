@@ -40,9 +40,9 @@ public class Dialog extends Event {
 					String dialogId = id[MathUtils.random(id.length - 1)];
 					
 					if (event.getConnectedEvent() != null) {
-						state.getDialogBox().addDialogue(dialogId, this, event.getConnectedEvent().getEventData(), DialogType.valueOf(type));
+						state.getUIManager().getDialogBox().addDialogue(dialogId, this, event.getConnectedEvent().getEventData(), DialogType.valueOf(type));
 					} else {
-						state.getDialogBox().addDialogue(dialogId, this, null, DialogType.valueOf(type));
+						state.getUIManager().getDialogBox().addDialogue(dialogId, this, null, DialogType.valueOf(type));
 					}
 				}
 			}

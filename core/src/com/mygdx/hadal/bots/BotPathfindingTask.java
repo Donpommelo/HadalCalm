@@ -45,7 +45,7 @@ public record BotPathfindingTask(BotController controller, Vector2 playerLocatio
                     break;
                 }
                 if (null != prospectivePath) {
-                    if (targetDistance < bestTargetDistance || -1.0f == bestTargetDistance) {
+                    if (targetDistance < bestTargetDistance) {
                         prospectivePath = tempPath;
                         bestTargetDistance = targetDistance;
                     }

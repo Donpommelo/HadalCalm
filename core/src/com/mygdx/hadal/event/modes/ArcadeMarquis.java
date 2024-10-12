@@ -11,6 +11,7 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.map.ArcadeMode;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -38,7 +39,7 @@ public class ArcadeMarquis extends Event {
         super(state, startPos, size);
 
         if (state.isServer()) {
-            initializeChoices();
+            initializeChoices(state);
         }
     }
 
@@ -58,7 +59,7 @@ public class ArcadeMarquis extends Event {
         FONT_UI.draw(batch, text.toString(), entityLocation.x, entityLocation.y);
     }
 
-    private static void initializeChoices() {
+    private static void initializeChoices(PlayState state) {
         modeChoices.clear();
         mapChoices.clear();
 
@@ -84,7 +85,7 @@ public class ArcadeMarquis extends Event {
             mapNames[i] = mapChoices.get(i).name();
         }
 
-        HadalGame.server.sendToAllTCP(new Packets.SyncArcadeModeChoices(modeNames, mapNames));
+        PacketManager.serverTCPAll(new Packets.SyncArcadeModeChoices(modeNames, mapNames));
     }
 
     private static final HashMap<Integer, Integer> voteCounts = new HashMap<>();
@@ -129,7 +130,7 @@ public class ArcadeMarquis extends Event {
         if (state.isServer()) {
             user.getScoreManager().setNextRoundVote(vote);
         } else {
-            HadalGame.client.sendTCP(new Packets.SyncClientModeVote(vote));
+            PacketManager.clientTCP(new Packets.SyncClientModeVote(vote));
         }
     }
 

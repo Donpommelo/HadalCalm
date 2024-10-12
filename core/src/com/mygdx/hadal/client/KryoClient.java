@@ -14,6 +14,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
@@ -22,26 +23,27 @@ import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
 import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.StateManager;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.server.*;
-import com.mygdx.hadal.users.ScoreManager;
-import com.mygdx.hadal.users.User;
-import com.mygdx.hadal.users.User.UserDto;
+import com.mygdx.hadal.server.AlignmentFilter;
+import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.states.PlayState.ObjectLayer;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.users.User.UserDto;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -92,7 +94,7 @@ public class KryoClient {
 
 		usm.resetUsers();
 
-        registerPackets();
+		PacketManager.clientPackets(client);
 
         packetListener = new Listener() {
         	
@@ -101,7 +103,7 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                sendTCP(new Packets.PlayerConnect(true, JSONManager.loadout.getName(), HadalGame.VERSION, null));
+				PacketManager.clientTCP(new Packets.PlayerConnect(true, JSONManager.loadout.getName(), HadalGame.VERSION, null));
                 usm.setConnID(c.getID());
 				usm.getUsers().put(c.getID(), new User(c.getID(), JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 
@@ -121,7 +123,7 @@ public class KryoClient {
 
 						//If our client state is still here, the server closed
 						addNotification(cs, "", UIText.DISCONNECTED.text(), false, DialogType.SYSTEM);
-						cs.returnToTitle(1.0f);
+						cs.getTransitionManager().returnToTitle(1.0f);
 					} else {
 						StateManager.removeState(ResultsState.class);
 						StateManager.removeState(SettingState.class, false);
@@ -209,7 +211,7 @@ public class KryoClient {
 
 					//refresh hub because vending updates currency
 					if (p.connID == usm.getConnID()) {
-						cs.getUiHub().refreshHub(null);
+						cs.getUIManager().getUiHub().refreshHub(null);
 					}
 				});
 			}
@@ -340,7 +342,7 @@ public class KryoClient {
 
 			//we must set the playstate's next state so that other transitions (respawns) do not override this transition
 			if (null != cs) {
-				cs.setNextState(TransitionState.NEWLEVEL);
+				cs.getTransitionManager().setNextState(TransitionState.NEWLEVEL);
 			}
 			Gdx.app.postRunnable(() -> {
 				FadeManager.fadeOut();
@@ -350,7 +352,7 @@ public class KryoClient {
 					StateManager.removeState(AboutState.class, false);
 					StateManager.removeState(PauseState.class, false);
 
-					boolean spectator = null != cs && cs.isSpectatorMode();
+					boolean spectator = null != cs && cs.getSpectatorManager().isSpectatorMode();
 					StateManager.removeState(ClientState.class, false);
 
 					//set mode settings according to what the server sends
@@ -361,7 +363,7 @@ public class KryoClient {
 					}
 
 					StateManager.addClientPlayState(app, p.level, p.mode, LobbyState.class);
-					HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
+					PacketManager.clientTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});
 			});
@@ -373,7 +375,7 @@ public class KryoClient {
 		 */
 		else if (o instanceof Packets.ServerLoaded) {
 			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, JSONManager.loadout.getName(), HadalGame.VERSION, null);
-			sendTCP(connected);
+			PacketManager.clientTCP(connected);
 		}
 
 		/*
@@ -384,7 +386,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-						cs.beginTransition(p.state, p.fadeSpeed, p.fadeDelay, p.skipFade);
+						cs.getTransitionManager().beginTransition(p.state, p.fadeSpeed, p.fadeDelay, p.skipFade);
 						if (null != p.startPosition) {
 							cs.getCameraManager().setCameraPosition(p.startPosition);
 							cs.getCameraManager().setCameraTarget(p.startPosition);
@@ -429,7 +431,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.SyncNotification p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getKillFeed().addNotification(p.message, false));
+				cs.addPacketEffect(() -> cs.getUIManager().getKillFeed().addNotification(p.message, false));
 			}
 		}
 
@@ -439,7 +441,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.ServerChat p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getMessageWindow().addText(p.text, p.type, p.connID));
+				cs.addPacketEffect(() -> cs.getUIManager().getMessageWindow().addText(p.text, p.type, p.connID));
 			}
 		}
 
@@ -463,7 +465,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					JSONManager.hostSetting = p.settings;
-					cs.getScoreWindow().syncSettingTable();
+					cs.getUIManager().getScoreWindow().syncSettingTable();
 				});
 			}
 		}
@@ -491,7 +493,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					User user = usm.getUsers().get(p.connID);
-					if (null != user && null != cs) {
+					if (null != user) {
 						Player player = user.getPlayer();
 						if (null != player) {
 							if (null != player.getPlayerData()) {
@@ -512,7 +514,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					User user = usm.getUsers().get(p.connID);
-					if (null != user && null != cs) {
+					if (null != user) {
 						Player player = user.getPlayer();
 						if (null != player) {
 							if (null != player.getPlayerData()) {
@@ -521,8 +523,8 @@ public class KryoClient {
                                     case PacketsLoadout.SyncArtifactServer s -> {
                                         player.getArtifactHelper().syncArtifact(s.artifact, true, s.save);
 										if (user.equals(usm.getOwnUser())) {
-											cs.getUiHub().refreshHub(null);
-											cs.getUiHub().refreshHubOptions();
+											cs.getUIManager().getUiHub().refreshHub(null);
+											cs.getUIManager().getUiHub().refreshHubOptions();
 										}
 									}
                                     case PacketsLoadout.SyncActiveServer s ->
@@ -550,9 +552,9 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					AlignmentFilter.currentTeams = p.teams;
 					AlignmentFilter.teamScores = p.scores;
-					cs.getUiExtra().setMaxTimer(p.maxTimer);
-					cs.getUiExtra().setTimer(p.timer);
-					cs.getUiExtra().setTimerIncr(p.timerIncr);
+					cs.getTimerManager().setMaxTimer(p.maxTimer);
+					cs.getTimerManager().setTimer(p.timer);
+					cs.getTimerManager().setTimerIncr(p.timerIncr);
 				});
 			}
 		}
@@ -564,7 +566,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.SyncObjectiveMarker p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.getUiObjective()
+				cs.addPacketEffect(() -> cs.getUIManager().getUiObjective()
 						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen,
 								p.displayOnScreen, p.displayClearCircle));
 			}
@@ -585,7 +587,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 
-					cs.setResultsText(p.resultsText);
+					cs.getEndgameManager().setResultsText(p.resultsText);
 
 					//temporarily store user info so we can attach old player to updated user
 					ObjectMap<Integer, User> usersTemp = new ObjectMap<>(usm.getUsers());
@@ -618,7 +620,7 @@ public class KryoClient {
 		else if (o instanceof Packets.ClientYeet) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.returnToTitle(0.0f);
+				cs.getTransitionManager().returnToTitle(0.0f);
 			}
 		}
 	}
@@ -871,7 +873,7 @@ public class KryoClient {
 					enemy.setBoss(p.boss);
 					if (p.boss) {
 						enemy.setName(p.name);
-						cs.setBoss(enemy);
+						cs.getUIManager().setBoss(enemy);
 					}
 				});
 			}
@@ -907,7 +909,7 @@ public class KryoClient {
 					//(needed since user filters are not consistent between server/client)
 					short hitboxFilterOverride = p.pvpOverride ? user.getHitboxFilter().getFilter() : p.hitboxFilter;
 
-					Player newPlayer = cs.createPlayer(event, p.name, p.loadout, null, user,
+					Player newPlayer = cs.getSpawnManager().createPlayer(event, p.name, p.loadout, null, user,
 							true, p.connID == usm.getConnID(), hitboxFilterOverride);
 
 					newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
@@ -1080,28 +1082,11 @@ public class KryoClient {
 	 * @param cs: Client's current clientstate
 	 * @param name: name giving the notification
 	 * @param text: notification text
-	 * @param override: ncan this notification be overridden by other notifications
+	 * @param override: can this notification be overridden by other notifications
 	 * @param type: the type of dialog (system message, story dialog, etc)
 	 */
 	public void addNotification(ClientState cs, String name, String text, boolean override, DialogType type) {
-		cs.getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
-	}
-
-	private void registerPackets() {
-		Kryo kryo = client.getKryo();
-		Packets.allPackets(kryo);
-	}
-	
-	public void sendTCP(Object p) {
-		if (null != client) {
-			client.sendTCP(p);
-		}
-	}
-	
-	public void sendUDP(Object p) {
-		if (null != client) {
-			client.sendUDP(p);
-		}
+		cs.getUIManager().getDialogBox().addDialogue(name, text, "", true, override, true, 3.0f, null, null, type);
 	}
 
 	public void dispose() throws IOException {

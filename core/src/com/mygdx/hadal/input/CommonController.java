@@ -2,8 +2,8 @@ package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingArcade;
@@ -48,13 +48,13 @@ public class CommonController extends InputAdapter {
 		} else if (keycode == PlayerAction.CHAT_WHEEL.getKey()) {
 			keyUp(PlayerAction.CHAT_WHEEL);
 		} else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
-			if (state.isSpectatorMode()) {
-				state.getUiSpectator().toggleSpectatorUI();
+			if (state.getSpectatorManager().isSpectatorMode()) {
+				state.getUIManager().getUiSpectator().toggleSpectatorUI();
 			}
 		} else if (keycode == Input.Buttons.RIGHT) {
-			if (state.getKillFeed() != null) {
-				if (state.isSpectatorMode() || state.getKillFeed().isRespawnSpectator()) {
-					state.getUiSpectator().findValidSpectatorTarget();
+			if (state.getUIManager().getKillFeed() != null) {
+				if (state.getSpectatorManager().isSpectatorMode() || state.getUIManager().getKillFeed().isRespawnSpectator()) {
+					state.getUIManager().getUiSpectator().findValidSpectatorTarget();
 				}
 			}
 		} else if (keycode == PlayerAction.READY_UP.getKey()) {
@@ -84,23 +84,23 @@ public class CommonController extends InputAdapter {
 
 				//clients bring up their own menu if pause is disabled and messages server otherwise
 				if (JSONManager.hostSetting.isMultiplayerPause()) {
-					HadalGame.client.sendTCP(new Packets.Paused(JSONManager.loadout.getName()));
+					PacketManager.clientTCP(new Packets.Paused(JSONManager.loadout.getName()));
 				} else {
 					StateManager.addPauseState(state, "", ClientState.class, false);
 				}
 			}
 		} else if (action == PlayerAction.MESSAGE_WINDOW) {
-			state.getMessageWindow().toggleWindow();
+			state.getUIManager().getMessageWindow().toggleWindow();
 		} else if (action == PlayerAction.SCORE_WINDOW) {
-			state.getScoreWindow().setVisibility(false);
+			state.getUIManager().getScoreWindow().setVisibility(false);
 		} else if (action == PlayerAction.CHAT_WHEEL) {
-			state.getChatWheel().setVisibility(false);
+			state.getUIManager().getChatWheel().setVisibility(false);
 		} else if (action == PlayerAction.READY_UP) {
 			if (state.getMode().equals(GameMode.ARCADE)) {
 				if (state.isServer()) {
 					SettingArcade.readyUp(state, 0);
 				} else {
-					HadalGame.client.sendTCP(new Packets.ClientReady());
+					PacketManager.clientTCP(new Packets.ClientReady());
 				}
 			}
 		}
@@ -108,7 +108,7 @@ public class CommonController extends InputAdapter {
 
 	public void keyDown(PlayerAction action) {
 		//when spectating, host interact activates the map's designated "spectator event", if existant
-		if (state.isServer() && state.isSpectatorMode()) {
+		if (state.isServer() && state.getSpectatorManager().isSpectatorMode()) {
 			if (action == PlayerAction.INTERACT) {
 				if (state.getSpectatorActivation() != null) {
 					state.getSpectatorActivation().getEventData().onInteract(null);
@@ -117,13 +117,13 @@ public class CommonController extends InputAdapter {
 		}
 
 		if (action == PlayerAction.DIALOGUE) {
-			if (state.getDialogBox() != null) {
-				state.getDialogBox().nextDialogue();
+			if (state.getUIManager().getDialogBox() != null) {
+				state.getUIManager().getDialogBox().nextDialogue();
 			}
 		} else if (action == PlayerAction.SCORE_WINDOW) {
-			state.getScoreWindow().setVisibility(true);
+			state.getUIManager().getScoreWindow().setVisibility(true);
 		} else if (action == PlayerAction.CHAT_WHEEL) {
-			state.getChatWheel().setVisibility(true);
+			state.getUIManager().getChatWheel().setVisibility(true);
 		}
 	}
 

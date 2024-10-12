@@ -2,7 +2,6 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -10,8 +9,7 @@ import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -79,7 +77,7 @@ public class ClientState extends PlayState {
 		addEntity(getAnchor().getEntityID(), getAnchor(), false, ObjectLayer.STANDARD);
 		addEntity(getWorldDummy().getEntityID(), getWorldDummy(), false, ObjectLayer.STANDARD);
 	}
-	
+
 	@Override
 	public void resetController() {
 
@@ -171,7 +169,7 @@ public class ClientState extends PlayState {
 		latencyAccumulator += delta;
 		if (latencyAccumulator >= LATENCY_CHECK) {
 			latencyAccumulator = 0;
-			HadalGame.client.sendUDP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
+			PacketManager.clientUDP(new Packets.LatencySyn((int) (latency * 1000), clientPingTimer));
 		}
 
 		missedCreatesToRemove.clear();
@@ -229,89 +227,11 @@ public class ClientState extends PlayState {
 				}
 			}
 			if (changeMade) {
-				scoreWindow.syncScoreTable();
+				getUIManager().getScoreWindow().syncScoreTable();
 			}
 		}
 	}
-	
-	@Override
-	public void renderEntities() {
-		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
-			for (HadalEntity entity : m.values()) {
-				renderEntity(entity);
-			}
-		}
-		renderShadedEntities();
-	}
-	
-	@Override
-	public void transitionState() {
-		switch (nextState) {
-		case RESPAWN:
-			FadeManager.fadeIn();
-			spectatorMode = false;
-			
-			//Make nextState null so we can transition again
-			nextState = null;
-			break;
-		case RESULTS:
 
-			//create snapshot to use for transition to results state
-			FrameBuffer fbo = resultsStateFreeze();
-
-			//immediately transition to the results screen
-			StateManager.removeState(SettingState.class, false);
-			StateManager.removeState(AboutState.class, false);
-			StateManager.removeState(PauseState.class, false);
-			StateManager.removeState(ClientState.class, false);
-			StateManager.addResultsState(this, resultsText, LobbyState.class, fbo);
-			StateManager.addResultsState(this, resultsText, TitleState.class, fbo);
-			break;
-		case SPECTATOR:
-			//When ded but other players alive, spectate a player
-			FadeManager.fadeIn();
-
-			setSpectatorMode();
-
-			//sometimes, the client can miss the server's delete packet. if so, delete own player automatically
-			if (HadalGame.usm.getOwnPlayer() != null) {
-				if (HadalGame.usm.getOwnPlayer().isAlive()) {
-					removeEntity(HadalGame.usm.getOwnPlayer().getEntityID());
-				}
-			}
-			
-			//Make nextState null so we can transition again
-			nextState = null;
-			break;
-		case NEWLEVEL:
-		case NEXTSTAGE:
-			//In these cases, we wait for the server to create a new playstate in which we connect again
-			StateManager.removeState(SettingState.class, false);
-			StateManager.removeState(AboutState.class, false);
-			StateManager.removeState(PauseState.class, false);
-			break;
-		case TITLE:
-			StateManager.removeState(ResultsState.class);
-			StateManager.removeState(SettingState.class, false);
-			StateManager.removeState(AboutState.class, false);
-			StateManager.removeState(PauseState.class, false);
-			StateManager.removeState(ClientState.class);
-
-			//add a notification to the title state if specified in transition state
-			if (!StateManager.states.isEmpty()) {
-				if (StateManager.states.peek() instanceof TitleState titleState) {
-					titleState.setNotification(resultsText);
-				}
-				if (StateManager.states.peek() instanceof LobbyState lobbyState) {
-					lobbyState.setNotification(resultsText);
-				}
-			}
-			break;
-		default:
-			break;
-		}	
-	}
-	
 	/**
 	 * This is called whenever the client is told to add an object to its world.
 	 * @param entityID: The uuid of the entity
@@ -417,7 +337,9 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void create(HadalEntity entity) {}
-	
+
+	public Array<OrderedMap<UUID, HadalEntity>> getEntityListsClient() { return entityLists; }
+
 	public float getLatency() { return latency; }
 
 	public Vector3 getMousePosition() { return mousePosition; }

@@ -95,7 +95,7 @@ public class SpawnerSchmuck extends Event {
 			
 			//if a boss was defeated, tell the ui to clear the boss hp bar from the ui
 			if (boss) {
-				state.clearBoss();
+				state.getUIManager().clearBoss();
 			}
 		}
 	}

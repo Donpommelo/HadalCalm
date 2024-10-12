@@ -7,6 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
@@ -111,9 +112,9 @@ public class PlayerBodyData extends BodyData {
 		if (player.getUser().equals(HadalGame.usm.getOwnUser()) && damage > 0.0f) {
 			CameraUtil.inflictTrauma(damage, this);
 		}
-		if (player.getState().getKillFeed() != null) {
-			if (player.getState().isSpectatorMode() || player.getState().getKillFeed().isRespawnSpectator()) {
-				if (player.equals(player.getState().getUiSpectator().getSpectatorTarget()) && damage > 0.0f) {
+		if (player.getState().getUIManager().getKillFeed() != null) {
+			if (player.getState().getSpectatorManager().isSpectatorMode() || player.getState().getUIManager().getKillFeed().isRespawnSpectator()) {
+				if (player.equals(player.getState().getUIManager().getUiSpectator().getSpectatorTarget()) && damage > 0.0f) {
 					CameraUtil.inflictTrauma(damage, this);
 				}
 			}
@@ -139,11 +140,11 @@ public class PlayerBodyData extends BodyData {
 			//process kill feed messages (unless "dead" player is just disconnected)
 			if (type != DespawnType.TELEPORT) {
 				if (perp instanceof PlayerBodyData playerData) {
-					player.getState().getKillFeed().addMessage(playerData.getPlayer(), player, null, source, tags);
+					player.getState().getUIManager().getKillFeed().addMessage(playerData.getPlayer(), player, null, source, tags);
 				} else if (perp.getSchmuck() instanceof Enemy enemyData) {
-					player.getState().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), source, tags);
+					player.getState().getUIManager().getKillFeed().addMessage(null, player, enemyData.getEnemyType(), source, tags);
 				} else {
-					player.getState().getKillFeed().addMessage(null, player, null, source, tags);
+					player.getState().getUIManager().getKillFeed().addMessage(null, player, null, source, tags);
 				}
 			}
 
@@ -151,7 +152,7 @@ public class PlayerBodyData extends BodyData {
 			if (!player.getState().isServer() && this.getPlayer() instanceof PlayerSelfOnClient) {
 				player.setAlive(false);
 				((ClientState) player.getState()).removeEntity(player.getEntityID());
-				HadalGame.client.sendTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source, tags));
+				PacketManager.clientTCP(new Packets.DeleteClientSelf(perp.getSchmuck().getEntityID(), source, tags));
 			}
 			
 			//run the unequip method for current weapon (certain weapons need this to stop playing a sound)

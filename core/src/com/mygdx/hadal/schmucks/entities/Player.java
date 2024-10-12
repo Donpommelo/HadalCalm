@@ -13,6 +13,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.input.PlayerController;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.helpers.*;
@@ -255,7 +256,7 @@ public class Player extends Schmuck {
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
 		if (!state.isServer() && this.equals(HadalGame.usm.getOwnPlayer())) {
 			Packets.ClientPlayerCreated connected = new Packets.ClientPlayerCreated();
-            HadalGame.client.sendTCP(connected);
+			PacketManager.clientTCP(connected);
 		}
 		
 		//activate start point events (these usually just set up camera bounds/zoom and stuff like that)
@@ -392,7 +393,7 @@ public class Player extends Schmuck {
 		boolean visible = false;
 		
 		//draw hp and fuel bar if using certain effects, looking at self/ally, or in spectator mode
-		if (state.isSpectatorMode() || user.getHitboxFilter() == HadalGame.usm.getOwnUser().getHitboxFilter()) {
+		if (state.getSpectatorManager().isSpectatorMode() || user.getHitboxFilter() == HadalGame.usm.getOwnUser().getHitboxFilter()) {
 			visible = true;
 		} else {
 			if (null != HadalGame.usm.getOwnPlayer()) {
@@ -444,7 +445,7 @@ public class Player extends Schmuck {
 	public void onServerSync() {
 
 		short conditionCode = getConditionCode();
-		HadalGame.server.sendToAllUDP(new PacketsSync.SyncPlayerSnapshot((byte) user.getConnID(),
+		PacketManager.serverUDPAll(new PacketsSync.SyncPlayerSnapshot((byte) user.getConnID(),
 				getPosition(), getLinearVelocity(),	mouseHelper.getPosition(),
 				state.getTimer(), moveState,
 				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),

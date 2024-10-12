@@ -16,6 +16,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.hub.HubEvent;
 import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -385,7 +386,7 @@ public class UIHub {
 							if (state.isServer()) {
 								ownPlayer.getArtifactHelper().removeArtifact(newTag.getArtifact(), false);
 							} else {
-								HadalGame.client.sendTCP(new PacketsLoadout.SyncArtifactRemoveClient(newTag.getArtifact()));
+								PacketManager.clientTCP(new PacketsLoadout.SyncArtifactRemoveClient(newTag.getArtifact()));
 							}
 							refreshHub(hub);
 						}

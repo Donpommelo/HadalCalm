@@ -1,6 +1,6 @@
 package com.mygdx.hadal.users;
 
-import com.mygdx.hadal.states.PlayState.TransitionState;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 
 /**
  * A Transition represents a single instance of a player transitioning to another state.

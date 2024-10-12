@@ -36,7 +36,7 @@ public class End extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.levelEnd(text, victory, incrementWins, DEFAULT_FADE_DELAY);
+				state.getEndgameManager().levelEnd(text, victory, incrementWins, DEFAULT_FADE_DELAY);
 			}
 		};
 	}

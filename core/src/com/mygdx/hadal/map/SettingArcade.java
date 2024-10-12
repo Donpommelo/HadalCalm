@@ -10,6 +10,8 @@ import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -144,7 +146,7 @@ public class SettingArcade extends ModeSetting {
         int startTimer = JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_BREAK_TIME);
 
         if (startTimer != 0) {
-            state.getUiExtra().changeTimer(indexToTimer(startTimer), -1.0f);
+            state.getTimerManager().changeTimer(indexToTimer(startTimer), -1.0f);
         }
 
         RectangleMapObject end = new RectangleMapObject();
@@ -207,8 +209,8 @@ public class SettingArcade extends ModeSetting {
             int vote = ArcadeMarquis.getVotedOption();
             currentMode = ArcadeMarquis.getModeChoices().get(vote);
 
-            state.setNextLevel(ArcadeMarquis.getMapChoices().get(vote));
-            state.setNextMode(currentMode.getMode());
+            state.getTransitionManager().setNextLevel(ArcadeMarquis.getMapChoices().get(vote));
+            state.getTransitionManager().setNextMode(currentMode.getMode());
         } else {
             if (roundNum != 0 && currentRound > roundNum && endArcadeMode(state)) {
                 return;
@@ -223,8 +225,8 @@ public class SettingArcade extends ModeSetting {
                 if (winCap != 0 && winCapReached && endArcadeMode(state)) {
                     return;
                 } else {
-                    state.setNextLevel(UnlockLevel.HUB_BREAK);
-                    state.setNextMode(GameMode.ARCADE);
+                    state.getTransitionManager().setNextLevel(UnlockLevel.HUB_BREAK);
+                    state.getTransitionManager().setNextMode(GameMode.ARCADE);
                     for (User user : HadalGame.usm.getUsers().values()) {
                         user.getScoreManager().setCurrency(user.getScoreManager().getCurrency() +
                                 indexToRoundCurrency(JSONManager.setting.getModeSetting(mode, SettingSave.ARCADE_CURRENCY_ROUND)));
@@ -235,7 +237,7 @@ public class SettingArcade extends ModeSetting {
 
         for (User user : HadalGame.usm.getUsers().values()) {
             user.getTransitionManager().beginTransition(state, new Transition()
-                    .setNextState(PlayState.TransitionState.NEWLEVEL)
+                    .setNextState(TransitionState.NEWLEVEL)
                     .setFadeSpeed(SLOW_FADE_OUT_SPEED)
                     .setFadeDelay(MEDIUM_FADE_DELAY)
                     .setOverride(true));
@@ -247,7 +249,7 @@ public class SettingArcade extends ModeSetting {
         if (state.isServer()) {
             if (readyUser != null && !readyUser.isSpectator()) {
                 readyUser.getScoreManager().setReady(true);
-                HadalGame.server.sendToAllTCP(new Packets.ClientReady(playerID));
+                PacketManager.serverTCPAll(new Packets.ClientReady(playerID));
             }
         } else {
             readyUser.getScoreManager().setReady(true);
@@ -263,11 +265,11 @@ public class SettingArcade extends ModeSetting {
         if (reddy && state.isServer()) {
             int vote = ArcadeMarquis.getVotedOption();
             currentMode = ArcadeMarquis.getModeChoices().get(vote);
-            state.loadLevel(ArcadeMarquis.getMapChoices().get(vote), currentMode.getMode(),
-                    PlayState.TransitionState.NEWLEVEL, "");
+            state.getTransitionManager().loadLevel(ArcadeMarquis.getMapChoices().get(vote), currentMode.getMode(),
+                    TransitionState.NEWLEVEL, "");
         }
 
-        state.getUiExtra().syncUIText(UITag.uiType.WINBOARD);
+        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.WINBOARD);
     }
 
     public static void addNewUser(ScoreManager score) {
@@ -297,8 +299,8 @@ public class SettingArcade extends ModeSetting {
             }
 
             //need to set this boolean so the state can end, since levelEnd() was called to process arcade ending
-            state.setLevelEnded(false);
-            state.levelEnd(ResultsState.MAGIC_WORD, false, true, DEFAULT_FADE_DELAY);
+            state.getEndgameManager().setLevelEnded(false);
+            state.getEndgameManager().levelEnd(ResultsState.MAGIC_WORD, false, true, DEFAULT_FADE_DELAY);
             return true;
         }
         overtime = true;

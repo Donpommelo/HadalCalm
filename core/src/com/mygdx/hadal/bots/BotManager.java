@@ -1,5 +1,6 @@
 package com.mygdx.hadal.bots;
 
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
@@ -43,7 +44,7 @@ public class BotManager {
             if (0 > user.getConnID()) {
                 user.getTransitionManager().beginTransition(state,
                         new Transition()
-                                .setNextState(PlayState.TransitionState.RESPAWN)
+                                .setNextState(TransitionState.RESPAWN)
                                 .setFadeDelay(LONG_FADE_DELAY)
                                 .setFadeSpeed(0.0f)
                                 .setForewarnTime(LONG_FADE_DELAY)

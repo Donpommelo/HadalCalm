@@ -4,6 +4,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
@@ -62,7 +63,7 @@ public class ModeMatryoshka extends ModeSetting {
                         //we don't want players to respawn instantly if they die by falling
                         user.getTransitionManager().beginTransition(state,
                                 new Transition()
-                                        .setNextState(PlayState.TransitionState.RESPAWN)
+                                        .setNextState(TransitionState.RESPAWN)
                                         .setFadeDelay(state.getRespawnTime(vic))
                                         .setOverride(true));
                     }

@@ -41,13 +41,7 @@ public class UIExtra extends AHadalActor {
 	
 	//List of tags that are to be displayed
 	private final Array<UITag> uiTags = new Array<>();
-	
-	//Timer is used for timed scripted events. timerIncr is how much the timer should tick every update cycle (usually -1, 0 or 1)
-	private float maxTimer, timer, timerIncr;
 
-	//this is the displayed time
-	private int currentTimer;
-	private String displayedTimer;
 	private short viewingUserTeam;
 
 	private final TextureRegion hpBar, hpBarFade;
@@ -82,14 +76,14 @@ public class UIExtra extends AHadalActor {
 	 * In team modes, this renders ally hp bars in the upper right hand side of the screen
 	 */
 	private void renderTeamHp(Batch batch, short viewingUserTeam) {
-		if (null == state.getScoreWindow()) { return; }
+		if (null == state.getUIManager().getScoreWindow()) { return; }
 		if (SettingTeamMode.TeamMode.FFA == state.getMode().getTeamMode()) { return; }
 
 		float currentY = HadalGame.CONFIG_HEIGHT - START_Y_EXTRA;
 		int allyNumber = 0;
 
 		//iterate through each non-spectator on the same team
-		for (User user : state.getScoreWindow().getOrderedUsers()) {
+		for (User user : state.getUIManager().getScoreWindow().getOrderedUsers()) {
 			if (!user.isSpectator() && null != user.getPlayer()) {
 				if (null != user.getPlayer().getPlayerData() &&
 						(!user.equals(HadalGame.usm.getOwnUser()) || SettingArcade.arcade)) {
@@ -143,9 +137,9 @@ public class UIExtra extends AHadalActor {
 
 		//if we are spectating another player, we want to ui to match the spectate target instead of ourselves
 		boolean spectatorFound = false;
-		if (state.isSpectatorMode()) {
-			if (null != state.getUiSpectator().getSpectatorTarget()) {
-				user = state.getUiSpectator().getSpectatorTarget().getUser();
+		if (state.getSpectatorManager().isSpectatorMode()) {
+			if (null != state.getUIManager().getUiSpectator().getSpectatorTarget()) {
+				user = state.getUIManager().getUiSpectator().getSpectatorTarget().getUser();
 				spectatorFound = true;
 			}
 		}
@@ -214,58 +208,6 @@ public class UIExtra extends AHadalActor {
 		return tags.toString();
 	}
 
-	/**
-	 * Change the game timer settings
-	 * @param timerSet: This sets the time to a designated amount
-	 * @param timerIncrement: This sets the amount of time that changes each second (usually -1, 0 or 1)
-	 */
-	public void changeTimer(float timerSet, float timerIncrement) {
-		maxTimer = timerSet;
-		timer = timerSet;
-		timerIncr = timerIncrement;
-
-		syncUIText(uiType.TIMER);
-	}
-
-	//display a time warning when the time is low
-	private final static float NOTIFICATION_THRESHOLD = 10.0f;
-	/**
-	 * This increments the timer for timed levels. When time runs out, we want to run an event designated in the map (if it exists)
-	 * @param delta: amount of time that has passed since last update
-	 */
-	public void incrementTimer(float delta) {
-
-		if (timer > NOTIFICATION_THRESHOLD && timer + (timerIncr * delta) < NOTIFICATION_THRESHOLD) {
-			state.getKillFeed().addNotification(UIText.TIMER_REMAINING.text(), false);
-		}
-
-		timer += (timerIncr * delta);
-
-		//timer text changes after a whole second passes
-		if ((int) timer != currentTimer) {
-			currentTimer = (int) timer;
-
-			//convert the time to minutes:seconds
-			int seconds = currentTimer % 60;
-
-			//this makes the timer have the same number of characters whether the seconds amount is 1 or 2 digits
-			if (10 > seconds) {
-				displayedTimer = currentTimer / 60 + ": 0" + seconds;
-			} else {
-				displayedTimer = currentTimer / 60 + ": " + seconds;
-			}
-			syncUIText(uiType.TIMER);
-		}
-
-		//upon timer running out, a designated event activates.
-		if (0 >= timer && 0 > timerIncr) {
-			if (null != state.getGlobalTimer()) {
-				state.getGlobalTimer().getEventData().preActivate(null, null);
-				timerIncr = 0;
-			}
-		}
-	}
-
 	private static final int MAX_SCORES = 5;
 	private static final int MAX_CHARACTERS = 26;
 	/**
@@ -273,9 +215,9 @@ public class UIExtra extends AHadalActor {
 	 * @param text: the stringbuilder we will be appending the scoreboard text to
 	 */
 	public void sortIndividualScores(StringBuilder text) {
-		if (state.getScoreWindow() != null) {
+		if (state.getUIManager().getScoreWindow() != null) {
 			int scoreNum = 0;
-			for (User user : state.getScoreWindow().getOrderedUsers()) {
+			for (User user : state.getUIManager().getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
 					text.append(user.getStringManager().getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ")
 							.append(alignScoreText(user.getStringManager().getNameShort(), String.valueOf(user.getScoreManager().getScore()),
@@ -311,8 +253,8 @@ public class UIExtra extends AHadalActor {
 	}
 
 	public void sortWins(StringBuilder text) {
-		if (state.getScoreWindow() != null) {
-			for (User user : state.getScoreWindow().getOrderedUsers()) {
+		if (state.getUIManager().getScoreWindow() != null) {
+			for (User user : state.getUIManager().getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
 					text.append(user.getStringManager().getNameAbridgedColored(MAX_NAME_LENGTH_SHORT)).append(": ")
 							.append(alignScoreText(user.getStringManager().getNameShort(), String.valueOf(user.getScoreManager().getWins()),
@@ -327,11 +269,11 @@ public class UIExtra extends AHadalActor {
 	 * This iterates through each team and gets the number of players on that team that are currently alive
 	 */
 	public void sortTeamAlive(StringBuilder text) {
-		if (null != state.getScoreWindow()) {
+		if (null != state.getUIManager().getScoreWindow()) {
 			int scoreNum = 0;
 			for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
 				int numAlive = 0;
-				for (User user : state.getScoreWindow().getOrderedUsers()) {
+				for (User user : state.getUIManager().getScoreWindow().getOrderedUsers()) {
 					if (!user.isSpectator()) {
 						if (null != user.getPlayer()) {
 							if (user.getPlayer().isAlive()) {
@@ -360,9 +302,9 @@ public class UIExtra extends AHadalActor {
 	 * Sort gun game ui text to display top player progress
 	 */
 	public void sortGunGame(StringBuilder text) {
-		if (state.getScoreWindow() != null) {
+		if (state.getUIManager().getScoreWindow() != null) {
 			int scoreNum = 0;
-			for (User user : state.getScoreWindow().getOrderedUsers()) {
+			for (User user : state.getUIManager().getScoreWindow().getOrderedUsers()) {
 				if (!user.isSpectator()) {
 					text.append(user.getStringManager().getNameAbridgedColored(MAX_NAME_LENGTH_SUPER_SHORT)).append(": ")
 						.append(alignScoreText(user.getStringManager().getNameShort(), UIText.UI_GUNGAME.text(Integer.toString(user.getScoreManager().getScore()), Integer.toString(ModeGunGame.weaponOrder.length)),
@@ -378,7 +320,7 @@ public class UIExtra extends AHadalActor {
 	}
 
 	public void processArcadeRound(StringBuilder text) {
-		if (null != state.getScoreWindow()) {
+		if (null != state.getUIManager().getScoreWindow()) {
 			if (SettingArcade.overtime) {
 				text.append(UIText.UI_ARCADE_ROUND.text(String.valueOf(SettingArcade.currentRound))).append("\n");
 			} else {
@@ -418,18 +360,4 @@ public class UIExtra extends AHadalActor {
 	public void clearBoss() {
 		changeTypes(lastTags, true);
 	}
-
-	public float getTimer() { return timer; }
-
-	public void setTimer(float timer) { this.timer = timer; }
-
-	public float getTimerIncr() { return timerIncr; }
-
-	public void setTimerIncr(float timerIncr) { this.timerIncr = timerIncr; }
-
-	public void setMaxTimer(float maxTimer) { this.maxTimer = maxTimer; }
-
-	public float getMaxTimer() { return maxTimer; }
-
-	public String getDisplayedTimer() { return displayedTimer; }
 }

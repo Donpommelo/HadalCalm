@@ -5,21 +5,21 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.UIText;
 
 import java.util.regex.Matcher;
@@ -40,11 +40,11 @@ public class Navigations extends HubEvent {
 
 	@Override
 	public void enter() {
-		state.getUiHub().setType(type);
-		state.getUiHub().setTitle(title);
+		state.getUIManager().getUiHub().setType(type);
+		state.getUIManager().getUiHub().setTitle(title);
 
 		if (UnlockTag.NAVIGATIONS.equals(tag)) {
-			state.getUiHub().enter(this);
+			state.getUIManager().getUiHub().enter(this);
 		}
 
 		open = true;
@@ -60,7 +60,7 @@ public class Navigations extends HubEvent {
 		}
 
 		Pattern pattern = Pattern.compile(search);
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		final Navigations me = this;
 
 		for (UnlockLevel c : UnlockLevel.getUnlocks(checkUnlock, newTags)) {
@@ -85,14 +85,14 @@ public class Navigations extends HubEvent {
 					public void clicked(InputEvent e, float x, float y) {
 
 						if (state.isServer()) {
-							state.loadLevel(selected, TransitionState.NEWLEVEL, "");
+							state.getTransitionManager().loadLevel(selected, TransitionState.NEWLEVEL, "");
 							//play a particle when the player uses this event
 							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true,
 									SyncType.CREATESYNC).setOffset(0, - me.getSize().y / 2);
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
+							PacketManager.clientTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
 									DialogType.SYSTEM));
 						}
 						leave();
@@ -113,7 +113,7 @@ public class Navigations extends HubEvent {
 		if (!"".equals(level) && state.isServer()) {
 			if (!UnlockManager.checkUnlock(UnlockType.LEVEL, level)) {
 				UnlockManager.setUnlock(state, UnlockType.LEVEL, level, true);
-				state.getDialogBox().addDialogue("", UIText.NAVIGATION_ACTIVATION.text(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
+				state.getUIManager().getDialogBox().addDialogue("", UIText.NAVIGATION_ACTIVATION.text(), "", true, true, true, 3.0f, null, null, DialogType.SYSTEM);
 			}
 		}
 	}

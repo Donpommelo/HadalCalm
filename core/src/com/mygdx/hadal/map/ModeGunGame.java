@@ -59,10 +59,10 @@ public class ModeGunGame extends ModeSetting {
                     player.getEquipHelper().syncServerEquipChange(loadout.multitools);
 
                     String message = weaponOrder[currentGunIndex].getName() + ": " + currentGunIndex + "/" + weaponOrder.length;
-                    state.getKillFeed().sendNotification(message, player);
+                    state.getUIManager().getKillFeed().sendNotification(message, player);
                 } else {
                     //upon finishing all weapons, we end the game
-                    state.levelEnd(ResultsState.MAGIC_WORD, false, true, LONG_FADE_DELAY);
+                    state.getEndgameManager().levelEnd(ResultsState.MAGIC_WORD, false, true, LONG_FADE_DELAY);
                 }
             }
         }

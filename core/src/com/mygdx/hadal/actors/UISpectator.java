@@ -58,7 +58,7 @@ public class UISpectator extends AHadalActor {
     @Override
     public void draw(Batch batch, float alpha) {
 
-        if (!state.isSpectatorMode()) { return; }
+        if (!state.getSpectatorManager().isSpectatorMode()) { return; }
 
         SIMPLE_PATCH.draw(batch, getX(), getY(), WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -207,7 +207,7 @@ public class UISpectator extends AHadalActor {
                     targetId = nextUser.getConnID();
 
                     //sync ui so it shows info for your spectating target
-                    state.getUiExtra().syncUIText(UITag.uiType.ALL);
+                    state.getUIManager().getUiExtra().syncUIText(UITag.uiType.ALL);
                     return true;
                 }
             }

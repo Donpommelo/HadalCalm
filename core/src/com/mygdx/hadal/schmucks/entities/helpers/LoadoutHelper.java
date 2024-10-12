@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -69,7 +69,7 @@ public class LoadoutHelper {
     }
 
     public void syncServerWholeLoadoutChange() {
-        HadalGame.server.sendToAllTCP(new PacketsLoadout.SyncWholeLoadout(player.getUser().getConnID(), getActiveLoadout(), false));
+        PacketManager.serverTCPAll(new PacketsLoadout.SyncWholeLoadout(player.getUser().getConnID(), getActiveLoadout(), false));
     }
 
     private Loadout getActiveLoadout() {

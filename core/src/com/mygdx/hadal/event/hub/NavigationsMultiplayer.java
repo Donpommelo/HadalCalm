@@ -8,19 +8,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox;
 import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -81,7 +82,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	@Override
 	public void addOptions(String search, int slots, UnlockTag tag) {
 		super.addOptions(search, slots, tag);
-		state.getUiHub().setTitle(modeChosen.getName());
+		state.getUIManager().getUiHub().setTitle(modeChosen.getName());
 		addTabs();
 
 		lastSearch = search;
@@ -95,7 +96,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	@Override
 	public void enter() {
 		super.enter();
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.getTableTabs().clear();
 		hub.setTitle(UIText.GAME_MODES.text());
 		final NavigationsMultiplayer me = this;
@@ -122,8 +123,8 @@ public class NavigationsMultiplayer extends HubEvent {
 
 						modeChosen = selected;
 
-						state.getUiHub().setType(type);
-						state.getUiHub().enter(me);
+						state.getUIManager().getUiHub().setType(type);
+						state.getUIManager().getUiHub().enter(me);
 						addOptions(lastSearch, -1, lastTag);
 						menuDepth = 1;
 					}
@@ -144,7 +145,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	 * This is called when viewing maps to display options to view settings nad modifiers
 	 */
 	private void addTabs() {
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.getTableTabs().clear();
 
 		Text map = new Text(UIText.TAB_MAPS.text()).setButton(true);
@@ -189,7 +190,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	 * This adds map options to the hub ui
 	 */
 	private void addMaps() {
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		final NavigationsMultiplayer me = this;
 		hub.getTableOptions().clear();
 
@@ -243,14 +244,14 @@ public class NavigationsMultiplayer extends HubEvent {
 					public void clicked(InputEvent e, float x, float y) {
 
 						if (state.isServer()) {
-							state.loadLevel(selected, modeChosen, PlayState.TransitionState.NEWLEVEL, "");
+							state.getTransitionManager().loadLevel(selected, modeChosen, TransitionState.NEWLEVEL, "");
 							//play a particle when the player uses this event
 							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, SyncType.CREATESYNC)
 									.setOffset(0, - me.getSize().y / 2);
 						} else {
 
 							//clients suggest maps when clicking
-							HadalGame.client.sendTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
+							PacketManager.clientTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
 									DialogBox.DialogType.SYSTEM));
 						}
 						leave();
@@ -281,7 +282,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	 * Adding settings to the hub ui just calls each mode setting of the mode
 	 */
 	private void addSettings() {
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.getTableOptions().clear();
 
 		for (ModeSetting setting : modeChosen.getSettings()) {
@@ -293,7 +294,7 @@ public class NavigationsMultiplayer extends HubEvent {
 	 * Adding modifiers to the hub ui just calls each mode modifier of the mode
 	 */
 	private void addModifiers() {
-		final UIHub hub = state.getUiHub();
+		final UIHub hub = state.getUIManager().getUiHub();
 		hub.getTableOptions().clear();
 
 		for (ModeSetting setting : modeChosen.getSettings()) {

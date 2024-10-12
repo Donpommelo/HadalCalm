@@ -55,7 +55,7 @@ public class FlagSpawner extends Event {
                 //give score credit to the player and give notification
                 if (null != p) {
                     String playerName = TextUtil.getPlayerColorName(p, MAX_NAME_LENGTH);
-                    state.getKillFeed().addNotification(UIText.CTF_CAPTURE.text(playerName), false);
+                    state.getUIManager().getKillFeed().addNotification(UIText.CTF_CAPTURE.text(playerName), false);
                     state.getMode().processPlayerScoreChange(state, p, 1);
                 }
                 state.getMode().processTeamScoreChange(state, teamIndex, 1);
@@ -124,7 +124,7 @@ public class FlagSpawner extends Event {
             if (teamIndex < AlignmentFilter.currentTeams.length) {
                 messageCount = MESSAGE_COOLDOWN;
                 String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
-                state.getKillFeed().addNotification(UIText.CTF_CAPTURE_FAIL.text(teamColor), true);
+                state.getUIManager().getKillFeed().addNotification(UIText.CTF_CAPTURE_FAIL.text(teamColor), true);
             }
         }
     }

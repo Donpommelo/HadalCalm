@@ -7,12 +7,13 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
 
 /**
@@ -27,8 +28,8 @@ public class EventUtils {
     public static void setObjectiveMarker(PlayState state, HadalEntity event, Sprite sprite, HadalColor color,
                                           boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen, boolean displayClearCircle) {
         if (state.isServer()) {
-            state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
-            HadalGame.server.sendToAllTCP(new Packets.SyncObjectiveMarker(event.getEntityID(), color,
+            state.getUIManager().getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
+            PacketManager.serverTCPAll(new Packets.SyncObjectiveMarker(event.getEntityID(), color,
                     displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle, sprite));
         }
     }
@@ -45,9 +46,9 @@ public class EventUtils {
             for (ObjectMap.Entry<Integer, User> user : HadalGame.usm.getUsers()) {
                 if (user.value.isSpectator() || user.value.getTeamFilter() == team) {
                     if (user.key == 0) {
-                        state.getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
+                        state.getUIManager().getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
                     } else {
-                        HadalGame.server.sendToTCP(user.key, new Packets.SyncObjectiveMarker(event.getEntityID(), color,
+                        PacketManager.serverTCP(user.key, new Packets.SyncObjectiveMarker(event.getEntityID(), color,
                                 displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle, sprite));
                     }
                 }

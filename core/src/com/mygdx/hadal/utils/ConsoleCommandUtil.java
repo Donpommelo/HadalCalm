@@ -9,6 +9,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -16,7 +18,6 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 import com.mygdx.hadal.text.TextFilterUtil;
 import com.mygdx.hadal.text.UIText;
 
@@ -91,7 +92,7 @@ public class ConsoleCommandUtil {
 						player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
 								null, DamageSource.MISC);
 					} else {
-						HadalGame.client.sendTCP(new Packets.ClientYeet());
+						PacketManager.clientTCP(new Packets.ClientYeet());
 					}
 					return 0;
 				}
@@ -104,9 +105,9 @@ public class ConsoleCommandUtil {
 
 			if ("/help".equals(command)) {
 				if (state.isServer()) {
-					state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
+					state.getUIManager().getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, 0);
 				} else {
-					state.getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getUser().getConnID());
+					state.getUIManager().getMessageWindow().addText(TextFilterUtil.filterHotkeys(UIText.INFO_HELP.text()), DialogType.SYSTEM, player.getUser().getConnID());
 				}
 				return 0;
 			}
@@ -119,7 +120,7 @@ public class ConsoleCommandUtil {
 		if (state.isServer()) {
 			HadalGame.server.addChatToAll(state, message, DialogType.SYSTEM, 0);
 		} else {
-			HadalGame.client.sendTCP(new Packets.ClientChat(message, DialogType.SYSTEM));
+			PacketManager.clientTCP(new Packets.ClientChat(message, DialogType.SYSTEM));
 		}
 	}
 
@@ -247,7 +248,7 @@ public class ConsoleCommandUtil {
 			int scrap = Integer.parseInt(command);
 			if (0 <= scrap) {
 				JSONManager.record.setScrap(scrap);
-				state.getUiExtra().syncUIText(UITag.uiType.SCRAP);
+				state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCRAP);
 				return 0;
 			}
 		} catch (NumberFormatException ignored) {}
@@ -262,7 +263,7 @@ public class ConsoleCommandUtil {
 		
 		try {
 			UnlockLevel level = UnlockLevel.getByName(command.toUpperCase());
-			state.loadLevel(level, TransitionState.NEWLEVEL, "");
+			state.getTransitionManager().loadLevel(level, TransitionState.NEWLEVEL, "");
 			return 0;
 		} catch (IllegalArgumentException ignored) {}
 		

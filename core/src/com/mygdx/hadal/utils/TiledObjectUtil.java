@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
@@ -252,7 +253,7 @@ public class TiledObjectUtil {
 				e = new StartPoint(state, position, size,
 						object.getProperties().get("startId", "", String.class),
 						object.getProperties().get("teamIndex", 0, Integer.class));
-				state.addSavePoint((StartPoint) e);
+				state.getSpawnManager().addSavePoint((StartPoint) e);
 
 				//As a quirk of start points, their triggered id is set to a unique value based on their location
 				//This is so clients will know which start point the server tells them they are spawning at.
@@ -572,7 +573,7 @@ public class TiledObjectUtil {
 						Sprite.valueOf(object.getProperties().get("sprite", String.class)),
 						true,
 						object.getProperties().get("frame", 0, int.class),
-						object.getProperties().get("speed", PlayState.SPRITE_ANIMATION_SPEED, float.class),
+						object.getProperties().get("speed", SpriteConstants.SPRITE_ANIMATION_SPEED, float.class),
 						PlayMode.valueOf(object.getProperties().get("mode", "NORMAL", String.class)));
 			} else {
 				e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));

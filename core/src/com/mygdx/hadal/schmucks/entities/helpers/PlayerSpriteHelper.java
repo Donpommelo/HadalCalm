@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
@@ -115,9 +116,9 @@ public class PlayerSpriteHelper {
         //use new frame buffer to create texture regions for each body part.
         TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture());
 
-        bodyRunSprite = copyFrames(fboRegion, atlas, "body_base_run", PlayState.SPRITE_ANIMATION_SPEED);
-        bodyStillSprite = copyFrames(fboRegion, atlas, "body_base_stand", PlayState.SPRITE_ANIMATION_SPEED);
-        headSprite = copyFrames(fboRegion, atlas, "head_base", PlayState.SPRITE_ANIMATION_SPEED);
+        bodyRunSprite = copyFrames(fboRegion, atlas, "body_base_run", SpriteConstants.SPRITE_ANIMATION_SPEED);
+        bodyStillSprite = copyFrames(fboRegion, atlas, "body_base_stand", SpriteConstants.SPRITE_ANIMATION_SPEED);
+        headSprite = copyFrames(fboRegion, atlas, "head_base", SpriteConstants.SPRITE_ANIMATION_SPEED);
         bodyBackSprite = copyFrame(fboRegion, atlas, "body_bg_base");
         armSprite = copyFrame(fboRegion, atlas, "arm_base");
         gemSprite = atlas.findRegion("gem_active");

@@ -9,6 +9,7 @@ import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.bots.RallyPoint;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerBot;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -102,13 +103,13 @@ public class AllyRevive extends ModeSetting {
                     if (SettingArcade.arcade) {
                         SettingArcade.processEndOfRound(state, mode);
                     } else {
-                        state.transitionToResultsState(resultsText, LONG_FADE_DELAY);
+                        state.getEndgameManager().transitionToResultsState(resultsText, LONG_FADE_DELAY);
                     }
 
                 } else {
                     user.getTransitionManager().beginTransition(state,
                             new Transition()
-                                    .setNextState(PlayState.TransitionState.RESPAWN)
+                                    .setNextState(TransitionState.RESPAWN)
                                     .setFadeDelay(-1));
 
                     float reviveTimer = numReviveTimer(vic.getUser().getScoreManager().getExtraModeScore());

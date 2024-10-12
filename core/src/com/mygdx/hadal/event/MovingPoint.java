@@ -3,10 +3,10 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -151,7 +151,7 @@ public class MovingPoint extends Event {
 
 			if (syncDelayCount >= 2.0f) {
 				startSynced = true;
-				HadalGame.client.sendTCP(new Packets.RequestStartSyncedEvent(triggeredID));
+				PacketManager.clientTCP(new Packets.RequestStartSyncedEvent(triggeredID));
 			}
 		}
 	}

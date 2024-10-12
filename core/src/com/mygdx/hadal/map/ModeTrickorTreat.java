@@ -43,7 +43,7 @@ public class ModeTrickorTreat extends ModeSetting {
     public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation,
                               Array<RallyPoint.RallyPointMultiplier> path) {
 
-        for (ObjectiveMarker objective : state.getUiObjective().getObjectives()) {
+        for (ObjectiveMarker objective : state.getUIManager().getUiObjective().getObjectives()) {
             objectiveLocation.set(objective.getObjectiveLocation()).scl(1 / PPM);
             if (objective.getObjectiveTarget() instanceof TrickorTreatBucket bucket) {
                 if (bucket.getTeamIndex() < AlignmentFilter.currentTeams.length) {
