@@ -72,7 +72,7 @@ public class PauseState extends GameState {
 		
 		//When the server pauses, it sends a message to all clients to pause them as well.
 		if (ps.isServer() && paused) {
-			PacketManager.serverTCPAll(ps, new Packets.Paused(pauser));
+			PacketManager.serverTCPAll(new Packets.Paused(pauser));
 		}
 		
 		SoundEffect.POSITIVE.play(1.0f, false);
@@ -139,7 +139,7 @@ public class PauseState extends GameState {
 			        	
 			        	if (ps.isServer()) {
 			        		//If the server unpauses, send a message and notification to all players to unpause.
-							PacketManager.serverTCPAll(ps, new Packets.Unpaused());
+							PacketManager.serverTCPAll(new Packets.Unpaused());
 
 							if (StateManager.currentMode == Mode.SINGLE) {
 				        		ps.getTransitionManager().loadLevel(UnlockLevel.SSTUNICATE1, TransitionState.NEWLEVEL, "");
@@ -334,7 +334,7 @@ public class PauseState extends GameState {
 
     		if (paused) {
     			//If the server unpauses, send a message and notification to all players to unpause.
-				PacketManager.serverTCPAll(ps, new Packets.Unpaused());
+				PacketManager.serverTCPAll(new Packets.Unpaused());
 				HadalGame.server.addNotificationToAll(ps, HadalGame.usm.getOwnUser().getStringManager().getName(), UIText.UNPAUSED.text(), true, DialogType.SYSTEM);
     		}
 		} else {

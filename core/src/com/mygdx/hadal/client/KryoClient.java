@@ -34,7 +34,6 @@ import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.server.PacketSender;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -95,7 +94,7 @@ public class KryoClient {
 
 		usm.resetUsers();
 
-		PacketManager.clientPackets(client, new PacketSender());
+		PacketManager.clientPackets(client);
 
         packetListener = new Listener() {
         	

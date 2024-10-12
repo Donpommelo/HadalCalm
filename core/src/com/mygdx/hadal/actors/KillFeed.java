@@ -187,7 +187,7 @@ public class KillFeed {
         notification.addActor(message);
 
         if (global && ps.isServer()) {
-            PacketManager.serverTCPAll(ps, new Packets.SyncNotification(text));
+            PacketManager.serverTCPAll(new Packets.SyncNotification(text));
         }
     }
 

@@ -60,15 +60,15 @@ public class LoadoutCosmeticsHelper {
     }
 
     public void syncServerCharacterChange(UnlockCharacter character) {
-        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncCharacterServer(player.getUser().getConnID(), character));
+        PacketManager.serverTCPAll(new PacketsLoadout.SyncCharacterServer(player.getUser().getConnID(), character));
     }
 
     public void syncServerTeamChange(AlignmentFilter team) {
-        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncTeamServer(player.getUser().getConnID(), team));
+        PacketManager.serverTCPAll(new PacketsLoadout.SyncTeamServer(player.getUser().getConnID(), team));
     }
 
     public void syncServerCosmeticChange(UnlockCosmetic cosmetic) {
-        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncCosmeticServer(player.getUser().getConnID(), cosmetic));
+        PacketManager.serverTCPAll(new PacketsLoadout.SyncCosmeticServer(player.getUser().getConnID(), cosmetic));
     }
 
     private Loadout getActiveLoadout() {

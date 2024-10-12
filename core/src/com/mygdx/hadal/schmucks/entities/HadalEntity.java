@@ -196,7 +196,7 @@ public abstract class HadalEntity {
 	
 	public void onServerSyncFast() {
 		if (body != null && syncInstant) {
-			PacketManager.serverUDPAll(state, new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
+			PacketManager.serverUDPAll(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 					state.getTimer()));
 		}
 	}

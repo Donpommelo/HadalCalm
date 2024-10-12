@@ -118,7 +118,7 @@ public class KryoServer {
 							//remove disconnecting player from users
 							usm.getUsers().remove(c.getID());
 							ps.getUIManager().getScoreWindow().syncScoreTable();
-							PacketManager.serverTCPAll(ps, new Packets.RemoveScore(c.getID()));
+							PacketManager.serverTCPAll(new Packets.RemoveScore(c.getID()));
 						}
 					});
 				}
@@ -364,7 +364,7 @@ public class KryoServer {
 						Player player = user.getPlayer();
 						if (player != null) {
 							if (player.getPlayerData() != null) {
-								PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncWholeLoadout(
+								PacketManager.serverTCPAll(new PacketsLoadout.SyncWholeLoadout(
 										c.getID(), user.getLoadoutManager().getActiveLoadout(), false));
 							}
 						}
@@ -473,7 +473,7 @@ public class KryoServer {
 									addNotificationToAll(as.getPlayState(), "", UIText.SERVER_UNPAUSED.text(player.getName()), true, DialogType.SYSTEM);
 									as.setToRemove(true);
 								}
-								PacketManager.serverTCPAll(player.getState(), new Packets.Unpaused());
+								PacketManager.serverTCPAll(new Packets.Unpaused());
 							}
 						}
         			}
@@ -752,7 +752,7 @@ public class KryoServer {
 				lobby.setNotification(UIText.PORT_FAIL.text(Integer.toString(JSONManager.setting.getPortNumber())));
 			}
 		}
-		PacketManager.serverPackets(server, new PacketSender());
+		PacketManager.serverPackets(server);
 		server.start();
 	}
 

@@ -197,7 +197,7 @@ public class ScoreWindow {
 		//obtain settings. (host settings for clients)
 		SharedSetting used = JSONManager.sharedSetting;
 		if (state.isServer()) {
-			PacketManager.serverTCPAll(state, new Packets.SyncSharedSettings(JSONManager.sharedSetting));
+			PacketManager.serverTCPAll(new Packets.SyncSharedSettings(JSONManager.sharedSetting));
 		} else {
 			used = JSONManager.hostSetting;
 		}

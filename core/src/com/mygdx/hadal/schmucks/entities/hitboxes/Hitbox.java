@@ -306,9 +306,9 @@ public class Hitbox extends HadalEntity {
 			//for catchup packets, resend synced attack packet (otherwise, create packet should already be sent)
 			if (catchup) {
 				if (syncedMulti) {
-					attack.syncAttackMultiServer(state, startVelo, new Hitbox[] {this}, extraFields, 0, synced, true);
+					attack.syncAttackMultiServer(startVelo, new Hitbox[] {this}, extraFields, 0, synced, true);
 				} else {
-					attack.syncAttackSingleServer(state, this, extraFields, 0, synced, true);
+					attack.syncAttackSingleServer(this, extraFields, 0, synced, true);
 				}
 			}
 			return null;
@@ -339,10 +339,10 @@ public class Hitbox extends HadalEntity {
 		if (body != null && synced && isSyncInstant()) {
 			float angle = getAngle();
 			if (angle == 0.0f) {
-				PacketManager.serverUDPAll(state, new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
+				PacketManager.serverUDPAll(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 						state.getTimer()));
 			} else {
-				PacketManager.serverUDPAll(state, new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
+				PacketManager.serverUDPAll(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
 						state.getTimer(), angle));
 			}
 		}

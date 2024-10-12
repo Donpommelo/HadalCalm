@@ -66,7 +66,7 @@ public class PlayerClientOnHost extends Player {
 		super.onReceiveSync(o, timestamp);
 
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
-			PacketManager.serverUDPAllExcept(state, getUser().getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getUser().getConnID(),
+			PacketManager.serverUDPAllExcept(getUser().getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getUser().getConnID(),
 					p.pos, p.velocity, p.mousePosition,
 					state.getTimer(), p.moveState,
 					p.hpPercent,

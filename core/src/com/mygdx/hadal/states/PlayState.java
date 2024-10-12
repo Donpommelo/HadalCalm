@@ -3,14 +3,9 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -25,10 +20,7 @@ import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.FrameBufferManager;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.hub.Wallpaper;
 import com.mygdx.hadal.event.utility.PositionDummy;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.CommonController;
@@ -48,7 +40,6 @@ import com.mygdx.hadal.schmucks.entities.WorldDummy;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.statuses.Blinded;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.CameraUtil;
@@ -61,7 +52,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
-import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
@@ -78,20 +68,18 @@ public class PlayState extends GameState {
 
 	//These process and store the map parsed from the Tiled file.
 	protected final TiledMap map;
-	protected final OrthogonalTiledMapRenderer tmr;
-	
-	//world manages the Box2d world and physics. b2dr renders debug lines for testing
-	protected final Box2DDebugRenderer b2dr;
+
+	//world manages the Box2d world and physics.
 	protected final World world;
 
-	private final CameraManager cameraManager;
-	private final UIManager uiManager;
-	private final TimerManager timerManager;
-
-	private final SpawnManager spawnManager;
-	private final TransitionManager transitionManager;
-	private final SpectatorManager spectatorManager;
-	private final EndgameManager endgameManager;
+	private RenderManager renderManager;
+	private CameraManager cameraManager;
+	private UIManager uiManager;
+	private TimerManager timerManager;
+	private SpawnManager spawnManager;
+	private TransitionManager transitionManager;
+	private SpectatorManager spectatorManager;
+	private EndgameManager endgameManager;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
@@ -109,10 +97,6 @@ public class PlayState extends GameState {
 	private final OrderedSet<HadalEntity> effects = new OrderedSet<>();
 
 	private final Array<OrderedSet<HadalEntity>> entityLists = new Array<>();
-
-	//this maps shaders to all current entities using them so they can be rendered in a batch
-	private final ObjectMap<Shader, Array<HadalEntity>> dynamicShaderEntities = new ObjectMap<>();
-	private final ObjectMap<Shader, Array<HadalEntity>> staticShaderEntities = new ObjectMap<>();
 
 	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
 	private final List<PacketEffect> packetEffects = new ArrayList<>();
@@ -138,19 +122,12 @@ public class PlayState extends GameState {
 	//is this the server or client?
 	private final boolean server;
 
-	//Background and black screen used for transitions
-	private final TextureRegion bg, white;
-	private Shader shaderBase = Shader.NOTHING, shaderTile = Shader.NOTHING;
-	
 	//Has the server finished loading yet?
 	private boolean serverLoaded;
 	
 	//Do players connecting to this have their hp/ammo/etc reset?
 	private final boolean reset;
 	
-	//do we draw the hitbox lines?
-	private boolean debugHitbox;
-
 	//Special designated events parsed from map.
 	// Event run when a timer runs out or spectating host presses their interact button
 	private Event globalTimer, spectatorActivation;
@@ -175,50 +152,13 @@ public class PlayState extends GameState {
 		world.setContactListener(new WorldContactListener());
 		World.setVelocityThreshold(0);
 
-		b2dr = new Box2DDebugRenderer();
-		
 		//Initialize sets to keep track of active entities and packet effects
 		entityLists.add(hitboxes);
 		entityLists.add(entities);
 		entityLists.add(effects);
 
-		PlayState me = this;
 		//load map. We override the render so that we can apply a shader to the tileset
 		map = new TmxMapLoader().load(level.getMap());
-		tmr = new OrthogonalTiledMapRenderer(map, batch) {
-
-			@Override
-			public void render() {
-				beginRender();
-
-				if (shaderTile.getShaderProgram() != null) {
-					batch.setShader(shaderTile.getShaderProgram());
-					shaderTile.shaderPlayUpdate(me, timer);
-					shaderTile.shaderDefaultUpdate(timer);
-				}
-
-				for (MapLayer layer : map.getLayers()) {
-					renderMapLayer(layer);
-				}
-
-				if (shaderTile.getShaderProgram() != null) {
-					if (shaderTile.isBackground()) {
-						batch.setShader(null);
-					}
-				}
-
-				endRender();
-			}
-		};
-
-		this.cameraManager = new CameraManager(this, map);
-		this.uiManager = new UIManager(this);
-		this.timerManager = new TimerManager(this);
-
-		this.spawnManager = new SpawnManager(this, startID);
-		this.transitionManager = new TransitionManager(this);
-		this.spectatorManager = new SpectatorManager(this);
-		this.endgameManager = new EndgameManager(this);
 
 		//We clear things like music/sound/shaders to periodically free up some memory
 		StateManager.clearMemory();
@@ -226,20 +166,15 @@ public class PlayState extends GameState {
 		//we clear shaded cosmetics to avoid having too many cached fbos
 		UnlockCosmetic.clearShadedCosmetics();
 
+		//init managers. Must be done after clearing memory, otherwise new shader is cleared
+		initManagers(startID);
+
 		//The "worldDummy" will be the source of map-effects that want a perp (create after clearing memory b/c it creates an impact particle)
 		worldDummy = new WorldDummy(this);
 
 		//anchor is used to attach "static" entities without making them static
 		anchor = new AnchorPoint(this);
 
-		if (map.getProperties().get("customShader", false, Boolean.class)) {
-			shaderBase = Wallpaper.SHADERS[JSONManager.setting.getCustomShader()];
-			shaderBase.loadShader();
-		} else if (map.getProperties().get("shader", String.class) != null) {
-			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
-			shaderBase.loadShader();
-		}
-		
 		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
 		TiledObjectUtil.clearEvents();
 
@@ -290,15 +225,19 @@ public class PlayState extends GameState {
 		}
 
 		this.reset = reset;
-
-		//Init background image
-		this.bg = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.BACKGROUND2.toString()));
-		this.white = new TextureRegion((Texture) HadalGame.assetManager.get(AssetList.WHITE.toString()));
-
-		//set whether to draw hitbox debug lines or not
-		debugHitbox = JSONManager.setting.isDebugHitbox();
 	}
-			
+
+	public void initManagers(String startID) {
+		this.renderManager = new RenderManager(this, map);
+		this.cameraManager = new CameraManager(this, map);
+		this.uiManager = new UIManager(this);
+		this.timerManager = new TimerManager(this);
+		this.spawnManager = new SpawnManager(this, startID);
+		this.transitionManager = new TransitionManager(this);
+		this.spectatorManager = new SpectatorManager(this);
+		this.endgameManager = new EndgameManager(this);
+	}
+
 	@Override
 	public void show() {
 
@@ -380,7 +319,7 @@ public class PlayState extends GameState {
 		//On the very first tick, server tells all clients that it is loaded. Also, initiate bots if applicable
 		if (server && !serverLoaded) {
 	        serverLoaded = true;
-			PacketManager.serverTCPAll(this, new Packets.ServerLoaded());
+			PacketManager.serverTCPAll(new Packets.ServerLoaded());
 			BotManager.initiateBots(this);
 			HadalGame.usm.getOwnUser().getTransitionManager().levelStartSpawn(this, reset);
 		}
@@ -408,9 +347,9 @@ public class PlayState extends GameState {
 			Object packet = entity.onServerCreate(false);
 			if (packet != null) {
 				if (entity.isReliableCreate()) {
-					PacketManager.serverTCPAll(this, packet);
+					PacketManager.serverTCPAll(packet);
 				} else {
-					PacketManager.serverTCPAll(this, packet);
+					PacketManager.serverUDPAll(packet);
 				}
 			}
 		}
@@ -427,9 +366,9 @@ public class PlayState extends GameState {
 			Object packet = entity.onServerDelete();
 			if (packet != null) {
 				if (entity.isReliableCreate()) {
-					PacketManager.serverTCPAll(this, packet);
+					PacketManager.serverTCPAll(packet);
 				} else {
-					PacketManager.serverUDPAll(this, packet);
+					PacketManager.serverUDPAll(packet);
 				}
 			}
 		}
@@ -474,7 +413,7 @@ public class PlayState extends GameState {
 					user.setScoreUpdated(false);
 
 					ScoreManager score = user.getScoreManager();
-					PacketManager.serverUDPAll(this, new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
+					PacketManager.serverUDPAll(new Packets.SyncScore(user.getConnID(), user.getStringManager().getNameShort(),
 							user.getLoadoutManager().getSavedLoadout(), score.getWins(), score.getKills(), score.getDeaths(),
 							score.getAssists(), score.getScore(), score.getExtraModeScore(),
 							score.getLives(), score.getCurrency(), user.getPing(), user.isSpectator()));
@@ -491,68 +430,7 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void render(float delta) {
-		//Render Background
-		batch.setProjectionMatrix(hud.combined);
-		batch.disableBlending();
-		batch.begin();
-
-		//render shader
-		if (shaderBase.getShaderProgram() != null) {
-			batch.setShader(shaderBase.getShaderProgram());
-			shaderBase.shaderPlayUpdate(this, timer);
-			shaderBase.shaderDefaultUpdate(timer);
-		}
-
-		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-		
-		if (shaderBase.getShaderProgram() != null) {
-			if (shaderBase.isBackground()) {
-				batch.setShader(null);
-			}
-		}
-
-		batch.end();
-		batch.enableBlending();
-
-		//Render Tiled Map + world
-		tmr.setView(camera);
-		tmr.render();
-
-		//Render debug lines for box2d objects. THe 0 check prevents debug outlines from appearing in the freeze-frame
-		if (debugHitbox && 0.0f != delta) {
-			b2dr.render(world, camera.combined.scl(PPM));
-			camera.combined.scl(1.0f / PPM);
-		}
-		
-		//Iterate through entities in the world to render visible entities
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-
-		Particle.drawParticlesBelow(batch, delta);
-		renderEntities();
-		Particle.drawParticlesAbove(batch, delta);
-
-		if (shaderBase.getShaderProgram() != null) {
-			if (!shaderBase.isBackground()) {
-				batch.setShader(null);
-			}
-		}
-
-		batch.end();
-
-		//add white filter if the player is blinded
-		if (null != HadalGame.usm.getOwnPlayer()) {
-			if (HadalGame.usm.getOwnPlayer().getBlinded() > 0.0f) {
-				batch.setProjectionMatrix(hud.combined);
-				batch.begin();
-
-				batch.setColor(1.0f, 1.0f, 1.0f, Blinded.getBlindAmount(HadalGame.usm.getOwnPlayer().getBlinded()));
-				batch.draw(white, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-				batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-				batch.end();
-			}
-		}
+		getRenderManager().render(batch, delta);
 	}
 	
 	/**
@@ -604,18 +482,6 @@ public class PlayState extends GameState {
 	}
 	
 	/**
-	 * Render all entities in the world
-	 */
-	public void renderEntities() {
-		for (ObjectSet<HadalEntity> s : entityLists) {
-			for (HadalEntity entity : s) {
-				renderEntity(entity);
-			}
-		}
-		renderShadedEntities();
-	}
-	
-	/**
 	 * Run the controller method for all entities in the world
 	 */
 	public void controllerEntities(float delta) {
@@ -640,7 +506,7 @@ public class PlayState extends GameState {
 			}
 		}
 		for (Object o : syncPackets) {
-			PacketManager.serverUDPAll(this, o);
+			PacketManager.serverUDPAll(o);
 		}
 		syncPackets.clear();
 	}
@@ -653,86 +519,12 @@ public class PlayState extends GameState {
 		}
 	}
 
-	private final Vector2 entityLocation = new Vector2();
-	/**
-	 * This method renders a single entity.
-	 * @param entity: the entity we are rendering
-	 */
-	public void renderEntity(HadalEntity entity) {
-		entityLocation.set(entity.getPixelPosition());
-		if (entity.isVisible(entityLocation)) {
-
-			//for shaded entities, add them to a map instead of rendering right away so we can render them at once
-			if (entity.getShaderStatic() != null && entity.getShaderStatic() != Shader.NOTHING) {
-				Array<HadalEntity> shadedEntities = staticShaderEntities.get(entity.getShaderStatic());
-				if (null == shadedEntities) {
-					shadedEntities = new Array<>();
-					staticShaderEntities.put(entity.getShaderStatic(), shadedEntities);
-				}
-				shadedEntities.add(entity);
-			} else if (entity.getShaderHelper().getShader() != null && entity.getShaderHelper().getShader() != Shader.NOTHING) {
-				Array<HadalEntity> shadedEntities = dynamicShaderEntities.get(entity.getShaderHelper().getShader());
-				if (null == shadedEntities) {
-					shadedEntities = new Array<>();
-					dynamicShaderEntities.put(entity.getShaderHelper().getShader(), shadedEntities);
-				}
-				shadedEntities.add(entity);
-			} else {
-				entity.render(batch, entityLocation);
-			}
-		}
-	}
-
-	/**
-	 * This renders shaded entities so we can minimize shader switches
-	 */
-	public void renderShadedEntities() {
-
-		//do same thing for static shaders
-		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : staticShaderEntities) {
-
-			//we sometimes set static shaders without loading them (overrided static shaders that are conditional)
-			if (null == entry.key.getShaderProgram()) {
-				entry.key.loadStaticShader();
-			}
-			batch.setShader(entry.key.getShaderProgram());
-			for (HadalEntity entity : entry.value) {
-				entityLocation.set(entity.getPixelPosition());
-				entity.render(batch, entityLocation);
-
-				if (entity.getShaderHelper().getShaderStaticCount() <= 0.0f) {
-					entity.getShaderHelper().setStaticShader(Shader.NOTHING, 0.0f);
-				}
-			}
-		}
-		staticShaderEntities.clear();
-
-		for (ObjectMap.Entry<Shader, Array<HadalEntity>> entry : dynamicShaderEntities) {
-			//for each shader, render all entities using it at once so we only need to set it once
-			batch.setShader(entry.key.getShaderProgram());
-			for (HadalEntity entity : entry.value) {
-				entityLocation.set(entity.getPixelPosition());
-
-				//unlike static shaders, dynamic shaders need controller updated
-				entity.getShaderHelper().processShaderController(timer);
-				entity.render(batch, entityLocation);
-
-				if (entity.getShaderHelper().getShaderCount() <= 0.0f) {
-					entity.getShaderHelper().setShader(Shader.NOTHING, 0.0f);
-				}
-			}
-		}
-		dynamicShaderEntities.clear();
-
-		batch.setShader(null);
-	}
-	
 	/**
 	 * This is called upon exiting. Dispose of all created fields.
 	 */
 	@Override
 	public void dispose() {
-		b2dr.dispose();
+		getRenderManager().getWorldManager().dispose();
 
 		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
@@ -744,8 +536,8 @@ public class PlayState extends GameState {
 		}
 		
 		world.dispose();
-		tmr.dispose();
 		map.dispose();
+
 		if (stage != null) {
 			stage.dispose();
 		}
@@ -754,18 +546,8 @@ public class PlayState extends GameState {
 
 	@Override
 	public void resize() {
-		
 		getCameraManager().resize();
-
-		if (shaderBase.getShaderProgram() != null) {
-			shaderBase.getShaderProgram().bind();
-			shaderBase.shaderResize();
-		}
-
-		if (shaderTile.getShaderProgram() != null) {
-			shaderTile.getShaderProgram().bind();
-			shaderTile.shaderResize();
-		}
+		getRenderManager().resize();
 	}
 	
 	/**
@@ -829,19 +611,6 @@ public class PlayState extends GameState {
 		}
 	}
 	
-	/**
-	 * This sets a shader to be used as a "base-shader" for things like the background
-	 */
-	public void setShaderBase(Shader shader) {
-		shaderBase = shader;
-		shaderBase.loadShader();
-	}
-
-	public void setShaderTile(Shader shader) {
-		shaderTile = shader;
-		shaderTile.loadShader();
-	}
-
 	public float getRespawnTime(Player p) {
 		return respawnTime * (1.0f + p.getPlayerData().getStat(Stats.RESPAWN_TIME));
 	}
@@ -854,6 +623,8 @@ public class PlayState extends GameState {
 		HBOX,
 		EFFECT
 	}
+
+	public Array<OrderedSet<HadalEntity>> getEntityLists() { return entityLists; }
 
 	public boolean isServer() { return server; }
 
@@ -893,12 +664,12 @@ public class PlayState extends GameState {
 
 	public void setRespawnTime(float respawnTime) {	this.respawnTime = respawnTime; }
 
-	public void toggleVisibleHitboxes(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
-
 	public PositionDummy getDummyPoint(String id) {	return dummyPoints.get(id); }
 	
 	public void addDummyPoint(PositionDummy dummy, String id) {	dummyPoints.put(id, dummy); }
-	
+
+	public RenderManager getRenderManager() { return renderManager; }
+
 	public CameraManager getCameraManager() { return cameraManager; }
 
 	public UIManager getUIManager() { return uiManager; }

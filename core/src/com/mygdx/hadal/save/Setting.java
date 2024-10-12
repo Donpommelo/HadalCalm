@@ -91,7 +91,7 @@ public class Setting {
     	game.setAutoIconify(autoIconify);
 
     	if (state != null) {
-    		state.toggleVisibleHitboxes(debugHitbox);
+    		state.getRenderManager().getWorldManager().toggleVisibleHitboxes(debugHitbox);
     	}
 
 		//resizing here (possibly) deals with some fullscreen camera issues on certain devices?

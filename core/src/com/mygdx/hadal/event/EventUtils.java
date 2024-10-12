@@ -29,7 +29,7 @@ public class EventUtils {
                                           boolean displayObjectiveOffScreen, boolean displayObjectiveOnScreen, boolean displayClearCircle) {
         if (state.isServer()) {
             state.getUIManager().getUiObjective().addObjective(event, sprite, color, displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle);
-            PacketManager.serverTCPAll(state, new Packets.SyncObjectiveMarker(event.getEntityID(), color,
+            PacketManager.serverTCPAll(new Packets.SyncObjectiveMarker(event.getEntityID(), color,
                     displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle, sprite));
         }
     }

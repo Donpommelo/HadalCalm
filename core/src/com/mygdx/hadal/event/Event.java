@@ -312,10 +312,10 @@ public class Event extends HadalEntity {
 		if (synced && body != null && isSyncInstant()) {
 			float angle = getAngle();
 			if (angle == 0.0f) {
-				PacketManager.serverUDPAll(state, new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
+				PacketManager.serverUDPAll(new PacketsSync.SyncEntity(entityID, getPosition(), getLinearVelocity(),
 						state.getTimer()));
 			} else {
-				PacketManager.serverUDPAll(state, new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
+				PacketManager.serverUDPAll(new PacketsSync.SyncEntityAngled(entityID, getPosition(), getLinearVelocity(),
 						state.getTimer(), angle));
 			}
 		}

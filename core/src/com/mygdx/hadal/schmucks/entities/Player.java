@@ -445,7 +445,7 @@ public class Player extends Schmuck {
 	public void onServerSync() {
 
 		short conditionCode = getConditionCode();
-		PacketManager.serverUDPAll(state, new PacketsSync.SyncPlayerSnapshot((byte) user.getConnID(),
+		PacketManager.serverUDPAll(new PacketsSync.SyncPlayerSnapshot((byte) user.getConnID(),
 				getPosition(), getLinearVelocity(),	mouseHelper.getPosition(),
 				state.getTimer(), moveState,
 				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),

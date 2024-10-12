@@ -234,7 +234,7 @@ public enum SoundEffect {
 	public long playUniversal(PlayState state, Vector2 worldPos, float volume, float pitch, boolean singleton) {
 		//Send a packet to the client and play the sound
 		if (state.isServer()) {
-			PacketManager.serverUDPAll(state, new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
+			PacketManager.serverUDPAll(new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 		}
 		
 		if (null == worldPos) {

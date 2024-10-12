@@ -9,8 +9,7 @@ import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.managers.PacketManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -78,7 +77,7 @@ public class ClientState extends PlayState {
 		addEntity(getAnchor().getEntityID(), getAnchor(), false, ObjectLayer.STANDARD);
 		addEntity(getWorldDummy().getEntityID(), getWorldDummy(), false, ObjectLayer.STANDARD);
 	}
-	
+
 	@Override
 	public void resetController() {
 
@@ -232,16 +231,6 @@ public class ClientState extends PlayState {
 			}
 		}
 	}
-	
-	@Override
-	public void renderEntities() {
-		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
-			for (HadalEntity entity : m.values()) {
-				renderEntity(entity);
-			}
-		}
-		renderShadedEntities();
-	}
 
 	/**
 	 * This is called whenever the client is told to add an object to its world.
@@ -348,7 +337,9 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void create(HadalEntity entity) {}
-	
+
+	public Array<OrderedMap<UUID, HadalEntity>> getEntityListsClient() { return entityLists; }
+
 	public float getLatency() { return latency; }
 
 	public Vector3 getMousePosition() { return mousePosition; }

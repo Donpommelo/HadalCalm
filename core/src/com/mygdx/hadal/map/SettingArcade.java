@@ -249,7 +249,7 @@ public class SettingArcade extends ModeSetting {
         if (state.isServer()) {
             if (readyUser != null && !readyUser.isSpectator()) {
                 readyUser.getScoreManager().setReady(true);
-                PacketManager.serverTCPAll(state, new Packets.ClientReady(playerID));
+                PacketManager.serverTCPAll(new Packets.ClientReady(playerID));
             }
         } else {
             readyUser.getScoreManager().setReady(true);

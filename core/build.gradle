@@ -8,4 +8,5 @@ dependencies {
     implementation "org.bitlet:weupnp:$weupnpVersion"
     implementation "io.socket:socket.io-client:$socketioVersion"
     implementation "com.guardsquare:proguard-gradle:$proguardVersion"
+    implementation "org.jitsi:ice4j:$ice4jVersion"
 }

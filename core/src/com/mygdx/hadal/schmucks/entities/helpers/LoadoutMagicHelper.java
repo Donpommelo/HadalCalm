@@ -72,11 +72,11 @@ public class LoadoutMagicHelper {
     }
 
     public void syncServerMagicChange(UnlockActives active) {
-        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncActiveServer(player.getUser().getConnID(), active));
+        PacketManager.serverTCPAll(new PacketsLoadout.SyncActiveServer(player.getUser().getConnID(), active));
     }
 
     public void syncServerMagicChangeEcho(int connID, UnlockActives active) {
-        PacketManager.serverTCPAllExcept(player.getState(), connID, new PacketsLoadout.SyncActiveServer(player.getUser().getConnID(), active));
+        PacketManager.serverTCPAllExcept(connID, new PacketsLoadout.SyncActiveServer(player.getUser().getConnID(), active));
     }
 
     public void syncClientMagicChange(UnlockActives active) {

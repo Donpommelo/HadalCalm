@@ -104,7 +104,7 @@ public class EventData extends HadalData {
 				if (!event.getState().isServer()) {
 					echoActivation(p);
 				} else {
-					PacketManager.serverTCPAllExcept(event.getState(), p.getUser().getConnID(), getActivationPacket(p));
+					PacketManager.serverTCPAllExcept(p.getUser().getConnID(), getActivationPacket(p));
 				}
 			}
 			onActivate(activator, p);
@@ -117,7 +117,7 @@ public class EventData extends HadalData {
 	 */
 	private void echoActivation(Player p) {
 		if (event.getState().isServer()) {
-			PacketManager.serverTCPAll(event.getState(), getActivationPacket(p));
+			PacketManager.serverTCPAll(getActivationPacket(p));
 		} else {
 			PacketManager.clientTCP(getActivationPacket(p));
 		}

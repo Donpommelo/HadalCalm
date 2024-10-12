@@ -198,7 +198,7 @@ public class EndgameManager {
                     user.getStringManager().getName(), user.getConnID(), user.getPing(), user.isSpectator());
             userIndex++;
         }
-        PacketManager.serverTCPAll(state, new Packets.SyncExtraResultsInfo(users, resultsText));
+        PacketManager.serverTCPAll(new Packets.SyncExtraResultsInfo(users, resultsText));
 
         //all users transition to results state
         for (User user : HadalGame.usm.getUsers().values()) {

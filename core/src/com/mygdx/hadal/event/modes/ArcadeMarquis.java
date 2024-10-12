@@ -85,7 +85,7 @@ public class ArcadeMarquis extends Event {
             mapNames[i] = mapChoices.get(i).name();
         }
 
-        PacketManager.serverTCPAll(state, new Packets.SyncArcadeModeChoices(modeNames, mapNames));
+        PacketManager.serverTCPAll(new Packets.SyncArcadeModeChoices(modeNames, mapNames));
     }
 
     private static final HashMap<Integer, Integer> voteCounts = new HashMap<>();

@@ -248,7 +248,7 @@ public class LoadoutArtifactHelper {
     public int getArtifactSlotsRemaining() { return getNumArtifactSlots() - getActiveLoadout().getArtifactSlotsUsed(); }
 
     public void syncServerArtifactChange(UnlockArtifact[] artifact, boolean save) {
-        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncArtifactServer(player.getUser().getConnID(), artifact, save));
+        PacketManager.serverTCPAll(new PacketsLoadout.SyncArtifactServer(player.getUser().getConnID(), artifact, save));
     }
 
     private Loadout getActiveLoadout() {

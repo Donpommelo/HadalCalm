@@ -69,7 +69,7 @@ public class LoadoutHelper {
     }
 
     public void syncServerWholeLoadoutChange() {
-        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncWholeLoadout(player.getUser().getConnID(), getActiveLoadout(), false));
+        PacketManager.serverTCPAll(new PacketsLoadout.SyncWholeLoadout(player.getUser().getConnID(), getActiveLoadout(), false));
     }
 
     private Loadout getActiveLoadout() {

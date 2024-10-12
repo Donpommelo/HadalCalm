@@ -157,7 +157,7 @@ public class PickupEquip extends Event {
 				syncAccumulator = 0.0f;
 				equipChanged = false;
 				if (state.isServer()) {
-					PacketManager.serverTCPAll(state, getActivationPacket());
+					PacketManager.serverTCPAll(getActivationPacket());
 				} else {
 					PacketManager.clientTCP(getActivationPacket());
 				}

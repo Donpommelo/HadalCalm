@@ -215,11 +215,11 @@ public class LoadoutEquipHelper {
     }
 
     public void syncServerEquipChange(UnlockEquip[] equip) {
-        PacketManager.serverTCPAll(player.getState(), new PacketsLoadout.SyncEquipServer(player.getUser().getConnID(), equip));
+        PacketManager.serverTCPAll(new PacketsLoadout.SyncEquipServer(player.getUser().getConnID(), equip));
     }
 
     public void syncServerEquipChangeEcho(int connID, UnlockEquip[] equip) {
-        PacketManager.serverTCPAllExcept(player.getState(), connID, new PacketsLoadout.SyncEquipServer(player.getUser().getConnID(), equip));
+        PacketManager.serverTCPAllExcept(connID, new PacketsLoadout.SyncEquipServer(player.getUser().getConnID(), equip));
     }
 
     public void syncClientEquipChange(UnlockEquip[] equip) {

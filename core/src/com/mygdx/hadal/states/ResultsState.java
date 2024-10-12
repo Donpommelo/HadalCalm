@@ -547,7 +547,7 @@ public class ResultsState extends GameState {
 				int iconID = users.indexOf(user, false);
 				icons.get(iconID).setReady(true);
 
-				PacketManager.serverTCPAll(ps, new Packets.ClientReady(iconID));
+				PacketManager.serverTCPAll(new Packets.ClientReady(iconID));
 			}
 		} else {
 

@@ -132,7 +132,7 @@ public class SettingBots extends ModeSetting {
         for (User user : oldBots) {
             user.getHitboxFilter().setUsed(false);
             HadalGame.usm.getUsers().remove(user.getConnID());
-            PacketManager.serverTCPAll(state, new Packets.RemoveScore(user.getConnID()));
+            PacketManager.serverTCPAll(new Packets.RemoveScore(user.getConnID()));
         }
 
         //reset next connId, then create each bot while incrementing connId to ensure each has a unique one.
