@@ -117,3 +117,7 @@ Thumbs.db
 !/ios-moe/xcode/*.xcodeproj/project.pbxproj
 /ios-moe/xcode/native/
 core/assets/err.txt
+/core/assets/save/Keybind.json
+/core/assets/save/Outfits.json
+/core/assets/save/Records.json
+/core/assets/save/Settings.json

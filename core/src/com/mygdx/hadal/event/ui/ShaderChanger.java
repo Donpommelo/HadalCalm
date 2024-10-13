@@ -32,7 +32,9 @@ public class ShaderChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.getRenderManager().getShaderManager().setShaderBase(shader);
+				if (state.getRenderManager() != null) {
+					state.getRenderManager().getShaderManager().setShaderBase(shader);
+				}
 			}
 		};
 	}

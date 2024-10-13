@@ -343,7 +343,7 @@ public class UIHub {
 			refreshOutfitter(hub);
 		}
 		if (hubTypes.VENDING == type) {
-			refreshVending(hub);
+			refreshVending(lastHubEvent);
 		}
 	}
 
@@ -489,8 +489,10 @@ public class UIHub {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				if (hub instanceof Vending vending) {
-					vending.refreshOptions();
+				if (hub != null) {
+					if (hub instanceof Vending vending) {
+						vending.refreshOptions();
+					}
 				}
 			}
 		});

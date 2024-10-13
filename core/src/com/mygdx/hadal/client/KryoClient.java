@@ -207,10 +207,12 @@ public class KryoClient {
 					score.setLives(p.lives);
 					score.setScore(p.score);
 					score.setExtraModeScore(p.extraModeScore);
+
+					//refresh hub if server validating vending purchase updates currency
+					boolean currencyChange = score.getCurrency() != p.currency;
 					score.setCurrency(p.currency);
 
-					//refresh hub because vending updates currency
-					if (p.connID == usm.getConnID()) {
+					if (p.connID == usm.getConnID() && currencyChange) {
 						cs.getUIManager().getUiHub().refreshHub(null);
 					}
 				});

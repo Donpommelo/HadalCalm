@@ -36,7 +36,9 @@ public class Wallpaper extends HubEvent {
 
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-					state.getRenderManager().getShaderManager().setShaderBase(SHADERS[index]);
+					if (state.getRenderManager() != null) {
+						state.getRenderManager().getShaderManager().setShaderBase(SHADERS[index]);
+					}
 					JSONManager.setting.setCustomShader(index);
 				}
 			});
