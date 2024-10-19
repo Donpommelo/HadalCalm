@@ -2,7 +2,6 @@ package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MessageWindow;
@@ -76,12 +75,11 @@ public class StateManager {
 	 * @param peekState: the state we are adding on top of. ensures no accidental double-adding
 	 */
 	public static void addState(HadalGame app, State state, GameState peekState) {
-		if (states.empty()) {
-			states.push(getState(app, state, peekState));
+		if (peekState == null) {
+			states.push(getState(app, state, null));
 			states.peek().show();
-		} else if (states.peek().getClass().equals(peekState.getClass())) {
-			states.push(getState(app, state, peekState));
-			states.peek().show();
+		} else {
+			addState(getState(app, state, peekState), peekState.getClass());
 		}
 	}
 	
@@ -94,29 +92,7 @@ public class StateManager {
 	 * @param startID: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
 	 */
 	public static void addPlayState(HadalGame app, UnlockLevel map, GameMode mode, Class<? extends GameState> lastState, boolean reset, String startID) {
-		if (states.empty()) {
-			states.push(new PlayState(app, map, mode,true, reset, startID));
-			states.peek().show();
-		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(app, map, mode,true, reset, startID));
-			states.peek().show();
-		}
-	}
-	
-	/**
-	 * This is called by clients as an addPlayState for ClientStates.
-	 * @param map: level the new playstate will load
-	 * @param mode: the mode of the new map (for maps that are compliant with multiple modes.
-	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
-	 */
-	public static void addClientPlayState(HadalGame app, UnlockLevel map, GameMode mode, Class<? extends GameState> lastState) {
-		if (states.empty()) {
-			states.push(new ClientState(app, map, mode));
-			states.peek().show();
-		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new ClientState(app, map, mode));
-			states.peek().show();
-		}
+		addState(new PlayState(app, map, mode,true, reset, startID), lastState);
 	}
 	
 	/**
@@ -127,28 +103,15 @@ public class StateManager {
 	 * @param paused: is the game actually paused underneath the pause menu?
 	 */
 	public static void addPauseState(PlayState ps, String pauser, Class<? extends GameState> lastState, boolean paused) {
-		if (states.empty()) {
-			states.push(new PauseState(ps.getApp(), ps, pauser, paused));
-			states.peek().show();
-		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PauseState(ps.getApp(), ps, pauser, paused));
-			states.peek().show();
-		}
+		addState(new PauseState(ps.getApp(), ps, pauser, paused), lastState);
 	}
-	
-	/**
-	 * This is called at the end of levels to display the results of the game
-	 * @param ps: This is the playstate we are putting the resultstate on
-	 * @param text: this text is displayed at the top of the results state. Declares win or loss (or anything else)
-	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
-	 * @param fbo: the snapshot of the world in the playstate. used for transitions
-	 */
-	public static void addResultsState(PlayState ps, String text, Class<? extends GameState> lastState, FrameBuffer fbo) {
+
+	public static void addState(GameState state, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new ResultsState(ps.getApp(), text, ps, fbo));
+			states.push(state);
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new ResultsState(ps.getApp(), text, ps, fbo));
+			states.push(state);
 			states.peek().show();
 		}
 	}

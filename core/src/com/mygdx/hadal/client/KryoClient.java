@@ -62,14 +62,12 @@ public class KryoClient {
 	//Me Client
 	private Client client;
 
-	private final HadalGame app;
 
 	public final UserManager usm;
 
     public Listener packetListener;
     
-    public KryoClient(HadalGame app, UserManager userManager) {
-		this.app = app;
+    public KryoClient(UserManager userManager) {
 		this.usm = userManager;
     }
     
@@ -364,7 +362,7 @@ public class KryoClient {
 						}
 					}
 
-					StateManager.addClientPlayState(app, p.level, p.mode, LobbyState.class);
+					StateManager.addState(new ClientState(cs.getApp(), p.level, p.mode), LobbyState.class);
 					PacketManager.clientTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});

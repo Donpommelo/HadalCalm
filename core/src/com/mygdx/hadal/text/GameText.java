@@ -950,6 +950,8 @@ public enum GameText {
     }
 
     public String text(String... replace) {
+        if (null == JSONManager.gameStrings) { return ""; }
+
         //no replacements means a static text. Read from file and cache
         if (0 == replace.length) {
             if (null == cachedText) {

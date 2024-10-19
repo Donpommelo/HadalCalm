@@ -14,7 +14,6 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
-import org.jetbrains.annotations.NotNull;
 
 public class Puffball extends SyncedAttacker {
 
@@ -103,7 +102,6 @@ public class Puffball extends SyncedAttacker {
                 }
             }
 
-            @NotNull
             private RangedHitbox getRangedFrag() {
                 RangedHitbox frag = new RangedHitbox(state, getPixelPosition(), new Vector2(SPORE_FRAG_SIZE), SPORE_FRAG_LIFESPAN,
                         new Vector2(newVelocity), user.getHitboxFilter(), false, false, user, Sprite.SPORE_YELLOW) {

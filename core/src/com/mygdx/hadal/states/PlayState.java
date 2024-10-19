@@ -70,16 +70,16 @@ public class PlayState extends GameState {
 	protected final TiledMap map;
 
 	//world manages the Box2d world and physics.
-	protected final World world;
+	protected World world;
 
-	private RenderManager renderManager;
-	private CameraManager cameraManager;
-	private UIManager uiManager;
-	private TimerManager timerManager;
-	private SpawnManager spawnManager;
-	private TransitionManager transitionManager;
-	private SpectatorManager spectatorManager;
-	private EndgameManager endgameManager;
+	protected RenderManager renderManager;
+	protected CameraManager cameraManager;
+	protected UIManager uiManager;
+	protected TimerManager timerManager;
+	protected SpawnManager spawnManager;
+	protected TransitionManager transitionManager;
+	protected SpectatorManager spectatorManager;
+	protected EndgameManager endgameManager;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();

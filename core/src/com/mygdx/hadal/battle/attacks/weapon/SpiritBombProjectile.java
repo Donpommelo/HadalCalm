@@ -22,7 +22,6 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import org.jetbrains.annotations.NotNull;
 
 public class SpiritBombProjectile extends SyncedAttacker {
 
@@ -194,7 +193,6 @@ public class SpiritBombProjectile extends SyncedAttacker {
                 }
             }
 
-            @NotNull
             private Hitbox getExplosion() {
                 Hitbox explosion = new RangedHitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, WARNING_TIME, new Vector2(),
                         user.getHitboxFilter(), true, false, user, PROJ_SPRITE_ACTIVATE) {

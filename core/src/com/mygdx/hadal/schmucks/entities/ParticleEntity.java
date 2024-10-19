@@ -87,15 +87,17 @@ public class ParticleEntity extends HadalEntity {
 		temp = lifespan != 0;
 		this.lifespan = lifespan;
 
-		if (startOn) {
-			this.effect.start();
+		if (null != effect) {
+			if (startOn) {
+				this.effect.start();
 
-			//resetting after starting prevents pooled particles from having incorrect duration timer
-			this.effect.reset();
-		} else {
-			this.effect.allowCompletion();
+				//resetting after starting prevents pooled particles from having incorrect duration timer
+				this.effect.reset();
+			} else {
+				this.effect.allowCompletion();
+			}
+			this.effect.setPosition(startPos.x, startPos.y);
 		}
-		this.effect.setPosition(startPos.x, startPos.y);
 
 		//as default, bounding box exists around the particle with a set size
 		this.visualBounds.inf();

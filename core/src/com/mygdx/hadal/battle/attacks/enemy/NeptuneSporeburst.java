@@ -15,7 +15,6 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import org.jetbrains.annotations.NotNull;
 
 public class NeptuneSporeburst extends SyncedAttacker {
 
@@ -85,7 +84,6 @@ public class NeptuneSporeburst extends SyncedAttacker {
                 }
             }
 
-            @NotNull
             private RangedHitbox getFrag() {
                 RangedHitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), SPORE_FRAG_SIZE, SPORE_FRAG_LIFESPAN,
                         new Vector2(newVelocity), user.getHitboxFilter(), false, false, user, FRAG_SPRITE) {
