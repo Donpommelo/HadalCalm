@@ -8,6 +8,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -146,7 +147,7 @@ public class Vine extends SyncedAttacker {
                     vine.addStrategy(new Static(state, vine, user.getBodyData()));
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(vine.getEntityID(), vine, false, ClientState.ObjectLayer.HBOX);
+                        ((ClientState) state).addEntity(vine.getEntityID(), vine, false, ObjectLayer.HBOX);
                     }
 
                     vineCount++;

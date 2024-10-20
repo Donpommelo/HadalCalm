@@ -5,6 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -48,7 +49,7 @@ public class HydraulicUppercutProjectile extends SyncedAttacker {
                     .setScale(0.5f).setPrematureOff(PARTICLE_LIFESPAN)
                     .setColor(TextUtil.getPlayerColor(player));
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+                ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.EFFECT);
             }
         }
 

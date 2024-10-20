@@ -6,6 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.Screech;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
@@ -99,7 +100,7 @@ public class Screecher extends RangedWeapon {
 				screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.0f, 0.8f, 1.0f, true,
 						true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(screechSound.getEntityID(), screechSound, false, PlayState.ObjectLayer.EFFECT);
+					((ClientState) state).addEntity(screechSound.getEntityID(), screechSound, false, ObjectLayer.EFFECT);
 				}
 			} else {
 				screechSound.turnOn();

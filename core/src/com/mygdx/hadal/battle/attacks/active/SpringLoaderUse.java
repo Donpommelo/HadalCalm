@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle.attacks.active;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Spring;
@@ -24,8 +25,8 @@ public class SpringLoaderUse extends SyncedAttacker {
         ParticleEntity particle = new ParticleEntity(state, startPosition, Particle.MOMENTUM, 1.0f, true, SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(spring.getEntityID(), spring, false, ClientState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(spring.getEntityID(), spring, false, ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
         }
     }
 }

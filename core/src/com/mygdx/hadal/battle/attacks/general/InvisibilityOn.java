@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle.attacks.general;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -26,7 +27,7 @@ public class InvisibilityOn extends SyncedAttacker {
                 SyncType.NOSYNC).setScale(0.4f);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
         }
 
         user.getBodyData().addStatus(new Invisibility(state, duration, user.getBodyData(), user.getBodyData()));

@@ -5,6 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -44,7 +45,7 @@ public class OrbitalStar extends SyncedAttacker {
                 true, true, SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ObjectLayer.EFFECT);
         }
 
         return hboxes;

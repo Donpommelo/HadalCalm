@@ -7,6 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -86,7 +87,7 @@ public class XBomb extends SyncedAttacker {
                 cross.addStrategy(new Static(state, cross, user.getBodyData()));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(cross.getEntityID(), cross, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(cross.getEntityID(), cross, false, ObjectLayer.HBOX);
                 }
             }
         });

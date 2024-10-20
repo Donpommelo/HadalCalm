@@ -5,6 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -93,9 +94,9 @@ public class TridentProjectile extends SyncedAttacker {
                         .setRotate(true).setSyncType(SyncType.NOSYNC));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(center.getEntityID(), center, false, ClientState.ObjectLayer.HBOX);
-                    ((ClientState) state).addEntity(right.getEntityID(), right, false, ClientState.ObjectLayer.HBOX);
-                    ((ClientState) state).addEntity(left.getEntityID(), left, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(center.getEntityID(), center, false, ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(right.getEntityID(), right, false, ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(left.getEntityID(), left, false, ObjectLayer.HBOX);
                 }
             }
         });

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -77,7 +78,7 @@ public class ReviveGravestone extends Event {
 		ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
 				.setScale(1.8f).setColor(color);
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
 		}
 
 		//make objective marker track this event
@@ -94,7 +95,7 @@ public class ReviveGravestone extends Event {
 		this.returnBar = Sprite.UI_RELOAD_BAR.getFrame();
 
 		//we must set this event's layer to make it render underneath players
-		setLayer(PlayState.ObjectLayer.HBOX);
+		setLayer(ObjectLayer.HBOX);
 	}
 
 	@Override

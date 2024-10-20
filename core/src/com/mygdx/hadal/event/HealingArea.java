@@ -4,10 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.*;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -15,7 +12,6 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**

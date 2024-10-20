@@ -1,12 +1,13 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleRequest;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -60,23 +61,25 @@ public class CreateParticles extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		particles = new ParticleEntity(state, hbox, effect, linger, duration, true, syncType);
-		particles.setOffset(offsetX, offsetY);
-		if (particleSize == 0) {
-			particles.setScale(hbox.getScale());
-		} else {
-			particles.setScale(Math.min(hbox.getSize().y, maxSize) / particleSize);
-		}
+		particles = EffectEntityManager.getParticle(state, hbox, new ParticleRequest(effect)
+				.setLinger(linger)
+				.setLifespan(duration)
+				.setSyncType(syncType));
 
-		particles.setRotate(rotate);
-		particles.setColor(color);
+		if (particles != null) {
+			particles.setOffset(offsetX, offsetY);
+			if (particleSize == 0) {
+				particles.setScale(hbox.getScale());
+			} else {
+				particles.setScale(Math.min(hbox.getSize().y, maxSize) / particleSize);
+			}
 
-		if (velocity != 0) {
-			particles.setParticleVelocity(velocity);
-		}
+			particles.setRotate(rotate);
+			particles.setColor(color);
 
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+			if (velocity != 0) {
+				particles.setParticleVelocity(velocity);
+			}
 		}
 	}
 

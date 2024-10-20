@@ -2,6 +2,7 @@ package com.mygdx.hadal.battle.attacks.general;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -19,7 +20,7 @@ public class InvisibilityOff extends SyncedAttacker {
                 SyncType.NOSYNC).setScale(0.4f);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
         }
 
         if (user instanceof Player player) {

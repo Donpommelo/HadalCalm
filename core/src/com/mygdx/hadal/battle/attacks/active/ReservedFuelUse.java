@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle.attacks.active;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
@@ -25,7 +26,7 @@ public class ReservedFuelUse extends SyncedAttacker {
                 true, SyncType.NOSYNC).setColor(HadalColor.FRENCH_LIME);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
         }
 
         user.getBodyData().addStatus(new StatChangeStatus(state, DURATION, Stats.FUEL_REGEN, POWER, user.getBodyData(), user.getBodyData()));

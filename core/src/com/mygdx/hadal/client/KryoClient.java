@@ -14,6 +14,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
@@ -39,7 +40,6 @@ import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.User;
@@ -62,12 +62,14 @@ public class KryoClient {
 	//Me Client
 	private Client client;
 
+	private final HadalGame app;
 
 	public final UserManager usm;
 
     public Listener packetListener;
     
-    public KryoClient(UserManager userManager) {
+    public KryoClient(HadalGame app, UserManager userManager) {
+		this.app = app;
 		this.usm = userManager;
     }
     
@@ -362,7 +364,7 @@ public class KryoClient {
 						}
 					}
 
-					StateManager.addState(new ClientState(cs.getApp(), p.level, p.mode), LobbyState.class);
+					StateManager.addState(new ClientState(app, p.level, p.mode), LobbyState.class);
 					PacketManager.clientTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});

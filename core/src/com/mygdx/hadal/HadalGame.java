@@ -86,7 +86,7 @@ public class HadalGame extends ApplicationAdapter {
 			UPNPUtil.upnp("UDP", "hadal-upnp-udp", JSONManager.setting.getPortNumber());
 		}
 
-		client = new KryoClient(usm);
+		client = new KryoClient(this, usm);
 		server = new KryoServer(usm);
 	}
 	

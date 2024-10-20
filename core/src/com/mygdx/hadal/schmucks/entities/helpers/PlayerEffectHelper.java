@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -44,11 +45,11 @@ public class PlayerEffectHelper {
                 true, true, SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(dustCloud.getEntityID(), dustCloud, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(hoverBubbles.getEntityID(), hoverBubbles, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(hoverSound.getEntityID(), hoverSound, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(runSound.getEntityID(), runSound, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(reloadSound.getEntityID(), reloadSound, false, PlayState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(dustCloud.getEntityID(), dustCloud, false, ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(hoverBubbles.getEntityID(), hoverBubbles, false, ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(hoverSound.getEntityID(), hoverSound, false, ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(runSound.getEntityID(), runSound, false, ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(reloadSound.getEntityID(), reloadSound, false, ObjectLayer.EFFECT);
         }
     }
 

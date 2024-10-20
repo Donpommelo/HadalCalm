@@ -7,6 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -90,7 +91,7 @@ public class Laser extends SyncedAttacker {
         trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance));
         trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ObjectLayer.EFFECT);
         }
         return hbox;
     }

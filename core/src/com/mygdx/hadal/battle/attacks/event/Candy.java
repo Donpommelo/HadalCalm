@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -39,7 +40,7 @@ public class Candy extends SyncedAttacker {
                 Hitbox hbox = new RangedHitbox(state, startPosition[i], CANDY_SIZE, CANDY_DURATION, startVelocity[i],
                         (short) 0, false, false, user, CANDY_SPRITES[randomIndex]);
                 hbox.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PICKUP_RADIUS));
-                hbox.setLayer(PlayState.ObjectLayer.STANDARD);
+                hbox.setLayer(ObjectLayer.STANDARD);
                 hbox.setBotModePickup(true);
                 hbox.setSynced(true);
                 hbox.setSyncedDelete(true);

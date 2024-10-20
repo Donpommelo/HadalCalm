@@ -3,8 +3,9 @@ package com.mygdx.hadal.statuses;
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -35,7 +36,7 @@ public class Blinded extends Status {
 		particleEntity.setOffset(0, inflicted.getSchmuck().getSize().y / 2);
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
 		}
 	}
 
@@ -105,7 +106,7 @@ public class Blinded extends Status {
 		particleEntity.setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
 		}
 	}
 

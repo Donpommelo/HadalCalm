@@ -7,6 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -60,7 +61,7 @@ public class Meteors extends SyncedAttacker {
         ParticleEntity particle = new ParticleEntity(state, user, Particle.RING, 1.0f, meteorDuration, true,
                 SyncType.NOSYNC).setScale(0.4f);
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.HBOX);
         }
 
         Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(1, 1), meteorDuration, new Vector2(),
@@ -129,7 +130,7 @@ public class Meteors extends SyncedAttacker {
                         .setSyncType(SyncType.NOSYNC));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
                         }
                     }
                     meteorCount++;

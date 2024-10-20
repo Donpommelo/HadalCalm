@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.BloodletterProjectile;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -59,7 +60,7 @@ public class Bloodletter extends RangedWeapon {
 				fireSound = new SoundEntity(state, user, SoundEffect.STRAW, 0.0f, 1.2f, 0.7f, true,
 						true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(fireSound.getEntityID(), fireSound, false, PlayState.ObjectLayer.EFFECT);
+					((ClientState) state).addEntity(fireSound.getEntityID(), fireSound, false, ObjectLayer.EFFECT);
 				}
 			} else {
 				fireSound.turnOn();

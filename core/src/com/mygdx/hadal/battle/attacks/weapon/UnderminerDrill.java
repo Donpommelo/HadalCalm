@@ -10,6 +10,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -218,7 +219,7 @@ public class UnderminerDrill extends SyncedAttacker {
                                 bomb.addStrategy(new FlashShaderNearDeath(state, bomb, user.getBodyData(), 1.0f));
 
                                 if (!state.isServer()) {
-                                    ((ClientState) state).addEntity(bomb.getEntityID(), bomb, false, ClientState.ObjectLayer.HBOX);
+                                    ((ClientState) state).addEntity(bomb.getEntityID(), bomb, false, ObjectLayer.HBOX);
                                 }
                             }
                         }

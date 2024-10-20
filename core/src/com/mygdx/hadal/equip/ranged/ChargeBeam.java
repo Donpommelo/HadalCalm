@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.ChargeBeamProjectile;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -107,7 +108,7 @@ public class ChargeBeam extends RangedWeapon {
 				charge.setScale(0.6f);
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(charge.getEntityID(), charge, false, PlayState.ObjectLayer.EFFECT);
+					((ClientState) state).addEntity(charge.getEntityID(), charge, false, ObjectLayer.EFFECT);
 				}
 			}
 			charge.setOffset(particleOrigin.x, particleOrigin.y);
@@ -122,7 +123,7 @@ public class ChargeBeam extends RangedWeapon {
 				overcharge.setScale(0.6f);
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(overcharge.getEntityID(), overcharge, false, PlayState.ObjectLayer.EFFECT);
+					((ClientState) state).addEntity(overcharge.getEntityID(), overcharge, false, ObjectLayer.EFFECT);
 				}
 			}
 			overcharge.setOffset(particleOrigin.x, particleOrigin.y);

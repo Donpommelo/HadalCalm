@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -170,7 +171,7 @@ public class MovementJumpHelper {
             }
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(entity.getEntityID(), entity, false, PlayState.ObjectLayer.EFFECT);
+                ((ClientState) state).addEntity(entity.getEntityID(), entity, false, ObjectLayer.EFFECT);
             }
         }
     }

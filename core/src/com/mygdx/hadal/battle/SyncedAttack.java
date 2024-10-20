@@ -11,6 +11,7 @@ import com.mygdx.hadal.battle.attacks.general.*;
 import com.mygdx.hadal.battle.attacks.special.Emote;
 import com.mygdx.hadal.battle.attacks.special.Ping;
 import com.mygdx.hadal.battle.attacks.weapon.*;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -276,7 +277,7 @@ public enum SyncedAttack {
             // Also do not need to add entity (as that is handled when the packet is received)
             if (origin) {
                 syncAttackSingleClient(hbox, extraFields, hbox.isSynced());
-                ((ClientState) state).addEntity(hbox.getEntityID(), hbox, hbox.isSynced(), PlayState.ObjectLayer.HBOX);
+                ((ClientState) state).addEntity(hbox.getEntityID(), hbox, hbox.isSynced(), ObjectLayer.HBOX);
             }
         }
         return hbox;
@@ -386,7 +387,7 @@ public enum SyncedAttack {
                 if (origin) {
                     syncAttackMultiClient(weaponVelocity, hboxes, extraFields, isSynced);
                     for (Hitbox hbox : hboxes) {
-                        ((ClientState) state).addEntity(hbox.getEntityID(), hbox, isSynced, PlayState.ObjectLayer.HBOX);
+                        ((ClientState) state).addEntity(hbox.getEntityID(), hbox, isSynced, ObjectLayer.HBOX);
                     }
                 }
             }

@@ -7,14 +7,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.requests.ParticleRequest;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 
 import java.util.UUID;
 
@@ -87,17 +88,15 @@ public class ParticleEntity extends HadalEntity {
 		temp = lifespan != 0;
 		this.lifespan = lifespan;
 
-		if (null != effect) {
-			if (startOn) {
-				this.effect.start();
+		if (startOn) {
+			this.effect.start();
 
-				//resetting after starting prevents pooled particles from having incorrect duration timer
-				this.effect.reset();
-			} else {
-				this.effect.allowCompletion();
-			}
-			this.effect.setPosition(startPos.x, startPos.y);
+			//resetting after starting prevents pooled particles from having incorrect duration timer
+			this.effect.reset();
+		} else {
+			this.effect.allowCompletion();
 		}
+		this.effect.setPosition(startPos.x, startPos.y);
 
 		//as default, bounding box exists around the particle with a set size
 		this.visualBounds.inf();
@@ -105,7 +104,11 @@ public class ParticleEntity extends HadalEntity {
 
 		setLayer(ObjectLayer.EFFECT);
 	}
-	
+
+	public ParticleEntity(PlayState state, HadalEntity entity, ParticleRequest particleRequest) {
+		this(state, entity, particleRequest.getParticle(), particleRequest.getLinger(), particleRequest.getLifespan(), particleRequest.isStartOn(), particleRequest.getSyncType());
+	}
+
 	//This constructor creates a particle effect that will follow another entity.
 	public ParticleEntity(PlayState state, HadalEntity entity, Particle particle, float linger, float lifespan, boolean startOn, SyncType sync) {
 		this(state, new Vector2(), particle, lifespan, startOn, sync);

@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle.attacks.active;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -31,8 +32,8 @@ public class ReloaderUse extends SyncedAttacker {
         ParticleEntity ambientParticle = new ParticleEntity(state, user, Particle.BRIGHT, 1.0f, DURATION, true,
                 SyncType.NOSYNC).setColor(HadalColor.RED);
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(pickupParticle.getEntityID(), pickupParticle, false, ClientState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(pickupParticle.getEntityID(), pickupParticle, false, ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, ObjectLayer.EFFECT);
         }
 
         if (user instanceof Player player) {

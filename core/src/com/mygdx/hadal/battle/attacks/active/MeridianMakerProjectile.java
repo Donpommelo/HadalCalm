@@ -6,6 +6,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -64,7 +65,7 @@ public class MeridianMakerProjectile extends SyncedAttacker {
                             currentVec, LIFESPAN);
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(current.getEntityID(), current, false, ClientState.ObjectLayer.EFFECT);
+                        ((ClientState) state).addEntity(current.getEntityID(), current, false, ObjectLayer.EFFECT);
                     }
                 }
             }

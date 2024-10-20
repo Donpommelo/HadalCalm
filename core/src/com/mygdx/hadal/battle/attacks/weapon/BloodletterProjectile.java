@@ -6,6 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -98,7 +99,7 @@ public class BloodletterProjectile extends SyncedAttacker {
                                 ParticleEntity particleEntity = new ParticleEntity(state, schmuck, Particle.VAMPIRE, 1.0f,
                                         2.0f,true, SyncType.NOSYNC);
                                 if (!state.isServer()) {
-                                    ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+                                    ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
                                 }
                             }
                         }
@@ -114,7 +115,7 @@ public class BloodletterProjectile extends SyncedAttacker {
                 Hitbox hbox = new RangedHitbox(state, target.getPixelPosition(), CANDY_SIZE, CANDY_DURATION, new Vector2(),
                         (short) 0, false, false, user, CANDY_SPRITE);
                 hbox.setPassability((short) (BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PICKUP_RADIUS));
-                hbox.setLayer(PlayState.ObjectLayer.STANDARD);
+                hbox.setLayer(ObjectLayer.STANDARD);
                 hbox.setGravity(1.0f);
                 hbox.setFriction(1.0f);
 
@@ -141,14 +142,14 @@ public class BloodletterProjectile extends SyncedAttacker {
                         ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.KAMABOKO_IMPACT, 1.0f,
                                 true, SyncType.NOSYNC).setColor(HadalColor.RED);
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.HBOX);
                         }
 
                         hbox.die();
                     }
                 });
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
                 }
             }
         });

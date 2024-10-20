@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.Cola;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -114,7 +115,7 @@ public class ColaCannon extends RangedWeapon {
 						true, SyncType.NOSYNC);
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+					((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
 				}
 			}
 		}

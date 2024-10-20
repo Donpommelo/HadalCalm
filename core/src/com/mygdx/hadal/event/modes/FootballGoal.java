@@ -3,6 +3,7 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -56,7 +57,7 @@ public class FootballGoal extends Event {
                 }
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
+                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
                 }
 
                 //give score credit to the player and give notification

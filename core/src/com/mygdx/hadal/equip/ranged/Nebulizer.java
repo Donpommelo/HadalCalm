@@ -5,6 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.DiamondCutterProjectile;
 import com.mygdx.hadal.battle.attacks.weapon.Nebula;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
@@ -77,7 +78,7 @@ public class Nebulizer extends MeleeWeapon {
 				sawSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.0f, 0.8f, 0.7f, true,
 						true, SyncType.NOSYNC);
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(sawSound.getEntityID(), sawSound, false, PlayState.ObjectLayer.EFFECT);
+					((ClientState) state).addEntity(sawSound.getEntityID(), sawSound, false, ObjectLayer.EFFECT);
 				}
 			} else {
 				sawSound.turnOn();

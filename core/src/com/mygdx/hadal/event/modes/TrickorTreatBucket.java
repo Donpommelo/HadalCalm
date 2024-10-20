@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -123,7 +124,7 @@ public class TrickorTreatBucket extends Event {
             fire.setOffset((mirror ? -1 : 1) * BUCKET_FIRE_OFFSETX, BUCKET_FIRE_OFFSETY);
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(fire.getEntityID(), fire, false, ClientState.ObjectLayer.EFFECT);
+                ((ClientState) state).addEntity(fire.getEntityID(), fire, false, ObjectLayer.EFFECT);
             }
 
             state.getUIManager().getUiObjective().addObjective(this, Sprite.CANDY_BUCKET, color,true, false, true);

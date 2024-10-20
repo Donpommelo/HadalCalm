@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle.attacks.general;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.event.HealingArea;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -40,8 +41,8 @@ public class HealingFieldUse extends SyncedAttacker {
                 SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(healingArea.getEntityID(), healingArea, false, ClientState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(healingArea.getEntityID(), healingArea, false, ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ObjectLayer.EFFECT);
         }
     }
 }

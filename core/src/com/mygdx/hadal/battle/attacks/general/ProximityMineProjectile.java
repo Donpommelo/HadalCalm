@@ -8,6 +8,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
@@ -118,7 +119,7 @@ public class ProximityMineProjectile extends SyncedAttacker {
                                 true, SyncType.NOSYNC).setScale(0.5f);
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.HBOX);
                         }
                     }
                 }
@@ -157,7 +158,7 @@ public class ProximityMineProjectile extends SyncedAttacker {
                 explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ObjectLayer.HBOX);
                 }
             }
         });

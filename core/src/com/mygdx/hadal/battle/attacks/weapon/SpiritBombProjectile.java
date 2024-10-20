@@ -8,6 +8,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
@@ -72,7 +73,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
                                 true, SyncType.NOSYNC).setScale(0.5f);
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.HBOX);
                         }
 
                         faded = true;
@@ -183,13 +184,13 @@ public class SpiritBombProjectile extends SyncedAttacker {
                                 1.0f, DamageSource.SPIRIT_BOMB, DamageTag.EXPLOSIVE));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
                         }
                     }
                 });
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ObjectLayer.HBOX);
                 }
             }
 

@@ -7,6 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.melee.MorningStar;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -139,7 +140,7 @@ public class MorningStarProjectile extends SyncedAttacker {
             });
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(links[i].getEntityID(), links[i], false, ClientState.ObjectLayer.HBOX);
+                ((ClientState) state).addEntity(links[i].getEntityID(), links[i], false, ObjectLayer.HBOX);
             }
         }
 

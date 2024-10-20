@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle.attacks.artifact;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
@@ -30,7 +31,7 @@ public class AmdhalsLotusActivate extends SyncedAttacker {
                 .setScale(0.4f);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.HBOX);
         }
 
         user.getBodyData().addStatus(new StatusComposite(state, state.getTimerManager().getTimer(), false, user.getBodyData(), user.getBodyData(),

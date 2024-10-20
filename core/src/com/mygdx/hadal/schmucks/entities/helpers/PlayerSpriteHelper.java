@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
@@ -295,7 +296,7 @@ public class PlayerSpriteHelper {
                     headSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
+                ((ClientState) state).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ObjectLayer.STANDARD);
             }
         }
 
@@ -312,15 +313,15 @@ public class PlayerSpriteHelper {
         for (UnlockCosmetic cosmetic : loadout.cosmetics) {
             Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(state, loadout.team, loadout.character, playerLocation, scale, playerVelocity);
             if (null != cosmeticRagdoll && !state.isServer()) {
-                ((ClientState) state).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ClientState.ObjectLayer.STANDARD);
+                ((ClientState) state).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ObjectLayer.STANDARD);
             }
         }
 
         //the client needs to create ragdolls separately b/c we can't serialize the frame buffer object.
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ObjectLayer.STANDARD);
         }
     }
 
@@ -351,7 +352,7 @@ public class PlayerSpriteHelper {
         }.setFade(1.75f, Shader.PERLIN_COLOR_FADE);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ObjectLayer.STANDARD);
         }
     }
 
@@ -380,8 +381,8 @@ public class PlayerSpriteHelper {
                 ragdollTexture2, new Vector2(playerVelocity).scl(-1), GIB_DURATION, GIB_GRAVITY, true, false).setFade();
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(ragdollOne.getEntityID(), ragdollOne, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(ragdollTwo.getEntityID(), ragdollTwo, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(ragdollOne.getEntityID(), ragdollOne, false, ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(ragdollTwo.getEntityID(), ragdollTwo, false, ObjectLayer.STANDARD);
         }
     }
 
@@ -389,7 +390,7 @@ public class PlayerSpriteHelper {
         ParticleEntity particle = new ParticleEntity(state, playerLocation.sub(0, player.getSize().y / 2), Particle.TELEPORT,
                 2.5f, true, SyncType.NOSYNC).setPrematureOff(1.5f);
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.STANDARD);
         }
     }
 

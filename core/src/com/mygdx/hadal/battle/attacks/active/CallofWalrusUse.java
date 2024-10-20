@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
@@ -67,7 +68,7 @@ public class CallofWalrusUse extends SyncedAttacker {
                                         true, SyncType.NOSYNC).setColor(HadalColor.RED);
 
                                 if (!state.isServer()) {
-                                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+                                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
                                 }
                             }
                         }

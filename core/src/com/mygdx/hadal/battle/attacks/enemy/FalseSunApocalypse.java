@@ -6,6 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -87,7 +88,7 @@ public class FalseSunApocalypse extends SyncedAttacker {
                 frag.addStrategy(new ContactUnitDie(state, frag, user.getBodyData()));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ObjectLayer.HBOX);
                 }
             }
 
@@ -109,7 +110,7 @@ public class FalseSunApocalypse extends SyncedAttacker {
                 hbox.addStrategy(new WaveEntity(state, hbox, user.getBodyData(), laser, APOCALYPSE_LASERAMPLITUDE, APOCALYPSE_LASER_FREQUENCY, startAngle));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
                 }
             }
         });

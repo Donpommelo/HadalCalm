@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -63,8 +64,7 @@ public class Spring extends Event {
 								1.0f, true, SyncType.NOSYNC);
 
 						if (!state.isServer()) {
-							((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false,
-									ClientState.ObjectLayer.EFFECT);
+							((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
 						}
 					}
 				}

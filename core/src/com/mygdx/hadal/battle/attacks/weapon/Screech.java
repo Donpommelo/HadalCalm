@@ -5,6 +5,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -66,7 +67,7 @@ public class Screech extends SyncedAttacker {
                 .setParticleColor(HadalColor.RANDOM).setParticleSize(60).setSyncType(SyncType.NOSYNC));
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ObjectLayer.EFFECT);
         }
         return hbox;
     }

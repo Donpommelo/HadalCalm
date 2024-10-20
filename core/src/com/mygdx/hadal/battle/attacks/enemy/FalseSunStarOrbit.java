@@ -6,6 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -61,7 +62,7 @@ public class FalseSunStarOrbit extends SyncedAttacker {
                     true, true, SyncType.NOSYNC);
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.HBOX);
+                ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ObjectLayer.HBOX);
             }
         }
 

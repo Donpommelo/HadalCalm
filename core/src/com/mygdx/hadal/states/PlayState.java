@@ -18,6 +18,7 @@ import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.event.Event;
@@ -613,15 +614,6 @@ public class PlayState extends GameState {
 	
 	public float getRespawnTime(Player p) {
 		return respawnTime * (1.0f + p.getPlayerData().getStat(Stats.RESPAWN_TIME));
-	}
-
-	/**
-	 * Z-Axis Layers that entities can be added to. ATM, there is just 1 for hitboxes beneath everything else.
-	 */
-	public enum ObjectLayer {
-		STANDARD,
-		HBOX,
-		EFFECT
 	}
 
 	public Array<OrderedSet<HadalEntity>> getEntityLists() { return entityLists; }

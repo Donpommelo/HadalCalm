@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -26,7 +27,7 @@ public class MarkedKrill extends Status {
                 .setPrematureOff(LINGER)
                 .setShowOnInvis(true);
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
         }
     }
 

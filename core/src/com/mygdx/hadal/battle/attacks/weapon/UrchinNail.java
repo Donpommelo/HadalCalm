@@ -9,6 +9,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -45,7 +46,7 @@ public class UrchinNail extends SyncedAttacker {
         Hitbox hbox = new RangedHitbox(state, startPosition, STICKY_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 true, true, user, PROJ_SPRITE);
         hbox.setSpriteSize(PROJECTILE_SIZE);
-        hbox.setLayer(PlayState.ObjectLayer.EFFECT);
+        hbox.setLayer(ObjectLayer.EFFECT);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
@@ -65,7 +66,7 @@ public class UrchinNail extends SyncedAttacker {
                 particles = new ParticleEntity(state, hbox, Particle.NAIL_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC);
                 particles.setScale(hbox.getScale());
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+                    ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.EFFECT);
                 }
             }
 

@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle.attacks.artifact;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
@@ -28,7 +29,7 @@ public class SkippersBoxOfFunActivate extends SyncedAttacker {
         ParticleEntity particle =  new ParticleEntity(state, user, Particle.SMOKE_TOTLC, 1.0f, DURATION, true, SyncType.NOSYNC);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
+            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.HBOX);
         }
 
         Equippable equip = UnlocktoItem.getUnlock(UnlockEquip.getRandWeapFromPool(state, ""), null);

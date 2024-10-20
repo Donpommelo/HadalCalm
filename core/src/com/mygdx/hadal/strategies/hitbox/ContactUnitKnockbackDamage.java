@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
@@ -101,7 +102,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 									ParticleEntity particle = new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
 										true, SyncType.NOSYNC);
 									if (!state.isServer()) {
-										((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+										((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
 									}
 									hbox.die();
 								}
@@ -113,7 +114,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 									ParticleEntity particle = new ParticleEntity(state, hbox.getPixelPosition(), Particle.EXPLOSION, 1.0f,
 										true, SyncType.NOSYNC);
 									if (!state.isServer()) {
-										((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
+										((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
 									}
 									hbox.die();
 								}
@@ -123,7 +124,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 				});
 
 				if (!state.isServer()) {
-					((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.EFFECT);
+					((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.EFFECT);
 				}
 			}
 		}

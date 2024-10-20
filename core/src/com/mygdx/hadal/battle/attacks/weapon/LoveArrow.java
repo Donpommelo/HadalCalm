@@ -6,6 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
@@ -99,14 +100,14 @@ public class LoveArrow extends SyncedAttacker {
                             ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
                                     true, SyncType.NOSYNC);
                             if (!state.isServer()) {
-                                ((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectLayer.HBOX);
+                                ((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.HBOX);
                             }
                             hurtbox.die();
                         } else if (((BodyData) fixB).getSchmuck().getHitboxFilter() != user.getHitboxFilter()) {
                             ParticleEntity hurt = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
                                     true, SyncType.NOSYNC);
                             if (!state.isServer()) {
-                                ((ClientState) state).addEntity(hurt.getEntityID(), hurt, false, ClientState.ObjectLayer.HBOX);
+                                ((ClientState) state).addEntity(hurt.getEntityID(), hurt, false, ObjectLayer.HBOX);
                             }
                         }
                     }
@@ -114,7 +115,7 @@ public class LoveArrow extends SyncedAttacker {
             }
         });
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(healbox.getEntityID(), healbox, false, ClientState.ObjectLayer.HBOX);
+            ((ClientState) state).addEntity(healbox.getEntityID(), healbox, false, ObjectLayer.HBOX);
         }
         return hurtbox;
     }
