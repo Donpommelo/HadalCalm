@@ -362,7 +362,7 @@ public class KryoClient {
 						}
 					}
 
-					StateManager.addState(new ClientState(app, p.level, p.mode), LobbyState.class);
+					StateManager.addClientPlayState(app, p.level, p.mode, LobbyState.class);
 					PacketManager.clientTCP(new Packets.ClientLoaded(p.firstTime, spectator, p.spectator,
 							JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 				});

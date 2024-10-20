@@ -2,6 +2,7 @@ package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MessageWindow;
@@ -25,24 +26,24 @@ public class StateManager {
 
 	//Stack of GameStates. These are all the states that the player has opened in that order.
 	public static final Stack<GameState> states = new Stack<>();
-	
+
 	//are we in single or multiplayer mode?
 	public static Mode currentMode = Mode.SINGLE;
-	
+
 	/**
 	 * Run every engine tick. This delegates to the top state telling it how much time has passed since last update.
 	 */
 	public static void update(float delta) {
 		states.peek().update(delta);
 	}
-	
+
 	/**
 	 * Run every engine tick after updating. This will draw stuff and works pretty much like update.
 	 */
 	public static void render(float delta) {
 		states.peek().render(delta);
 	}
-	
+
 	/**
 	 * Run upon deletion (exiting game). This disposes of all states and clears the stack.
 	 */
@@ -66,7 +67,7 @@ public class StateManager {
 		Particle.disposeParticlePool();
 		FrameBufferManager.clearAllFrameBuffers();
 	}
-	
+
 	/**
 	 * This is run when we change the current state.
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
@@ -75,14 +76,15 @@ public class StateManager {
 	 * @param peekState: the state we are adding on top of. ensures no accidental double-adding
 	 */
 	public static void addState(HadalGame app, State state, GameState peekState) {
-		if (peekState == null) {
-			states.push(getState(app, state, null));
+		if (states.empty()) {
+			states.push(getState(app, state, peekState));
 			states.peek().show();
-		} else {
-			addState(getState(app, state, peekState), peekState.getClass());
+		} else if (states.peek().getClass().equals(peekState.getClass())) {
+			states.push(getState(app, state, peekState));
+			states.peek().show();
 		}
 	}
-	
+
 	/**
 	 * This is a addState exclusively for special playstates.
 	 * @param map: level the new playstate will load
@@ -92,9 +94,31 @@ public class StateManager {
 	 * @param startID: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
 	 */
 	public static void addPlayState(HadalGame app, UnlockLevel map, GameMode mode, Class<? extends GameState> lastState, boolean reset, String startID) {
-		addState(new PlayState(app, map, mode,true, reset, startID), lastState);
+		if (states.empty()) {
+			states.push(new PlayState(app, map, mode,true, reset, startID));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(new PlayState(app, map, mode,true, reset, startID));
+			states.peek().show();
+		}
 	}
-	
+
+	/**
+	 * This is called by clients as an addPlayState for ClientStates.
+	 * @param map: level the new playstate will load
+	 * @param mode: the mode of the new map (for maps that are compliant with multiple modes.
+	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 */
+	public static void addClientPlayState(HadalGame app, UnlockLevel map, GameMode mode, Class<? extends GameState> lastState) {
+		if (states.empty()) {
+			states.push(new ClientState(app, map, mode));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(new ClientState(app, map, mode));
+			states.peek().show();
+		}
+	}
+
 	/**
 	 * Called when game is paused. This adds a PauseState to the stack
 	 * @param ps: This is the playstate we are putting the pausestate on
@@ -103,15 +127,28 @@ public class StateManager {
 	 * @param paused: is the game actually paused underneath the pause menu?
 	 */
 	public static void addPauseState(PlayState ps, String pauser, Class<? extends GameState> lastState, boolean paused) {
-		addState(new PauseState(ps.getApp(), ps, pauser, paused), lastState);
-	}
-
-	public static void addState(GameState state, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(state);
+			states.push(new PauseState(ps.getApp(), ps, pauser, paused));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(state);
+			states.push(new PauseState(ps.getApp(), ps, pauser, paused));
+			states.peek().show();
+		}
+	}
+
+	/**
+	 * This is called at the end of levels to display the results of the game
+	 * @param ps: This is the playstate we are putting the resultstate on
+	 * @param text: this text is displayed at the top of the results state. Declares win or loss (or anything else)
+	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 * @param fbo: the snapshot of the world in the playstate. used for transitions
+	 */
+	public static void addResultsState(PlayState ps, String text, Class<? extends GameState> lastState, FrameBuffer fbo) {
+		if (states.empty()) {
+			states.push(new ResultsState(ps.getApp(), text, ps, fbo));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(new ResultsState(ps.getApp(), text, ps, fbo));
 			states.peek().show();
 		}
 	}
@@ -138,13 +175,13 @@ public class StateManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * This method is just a shortcut for returning to the hub state with a clean loadout
 	 */
 	public static void gotoHubState(HadalGame app, Class<? extends GameState> lastState) {
 		if (Mode.SINGLE == currentMode) {
-			
+
 			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise; hub
 			if (0 == JSONManager.record.getFlags().get("HUB_REACHED")) {
 				addPlayState(app, UnlockLevel.WRECK1, GameMode.CAMPAIGN, lastState, true, "");
@@ -155,25 +192,25 @@ public class StateManager {
 			addPlayState(app, UnlockLevel.HUB_MULTI, GameMode.HUB, lastState, true, "");
 		}
 	}
-	
+
 	/**
 	 * This is called upon adding a new state. It maps each state enum to the actual gameState that will be added to the stack
 	 * @param state: enum for the new type of state to be added
 	 * @param peekState: the state underneath this state
 	 * @return A new instance of the gameState corresponding to the input enum
-	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
+	 * NOTE: we no longer use this for any more complicated state that requires extra fields
 	 * Only used for: (TITLE, SPLASH, ABOUT, SETTING, LOBBY)
 	 */
 	public static GameState getState(HadalGame app, State state, GameState peekState) {
-        return switch (state) {
-            case TITLE -> new TitleState(app);
-            case SPLASH -> new InitState(app);
-            case ABOUT -> new AboutState(app, peekState);
-            case SETTING -> new SettingState(app, peekState);
-            case LOBBY -> new LobbyState(app, peekState);
-            default -> null;
-        };
-    }
+		return switch (state) {
+			case TITLE -> new TitleState(app);
+			case SPLASH -> new InitState(app);
+			case ABOUT -> new AboutState(app, peekState);
+			case SETTING -> new SettingState(app, peekState);
+			case LOBBY -> new LobbyState(app, peekState);
+			default -> null;
+		};
+	}
 
 	/**
 	 * 	We clear things like music/sound to free up some memory.
@@ -191,7 +228,7 @@ public class StateManager {
 			gs.resize();
 		}
 	}
-	
+
 	/**
 	 * This exports the current chat log into a text file.
 	 * This is mostly for my own documentation
@@ -201,20 +238,20 @@ public class StateManager {
 			Gdx.files.local("save/ChatLog.json").writeString(s + " \n", true);
 		}
 	}
-	
+
 	//This enum lists all the different types of gamestates.
 	public enum State {
 		SPLASH,
 		TITLE,
 		SETTING,
-		PLAY, 
+		PLAY,
 		VICTORY,
 		PAUSE,
 		CLIENTPLAY,
 		ABOUT,
 		LOBBY
 	}
-	
+
 	//These are the modes of the game
 	public enum Mode {
 		SINGLE,

@@ -51,10 +51,8 @@ public class TransitionManager {
                 StateManager.removeState(PauseState.class, false);
                 StateManager.removeState(PlayState.class, false);
                 StateManager.removeState(ClientState.class, false);
-
-                ResultsState resultsState = new ResultsState(state.getApp(), state.getEndgameManager().getResultsText(), state, fbo);
-                StateManager.addState(resultsState, LobbyState.class);
-                StateManager.addState(resultsState, TitleState.class);
+                StateManager.addResultsState(state, state.getEndgameManager().getResultsText(), LobbyState.class, fbo);
+                StateManager.addResultsState(state, state.getEndgameManager().getResultsText(), TitleState.class, fbo);
                 break;
             case SPECTATOR:
                 //When ded but other players alive, spectate a player
