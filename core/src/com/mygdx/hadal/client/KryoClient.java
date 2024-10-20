@@ -23,13 +23,11 @@ import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -787,14 +785,20 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					ParticleEntity entity;
+					ParticleCreate request;
 					if (p.attached) {
-						entity = new ParticleEntity(cs, null, p.particle, p.linger, p.lifespan, p.startOn, SyncType.NOSYNC);
+						request = new ParticleCreate(p.particle, (HadalEntity) null).setLinger(p.linger);
+					} else {
+						request = new ParticleCreate(p.particle, p.pos);
+					}
+					request.setLifespan(p.lifespan).setStartOn(p.startOn);
+					entity = EffectEntityManager.getParticle(cs, request);
+
+					if (p.attached) {
 						entity.setAttachedId(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
 						entity.setOffset(p.pos.x, p.pos.y);
-					} else {
-						entity = new ParticleEntity(cs, p.pos, p.particle, p.lifespan, p.startOn, SyncType.NOSYNC);
 					}
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.EFFECT);
+
 					entity.setScale(p.scale);
 					entity.setRotate(p.rotate);
 					entity.setPrematureOff(p.prematureOff);
@@ -1045,14 +1049,6 @@ public class KryoClient {
 			return true;
 		}
 		
-		else if (o instanceof Packets.SyncSound p) {
-			final ClientState cs = getClientState();
-			if (null != cs) {
-				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p,p.timestamp));
-			}
-			return true;
-		}
-
 		//if none of the packets match, return false to indicate the packet was not a sync packet
 		return false;
 	}

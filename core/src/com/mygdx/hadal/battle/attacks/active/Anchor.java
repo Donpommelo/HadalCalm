@@ -6,14 +6,13 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
@@ -65,12 +64,8 @@ public class Anchor extends SyncedAttacker {
                         landed = true;
 
                         SoundEffect.METAL_IMPACT_2.playSourced(state, hboxLocation, 1.0f);
-                        ParticleEntity particle = new ParticleEntity(state, hboxLocation, Particle.BOULDER_BREAK,
-                                0.5f, true, SyncType.NOSYNC);
-
-                        if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
-                        }
+                        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BOULDER_BREAK, hboxLocation)
+                                .setLifespan(0.5f));
                     }
                 }
             }

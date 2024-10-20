@@ -9,13 +9,13 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -115,12 +115,9 @@ public class ProximityMineProjectile extends SyncedAttacker {
                         primed[0] = true;
                         hbox.setLifeSpan(MINE_LIFESPAN);
 
-                        ParticleEntity particles = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.SMOKE, 1.0f,
-                                true, SyncType.NOSYNC).setScale(0.5f);
-
-                        if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.HBOX);
-                        }
+                        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SMOKE, hbox.getPixelPosition())
+                                        .setLifespan(1.0f)
+                                        .setScale(0.5f));
                     }
                 }
                 if (primed[0]) {

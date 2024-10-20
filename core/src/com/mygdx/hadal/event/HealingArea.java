@@ -4,13 +4,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.*;
+import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.Constants;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
@@ -105,12 +107,9 @@ public class HealingArea extends Event {
 			currCrossSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			ParticleEntity heal = new ParticleEntity(state, randLocation.set(randX, randY), Particle.REGEN, PARTICLE_LIFESPAN,
-					true, SyncType.NOSYNC);
 
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.REGEN, randLocation.set(randX, randY))
+					.setLifespan(PARTICLE_LIFESPAN));
 		}
 	}
 	

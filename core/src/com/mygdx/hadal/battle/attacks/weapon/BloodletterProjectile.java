@@ -11,6 +11,8 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
@@ -139,11 +141,9 @@ public class BloodletterProjectile extends SyncedAttacker {
                     public void onPickup(HadalData picker) {
                         ((BodyData) picker).regainHp(heal, creator, true);
 
-                        ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.KAMABOKO_IMPACT, 1.0f,
-                                true, SyncType.NOSYNC).setColor(HadalColor.RED);
-                        if (!state.isServer()) {
-                            ((ClientState) state).addEntity(heal.getEntityID(), heal, false, ObjectLayer.HBOX);
-                        }
+                        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.KAMABOKO_IMPACT, hbox.getPixelPosition())
+                                .setLifespan(1.0f)
+                                .setColor(HadalColor.RED));
 
                         hbox.die();
                     }

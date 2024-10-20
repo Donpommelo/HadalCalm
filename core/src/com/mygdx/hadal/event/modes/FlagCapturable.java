@@ -13,6 +13,8 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -197,17 +199,20 @@ public class FlagCapturable extends Event {
 			returnTimer -= delta * numReturningToSpeed(numReturning);
 
 			if (returnTimer <= 0.0f) {
-				ParticleEntity particle = new ParticleEntity(state, getPixelPosition(), Particle.DIATOM_IMPACT_LARGE,
-						PARTICLE_DURATION, true, SyncType.CREATESYNC);
-				queueDeletion();
+				ParticleCreate particleCreate = new ParticleCreate(Particle.DIATOM_IMPACT_LARGE, getPixelPosition())
+						.setLifespan(PARTICLE_DURATION)
+						.setSyncType(SyncType.CREATESYNC);
 
 				if (teamIndex < AlignmentFilter.currentTeams.length) {
-					particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
+					particleCreate.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
 
 					String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();
 					teamColor = TextUtil.getColorName(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon(), teamColor);
 					state.getUIManager().getKillFeed().addNotification(UIText.CTF_RETURNED.text(teamColor), true);
 				}
+
+				EffectEntityManager.getParticle(state, particleCreate);
+				queueDeletion();
 			}
 
 			//check nearby area for allied players and set return percent

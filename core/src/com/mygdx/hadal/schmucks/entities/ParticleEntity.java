@@ -11,9 +11,8 @@ import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.requests.ParticleRequest;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
@@ -48,9 +47,6 @@ public class ParticleEntity extends HadalEntity {
 	
 	//Is the particle currently on?
 	private boolean on;
-	
-	//does this entity send an extra packet to sync color and scaling dynamically?
-	private boolean syncExtraFields;
 	
 	//how is this entity synced?
 	private final SyncType sync;
@@ -105,8 +101,51 @@ public class ParticleEntity extends HadalEntity {
 		setLayer(ObjectLayer.EFFECT);
 	}
 
-	public ParticleEntity(PlayState state, HadalEntity entity, ParticleRequest particleRequest) {
-		this(state, entity, particleRequest.getParticle(), particleRequest.getLinger(), particleRequest.getLifespan(), particleRequest.isStartOn(), particleRequest.getSyncType());
+	public ParticleEntity(PlayState state, ParticleCreate particleCreate) {
+		super(state, particleCreate.getPosition(), new Vector2());
+		this.particle = particleCreate.getParticle();
+		this.effect = particle.getParticle(this);
+		this.on = particleCreate.isStartOn();
+		this.sync = particleCreate.getSyncType();
+		this.despawn = false;
+
+		this.lifespan = particleCreate.getLifespan();
+		temp = lifespan != 0;
+
+		if (particleCreate.isStartOn()) {
+			this.effect.start();
+
+			//resetting after starting prevents pooled particles from having incorrect duration timer
+			this.effect.reset();
+		} else {
+			this.effect.allowCompletion();
+		}
+		this.effect.setPosition(startPos.x, startPos.y);
+
+		//as default, bounding box exists around the particle with a set size
+		this.visualBounds.inf();
+		this.visualBounds.ext(new Vector3(startPos.x, startPos.y, 0), VISUAL_BOUNDS_RADIUS);
+
+		setLayer(ObjectLayer.EFFECT);
+
+		if (particleCreate.getAttachedEntity() != null) {
+			this.attachedEntity = particleCreate.getAttachedEntity();
+			this.linger = particleCreate.getLinger();
+
+			//as default, bounding box exists around the attached entity with a set size
+			if (attachedEntity != null) {
+				if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
+					this.visualBounds.inf();
+					attachedLocation.set(attachedEntity.getPixelPosition());
+					this.visualBounds.ext(new Vector3(attachedLocation.x + offset.x, attachedLocation.y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
+					this.effect.setPosition(attachedLocation.x + offset.x, attachedLocation.y + offset.y);
+				} else {
+					this.visualBounds.inf();
+					this.visualBounds.ext(new Vector3(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
+					this.effect.setPosition(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y);
+				}
+			}
+		}
 	}
 
 	//This constructor creates a particle effect that will follow another entity.
@@ -263,13 +302,13 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		if (SyncType.CREATESYNC.equals(sync) || SyncType.TICKSYNC.equals(sync)) {
+		if (SyncType.CREATESYNC.equals(sync)) {
 			if (attachedEntity != null) {
 				return new Packets.CreateParticles(entityID, attachedEntity.getEntityID(), offset,true, particle,
-						on, linger, lifespan, prematureTurnOff, scale, rotate, velocity, SyncType.TICKSYNC.equals(sync), color);
+						on, linger, lifespan, prematureTurnOff, scale, rotate, velocity, color);
 			} else {
 				return new Packets.CreateParticles(entityID, entityID, startPos, false,	particle, on, linger,
-						lifespan, prematureTurnOff, scale, rotate, velocity, SyncType.TICKSYNC.equals(sync), color);
+						lifespan, prematureTurnOff, scale, rotate, velocity, color);
 			}
 		} else {
 			return null;
@@ -277,67 +316,11 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	@Override
-	public Object onServerDelete() {
-		if (SyncType.TICKSYNC.equals(sync)) {
-			return new Packets.DeleteEntity(entityID, state.getTimer());
-		} else {
-			return null;
-		}
-	}
+	public Object onServerDelete() { return null; }
 	
-	/**
-	 * For particles that are tick synced, send over location to clients as well as whether it is on or not
-	 */
-	private final Vector2 newPos = new Vector2();
 	@Override
-	public void onServerSync() {
-		if (SyncType.TICKSYNC.equals(sync)) {
-			if (attachedEntity == null) {
-				newPos.set(startPos);
-			} else if (attachedEntity.getBody() == null) {
-				newPos.set(startPos);
-			} else {
-				attachedLocation.set(attachedEntity.getPixelPosition());
-				newPos.set(attachedLocation.x, attachedLocation.y);
-			}
-			//if this particle effect has extra fields (scale and color), sync those as well
-			if (syncExtraFields) {
-				state.getSyncPackets().add(new PacketsSync.SyncParticlesExtra(entityID, newPos, offset,	state.getTimer(),
-						on, scale, color));
-			} else {
-				state.getSyncPackets().add(new PacketsSync.SyncParticles(entityID, newPos, offset, state.getTimer(), on));
-			}
-		}
-	}
-	
-	/**
-	 * For Client Particle entities, sync position and on if the server sends over the packets (if Tick synced)
-	 */
-	@Override
-	public void onClientSync(Object o) {
-		if (o instanceof PacketsSync.SyncParticles p) {
-			this.offset.set(p.velocity);
-			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
+	public void onServerSync() {}
 
-			//set bounds so that particle is not invisible to clients
-			visualBoundsExtension.set(p.pos.x + offset.x, p.pos.y + offset.y, 0);
-			visualBounds.ext(visualBoundsExtension, VISUAL_BOUNDS_RADIUS);
-
-			if (p.on && (!on || effect.isComplete())) {
-				turnOn();
-			}
-			if (!p.on && (on || !effect.isComplete())) {
-				turnOff();
-			}
-		}
-		if (o instanceof PacketsSync.SyncParticlesExtra p) {
-			setScale(p.scale);
-			setColor(p.color);
-		} else {
-			super.onClientSync(o);
-		}
-	}
-	
 	/**
 	 * This sets the scale of the particle
 	 * we want to set the scale to the input, not just multiply the current scale by that number
@@ -448,8 +431,6 @@ public class ParticleEntity extends HadalEntity {
 		return this;
 	}
 
-	public void setSyncExtraFields(boolean syncExtraFields) { this.syncExtraFields = syncExtraFields; }
-	
 	public PooledEffect getEffect() { return effect; }
 	
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }

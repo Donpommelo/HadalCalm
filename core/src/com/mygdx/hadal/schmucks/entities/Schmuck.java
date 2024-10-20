@@ -8,7 +8,7 @@ import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
-import com.mygdx.hadal.requests.ParticleRequest;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.helpers.DamageEffectHelper;
 import com.mygdx.hadal.schmucks.entities.helpers.SpecialHpHelper;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -64,7 +64,7 @@ public class Schmuck extends HadalEntity {
 		this.damageEffectHelper = new DamageEffectHelper(state, this);
 		this.specialHpHelper = new SpecialHpHelper(this);
 
-		impact = EffectEntityManager.getParticle(state, this, new ParticleRequest(Particle.IMPACT)
+		impact = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.IMPACT, this)
 				.setStartOn(false));
 	}
 

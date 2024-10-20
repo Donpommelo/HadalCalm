@@ -64,7 +64,6 @@ public class ClientState extends PlayState {
 		//client processes collisions and certain events
 		TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
 		TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
-		TiledObjectUtil.parseTiledTriggerLayer();
 
 		//parse map-specific event layers (used for different modes in the same map)
 		for (String layer : mode.getExtraLayers()) {
@@ -72,6 +71,7 @@ public class ClientState extends PlayState {
 				TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
 			}
 		}
+		TiledObjectUtil.parseTiledTriggerLayer();
 
 		AlignmentFilter.resetTeams();
 

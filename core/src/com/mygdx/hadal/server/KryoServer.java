@@ -665,7 +665,9 @@ public class KryoServer {
 								if (player != null) {
 									Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
 									if (event != null) {
-										event.getEventData().preActivate(null, player);
+										if (event.getEventData() != null) {
+											event.getEventData().preActivate(null, player);
+										}
 									}
 								}
 							}

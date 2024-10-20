@@ -68,14 +68,12 @@ public class Boss4 extends EnemyFloating {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop);
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 2000));
 
-		if (state.isServer()) {
-			body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.TICKSYNC);
-			body1.setScale(bodyBaseScale1).setColor(HadalColor.RED).setSyncExtraFields(true);
-			body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.TICKSYNC);
-			body2.setScale(bodyBaseScale2).setColor(HadalColor.ORANGE).setSyncExtraFields(true);
-			body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, SyncType.TICKSYNC);
-			body3.setScale(bodyBaseScale3).setColor(HadalColor.RED).setSyncExtraFields(true);
-		}
+		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.NOSYNC);
+		body1.setScale(bodyBaseScale1).setColor(HadalColor.RED);
+		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.NOSYNC);
+		body2.setScale(bodyBaseScale2).setColor(HadalColor.ORANGE);
+		body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, SyncType.NOSYNC);
+		body3.setScale(bodyBaseScale3).setColor(HadalColor.RED);
 	}
 	
 	

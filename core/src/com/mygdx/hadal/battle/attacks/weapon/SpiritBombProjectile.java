@@ -13,7 +13,8 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -68,14 +69,9 @@ public class SpiritBombProjectile extends SyncedAttacker {
                 if (controllerCount < FADE_DELAY) {
                     controllerCount += delta;
                     if (controllerCount >= FADE_DELAY) {
-
-                        ParticleEntity particles = new ParticleEntity(state, new Vector2(getPixelPosition()), Particle.SMOKE, 1.0f,
-                                true, SyncType.NOSYNC).setScale(0.5f);
-
-                        if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.HBOX);
-                        }
-
+                        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SMOKE, getPixelPosition())
+                                .setLifespan(1.0f)
+                                .setScale(0.5f));
                         faded = true;
                     }
                 }

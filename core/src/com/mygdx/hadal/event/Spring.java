@@ -4,14 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
@@ -60,12 +58,8 @@ public class Spring extends Event {
 						procCdCount = 0;
 
 						SoundEffect.SPRING.playSourced(state, getPixelPosition(), 0.25f);
-						ParticleEntity particleEntity = new ParticleEntity(state, getPixelPosition(), Particle.MOMENTUM,
-								1.0f, true, SyncType.NOSYNC);
-
-						if (!state.isServer()) {
-							((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-						}
+						EffectEntityManager.getParticle(state, new ParticleCreate(Particle.MOMENTUM, getPixelPosition())
+								.setLifespan(1.0f));
 					}
 				}
 			}

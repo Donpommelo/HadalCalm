@@ -13,7 +13,9 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -137,8 +139,10 @@ public class ReviveGravestone extends Event {
 		}
 
 		if (returnTimer <= 0.0f) {
-			new ParticleEntity(state, getPixelPosition(), Particle.DIATOM_IMPACT_LARGE, PARTICLE_DURATION, true, SyncType.CREATESYNC)
-					.setColor(user.getTeamFilter().getPalette().getIcon());
+			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.DIATOM_IMPACT_LARGE, getPixelPosition())
+					.setLifespan(PARTICLE_DURATION)
+					.setSyncType(SyncType.CREATESYNC)
+					.setColor(user.getTeamFilter().getPalette().getIcon()));
 
 			queueDeletion();
 

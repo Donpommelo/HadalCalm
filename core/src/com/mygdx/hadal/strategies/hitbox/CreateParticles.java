@@ -4,7 +4,7 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
-import com.mygdx.hadal.requests.ParticleRequest;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -61,7 +61,7 @@ public class CreateParticles extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		particles = EffectEntityManager.getParticle(state, hbox, new ParticleRequest(effect)
+		particles = EffectEntityManager.getParticle(state, new ParticleCreate(effect, hbox)
 				.setLinger(linger)
 				.setLifespan(duration)
 				.setSyncType(syncType));

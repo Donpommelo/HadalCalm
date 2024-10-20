@@ -662,7 +662,6 @@ public class Packets {
 		public float scale;
 		public boolean rotate;
 		public float velocity;
-		public boolean synced;
 		public Vector3 color;
 		public CreateParticles() {}
 		
@@ -682,11 +681,10 @@ public class Packets {
 		 * @param scale: The size multiplier of the particle effect
 		 * @param rotate: should this entity rotate to match an attached entity?
 		 * @param velocity: the velocity of the particles. (0 means to set the as the default)
-		 * @param synced: should this entity receive a sync packet regularly?
 		 * @param color: the color tint of the particle
 		 */
 		public CreateParticles(UUID entityID, UUID attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
-		   	float linger, float lifespan, float prematureOff, float scale, boolean rotate, float velocity, boolean synced, Vector3 color) {
+		   	float linger, float lifespan, float prematureOff, float scale, boolean rotate, float velocity, Vector3 color) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
@@ -701,7 +699,6 @@ public class Packets {
 			this.scale = scale;
 			this.rotate = rotate;
 			this.velocity = velocity;
-			this.synced = synced;
 			this.color = color;
 		}
 	}
@@ -887,10 +884,9 @@ public class Packets {
 		 * @param pitch: pitch of the sound. 1.0f - default pitch.
 		 * @param looped: does the sound loop?
 		 * @param on: does the sound start off on?
-		 * @param synced: should this entity receive a sync packet regularly?
 		 */
 		public CreateSound(UUID entityID, UUID attachedID, SoundEffect sound, float lifespan, float volume, float pitch,
-						   boolean looped, boolean on, boolean synced) {
+						   boolean looped, boolean on) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
@@ -901,34 +897,9 @@ public class Packets {
 			this.pitch = pitch;
 			this.looped = looped;
 			this.on = on;
-			this.synced = synced;
 		}
 	}
-	
-	public static class SyncSound {
-		public long uuidMSB, uuidLSB;
-		public float volume;
-		public boolean on;
-		public float timestamp;
-		
-		public SyncSound() {}
-		
-		/**
-		 * A SyncSound synchronizes a single sound entity and is sent from the server to the client every world-sync.
-		 * @param entityID: schmuck id of the SoundEntity
-		 * @param volume: new volume of the soundentity
-		 * @param on: is the soundentity on?
-		 * @param timestamp: time of sync. Used for client prediction.
-		 */
-		public SyncSound(UUID entityID, float volume, boolean on, float timestamp) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-			this.volume = volume;
-			this.on = on;
-			this.timestamp = timestamp;
-		}
-	}
-	
+
 	public static class StartSpectate {
 		
 		/**
@@ -1164,7 +1135,6 @@ public class Packets {
     	kryo.register(SyncUI.class);
     	kryo.register(SyncSoundSingle.class);
     	kryo.register(CreateSound.class);
-    	kryo.register(SyncSound.class);
     	kryo.register(StartSpectate.class);
 		kryo.register(EndSpectate.class);
     	kryo.register(SyncSharedSettings.class);
@@ -1185,8 +1155,6 @@ public class Packets {
 		kryo.register(PacketsSync.SyncSchmuckAngled.class);
 		kryo.register(PacketsSync.SyncPlayerSnapshot.class);
 		kryo.register(PacketsSync.SyncClientSnapshot.class);
-		kryo.register(PacketsSync.SyncParticles.class);
-		kryo.register(PacketsSync.SyncParticlesExtra.class);
 		kryo.register(PacketsSync.SyncFlag.class);
 		kryo.register(PacketsSync.SyncFlagAttached.class);
 

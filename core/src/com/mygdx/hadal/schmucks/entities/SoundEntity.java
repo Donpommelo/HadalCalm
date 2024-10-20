@@ -158,10 +158,8 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-		
-		if (SyncType.CREATESYNC.equals(sync) || SyncType.NOSYNC.equals(sync)) {
-			controller(delta);			
-		}
+		controller(delta);
+
 		if (null == attachedEntity && null != attachedID) {
 			attachedEntity = state.findEntity(attachedID);
 			if (on) {
@@ -175,55 +173,23 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.TICKSYNC)) {
+		if (sync.equals(SyncType.CREATESYNC)) {
 			if (null != attachedEntity) {
 				return new Packets.CreateSound(entityID, attachedEntity.getEntityID(), sound, lifespan, volume, pitch,
-						looped, on, SyncType.TICKSYNC.equals(sync));
+						looped, on);
 			}
 		}
 		return null;
 	}
 	
 	@Override
-	public Object onServerDelete() { 
-		if (SyncType.TICKSYNC.equals(sync)) {
-			return new Packets.DeleteEntity(entityID, state.getTimer());
-		} else {
-			return null;
-		}
-	}
+	public Object onServerDelete() { return null; }
 
 	/**
 	 * For sounds that are tick synced, send over volume to clients as well as whether it is on or not
 	 */
 	@Override
-	public void onServerSync() {
-		if (SyncType.TICKSYNC.equals(sync)) {
-			if (null != attachedEntity) {
-				if (null != attachedEntity.getBody()) {
-					state.getSyncPackets().add(new Packets.SyncSound(entityID, volume, on, state.getTimer()));
-				}
-			}
-		}
-	}
-	
-	/**
-	 * For Client sound entities, sync position, volume and on if the server sends over the packets (if Tick synced)
-	 */
-	@Override
-	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncSound p) {
-			volume = p.volume;
-			if (p.on) {
-				turnOn();
-			}
-			if (!p.on) {
-				turnOff();
-			}
-		} else {
-			super.onClientSync(o);
-		}
-	}
+	public void onServerSync() {}
 	
 	@Override
 	public void render(SpriteBatch batch, Vector2 entityLocation) {}
