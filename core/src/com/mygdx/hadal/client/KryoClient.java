@@ -14,6 +14,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.equip.Loadout;
@@ -28,6 +29,7 @@ import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -856,9 +858,13 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					SoundEntity entity = new SoundEntity(cs, null, p.sound, p.lifespan, p.volume, p.pitch, p.looped, p.on, SyncType.NOSYNC);
+					SoundEntity entity = EffectEntityManager.getSound(cs, new SoundCreate(p.sound, null)
+							.setLifespan(p.lifespan)
+							.setVolume(p.volume)
+							.setPitch(p.pitch)
+							.setLooped(p.looped)
+							.setStartOn(p.on));
 					entity.setAttachedID(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.STANDARD);
 				});
 			}
 			return true;

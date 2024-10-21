@@ -4,13 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.BloodletterProjectile;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 public class Bloodletter extends RangedWeapon {
@@ -57,11 +56,9 @@ public class Bloodletter extends RangedWeapon {
 
 		if (shooting) {
 			if (fireSound == null) {
-				fireSound = new SoundEntity(state, user, SoundEffect.STRAW, 0.0f, 1.2f, 0.7f, true,
-						true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(fireSound.getEntityID(), fireSound, false, ObjectLayer.EFFECT);
-				}
+				fireSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.STRAW, user)
+						.setVolume(1.2f)
+						.setPitch(0.7f));
 			} else {
 				fireSound.turnOn();
 			}

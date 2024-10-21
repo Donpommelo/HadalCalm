@@ -42,7 +42,7 @@ public class ParticleEntity extends HadalEntity {
 	//Has the attached entity despawned yet?
 	private boolean despawn;
 
-	//Has the particle lifespan expired? (If
+	//Has the particle lifespan expired? (So the effect can complete before despawning)
 	private boolean completing;
 
 	//Is the particle currently on?
@@ -257,10 +257,10 @@ public class ParticleEntity extends HadalEntity {
 	public Object onServerCreate(boolean catchup) {
 		if (SyncType.CREATESYNC.equals(sync)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID, attachedEntity.getEntityID(), offset,true, particle,
+				return new Packets.CreateParticles(attachedEntity.getEntityID(), offset,true, particle,
 						on, linger, lifespan, scale, rotate, velocity, color);
 			} else {
-				return new Packets.CreateParticles(entityID, entityID, startPos, false,	particle, on, linger,
+				return new Packets.CreateParticles(entityID, startPos, false,	particle, on, linger,
 						lifespan, scale, rotate, velocity, color);
 			}
 		} else {

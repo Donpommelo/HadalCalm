@@ -5,15 +5,13 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -44,11 +42,10 @@ public class KamabokoSpray extends SyncedAttacker {
 
         if (extraFields.length > 0) {
             if (extraFields[0] == 0) {
-                SoundEntity sound = new SoundEntity(state, user, SoundEffect.OOZE, TOTAL_DURATION, 0.6f, 2.0f,
-                        true, true, SyncType.NOSYNC);
-                if (!state.isServer()) {
-                    ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ObjectLayer.EFFECT);
-                }
+                EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.OOZE, hbox)
+                        .setLifespan(TOTAL_DURATION)
+                        .setVolume(0.6f)
+                        .setPitch(2.0f));
             }
         }
 

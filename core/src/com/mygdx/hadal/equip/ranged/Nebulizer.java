@@ -5,15 +5,14 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.DiamondCutterProjectile;
 import com.mygdx.hadal.battle.attacks.weapon.Nebula;
-import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.DamagePulse;
 
@@ -36,7 +35,7 @@ public class Nebulizer extends MeleeWeapon {
 	//is the player holding their mouse?
 	private boolean held = false;
 
-	private SoundEntity sawSound;
+	private SoundEntity cloudSound;
 
 	private float innateAttackCdCount;
 
@@ -74,18 +73,16 @@ public class Nebulizer extends MeleeWeapon {
 		boolean shooting = user.getShootHelper().isShooting() && this.equals(user.getEquipHelper().getCurrentTool());
 
 		if (shooting) {
-			if (sawSound == null) {
-				sawSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.0f, 0.8f, 0.7f, true,
-						true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(sawSound.getEntityID(), sawSound, false, ObjectLayer.EFFECT);
-				}
+			if (cloudSound == null) {
+				cloudSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.FLAMETHROWER, user)
+						.setVolume(0.8f)
+						.setPitch(0.7f));
 			} else {
-				sawSound.turnOn();
+				cloudSound.turnOn();
 			}
 		} else {
-			if (sawSound != null) {
-				sawSound.turnOff();
+			if (cloudSound != null) {
+				cloudSound.turnOff();
 			}
 
 			if (shootingLast && user.getSpecialWeaponHelper().getDeathOrbHbox() != null) {
@@ -125,9 +122,9 @@ public class Nebulizer extends MeleeWeapon {
 			user.getSpecialWeaponHelper().getDeathOrbHbox().die();
 			user.getSpecialWeaponHelper().setDeathOrbHbox(null);
 		}
-		if (sawSound != null) {
-			sawSound.terminate();
-			sawSound = null;
+		if (cloudSound != null) {
+			cloudSound.terminate();
+			cloudSound = null;
 		}
 	}
 

@@ -5,14 +5,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.Kamaboko;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 public class Kamabokannon extends RangedWeapon {
@@ -84,11 +83,8 @@ public class Kamabokannon extends RangedWeapon {
 
 		if (shooting) {
 			if (oozeSound == null) {
-				oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.0f, 0.8f, 1.0f,
-						true, true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(oozeSound.getEntityID(), oozeSound, false, ObjectLayer.EFFECT);
-				}
+				oozeSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.OOZE, user)
+						.setVolume(0.8f));
 			} else {
 				oozeSound.turnOn();
 			}

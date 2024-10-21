@@ -4,13 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.MinigunBullet;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
@@ -117,11 +116,8 @@ public class Minigun extends RangedWeapon {
 
 		if (charging) {
 			if (chargeSound == null) {
-				chargeSound = new SoundEntity(state, user, SoundEffect.MINIGUN_UP, 0.0f, 0.4f, 1.0f,
-						true, true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(chargeSound.getEntityID(), chargeSound, false, ObjectLayer.EFFECT);
-				}
+				chargeSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.MINIGUN_UP, user)
+						.setVolume(0.8f));
 			}
 		} else {
 			if (chargeSound != null) {
@@ -132,11 +128,8 @@ public class Minigun extends RangedWeapon {
 
 		if (firing) {
 			if (fireSound == null) {
-				fireSound = new SoundEntity(state, user, SoundEffect.MINIGUN_LOOP, 0.0f, 0.4f, 1.0f,
-						true, true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(fireSound.getEntityID(), fireSound, false, ObjectLayer.EFFECT);
-				}
+				fireSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.MINIGUN_LOOP, user)
+						.setVolume(0.4f));
 			} else {
 				fireSound.turnOn();
 			}

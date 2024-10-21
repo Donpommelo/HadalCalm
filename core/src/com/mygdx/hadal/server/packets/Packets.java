@@ -650,7 +650,6 @@ public class Packets {
 	}
 
 	public static class CreateParticles {
-		public long uuidMSB, uuidLSB;
 		public long uuidMSBAttached, uuidLSBAttached;
         public Vector2 pos;
         public boolean attached;
@@ -668,7 +667,6 @@ public class Packets {
 		 * A CreateParticles is sent from the Server to the Client whenever a synced ParticlesEntity is created.
 		 * Clients simply create the desired particle entity with all of the listed fields.
 		 * Attached information is useful for making most particles sync on create, instead of every engine tick.(unless needed)
-		 * @param entityID: ID of the newly created ParticlesEntity
 		 * @param attachedID: ID of attached entity if it exists and null otherwise
 		 * @param pos: Position of particle entity if not attached to another entity. If attached to an entity. this is the offset from the entity's position
 		 * @param attached: Is this particleEntity attached to another entity?
@@ -681,10 +679,8 @@ public class Packets {
 		 * @param velocity: the velocity of the particles. (0 means to set the as the default)
 		 * @param color: the color tint of the particle
 		 */
-		public CreateParticles(UUID entityID, UUID attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
+		public CreateParticles(UUID attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
 		   	float linger, float lifespan, float scale, boolean rotate, float velocity, Vector3 color) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
 			this.uuidMSBAttached = attachedID.getMostSignificantBits();
 			this.pos = pos;
@@ -857,7 +853,6 @@ public class Packets {
 	}
 	
 	public static class CreateSound {
-		public long uuidMSB, uuidLSB;
 		public long uuidMSBAttached, uuidLSBAttached;
 		public SoundEffect sound;
 		public float lifespan;
@@ -865,15 +860,13 @@ public class Packets {
 		public float pitch;
 		public boolean looped;
 		public boolean on;
-		public boolean synced;
-		
+
 		public CreateSound() {}
 		
 		/**
 		 * A CreateSound is sent from the Server to the Client to tell the client to create a SoundEntity.
 		 * This is distinct from SyncSoundSingle because the sound is attached to an entity that can move/be destroyed etc.
 		 * The volume and pan of the sound is dependent on the relative position of the entity.
-		 * @param entityID: schmuck id of the SoundEntity
 		 * @param attachedID: schmuck id of the entity that the SchmuckEntity is to attached to
 		 * @param sound: The sound effect to play
 		 * @param lifespan: duration of sound (if looping and not dependent on attached entity)
@@ -882,10 +875,8 @@ public class Packets {
 		 * @param looped: does the sound loop?
 		 * @param on: does the sound start off on?
 		 */
-		public CreateSound(UUID entityID, UUID attachedID, SoundEffect sound, float lifespan, float volume, float pitch,
+		public CreateSound(UUID attachedID, SoundEffect sound, float lifespan, float volume, float pitch,
 						   boolean looped, boolean on) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
 			this.uuidMSBAttached = attachedID.getMostSignificantBits();
 			this.sound = sound;

@@ -5,15 +5,14 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -41,12 +40,8 @@ public class OrbitalStar extends SyncedAttacker {
         hboxes[2] = createOrbital(state, user, 180);
         hboxes[3] = createOrbital(state, user, 270);
 
-        SoundEntity sound = new SoundEntity(state, hboxes[0], SoundEffect.MAGIC25_SPELL, PROJ_LIFESPAN, 1.0f, 1.0f,
-                true, true, SyncType.NOSYNC);
-
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ObjectLayer.EFFECT);
-        }
+        EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.MAGIC25_SPELL, hboxes[0])
+                .setLifespan(PROJ_LIFESPAN));
 
         return hboxes;
     }

@@ -2,11 +2,10 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
@@ -37,18 +36,12 @@ public class PlayerEffectHelper {
         dustCloud = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.DUST, player));
         hoverBubbles = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BUBBLE_TRAIL, player));
 
-        hoverSound = new SoundEntity(state, player, SoundEffect.HOVER, 0.0f, 0.2f, 1.0f,
-                true, true, SyncType.NOSYNC);
-        runSound = new SoundEntity(state, player, SoundEffect.RUN, 0.0f, 0.1f, 1.0f,
-                true, true, SyncType.NOSYNC);
-        reloadSound = new SoundEntity(state, player, SoundEffect.RELOAD, 0.0f, 0.2f, 1.0f,
-                true, true, SyncType.NOSYNC);
-
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(hoverSound.getEntityID(), hoverSound, false, ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(runSound.getEntityID(), runSound, false, ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(reloadSound.getEntityID(), reloadSound, false, ObjectLayer.EFFECT);
-        }
+        hoverSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.HOVER, player)
+                .setVolume(0.2f));
+        runSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.RUN, player)
+                .setVolume(0.1f));
+        reloadSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.RELOAD, player)
+                .setVolume(0.2f));
     }
 
     public void setEffectOffset() {
