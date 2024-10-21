@@ -5,20 +5,19 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.StatusComposite;
@@ -64,12 +63,9 @@ public class CallofWalrusUse extends SyncedAttacker {
                                         new StatChangeStatus(state, Stats.TOOL_SPD, ATK_SPD_BUFF, ally),
                                         new StatChangeStatus(state, Stats.DAMAGE_AMP, DAMAGE_BUFF, ally)));
 
-                                ParticleEntity particle = new ParticleEntity(state, ally.getSchmuck(), Particle.LIGHTNING_CHARGE, 1.0f, BUFF_DURATION,
-                                        true, SyncType.NOSYNC).setColor(HadalColor.RED);
-
-                                if (!state.isServer()) {
-                                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
-                                }
+                                EffectEntityManager.getParticle(state, new ParticleCreate(Particle.LIGHTNING_CHARGE, ally.getSchmuck())
+                                        .setLifespan(BUFF_DURATION)
+                                        .setColor(HadalColor.RED));
                             }
                         }
                     }

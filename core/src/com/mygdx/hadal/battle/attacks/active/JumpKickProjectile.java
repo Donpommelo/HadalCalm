@@ -5,16 +5,15 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.*;
@@ -26,7 +25,6 @@ public class JumpKickProjectile extends SyncedAttacker {
 
     private static final Vector2 HITBOX_SIZE = new Vector2(90, 120);
     private static final float LIFESPAN = 0.5f;
-    private static final float PARTICLE_LIFESPAN = 0.6f;
     private static final float RECOIL = 150.0f;
     private static final float KNOCKBACK = 90.0f;
 
@@ -42,13 +40,10 @@ public class JumpKickProjectile extends SyncedAttacker {
         }
 
         if (user instanceof Player player) {
-            ParticleEntity particles = new ParticleEntity(user.getState(), user, particle, 1.5f, 1.0f,
-                    true, SyncType.NOSYNC)
-                    .setScale(0.5f).setPrematureOff(PARTICLE_LIFESPAN)
-                    .setColor(TextUtil.getPlayerColor(player));
-            if (!state.isServer()) {
-                ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.EFFECT);
-            }
+            EffectEntityManager.getParticle(state, new ParticleCreate(particle, user)
+                    .setLifespan(1.0f)
+                    .setScale(0.5f)
+                    .setColor(TextUtil.getPlayerColor(player)));
         }
 
         user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user.getBodyData(), user.getBodyData()));

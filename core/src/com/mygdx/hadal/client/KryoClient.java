@@ -801,7 +801,6 @@ public class KryoClient {
 
 					entity.setScale(p.scale);
 					entity.setRotate(p.rotate);
-					entity.setPrematureOff(p.prematureOff);
 					if (0 != p.velocity) {
 						entity.setParticleVelocity(p.velocity);
 					}

@@ -3,17 +3,16 @@ package com.mygdx.hadal.event.modes;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -49,16 +48,14 @@ public class FootballGoal extends Event {
 
             @Override
             public void onActivate(EventData activator, Player p) {
-
-                ParticleEntity particle = new ParticleEntity(state, event, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
-                        true, SyncType.NOSYNC);
+                HadalColor color = HadalColor.NOTHING;
                 if (teamIndex < AlignmentFilter.currentTeams.length) {
-                    particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
+                    color = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
                 }
 
-                if (!state.isServer()) {
-                    ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
-                }
+                EffectEntityManager.getParticle(state, new ParticleCreate(Particle.DIATOM_IMPACT_LARGE, event)
+                        .setLifespan(PARTICLE_DURATION)
+                        .setColor(color));
 
                 //give score credit to the player and give notification
                 if (p != null) {

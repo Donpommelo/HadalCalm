@@ -658,7 +658,6 @@ public class Packets {
 		public boolean startOn;
 		public float linger;
 		public float lifespan;
-		public float prematureOff;
 		public float scale;
 		public boolean rotate;
 		public float velocity;
@@ -677,14 +676,13 @@ public class Packets {
 		 * @param startOn: Does this effect start turned on?
 		 * @param linger: How long does an attached Particle Entity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
-		 * @param prematureOff: Duration before despawning that the particle stops emitting
 		 * @param scale: The size multiplier of the particle effect
 		 * @param rotate: should this entity rotate to match an attached entity?
 		 * @param velocity: the velocity of the particles. (0 means to set the as the default)
 		 * @param color: the color tint of the particle
 		 */
 		public CreateParticles(UUID entityID, UUID attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
-		   	float linger, float lifespan, float prematureOff, float scale, boolean rotate, float velocity, Vector3 color) {
+		   	float linger, float lifespan, float scale, boolean rotate, float velocity, Vector3 color) {
 			this.uuidLSB = entityID.getLeastSignificantBits();
 			this.uuidMSB = entityID.getMostSignificantBits();
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
@@ -695,7 +693,6 @@ public class Packets {
 			this.startOn = startOn;
 			this.linger = linger;
 			this.lifespan = lifespan;
-			this.prematureOff = prematureOff;
 			this.scale = scale;
 			this.rotate = rotate;
 			this.velocity = velocity;

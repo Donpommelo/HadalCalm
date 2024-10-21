@@ -4,8 +4,8 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ParticleToggleable;
@@ -59,8 +59,9 @@ public class Clepsydrae extends Artifact {
 
 			@Override
 			public void createParticle() {
-				setParticle(new ParticleEntity(state, inflicted.getSchmuck(), Particle.LIGHTNING_CHARGE, 0.0f, 0.0f,
-						false, SyncType.NOSYNC).setColor(HadalColor.AMBER));
+				setParticle(EffectEntityManager.getParticle(state, new ParticleCreate(Particle.LIGHTNING_CHARGE, p.getPlayer())
+						.setStartOn(false)
+						.setColor(HadalColor.AMBER)));
 			}
 		};
 	}

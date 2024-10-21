@@ -1,14 +1,13 @@
 package com.mygdx.hadal.event.utility;
 
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -41,11 +40,9 @@ public class ParticleCreator extends Event {
 		this.on = startOn;
 
 		if (duration == 0) {
-			particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, SyncType.NOSYNC);
-
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.EFFECT);
-			}
+			particles = EffectEntityManager.getParticle(state, new ParticleCreate(particle, (HadalEntity) null)
+					.setLinger(0.0f)
+					.setStartOn(on));
 		} else {
 			this.particle = particle;
 		}
@@ -78,10 +75,8 @@ public class ParticleCreator extends Event {
 					}
 					on = !on;
 				} else {
-					ParticleEntity tempParticles = new ParticleEntity(state, attachedEntity, particle, 1.0f, duration, true, SyncType.NOSYNC);
-					if (!state.isServer()) {
-						((ClientState) state).addEntity(tempParticles.getEntityID(), tempParticles, false, ObjectLayer.EFFECT);
-					}
+					particles = EffectEntityManager.getParticle(state, new ParticleCreate(particle, attachedEntity)
+							.setLifespan(duration));
 				}
 			}
 		};

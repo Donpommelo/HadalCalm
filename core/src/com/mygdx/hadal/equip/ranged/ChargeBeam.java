@@ -3,11 +3,11 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.ChargeBeamProjectile;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -104,30 +104,28 @@ public class ChargeBeam extends RangedWeapon {
 
 		if (charging) {
 			if (charge == null) {
-				charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 1.0f, 0.0f, false, SyncType.NOSYNC);
-				charge.setScale(0.6f);
-
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(charge.getEntityID(), charge, false, ObjectLayer.EFFECT);
-				}
+				charge = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.CHARGING, user)
+						.setStartOn(false)
+						.setScale(0.6f));
 			}
-			charge.setOffset(particleOrigin.x, particleOrigin.y);
-			charge.turnOn();
+			if (charge != null) {
+				charge.setOffset(particleOrigin.x, particleOrigin.y);
+				charge.turnOn();
+			}
 		} else if (charge != null) {
 			charge.turnOff();
 		}
 
 		if (overcharging) {
 			if (overcharge == null) {
-				overcharge = new ParticleEntity(user.getState(), user, Particle.OVERCHARGE, 1.0f, 0.0f, false, SyncType.NOSYNC);
-				overcharge.setScale(0.6f);
-
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(overcharge.getEntityID(), overcharge, false, ObjectLayer.EFFECT);
-				}
+				overcharge = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.OVERCHARGE, user)
+						.setStartOn(false)
+						.setScale(0.6f));
 			}
-			overcharge.setOffset(particleOrigin.x, particleOrigin.y);
-			overcharge.turnOn();
+			if (overcharge != null) {
+				overcharge.setOffset(particleOrigin.x, particleOrigin.y);
+				overcharge.turnOn();
+			}
 		} else if (overcharge != null) {
 			overcharge.turnOff();
 		}

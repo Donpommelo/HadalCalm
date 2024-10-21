@@ -9,6 +9,8 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
@@ -95,12 +97,15 @@ public class Minigun extends RangedWeapon {
 
 		if (shooting) {
 			if (slow == null) {
-				slow = new ParticleEntity(user.getState(), user, Particle.STUN, 0.0f, 0.0f, false, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(slow.getEntityID(), slow, false, ObjectLayer.EFFECT);
-				}
+				slow = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.STUN, user)
+						.setLinger(0.0f)
+						.setStartOn(false)
+						.setScale(0.6f));
+
 			}
-			slow.turnOn();
+			if (slow != null) {
+				slow.turnOn();
+			}
 		} else if (slow != null) {
 			if (state.isServer()) {
 				slow.queueDeletion();

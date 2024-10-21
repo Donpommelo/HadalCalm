@@ -17,14 +17,12 @@ import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.CarryingFlag;
 import com.mygdx.hadal.statuses.Status;
@@ -93,11 +91,8 @@ public class FlagCapturable extends Event {
 		if (teamIndex < AlignmentFilter.currentTeams.length) {
 			HadalColor teamColor = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
 			color = teamColor;
-			ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
-					.setColor(teamColor);
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BRIGHT_TRAIL, this)
+					.setColor(teamColor));
 		}
 
 		//make objective marker track this event

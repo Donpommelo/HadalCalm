@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
@@ -41,8 +42,11 @@ public class Invisibility extends Status {
 	
 	@Override
 	public void onRemove() {
-		SyncedAttack.INVISIBILITY_OFF.initiateSyncedAttackNoHbox(state, inflicted.getSchmuck(),
-				inflicted.getSchmuck().getPixelPosition(),true);
+		//this activates for any player for all clients. Only initiate synced attack for self to avoid double-activation
+		if (inflicted.getSchmuck().equals(HadalGame.usm.getOwnPlayer())) {
+			SyncedAttack.INVISIBILITY_OFF.initiateSyncedAttackNoHbox(state, inflicted.getSchmuck(),
+					inflicted.getSchmuck().getPixelPosition(),true);
+		}
 	}
 	
 	@Override

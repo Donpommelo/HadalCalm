@@ -8,12 +8,12 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -92,11 +92,12 @@ public class Currents extends Event {
 			currBubbleSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 			int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-			new ParticleEntity(state, new Ragdoll(state, randLocation.set(randX, randY), RAGDOLL_SIZE, Sprite.NOTHING,
-					ragdollVelo, 0.25f, 0.0f, false, true, false),
-					Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC)
-			.setParticleVelocity(vec.angleRad())
-			.setParticleAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians);
+			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.CURRENT_TRAIL,
+					new Ragdoll(state, randLocation.set(randX, randY), RAGDOLL_SIZE, Sprite.NOTHING,
+							ragdollVelo, 0.25f, 0.0f, false, true, false))
+					.setLinger(0.5f)
+					.setVelocity(vec.angleRad())
+					.setAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians));
 		}
 	}
 	
@@ -126,11 +127,11 @@ public class Currents extends Event {
 			
 			Ragdoll ragdoll = new Ragdoll(state, randLocation.set(randX, randY), RAGDOLL_SIZE, Sprite.NOTHING, ragdollVelo,
 					0.25f, 0.0f, false, true, false);
-			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.CURRENT_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC)
-				.setParticleVelocity(vec.angleRad())
-				.setParticleAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians);
+			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.CURRENT_TRAIL, ragdoll)
+					.setLinger(0.5f)
+					.setVelocity(vec.angleRad())
+					.setAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians));
 			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ObjectLayer.STANDARD);
-			((ClientState) state).addEntity(bubbles.getEntityID(), bubbles, false, ObjectLayer.EFFECT);
 		}
 	}
 }

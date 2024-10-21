@@ -35,18 +35,21 @@ public class ParticleEntity extends HadalEntity {
 	private HadalEntity attachedEntity;
 	private UUID attachedId;
 	
-	//How long this entity will last after deletion, the interval that this effect is turned on
-	//the lifespan of this entity, how much time before dying does the effect turn off?
-	private float linger, interval, lifespan, prematureTurnOff;
+	//How long this entity will last after deletion of attached entity, the interval that this effect is turned on
+	//the lifespan of this entity
+	private float linger, interval, lifespan;
 	
 	//Has the attached entity despawned yet?
 	private boolean despawn;
-	
-	//Will the particle despawn after a duration?
-	private final boolean temp;
-	
+
+	//Has the particle lifespan expired? (If
+	private boolean completing;
+
 	//Is the particle currently on?
 	private boolean on;
+
+	//Will the particle despawn after a duration?
+	private final boolean temp;
 	
 	//how is this entity synced?
 	private final SyncType sync;
@@ -71,35 +74,6 @@ public class ParticleEntity extends HadalEntity {
 
 	//visual bounds is used to have a rough bounding box of the particle for culling offscreen effects
 	private final BoundingBox visualBounds = new BoundingBox();
-
-	//This constructor creates a particle effect at an area.
-	public ParticleEntity(PlayState state, Vector2 startPos, Particle particle, float lifespan, boolean startOn, SyncType sync) {
-		super(state, startPos, new Vector2());
-		this.particle = particle;
-		this.effect = particle.getParticle(this);
-		this.on = startOn;
-		this.sync = sync;
-		this.despawn = false;
-		
-		temp = lifespan != 0;
-		this.lifespan = lifespan;
-
-		if (startOn) {
-			this.effect.start();
-
-			//resetting after starting prevents pooled particles from having incorrect duration timer
-			this.effect.reset();
-		} else {
-			this.effect.allowCompletion();
-		}
-		this.effect.setPosition(startPos.x, startPos.y);
-
-		//as default, bounding box exists around the particle with a set size
-		this.visualBounds.inf();
-		this.visualBounds.ext(new Vector3(startPos.x, startPos.y, 0), VISUAL_BOUNDS_RADIUS);
-
-		setLayer(ObjectLayer.EFFECT);
-	}
 
 	public ParticleEntity(PlayState state, ParticleCreate particleCreate) {
 		super(state, particleCreate.getPosition(), new Vector2());
@@ -148,27 +122,6 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 
-	//This constructor creates a particle effect that will follow another entity.
-	public ParticleEntity(PlayState state, HadalEntity entity, Particle particle, float linger, float lifespan, boolean startOn, SyncType sync) {
-		this(state, new Vector2(), particle, lifespan, startOn, sync);
-		this.attachedEntity = entity;
-		this.linger = linger;
-
-		//as default, bounding box exists around the attached entity with a set size
-		if (attachedEntity != null) {
-			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				this.visualBounds.inf();
-				attachedLocation.set(attachedEntity.getPixelPosition());
-				this.visualBounds.ext(new Vector3(attachedLocation.x + offset.x, attachedLocation.y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
-				this.effect.setPosition(attachedLocation.x + offset.x, attachedLocation.y + offset.y);
-			} else {
-				this.visualBounds.inf();
-				this.visualBounds.ext(new Vector3(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y, 0), VISUAL_BOUNDS_RADIUS);
-				this.effect.setPosition(attachedEntity.getStartPos().x + offset.x, attachedEntity.getStartPos().y + offset.y);
-			}
-		}
-	}
-
 	@Override
 	public void create() {}
 
@@ -212,16 +165,16 @@ public class ParticleEntity extends HadalEntity {
 		if (temp) {
 			lifespan -= delta;
 			if (lifespan <= 0) {
+				turnOff();
+				completing = true;
+			}
+
+			if (completing && effect.isComplete()) {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
 					((ClientState) state).removeEntity(entityID);
 				}
-			} else if (lifespan <= prematureTurnOff) {
-
-				//if the effect is designated to turn off before dying, do that here.
-				prematureTurnOff = 0.0f;
-				turnOff();
 			}
 		}
 		
@@ -305,10 +258,10 @@ public class ParticleEntity extends HadalEntity {
 		if (SyncType.CREATESYNC.equals(sync)) {
 			if (attachedEntity != null) {
 				return new Packets.CreateParticles(entityID, attachedEntity.getEntityID(), offset,true, particle,
-						on, linger, lifespan, prematureTurnOff, scale, rotate, velocity, color);
+						on, linger, lifespan, scale, rotate, velocity, color);
 			} else {
 				return new Packets.CreateParticles(entityID, entityID, startPos, false,	particle, on, linger,
-						lifespan, prematureTurnOff, scale, rotate, velocity, color);
+						lifespan, scale, rotate, velocity, color);
 			}
 		} else {
 			return null;
@@ -338,7 +291,7 @@ public class ParticleEntity extends HadalEntity {
 	/**
 	 * Set the angle of the particle
 	 */
-	public ParticleEntity setParticleAngle(float angle) {
+	public void setParticleAngle(float angle) {
         
 		float newAngle = angle * MathUtils.radDeg + 180;
 		for (int i = 0; i < effect.getEmitters().size; i++) {
@@ -347,13 +300,12 @@ public class ParticleEntity extends HadalEntity {
             val.setHigh(newAngle, newAngle);
             val.setLow(newAngle);
         }
-		return this;
 	}
 
 	/**
 	 * Set the angle of the particle. Used for things like airblast particle movement
 	 */
-	public ParticleEntity setParticleVelocity(float angle) {
+	public void setParticleVelocity(float angle) {
 		this.velocity = angle;
 
 		float newAngle = angle * MathUtils.radDeg;
@@ -364,7 +316,6 @@ public class ParticleEntity extends HadalEntity {
 			val.setHigh(newAngle - range / 2, newAngle + range / 2);
 			val.setLow(newAngle);
 		}
-		return this;
 	}
 
 	/**
@@ -421,14 +372,8 @@ public class ParticleEntity extends HadalEntity {
 		return this;
 	}
 
-	public ParticleEntity setPrematureOff(float timeLeft) {
-		prematureTurnOff = timeLeft;
-		return this;
-	}
-
-	public ParticleEntity setShowOnInvis(boolean showOnInvis) {
+	public void setShowOnInvis(boolean showOnInvis) {
 		this.showOnInvis = showOnInvis;
-		return this;
 	}
 
 	public PooledEffect getEffect() { return effect; }

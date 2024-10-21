@@ -11,13 +11,14 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
@@ -87,8 +88,10 @@ public class Navigations extends HubEvent {
 						if (state.isServer()) {
 							state.getTransitionManager().loadLevel(selected, TransitionState.NEWLEVEL, "");
 							//play a particle when the player uses this event
-							new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true,
-									SyncType.CREATESYNC).setOffset(0, - me.getSize().y / 2);
+							EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT, me)
+									.setLifespan(3.0f)
+									.setSyncType(SyncType.CREATESYNC)
+									.setOffset(new Vector2(0, - me.getSize().y / 2)));
 						} else {
 
 							//clients suggest maps when clicking

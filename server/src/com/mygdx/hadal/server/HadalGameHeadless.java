@@ -13,7 +13,8 @@ public class HadalGameHeadless extends HadalGame {
     public void create() {
         usm = new UserManager();
 
-        StateManager.addState(new PlayStateHeadless(this, UnlockLevel.HUB_MULTI, GameMode.HUB, true, ""), null);
+        StateManager.states.push(new PlayStateHeadless(this, UnlockLevel.HUB_MULTI, GameMode.HUB, true, ""));
+        StateManager.states.peek().show();
 
         server = new KryoServer(usm);
         server.init(true);

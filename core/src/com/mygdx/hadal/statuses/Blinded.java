@@ -1,22 +1,20 @@
 package com.mygdx.hadal.statuses;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 
 public class Blinded extends Status {
 
 	private static final float FADE_COOLDOWN = 0.5f;
-	private static final float LINGER = 1.0f;
 	private float fadeTimer = FADE_COOLDOWN;
 
 	public Blinded(PlayState state, float i, BodyData p, BodyData v, boolean instant) {
@@ -29,15 +27,10 @@ public class Blinded extends Status {
 
 	@Override
 	public void onInflict() {
-		ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
-				true, SyncType.NOSYNC)
-				.setPrematureOff(LINGER)
-				.setShowOnInvis(true);
-		particleEntity.setOffset(0, inflicted.getSchmuck().getSize().y / 2);
-
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BLIND, inflicted.getSchmuck())
+				.setLifespan(duration)
+				.setShowOnInvis(true)
+				.setOffset(new Vector2(0, inflicted.getSchmuck().getSize().y / 2)));
 	}
 
 	public static final float BLIND_INTERPOLATION = 0.05f;
@@ -101,13 +94,10 @@ public class Blinded extends Status {
 		//reset fade timer so stacking blind doesn't make it flicker
 		fadeTimer = FADE_COOLDOWN;
 
-		ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BLIND, LINGER, duration + LINGER,
-				true, SyncType.NOSYNC);
-		particleEntity.setPrematureOff(LINGER).setOffset(0, inflicted.getSchmuck().getSize().y / 2);
-
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BLIND, inflicted.getSchmuck())
+				.setLifespan(duration)
+				.setShowOnInvis(true)
+				.setOffset(new Vector2(0, inflicted.getSchmuck().getSize().y / 2)));
 	}
 
 	@Override

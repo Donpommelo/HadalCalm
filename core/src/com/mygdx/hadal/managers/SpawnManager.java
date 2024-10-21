@@ -9,6 +9,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.StartPoint;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -94,8 +95,10 @@ public class SpawnManager {
 
         //teleportation particles for reset players (indicates returning to hub)
         if (reset && state.isServer() && user.getEffectManager().isShowSpawnParticles()) {
-            new ParticleEntity(state, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2),
-                    Particle.TELEPORT, 2.5f, true, SyncType.CREATESYNC).setPrematureOff(1.5f);
+            EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT,
+                    new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2))
+                    .setLifespan(2.5f)
+                    .setSyncType(SyncType.CREATESYNC));
         }
 
         //for own player, the server must update their user information

@@ -9,11 +9,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
@@ -204,22 +205,15 @@ public class Event extends HadalEntity {
 	public void loadDefaultProperties() {}
 	
 	public void setStandardParticle(Particle particle) {
-		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, SyncType.NOSYNC);
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(standardParticle.getEntityID(), standardParticle, false, ObjectLayer.EFFECT);
-		}
+		this.standardParticle = EffectEntityManager.getParticle(state, new ParticleCreate(particle, this)
+				.setStartOn(false));
 	}
 
 	public ParticleEntity getStandardParticle() { return standardParticle; }
 
 	public void addAmbientParticle(Particle particle, float xOffset, float yOffset) {
-		ParticleEntity ambientParticle = new ParticleEntity(state, this, particle, 0, 0, true,
-				SyncType.NOSYNC);
-		ambientParticle.setOffset(xOffset, yOffset);
-
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(ambientParticle.getEntityID(), ambientParticle, false, ObjectLayer.EFFECT);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(particle, this)
+				.setOffset(new Vector2(xOffset, yOffset)));
 	}
 
 	public void addAmbientParticle(Particle particle) {

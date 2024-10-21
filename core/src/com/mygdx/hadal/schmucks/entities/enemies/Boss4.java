@@ -10,15 +10,15 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
@@ -26,6 +26,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.users.User;
 
 /**
  * This is a boss in the game
@@ -59,7 +60,7 @@ public class Boss4 extends EnemyFloating {
 	private static final float phaseThreshold2 = 0.5f;
 	
 	//the boss's body is composed of multiple scaled up particle effects
-	private ParticleEntity body1, body2, body3;
+	private final ParticleEntity body1, body2, body3;
 	private static final float bodyBaseScale1 = 2.5f;
 	private static final float bodyBaseScale2 = 2.5f;
 	private static final float bodyBaseScale3 = 5.0f;
@@ -68,12 +69,15 @@ public class Boss4 extends EnemyFloating {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS4, filter, hp, aiAttackCd, scrapDrop);
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 2000));
 
-		body1 = new ParticleEntity(state, this, Particle.WORMHOLE, 1.0f, 0.0f, true, SyncType.NOSYNC);
-		body1.setScale(bodyBaseScale1).setColor(HadalColor.RED);
-		body2 = new ParticleEntity(state, this, Particle.STORM, 1.0f, 0.0f, true, SyncType.NOSYNC);
-		body2.setScale(bodyBaseScale2).setColor(HadalColor.ORANGE);
-		body3 = new ParticleEntity(state, this, Particle.BRIGHT, 1.0f, 0.0f, true, SyncType.NOSYNC);
-		body3.setScale(bodyBaseScale3).setColor(HadalColor.RED);
+		body1 = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.WORMHOLE, this)
+				.setScale(bodyBaseScale1)
+				.setColor(HadalColor.RED));
+		body2 = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.STORM, this)
+				.setScale(bodyBaseScale2)
+				.setColor(HadalColor.ORANGE));
+		body3 = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BRIGHT, this)
+				.setScale(bodyBaseScale3)
+				.setColor(HadalColor.RED));
 	}
 	
 	
@@ -95,7 +99,7 @@ public class Boss4 extends EnemyFloating {
 	public void controller(float delta) {
 		super.controller(delta);
 
-		if (state.isServer()) {
+		if (state.isServer() && body1 != null) {
 			body1.getEffect().update(delta);
 			body2.getEffect().update(delta);
 			body3.getEffect().update(delta);
@@ -661,7 +665,9 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
-				body3.setColor(color);
+				if (body3 != null) {
+					body3.setColor(color);
+				}
 			}
 		});
 	}

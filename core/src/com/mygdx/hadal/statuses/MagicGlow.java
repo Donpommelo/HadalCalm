@@ -1,12 +1,10 @@
 package com.mygdx.hadal.statuses;
 
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -29,13 +27,10 @@ public class MagicGlow extends Status {
 		super.timePassing(delta);
 		if (procCdCount >= PROC_CD) {
 			procCdCount -= PROC_CD;
-			ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.BRIGHT, PROC_CD, PROC_CD,
-				true, SyncType.NOSYNC);
-			particle.setColor(HadalColor.RANDOM);
 
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BRIGHT, inflicted.getSchmuck())
+					.setLifespan(PROC_CD)
+					.setColor(HadalColor.RANDOM));
 		}
 		procCdCount += delta;
 	}

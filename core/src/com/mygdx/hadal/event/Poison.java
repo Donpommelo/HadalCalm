@@ -6,17 +6,13 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
@@ -70,11 +66,8 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
-			ParticleEntity particleEntity = new ParticleEntity(state, this, poisonParticle, 0, 0,
-					true, SyncType.NOSYNC);
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, this)
+					.setLinger(0.0f));
 		}
 	}
 
@@ -113,11 +106,8 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
-			ParticleEntity particleEntity = new ParticleEntity(state, this, poisonParticle, particleLifespan, 0,
-					true, SyncType.NOSYNC);
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, this)
+					.setLinger(particleLifespan));
 		}
 	}
 	

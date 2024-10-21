@@ -1,12 +1,10 @@
 package com.mygdx.hadal.statuses;
 
-import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -14,8 +12,6 @@ import com.mygdx.hadal.states.PlayState;
  * @author Brenzales Beldason
  */
 public class Slodged extends Status {
-
-	private static final float LINGER = 2.0f;
 
 	//this is the magnitude of the slow.
 	private final float slow;
@@ -32,13 +28,9 @@ public class Slodged extends Status {
 	@Override
 	public void onInflict() {
 		if (!Particle.NOTHING.equals(particle)) {
-			ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), particle, LINGER, duration + LINGER,
-					true, SyncType.NOSYNC)
-					.setPrematureOff(LINGER)
-					.setShowOnInvis(true);
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(particle, inflicted.getSchmuck())
+					.setLifespan(duration)
+					.setShowOnInvis(true));
 		}
 	}
 

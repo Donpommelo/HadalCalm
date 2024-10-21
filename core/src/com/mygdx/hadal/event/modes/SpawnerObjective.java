@@ -10,9 +10,10 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
@@ -97,8 +98,10 @@ public class SpawnerObjective extends Event {
 				spawnCountdown -= delta;
 				if (spawnCountdown <= 0.0f) {
 					flag = new CrownHoldable(state, new Vector2(getPixelPosition()));
-					new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
-							true, SyncType.CREATESYNC).setColor(HadalColor.GOLDEN_YELLOW);
+					EffectEntityManager.getParticle(state, new ParticleCreate(Particle.DIATOM_IMPACT_LARGE, this)
+							.setLifespan(PARTICLE_DURATION)
+							.setSyncType(SyncType.CREATESYNC)
+							.setColor(HadalColor.GOLDEN_YELLOW));
 				}
 			} else {
 

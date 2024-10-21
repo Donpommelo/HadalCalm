@@ -13,12 +13,13 @@ import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -63,11 +64,9 @@ public class UrchinNail extends SyncedAttacker {
             private ParticleEntity particles;
             @Override
             public void create() {
-                particles = new ParticleEntity(state, hbox, Particle.NAIL_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC);
-                particles.setScale(hbox.getScale());
-                if (!state.isServer()) {
-                    ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ObjectLayer.EFFECT);
-                }
+                particles = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.NAIL_TRAIL, hbox)
+                        .setLinger(0.5f)
+                        .setScale(hbox.getScale()));
             }
 
             private final Vector2 currentVelo = new Vector2();
@@ -91,7 +90,9 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.setSprite(Sprite.NAIL_STUCK);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
 
-                particles.turnOff();
+                if (particles != null) {
+                    particles.turnOff();
+                }
             }
 
             @Override
@@ -104,8 +105,9 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
-
-                particles.turnOn();
+                if (particles != null) {
+                    particles.turnOn();
+                }
             }
         }.setStuckLifespan(LIFESPAN_STUCK));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));

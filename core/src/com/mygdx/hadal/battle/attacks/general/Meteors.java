@@ -11,7 +11,8 @@ import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -58,11 +59,9 @@ public class Meteors extends SyncedAttacker {
 
         float meteorDuration = (1 + meteorNum) * interval;
 
-        ParticleEntity particle = new ParticleEntity(state, user, Particle.RING, 1.0f, meteorDuration, true,
-                SyncType.NOSYNC).setScale(0.4f);
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.HBOX);
-        }
+        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.RING, user)
+                .setLifespan(meteorDuration)
+                .setScale(0.4f));
 
         Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(1, 1), meteorDuration, new Vector2(),
                 (short) 0, false, false, user, Sprite.NOTHING);

@@ -10,15 +10,15 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SpriteConstants;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -387,11 +387,9 @@ public class PlayerSpriteHelper {
     }
 
     private void createWarpAnimation(Vector2 playerLocation) {
-        ParticleEntity particle = new ParticleEntity(state, playerLocation.sub(0, player.getSize().y / 2), Particle.TELEPORT,
-                2.5f, true, SyncType.NOSYNC).setPrematureOff(1.5f);
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.STANDARD);
-        }
+        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT,
+                playerLocation.sub(0, player.getSize().y / 2))
+                .setLifespan(2.5f));
     }
 
     private static final int RAGDOLL_FBO_WIDTH = 667;

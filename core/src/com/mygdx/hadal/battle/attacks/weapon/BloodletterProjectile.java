@@ -13,7 +13,6 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.requests.ParticleCreate;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -97,12 +96,8 @@ public class BloodletterProjectile extends SyncedAttacker {
                                 createBlood(schmuck, baseHealMultiplier * modifiedDamage);
 
                                 SoundEffect.SLURP.playSourced(state, startPosition, 0.75f);
-
-                                ParticleEntity particleEntity = new ParticleEntity(state, schmuck, Particle.VAMPIRE, 1.0f,
-                                        2.0f,true, SyncType.NOSYNC);
-                                if (!state.isServer()) {
-                                    ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-                                }
+                                EffectEntityManager.getParticle(state, new ParticleCreate(Particle.VAMPIRE, schmuck)
+                                        .setLifespan(2.0f));
                             }
                         }
 

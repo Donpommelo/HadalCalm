@@ -33,6 +33,9 @@ public class EffectEntityManager {
         if (!particleCreate.getColorRGB().isZero()) {
             particleEntity.setColor(particleCreate.getColorRGB());
         }
+        if (!particleCreate.getOffset().isZero()) {
+            particleEntity.setOffset(particleCreate.getOffset().x, particleCreate.getOffset().y);
+        }
         if (particleCreate.getScale() != null) {
             particleEntity.setScale(particleCreate.getScale());
         }
@@ -41,9 +44,6 @@ public class EffectEntityManager {
         }
         if (particleCreate.getVelocity() != null) {
             particleEntity.setParticleVelocity(particleCreate.getVelocity());
-        }
-        if (particleCreate.getPrematureOff() != null) {
-            particleEntity.setPrematureOff(particleCreate.getPrematureOff());
         }
     }
 }

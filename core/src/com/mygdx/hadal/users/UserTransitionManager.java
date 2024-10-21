@@ -7,10 +7,11 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.PlayerController;
+import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -67,13 +68,15 @@ public class UserTransitionManager {
                         }
 
                         if (user.getEffectManager().isShowSpawnParticles()) {
+                            Vector2 particleLocation = new Vector2();
                             if (spawnOverridden) {
-                                new ParticleEntity(state, new Vector2(overrideSpawnLocation).sub(0, startPoint.getSize().y),
-                                        Particle.TELEPORT_PRE, forewarnTime, true, SyncType.CREATESYNC);
+                                particleLocation.set(overrideSpawnLocation).sub(0, startPoint.getSize().y);
                             } else {
-                                new ParticleEntity(state, new Vector2(startPoint.getStartPos()).sub(0, startPoint.getSize().y),
-                                        Particle.TELEPORT_PRE, forewarnTime, true, SyncType.CREATESYNC);
+                                particleLocation.set(startPoint.getStartPos()).sub(0, startPoint.getSize().y);
                             }
+                            EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT_PRE, particleLocation)
+                                    .setLifespan(forewarnTime)
+                                    .setSyncType(SyncType.CREATESYNC));
                         }
                     }
                 }

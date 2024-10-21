@@ -4,13 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Shocked;
 import com.mygdx.hadal.statuses.Status;
@@ -25,12 +23,9 @@ public class PlusMinusUse extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        ParticleEntity particle = new ParticleEntity(state, user, Particle.LIGHTNING_CHARGE, 1.0f, DURATION,
-                true, SyncType.NOSYNC).setColor(HadalColor.SUNGLOW);
-
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.HBOX);
-        }
+        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.LIGHTNING_CHARGE, user)
+                .setLifespan(DURATION)
+                .setColor(HadalColor.SUNGLOW));
 
         user.getBodyData().addStatus(new Status(state, DURATION, false, user.getBodyData(), user.getBodyData()) {
 

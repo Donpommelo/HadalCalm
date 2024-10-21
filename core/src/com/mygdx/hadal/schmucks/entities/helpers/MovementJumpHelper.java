@@ -2,13 +2,11 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 
@@ -157,21 +155,18 @@ public class MovementJumpHelper {
      */
     private void jumpEffect(Vector2 playerPosition) {
         if (!player.getEffectHelper().isInvisible()) {
-            ParticleEntity entity;
             if (player.getGroundedHelper().isGrounded()) {
 
-                //activate jump particles and sound
-                entity = new ParticleEntity(state, new Vector2(playerPosition).sub(0, player.getSize().y / 2),
-                        Particle.WATER_BURST, 1.0f, true, SyncType.NOSYNC);
+                //activate jump particles and
                 SoundEffect.JUMP.playSourced(state, playerPosition, 0.2f);
+                EffectEntityManager.getParticle(state, new ParticleCreate(Particle.WATER_BURST,
+                        new Vector2(playerPosition).sub(0, player.getSize().y / 2))
+                        .setLifespan(1.0f));
             } else {
                 //activate double-jump particles and sound
-                entity = new ParticleEntity(state, player, Particle.SPLASH, 0.0f, 0.75f, true, SyncType.NOSYNC);
                 SoundEffect.DOUBLEJUMP.playSourced(state, playerPosition, 0.2f);
-            }
-
-            if (!state.isServer()) {
-                ((ClientState) state).addEntity(entity.getEntityID(), entity, false, ObjectLayer.EFFECT);
+                EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SPLASH, player)
+                        .setLifespan(0.75f));
             }
         }
     }

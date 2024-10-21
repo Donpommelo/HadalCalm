@@ -80,6 +80,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void controller(float delta) {
 
+		damageEffectHelper.controller(delta);
 		specialHpHelper.controller(delta);
 
 		//Apply base hp regen

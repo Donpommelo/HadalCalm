@@ -19,7 +19,8 @@ public class ParticleCreate {
     private SyncType syncType = SyncType.NOSYNC;
 
     private boolean rotate, showOnInvis;
-    private Float scale, angle, velocity, prematureOff;
+    private Float scale, angle, velocity;
+    private final Vector2 offset = new Vector2();
     private HadalColor color = HadalColor.NOTHING;
     private final Vector3 colorRGB = new Vector3();
 
@@ -78,8 +79,8 @@ public class ParticleCreate {
         return this;
     }
 
-    public ParticleCreate setPrematureOff(float prematureOff) {
-        this.prematureOff = prematureOff;
+    public ParticleCreate setOffset(Vector2 offset) {
+        this.offset.set(offset);
         return this;
     }
 
@@ -117,7 +118,7 @@ public class ParticleCreate {
 
     public Float getVelocity() { return velocity; }
 
-    public Float getPrematureOff() { return prematureOff; }
+    public Vector2 getOffset() { return offset; }
 
     public HadalColor getColor() { return color; }
 

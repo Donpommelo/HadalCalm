@@ -3,12 +3,10 @@ package com.mygdx.hadal.statuses;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -16,8 +14,6 @@ import com.mygdx.hadal.states.PlayState;
  * @author Glamhock Glecnicbasket
  */
 public class Ablaze extends Status {
-
-	private static final float LINGER = 1.0f;
 
 	//this is the damage per proc of the unit
 	private final float damage;
@@ -36,13 +32,9 @@ public class Ablaze extends Status {
 
 	@Override
 	public void onInflict() {
-		ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, LINGER, duration + LINGER,
-				true, SyncType.NOSYNC)
-				.setPrematureOff(LINGER)
-				.setShowOnInvis(true);
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.FIRE, inflicted.getSchmuck())
+				.setLifespan(duration)
+				.setShowOnInvis(true));
 	}
 
 	private static final float PROC_CD = 0.5f;

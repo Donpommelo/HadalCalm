@@ -11,11 +11,11 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -63,9 +63,7 @@ public class Boss5 extends EnemyFloating {
 		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1400));
 
-		if (state.isServer()) {
-			new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, SyncType.CREATESYNC).setScale(2.0f);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TYRRAZZA_TRAIL, this));
 	}
 
 	@Override

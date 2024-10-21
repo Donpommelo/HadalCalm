@@ -4,13 +4,11 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -22,12 +20,10 @@ public class Impermeable extends Status {
 	public Impermeable(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
 
-		ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f,
-				true, SyncType.NOSYNC).setScale(0.4f);
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
-		}
-		
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SMOKE, inflicted.getSchmuck())
+				.setLifespan(1.0f)
+				.setScale(0.4f));
+
 		//set unit's invisibility to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().getEffectHelper().setTransparent(true);
@@ -45,11 +41,9 @@ public class Impermeable extends Status {
 	
 	@Override
 	public void onRemove() {
-		ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f,
-				true, SyncType.NOSYNC).setScale(0.4f);
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SMOKE, inflicted.getSchmuck())
+				.setLifespan(1.0f)
+				.setScale(0.4f));
 
 		if (inflicted instanceof PlayerBodyData playerData) {
 			playerData.getPlayer().getEffectHelper().setTransparent(false);

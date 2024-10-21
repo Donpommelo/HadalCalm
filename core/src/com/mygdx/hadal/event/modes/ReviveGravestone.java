@@ -17,13 +17,11 @@ import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.Transition;
@@ -77,11 +75,9 @@ public class ReviveGravestone extends Event {
 
 		//set flag's color according to team alignment
 		HadalColor color = user.getTeamFilter().getPalette().getIcon();
-		ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
-				.setScale(1.8f).setColor(color);
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ObjectLayer.EFFECT);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BRIGHT_TRAIL, this)
+				.setScale(1.8f)
+				.setColor(color));
 
 		//make objective marker track this event
 		EventUtils.setObjectiveMarkerTeam(state, this, Sprite.CLEAR_CIRCLE_ALERT, color,
