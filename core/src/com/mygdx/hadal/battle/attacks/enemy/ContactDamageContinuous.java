@@ -50,8 +50,7 @@ public class ContactDamageContinuous extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback,
                 DamageSource.ENEMY_ATTACK, DamageTag.MELEE).setStaticKnockback(true));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         hbox.addStrategy((new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private float controllerCount;

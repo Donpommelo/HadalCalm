@@ -73,7 +73,7 @@ public class Laser extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.LASER_RIFLE,
                 DamageTag.ENERGY, DamageTag.RANGED).setConstantKnockback(true, startVelocity));
         hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true).setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true));
         hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 
         //the trail creates particles along the projectile's length

@@ -50,8 +50,7 @@ public class TrickShot extends SyncedAttacker {
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.TRICK).setRotate(true));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.TRICK_GUN,	DamageTag.RANGED));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true));
         hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL));
 
         //This extra check of firstClicked makes sure effects that autofire this gun work (like muddling cup)

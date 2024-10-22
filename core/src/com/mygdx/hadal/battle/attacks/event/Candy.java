@@ -50,8 +50,7 @@ public class Candy extends SyncedAttacker {
                 hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE));
                 hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE).setIgnoreOnTimeout(true));
-                hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.COIN3, 1.1f)
-                        .setIgnoreOnTimeout(true).setSynced(false));
+                hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.COIN3, 1.1f).setIgnoreOnTimeout(true));
                 hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
                 hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), CANDY_SPREAD));
                 hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

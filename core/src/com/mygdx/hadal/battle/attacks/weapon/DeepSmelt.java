@@ -46,8 +46,8 @@ public class DeepSmelt extends SyncedAttacker {
                 hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                         DamageSource.DEEP_SEA_SMELTER, DamageTag.RANGED));
-                hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f).setSynced(false));
-                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.2f, true).setSynced(false));
+                hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f));
+                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.2f, true));
                 hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
                         .setOffset(true)
                         .setParticleColor(HadalColor.YELLOW));

@@ -54,8 +54,7 @@ public class SeraphCross extends SyncedAttacker {
         laser.addStrategy(new DieParticles(state, laser, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(HadalColor.BLUE));
         laser.addStrategy(new DamageStandard(state, laser, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.ENEMY_ATTACK,
                 DamageTag.RANGED, DamageTag.ENERGY));
-        laser.addStrategy(new ContactUnitSound(state, laser, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                .setSynced(false));
+        laser.addStrategy(new ContactUnitSound(state, laser, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 
         return laser;
     }

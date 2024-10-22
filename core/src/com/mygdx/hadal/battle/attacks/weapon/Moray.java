@@ -51,8 +51,7 @@ public class Moray extends SyncedAttacker {
                         DamageTag.ENERGY, DamageTag.RANGED).setStaticKnockback(true));
                 hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true)
-                        .setSynced(false));
+                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true));
                 hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.ORB_SWIRL));
                 hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

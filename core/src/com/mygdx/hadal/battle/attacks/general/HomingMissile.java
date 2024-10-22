@@ -55,7 +55,7 @@ public class HomingMissile extends SyncedAttacker {
                 TORPEDO_EXPLOSION_KNOCKBACK, user.getHitboxFilter(), false, damageSource));
         hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), TORPEDO_HOMING, TORPEDO_HOMING_RADIUS));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), TORPEDO_SPREAD));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
         hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 
         return hbox;

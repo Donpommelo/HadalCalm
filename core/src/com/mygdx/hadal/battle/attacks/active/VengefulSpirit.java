@@ -91,7 +91,7 @@ public class VengefulSpirit extends SyncedAttacker {
                     hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPIRIT_HOMING, SPIRIT_HOMING_RADIUS));
                 }
                 hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.GHOST_LIGHT));
-                hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DARKNESS1, 0.25f).setSynced(false));
+                hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DARKNESS1, 0.25f));
 
                 hboxes[i] = hbox;
             }

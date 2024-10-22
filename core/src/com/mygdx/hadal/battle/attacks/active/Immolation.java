@@ -41,8 +41,7 @@ public class Immolation extends SyncedAttacker {
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true)
-            .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE)
                 .setParticleSize(40)
                 .setParticleColor(HadalColor.FIERY_ROSE));

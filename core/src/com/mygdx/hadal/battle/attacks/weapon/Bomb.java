@@ -51,8 +51,8 @@ public class Bomb extends SyncedAttacker {
                 DamageTag.EXPLOSIVE, DamageTag.RANGED));
         hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), BOMB_EXPLOSION_RADIUS, BOMB_EXPLOSION_DAMAGE, BOMB_EXPLOSION_KNOCKBACK,
                 (short) 0, false, damageSource));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f).setSynced(false));
-        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f).setSynced(false));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f));
+        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.2f));
         hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
 
         Hitbox sparks = new RangedHitbox(state, startPosition, BOMB_SIZE, BOMB_LIFESPAN, startVelocity, user.getHitboxFilter(),

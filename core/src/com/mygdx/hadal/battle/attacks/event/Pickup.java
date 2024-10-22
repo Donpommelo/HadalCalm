@@ -62,8 +62,7 @@ public class Pickup extends SyncedAttacker {
         hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), particle)
                 .setParticleDuration(5.0f)
                 .setIgnoreOnTimeout(true));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), sound, volume)
-                .setIgnoreOnTimeout(true).setSynced(false));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), sound, volume).setIgnoreOnTimeout(true));
 
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

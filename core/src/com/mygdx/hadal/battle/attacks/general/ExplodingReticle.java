@@ -43,7 +43,7 @@ public class ExplodingReticle extends SyncedAttacker {
                 .setParticleColor(HadalColor.HOT_PINK));
         hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), EXPLOSION_RADIUS, EXPLOSION_DAMAGE, EXPLOSION_KNOCKBACK,
                 user.getHitboxFilter(), false, damageSource));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
         hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 
         return hbox;

@@ -215,7 +215,7 @@ public class UnderminerDrill extends SyncedAttacker {
                                 bomb.addStrategy(new ContactWallDie(state, bomb, user.getBodyData()).setDelay(0.1f));
                                 bomb.addStrategy(new DieExplode(state, bomb, user.getBodyData(), EXPLOSION_RADIUS, EXPLOSION_DAMAGE,
                                         EXPLOSION_KNOCKBACK, user.getHitboxFilter(), false, DamageSource.UNDERMINER));
-                                bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f).setSynced(false));
+                                bomb.addStrategy(new DieSound(state, bomb, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
                                 bomb.addStrategy(new FlashShaderNearDeath(state, bomb, user.getBodyData(), 1.0f));
 
                                 if (!state.isServer()) {

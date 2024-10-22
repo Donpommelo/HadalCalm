@@ -137,7 +137,7 @@ public class Vine extends SyncedAttacker {
                     vine.setEffectsMovement(false);
 
                     vine.addStrategy(new ControllerDefault(state, vine, user.getBodyData()));
-                    vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
+                    vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true));
                     vine.addStrategy(new DamageStandard(state, vine, user.getBodyData(), damage, knockback,
                             damageSource, DamageTag.RANGED).setStaticKnockback(true));
                     vine.addStrategy(new CreateParticles(state, vine, user.getBodyData(), Particle.DANGER_RED)

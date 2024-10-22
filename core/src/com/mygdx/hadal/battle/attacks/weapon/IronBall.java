@@ -39,7 +39,7 @@ public class IronBall extends SyncedAttacker {
         hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.IRON_BALL_LAUNCHER,
                 DamageTag.WHACKING, DamageTag.RANGED));
-        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f).setSynced(false));
+        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
 
         return hbox;

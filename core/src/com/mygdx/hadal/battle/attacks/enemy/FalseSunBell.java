@@ -40,8 +40,7 @@ public class FalseSunBell extends SyncedAttacker {
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING)
                 .setParticleSize(30.0f));
         hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), HOMING_SPEED, HOMING_RADIUS).setSteering(false));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.ZAP, 0.6f, true));
         hbox.addStrategy(new DamagePulse(state, hbox, user.getBodyData(), hbox.getSize(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setInterval(BELL_INTERVAL));
 

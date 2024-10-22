@@ -39,7 +39,7 @@ public class ContactUnitSound extends HitboxStrategy {
 	private final boolean still;
 	
 	//Does the server notify the client of this sound?
-	private boolean synced = true;
+	private boolean synced = false;
 
 	public ContactUnitSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume, boolean still) {
 		super(state, proj, user);

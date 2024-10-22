@@ -46,7 +46,7 @@ public class Amita extends SyncedAttacker {
 
         center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
         center.addStrategy(new ContactWallDie(state, center, user.getBodyData()));
-        center.addStrategy(new DieSound(state, center, user.getBodyData(), SoundEffect.MAGIC3_BURST, 0.5f).setSynced(false));
+        center.addStrategy(new DieSound(state, center, user.getBodyData(), SoundEffect.MAGIC3_BURST, 0.5f));
         center.addStrategy(new HitboxStrategy(state, center, user.getBodyData()) {
 
             private final Vector2 angle = new Vector2(0, ORBITAL_RANGE);

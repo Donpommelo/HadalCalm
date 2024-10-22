@@ -7,7 +7,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -66,7 +65,7 @@ public class MaelstromProjectile extends SyncedAttacker {
 
         storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
         storm.addStrategy(new CreateParticles(state, storm, user.getBodyData(), Particle.STORM));
-        storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.6f, true).setSyncType(SyncType.NOSYNC));
+        storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.6f, true));
         storm.addStrategy(new HitboxStrategy(state, storm, user.getBodyData()) {
 
             private float controllerCount;

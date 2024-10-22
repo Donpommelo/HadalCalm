@@ -97,7 +97,7 @@ public class PoolBall extends SyncedAttacker {
             }
 
         }.setRepeatable(true));
-        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f).setSynced(false));
+        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

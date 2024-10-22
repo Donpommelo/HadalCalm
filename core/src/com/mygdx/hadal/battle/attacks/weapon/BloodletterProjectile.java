@@ -120,8 +120,7 @@ public class BloodletterProjectile extends SyncedAttacker {
                 hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE));
                 hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE).setIgnoreOnTimeout(true));
-                hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.COIN3, 1.1f)
-                        .setIgnoreOnTimeout(true).setSynced(false));
+                hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.COIN3, 1.1f).setIgnoreOnTimeout(true));
                 hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), CANDY_SPREAD));
 
                 PickupVacuum pickup = new PickupVacuum(state, hbox, user.getBodyData());

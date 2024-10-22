@@ -89,8 +89,7 @@ public class SeraphSpiral extends SyncedAttacker {
                 }
             }
         });
-        spiral.addStrategy(new ContactUnitSound(state, spiral, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
-                .setSynced(false));
+        spiral.addStrategy(new ContactUnitSound(state, spiral, user.getBodyData(), SoundEffect.ZAP, 0.6f, true));
         spiral.addStrategy(new DamagePulse(state, spiral, user.getBodyData(), spiral.getSize(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setInterval(PULSE_INTERVAL));
 

@@ -48,8 +48,7 @@ public class FalseSunBullets extends SyncedAttacker {
                 .setParticleColor(projColor));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL)
                 .setParticleColor(projColor));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 
         return hbox;

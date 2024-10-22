@@ -70,7 +70,7 @@ public class Diatom extends SyncedAttacker {
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback, DamageSource.DIATOM_BURST,
                 DamageTag.BULLET, DamageTag.RANGED));
-        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.5f).setSynced(false));
+        hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.5f));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 
         return hbox;

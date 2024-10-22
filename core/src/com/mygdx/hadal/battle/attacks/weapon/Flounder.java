@@ -53,9 +53,9 @@ public class Flounder extends SyncedAttacker {
                 hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                         DamageSource.FLOUNDERBUSS, DamageTag.RANGED));
                 hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.25f, true)
-                        .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                        .setPitchSpread(PITCH_SPREAD));
                 hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WET_SPLAT, 0.25f)
-                        .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                        .setPitchSpread(PITCH_SPREAD));
                 hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
 
                 hboxes[i] = hbox;

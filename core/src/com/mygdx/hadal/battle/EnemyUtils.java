@@ -292,7 +292,9 @@ public class EnemyUtils {
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
-				hbox.addStrategy(new CreateSound(state, hbox, enemy.getBodyData(), sound, volume, looped).setPitch(pitch));
+				hbox.addStrategy(new CreateSound(state, hbox, enemy.getBodyData(), sound, volume, looped)
+						.setPitch(pitch)
+						.setSyncType(SyncType.CREATESYNC));
 			}
 		});
 	}
@@ -321,7 +323,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
 						DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(true));
 			}
 		});
 	}

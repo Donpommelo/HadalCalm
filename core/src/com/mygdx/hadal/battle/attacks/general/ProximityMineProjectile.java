@@ -152,7 +152,7 @@ public class ProximityMineProjectile extends SyncedAttacker {
                 explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), WARNING_TIME));
                 explosion.addStrategy(new DieExplode(state, explosion, user.getBodyData(), MINE_EXPLOSION_RADIUS, mineDamage,
                         MINE_EXPLOSION_KNOCKBACK, (short) 0, false, damageSource));
-                explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
+                explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
 
                 if (!state.isServer()) {
                     ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ObjectLayer.HBOX);

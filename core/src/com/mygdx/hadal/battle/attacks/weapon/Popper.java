@@ -49,8 +49,8 @@ public class Popper extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.PARTY_POPPER, DamageTag.RANGED));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.CRACKER2, 0.4f).setSynced(false));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.NOISEMAKER, 0.4f).setSynced(false));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.CRACKER2, 0.4f));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.NOISEMAKER, 0.4f));
         hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.PARTY));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

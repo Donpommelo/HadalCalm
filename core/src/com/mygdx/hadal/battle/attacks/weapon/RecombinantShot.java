@@ -64,9 +64,9 @@ public class RecombinantShot extends SyncedAttacker {
                 hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new ContactWallLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_BODY_HIT, 0.3f, true)
-                        .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                        .setPitchSpread(PITCH_SPREAD));
                 hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SPRING, 0.3f)
-                        .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                        .setPitchSpread(PITCH_SPREAD));
                 hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.RECOMBINANT_SHOTRIFLE,
                         DamageTag.SHRAPNEL, DamageTag.RANGED));
                 hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BEACH_BALL_TRAIL)

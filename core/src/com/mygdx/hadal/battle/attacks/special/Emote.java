@@ -70,7 +70,7 @@ public class Emote extends SyncedAttacker {
             hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()).setDelay(EMOTE_LIFESPAN + 1.0f));
             hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), EMOTE_EXPLODE_RADIUS, EMOTE_EXPLODE_DAMAGE,
                     EMOTE_EXPLODE_KNOCKBACK, (short) 0, false, DamageSource.THE_FINGER));
-            hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f).setSynced(false));
+            hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f));
             hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
             hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

@@ -70,8 +70,7 @@ public class FalseSunSigh extends SyncedAttacker {
                                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
                         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
                         hbox.addStrategy(new ContactUnitSlow(state, hbox, user.getBodyData(), SLOW_DURATION, SLOW_SLOW, Particle.ICE_CLOUD));
-                        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                            .setSynced(false));
+                        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 
                         if (!state.isServer()) {
                             ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);

@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -44,8 +43,7 @@ public class NeptunePoison extends SyncedAttacker {
 
         poison.addStrategy(new ControllerDefault(state, poison, user.getBodyData()));
         poison.addStrategy(new ContactWallDie(state, poison, user.getBodyData()));
-        poison.addStrategy(new CreateSound(state, poison, user.getBodyData(), SoundEffect.OOZE, 0.8f, true)
-                .setSyncType(SyncType.NOSYNC));
+        poison.addStrategy(new CreateSound(state, poison, user.getBodyData(), SoundEffect.OOZE, 0.8f, true));
         poison.addStrategy(new PoisonTrail(state, poison, user.getBodyData(), POISON_SIZE, (int) POISON_SIZE.y, POISON_DAMAGE,
                 POISON_BREATH_LIFESPAN, user.getHitboxFilter())
                 .setParticle(Particle.POLLEN_POISON, POISON_PARTICLE_LIFESPAN, POISON_PARTICLE_INTERVAL));

@@ -23,7 +23,7 @@ public class DieSound extends HitboxStrategy {
 	private float pitch = 1.0f;
 
 	//Does the server notify the client of this sound?
-	private boolean synced = true;
+	private boolean synced = false;
 
 	//if true, this will not play if the hbox dies by timing out
 	private boolean ignoreOnTimeout;

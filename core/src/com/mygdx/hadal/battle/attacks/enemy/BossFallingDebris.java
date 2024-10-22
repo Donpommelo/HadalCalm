@@ -37,8 +37,8 @@ public class BossFallingDebris extends SyncedAttacker {
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new ContactWallLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(false));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f).setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 0.4f));
 
         return hbox;
     }

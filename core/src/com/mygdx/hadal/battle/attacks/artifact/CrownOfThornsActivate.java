@@ -43,7 +43,7 @@ public class CrownOfThornsActivate extends SyncedAttacker {
             hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
             hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), THORN_DAMAGE, THORN_KNOCKBACK, DamageSource.CROWN_OF_THORNS,
                     DamageTag.POKING, DamageTag.RANGED));
-            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.25f, true).setSynced(false));
+            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.25f, true));
 
             hboxes[i] = hbox;
         }

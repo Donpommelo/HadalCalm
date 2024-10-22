@@ -34,7 +34,7 @@ public class Fist extends SyncedAttacker {
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.FISTICUFFS, DamageTag.MELEE));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLAP, 0.8f, true).setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLAP, 0.8f, true));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
 
         return hbox;

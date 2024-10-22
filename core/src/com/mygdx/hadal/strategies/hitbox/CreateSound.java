@@ -24,7 +24,7 @@ public class CreateSound extends HitboxStrategy {
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
 	private float pitch = 1.0f;
 
-	private SyncType syncType = SyncType.CREATESYNC;
+	private SyncType syncType = SyncType.NOSYNC;
 
 	//does the sound effect loop or not?
 	private final boolean looped;

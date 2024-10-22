@@ -50,8 +50,7 @@ public class NeptuneRadial extends SyncedAttacker {
                     DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
             hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE));
             hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL));
-            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                    .setSynced(false));
+            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
             hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
             hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 

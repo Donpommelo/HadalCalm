@@ -65,8 +65,7 @@ public class ReticleStrikeProjectile extends SyncedAttacker {
                             .setParticleColor(HadalColor.HOT_PINK));
                     reticle.addStrategy(new DieExplode(state, reticle, user.getBodyData(), EXPLOSION_RADIUS, EXPLOSION_DAMAGE,
                             EXPLOSION_KNOCKBACK, user.getHitboxFilter(), false, DamageSource.RETICLE_STRIKE));
-                    reticle.addStrategy(new DieSound(state, reticle, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f)
-                            .setSynced(false));
+                    reticle.addStrategy(new DieSound(state, reticle, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
                     reticle.addStrategy(new Static(state, reticle, user.getBodyData()));
 
                     if (!state.isServer()) {

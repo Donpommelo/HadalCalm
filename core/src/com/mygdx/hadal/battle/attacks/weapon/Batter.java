@@ -81,7 +81,7 @@ public class Batter extends SyncedAttacker {
                 DamageSource.BATTERING_RAM, DamageTag.MELEE)
                 .setConstantKnockback(true, startVelocity));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true).setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true));
 
         return hbox;
     }

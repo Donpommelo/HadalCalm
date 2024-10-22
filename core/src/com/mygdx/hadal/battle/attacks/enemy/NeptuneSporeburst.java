@@ -53,7 +53,7 @@ public class NeptuneSporeburst extends SyncedAttacker {
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPORE_HOMING, SPORE_HOMING_RADIUS).setSteering(false));
         hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
@@ -72,8 +72,7 @@ public class NeptuneSporeburst extends SyncedAttacker {
                         frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), SPORE_FRAG_DAMAGE, SPORE_FRAG_KB,
                                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true));
                         frag.addStrategy(new ContactUnitDie(state, frag, user.getBodyData()));
-                        frag.addStrategy(new ContactUnitSound(state, frag, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                                .setSynced(false));
+                        frag.addStrategy(new ContactUnitSound(state, frag, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 
                         if (!state.isServer()) {
                             ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ObjectLayer.HBOX);

@@ -50,8 +50,7 @@ public class FalseSunStarOrbit extends SyncedAttacker {
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STAR)
                 .setParticleColor(HadalColor.RANDOM));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 
         if (starNum % 8 == 0) {

@@ -41,9 +41,9 @@ public class MinigunBullet extends SyncedAttacker {
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_BODY_HIT, 0.5f, true)
-                .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                .setPitchSpread(PITCH_SPREAD));
         hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_CONCRETE_HIT, 0.5f)
-                .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                .setPitchSpread(PITCH_SPREAD));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.MINIGUN,
                 DamageTag.BULLET, DamageTag.RANGED));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));

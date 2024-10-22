@@ -47,8 +47,7 @@ public class AssaultBitBeam extends SyncedAttacker {
                         .setOffset(true)
                         .setParticleColor(HadalColor.VIOLET));
                 hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true)
-                        .setSynced(false));
+                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.3f, true));
                 hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 
                 hboxes[i] = hbox;

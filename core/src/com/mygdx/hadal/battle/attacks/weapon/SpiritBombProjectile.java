@@ -159,7 +159,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
 
                 explosion.addStrategy(new ControllerDefault(state, explosion, user.getBodyData()));
                 explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), WARNING_TIME));
-                explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
+                explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
                 if (null != target) {
                     explosion.addStrategy(new HomingUnit(state, explosion, user.getBodyData(), SPIRIT_HOMING, HOME_RADIUS)
                             .setTarget(target).setSteering(false));

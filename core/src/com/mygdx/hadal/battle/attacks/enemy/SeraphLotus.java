@@ -76,8 +76,7 @@ public class SeraphLotus extends SyncedAttacker {
                         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
                         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-                        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                                .setSynced(false));
+                        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 
                         if (!state.isServer()) {
                             ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
