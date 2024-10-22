@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
@@ -56,8 +55,7 @@ public class OrbitalStar extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), PROJ_DAMAGE, PROJ_KNOCKBACK,
                 DamageSource.ORBITAL_SHIELD, DamageTag.MAGIC).setStaticKnockback(true).setRepeatable(true));
         hbox.addStrategy(new OrbitUser(state, hbox, user.getBodyData(), startAngle, PROJ_RANGE, PROJ_SPEED));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STAR_TRAIL, 0.0f, 1.0f)
-                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STAR_TRAIL));
 
         return hbox;
     }

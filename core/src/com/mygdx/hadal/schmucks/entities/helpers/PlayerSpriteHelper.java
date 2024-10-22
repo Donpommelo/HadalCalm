@@ -389,7 +389,7 @@ public class PlayerSpriteHelper {
     private void createWarpAnimation(Vector2 playerLocation) {
         EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT,
                 playerLocation.sub(0, player.getSize().y / 2))
-                .setLifespan(2.5f));
+                .setLifespan(1.0f));
     }
 
     private static final int RAGDOLL_FBO_WIDTH = 667;

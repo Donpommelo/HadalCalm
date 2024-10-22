@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -45,8 +44,8 @@ public class Screech extends SyncedAttacker {
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.POLYGON, 0.0f, 1.0f).setParticleColor(
-                HadalColor.RANDOM).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.POLYGON)
+                .setParticleColor(HadalColor.RANDOM));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.SCREECHER,
                 DamageTag.SOUND, DamageTag.RANGED)
                 .setConstantKnockback(true, startVelocity));
@@ -63,8 +62,9 @@ public class Screech extends SyncedAttacker {
 
         trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
         trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance));
-        trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.POLYGON, 0.0f, 1.0f)
-                .setParticleColor(HadalColor.RANDOM).setParticleSize(60).setSyncType(SyncType.NOSYNC));
+        trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.POLYGON)
+                .setParticleColor(HadalColor.RANDOM)
+                .setParticleSize(60));
 
         if (!state.isServer()) {
             ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ObjectLayer.EFFECT);

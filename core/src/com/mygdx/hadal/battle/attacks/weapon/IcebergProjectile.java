@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -39,9 +38,9 @@ public class IcebergProjectile extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.ICEBERG,
                 DamageTag.WHACKING, DamageTag.RANGED).setRepeatable(true));
         hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 2.0f).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD));
+        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT));
+        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.ICE_IMPACT));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.CHILL_HIT, 0.6f, true).setSynced(false));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

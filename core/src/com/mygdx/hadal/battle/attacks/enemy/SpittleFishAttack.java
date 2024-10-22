@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -35,7 +34,7 @@ public class SpittleFishAttack extends SyncedAttacker {
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_IMPACT).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_IMPACT));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.5f, true).setSynced(false));

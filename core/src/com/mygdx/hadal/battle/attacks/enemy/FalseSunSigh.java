@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -20,7 +19,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
 
 public class FalseSunSigh extends SyncedAttacker {
 
-    private static final float LINGER = 1.0f;
     private static final Vector2 CLOUD_SIZE = new Vector2(120, 120);
     private static final float CLOUD_LIFESPAN = 0.75f;
     private static final float DELAY = 1.0f;
@@ -40,8 +38,9 @@ public class FalseSunSigh extends SyncedAttacker {
                 user.getHitboxFilter(), true, false, user, Sprite.NOTHING);
 
         cloud.addStrategy(new ControllerDefault(state, cloud, user.getBodyData()));
-        cloud.addStrategy(new CreateParticles(state, cloud, user.getBodyData(), Particle.OVERCHARGE, 0.0f, LINGER)
-                .setParticleColor(HadalColor.BLUE).setParticleSize(60.0f).setSyncType(SyncType.NOSYNC));
+        cloud.addStrategy(new CreateParticles(state, cloud, user.getBodyData(), Particle.OVERCHARGE)
+                .setParticleColor(HadalColor.BLUE)
+                .setParticleSize(60.0f));
         cloud.addStrategy(new Static(state, cloud, user.getBodyData()));
         cloud.addStrategy(new HitboxStrategy(state, cloud, user.getBodyData()) {
 
@@ -65,8 +64,8 @@ public class FalseSunSigh extends SyncedAttacker {
                                 user.getHitboxFilter(), true, false, user, Sprite.NOTHING);
 
                         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, LINGER)
-                                .setParticleSize(40.0f).setSyncType(SyncType.NOSYNC));
+                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD)
+                                .setParticleSize(40.0f));
                         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
                         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));

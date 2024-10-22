@@ -1,6 +1,5 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -30,8 +29,8 @@ public class Ice9 extends Artifact {
 					hbox.addStrategy(new ContactUnitSlow(state, hbox, p, SLOW_DURA, SLOW, Particle.ICE_CLOUD));
 				}
 				if (hbox.isEffectsVisual()) {
-					hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.ICE_CLOUD, hbox.getLifeSpan(), 1.0f)
-							.setParticleSize(50).setSyncType(SyncType.NOSYNC));
+					hbox.addStrategy(new CreateParticles(state, hbox, p, Particle.ICE_CLOUD)
+							.setParticleSize(50));
 				}
 			}
 		};

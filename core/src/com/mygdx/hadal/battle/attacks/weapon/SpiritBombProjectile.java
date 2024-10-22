@@ -9,7 +9,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
@@ -174,8 +173,8 @@ public class SpiritBombProjectile extends SyncedAttacker {
 
                         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                         hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STARBURST, 0.0f, 1.0f)
-                                .setSyncType(SyncType.NOSYNC).setRotate(true).setParticleSize(60));
+                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STARBURST)
+                                .setRotate(true).setParticleSize(60));
                         hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), EXPLOSION_DAMAGE, EXPLOSION_KNOCKBACK,
                                 1.0f, DamageSource.SPIRIT_BOMB, DamageTag.EXPLOSIVE));
 

@@ -10,7 +10,6 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
@@ -55,17 +54,14 @@ public class UrchinNail extends SyncedAttacker {
                 DamageTag.POKING, DamageTag.RANGED));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
-        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NAIL_IMPACT)
-                .setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NAIL_BURST)
-                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NAIL_IMPACT));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NAIL_BURST));
         hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), false, true) {
 
             private ParticleEntity particles;
             @Override
             public void create() {
                 particles = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.NAIL_TRAIL, hbox)
-                        .setLinger(0.5f)
                         .setScale(hbox.getScale()));
             }
 

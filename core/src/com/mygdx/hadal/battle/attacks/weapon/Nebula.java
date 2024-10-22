@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -13,7 +12,9 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.DamagePulse;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -43,11 +44,11 @@ public class Nebula extends SyncedAttacker {
         nebula.setSynced(true);
         nebula.setSyncedDelete(true);
 
-        nebula.addStrategy(new CreateParticles(state, nebula, user.getBodyData(), Particle.NEBULA, 0.0f, 1.0f)
-                .setSyncType(SyncType.NOSYNC).setRotate(true).setParticleSize(50));
+        nebula.addStrategy(new CreateParticles(state, nebula, user.getBodyData(), Particle.NEBULA)
+                .setRotate(true)
+                .setParticleSize(50));
 
-        nebula.addStrategy(new DieParticles(state, nebula, user.getBodyData(), Particle.NEBULA_DESPAWN)
-                .setSyncType(SyncType.NOSYNC).setParticleDuration(3.0f));
+        nebula.addStrategy(new DieParticles(state, nebula, user.getBodyData(), Particle.NEBULA_DESPAWN).setParticleDuration(3.0f));
         nebula.addStrategy(new HitboxStrategy(state, nebula, user.getBodyData()) {
 
             private float hboxAge;

@@ -24,7 +24,6 @@ public class KamabokoSpray extends SyncedAttacker {
 
     private static final int BASE_DAMAGE = 10;
     private static final int KNOCKBACK = 6;
-    private static final float LINGER = 1.0f;
 
     private static final float TOTAL_DURATION = 2.4f;
 
@@ -38,7 +37,7 @@ public class KamabokoSpray extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, LINGER));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_SHOWER));
 
         if (extraFields.length > 0) {
             if (extraFields[0] == 0) {

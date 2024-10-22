@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -46,8 +45,7 @@ public class CallofWalrusUse extends SyncedAttacker {
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.RING, 0.0f, 1.0f)
-                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.RING));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private final Array<HadalData> buffed = new Array<>();

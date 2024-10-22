@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
@@ -77,7 +76,7 @@ public class Batter extends SyncedAttacker {
         hbox.makeUnreflectable();
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, KNOCKBACK,
                 DamageSource.BATTERING_RAM, DamageTag.MELEE)
                 .setConstantKnockback(true, startVelocity));

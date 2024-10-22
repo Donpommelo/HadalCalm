@@ -97,7 +97,7 @@ public class SpawnManager {
         if (reset && state.isServer() && user.getEffectManager().isShowSpawnParticles()) {
             EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT,
                     new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2))
-                    .setLifespan(2.5f)
+                    .setLifespan(1.0f)
                     .setSyncType(SyncType.CREATESYNC));
         }
 

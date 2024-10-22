@@ -6,7 +6,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -49,10 +48,12 @@ public class DeepSmelt extends SyncedAttacker {
                         DamageSource.DEEP_SEA_SMELTER, DamageTag.RANGED));
                 hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f).setSynced(false));
                 hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.2f, true).setSynced(false));
-                hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-                        HadalColor.YELLOW).setSyncType(SyncType.NOSYNC));
-                hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-                        HadalColor.YELLOW).setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
+                        .setOffset(true)
+                        .setParticleColor(HadalColor.YELLOW));
+                hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
+                        .setOffset(true)
+                        .setParticleColor(HadalColor.YELLOW));
 
                 hboxes[i] = hbox;
             }

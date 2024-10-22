@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -61,8 +60,9 @@ public class ReticleStrikeProjectile extends SyncedAttacker {
                     reticle.setPassability((short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY));
 
                     reticle.addStrategy(new ControllerDefault(state, reticle, user.getBodyData()));
-                    reticle.addStrategy(new CreateParticles(state, reticle, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
-                            .setParticleSize(40.0f).setParticleColor(HadalColor.HOT_PINK).setSyncType(SyncType.NOSYNC));
+                    reticle.addStrategy(new CreateParticles(state, reticle, user.getBodyData(), Particle.EVENT_HOLO)
+                            .setParticleSize(40.0f)
+                            .setParticleColor(HadalColor.HOT_PINK));
                     reticle.addStrategy(new DieExplode(state, reticle, user.getBodyData(), EXPLOSION_RADIUS, EXPLOSION_DAMAGE,
                             EXPLOSION_KNOCKBACK, user.getHitboxFilter(), false, DamageSource.RETICLE_STRIKE));
                     reticle.addStrategy(new DieSound(state, reticle, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f)

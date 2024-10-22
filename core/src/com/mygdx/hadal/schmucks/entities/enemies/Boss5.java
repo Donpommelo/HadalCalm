@@ -395,7 +395,6 @@ public class Boss5 extends EnemyFloating {
 	}
 
 	private static final Vector2 windupSize = new Vector2(90, 90);
-	private static final float particleLinger = 1.0f;
 
 	private void windupParticle(Particle particle, HadalColor color, float particleScale, float lifespan, float duration) {
 
@@ -409,7 +408,9 @@ public class Boss5 extends EnemyFloating {
 				hbox1.setSyncedDelete(true);
 
 				hbox1.addStrategy(new ControllerDefault(state, hbox1, getBodyData()));
-				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle, 0.0f, particleLinger).setParticleColor(color).setParticleSize(particleScale));
+				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle)
+						.setParticleColor(color)
+						.setParticleSize(particleScale));
 				hbox1.addStrategy(new HitboxStrategy(state, hbox1, getBodyData()) {
 
 					@Override

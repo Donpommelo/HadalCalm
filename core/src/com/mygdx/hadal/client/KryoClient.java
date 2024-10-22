@@ -789,7 +789,7 @@ public class KryoClient {
 					ParticleEntity entity;
 					ParticleCreate request;
 					if (p.attached) {
-						request = new ParticleCreate(p.particle, (HadalEntity) null).setLinger(p.linger);
+						request = new ParticleCreate(p.particle, (HadalEntity) null);
 					} else {
 						request = new ParticleCreate(p.particle, p.pos);
 					}

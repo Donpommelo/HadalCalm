@@ -35,12 +35,8 @@ public class ParticleEntity extends HadalEntity {
 	private HadalEntity attachedEntity;
 	private UUID attachedId;
 	
-	//How long this entity will last after deletion of attached entity, the interval that this effect is turned on
-	//the lifespan of this entity
-	private float linger, interval, lifespan;
-	
-	//Has the attached entity despawned yet?
-	private boolean despawn;
+	//the interval that this effect is turned on and the lifespan of this entity
+	private float interval, lifespan;
 
 	//Has the particle lifespan expired? (So the effect can complete before despawning)
 	private boolean completing;
@@ -81,7 +77,6 @@ public class ParticleEntity extends HadalEntity {
 		this.effect = particle.getParticle(this);
 		this.on = particleCreate.isStartOn();
 		this.sync = particleCreate.getSyncType();
-		this.despawn = false;
 
 		this.lifespan = particleCreate.getLifespan();
 		temp = lifespan != 0;
@@ -104,8 +99,6 @@ public class ParticleEntity extends HadalEntity {
 
 		if (particleCreate.getAttachedEntity() != null) {
 			this.attachedEntity = particleCreate.getAttachedEntity();
-			this.linger = particleCreate.getLinger();
-
 			//as default, bounding box exists around the attached entity with a set size
 			if (attachedEntity != null) {
 				if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
@@ -131,14 +124,14 @@ public class ParticleEntity extends HadalEntity {
 	public void controller(float delta) {
 
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
-		if (attachedEntity != null && !despawn) {
+		if (attachedEntity != null && !completing) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				attachedLocation.set(attachedEntity.getPixelPosition());
 				effect.setPosition(attachedLocation.x + offset.x, attachedLocation.y + offset.y);
 				visualBoundsExtension.set(attachedLocation.x + offset.x, attachedLocation.y + offset.y, 0);
 				visualBounds.ext(visualBoundsExtension, VISUAL_BOUNDS_RADIUS);
 			} else {
-				despawn = true;
+				completing = true;
 				turnOff();
 			}
 			
@@ -147,37 +140,25 @@ public class ParticleEntity extends HadalEntity {
 				setParticleAngle(attachedEntity.getAngle());
 			}
 		}
-		
-		//if despawned, we delete this entity after its lingering period
-		if (despawn) {
-			linger -= delta;
-			
-			if (linger <= 0) {
-				if (state.isServer()) {
-					this.queueDeletion();
-				} else {
-					((ClientState) state).removeEntity(entityID);
-				}
-			}
-		}
 
 		//particles with a timer are deleted when the timer runs out. Clients remove these too if they are processing them independently from the server.
 		if (temp) {
 			lifespan -= delta;
 			if (lifespan <= 0) {
-				turnOff();
 				completing = true;
-			}
-
-			if (completing && effect.isComplete()) {
-				if (state.isServer()) {
-					this.queueDeletion();
-				} else {
-					((ClientState) state).removeEntity(entityID);
-				}
+				turnOff();
 			}
 		}
-		
+
+		//particle is set to completing if lifespan is out or attached entity is deleted. isComplete() check so effect finishes fading
+		if (completing && effect.isComplete()) {
+			if (state.isServer()) {
+				this.queueDeletion();
+			} else {
+				((ClientState) state).removeEntity(entityID);
+			}
+		}
+
 		//particles that are turned on for a timed period turn off when the interval is over
 		if (interval > 0) {
 			interval -= delta;
@@ -258,10 +239,9 @@ public class ParticleEntity extends HadalEntity {
 		if (SyncType.CREATESYNC.equals(sync)) {
 			if (attachedEntity != null) {
 				return new Packets.CreateParticles(attachedEntity.getEntityID(), offset,true, particle,
-						on, linger, lifespan, scale, rotate, velocity, color);
+						on, lifespan, scale, rotate, velocity, color);
 			} else {
-				return new Packets.CreateParticles(entityID, startPos, false,	particle, on, linger,
-						lifespan, scale, rotate, velocity, color);
+				return new Packets.CreateParticles(entityID, startPos, false,	particle, on, lifespan, scale, rotate, velocity, color);
 			}
 		} else {
 			return null;

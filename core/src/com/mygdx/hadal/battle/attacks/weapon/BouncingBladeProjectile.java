@@ -37,7 +37,7 @@ public class BouncingBladeProjectile extends SyncedAttacker {
         hbox.setRestitution(1.0f);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
         hbox.addStrategy(new ContactWallLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.BOUNCING_BLADES,
                 DamageTag.CUTTING, DamageTag.RANGED).setRepeatable(true));

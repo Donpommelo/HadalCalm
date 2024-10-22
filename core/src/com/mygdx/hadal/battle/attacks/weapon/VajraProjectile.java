@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -46,7 +45,7 @@ public class VajraProjectile extends SyncedAttacker {
                 user.getHitboxFilter(), SyncedAttack.SHOCK_VAJRA));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.VAJRA,
                 DamageTag.LIGHTNING, DamageTag.RANGED));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING_CHARGE, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING_CHARGE));
 
         return hbox;
     }

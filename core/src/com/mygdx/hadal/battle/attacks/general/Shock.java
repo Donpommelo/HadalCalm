@@ -7,7 +7,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -73,8 +72,8 @@ public class Shock extends SyncedAttacker {
                 trail.addStrategy(new ControllerDefault(state, trail, player.getBodyData()));
                 trail.addStrategy(new AdjustAngle(state, trail, player.getBodyData()));
                 trail.addStrategy(new TravelDistanceDie(state, trail, player.getBodyData(), trailPath.len()));
-                trail.addStrategy(new CreateParticles(state, trail, player.getBodyData(), Particle.LIGHTNING_BOLT,
-                        0.0f, 3.0f).setRotate(true).setSyncType(SyncType.NOSYNC));
+                trail.addStrategy(new CreateParticles(state, trail, player.getBodyData(), Particle.LIGHTNING_BOLT)
+                        .setRotate(true));
 
                 if (!state.isServer()) {
                     ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ObjectLayer.HBOX);

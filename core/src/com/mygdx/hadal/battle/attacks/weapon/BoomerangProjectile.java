@@ -37,7 +37,7 @@ public class BoomerangProjectile extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.BOOMERANG,
                 DamageTag.WHACKING, DamageTag.RANGED).setRepeatable(true));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
         hbox.addStrategy(new ReturnToUser(state, hbox, user.getBodyData(), hbox.getStartVelo().len() * RETURN_AMP));
         hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.WOOSH, 0.5f, true).setSyncType(SyncType.NOSYNC));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.75f, true).setSynced(false));

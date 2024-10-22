@@ -6,7 +6,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -47,9 +46,10 @@ public class Nematocyte extends SyncedAttacker {
                 DamageTag.POKING, DamageTag.RANGED).setStaticKnockback(true));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DANGER_BLUE, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-                HadalColor.SKY_BLUE).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DANGER_BLUE));
+        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
+                .setOffset(true)
+                .setParticleColor(HadalColor.SKY_BLUE));
         hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false) {
 
             private final Vector2 currentVelo = new Vector2();

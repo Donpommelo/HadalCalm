@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -43,8 +42,7 @@ public class TridentProjectile extends SyncedAttacker {
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.WAVE_BEAM, DamageTag.ENERGY, DamageTag.RANGED));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.TRIDENT_TRAIL, 0.0f, 1.0f)
-                .setRotate(true).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.TRIDENT_TRAIL).setRotate(true));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private final Vector2 hboxPosition = new Vector2();
@@ -63,8 +61,7 @@ public class TridentProjectile extends SyncedAttacker {
 
                 center.addStrategy(new DamageStandard(state, center, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                         DamageSource.WAVE_BEAM, DamageTag.ENERGY, DamageTag.RANGED));
-                center.addStrategy(new CreateParticles(state, center, user.getBodyData(), Particle.TRIDENT_TRAIL, 0.0f, 1.0f)
-                        .setRotate(true).setSyncType(SyncType.NOSYNC));
+                center.addStrategy(new CreateParticles(state, center, user.getBodyData(), Particle.TRIDENT_TRAIL).setRotate(true));
 
                 Hitbox right = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, childVelocity, user.getHitboxFilter(),
                         true, true, user, Sprite.TRIDENT_R);
@@ -77,8 +74,7 @@ public class TridentProjectile extends SyncedAttacker {
                 right.addStrategy(new DamageStandard(state, right, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                         DamageSource.WAVE_BEAM, DamageTag.ENERGY, DamageTag.RANGED));
                 right.addStrategy(new LerpEntity(state, right, user.getBodyData(), center, DISTANCE, LIFESPAN_SMALL, 90));
-                right.addStrategy(new CreateParticles(state, right, user.getBodyData(), Particle.TRIDENT_TRAIL, 0.0f, 1.0f)
-                        .setRotate(true).setSyncType(SyncType.NOSYNC));
+                right.addStrategy(new CreateParticles(state, right, user.getBodyData(), Particle.TRIDENT_TRAIL).setRotate(true));
 
                 Hitbox left = new RangedHitbox(state, hboxPosition, PROJECTILE_SIZE, LIFESPAN_SMALL, childVelocity, user.getHitboxFilter(),
                         true, true, user, Sprite.TRIDENT_L);
@@ -90,8 +86,7 @@ public class TridentProjectile extends SyncedAttacker {
                 left.addStrategy(new DamageStandard(state, left, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                         DamageSource.TRIDENT, DamageTag.ENERGY, DamageTag.RANGED));
                 left.addStrategy(new LerpEntity(state, left, user.getBodyData(), center, DISTANCE, LIFESPAN_SMALL, -90));
-                left.addStrategy(new CreateParticles(state, left, user.getBodyData(), Particle.TRIDENT_TRAIL, 0.0f, 1.0f)
-                        .setRotate(true).setSyncType(SyncType.NOSYNC));
+                left.addStrategy(new CreateParticles(state, left, user.getBodyData(), Particle.TRIDENT_TRAIL).setRotate(true));
 
                 if (!state.isServer()) {
                     ((ClientState) state).addEntity(center.getEntityID(), center, false, ObjectLayer.HBOX);

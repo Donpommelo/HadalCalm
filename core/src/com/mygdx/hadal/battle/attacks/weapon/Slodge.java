@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -59,9 +58,9 @@ public class Slodge extends SyncedAttacker {
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.SLODGE_NOZZLE, DamageTag.RANGED));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SLODGE, 0.0f, 1.0f)
-                .setParticleSize(90).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SLODGE_STATUS).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SLODGE)
+                .setParticleSize(90));
+        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SLODGE_STATUS));
         hbox.addStrategy(new ContactUnitSlow(state, hbox, user.getBodyData(), SLOW_DURA, SLOW, Particle.SLODGE_STATUS));
 
         return hbox;

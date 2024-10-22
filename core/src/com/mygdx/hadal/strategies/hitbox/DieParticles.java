@@ -36,7 +36,7 @@ public class DieParticles extends HitboxStrategy {
 	//this is the color of the particle. change using factory method
 	private HadalColor color = HadalColor.NOTHING;
 
-	private SyncType syncType = SyncType.CREATESYNC;
+	private SyncType syncType = SyncType.NOSYNC;
 
 	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);

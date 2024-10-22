@@ -54,8 +54,7 @@ public class NeptuneScythe extends SyncedAttacker {
         scythe.addStrategy(new ControllerDefault(state, scythe, user.getBodyData()));
         scythe.addStrategy(new CreateSound(state, scythe, user.getBodyData(), SoundEffect.WOOSH, 0.4f, true)
                 .setPitch(0.6f).setSyncType(SyncType.NOSYNC));
-        scythe.addStrategy(new DieParticles(state, scythe, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL)
-                .setSyncType(SyncType.NOSYNC));
+        scythe.addStrategy(new DieParticles(state, scythe, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL));
         scythe.addStrategy(new ContactUnitSound(state, scythe, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
                 .setSynced(false));
         scythe.addStrategy(new DamagePulse(state, scythe, user.getBodyData(), scythe.getSize(), BASE_DAMAGE, KNOCKBACK,

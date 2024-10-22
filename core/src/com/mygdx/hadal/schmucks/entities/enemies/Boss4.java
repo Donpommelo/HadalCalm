@@ -19,6 +19,7 @@ import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
+import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
@@ -27,6 +28,7 @@ import com.mygdx.hadal.strategies.enemy.CreateMultiplayerHpScaling;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.users.User;
+import com.mygdx.hadal.utils.PacketUtil;
 
 /**
  * This is a boss in the game
@@ -57,6 +59,9 @@ public class Boss4 extends EnemyFloating {
 	private float scaleLerpFactor = 0.2f;
 		
 	private int phase = 1;
+
+	private HadalColor bossColor;
+
 	private static final float phaseThreshold2 = 0.5f;
 	
 	//the boss's body is composed of multiple scaled up particle effects
@@ -99,7 +104,7 @@ public class Boss4 extends EnemyFloating {
 	public void controller(float delta) {
 		super.controller(delta);
 
-		if (state.isServer() && body1 != null) {
+		if (body1 != null) {
 			body1.getEffect().update(delta);
 			body2.getEffect().update(delta);
 			body3.getEffect().update(delta);
@@ -123,11 +128,9 @@ public class Boss4 extends EnemyFloating {
 	
 	@Override
 	public void render(SpriteBatch batch, Vector2 entityLocation) {
-		if (state.isServer()) {
-			body1.getEffect().draw(batch);
-			body2.getEffect().draw(batch);
-			body3.getEffect().draw(batch);
-		}
+		body1.getEffect().draw(batch);
+		body2.getEffect().draw(batch);
+		body3.getEffect().draw(batch);
 	}
 	
 	private int attackNum;
@@ -187,7 +190,26 @@ public class Boss4 extends EnemyFloating {
 			}
 		}
 	}
-	
+
+	@Override
+	public void onServerSync() {
+		state.getSyncPackets().add(new PacketsSync.SyncSchmuckColor(entityID, getPosition(), new Vector2(), state.getTimer(),
+				moveState,
+				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
+				desiredScale, bossColor));
+	}
+
+	@Override
+	public void onClientSync(Object o) {
+		super.onClientSync(o);
+		if (o instanceof PacketsSync.SyncSchmuckColor p) {
+			desiredScale = p.desiredScale;
+			if (bossColor != p.color) {
+				bossColor = p.color;
+				body3.setColor(bossColor);
+			}
+		}
+	}
 	
 	private void phase2Attack() {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, aiAttackCd2);
@@ -208,7 +230,6 @@ public class Boss4 extends EnemyFloating {
 		}
 	}
 	
-	private static final float particleLinger = 1.0f;
 	private static final float shot1Windup = 1.5f;
 	private void radialShot1() {
 		changeColor(HadalColor.VIOLET, shot1Windup);
@@ -665,6 +686,7 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
+				bossColor = color;
 				if (body3 != null) {
 					body3.setColor(color);
 				}
@@ -687,7 +709,7 @@ public class Boss4 extends EnemyFloating {
 				hbox1.setSyncedDelete(true);
 
 				hbox1.addStrategy(new ControllerDefault(state, hbox1, getBodyData()));
-				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle, 0.0f, particleLinger)
+				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle)
 						.setParticleColor(color).setParticleSize(particleScale));
 				hbox1.addStrategy(new HitboxStrategy(state, hbox1, getBodyData()) {
 					

@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -36,7 +35,6 @@ public class NeptuneSporeburst extends SyncedAttacker {
 
     private static final Sprite PROJ_SPRITE = Sprite.SPORE_CLUSTER_MILD;
     private static final Sprite FRAG_SPRITE = Sprite.SPORE_MILD;
-    private static final float LINGER = 1.0f;
 
     final Vector2 position = new Vector2();
     @Override
@@ -56,8 +54,7 @@ public class NeptuneSporeburst extends SyncedAttacker {
         hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPORE_HOMING, SPORE_HOMING_RADIUS).setSteering(false));
         hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(false));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, LINGER)
-                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private final Vector2 newVelocity = new Vector2();

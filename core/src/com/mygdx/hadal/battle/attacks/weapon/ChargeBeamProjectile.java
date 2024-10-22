@@ -7,7 +7,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -101,10 +100,8 @@ public class ChargeBeamProjectile extends SyncedAttacker {
         });
 
         if (chargeStage == 2) {
-            hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE, 0.0f, 1.0f)
-                    .setParticleSize(70).setSyncType(SyncType.NOSYNC));
-            hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE).setParticleDuration(0.4f)
-                    .setSyncType(SyncType.NOSYNC));
+            hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE).setParticleSize(70));
+            hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE).setParticleDuration(0.4f));
         }
 
         if (!state.isServer()) {

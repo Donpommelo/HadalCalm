@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -22,8 +21,6 @@ public class FalseSunBullets extends SyncedAttacker {
     private static final float KNOCKBACK = 15.0f;
     private static final Vector2 PROJ_SIZE = new Vector2(70, 35);
     private static final Vector2 SPRITE_SIZE = new Vector2(100, 50);
-
-    private static final float LINGER = 1.0f;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -47,9 +44,10 @@ public class FalseSunBullets extends SyncedAttacker {
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
-                .setOffset(true).setParticleColor(projColor).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, LINGER)
-                .setParticleColor(projColor).setSyncType(SyncType.NOSYNC));
+                .setOffset(true)
+                .setParticleColor(projColor));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL)
+                .setParticleColor(projColor));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
                 .setSynced(false));
         hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));

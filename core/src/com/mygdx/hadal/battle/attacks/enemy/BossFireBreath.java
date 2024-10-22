@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -23,7 +22,6 @@ public class BossFireBreath extends SyncedAttacker {
     private static final int KNOCKBACK = 10;
     private static final float BURN_DURATION = 4.0f;
     private static final int BURN_DAMAGE = 3;
-    private static final float FIRE_LINGER = 1.0f;
 
     private static final float LIFESPAN1 = 1.4f;
     private static final float LIFESPAN2 = 1.7f;
@@ -44,8 +42,7 @@ public class BossFireBreath extends SyncedAttacker {
         hbox.addStrategy(new ContactUnitBurn(state, hbox, user.getBodyData(), BURN_DURATION, BURN_DAMAGE, DamageSource.ENEMY_ATTACK));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED, DamageTag.FIRE));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, FIRE_LINGER)
-                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE));
 
         return hbox;
     }

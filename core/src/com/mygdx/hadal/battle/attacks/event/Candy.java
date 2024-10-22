@@ -6,7 +6,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.modes.TrickorTreatBucket;
@@ -49,10 +48,8 @@ public class Candy extends SyncedAttacker {
 
                 hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE, 0.0f, 0.0f)
-                        .setSyncType(SyncType.NOSYNC));
-                hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE)
-                        .setIgnoreOnTimeout(true).setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE));
+                hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE).setIgnoreOnTimeout(true));
                 hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.COIN3, 1.1f)
                         .setIgnoreOnTimeout(true).setSynced(false));
                 hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));

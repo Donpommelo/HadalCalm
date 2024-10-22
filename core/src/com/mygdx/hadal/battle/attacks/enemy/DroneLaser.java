@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -36,10 +35,8 @@ public class DroneLaser extends SyncedAttacker {
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
-                .setOffset(true).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
-                .setOffset(true).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true));
+        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));

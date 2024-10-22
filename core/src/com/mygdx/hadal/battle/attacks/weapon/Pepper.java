@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -49,10 +48,12 @@ public class Pepper extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.PEPPERGRINDER,
                 DamageTag.ENERGY, DamageTag.RANGED));
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-                HadalColor.PALE_GREEN).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-                HadalColor.PALE_GREEN).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
+                .setOffset(true)
+                .setParticleColor(HadalColor.PALE_GREEN));
+        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
+                .setOffset(true)
+                .setParticleColor(HadalColor.PALE_GREEN));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.25f, true).setSynced(false));
         hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));

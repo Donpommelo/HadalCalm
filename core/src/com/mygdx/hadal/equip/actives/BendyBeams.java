@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -59,8 +60,10 @@ public class BendyBeams extends ActiveItem {
 						hbox.addStrategy(new DamageStandard(state, hbox, user, DAMAGE, KNOCKBACK, DamageSource.BENDY_BEAMS, DamageTag.ENERGY));
 						hbox.addStrategy(new ContactUnitDie(state, hbox, user));
 						hbox.addStrategy(new ContactWallDie(state, hbox, user));
-						hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.LASER_PULSE, 0.0f, 1.0f)
-								.setParticleColor(HadalColor.MALACHITE).setParticleSize(20));
+						hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.LASER_PULSE)
+								.setParticleSize(20)
+								.setParticleColor(HadalColor.MALACHITE)
+								.setSyncType(SyncType.CREATESYNC));
 						hbox.addStrategy(new AdjustAngle(state, hbox, user));
 						hbox.addStrategy(new Curve(state, hbox, user, 90, 180,
 								user.getPlayer().getMouseHelper().getPixelPosition(), PROJECTILE_SPEED, 0.1f));

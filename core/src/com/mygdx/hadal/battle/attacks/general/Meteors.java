@@ -123,10 +123,8 @@ public class Meteors extends SyncedAttacker {
                             }
                         });
 
-                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 1.0f)
-                        .setSyncType(SyncType.NOSYNC));
-                        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BOULDER_BREAK).setParticleSize(90)
-                        .setSyncType(SyncType.NOSYNC));
+                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE));
+                        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BOULDER_BREAK).setParticleSize(90));
 
                         if (!state.isServer()) {
                             ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);

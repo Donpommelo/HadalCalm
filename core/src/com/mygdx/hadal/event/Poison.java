@@ -66,8 +66,7 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
-			EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, this)
-					.setLinger(0.0f));
+			EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, this));
 		}
 	}
 
@@ -106,8 +105,7 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
-			EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, this)
-					.setLinger(particleLifespan));
+			EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, this));
 		}
 	}
 	

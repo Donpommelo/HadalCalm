@@ -95,7 +95,6 @@ public class Currents extends Event {
 			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.CURRENT_TRAIL,
 					new Ragdoll(state, randLocation.set(randX, randY), RAGDOLL_SIZE, Sprite.NOTHING,
 							ragdollVelo, 0.25f, 0.0f, false, true, false))
-					.setLinger(0.5f)
 					.setVelocity(vec.angleRad())
 					.setAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians));
 		}
@@ -128,7 +127,6 @@ public class Currents extends Event {
 			Ragdoll ragdoll = new Ragdoll(state, randLocation.set(randX, randY), RAGDOLL_SIZE, Sprite.NOTHING, ragdollVelo,
 					0.25f, 0.0f, false, true, false);
 			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.CURRENT_TRAIL, ragdoll)
-					.setLinger(0.5f)
 					.setVelocity(vec.angleRad())
 					.setAngle(vec.angleRad() + 90 * MathUtils.degreesToRadians));
 			((ClientState) state).addEntity(ragdoll.getEntityID(), ragdoll, false, ObjectLayer.STANDARD);

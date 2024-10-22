@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -67,7 +66,7 @@ public class Amita extends SyncedAttacker {
                     orbital.addStrategy(new DamageStandard(state, orbital, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                             DamageSource.AMITA_CANNON, DamageTag.RANGED).setRepeatable(true));
                     orbital.addStrategy(new ContactWallDie(state, orbital, user.getBodyData()));
-                    orbital.addStrategy(new DieParticles(state, orbital, user.getBodyData(), Particle.ORB_IMPACT).setSyncType(SyncType.NOSYNC));
+                    orbital.addStrategy(new DieParticles(state, orbital, user.getBodyData(), Particle.ORB_IMPACT));
                     orbital.addStrategy(new HitboxStrategy(state, orbital, user.getBodyData()) {
 
                         private final Vector2 centerPos = new Vector2();

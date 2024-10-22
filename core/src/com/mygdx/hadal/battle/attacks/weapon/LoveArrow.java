@@ -7,7 +7,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -64,13 +63,12 @@ public class LoveArrow extends SyncedAttacker {
         hurtbox.addStrategy(new AdjustAngle(state, hurtbox, user.getBodyData()));
         hurtbox.addStrategy(new ContactWallDie(state, hurtbox, user.getBodyData()));
         hurtbox.addStrategy(new ContactUnitLoseDurability(state, hurtbox, user.getBodyData()));
-        hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK).setSyncType(SyncType.NOSYNC));
+        hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK));
         hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), damage, KNOCKBACK, DamageSource.LOVE_BOW,
                 DamageTag.POKING, DamageTag.RANGED));
         hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true).setSynced(false));
         hurtbox.addStrategy(new ContactWallSound(state, hurtbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.8f).setSynced(false));
-        hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL, 0.0f, 1.0f)
-                .setRotate(true).setSyncType(SyncType.NOSYNC));
+        hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL).setRotate(true));
 
         Hitbox healbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelocity).nor().scl(velocity),
                 (short) 0, false, false, user, Sprite.NOTHING);

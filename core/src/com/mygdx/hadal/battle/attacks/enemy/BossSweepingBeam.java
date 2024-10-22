@@ -22,7 +22,6 @@ public class BossSweepingBeam extends SyncedAttacker {
     private static final float BASE_DAMAGE = 3.5f;
     private static final float KNOCKBACK = 1.0f;
     private static final float LIFESPAN = 1.2f;
-    private static final float LASER_LINGER = 0.01f;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -35,7 +34,7 @@ public class BossSweepingBeam extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_PULSE, 0.0f, LASER_LINGER));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_PULSE));
 
         return hbox;
     }

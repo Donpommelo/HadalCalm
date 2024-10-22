@@ -34,7 +34,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 	private boolean isOffset;
 	private final Vector2 offset = new Vector2();
 
-	private SyncType syncType = SyncType.CREATESYNC;
+	private SyncType syncType = SyncType.NOSYNC;
 
 	//do we draw the particle on the hbox? If not, we draw it on the entity it hits instead. used for even longer hboxes like the laser rifle.
 	private boolean drawOnSelf = true;

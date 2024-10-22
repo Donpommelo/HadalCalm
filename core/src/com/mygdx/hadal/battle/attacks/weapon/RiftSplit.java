@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -47,11 +46,10 @@ public class RiftSplit extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.RIFTSPLITTER,
                 DamageTag.MELEE, DamageTag.CUTTING));
         hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-                .setParticleColor(HadalColor.TURQUOISE).setSyncType(SyncType.NOSYNC));
+                .setParticleColor(HadalColor.TURQUOISE));
         hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-                .setParticleColor(HadalColor.TURQUOISE).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPLITTER_MAIN, 0.0f, 1.0f)
-                .setRotate(true).setSyncType(SyncType.NOSYNC));
+                .setParticleColor(HadalColor.TURQUOISE));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPLITTER_MAIN).setRotate(true));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private float controllerCount = SHOCKWAVE_INTERVAL;
@@ -78,12 +76,13 @@ public class RiftSplit extends SyncedAttacker {
                 shockwave.addStrategy(new ContactWallDie(state, shockwave, user.getBodyData()));
                 shockwave.addStrategy(new DamageStandard(state, shockwave, user.getBodyData(), SHOCKWAVE_DAMAGE, KNOCKBACK,
                         DamageSource.RIFTSPLITTER, DamageTag.MELEE, DamageTag.CUTTING));
-                shockwave.addStrategy(new ContactWallParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-                        .setParticleColor(HadalColor.TURQUOISE).setSyncType(SyncType.NOSYNC));
-                shockwave.addStrategy(new ContactUnitParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-                        .setParticleColor(HadalColor.TURQUOISE).setSyncType(SyncType.NOSYNC));
-                shockwave.addStrategy(new CreateParticles(state, shockwave, user.getBodyData(), Particle.SPLITTER_TRAIL, 0.0f, 1.0f)
-                        .setRotate(true).setSyncType(SyncType.NOSYNC));
+                shockwave.addStrategy(new ContactWallParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT)
+                        .setOffset(true)
+                        .setParticleColor(HadalColor.TURQUOISE));
+                shockwave.addStrategy(new ContactUnitParticles(state, shockwave, user.getBodyData(), Particle.LASER_IMPACT)
+                        .setOffset(true)
+                        .setParticleColor(HadalColor.TURQUOISE));
+                shockwave.addStrategy(new CreateParticles(state, shockwave, user.getBodyData(), Particle.SPLITTER_TRAIL).setRotate(true));
 
                 if (!state.isServer()) {
                     ((ClientState) state).addEntity(shockwave.getEntityID(), shockwave, false, ObjectLayer.HBOX);

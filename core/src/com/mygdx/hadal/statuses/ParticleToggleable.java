@@ -15,8 +15,6 @@ import com.mygdx.hadal.states.PlayState;
 public class ParticleToggleable extends Status {
 
 	private final Particle particleType;
-	private static final float LINGER = 0.0f;
-
 	private ParticleEntity particle;
 	private boolean activated;
 
@@ -58,7 +56,6 @@ public class ParticleToggleable extends Status {
 
 	public void createParticle() {
 		setParticle(EffectEntityManager.getParticle(state, new ParticleCreate(particleType, inflicted.getSchmuck())
-				.setLinger(LINGER)
 				.setStartOn(false)));
 	}
 

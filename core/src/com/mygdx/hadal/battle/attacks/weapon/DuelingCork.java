@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -35,7 +34,7 @@ public class DuelingCork extends SyncedAttacker {
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION));
         hbox.addStrategy(new ContactUnitKnockbackDamage(state, hbox, user.getBodyData(), DamageSource.DUELING_CORKGUN));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));

@@ -7,7 +7,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -91,8 +90,7 @@ public class VengefulSpirit extends SyncedAttacker {
                 } else {
                     hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), SPIRIT_HOMING, SPIRIT_HOMING_RADIUS));
                 }
-                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.GHOST_LIGHT, 0.0f, 1.0f)
-                        .setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.GHOST_LIGHT));
                 hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DARKNESS1, 0.25f).setSynced(false));
 
                 hboxes[i] = hbox;

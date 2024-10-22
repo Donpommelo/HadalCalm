@@ -2,6 +2,7 @@ package com.mygdx.hadal.server.packets;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.effects.HadalColor;
 
 import java.util.UUID;
 
@@ -90,6 +91,22 @@ public class PacketsSync {
                                  MoveState moveState, byte hpPercent, float angle) {
             super(entityID, pos, velocity, timestamp, moveState, hpPercent);
             this.angle = angle;
+        }
+    }
+
+    public static class SyncSchmuckColor extends SyncSchmuck {
+        public float desiredScale;
+        public HadalColor color;
+
+        public SyncSchmuckColor() {}
+
+        /**
+         */
+        public SyncSchmuckColor(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
+                                MoveState moveState, byte hpPercent, float desiredScale, HadalColor color) {
+            super(entityID, pos, velocity, timestamp, moveState, hpPercent);
+            this.desiredScale = desiredScale;
+            this.color = color;
         }
     }
 

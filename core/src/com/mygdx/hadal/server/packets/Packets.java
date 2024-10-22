@@ -19,6 +19,8 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
@@ -655,7 +657,6 @@ public class Packets {
         public boolean attached;
 		public Particle particle;
 		public boolean startOn;
-		public float linger;
 		public float lifespan;
 		public float scale;
 		public boolean rotate;
@@ -672,7 +673,6 @@ public class Packets {
 		 * @param attached: Is this particleEntity attached to another entity?
 		 * @param particle: Particle Effect to be created.
 		 * @param startOn: Does this effect start turned on?
-		 * @param linger: How long does an attached Particle Entity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
 		 * @param scale: The size multiplier of the particle effect
 		 * @param rotate: should this entity rotate to match an attached entity?
@@ -680,19 +680,32 @@ public class Packets {
 		 * @param color: the color tint of the particle
 		 */
 		public CreateParticles(UUID attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
-		   	float linger, float lifespan, float scale, boolean rotate, float velocity, Vector3 color) {
+		   	float lifespan, float scale, boolean rotate, float velocity, Vector3 color) {
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
 			this.uuidMSBAttached = attachedID.getMostSignificantBits();
 			this.pos = pos;
 			this.attached = attached;
 			this.particle = particle;
 			this.startOn = startOn;
-			this.linger = linger;
 			this.lifespan = lifespan;
 			this.scale = scale;
 			this.rotate = rotate;
 			this.velocity = velocity;
 			this.color = color;
+		}
+
+		public CreateParticles(ParticleCreate particleCreate, boolean attached) {
+			this.uuidLSBAttached = particleCreate.getAttachedEntity().getEntityID().getLeastSignificantBits();
+			this.uuidMSBAttached = particleCreate.getAttachedEntity().getEntityID().getMostSignificantBits();
+			this.pos = particleCreate.getPosition();
+			this.attached = attached;
+			this.particle = particleCreate.getParticle();
+			this.startOn = particleCreate.isStartOn();
+			this.lifespan = particleCreate.getLifespan();
+			this.scale = particleCreate.getScale();
+			this.rotate = particleCreate.isRotate();
+			this.velocity = particleCreate.getVelocity();
+			this.color = particleCreate.getColorRGB();
 		}
 	}
 
@@ -885,6 +898,17 @@ public class Packets {
 			this.pitch = pitch;
 			this.looped = looped;
 			this.on = on;
+		}
+
+		public CreateSound(SoundCreate soundCreate) {
+			this.uuidLSBAttached = soundCreate.getAttachedEntity().getEntityID().getLeastSignificantBits();
+			this.uuidMSBAttached = soundCreate.getAttachedEntity().getEntityID().getMostSignificantBits();
+			this.sound = soundCreate.getSound();
+			this.lifespan = soundCreate.getLifespan();
+			this.volume = soundCreate.getVolume();
+			this.pitch = soundCreate.getPitch();
+			this.looped = soundCreate.isLooped();
+			this.on = soundCreate.isStartOn();
 		}
 	}
 
@@ -1141,6 +1165,7 @@ public class Packets {
 		kryo.register(PacketsSync.SyncEntityAngled.class);
 		kryo.register(PacketsSync.SyncSchmuck.class);
 		kryo.register(PacketsSync.SyncSchmuckAngled.class);
+		kryo.register(PacketsSync.SyncSchmuckColor.class);
 		kryo.register(PacketsSync.SyncPlayerSnapshot.class);
 		kryo.register(PacketsSync.SyncClientSnapshot.class);
 		kryo.register(PacketsSync.SyncFlag.class);

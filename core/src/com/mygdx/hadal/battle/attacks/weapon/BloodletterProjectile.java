@@ -7,7 +7,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -57,9 +56,10 @@ public class BloodletterProjectile extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(startVelocity),
                 startVelocity.nor().scl(PROJECTILE_SIZE.x / 2 / PPM)));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIFE_STEAL, 0.0f, 1.0f)
-                .setParticleVelocity(startVelocity.angleRad()).setSyncType(SyncType.NOSYNC)
-                .setParticleSize(70).setOffset(projectileOffset.x, projectileOffset.y));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIFE_STEAL)
+                .setParticleVelocity(startVelocity.angleRad())
+                .setParticleSize(70)
+                .setOffset(projectileOffset.x, projectileOffset.y));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private final Vector2 targetLocation = new Vector2();
@@ -118,10 +118,8 @@ public class BloodletterProjectile extends SyncedAttacker {
 
                 hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE, 0.0f, 0.0f)
-                        .setSyncType(SyncType.NOSYNC));
-                hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE)
-                        .setIgnoreOnTimeout(true).setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE));
+                hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE).setIgnoreOnTimeout(true));
                 hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.COIN3, 1.1f)
                         .setIgnoreOnTimeout(true).setSynced(false));
                 hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), CANDY_SPREAD));

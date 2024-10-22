@@ -7,7 +7,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -62,8 +61,8 @@ public class FlashbangProjectile extends SyncedAttacker {
 
                 hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION, 0.0f, 0.2f)
-                        .setParticleSize(25).setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION)
+                        .setParticleSize(25));
                 hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
                     @Override

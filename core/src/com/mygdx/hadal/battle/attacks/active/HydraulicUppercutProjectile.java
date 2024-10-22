@@ -6,7 +6,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
@@ -43,7 +42,6 @@ public class HydraulicUppercutProjectile extends SyncedAttacker {
 
         if (user instanceof Player player) {
             EffectEntityManager.getParticle(state, new ParticleCreate(particle, user)
-                    .setLinger(1.5f)
                     .setLifespan(1.0f)
                     .setScale(0.5f)
                     .setColor(TextUtil.getPlayerColor(player)));
@@ -61,7 +59,7 @@ public class HydraulicUppercutProjectile extends SyncedAttacker {
         hbox.makeUnreflectable();
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData() , Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData() , Particle.SPARKS));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.HYDRAULIC_UPPERCUT, DamageTag.MELEE).setStaticKnockback(true));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()));

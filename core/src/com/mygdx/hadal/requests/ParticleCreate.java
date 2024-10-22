@@ -13,8 +13,7 @@ public class ParticleCreate {
 
     private HadalEntity attachedEntity;
     private final Vector2 position = new Vector2();
-    private float linger = 1.0f;
-    private float lifespan = 0.0f;
+    private float lifespan;
     private boolean startOn = true;
     private SyncType syncType = SyncType.NOSYNC;
 
@@ -32,11 +31,6 @@ public class ParticleCreate {
     public ParticleCreate(Particle particle, Vector2 position) {
         this.particle = particle;
         this.position.set(position);
-    }
-
-    public ParticleCreate setLinger(float linger) {
-        this.linger = linger;
-        return this;
     }
 
     public ParticleCreate setLifespan(float lifespan) {
@@ -99,8 +93,6 @@ public class ParticleCreate {
     public HadalEntity getAttachedEntity() { return attachedEntity; }
 
     public Vector2 getPosition() { return position; }
-
-    public float getLinger() { return linger; }
 
     public float getLifespan() { return lifespan; }
 

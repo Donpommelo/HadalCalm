@@ -5,13 +5,15 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.strategies.hitbox.*;
+import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class BossBouncyBall extends SyncedAttacker {
 
@@ -37,8 +39,7 @@ public class BossBouncyBall extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 0.0f)
-                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE));
         hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SPRING, 0.1f).setSynced(false));
 
         return hbox;

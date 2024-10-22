@@ -41,7 +41,6 @@ public class ParticleCreator extends Event {
 
 		if (duration == 0) {
 			particles = EffectEntityManager.getParticle(state, new ParticleCreate(particle, (HadalEntity) null)
-					.setLinger(0.0f)
 					.setStartOn(on));
 		} else {
 			this.particle = particle;
@@ -66,16 +65,21 @@ public class ParticleCreator extends Event {
 					attachedEntity = p;
 				}
 
-				if (particles != null) {
-					particles.setAttachedEntity(attachedEntity);
-					if (on) {
-						particles.turnOff();
+				if (particle == null) {
+					if (particles != null && particles.isAlive()) {
+						particles.setAttachedEntity(attachedEntity);
+						if (on) {
+							particles.turnOff();
+						} else {
+							particles.turnOn();
+						}
+						on = !on;
 					} else {
-						particles.turnOn();
+						particles = EffectEntityManager.getParticle(state, new ParticleCreate(particle, attachedEntity)
+								.setLifespan(duration));
 					}
-					on = !on;
 				} else {
-					particles = EffectEntityManager.getParticle(state, new ParticleCreate(particle, attachedEntity)
+					EffectEntityManager.getParticle(state, new ParticleCreate(particle, attachedEntity)
 							.setLifespan(duration));
 				}
 			}

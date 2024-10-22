@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -38,8 +37,8 @@ public class MarineSnow extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), PROJECTILE_DAMAGE, PROJECTILE_KB,
                 DamageSource.MARINE_SNOWGLOBE, DamageTag.RANGED));
         hbox.addStrategy(new ContactUnitSlow(state, hbox, user.getBodyData(), SLOW_DURATION, SLOW_SLOW, Particle.ICE_CLOUD));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 2.0f)
-                .setParticleSize(25.0f).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD)
+                .setParticleSize(25.0f));
 
         return hbox;
     }

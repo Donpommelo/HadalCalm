@@ -35,7 +35,7 @@ public class ContactWallParticles extends HitboxStrategy {
 	private final Vector2 offset = new Vector2();
 	private boolean isOffset;
 
-	private SyncType syncType = SyncType.CREATESYNC;
+	private SyncType syncType = SyncType.NOSYNC;
 
 	public ContactWallParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
