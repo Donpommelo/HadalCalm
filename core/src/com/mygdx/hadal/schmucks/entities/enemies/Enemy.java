@@ -13,6 +13,7 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -91,7 +92,7 @@ public class Enemy extends Schmuck {
 		this.attackCd = attackCd;
 		this.scrapDrop = scrapDrop;
 
-		this.hpSprite = Sprite.UI_MAIN_HEALTHBAR.getFrame();
+		this.hpSprite = SpriteManager.getFrame(Sprite.UI_MAIN_HEALTHBAR);
 		
 		this.actions = new Array<>();
 		this.secondaryActions = new Array<>();

@@ -694,11 +694,13 @@ public class Packets {
 			this.color = color;
 		}
 
-		public CreateParticles(ParticleCreate particleCreate, boolean attached) {
-			this.uuidLSBAttached = particleCreate.getAttachedEntity().getEntityID().getLeastSignificantBits();
-			this.uuidMSBAttached = particleCreate.getAttachedEntity().getEntityID().getMostSignificantBits();
+		public CreateParticles(ParticleCreate particleCreate) {
+			if (particleCreate.getAttachedEntity() != null) {
+				this.uuidLSBAttached = particleCreate.getAttachedEntity().getEntityID().getLeastSignificantBits();
+				this.uuidMSBAttached = particleCreate.getAttachedEntity().getEntityID().getMostSignificantBits();
+				this.attached = true;
+			}
 			this.pos = particleCreate.getPosition();
-			this.attached = attached;
 			this.particle = particleCreate.getParticle();
 			this.startOn = particleCreate.isStartOn();
 			this.lifespan = particleCreate.getLifespan();

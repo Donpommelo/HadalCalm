@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
@@ -48,14 +49,14 @@ public class ObjectiveMarker {
         this.displayObjectiveOffScreen = displayObjectiveOffScreen;
         this.displayObjectiveOnScreen = displayObjectiveOnScreen;
         this.displayClearCircle = displayClearCircle;
-        this.icon = sprite.getFrame();
+        this.icon = SpriteManager.getFrame(sprite);
         this.color = color.getColor();
         this.colored = !HadalColor.NOTHING.equals(color);
 
-        this.arrow = Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW.getFrame();
+        this.arrow = SpriteManager.getFrame(Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW);
         this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-        this.circleWidth = Sprite.CLEAR_CIRCLE_ALERT.getFrame().getRegionWidth() * SCALE;
-        this.circleHeight = Sprite.CLEAR_CIRCLE_ALERT.getFrame().getRegionHeight() * SCALE;
+        this.circleWidth = SpriteManager.getFrame(Sprite.CLEAR_CIRCLE_ALERT).getRegionWidth() * SCALE;
+        this.circleHeight = SpriteManager.getFrame(Sprite.CLEAR_CIRCLE_ALERT).getRegionHeight() * SCALE;
         if (displayClearCircle) {
             if (icon.getRegionWidth() > icon.getRegionHeight()) {
                 this.width = circleWidth;
@@ -114,7 +115,7 @@ public class ObjectiveMarker {
                 }
 
                 if (displayClearCircle) {
-                    batch.draw(Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame(), x - circleWidth / 2, y - circleHeight / 2, circleWidth, circleHeight);
+                    batch.draw(SpriteManager.getFrame(Sprite.NOTIFICATIONS_CLEAR_CIRCLE), x - circleWidth / 2, y - circleHeight / 2, circleWidth, circleHeight);
                 }
                 batch.draw(icon, x - width / 2, y - height / 2, width, height);
                 batch.draw(arrow, x + circleWidth / 2 + 1, y - arrowHeight / 2, - circleWidth / 2 - 1, arrowHeight / 2,
@@ -126,7 +127,7 @@ public class ObjectiveMarker {
                 x = objectiveLocation.x;
                 y = objectiveLocation.y;
                 if (displayClearCircle) {
-                    batch.draw(Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame(), x - width / 2, y - height / 2, width, height);
+                    batch.draw(SpriteManager.getFrame(Sprite.NOTIFICATIONS_CLEAR_CIRCLE), x - width / 2, y - height / 2, width, height);
                 }
                 batch.draw(icon, x - width / 2, y - height / 2, width, height);
                 batch.setProjectionMatrix(state.getHud().combined);

@@ -3,13 +3,10 @@ package com.mygdx.hadal.effects;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.managers.AssetList;
-
-import java.util.Objects;
 
 /**
  * This is a single sprite that can be drawn.
@@ -210,18 +207,18 @@ public enum Sprite {
 	SNIPER_ARROW(SpriteType.SNIPER_RETICLE, "sniper_fish_direction", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
 
 	KAMABOKO_BODY(SpriteType.KAMABOKO, "king_kamaboko"),
-	KAMABOKO_CRAWL(SpriteType.KAMABOKO_CRAWL, "crawlaboko"),
+	KAMABOKO_CRAWL(SpriteType.KAMABOKO_CRAWL, "crawlaboko", PlayMode.LOOP_PINGPONG, SpriteConstants.SPRITE_ANIMATION_SPEED_FAST),
 	KAMABOKO_SWIM(SpriteType.KAMABOKO_SWIM, "swimaboko"),
 	KAMABOKO_FACE(SpriteType.KAMABOKO, "large_face"),
 	DRONE_ARM_BACK(SpriteType.DRONE, "drone_arm_back"),
 	DRONE_ARM_FRONT(SpriteType.DRONE, "drone_arm_front"),
 	DRONE_BODY(SpriteType.DRONE, "drone_body"),
-	DRONE_EYE(SpriteType.DRONE, "drone_eye"),
+	DRONE_EYE(SpriteType.DRONE, "drone_eye", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
 	DRONE_DOT(SpriteType.DRONE, "drone_dot"),
 	
-	TURRET_BASE(SpriteType.TURRET, "base"),
-	TURRET_FLAK(SpriteType.TURRET, "flak"),
-	TURRET_VOLLEY(SpriteType.TURRET, "volley"),
+	TURRET_BASE(SpriteType.TURRET, "base", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	TURRET_FLAK(SpriteType.TURRET, "flak", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	TURRET_VOLLEY(SpriteType.TURRET, "volley", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
 
 	NEPTUNE_KING_CORE(SpriteType.NEPTUNE_KING, "terrazza_core"),
 	NEPTUNE_KING_BODY(SpriteType.NEPTUNE_KING, "terrazza_body"),
@@ -248,7 +245,7 @@ public enum Sprite {
 	UI_RELOAD_METER(SpriteType.UI, "UI_reload_meter"),
 	UI_RELOAD_BAR(SpriteType.UI, "UI_reload_bar"),
 
-	NOTIFICATIONS_CHAT(SpriteType.NOTIFICATIONS, "talking"),
+	NOTIFICATIONS_CHAT(SpriteType.NOTIFICATIONS, "talking", PlayMode.LOOP_PINGPONG, SpriteConstants.SPRITE_ANIMATION_SPEED_SLOW),
 	NOTIFICATIONS_CLEAR_CIRCLE(SpriteType.NOTIFICATIONS, "clear_circle"),
 	NOTIFICATIONS_DIRECTIONAL_ARROW(SpriteType.NOTIFICATIONS, "arrow_directional"),
 	NOTIFICATIONS_ALERT(SpriteType.NOTIFICATIONS, "alert_red"),
@@ -360,42 +357,6 @@ public enum Sprite {
 	public record SpriteRep(String spriteId, int repeat) {}
 
 	/**
-	 * This returns the frames of a given sprite
-	 */
-	public Array<? extends TextureRegion> getFrames() {
-
-		if (this.equals(NOTHING)) {
-			return Objects.requireNonNull(getAtlas(SpriteType.EVENT)).findRegions("eggplant");
-		}
-
-		if (null == frames ) {
-
-			//complex frames are made of several sprites, repeated, lined up back-to-back
-			if (complex) {
-				frames = new Array<>();
-				for (SpriteRep sprite : complexFrames) {
-					if ("".equals(sprite.spriteId)) {
-						frames.addAll(Objects.requireNonNull(getAtlas(type)).getRegions());
-					} else {
-						for (int i = 0; i < sprite.repeat; i++) {
-							frames.addAll(Objects.requireNonNull(getAtlas(type)).findRegions(sprite.spriteId));
-						}
-					}
-				}
-			} else {
-				if ("".equals(spriteId)) {
-					frames = Objects.requireNonNull(getAtlas(type)).getRegions();
-				} else {
-					frames = Objects.requireNonNull(getAtlas(type)).findRegions(spriteId);
-				}
-			}
-		}
-		return frames;
-	}
-
-	public TextureRegion getFrame() { return getFrames().get(0); }
-	
-	/**
 	 * Sprite Types refers to which atlas is used to procure the frames.
 	 */
 	public static TextureAtlas getAtlas(SpriteType type) {
@@ -433,6 +394,18 @@ public enum Sprite {
 	public PlayMode getPlayMode() {	return playMode; }
 
 	public float getAnimationSpeed() {	return animationSpeed; }
+
+	public SpriteType getType() { return type; }
+
+	public String getSpriteId() { return spriteId; }
+
+	public boolean isComplex() { return complex; }
+
+	public Array<AtlasRegion> getFrames() { return frames; }
+
+	public void setFrames(Array<AtlasRegion> frames) { this.frames = frames; }
+
+	public SpriteRep[] getComplexFrames() { return complexFrames; }
 
 	public enum SpriteType {
 		MISC,

@@ -63,8 +63,7 @@ public class Disposal extends HubEvent {
 
 				HubOption option = new HubOption(UIText.ARTIFACT_OPTION_VENDING.text(artifact.getName(),
 						Integer.toString((int) (JSONManager.artifactInfo.getPrices().get(artifact.name()) * SELL_PRICE_MODIFIER))),
-						new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED,
-								artifact.getFrameBig()));
+						new Animation<>(CharacterCosmetic.COSMETIC_ANIMATION_SPEED, artifact.getFrameBig()));
 
 				option.addListener(new ClickListener() {
 

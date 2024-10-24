@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -42,11 +43,11 @@ public class SniperReticle extends SyncedAttacker {
             @Override
             public void create() {
                 super.create();
-                arrow = new Animation<>(Sprite.SNIPER_ARROW.getAnimationSpeed(), Sprite.SNIPER_ARROW.getFrames());
+                arrow = SpriteManager.getAnimation(Sprite.SNIPER_ARROW);
                 projectileSprite.setPlayMode(Sprite.SNIPER_ARROW.getPlayMode());
 
-                this.arrowWidth = Sprite.SNIPER_ARROW.getFrame().getRegionWidth() * SCALE;
-                this.arrowHeight = Sprite.SNIPER_ARROW.getFrame().getRegionHeight() * SCALE;
+                this.arrowWidth = SpriteManager.getFrame(Sprite.SNIPER_ARROW).getRegionWidth() * SCALE;
+                this.arrowHeight = SpriteManager.getFrame(Sprite.SNIPER_ARROW).getRegionHeight() * SCALE;
             }
 
             private final Vector2 userLocation = new Vector2();

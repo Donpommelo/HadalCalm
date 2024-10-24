@@ -284,7 +284,10 @@ public enum GameMode {
         JSONManager.setting.saveSetting();
 
         //ui text set directly instead of through an event, since ui is initiated immediately
-        state.getUIManager().getUiExtra().changeTypes(uiTriggerId.toString(), true);
+        //null ui manager = headless server
+        if (state.getUIManager() != null) {
+            state.getUIManager().getUiExtra().changeTypes(uiTriggerId.toString(), true);
+        }
 
         playerstart.getProperties().put("triggeringId", spawnTriggerId.toString());
         multi.getProperties().put("triggeringId", startTriggerId.toString());

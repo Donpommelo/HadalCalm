@@ -15,6 +15,7 @@ import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -387,7 +388,7 @@ public class Hitbox extends HadalEntity {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 		if (!Sprite.NOTHING.equals(sprite)) {
-			projectileSprite = new Animation<>(sprite.getAnimationSpeed(), sprite.getFrames());
+			projectileSprite = SpriteManager.getAnimation(sprite);
 			projectileSprite.setPlayMode(sprite.getPlayMode());
 			if (!PlayMode.NORMAL.equals(projectileSprite.getPlayMode())) {
 				looping = true;

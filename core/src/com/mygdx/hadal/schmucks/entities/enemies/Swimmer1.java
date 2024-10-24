@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -36,7 +37,7 @@ public class Swimmer1 extends EnemySwimming {
 	
 	public Swimmer1(PlayState state, Vector2 startPos, float startAngle, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.SWIMMER1, startAngle, filter, baseHp, attackCd, scrapDrop);
-		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(MathUtils.random(4));
+		faceSprite = SpriteManager.getFrame(Sprite.KAMABOKO_FACE, MathUtils.random(4));
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 
 		getSwimStrategy().setNoiseRadius(noiseRadius);

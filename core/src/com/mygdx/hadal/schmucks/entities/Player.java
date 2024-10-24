@@ -14,6 +14,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.helpers.*;
@@ -130,7 +131,7 @@ public class Player extends Schmuck {
 	public Player(PlayState state, Vector2 startPos, String name, PlayerBodyData oldData, User user, boolean reset, Event start) {
 		super(state, startPos, new Vector2(HB_WIDTH * SCALE, HB_HEIGHT * SCALE), name, BodyConstants.PLAYER_HITBOX, BASE_HP);
 		this.name = name;
-		toolSprite = Sprite.MT_DEFAULT.getFrame();
+		toolSprite = SpriteManager.getFrame(Sprite.MT_DEFAULT);
 
 		this.moveState = MoveState.STAND;
 
@@ -473,7 +474,7 @@ public class Player extends Schmuck {
 			mouseHelper.setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
 			equipHelper.setCurrentSlot(p.currentSlot);
 			equipHelper.setCurrentTool(equipHelper.getMultitools()[p.currentSlot]);
-			setToolSprite(equipHelper.getCurrentTool().getWeaponSprite().getFrame());
+			setToolSprite(SpriteManager.getFrame(equipHelper.getCurrentTool().getWeaponSprite()));
 
 			float reloadPercent = PacketUtil.byteToPercent(p.reloadPercent);
 			equipHelper.getCurrentTool().setReloading(reloadPercent != -1.0f, true);

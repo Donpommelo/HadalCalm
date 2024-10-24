@@ -7,6 +7,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -124,7 +125,7 @@ public class LoadoutEquipHelper {
             currentTool.unequip(player.getState());
         }
         currentTool = multitools[currentSlot];
-        player.setToolSprite(currentTool.getWeaponSprite().getFrame());
+        player.setToolSprite(SpriteManager.getFrame(currentTool.getWeaponSprite()));
 
         currentTool.equip(player.getState());
 

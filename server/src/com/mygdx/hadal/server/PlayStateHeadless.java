@@ -14,7 +14,7 @@ public class PlayStateHeadless extends PlayState {
 
     public void initManagers(String startID) {
 //        this.renderManager = new RenderManager(this, map);
-        this.cameraManager = new CameraManager(this, map);
+        this.cameraManager = new CameraManagerHeadless(this, map);
 //        this.uiManager = new UIManager(this);
         this.timerManager = new TimerManager(this);
         this.spawnManager = new SpawnManager(this, startID);
@@ -24,7 +24,12 @@ public class PlayStateHeadless extends PlayState {
     }
 
     @Override
-    public void update(float delta) {
+    public void show() {
 
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
     }
 }

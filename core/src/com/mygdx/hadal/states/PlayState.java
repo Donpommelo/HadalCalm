@@ -220,8 +220,10 @@ public class PlayState extends GameState {
 		FrameBufferManager.clearAllFrameBuffers();
 
 		if (server) {
-			if (HadalGame.usm.getOwnUser().isSpectator()) {
-				getSpectatorManager().setSpectatorMode();
+			if (HadalGame.usm.getOwnUser() != null) {
+				if (HadalGame.usm.getOwnUser().isSpectator()) {
+					getSpectatorManager().setSpectatorMode();
+				}
 			}
 		}
 
@@ -247,7 +249,7 @@ public class PlayState extends GameState {
 			this.stage = new Stage();
 		}
 
-		getUIManager().initUIElements(stage);
+		getUIManager().initUIElementsShow(stage);
 
 		app.newMenu(stage);
 		resetController();
@@ -420,7 +422,7 @@ public class PlayState extends GameState {
 							score.getLives(), score.getCurrency(), user.getPing(), user.isSpectator()));
 				}
 			}
-			if (changeMade) {
+			if (changeMade && getUIManager() != null) {
 				getUIManager().getScoreWindow().syncScoreTable();
 			}
 		}

@@ -18,6 +18,7 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -66,8 +67,8 @@ public class Boss2 extends EnemyFloating {
 	
 	public Boss2(PlayState state, Vector2 startPos, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, scrapDrop);
-		this.headSprite = Sprite.KAMABOKO_BODY.getFrames().get(0);
-		this.bodySprite = Sprite.KAMABOKO_BODY.getFrames().get(1);
+		this.headSprite = SpriteManager.getFrame(Sprite.KAMABOKO_BODY, 0);
+		this.bodySprite = SpriteManager.getFrame(Sprite.KAMABOKO_BODY, 1);
 		setFaceSprite();
 
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1800));
@@ -164,7 +165,7 @@ public class Boss2 extends EnemyFloating {
 	
 	//this changes the boss' face to a random one
 	public void setFaceSprite() {
-		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(MathUtils.random(4));
+		faceSprite = SpriteManager.getFrame(Sprite.KAMABOKO_FACE, MathUtils.random(4));
 	}
 	
 	private static final float driftDurationMax = 5.0f;

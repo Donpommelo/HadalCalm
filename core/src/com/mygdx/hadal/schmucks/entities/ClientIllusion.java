@@ -8,11 +8,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
-
-import java.util.Objects;
 
 /**
  * A Client Illusion is an entity created by the client as a default for a synced entity.
@@ -38,8 +37,7 @@ public class ClientIllusion extends HadalEntity {
 		super(state, startPos, size);
 		this.startAngle = startAngle;
 		if (!Sprite.NOTHING.equals(sprite)) {
-			illusionSprite = new Animation<>(sprite.getAnimationSpeed(), Objects.requireNonNull(sprite.getFrames()));
-			illusionSprite.setPlayMode(sprite.getPlayMode());
+			illusionSprite = SpriteManager.getAnimation(sprite);
 			this.align = align;
 			spriteWidth = illusionSprite.getKeyFrame(0).getRegionWidth();
 			spriteHeight = illusionSprite.getKeyFrame(0).getRegionHeight();

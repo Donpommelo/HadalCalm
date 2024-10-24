@@ -12,6 +12,7 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -54,8 +55,8 @@ public class ChatWheel {
 	
 	public ChatWheel(PlayState state) {
 		this.state = state;
-		this.wheelBase = Sprite.UI_MO_BASE.getFrame();
-		this.wheelIndicator = Sprite.NOTIFICATIONS_CLEAR_CIRCLE.getFrame();
+		this.wheelBase = SpriteManager.getFrame(Sprite.UI_MO_BASE);
+		this.wheelIndicator = SpriteManager.getFrame(Sprite.NOTIFICATIONS_CLEAR_CIRCLE);
 	}
 	
 	//we track the location of the mouse so that the wheel can track which direction the player has moved it in.

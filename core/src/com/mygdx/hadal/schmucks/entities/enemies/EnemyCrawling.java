@@ -1,16 +1,15 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
@@ -47,8 +46,7 @@ public class EnemyCrawling extends Enemy {
 		this.currentState = CrawlingState.STILL;
 		
 		if (!Sprite.NOTHING.equals(sprite)) {
-			this.floatingSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST, sprite.getFrames());
-			this.floatingSprite.setPlayMode(PlayMode.LOOP_PINGPONG);
+			this.floatingSprite = SpriteManager.getAnimation(sprite);
 		}
 	}
 

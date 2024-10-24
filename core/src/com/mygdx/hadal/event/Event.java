@@ -14,6 +14,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -247,14 +248,17 @@ public class Event extends HadalEntity {
 		}
 		
 		if (still) {
-			this.eventSprite = new Animation<>(speed, sprite.getFrames().get(frame));
+			TextureRegion stillFrame = SpriteManager.getFrame(sprite, frame);
+			if (stillFrame != null) {
+				this.eventSprite = new Animation<>(speed, stillFrame);
+			}
 		} else {
-			this.eventSprite = new Animation<>(speed, sprite.getFrames());
+			this.eventSprite = SpriteManager.getAnimation(sprite, speed, mode);
 		}
-		this.eventSprite.setPlayMode(mode);
-		
-		this.spriteWidth = eventSprite.getKeyFrame(0).getRegionWidth();
-		this.spriteHeight = eventSprite.getKeyFrame(0).getRegionHeight();
+
+		Vector2 spriteDimensions = SpriteManager.getDimensions(sprite);
+		this.spriteWidth = (int) spriteDimensions.x;
+		this.spriteHeight = (int) spriteDimensions.y;
 	}
 	
 	/**

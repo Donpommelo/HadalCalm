@@ -241,7 +241,7 @@ public class ParticleEntity extends HadalEntity {
 				return new Packets.CreateParticles(attachedEntity.getEntityID(), offset,true, particle,
 						on, lifespan, scale, rotate, velocity, color);
 			} else {
-				return new Packets.CreateParticles(entityID, startPos, false,	particle, on, lifespan, scale, rotate, velocity, color);
+				return new Packets.CreateParticles(entityID, startPos, false, particle, on, lifespan, scale, rotate, velocity, color);
 			}
 		} else {
 			return null;

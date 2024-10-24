@@ -17,11 +17,13 @@ public class EffectEntityManager {
     public static ParticleEntity getParticle(PlayState state, ParticleCreate particleCreate) {
         if (null == HadalGame.assetManager) {
             if (particleCreate.getSyncType().equals(SyncType.CREATESYNC)) {
-                if (particleCreate.getAttachedEntity() != null) {
-                    PacketManager.serverUDPAll(new Packets.CreateParticles(particleCreate, true));
-                } else {
-                    PacketManager.serverUDPAll(new Packets.CreateParticles(particleCreate, false));
+                if (particleCreate.getScale() == null) {
+                    particleCreate.setScale(1.0f);
                 }
+                if (particleCreate.getVelocity() == null) {
+                    particleCreate.setVelocity(0.0f);
+                }
+                PacketManager.serverUDPAll(new Packets.CreateParticles(particleCreate));
             }
             return null;
         }

@@ -10,6 +10,7 @@ import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
@@ -155,7 +156,7 @@ public class MovementFloat extends EnemyStrategy {
             }
 
             if (null != newSprite && !Sprite.NOTHING.equals(newSprite)) {
-                this.floatingSprite = new Animation<>(newSprite.getAnimationSpeed(), newSprite.getFrames());
+                this.floatingSprite = SpriteManager.getAnimation(newSprite);
                 this.floatingSprite.setPlayMode(newSprite.getPlayMode());
 
                 if (!Animation.PlayMode.NORMAL.equals(newSprite.getPlayMode())) {

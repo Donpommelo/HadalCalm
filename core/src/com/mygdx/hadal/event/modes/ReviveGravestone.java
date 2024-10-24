@@ -14,6 +14,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
@@ -89,8 +90,8 @@ public class ReviveGravestone extends Event {
 			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		}
 
-		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();
-		this.returnBar = Sprite.UI_RELOAD_BAR.getFrame();
+		this.returnMeter = SpriteManager.getFrame(Sprite.UI_RELOAD_METER);
+		this.returnBar = SpriteManager.getFrame(Sprite.UI_RELOAD_BAR);
 
 		//we must set this event's layer to make it render underneath players
 		setLayer(ObjectLayer.HBOX);

@@ -9,12 +9,12 @@ import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -58,9 +58,9 @@ public class Boss5 extends EnemyFloating {
 
 	public Boss5(PlayState state, Vector2 startPos, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), Sprite.NOTHING, EnemyType.BOSS5, filter, hp, aiAttackCd, scrapDrop);
-		this.coreSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST, Sprite.NEPTUNE_KING_CORE.getFrames());
-		this.bodySprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST, Sprite.NEPTUNE_KING_BODY.getFrames());
-		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
+		this.coreSprite = SpriteManager.getAnimation(Sprite.NEPTUNE_KING_CORE);
+		this.bodySprite = SpriteManager.getAnimation(Sprite.NEPTUNE_KING_BODY);
+		this.crownSprite = SpriteManager.getFrame(Sprite.NEPTUNE_KING_CROWN);
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1400));
 
 		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TYRRAZZA_TRAIL, this));

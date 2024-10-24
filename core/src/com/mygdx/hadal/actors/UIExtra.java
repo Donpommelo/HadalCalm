@@ -11,6 +11,7 @@ import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeGunGame;
 import com.mygdx.hadal.map.SettingArcade;
@@ -48,8 +49,8 @@ public class UIExtra extends AHadalActor {
 
 	public UIExtra(PlayState state) {
 		this.state = state;
-		this.hpBar = Sprite.UI_MAIN_HEALTHBAR.getFrame();
-		this.hpBarFade = Sprite.UI_MAIN_HEALTH_MISSING.getFrame();
+		this.hpBar = SpriteManager.getFrame(Sprite.UI_MAIN_HEALTHBAR);
+		this.hpBarFade = SpriteManager.getFrame(Sprite.UI_MAIN_HEALTH_MISSING);
 	}
 	
 	private final StringBuilder text = new StringBuilder();

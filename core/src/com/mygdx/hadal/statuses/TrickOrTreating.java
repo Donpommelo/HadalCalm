@@ -9,6 +9,7 @@ import com.mygdx.hadal.battle.PickupUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.modes.TrickorTreatBucket;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -47,7 +48,7 @@ public class TrickOrTreating extends Status {
 		player = ((Player) inflicted.getSchmuck());
 		player.getUser().getScoreManager().setExtraModeScore(candyCount);
 
-		this.candyIcon = Sprite.CANDY_A.getFrame();
+		this.candyIcon = SpriteManager.getFrame(Sprite.CANDY_A);
 	}
 
 	private float controllerCount;

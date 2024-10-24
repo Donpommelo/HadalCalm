@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
@@ -51,9 +51,9 @@ public class DroneBit extends EnemySwimming {
 
 	public DroneBit(PlayState state, Vector2 startPos, float startAngle, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE_BIT, startAngle, filter, baseHp, attackCd, scrapDrop);
-		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
-		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
-		eyeSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED, Sprite.DRONE_EYE.getFrames());
+		armBackSprite = SpriteManager.getFrame(Sprite.DRONE_ARM_BACK);
+		armFrontSprite = SpriteManager.getFrame(Sprite.DRONE_ARM_FRONT);
+		eyeSprite = SpriteManager.getAnimation(Sprite.DRONE_EYE);
 		eyeSprite.setPlayMode(PlayMode.NORMAL);
 		getSwimStrategy().setMaxRange(maxRange);
 		getSwimStrategy().setMinRange(minRange);
