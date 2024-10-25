@@ -4,15 +4,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.utils.TextUtil;
@@ -130,15 +131,15 @@ public class FlagSpawner extends Event {
     }
 
     private void spawnerParticles(boolean global) {
-        ParticleEntity particle = new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,
-                true, global ? SyncType.CREATESYNC : SyncType.NOSYNC);
+        HadalColor color = HadalColor.NOTHING;
         if (teamIndex < AlignmentFilter.currentTeams.length) {
-            particle.setColor(AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon());
+            color = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
         }
 
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
-        }
+        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.DIATOM_IMPACT_LARGE, this)
+                .setLifespan(PARTICLE_DURATION)
+                .setSyncType(global ? SyncType.CREATESYNC : SyncType.NOSYNC)
+                .setColor(color));
     }
 
     public int getTeamIndex() { return teamIndex; }

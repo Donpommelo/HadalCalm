@@ -5,13 +5,13 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.DiamondCutterProjectile;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.DamagePulse;
 
@@ -67,11 +67,8 @@ public class DiamondCutter extends MeleeWeapon {
 
 		if (shooting) {
 			if (sawSound == null) {
-				sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.0f, 0.8f, 1.0f, true,
-						true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(sawSound.getEntityID(), sawSound, false, PlayState.ObjectLayer.EFFECT);
-				}
+				sawSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.DRILL, user)
+						.setVolume(0.8f));
 			} else {
 				sawSound.turnOn();
 			}

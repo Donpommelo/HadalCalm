@@ -10,6 +10,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
@@ -18,13 +19,14 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.GameMode;
+import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.EventDto;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.users.User.UserDto;
@@ -650,19 +652,15 @@ public class Packets {
 	}
 
 	public static class CreateParticles {
-		public long uuidMSB, uuidLSB;
 		public long uuidMSBAttached, uuidLSBAttached;
         public Vector2 pos;
         public boolean attached;
 		public Particle particle;
 		public boolean startOn;
-		public float linger;
 		public float lifespan;
-		public float prematureOff;
 		public float scale;
 		public boolean rotate;
 		public float velocity;
-		public boolean synced;
 		public Vector3 color;
 		public CreateParticles() {}
 		
@@ -670,39 +668,46 @@ public class Packets {
 		 * A CreateParticles is sent from the Server to the Client whenever a synced ParticlesEntity is created.
 		 * Clients simply create the desired particle entity with all of the listed fields.
 		 * Attached information is useful for making most particles sync on create, instead of every engine tick.(unless needed)
-		 * @param entityID: ID of the newly created ParticlesEntity
 		 * @param attachedID: ID of attached entity if it exists and null otherwise
 		 * @param pos: Position of particle entity if not attached to another entity. If attached to an entity. this is the offset from the entity's position
 		 * @param attached: Is this particleEntity attached to another entity?
 		 * @param particle: Particle Effect to be created.
 		 * @param startOn: Does this effect start turned on?
-		 * @param linger: How long does an attached Particle Entity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
-		 * @param prematureOff: Duration before despawning that the particle stops emitting
 		 * @param scale: The size multiplier of the particle effect
 		 * @param rotate: should this entity rotate to match an attached entity?
 		 * @param velocity: the velocity of the particles. (0 means to set the as the default)
-		 * @param synced: should this entity receive a sync packet regularly?
 		 * @param color: the color tint of the particle
 		 */
-		public CreateParticles(UUID entityID, UUID attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
-		   	float linger, float lifespan, float prematureOff, float scale, boolean rotate, float velocity, boolean synced, Vector3 color) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public CreateParticles(UUID attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
+		   	float lifespan, float scale, boolean rotate, float velocity, Vector3 color) {
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
 			this.uuidMSBAttached = attachedID.getMostSignificantBits();
 			this.pos = pos;
 			this.attached = attached;
 			this.particle = particle;
 			this.startOn = startOn;
-			this.linger = linger;
 			this.lifespan = lifespan;
-			this.prematureOff = prematureOff;
 			this.scale = scale;
 			this.rotate = rotate;
 			this.velocity = velocity;
-			this.synced = synced;
 			this.color = color;
+		}
+
+		public CreateParticles(ParticleCreate particleCreate) {
+			if (particleCreate.getAttachedEntity() != null) {
+				this.uuidLSBAttached = particleCreate.getAttachedEntity().getEntityID().getLeastSignificantBits();
+				this.uuidMSBAttached = particleCreate.getAttachedEntity().getEntityID().getMostSignificantBits();
+				this.attached = true;
+			}
+			this.pos = particleCreate.getPosition();
+			this.particle = particleCreate.getParticle();
+			this.startOn = particleCreate.isStartOn();
+			this.lifespan = particleCreate.getLifespan();
+			this.scale = particleCreate.getScale();
+			this.rotate = particleCreate.isRotate();
+			this.velocity = particleCreate.getVelocity();
+			this.color = particleCreate.getColorRGB();
 		}
 	}
 
@@ -863,7 +868,6 @@ public class Packets {
 	}
 	
 	public static class CreateSound {
-		public long uuidMSB, uuidLSB;
 		public long uuidMSBAttached, uuidLSBAttached;
 		public SoundEffect sound;
 		public float lifespan;
@@ -871,15 +875,13 @@ public class Packets {
 		public float pitch;
 		public boolean looped;
 		public boolean on;
-		public boolean synced;
-		
+
 		public CreateSound() {}
 		
 		/**
 		 * A CreateSound is sent from the Server to the Client to tell the client to create a SoundEntity.
 		 * This is distinct from SyncSoundSingle because the sound is attached to an entity that can move/be destroyed etc.
 		 * The volume and pan of the sound is dependent on the relative position of the entity.
-		 * @param entityID: schmuck id of the SoundEntity
 		 * @param attachedID: schmuck id of the entity that the SchmuckEntity is to attached to
 		 * @param sound: The sound effect to play
 		 * @param lifespan: duration of sound (if looping and not dependent on attached entity)
@@ -887,12 +889,9 @@ public class Packets {
 		 * @param pitch: pitch of the sound. 1.0f - default pitch.
 		 * @param looped: does the sound loop?
 		 * @param on: does the sound start off on?
-		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateSound(UUID entityID, UUID attachedID, SoundEffect sound, float lifespan, float volume, float pitch,
-						   boolean looped, boolean on, boolean synced) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public CreateSound(UUID attachedID, SoundEffect sound, float lifespan, float volume, float pitch,
+						   boolean looped, boolean on) {
 			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
 			this.uuidMSBAttached = attachedID.getMostSignificantBits();
 			this.sound = sound;
@@ -901,34 +900,20 @@ public class Packets {
 			this.pitch = pitch;
 			this.looped = looped;
 			this.on = on;
-			this.synced = synced;
+		}
+
+		public CreateSound(SoundCreate soundCreate) {
+			this.uuidLSBAttached = soundCreate.getAttachedEntity().getEntityID().getLeastSignificantBits();
+			this.uuidMSBAttached = soundCreate.getAttachedEntity().getEntityID().getMostSignificantBits();
+			this.sound = soundCreate.getSound();
+			this.lifespan = soundCreate.getLifespan();
+			this.volume = soundCreate.getVolume();
+			this.pitch = soundCreate.getPitch();
+			this.looped = soundCreate.isLooped();
+			this.on = soundCreate.isStartOn();
 		}
 	}
-	
-	public static class SyncSound {
-		public long uuidMSB, uuidLSB;
-		public float volume;
-		public boolean on;
-		public float timestamp;
-		
-		public SyncSound() {}
-		
-		/**
-		 * A SyncSound synchronizes a single sound entity and is sent from the server to the client every world-sync.
-		 * @param entityID: schmuck id of the SoundEntity
-		 * @param volume: new volume of the soundentity
-		 * @param on: is the soundentity on?
-		 * @param timestamp: time of sync. Used for client prediction.
-		 */
-		public SyncSound(UUID entityID, float volume, boolean on, float timestamp) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-			this.volume = volume;
-			this.on = on;
-			this.timestamp = timestamp;
-		}
-	}
-	
+
 	public static class StartSpectate {
 		
 		/**
@@ -1164,7 +1149,6 @@ public class Packets {
     	kryo.register(SyncUI.class);
     	kryo.register(SyncSoundSingle.class);
     	kryo.register(CreateSound.class);
-    	kryo.register(SyncSound.class);
     	kryo.register(StartSpectate.class);
 		kryo.register(EndSpectate.class);
     	kryo.register(SyncSharedSettings.class);
@@ -1183,10 +1167,9 @@ public class Packets {
 		kryo.register(PacketsSync.SyncEntityAngled.class);
 		kryo.register(PacketsSync.SyncSchmuck.class);
 		kryo.register(PacketsSync.SyncSchmuckAngled.class);
+		kryo.register(PacketsSync.SyncSchmuckColor.class);
 		kryo.register(PacketsSync.SyncPlayerSnapshot.class);
 		kryo.register(PacketsSync.SyncClientSnapshot.class);
-		kryo.register(PacketsSync.SyncParticles.class);
-		kryo.register(PacketsSync.SyncParticlesExtra.class);
 		kryo.register(PacketsSync.SyncFlag.class);
 		kryo.register(PacketsSync.SyncFlagAttached.class);
 

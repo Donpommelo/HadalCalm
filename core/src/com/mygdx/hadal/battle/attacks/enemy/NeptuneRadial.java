@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -27,7 +26,6 @@ public class NeptuneRadial extends SyncedAttacker {
     private static final Vector2 PROJ_SPRITE_SIZE = new Vector2(60, 60);
 
     private static final Sprite PROJ_SPRITE = Sprite.DIATOM_SHOT_A;
-    private static final float LINGER = 1.0f;
 
     final Vector2 angle = new Vector2(1, 0);
     final Vector2 position = new Vector2();
@@ -50,12 +48,9 @@ public class NeptuneRadial extends SyncedAttacker {
             hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
             hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                     DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-            hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, LINGER)
-                    .setSyncType(SyncType.NOSYNC));
-            hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL)
-                    .setSyncType(SyncType.NOSYNC));
-            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                    .setSynced(false));
+            hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE));
+            hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL));
+            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
             hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
             hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 

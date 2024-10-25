@@ -4,13 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.LoveArrow;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 public class LoveBow extends RangedWeapon {
@@ -79,11 +79,8 @@ public class LoveBow extends RangedWeapon {
 
 		if (shooting) {
 			if (chargeSound == null) {
-				chargeSound = new SoundEntity(state, user, SoundEffect.BOW_STRETCH, 0.0f, 1.0f, 1.0f,
-						true, true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(chargeSound.getEntityID(), chargeSound, false, PlayState.ObjectLayer.EFFECT);
-				}
+				chargeSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.BOW_STRETCH, user)
+						.setVolume(1.4f));
 			}
 		} else if (chargeSound != null) {
 			chargeSound.terminate();

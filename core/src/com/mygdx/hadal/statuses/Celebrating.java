@@ -2,7 +2,8 @@ package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -12,7 +13,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Celebrating extends Status {
 
-	private static final float LINGER = 1.0f;
 	private static final float DURATION = 10.0f;
 
 	private float procCdCount;
@@ -28,10 +28,9 @@ public class Celebrating extends Status {
 		if (procCdCount >= PROC_CD) {
 			procCdCount -= PROC_CD;
 
-			new ParticleEntity(state, inflicted.getSchmuck(), Particle.PARTY, LINGER, duration + LINGER,
-					true, SyncType.CREATESYNC)
-					.setPrematureOff(LINGER)
-					.setShowOnInvis(true);
+			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.PARTY, inflicted.getSchmuck())
+					.setLifespan(duration)
+					.setSyncType(SyncType.CREATESYNC));
 		}
 		procCdCount += delta;
 	}

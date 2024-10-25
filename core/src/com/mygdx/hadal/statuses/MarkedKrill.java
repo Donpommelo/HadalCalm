@@ -1,19 +1,17 @@
 package com.mygdx.hadal.statuses;
 
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.Krill;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 public class MarkedKrill extends Status {
 
     private static final int NUM_KRILL = 4;
     private static final float KRILL_DURATION = 25.0f;
-    private static final float LINGER = 1.0f;
 
     public MarkedKrill(PlayState state, float i, BodyData p, BodyData v) {
         super(state, i, false, p, v);
@@ -21,13 +19,9 @@ public class MarkedKrill extends Status {
 
     @Override
     public void onInflict() {
-        ParticleEntity particleEntity = new ParticleEntity(state, inflicted.getSchmuck(), Particle.KRILL_ALERT, LINGER, duration + LINGER,
-                true, SyncType.NOSYNC)
-                .setPrematureOff(LINGER)
-                .setShowOnInvis(true);
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ClientState.ObjectLayer.EFFECT);
-        }
+        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.KRILL_ALERT, inflicted.getSchmuck())
+                .setLifespan(duration)
+                .setShowOnInvis(true));
     }
 
     private static final float PROC_CD = 1.5f;

@@ -7,17 +7,19 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SpriteConstants;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -59,8 +61,7 @@ public class PlayerSpriteHelper {
     private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 
     private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
-        gemWidth, gemHeight;
-    private final int toolWidth, toolHeight;
+        gemWidth, gemHeight, toolWidth, toolHeight;
 
     private UnlockCharacter character;
     private AlignmentFilter team;
@@ -70,8 +71,11 @@ public class PlayerSpriteHelper {
         this.player = player;
         this.scale = scale;
 
-        this.toolWidth = player.getToolSprite().getRegionWidth();
-        this.toolHeight = player.getToolSprite().getRegionHeight();
+        //tool sprite is null in the case of headless server
+        if (player.getToolSprite() != null) {
+            this.toolWidth = player.getToolSprite().getRegionWidth();
+            this.toolHeight = player.getToolSprite().getRegionHeight();
+        }
     }
 
     /**
@@ -100,6 +104,9 @@ public class PlayerSpriteHelper {
      * @param newTeam: the new team color to draw
      */
     public void replaceBodySprite(SpriteBatch batch, UnlockCharacter newCharacter, AlignmentFilter newTeam) {
+
+        //return if headless server
+        if (HadalGame.assetManager == null) { return; }
 
         if (null != newCharacter) {
             this.character = newCharacter;
@@ -276,6 +283,9 @@ public class PlayerSpriteHelper {
      * This is run when the player despawns from disconnecting or dying.
      */
     public void despawn(DespawnType type, Vector2 playerLocation, Vector2 playerVelocity) {
+        //return if headless server
+        if (HadalGame.assetManager == null) { return; }
+
         switch (type) {
             case GIB -> createGibs(playerLocation, playerVelocity);
             case BIFURCATE -> createBifurcation(playerLocation, playerVelocity);
@@ -295,7 +305,7 @@ public class PlayerSpriteHelper {
                     headSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ClientState.ObjectLayer.STANDARD);
+                ((ClientState) state).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ObjectLayer.STANDARD);
             }
         }
 
@@ -312,15 +322,15 @@ public class PlayerSpriteHelper {
         for (UnlockCosmetic cosmetic : loadout.cosmetics) {
             Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(state, loadout.team, loadout.character, playerLocation, scale, playerVelocity);
             if (null != cosmeticRagdoll && !state.isServer()) {
-                ((ClientState) state).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ClientState.ObjectLayer.STANDARD);
+                ((ClientState) state).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ObjectLayer.STANDARD);
             }
         }
 
         //the client needs to create ragdolls separately b/c we can't serialize the frame buffer object.
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ObjectLayer.STANDARD);
         }
     }
 
@@ -351,7 +361,7 @@ public class PlayerSpriteHelper {
         }.setFade(1.75f, Shader.PERLIN_COLOR_FADE);
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ObjectLayer.STANDARD);
         }
     }
 
@@ -380,17 +390,15 @@ public class PlayerSpriteHelper {
                 ragdollTexture2, new Vector2(playerVelocity).scl(-1), GIB_DURATION, GIB_GRAVITY, true, false).setFade();
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(ragdollOne.getEntityID(), ragdollOne, false, ClientState.ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(ragdollTwo.getEntityID(), ragdollTwo, false, ClientState.ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(ragdollOne.getEntityID(), ragdollOne, false, ObjectLayer.STANDARD);
+            ((ClientState) state).addEntity(ragdollTwo.getEntityID(), ragdollTwo, false, ObjectLayer.STANDARD);
         }
     }
 
     private void createWarpAnimation(Vector2 playerLocation) {
-        ParticleEntity particle = new ParticleEntity(state, playerLocation.sub(0, player.getSize().y / 2), Particle.TELEPORT,
-                2.5f, true, SyncType.NOSYNC).setPrematureOff(1.5f);
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.STANDARD);
-        }
+        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT,
+                playerLocation.sub(0, player.getSize().y / 2))
+                .setLifespan(1.0f));
     }
 
     private static final int RAGDOLL_FBO_WIDTH = 667;

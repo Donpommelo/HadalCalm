@@ -45,7 +45,7 @@ public class PortableSentryUse extends SyncedAttacker {
         hbox.setGravity(3.0f);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.CYBER2, 0.4f).setSynced(false));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.CYBER2, 0.4f));
         if (state.isServer()) {
             hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

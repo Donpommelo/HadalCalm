@@ -7,10 +7,11 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -57,11 +58,9 @@ public class Meteors extends SyncedAttacker {
 
         float meteorDuration = (1 + meteorNum) * interval;
 
-        ParticleEntity particle = new ParticleEntity(state, user, Particle.RING, 1.0f, meteorDuration, true,
-                SyncType.NOSYNC).setScale(0.4f);
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.HBOX);
-        }
+        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.RING, user)
+                .setLifespan(meteorDuration)
+                .setScale(0.4f));
 
         Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(1, 1), meteorDuration, new Vector2(),
                 (short) 0, false, false, user, Sprite.NOTHING);
@@ -123,20 +122,17 @@ public class Meteors extends SyncedAttacker {
                             }
                         });
 
-                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 1.0f)
-                        .setSyncType(SyncType.NOSYNC));
-                        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BOULDER_BREAK).setParticleSize(90)
-                        .setSyncType(SyncType.NOSYNC));
+                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE));
+                        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BOULDER_BREAK).setParticleSize(90));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
                         }
                     }
                     meteorCount++;
 
                     if (0 == meteorCount % 3) {
-                        hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.FALLING, 0.5f, false)
-                                .setSyncType(SyncType.NOSYNC));
+                        hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.FALLING, 0.5f, false));
                     }
                 }
             }

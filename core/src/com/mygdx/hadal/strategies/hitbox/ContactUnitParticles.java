@@ -2,14 +2,14 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.effects.HadalColor;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -34,7 +34,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 	private boolean isOffset;
 	private final Vector2 offset = new Vector2();
 
-	private SyncType syncType = SyncType.CREATESYNC;
+	private SyncType syncType = SyncType.NOSYNC;
 
 	//do we draw the particle on the hbox? If not, we draw it on the entity it hits instead. used for even longer hboxes like the laser rifle.
 	private boolean drawOnSelf = true;
@@ -57,10 +57,10 @@ public class ContactUnitParticles extends HitboxStrategy {
 			if (isOffset) {
 				offset.add(new Vector2(hbox.getLinearVelocity()).nor().scl(hbox.getSize().x / 2));
 			}
-			ParticleEntity particles = new ParticleEntity(state, offset, effect, duration, true, syncType).setColor(color);
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(effect, offset)
+					.setLifespan(duration)
+					.setSyncType(syncType)
+					.setColor(color));
 		}
 	}
 	

@@ -6,7 +6,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -27,8 +26,6 @@ public class FalseSunWillOWisp extends SyncedAttacker {
     private static final int SPREAD = 30;
     private static final float PITCH_SPREAD = 0.25f;
 
-    private static final float LINGER = 1.0f;
-
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
@@ -43,11 +40,10 @@ public class FalseSunWillOWisp extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT, 0.0f, LINGER)
-                .setParticleColor(HadalColor.RANDOM).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT)
+                .setParticleColor(HadalColor.RANDOM));
         hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), HOMING, HOMING_RADIUS).setSteering(false));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
 

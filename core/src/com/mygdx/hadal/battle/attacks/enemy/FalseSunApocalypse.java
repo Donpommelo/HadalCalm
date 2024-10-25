@@ -6,7 +6,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -50,13 +50,11 @@ public class FalseSunApocalypse extends SyncedAttacker {
         laser.addStrategy(new ControllerDefault(state, laser, user.getBodyData()));
         laser.addStrategy(new AdjustAngle(state, laser, user.getBodyData()));
         laser.addStrategy(new DieParticles(state, laser, user.getBodyData(), Particle.LASER_IMPACT)
-                .setParticleColor(HadalColor.BLUE).setSyncType(SyncType.NOSYNC));
+                .setParticleColor(HadalColor.BLUE));
         laser.addStrategy(new ContactWallLoseDurability(state, laser, user.getBodyData()));
         laser.addStrategy(new DamageStandard(state, laser, user.getBodyData(), LASER_DAMAGE, LASER_KB,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED, DamageTag.ENERGY));
-        laser.addStrategy(new ContactUnitSound(state, laser, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                .setSynced(false));
-
+        laser.addStrategy(new ContactUnitSound(state, laser, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         laser.addStrategy(new HitboxStrategy(state, laser, user.getBodyData()) {
 
             @Override
@@ -78,16 +76,14 @@ public class FalseSunApocalypse extends SyncedAttacker {
                 frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), RUBBLE_DAMAGE, RUBBLE_KB,
                         DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
                 frag.addStrategy(new ContactWallDie(state, frag, user.getBodyData()));
-                frag.addStrategy(new ContactWallParticles(state, frag, user.getBodyData(), Particle.SPARKS)
-                        .setSyncType(SyncType.NOSYNC));
+                frag.addStrategy(new ContactWallParticles(state, frag, user.getBodyData(), Particle.SPARKS));
                 frag.addStrategy(new ContactUnitSound(state, frag, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
                 frag.addStrategy(new Spread(state, frag, user.getBodyData(), RUBBLE_SPREAD, true));
-                frag.addStrategy(new ContactUnitSound(state, frag, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                        .setSynced(false));
+                frag.addStrategy(new ContactUnitSound(state, frag, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
                 frag.addStrategy(new ContactUnitDie(state, frag, user.getBodyData()));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ObjectLayer.HBOX);
                 }
             }
 
@@ -101,15 +97,14 @@ public class FalseSunApocalypse extends SyncedAttacker {
                 hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), LASER_DAMAGE, LASER_KB,
                         DamageSource.ENEMY_ATTACK, DamageTag.ENERGY, DamageTag.RANGED));
                 hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
-                        .setOffset(true).setParticleColor(HadalColor.BLUE).setSyncType(SyncType.NOSYNC));
+                        .setOffset(true).setParticleColor(HadalColor.BLUE));
                 hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
                         .setOffset(true).setParticleColor(HadalColor.BLUE));
-                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                        .setSynced(false));
+                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
                 hbox.addStrategy(new WaveEntity(state, hbox, user.getBodyData(), laser, APOCALYPSE_LASERAMPLITUDE, APOCALYPSE_LASER_FREQUENCY, startAngle));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
                 }
             }
         });

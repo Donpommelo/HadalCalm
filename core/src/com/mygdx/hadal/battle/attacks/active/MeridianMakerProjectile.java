@@ -6,7 +6,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -51,8 +51,9 @@ public class MeridianMakerProjectile extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.MERIDIAN_MAKER, DamageTag.MAGIC));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT, 0.0f, 1.0f)
-                .setParticleColor(HadalColor.CELESTE).setParticleSize(20).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BRIGHT)
+                .setParticleColor(HadalColor.CELESTE)
+                .setParticleSize(20));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private final Vector2 lastPosition = new Vector2(hbox.getStartPos()).scl(PPM);
@@ -64,7 +65,7 @@ public class MeridianMakerProjectile extends SyncedAttacker {
                             currentVec, LIFESPAN);
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(current.getEntityID(), current, false, ClientState.ObjectLayer.EFFECT);
+                        ((ClientState) state).addEntity(current.getEntityID(), current, false, ObjectLayer.EFFECT);
                     }
                 }
             }

@@ -1,14 +1,13 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
-import com.mygdx.hadal.schmucks.entities.SoundEntity;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundCreate;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * Schmucks with Regeneration gradually heal over time
@@ -16,8 +15,6 @@ import com.mygdx.hadal.constants.Stats;
  * @author Svortellini Sporzvlak
  */
 public class Regeneration extends Status {
-
-	private static final float LINGER = 1.0f;
 
 	//this is the power of the heal
 	private final float heal;
@@ -30,15 +27,12 @@ public class Regeneration extends Status {
 	@Override
 	public void onInflict() {
 		//the sound and particles attached to the status
-		ParticleEntity particle = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, LINGER, duration + LINGER,
-				true, SyncType.NOSYNC).setPrematureOff(LINGER);
-		SoundEntity sound = new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, duration, 0.25f, 1.0f,
-				true, true, SyncType.NOSYNC);
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.REGEN, inflicted.getSchmuck())
+				.setLifespan(duration));
 
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
-			((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.EFFECT);
-		}
+		EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.MAGIC21_HEAL, inflicted.getSchmuck())
+				.setLifespan(duration)
+				.setVolume(0.25f));
 	}
 
 	@Override

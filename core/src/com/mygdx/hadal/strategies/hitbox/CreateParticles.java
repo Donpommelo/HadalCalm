@@ -1,12 +1,13 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
@@ -22,8 +23,8 @@ public class CreateParticles extends HitboxStrategy {
 	//the effect that is to be created.
 	private final Particle effect;
 	
-	//how long should the particles last? After the body is deleted?
-	private final float duration, linger;
+	//how long should the particles last?
+	private float duration;
 	
 	//the base size of the particle effect.
 	private float particleSize;
@@ -42,13 +43,11 @@ public class CreateParticles extends HitboxStrategy {
 
 	private float offsetX, offsetY;
 
-	private SyncType syncType = SyncType.CREATESYNC;
+	private SyncType syncType = SyncType.NOSYNC;
 
-	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {
+	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
 		this.effect = effect;
-		this.duration = duration;
-		this.linger = linger;
 	}
 	
 	@Override
@@ -60,24 +59,30 @@ public class CreateParticles extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		particles = new ParticleEntity(state, hbox, effect, linger, duration, true, syncType);
-		particles.setOffset(offsetX, offsetY);
-		if (particleSize == 0) {
-			particles.setScale(hbox.getScale());
-		} else {
-			particles.setScale(Math.min(hbox.getSize().y, maxSize) / particleSize);
-		}
+		particles = EffectEntityManager.getParticle(state, new ParticleCreate(effect, hbox)
+				.setLifespan(duration)
+				.setSyncType(syncType));
 
-		particles.setRotate(rotate);
-		particles.setColor(color);
+		if (particles != null) {
+			particles.setOffset(offsetX, offsetY);
+			if (particleSize == 0) {
+				particles.setScale(hbox.getScale());
+			} else {
+				particles.setScale(Math.min(hbox.getSize().y, maxSize) / particleSize);
+			}
 
-		if (velocity != 0) {
-			particles.setParticleVelocity(velocity);
-		}
+			particles.setRotate(rotate);
+			particles.setColor(color);
 
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
+			if (velocity != 0) {
+				particles.setParticleVelocity(velocity);
+			}
 		}
+	}
+
+	public CreateParticles setDuration(float duration) {
+		this.duration = duration;
+		return this;
 	}
 
 	public CreateParticles setOffset(float offsetX, float offsetY) {
@@ -90,7 +95,7 @@ public class CreateParticles extends HitboxStrategy {
 		this.rotate = rotate;
 		return this;
 	}
-	
+
 	public CreateParticles setParticleSize(float particleSize) {
 		this.particleSize = particleSize;
 		return this;

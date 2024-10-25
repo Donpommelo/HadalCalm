@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -26,7 +25,6 @@ public class FalseSunBell extends SyncedAttacker {
     private static final float BELL_INTERVAL = 0.06f;
 
     private static final Sprite PROJ_SPRITE = Sprite.ORB_YELLOW;
-    private static final float LINGER = 1.0f;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -39,11 +37,10 @@ public class FalseSunBell extends SyncedAttacker {
         hbox.setRestitution(0.2f);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.0f, LINGER)
-                .setParticleSize(30.0f).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING)
+                .setParticleSize(30.0f));
         hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), HOMING_SPEED, HOMING_RADIUS).setSteering(false));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.ZAP, 0.6f, true));
         hbox.addStrategy(new DamagePulse(state, hbox, user.getBodyData(), hbox.getSize(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setInterval(BELL_INTERVAL));
 

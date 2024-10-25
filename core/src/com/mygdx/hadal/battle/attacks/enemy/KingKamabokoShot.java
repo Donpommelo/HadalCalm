@@ -5,7 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -45,7 +45,7 @@ public class KingKamabokoShot extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 1.0f));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_SHOWER));
         hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_IMPACT));
         hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 0.75f).setPitch(0.8f));
@@ -70,14 +70,12 @@ public class KingKamabokoShot extends SyncedAttacker {
                                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
                         frag.addStrategy(new ContactWallDie(state, frag, user.getBodyData()));
                         frag.addStrategy(new ContactUnitDie(state, frag, user.getBodyData()));
-                        frag.addStrategy(new CreateParticles(state, frag, user.getBodyData(), Particle.KAMABOKO_SHOWER,
-                                0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
-                        frag.addStrategy(new DieParticles(state, frag, user.getBodyData(), Particle.KAMABOKO_IMPACT)
-                                .setSyncType(SyncType.NOSYNC));
+                        frag.addStrategy(new CreateParticles(state, frag, user.getBodyData(), Particle.KAMABOKO_SHOWER));
+                        frag.addStrategy(new DieParticles(state, frag, user.getBodyData(), Particle.KAMABOKO_IMPACT));
                         frag.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ObjectLayer.HBOX);
                         }
                     }
                 }

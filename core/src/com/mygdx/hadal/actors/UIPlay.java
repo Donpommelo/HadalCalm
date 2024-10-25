@@ -10,6 +10,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
@@ -92,17 +93,17 @@ public class UIPlay extends AHadalActor {
 	public UIPlay(PlayState state) {
 		this.state = state;
 
-		this.main = Sprite.UI_MAIN_OVERLAY.getFrame();
-		this.reloading = Sprite.UI_MAIN_RELOAD.getFrame();
-		this.hp = Sprite.UI_MAIN_HEALTHBAR.getFrame();
-		this.hpLow = Sprite.UI_MAIN_HEALTH_LOW.getFrame();
-		this.hpMissing = Sprite.UI_MAIN_HEALTH_MISSING.getFrame();
-		this.fuel = Sprite.UI_MAIN_FUELBAR.getFrame();
-		this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrame();
+		this.main = SpriteManager.getFrame(Sprite.UI_MAIN_OVERLAY);
+		this.reloading = SpriteManager.getFrame(Sprite.UI_MAIN_RELOAD);
+		this.hp = SpriteManager.getFrame(Sprite.UI_MAIN_HEALTHBAR);
+		this.hpLow = SpriteManager.getFrame(Sprite.UI_MAIN_HEALTH_LOW);
+		this.hpMissing = SpriteManager.getFrame(Sprite.UI_MAIN_HEALTH_MISSING);
+		this.fuel = SpriteManager.getFrame(Sprite.UI_MAIN_FUELBAR);
+		this.fuelCutoff = SpriteManager.getFrame(Sprite.UI_MAIN_FUEL_CUTOFF);
 		
-		this.itemNull = Sprite.UI_MAIN_NULL.getFrames();
-		this.itemSelect = Sprite.UI_MAIN_SELECTED.getFrames();
-		this.itemUnselect = Sprite.UI_MAIN_UNSELECTED.getFrames();
+		this.itemNull = SpriteManager.getFrames(Sprite.UI_MAIN_NULL);
+		this.itemSelect = SpriteManager.getFrames(Sprite.UI_MAIN_SELECTED);
+		this.itemUnselect = SpriteManager.getFrames(Sprite.UI_MAIN_UNSELECTED);
 		
 		this.hpRatio = 1.0f;
 		this.fuelRatio = 1.0f;

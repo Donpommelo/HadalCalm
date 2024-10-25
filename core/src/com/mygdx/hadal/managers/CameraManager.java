@@ -44,8 +44,11 @@ public class CameraManager {
         this.state = state;
         this.map = map;
 
-        zoom = map.getProperties().get("zoom", 1.0f, float.class);
-        zoomDesired = zoom;
+        //map null in case of headless server
+        if (map != null) {
+            zoom = map.getProperties().get("zoom", 1.0f, float.class);
+            zoomDesired = zoom;
+        }
     }
 
     private static final float CAMERA_TIME = 1 / 120f;
@@ -110,7 +113,6 @@ public class CameraManager {
     }
 
     final Vector2 tmpVector2 = new Vector2();
-
     /**
      * Run when the camera resizes. Tries to keep camera position constant
      */

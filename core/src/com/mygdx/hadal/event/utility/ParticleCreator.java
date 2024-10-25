@@ -3,11 +3,11 @@ package com.mygdx.hadal.event.utility;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -40,11 +40,8 @@ public class ParticleCreator extends Event {
 		this.on = startOn;
 
 		if (duration == 0) {
-			particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, SyncType.NOSYNC);
-
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particles.getEntityID(), particles, false, PlayState.ObjectLayer.EFFECT);
-			}
+			particles = EffectEntityManager.getParticle(state, new ParticleCreate(particle, (HadalEntity) null)
+					.setStartOn(on));
 		} else {
 			this.particle = particle;
 		}
@@ -68,19 +65,22 @@ public class ParticleCreator extends Event {
 					attachedEntity = p;
 				}
 
-				if (particles != null) {
-					particles.setAttachedEntity(attachedEntity);
-					if (on) {
-						particles.turnOff();
+				if (particle == null) {
+					if (particles != null && particles.isAlive()) {
+						particles.setAttachedEntity(attachedEntity);
+						if (on) {
+							particles.turnOff();
+						} else {
+							particles.turnOn();
+						}
+						on = !on;
 					} else {
-						particles.turnOn();
+						particles = EffectEntityManager.getParticle(state, new ParticleCreate(particle, attachedEntity)
+								.setLifespan(duration));
 					}
-					on = !on;
 				} else {
-					ParticleEntity tempParticles = new ParticleEntity(state, attachedEntity, particle, 1.0f, duration, true, SyncType.NOSYNC);
-					if (!state.isServer()) {
-						((ClientState) state).addEntity(tempParticles.getEntityID(), tempParticles, false, PlayState.ObjectLayer.EFFECT);
-					}
+					EffectEntityManager.getParticle(state, new ParticleCreate(particle, attachedEntity)
+							.setLifespan(duration));
 				}
 			}
 		};

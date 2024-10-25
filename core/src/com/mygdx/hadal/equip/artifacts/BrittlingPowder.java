@@ -40,7 +40,7 @@ public class BrittlingPowder extends Artifact {
 				if (procCdCount >= PROC_CD) {
 					procCdCount -= PROC_CD;
 					hbox.addStrategy(new DieFrag(state, hbox, p, NUM_FRAG));
-					hbox.addStrategy(new DieSound(state, hbox, p, SoundEffect.WALL_HIT1, 0.75f).setSynced(false));
+					hbox.addStrategy(new DieSound(state, hbox, p, SoundEffect.WALL_HIT1, 0.75f));
 				}
 			}
 		}).setUserOnly(true);

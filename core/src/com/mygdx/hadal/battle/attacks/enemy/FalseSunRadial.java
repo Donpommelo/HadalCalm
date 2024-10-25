@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -18,7 +17,6 @@ import com.mygdx.hadal.strategies.hitbox.*;
 
 public class FalseSunRadial extends SyncedAttacker {
 
-    private static final float LINGER = 1.0f;
     private static final int NUM_SHOTS = 12;
 
     private static final float BASE_DAMAGE = 24.0f;
@@ -56,12 +54,12 @@ public class FalseSunRadial extends SyncedAttacker {
                     DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 
             hbox.addStrategy(new ReturnToUser(state, hbox, user.getBodyData(), RETURN_AMP));
-            hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, LINGER)
-                    .setParticleColor(HadalColor.VIOLET).setSyncType(SyncType.NOSYNC));
-            hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(
-                    HadalColor.VIOLET).setSyncType(SyncType.NOSYNC));
-            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                    .setSynced(false));
+            hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_TRAIL)
+                    .setParticleColor(HadalColor.VIOLET));
+            hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
+                    .setOffset(true)
+                    .setParticleColor(HadalColor.VIOLET));
+            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
             hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
             hbox.addStrategy((new HitboxStrategy(state, hbox, user.getBodyData()) {
 

@@ -18,6 +18,7 @@ import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.event.Event;
@@ -70,16 +71,16 @@ public class PlayState extends GameState {
 	protected final TiledMap map;
 
 	//world manages the Box2d world and physics.
-	protected final World world;
+	protected World world;
 
-	private RenderManager renderManager;
-	private CameraManager cameraManager;
-	private UIManager uiManager;
-	private TimerManager timerManager;
-	private SpawnManager spawnManager;
-	private TransitionManager transitionManager;
-	private SpectatorManager spectatorManager;
-	private EndgameManager endgameManager;
+	protected RenderManager renderManager;
+	protected CameraManager cameraManager;
+	protected UIManager uiManager;
+	protected TimerManager timerManager;
+	protected SpawnManager spawnManager;
+	protected TransitionManager transitionManager;
+	protected SpectatorManager spectatorManager;
+	protected EndgameManager endgameManager;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
@@ -219,8 +220,10 @@ public class PlayState extends GameState {
 		FrameBufferManager.clearAllFrameBuffers();
 
 		if (server) {
-			if (HadalGame.usm.getOwnUser().isSpectator()) {
-				getSpectatorManager().setSpectatorMode();
+			if (HadalGame.usm.getOwnUser() != null) {
+				if (HadalGame.usm.getOwnUser().isSpectator()) {
+					getSpectatorManager().setSpectatorMode();
+				}
 			}
 		}
 
@@ -246,7 +249,7 @@ public class PlayState extends GameState {
 			this.stage = new Stage();
 		}
 
-		getUIManager().initUIElements(stage);
+		getUIManager().initUIElementsShow(stage);
 
 		app.newMenu(stage);
 		resetController();
@@ -321,7 +324,9 @@ public class PlayState extends GameState {
 	        serverLoaded = true;
 			PacketManager.serverTCPAll(new Packets.ServerLoaded());
 			BotManager.initiateBots(this);
-			HadalGame.usm.getOwnUser().getTransitionManager().levelStartSpawn(this, reset);
+			if (HadalGame.usm.getOwnUser() != null) {
+				HadalGame.usm.getOwnUser().getTransitionManager().levelStartSpawn(this, reset);
+			}
 		}
 
 		//this makes the physics separate from the game framerate
@@ -613,15 +618,6 @@ public class PlayState extends GameState {
 	
 	public float getRespawnTime(Player p) {
 		return respawnTime * (1.0f + p.getPlayerData().getStat(Stats.RESPAWN_TIME));
-	}
-
-	/**
-	 * Z-Axis Layers that entities can be added to. ATM, there is just 1 for hitboxes beneath everything else.
-	 */
-	public enum ObjectLayer {
-		STANDARD,
-		HBOX,
-		EFFECT
 	}
 
 	public Array<OrderedSet<HadalEntity>> getEntityLists() { return entityLists; }

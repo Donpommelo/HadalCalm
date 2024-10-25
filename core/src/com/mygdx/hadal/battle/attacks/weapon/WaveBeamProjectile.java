@@ -5,7 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -61,15 +61,17 @@ public class WaveBeamProjectile extends SyncedAttacker {
                 hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                         DamageSource.WAVE_BEAM, DamageTag.ENERGY, DamageTag.RANGED));
-                hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-                        .setParticleColor(HadalColor.BLUE).setSyncType(SyncType.NOSYNC));
-                hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true)
-                        .setParticleColor(HadalColor.BLUE).setSyncType(SyncType.NOSYNC));
-                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.4f, true).setSynced(false));
+                hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
+                        .setOffset(true)
+                        .setParticleColor(HadalColor.BLUE));
+                hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
+                        .setOffset(true)
+                        .setParticleColor(HadalColor.BLUE));
+                hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.4f, true));
                 hbox.addStrategy(new WaveEntity(state, hbox, user.getBodyData(), center, AMPLITUDE, FREQUENCY, startAngle));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
                 }
             }
         });

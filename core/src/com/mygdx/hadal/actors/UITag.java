@@ -1,11 +1,12 @@
 package com.mygdx.hadal.actors;
 
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.User;
 
-import static com.mygdx.hadal.actors.UITag.uiType.ALL;
+import static com.mygdx.hadal.constants.UITagType.ALL;
 
 /**
  * This is not technically an actor but I don't know where else to put it.
@@ -19,7 +20,7 @@ public class UITag {
 	private final UIExtra uiExtra;
 
 	//The type of this tag. specifies what kind of information will be displayed.
-	private final uiType type;
+	private final UITagType type;
 	
 	//If this tag is of the "MISC" type, this variable will hold the string to be displayed. Otherwise, this will be "".
 	private final String misc;
@@ -28,7 +29,7 @@ public class UITag {
 	//If this tag is not modified, we do not need to recalc things like player score order
 	private String cachedText = "";
 
-	public UITag(UIExtra uiExtra, uiType type, String misc) {
+	public UITag(UIExtra uiExtra, UITagType type, String misc) {
 		this.uiExtra = uiExtra;
 		this.type = type;
 		this.misc = misc;
@@ -38,7 +39,7 @@ public class UITag {
 	 * Constructor for standard non-MISC tags that consist of only a type. "Default Tags"
 	 * @param type: type of the new tag.
 	 */
-	public UITag(UIExtra uiExtra, uiType type) {
+	public UITag(UIExtra uiExtra, UITagType type) {
 		this(uiExtra, type, "");
 	}
 
@@ -49,7 +50,7 @@ public class UITag {
 	 * @param user: for tags concerning a player, this is the player's user
 	 * @return the new string to appear in the ui
 	 */
-	public String updateTagText(PlayState state, uiType changedType, User user) {
+	public String updateTagText(PlayState state, UITagType changedType, User user) {
 
 		//this tag needs updating if relevant fields have been changed or if no text is cached
 		if (cachedText.isEmpty() || type.equals(changedType) || ALL.equals(changedType)) {
@@ -111,32 +112,7 @@ public class UITag {
 		return cachedText;
 	}
 
-	public uiType getType() { return type; }
+	public UITagType getType() { return type; }
 
 	public String getMisc() { return misc; }
-
-	/**
-	 * These are the various types of tags that can be added/removed from the UI.
-	 * Feel free to add more
-	 *
-	 */
-	public enum uiType {
-		SCORE,
-		HISCORE,
-		SCRAP,
-		LIVES,
-		TIMER,
-		MISC,
-		LEVEL,
-		TEAMSCORE,
-		GUNGAME,
-		PLAYERS_ALIVE,
-		ALLY_HEALTH,
-		SCOREBOARD,
-		WINBOARD,
-		CURRENCY,
-		ARCADE_ROUND,
-		EMPTY,
-		ALL
-	}
 }

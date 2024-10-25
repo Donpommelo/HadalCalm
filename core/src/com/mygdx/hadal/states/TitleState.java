@@ -248,7 +248,7 @@ public class TitleState extends GameState {
 						JSONManager.loadout.setName(enterName.getText());
 						
 						//Start up the server in singleplayer mode
-						HadalGame.server.init(false);
+						HadalGame.server.init(false, false);
 						StateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.

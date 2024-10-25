@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -53,26 +54,25 @@ public class SoundEntity extends HadalEntity {
 	
 	//Has the attached entity despawned yet?
 	private boolean despawn;
-	
-	public SoundEntity(PlayState state, HadalEntity entity, SoundEffect sound, float lifespan, float volume, float pitch,
-					   boolean looped, boolean startOn, SyncType sync) {
-		super(state, new Vector2(), new Vector2());
-		this.attachedEntity = entity;
-		this.sound = sound;
-		this.maxVolume = volume;
-		this.volume = volume;
-		this.pitch = pitch;
-		this.looped = looped;
-		this.on = startOn;
-		this.sync = sync;
 
+	public SoundEntity(PlayState state, SoundCreate soundCreate) {
+		super(state, new Vector2(), new Vector2());
+		this.attachedEntity = soundCreate.getAttachedEntity();
+		this.sound = soundCreate.getSound();
+		this.maxVolume = soundCreate.getVolume();
+		this.volume = maxVolume;
+		this.pitch = soundCreate.getPitch();
+		this.looped = soundCreate.isLooped();
+		this.on = soundCreate.isStartOn();
+		this.sync = soundCreate.getSyncType();
+
+		this.lifespan = soundCreate.getLifespan();
 		temp = lifespan != 0;
-		this.lifespan = lifespan;
 
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
-		if (startOn && null != attachedEntity) {
-            Vector2 attachedLocation = new Vector2();
-            attachedLocation.set(attachedEntity.getPixelPosition());
+		if (on && null != attachedEntity) {
+			Vector2 attachedLocation = new Vector2();
+			attachedLocation.set(attachedEntity.getPixelPosition());
 
 			this.soundID = sound.playSourced(state, attachedLocation, volume, pitch);
 			if (null != attachedEntity.getBody()) {
@@ -83,7 +83,7 @@ public class SoundEntity extends HadalEntity {
 			this.soundID = sound.play(volume, pitch, false);
 			sound.getSound().pause(soundID);
 		}
-		
+
 		//set the looping of the sound
 		sound.getSound().setLooping(soundID, looped);
 	}
@@ -158,10 +158,8 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-		
-		if (SyncType.CREATESYNC.equals(sync) || SyncType.NOSYNC.equals(sync)) {
-			controller(delta);			
-		}
+		controller(delta);
+
 		if (null == attachedEntity && null != attachedID) {
 			attachedEntity = state.findEntity(attachedID);
 			if (on) {
@@ -175,55 +173,22 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate(boolean catchup) {
-		if (sync.equals(SyncType.CREATESYNC) || sync.equals(SyncType.TICKSYNC)) {
+		if (sync.equals(SyncType.CREATESYNC)) {
 			if (null != attachedEntity) {
-				return new Packets.CreateSound(entityID, attachedEntity.getEntityID(), sound, lifespan, volume, pitch,
-						looped, on, SyncType.TICKSYNC.equals(sync));
+				return new Packets.CreateSound(attachedEntity.getEntityID(), sound, lifespan, volume, pitch, looped, on);
 			}
 		}
 		return null;
 	}
 	
 	@Override
-	public Object onServerDelete() { 
-		if (SyncType.TICKSYNC.equals(sync)) {
-			return new Packets.DeleteEntity(entityID, state.getTimer());
-		} else {
-			return null;
-		}
-	}
+	public Object onServerDelete() { return null; }
 
 	/**
 	 * For sounds that are tick synced, send over volume to clients as well as whether it is on or not
 	 */
 	@Override
-	public void onServerSync() {
-		if (SyncType.TICKSYNC.equals(sync)) {
-			if (null != attachedEntity) {
-				if (null != attachedEntity.getBody()) {
-					state.getSyncPackets().add(new Packets.SyncSound(entityID, volume, on, state.getTimer()));
-				}
-			}
-		}
-	}
-	
-	/**
-	 * For Client sound entities, sync position, volume and on if the server sends over the packets (if Tick synced)
-	 */
-	@Override
-	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncSound p) {
-			volume = p.volume;
-			if (p.on) {
-				turnOn();
-			}
-			if (!p.on) {
-				turnOff();
-			}
-		} else {
-			super.onClientSync(o);
-		}
-	}
+	public void onServerSync() {}
 	
 	@Override
 	public void render(SpriteBatch batch, Vector2 entityLocation) {}

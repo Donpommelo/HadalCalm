@@ -8,11 +8,12 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -22,7 +23,6 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.*;
-import org.jetbrains.annotations.NotNull;
 
 public class SpiritBombProjectile extends SyncedAttacker {
 
@@ -68,14 +68,9 @@ public class SpiritBombProjectile extends SyncedAttacker {
                 if (controllerCount < FADE_DELAY) {
                     controllerCount += delta;
                     if (controllerCount >= FADE_DELAY) {
-
-                        ParticleEntity particles = new ParticleEntity(state, new Vector2(getPixelPosition()), Particle.SMOKE, 1.0f,
-                                true, SyncType.NOSYNC).setScale(0.5f);
-
-                        if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.HBOX);
-                        }
-
+                        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SMOKE, getPixelPosition())
+                                .setLifespan(1.0f)
+                                .setScale(0.5f));
                         faded = true;
                     }
                 }
@@ -164,7 +159,7 @@ public class SpiritBombProjectile extends SyncedAttacker {
 
                 explosion.addStrategy(new ControllerDefault(state, explosion, user.getBodyData()));
                 explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), WARNING_TIME));
-                explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
+                explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
                 if (null != target) {
                     explosion.addStrategy(new HomingUnit(state, explosion, user.getBodyData(), SPIRIT_HOMING, HOME_RADIUS)
                             .setTarget(target).setSteering(false));
@@ -178,23 +173,22 @@ public class SpiritBombProjectile extends SyncedAttacker {
 
                         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                         hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STARBURST, 0.0f, 1.0f)
-                                .setSyncType(SyncType.NOSYNC).setRotate(true).setParticleSize(60));
+                        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STARBURST)
+                                .setRotate(true).setParticleSize(60));
                         hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), EXPLOSION_DAMAGE, EXPLOSION_KNOCKBACK,
                                 1.0f, DamageSource.SPIRIT_BOMB, DamageTag.EXPLOSIVE));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
                         }
                     }
                 });
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ObjectLayer.HBOX);
                 }
             }
 
-            @NotNull
             private Hitbox getExplosion() {
                 Hitbox explosion = new RangedHitbox(state, hbox.getPixelPosition(), PROJECTILE_SIZE, WARNING_TIME, new Vector2(),
                         user.getHitboxFilter(), true, false, user, PROJ_SPRITE_ACTIVATE) {

@@ -8,7 +8,7 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -137,16 +137,16 @@ public class Vine extends SyncedAttacker {
                     vine.setEffectsMovement(false);
 
                     vine.addStrategy(new ControllerDefault(state, vine, user.getBodyData()));
-                    vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
+                    vine.addStrategy(new ContactUnitSound(state, vine, user.getBodyData(), SoundEffect.STAB, 0.6f, true));
                     vine.addStrategy(new DamageStandard(state, vine, user.getBodyData(), damage, knockback,
                             damageSource, DamageTag.RANGED).setStaticKnockback(true));
-                    vine.addStrategy(new CreateParticles(state, vine, user.getBodyData(), Particle.DANGER_RED, 0.0f, 1.0f)
-                            .setParticleSize(90.0f).setSyncType(SyncType.NOSYNC));
-                    vine.addStrategy(new DieParticles(state, vine, user.getBodyData(), Particle.PLANT_FRAG).setSyncType(SyncType.NOSYNC));
+                    vine.addStrategy(new CreateParticles(state, vine, user.getBodyData(), Particle.DANGER_RED)
+                            .setParticleSize(90.0f));
+                    vine.addStrategy(new DieParticles(state, vine, user.getBodyData(), Particle.PLANT_FRAG));
                     vine.addStrategy(new Static(state, vine, user.getBodyData()));
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(vine.getEntityID(), vine, false, ClientState.ObjectLayer.HBOX);
+                        ((ClientState) state).addEntity(vine.getEntityID(), vine, false, ObjectLayer.HBOX);
                     }
 
                     vineCount++;

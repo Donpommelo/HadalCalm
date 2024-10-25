@@ -1,20 +1,21 @@
 package com.mygdx.hadal.event.modes;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SpriteManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.TrickOrTreating;
@@ -43,12 +44,17 @@ public class TrickorTreatBucket extends Event {
 
     private final boolean mirror;
 
+    private final TextureRegion bucketSprite, bucketSpriteEmpty;
+
     private boolean lightSet;
 
     public TrickorTreatBucket(PlayState state, Vector2 startPos, Vector2 size, int teamIndex, boolean mirror) {
         super(state, startPos, size);
         this.teamIndex = teamIndex;
         this.mirror = mirror;
+
+        this.bucketSprite = SpriteManager.getFrame(Sprite.CANDY_STAND);
+        this.bucketSpriteEmpty = SpriteManager.getFrame(Sprite.CANDY_STAND_EMPTY);
     }
 
     @Override
@@ -100,9 +106,7 @@ public class TrickorTreatBucket extends Event {
             enemyCandyCount = AlignmentFilter.teamScores[teamIndex];
         }
         
-        Sprite bucketSprite = 0 < enemyCandyCount ? Sprite.CANDY_STAND : Sprite.CANDY_STAND_EMPTY;
-
-        batch.draw(bucketSprite.getFrame(),
+        batch.draw(0 < enemyCandyCount ? bucketSprite : bucketSpriteEmpty,
                 entityLocation.x - BUCKET_WIDTH * BUCKET_SIZE_SCALE / 2,
                 entityLocation.y - BUCKET_HEIGHT * BUCKET_SIZE_SCALE / 2,
                 BUCKET_WIDTH * BUCKET_SIZE_SCALE / 2, BUCKET_HEIGHT * BUCKET_SIZE_SCALE / 2,
@@ -116,15 +120,9 @@ public class TrickorTreatBucket extends Event {
     public void setLightColor() {
         if (teamIndex < AlignmentFilter.currentTeams.length) {
             HadalColor color = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
-
-            ParticleEntity fire = new ParticleEntity(state, this, Particle.GHOST_LIGHT, 0, 0, true,
-                    SyncType.NOSYNC).setColor(color);
-
-            fire.setOffset((mirror ? -1 : 1) * BUCKET_FIRE_OFFSETX, BUCKET_FIRE_OFFSETY);
-
-            if (!state.isServer()) {
-                ((ClientState) state).addEntity(fire.getEntityID(), fire, false, ClientState.ObjectLayer.EFFECT);
-            }
+            EffectEntityManager.getParticle(state, new ParticleCreate(Particle.GHOST_LIGHT, this)
+                    .setColor(color)
+                    .setOffset(new Vector2((mirror ? -1 : 1) * BUCKET_FIRE_OFFSETX, BUCKET_FIRE_OFFSETY)));
 
             state.getUIManager().getUiObjective().addObjective(this, Sprite.CANDY_BUCKET, color,true, false, true);
             lightSet = true;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyCrawling;
 import com.mygdx.hadal.states.PlayState;
@@ -23,7 +24,7 @@ public class KamabokoBody extends EnemyStrategy {
     public KamabokoBody(PlayState state, Enemy enemy, boolean rotate) {
         super(state, enemy);
         this.rotate = rotate;
-        faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(MathUtils.random(4));
+        faceSprite = SpriteManager.getFrame(Sprite.KAMABOKO_FACE, MathUtils.random(4));
     }
 
     @Override

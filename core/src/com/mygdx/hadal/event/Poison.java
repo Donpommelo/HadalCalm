@@ -6,16 +6,14 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Constants;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
@@ -68,11 +66,7 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
-			ParticleEntity particleEntity = new ParticleEntity(state, this, poisonParticle, 0, 0,
-					true, SyncType.NOSYNC);
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, this));
 		}
 	}
 
@@ -111,11 +105,7 @@ public class Poison extends Event {
 		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
-			ParticleEntity particleEntity = new ParticleEntity(state, this, poisonParticle, particleLifespan, 0,
-					true, SyncType.NOSYNC);
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-			}
+			EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, this));
 		}
 	}
 	
@@ -165,7 +155,8 @@ public class Poison extends Event {
 					currPoisonSpawnTimer -= spawnTimerLimit;
 					int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
 					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-					new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle, particleLifespan, true, SyncType.NOSYNC);
+					EffectEntityManager.getParticle(state, new ParticleCreate(poisonParticle, randLocation.set(randX, randY))
+							.setLifespan(particleLifespan));
 				}
 			}
 		}
@@ -175,38 +166,7 @@ public class Poison extends Event {
 	 * Client Poison should randomly spawn poison particles itself to reduce overhead.
 	 */
 	@Override
-	public void clientController(float delta) {
-		if (on) {
-			super.controller(delta);
-
-			controllerCount += delta;
-			while (controllerCount >= Constants.INTERVAL) {
-				controllerCount -= Constants.INTERVAL;
-
-				for (HadalEntity entity : eventData.getSchmucks()) {
-					if (entity instanceof Schmuck schmuck) {
-						schmuck.getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true,
-								null, source, DamageTag.POISON);
-					}
-				}
-			}
-
-			if (randomParticles && draw) {
-				
-				entityLocation.set(getPixelPosition());
-				
-				currPoisonSpawnTimer += delta;
-				while (currPoisonSpawnTimer >= spawnTimerLimit) {
-					currPoisonSpawnTimer -= spawnTimerLimit;
-					int randX = (int) ((MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x);
-					int randY = (int) ((MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y);
-					ParticleEntity poison = new ParticleEntity(state, randLocation.set(randX, randY), poisonParticle,
-							particleLifespan, true, SyncType.NOSYNC);
-					((ClientState) state).addEntity(poison.getEntityID(), poison, false, ObjectLayer.EFFECT);
-				}
-			}
-		}
-	}
+	public void clientController(float delta) { controller(delta); }
 
 	public Poison setParticle(Particle particle) {
 		this.poisonParticle = particle;

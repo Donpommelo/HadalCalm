@@ -21,7 +21,6 @@ public class CameraUtil {
      * cameraBounds contains 4 values; right/left/up/down bounds respectively
      */
     public static void obeyCameraBounds(Vector2 tempCamera, OrthographicCamera camera, float[] cameraBounds) {
-
         float cameraWidth = camera.viewportWidth * camera.zoom;
         float cameraHeight = camera.viewportHeight * camera.zoom;
 

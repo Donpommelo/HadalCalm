@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -64,7 +65,7 @@ public class Fafrotskies extends ActiveItem {
 					rain.addStrategy(new DamageStandard(state, rain, user, RAIN_DAMAGE, RAIN_KNOCKBACK, DamageSource.FAFROTSKIES,
 							DamageTag.WATER));
 					rain.addStrategy(new AdjustAngle(state, rain, user));
-					rain.addStrategy(new ContactWallParticles(state, rain, user, Particle.BUBBLE_IMPACT));
+					rain.addStrategy(new ContactWallParticles(state, rain, user, Particle.BUBBLE_IMPACT).setSyncType(SyncType.CREATESYNC));
 					rain.addStrategy(new ContactUnitLoseDurability(state, rain, user));
 					rain.addStrategy(new ContactWallDie(state, rain, user));
 				}

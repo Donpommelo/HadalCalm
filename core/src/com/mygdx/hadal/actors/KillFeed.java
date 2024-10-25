@@ -67,7 +67,7 @@ public class KillFeed {
 
     //Reference to the gsm. Used to reference gsm fields.
     private final PlayState ps;
-    private final VerticalGroup feed, notification;
+    private VerticalGroup feed, notification;
     private Table deathInfoTable;
     private Table killerPortrait;
     private ScrollPane portrait;
@@ -94,6 +94,11 @@ public class KillFeed {
     public KillFeed(PlayState ps) {
         this.ps = ps;
 
+        initActors();
+        initialNotification();
+    }
+
+    public void initActors() {
         this.feed = new VerticalGroup() {
 
             @Override
@@ -149,7 +154,6 @@ public class KillFeed {
         };
 
         addTable();
-        initialNotification();
     }
 
     /**

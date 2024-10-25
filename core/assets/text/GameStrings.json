@@ -545,7 +545,7 @@
   "ARTIFACT_HUMANITY_MODULE_DESC_LONG" : "Charge Rate: +<s0>%\n\nA disk encoding data in an unreadable format\n\nManagement could never agree amongst themselves which aspects of humanity could not be relinquished without also losing the label of \"human\".",
   "ARTIFACT_ICE9" : "Ice-9",
   "ARTIFACT_ICE9_DESC" : "Slowing Projectiles",
-  "ARTIFACT_ICE9_DESC_LONG" : "Slow Duration: <s1> Seconds\nSlow Amount: -<s2>%\n\nA frosty vial of a world-ending substance\n\nThe sunken world was made to be fragile by those who anticipated the need to start over from scratch.",
+  "ARTIFACT_ICE9_DESC_LONG" : "Slow Duration: <s0> Seconds\nSlow Amount: -<s1>%\n\nA frosty vial of a world-ending substance\n\nThe sunken world was made to be fragile by those who anticipated the need to start over from scratch.",
   "ARTIFACT_INFORMANTS_TIE" : "Informant's Tie",
   "ARTIFACT_INFORMANTS_TIE_DESC" : "Homing Projectiles",
   "ARTIFACT_INFORMANTS_TIE_DESC_LONG" : "An orange tie ragged from years of nervous hand-rubbing\n\nThe Whale-God, Callo, inherited humanity's desire to unravel the mysteries of the universe and was easily seduced by the inscrutable murmuring of the First Bright One.",

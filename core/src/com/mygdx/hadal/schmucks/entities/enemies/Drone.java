@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
-import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -44,10 +44,10 @@ public class Drone extends EnemySwimming {
 	
 	public Drone(PlayState state, Vector2 startPos, float startAngle, short filter, float extraField) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.DRONE, startAngle, filter, baseHp, attackCd, scrapDrop);
-		armBackSprite = Sprite.DRONE_ARM_BACK.getFrame();
-		armFrontSprite = Sprite.DRONE_ARM_FRONT.getFrame();
-		eyeSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST, Sprite.DRONE_EYE.getFrames());
-		dotSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST,	Sprite.DRONE_DOT.getFrames());
+		armBackSprite = SpriteManager.getFrame(Sprite.DRONE_ARM_BACK);
+		armFrontSprite = SpriteManager.getFrame(Sprite.DRONE_ARM_FRONT);
+		eyeSprite = SpriteManager.getAnimation(Sprite.DRONE_EYE);
+		dotSprite = SpriteManager.getAnimation(Sprite.DRONE_DOT);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		
 		this.eyeType = (int) extraField;

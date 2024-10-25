@@ -6,11 +6,12 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -62,13 +63,12 @@ public class LoveArrow extends SyncedAttacker {
         hurtbox.addStrategy(new AdjustAngle(state, hurtbox, user.getBodyData()));
         hurtbox.addStrategy(new ContactWallDie(state, hurtbox, user.getBodyData()));
         hurtbox.addStrategy(new ContactUnitLoseDurability(state, hurtbox, user.getBodyData()));
-        hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK).setSyncType(SyncType.NOSYNC));
+        hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK));
         hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), damage, KNOCKBACK, DamageSource.LOVE_BOW,
                 DamageTag.POKING, DamageTag.RANGED));
-        hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true).setSynced(false));
-        hurtbox.addStrategy(new ContactWallSound(state, hurtbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.8f).setSynced(false));
-        hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL, 0.0f, 1.0f)
-                .setRotate(true).setSyncType(SyncType.NOSYNC));
+        hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true));
+        hurtbox.addStrategy(new ContactWallSound(state, hurtbox, user.getBodyData(), SoundEffect.BULLET_DIRT_HIT, 0.8f));
+        hurtbox.addStrategy(new CreateParticles(state, hurtbox, user.getBodyData(), Particle.BOW_TRAIL).setRotate(true));
 
         Hitbox healbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, new Vector2(startVelocity).nor().scl(velocity),
                 (short) 0, false, false, user, Sprite.NOTHING);
@@ -96,25 +96,21 @@ public class LoveArrow extends SyncedAttacker {
                         if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxFilter() == user.getHitboxFilter())) {
                             ((BodyData) fixB).regainHp(heal, creator, true);
                             SoundEffect.COIN3.playSourced(state, hbox.getPixelPosition(), 0.5f);
-                            ParticleEntity heal = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HEAL, 1.0f,
-                                    true, SyncType.NOSYNC);
-                            if (!state.isServer()) {
-                                ((ClientState) state).addEntity(heal.getEntityID(), heal, false, ClientState.ObjectLayer.HBOX);
-                            }
+
+                            EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BOW_HEAL, hbox.getPixelPosition())
+                                    .setLifespan(1.0f));
+
                             hurtbox.die();
                         } else if (((BodyData) fixB).getSchmuck().getHitboxFilter() != user.getHitboxFilter()) {
-                            ParticleEntity hurt = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.BOW_HURT, 1.0f,
-                                    true, SyncType.NOSYNC);
-                            if (!state.isServer()) {
-                                ((ClientState) state).addEntity(hurt.getEntityID(), hurt, false, ClientState.ObjectLayer.HBOX);
-                            }
+                            EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BOW_HURT, hbox.getPixelPosition())
+                                    .setLifespan(1.0f));
                         }
                     }
                 }
             }
         });
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(healbox.getEntityID(), healbox, false, ClientState.ObjectLayer.HBOX);
+            ((ClientState) state).addEntity(healbox.getEntityID(), healbox, false, ObjectLayer.HBOX);
         }
         return hurtbox;
     }

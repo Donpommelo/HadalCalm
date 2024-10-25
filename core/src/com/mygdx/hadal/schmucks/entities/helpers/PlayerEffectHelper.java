@@ -2,8 +2,10 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
@@ -31,60 +33,58 @@ public class PlayerEffectHelper {
         this.state = state;
         this.player = player;
 
-        dustCloud = new ParticleEntity(state, player, Particle.DUST, 1.0f, 0.0f, false,
-                SyncType.NOSYNC);
-        hoverBubbles = new ParticleEntity(state, player, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false,
-                SyncType.NOSYNC);
+        dustCloud = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.DUST, player));
+        hoverBubbles = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BUBBLE_TRAIL, player));
 
-        hoverSound = new SoundEntity(state, player, SoundEffect.HOVER, 0.0f, 0.2f, 1.0f,
-                true, true, SyncType.NOSYNC);
-        runSound = new SoundEntity(state, player, SoundEffect.RUN, 0.0f, 0.1f, 1.0f,
-                true, true, SyncType.NOSYNC);
-        reloadSound = new SoundEntity(state, player, SoundEffect.RELOAD, 0.0f, 0.2f, 1.0f,
-                true, true, SyncType.NOSYNC);
-
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(dustCloud.getEntityID(), dustCloud, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(hoverBubbles.getEntityID(), hoverBubbles, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(hoverSound.getEntityID(), hoverSound, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(runSound.getEntityID(), runSound, false, PlayState.ObjectLayer.EFFECT);
-            ((ClientState) state).addEntity(reloadSound.getEntityID(), reloadSound, false, PlayState.ObjectLayer.EFFECT);
-        }
+        hoverSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.HOVER, player)
+                .setVolume(0.2f));
+        runSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.RUN, player)
+                .setVolume(0.1f));
+        reloadSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.RELOAD, player)
+                .setVolume(0.2f));
     }
 
     public void setEffectOffset() {
         //for server, we adjust offset of particles to account for size changes
-        dustCloud.setOffset(0, -player.getSize().y / 2);
-        hoverBubbles.setOffset(0, -player.getSize().y / 2);
+        if (dustCloud != null && hoverBubbles != null) {
+            dustCloud.setOffset(0, -player.getSize().y / 2);
+            hoverBubbles.setOffset(0, -player.getSize().y / 2);
+        }
     }
 
     public void toggleRunningEffects(boolean running) {
         this.running = running;
-        if (running) {
-            dustCloud.turnOn();
-            runSound.turnOn();
-        } else {
-            dustCloud.turnOff();
-            runSound.turnOff();
+        if (dustCloud != null && runSound != null) {
+            if (running) {
+                dustCloud.turnOn();
+                runSound.turnOn();
+            } else {
+                dustCloud.turnOff();
+                runSound.turnOff();
+            }
         }
     }
 
     public void toggleHoverEffects(boolean hovering) {
         this.hovering = hovering;
-        if (hovering) {
-            hoverBubbles.turnOn();
-            hoverSound.turnOn();
-        } else {
-            hoverBubbles.turnOff();
-            hoverSound.turnOff();
+        if (hoverBubbles != null && hoverSound != null) {
+            if (hovering) {
+                hoverBubbles.turnOn();
+                hoverSound.turnOn();
+            } else {
+                hoverBubbles.turnOff();
+                hoverSound.turnOff();
+            }
         }
     }
 
     public void toggleReloadEffects(boolean reloading) {
-        if (reloading) {
-            reloadSound.turnOn();
-        } else {
-            reloadSound.turnOff();
+        if (reloadSound != null) {
+            if (reloading) {
+                reloadSound.turnOn();
+            } else {
+                reloadSound.turnOff();
+            }
         }
     }
 
@@ -111,8 +111,12 @@ public class PlayerEffectHelper {
         if (!state.isServer()) {
             player.getPlayerData().setCurrentHp(0);
 
-            ((ClientState) state).removeEntity(hoverBubbles.getEntityID());
-            ((ClientState) state).removeEntity(dustCloud.getEntityID());
+            if (hoverBubbles != null) {
+                ((ClientState) state).removeEntity(hoverBubbles.getEntityID());
+            }
+            if (dustCloud != null) {
+                ((ClientState) state).removeEntity(dustCloud.getEntityID());
+            }
         }
     }
 

@@ -7,7 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -49,9 +49,8 @@ public class XBomb extends SyncedAttacker {
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.X_BOMBER, DamageTag.ENERGY, DamageTag.RANGED));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.6f).setSynced(false));
-        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT)
-                .setParticleColor(HadalColor.CYAN).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.6f));
+        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(HadalColor.CYAN));
 
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
@@ -81,12 +80,13 @@ public class XBomb extends SyncedAttacker {
                 cross.addStrategy(new DamageStandard(state, cross, user.getBodyData(), CROSS_DAMAGE, KNOCKBACK,
                         DamageSource.X_BOMBER, DamageTag.ENERGY, DamageTag.RANGED)
                         .setConstantKnockback(true, startVelocity));
-                cross.addStrategy(new ContactUnitParticles(state, cross, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(
-                        HadalColor.CYAN).setDrawOnSelf(false).setSyncType(SyncType.NOSYNC));
+                cross.addStrategy(new ContactUnitParticles(state, cross, user.getBodyData(), Particle.LASER_IMPACT)
+                        .setParticleColor(HadalColor.CYAN)
+                        .setDrawOnSelf(false));
                 cross.addStrategy(new Static(state, cross, user.getBodyData()));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(cross.getEntityID(), cross, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(cross.getEntityID(), cross, false, ObjectLayer.HBOX);
                 }
             }
         });

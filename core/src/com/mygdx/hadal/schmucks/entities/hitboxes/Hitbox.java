@@ -11,9 +11,11 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -23,7 +25,6 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -387,9 +388,8 @@ public class Hitbox extends HadalEntity {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 		if (!Sprite.NOTHING.equals(sprite)) {
-			projectileSprite = new Animation<>(sprite.getAnimationSpeed(), sprite.getFrames());
-			projectileSprite.setPlayMode(sprite.getPlayMode());
-			if (!PlayMode.NORMAL.equals(projectileSprite.getPlayMode())) {
+			projectileSprite = SpriteManager.getAnimation(sprite);
+			if (!PlayMode.NORMAL.equals(sprite.getPlayMode())) {
 				looping = true;
 			}
 		}

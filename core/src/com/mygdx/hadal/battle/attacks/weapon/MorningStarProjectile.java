@@ -7,6 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.melee.MorningStar;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -139,7 +140,7 @@ public class MorningStarProjectile extends SyncedAttacker {
             });
 
             if (!state.isServer()) {
-                ((ClientState) state).addEntity(links[i].getEntityID(), links[i], false, ClientState.ObjectLayer.HBOX);
+                ((ClientState) state).addEntity(links[i].getEntityID(), links[i], false, ObjectLayer.HBOX);
             }
         }
 
@@ -158,7 +159,7 @@ public class MorningStarProjectile extends SyncedAttacker {
                 DamageTag.WHACKING, DamageTag.MELEE).setRepeatable(true));
         star.addStrategy(new ContactWallSound(state, star, user.getBodyData(), SoundEffect.WALL_HIT1, 0.25f));
         star.addStrategy(new ContactUnitSound(state, star, user.getBodyData(), SoundEffect.SLAP, 0.25f, true)
-                .setPitch(0.5f).setSynced(false));
+                .setPitch(0.5f));
         star.addStrategy(new HomingMouse(state, star, user.getBodyData(), HOME_POWER));
 
         star.addStrategy(new HitboxStrategy(state, star, user.getBodyData()) {

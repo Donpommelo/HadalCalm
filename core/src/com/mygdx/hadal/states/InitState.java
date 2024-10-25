@@ -2,7 +2,6 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Collections;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.LoadingBackdrop;
 import com.mygdx.hadal.managers.AssetList;
@@ -64,9 +63,6 @@ public class InitState extends GameState {
 
 			//this lets us not declare every attribute of shaders.
 			ShaderProgram.pedantic = false;
-
-			//this is necessary to prevent nested iterations from causing errors
-			Collections.allocateIterators = true;
 		}
 	}
 
@@ -76,6 +72,5 @@ public class InitState extends GameState {
 	@Override
 	public void dispose() {
 		stage.dispose();
-//		backdrop.getAtlas().dispose();
 	}
 }

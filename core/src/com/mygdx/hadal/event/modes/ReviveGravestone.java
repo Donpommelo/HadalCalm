@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
@@ -12,15 +13,16 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.Transition;
@@ -74,11 +76,9 @@ public class ReviveGravestone extends Event {
 
 		//set flag's color according to team alignment
 		HadalColor color = user.getTeamFilter().getPalette().getIcon();
-		ParticleEntity particle = new ParticleEntity(state, this, Particle.BRIGHT_TRAIL, 0, 0, true, SyncType.NOSYNC)
-				.setScale(1.8f).setColor(color);
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BRIGHT_TRAIL, this)
+				.setScale(1.8f)
+				.setColor(color));
 
 		//make objective marker track this event
 		EventUtils.setObjectiveMarkerTeam(state, this, Sprite.CLEAR_CIRCLE_ALERT, color,
@@ -90,11 +90,11 @@ public class ReviveGravestone extends Event {
 			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		}
 
-		this.returnMeter = Sprite.UI_RELOAD_METER.getFrame();
-		this.returnBar = Sprite.UI_RELOAD_BAR.getFrame();
+		this.returnMeter = SpriteManager.getFrame(Sprite.UI_RELOAD_METER);
+		this.returnBar = SpriteManager.getFrame(Sprite.UI_RELOAD_BAR);
 
 		//we must set this event's layer to make it render underneath players
-		setLayer(PlayState.ObjectLayer.HBOX);
+		setLayer(ObjectLayer.HBOX);
 	}
 
 	@Override
@@ -136,8 +136,10 @@ public class ReviveGravestone extends Event {
 		}
 
 		if (returnTimer <= 0.0f) {
-			new ParticleEntity(state, getPixelPosition(), Particle.DIATOM_IMPACT_LARGE, PARTICLE_DURATION, true, SyncType.CREATESYNC)
-					.setColor(user.getTeamFilter().getPalette().getIcon());
+			EffectEntityManager.getParticle(state, new ParticleCreate(Particle.DIATOM_IMPACT_LARGE, getPixelPosition())
+					.setLifespan(PARTICLE_DURATION)
+					.setSyncType(SyncType.CREATESYNC)
+					.setColor(user.getTeamFilter().getPalette().getIcon()));
 
 			queueDeletion();
 

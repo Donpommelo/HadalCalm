@@ -7,7 +7,6 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -59,12 +58,11 @@ public class Pickup extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO, 0.0f, 1.0f)
-                .setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), particle).setParticleDuration(5.0f)
-                .setIgnoreOnTimeout(true).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), sound, volume)
-                .setIgnoreOnTimeout(true).setSynced(false));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EVENT_HOLO));
+        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), particle)
+                .setParticleDuration(5.0f)
+                .setIgnoreOnTimeout(true));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), sound, volume).setIgnoreOnTimeout(true));
 
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

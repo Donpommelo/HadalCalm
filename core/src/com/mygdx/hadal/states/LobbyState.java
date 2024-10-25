@@ -288,7 +288,7 @@ public class LobbyState extends GameState {
                         SoundEffect.UISWITCH1.play(1.0f, false);
 
                         //Start up the server in multiplayer mode
-                        HadalGame.server.init(true);
+                        HadalGame.server.init(true, false);
                         HadalGame.server.setServerName(enterName.getText());
                         StateManager.currentMode = StateManager.Mode.MULTI;
 

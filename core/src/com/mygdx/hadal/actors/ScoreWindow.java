@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.SharedSetting;
@@ -339,7 +340,7 @@ public class ScoreWindow {
 		tableScore.add(tableArtifact).height(scoreHeight).padRight(SCORE_PAD_X).padBottom(scorePad).align(Align.center).row();
 
 		//Adding new entries necessitates refreshing ui to account for new player's score
-		state.getUIManager().getUiExtra().syncUIText(UITag.uiType.ALL);
+		state.getUIManager().getUiExtra().syncUIText(UITagType.ALL);
 	}
 
 	/**

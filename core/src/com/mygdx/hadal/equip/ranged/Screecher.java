@@ -7,14 +7,14 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.Screech;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.WorldUtil;
 
@@ -96,11 +96,8 @@ public class Screecher extends RangedWeapon {
 
 		if (shooting) {
 			if (screechSound == null) {
-				screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.0f, 0.8f, 1.0f, true,
-						true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(screechSound.getEntityID(), screechSound, false, PlayState.ObjectLayer.EFFECT);
-				}
+				screechSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.BEAM3, user)
+						.setVolume(0.8f));
 			} else {
 				screechSound.turnOn();
 			}

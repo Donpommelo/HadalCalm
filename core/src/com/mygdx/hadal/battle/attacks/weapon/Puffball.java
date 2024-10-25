@@ -5,7 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -14,7 +14,6 @@ import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
-import org.jetbrains.annotations.NotNull;
 
 public class Puffball extends SyncedAttacker {
 
@@ -97,13 +96,12 @@ public class Puffball extends SyncedAttacker {
                         frag.addStrategy(new FlashNearDeath(state, frag, user.getBodyData(), FLASH_LIFESPAN));
 
                         if (!state.isServer()) {
-                            ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ClientState.ObjectLayer.HBOX);
+                            ((ClientState) state).addEntity(frag.getEntityID(), frag, false, ObjectLayer.HBOX);
                         }
                     }
                 }
             }
 
-            @NotNull
             private RangedHitbox getRangedFrag() {
                 RangedHitbox frag = new RangedHitbox(state, getPixelPosition(), new Vector2(SPORE_FRAG_SIZE), SPORE_FRAG_LIFESPAN,
                         new Vector2(newVelocity), user.getHitboxFilter(), false, false, user, Sprite.SPORE_YELLOW) {
@@ -126,7 +124,7 @@ public class Puffball extends SyncedAttacker {
         hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.PUFFBALLER, DamageTag.RANGED));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.DIATOM_TRAIL_DENSE));
 
         return hbox;
     }

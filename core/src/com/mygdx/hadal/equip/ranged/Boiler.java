@@ -4,12 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.BoilerFire;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 public class Boiler extends RangedWeapon {
@@ -57,11 +57,8 @@ public class Boiler extends RangedWeapon {
 
 		if (shooting) {
 			if (fireSound == null) {
-				fireSound = new SoundEntity(state, user, SoundEffect.FLAMETHROWER, 0.0f, 0.8f, 1.0f, true,
-						true, SyncType.NOSYNC);
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(fireSound.getEntityID(), fireSound, false, PlayState.ObjectLayer.EFFECT);
-				}
+				fireSound = EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.FLAMETHROWER, user)
+						.setVolume(0.8f));
 			} else {
 				fireSound.turnOn();
 			}

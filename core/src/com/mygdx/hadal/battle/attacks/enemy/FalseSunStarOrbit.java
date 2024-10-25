@@ -6,15 +6,14 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
-import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -25,7 +24,6 @@ public class FalseSunStarOrbit extends SyncedAttacker {
     private static final float KNOCKBACK = 18.0f;
 
     private static final Sprite[] STAR_SPRITES = {Sprite.STAR_BLUE, Sprite.STAR_PURPLE, Sprite.STAR_RED, Sprite.STAR_YELLOW};
-    private static final float LINGER = 1.0f;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -50,19 +48,16 @@ public class FalseSunStarOrbit extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STAR, 0.0f, LINGER)
-                .setParticleColor(HadalColor.RANDOM).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.STAR)
+                .setParticleColor(HadalColor.RANDOM));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 
         if (starNum % 8 == 0) {
-            SoundEntity sound = new SoundEntity(state, hbox, SoundEffect.MAGIC25_SPELL, LIFESPAN, 0.8f, 0.5f,
-                    true, true, SyncType.NOSYNC);
-
-            if (!state.isServer()) {
-                ((ClientState) state).addEntity(sound.getEntityID(), sound, false, ClientState.ObjectLayer.HBOX);
-            }
+            EffectEntityManager.getSound(state, new SoundCreate(SoundEffect.MAGIC25_SPELL, hbox)
+                    .setLifespan(LIFESPAN)
+                    .setVolume(0.8f)
+                    .setPitch(0.5f));
         }
 
         if (starNum % 2 == 0) {

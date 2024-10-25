@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -46,7 +47,7 @@ public class WeaponUtils {
 				SELF_DAMAGE_REDUCTION, source, DamageTag.EXPLOSIVE));
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+			((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
 		}
 	}
 

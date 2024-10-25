@@ -4,15 +4,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
@@ -73,18 +71,21 @@ public class ParticleField extends Event {
 			currParticleSpawnTimer -= spawnTimerLimit;
 			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
 			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
-			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration,
-					true, SyncType.NOSYNC).setScale(scale);
+
+			ParticleCreate particleCreate = new ParticleCreate(particle, randLocation.set(randX, randY))
+					.setLifespan(duration)
+					.setScale(scale);
 
 			//tint particles according to input color or team color
 			if (!HadalColor.NOTHING.equals(color)) {
-				particleEntity.setColor(color);
+				particleCreate.setColor(color);
 			} else if (teamColorIndex != -1) {
 				if (teamColorIndex < AlignmentFilter.currentTeams.length) {
 					HadalColor teamColor = AlignmentFilter.currentTeams[teamColorIndex].getPalette().getIcon();
-					particleEntity.setColor(teamColor);
+					particleCreate.setColor(teamColor);
 				}
 			}
+			EffectEntityManager.getParticle(state, particleCreate);
 		}
 	}
 	
@@ -93,26 +94,6 @@ public class ParticleField extends Event {
 	 */
 	@Override
 	public void clientController(float delta) {
-		
-		entityLocation.set(getPixelPosition());
-
-		currParticleSpawnTimer += delta;
-		while (currParticleSpawnTimer >= spawnTimerLimit) {
-			currParticleSpawnTimer -= spawnTimerLimit;
-			float randX = (MathUtils.random() * size.x) - (size.x / 2) + entityLocation.x;
-			float randY = (MathUtils.random() * size.y) - (size.y / 2) + entityLocation.y;
-			ParticleEntity particleEntity = new ParticleEntity(state, randLocation.set(randX, randY), particle, duration,
-					true, SyncType.NOSYNC);
-			((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-
-			if (!HadalColor.NOTHING.equals(color)) {
-				particleEntity.setColor(color);
-			} else if (teamColorIndex != -1) {
-				if (teamColorIndex < AlignmentFilter.currentTeams.length) {
-					HadalColor teamColor = AlignmentFilter.currentTeams[teamColorIndex].getPalette().getIcon();
-					particleEntity.setColor(teamColor);
-				}
-			}
-		}
+		controller(delta);
 	}
 }

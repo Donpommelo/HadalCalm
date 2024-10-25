@@ -2,16 +2,16 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ParticleToggleable;
-import com.mygdx.hadal.constants.Stats;
 
 public class Confidence extends Artifact {
 
@@ -45,8 +45,10 @@ public class Confidence extends Artifact {
 
 			@Override
 			public void createParticle() {
-				setParticle(new ParticleEntity(state, p.getPlayer(), Particle.SPARKLE, 0.0f, 0.0f,
-						false, SyncType.NOSYNC).setColor(HadalColor.YELLOW).setScale(2.0f));
+				setParticle(EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SPARKLE, p.getPlayer())
+						.setStartOn(false)
+						.setScale(2.0f)
+						.setColor(HadalColor.YELLOW)));
 			}
 		};
 	}

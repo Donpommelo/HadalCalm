@@ -1,8 +1,8 @@
 package com.mygdx.hadal.server.packets;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.effects.HadalColor;
 
 import java.util.UUID;
 
@@ -94,6 +94,22 @@ public class PacketsSync {
         }
     }
 
+    public static class SyncSchmuckColor extends SyncSchmuck {
+        public float desiredScale;
+        public HadalColor color;
+
+        public SyncSchmuckColor() {}
+
+        /**
+         */
+        public SyncSchmuckColor(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
+                                MoveState moveState, byte hpPercent, float desiredScale, HadalColor color) {
+            super(entityID, pos, velocity, timestamp, moveState, hpPercent);
+            this.desiredScale = desiredScale;
+            this.color = color;
+        }
+    }
+
     public static class SyncPlayerSnapshot extends SyncClientSnapshot {
         public byte connID;
 
@@ -145,40 +161,6 @@ public class PacketsSync {
             this.reloadPercent = reloadPercent;
             this.chargePercent = chargePercent;
             this.conditionCode = conditionCode;
-        }
-    }
-
-    public static class SyncParticles extends SyncEntity {
-        public boolean on;
-        public SyncParticles() {}
-
-        /**
-         * A SyncParticles is sent from the Server to the Client every engine tick for every ParticleEntity of the TICKSYNC type.
-         * Particles of this nature are dynamically turned on and off in the Server, thus needing this packet.
-         *
-         * @param on: Is the Server's version of this effect on or off?
-         */
-        public SyncParticles(UUID entityID, Vector2 pos, Vector2 offset, float timestamp, boolean on) {
-            super(entityID, pos, offset, timestamp);
-            this.on = on;
-        }
-    }
-
-    public static class SyncParticlesExtra extends SyncParticles {
-        public float scale;
-        public Vector3 color;
-
-        public SyncParticlesExtra() {}
-
-        /**
-         * This sync packet is used for particles that sync the extra fields; color and scale.
-         * @param scale: size modification of the particle
-         * @param color: if the particle is not using default colors, this is its rgb
-         */
-        public SyncParticlesExtra(UUID entityID, Vector2 pos, Vector2 offset, float timestamp, boolean on, float scale, Vector3 color) {
-            super(entityID, pos, offset, timestamp, on);
-            this.scale = scale;
-            this.color = color;
         }
     }
 

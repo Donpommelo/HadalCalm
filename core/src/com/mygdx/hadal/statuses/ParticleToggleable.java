@@ -1,7 +1,8 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.ClientState;
@@ -14,8 +15,6 @@ import com.mygdx.hadal.states.PlayState;
 public class ParticleToggleable extends Status {
 
 	private final Particle particleType;
-	private static final float LINGER = 0.0f;
-
 	private ParticleEntity particle;
 	private boolean activated;
 
@@ -33,16 +32,13 @@ public class ParticleToggleable extends Status {
 		super.timePassing(delta);
 		if (particle == null) {
 			createParticle();
-
-			if (!state.isServer()) {
-				((ClientState) state).addEntity(particle.getEntityID(), particle, false, ClientState.ObjectLayer.EFFECT);
-			}
 		}
-
-		if (activated) {
-			particle.turnOn();
-		} else {
-			particle.turnOff();
+		if (particle != null) {
+			if (activated) {
+				particle.turnOn();
+			} else {
+				particle.turnOff();
+			}
 		}
 	}
 
@@ -59,8 +55,8 @@ public class ParticleToggleable extends Status {
 	}
 
 	public void createParticle() {
-		setParticle(new ParticleEntity(state, inflicted.getSchmuck(), particleType, LINGER, 0.0f,
-				false, SyncType.NOSYNC));
+		setParticle(EffectEntityManager.getParticle(state, new ParticleCreate(particleType, inflicted.getSchmuck())
+				.setStartOn(false)));
 	}
 
 	public void setActivated(boolean activated) { this.activated = activated; }

@@ -5,7 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -31,7 +31,6 @@ public class SeraphBomb extends SyncedAttacker {
     private static final float WAVE_LIFESPAN = 10.0f;
 
     private static final Sprite PROJ_SPRITE = Sprite.NAVAL_MINE;
-    private static final float LINGER = 1.0f;
 
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
@@ -42,8 +41,7 @@ public class SeraphBomb extends SyncedAttacker {
         bomb.makeUnreflectable();
 
         bomb.addStrategy(new ControllerDefault(state, bomb, user.getBodyData()));
-        bomb.addStrategy(new CreateParticles(state, bomb, user.getBodyData(), Particle.RING, 0.0f, LINGER)
-                .setSyncType(SyncType.NOSYNC));
+        bomb.addStrategy(new CreateParticles(state, bomb, user.getBodyData(), Particle.RING));
         bomb.addStrategy(new FlashShaderNearDeath(state, bomb, user.getBodyData(), 1.0f));
         bomb.addStrategy(new HitboxStrategy(state, bomb, user.getBodyData()) {
 
@@ -86,7 +84,7 @@ public class SeraphBomb extends SyncedAttacker {
                 });
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(wave.getEntityID(), wave, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(wave.getEntityID(), wave, false, ObjectLayer.HBOX);
                 }
             }
         });

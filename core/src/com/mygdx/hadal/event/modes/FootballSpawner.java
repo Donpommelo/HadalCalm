@@ -11,7 +11,8 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -78,7 +79,9 @@ public class FootballSpawner extends Event {
      * Spawn a ball at our current location and set the objective marker to track the ball
      */
     private void spawnBall() {
-        new ParticleEntity(state, this, Particle.DIATOM_IMPACT_LARGE, 0, PARTICLE_DURATION,true, SyncType.CREATESYNC);
+        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.DIATOM_IMPACT_LARGE, this)
+                .setLifespan(PARTICLE_DURATION)
+                .setSyncType(SyncType.CREATESYNC));
 
         ball = SyncedAttack.NAUTICAL_MINE.initiateSyncedAttackSingle(state, state.getWorldDummy(), getPixelPosition(), new Vector2(),
                 0.0f, PUSH_MULTIPLIER, LIFESPAN);

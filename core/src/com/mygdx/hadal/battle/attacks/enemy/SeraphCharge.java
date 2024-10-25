@@ -39,7 +39,7 @@ public class SeraphCharge extends SyncedAttacker {
                 DamageSource.ENEMY_ATTACK, DamageTag.MELEE)
                 .setStaticKnockback(true).setRepeatable(true));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 
         return hbox;
     }

@@ -7,9 +7,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.managers.*;
+import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -62,7 +64,6 @@ public class ClientState extends PlayState {
 		//client processes collisions and certain events
 		TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
 		TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
-		TiledObjectUtil.parseTiledTriggerLayer();
 
 		//parse map-specific event layers (used for different modes in the same map)
 		for (String layer : mode.getExtraLayers()) {
@@ -70,6 +71,7 @@ public class ClientState extends PlayState {
 				TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get(layer).getObjects());
 			}
 		}
+		TiledObjectUtil.parseTiledTriggerLayer();
 
 		AlignmentFilter.resetTeams();
 

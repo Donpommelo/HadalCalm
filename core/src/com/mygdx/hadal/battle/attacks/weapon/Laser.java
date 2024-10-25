@@ -7,7 +7,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -72,8 +72,8 @@ public class Laser extends SyncedAttacker {
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.LASER_RIFLE,
                 DamageTag.ENERGY, DamageTag.RANGED).setConstantKnockback(true, startVelocity));
-        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true).setSynced(false));
+        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true));
         hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 
         //the trail creates particles along the projectile's length
@@ -88,9 +88,9 @@ public class Laser extends SyncedAttacker {
 
         trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
         trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance));
-        trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 1.0f).setSyncType(SyncType.NOSYNC));
+        trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL));
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.EFFECT);
+            ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ObjectLayer.EFFECT);
         }
         return hbox;
     }

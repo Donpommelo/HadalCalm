@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.artifacts;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -83,7 +84,7 @@ public class CarlocsThesis extends Artifact {
 					});
 
 					if (!state.isServer()) {
-						((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+						((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
 					}
 				}
 			}

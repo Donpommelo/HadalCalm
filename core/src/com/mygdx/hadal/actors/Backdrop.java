@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 
 /**
  * Static background actor for any screen that just needs a still image
@@ -37,7 +38,7 @@ public class Backdrop extends AHadalActor {
 	 * This constructor is used for the image icons in the chat wheel.
 	 */
 	public Backdrop(Sprite sprite, float width, float height, int frameIndex) {
-		this.backgroundTexture = sprite.getFrames().get(frameIndex);
+		this.backgroundTexture = SpriteManager.getFrame(sprite, frameIndex);
 		this.width = width;
 		this.height = height;
 		setWidth(width);

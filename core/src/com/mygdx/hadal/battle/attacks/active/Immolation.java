@@ -5,8 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -41,10 +41,10 @@ public class Immolation extends SyncedAttacker {
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true)
-            .setSynced(false));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE, 0.0f, 1.0f).setParticleSize(40)
-                .setParticleColor(HadalColor.FIERY_ROSE).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.FIRE)
+                .setParticleSize(40)
+                .setParticleColor(HadalColor.FIERY_ROSE));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private float controllerCount;
@@ -76,7 +76,7 @@ public class Immolation extends SyncedAttacker {
         });
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ClientState.ObjectLayer.HBOX);
+            ((ClientState) state).addEntity(hbox.getEntityID(), hbox, false, ObjectLayer.HBOX);
         }
     }
 }

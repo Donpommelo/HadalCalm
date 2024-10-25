@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -47,8 +46,7 @@ public class Bee extends SyncedAttacker {
         hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), BEE_HOMING, HOME_RADIUS)
                 .setDisruptable(true).setSteering(false));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), BEE_SPREAD));
-        hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.6f, true)
-                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.6f, true));
 
         return hbox;
     }

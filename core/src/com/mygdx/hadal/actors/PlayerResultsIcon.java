@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.ShadedSprite;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
@@ -66,7 +67,7 @@ public class PlayerResultsIcon extends AHadalActor {
 		this.name = UIText.RESULTS_INFO.text(stringManager.getNameAbridged(MAX_NAME_LENGTH), Integer.toString(scoreManager.getKills()),
 				Integer.toString(scoreManager.getDeaths()), Integer.toString(scoreManager.getAssists()), Integer.toString(scoreManager.getScore()));
 
-		this.readyIcon = Sprite.EMOTE_READY.getFrame();
+		this.readyIcon = SpriteManager.getFrame(Sprite.EMOTE_READY);
 		this.team = loadoutManager.getActiveLoadout().team;
 		this.character = loadoutManager.getActiveLoadout().character;
 		this.cosmetics = loadoutManager.getActiveLoadout().cosmetics;
@@ -74,14 +75,14 @@ public class PlayerResultsIcon extends AHadalActor {
 		//if the player won the game, we display a winning sprite. Otherwise: sluggo.
 		Array<TextureRegion> playerSprite = new Array<>();
 		if (scoreManager.isWonLast()) {
-			playerSprite.addAll(character.getBuffSprite().getFrames());
-			this.iconWidth = character.getBuffSprite().getFrame().getRegionWidth() * SPRITE_SCALE;
-			this.iconHeight = character.getBuffSprite().getFrame().getRegionHeight() * SPRITE_SCALE;
+			playerSprite.addAll(SpriteManager.getFrames(character.getBuffSprite()));
+			this.iconWidth = SpriteManager.getFrame(character.getBuffSprite()).getRegionWidth() * SPRITE_SCALE;
+			this.iconHeight = SpriteManager.getFrame(character.getBuffSprite()).getRegionHeight() * SPRITE_SCALE;
 			this.cosmeticOffset.set(character.getBuffHatOffset()).scl(SPRITE_SCALE);
 		} else {
-			playerSprite.addAll(character.getSlugSprite().getFrames());
-			this.iconWidth = character.getSlugSprite().getFrame().getRegionWidth() * SPRITE_SCALE;
-			this.iconHeight = character.getSlugSprite().getFrame().getRegionHeight() * SPRITE_SCALE;
+			playerSprite.addAll(SpriteManager.getFrames(character.getSlugSprite()));
+			this.iconWidth = SpriteManager.getFrame(character.getSlugSprite()).getRegionWidth() * SPRITE_SCALE;
+			this.iconHeight = SpriteManager.getFrame(character.getSlugSprite()).getRegionHeight() * SPRITE_SCALE;
 			this.cosmeticOffset.set(character.getSlugHatOffset()).scl(SPRITE_SCALE);
 		}
 

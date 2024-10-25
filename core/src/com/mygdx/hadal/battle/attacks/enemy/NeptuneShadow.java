@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -55,10 +54,8 @@ public class NeptuneShadow extends SyncedAttacker {
                     DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
             hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
             hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-            hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.POLLEN_FIRE, 0.0f, 1.0f)
-                    .setSyncType(SyncType.NOSYNC));
-            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                    .setSynced(false));
+            hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.POLLEN_FIRE));
+            hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
             hbox.addStrategy((new HitboxStrategy(state, hbox, user.getBodyData()) {
 
                 private float controller;

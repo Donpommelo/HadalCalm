@@ -6,14 +6,14 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.helpers.DamageEffectHelper;
 import com.mygdx.hadal.schmucks.entities.helpers.SpecialHpHelper;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.PacketsSync;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.PacketUtil;
@@ -64,10 +64,8 @@ public class Schmuck extends HadalEntity {
 		this.damageEffectHelper = new DamageEffectHelper(state, this);
 		this.specialHpHelper = new SpecialHpHelper(this);
 
-		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, SyncType.NOSYNC);
-		if (!state.isServer()) {
-			((ClientState) state).addEntity(impact.getEntityID(), impact, false, PlayState.ObjectLayer.EFFECT);
-		}
+		impact = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.IMPACT, this)
+				.setStartOn(false));
 	}
 
 	@Override
@@ -82,6 +80,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void controller(float delta) {
 
+		damageEffectHelper.controller(delta);
 		specialHpHelper.controller(delta);
 
 		//Apply base hp regen

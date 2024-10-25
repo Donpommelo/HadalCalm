@@ -8,6 +8,7 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
@@ -72,7 +73,7 @@ public class Ragdoll extends HadalEntity {
 		this.setVelo = setVelo;
 		this.synced = synced;
 		if (!Sprite.NOTHING.equals(sprite)) {
-			ragdollSprite = sprite.getFrame();
+			ragdollSprite = SpriteManager.getFrame(sprite);
 		}
 		
 		setSyncDefault(false);

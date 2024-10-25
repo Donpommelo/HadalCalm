@@ -2,6 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -41,7 +42,7 @@ public class DiePoison extends HitboxStrategy {
 			creator.getSchmuck(), true, filter, source);
 
 		if (!state.isServer()) {
-			((ClientState) state).addEntity(poison.getEntityID(), poison, false, ClientState.ObjectLayer.EFFECT);
+			((ClientState) state).addEntity(poison.getEntityID(), poison, false, ObjectLayer.EFFECT);
 		}
 	}
 }

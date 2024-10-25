@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.MoveState;
+import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -272,7 +273,9 @@ public class EnemyUtils {
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger).setParticleColor(color).setParticleSize(size));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle).setParticleColor(color)
+						.setParticleSize(size)
+						.setSyncType(SyncType.CREATESYNC));
 			}
 		});
 	}
@@ -289,13 +292,13 @@ public class EnemyUtils {
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
-				hbox.addStrategy(new CreateSound(state, hbox, enemy.getBodyData(), sound, volume, looped).setPitch(pitch));
+				hbox.addStrategy(new CreateSound(state, hbox, enemy.getBodyData(), sound, volume, looped)
+						.setPitch(pitch)
+						.setSyncType(SyncType.CREATESYNC));
 			}
 		});
 	}
 
-	private static final float fireLinger = 1.0f;
-	private static final float laserLinger = 0.01f;
 	public static void fireball(final PlayState state, Enemy boss, final float projSpeed, final float duration, final float extraField) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
@@ -320,7 +323,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
 						DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(true));
 			}
 		});
 	}

@@ -6,7 +6,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -53,11 +52,9 @@ public class NeptuneScythe extends SyncedAttacker {
 
         scythe.addStrategy(new ControllerDefault(state, scythe, user.getBodyData()));
         scythe.addStrategy(new CreateSound(state, scythe, user.getBodyData(), SoundEffect.WOOSH, 0.4f, true)
-                .setPitch(0.6f).setSyncType(SyncType.NOSYNC));
-        scythe.addStrategy(new DieParticles(state, scythe, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL)
-                .setSyncType(SyncType.NOSYNC));
-        scythe.addStrategy(new ContactUnitSound(state, scythe, user.getBodyData(), SoundEffect.ZAP, 0.6f, true)
-                .setSynced(false));
+                .setPitch(0.6f));
+        scythe.addStrategy(new DieParticles(state, scythe, user.getBodyData(), Particle.DIATOM_IMPACT_SMALL));
+        scythe.addStrategy(new ContactUnitSound(state, scythe, user.getBodyData(), SoundEffect.ZAP, 0.6f, true));
         scythe.addStrategy(new DamagePulse(state, scythe, user.getBodyData(), scythe.getSize(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setInterval(PULSE_INTERVAL));
 

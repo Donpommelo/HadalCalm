@@ -1,15 +1,14 @@
 package com.mygdx.hadal.battle.attacks.event;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -46,12 +45,9 @@ public class Eggplant extends SyncedAttacker {
 
                 hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE, 0.0f, 0.0f)
-                        .setSyncType(SyncType.NOSYNC));
-                hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE)
-                        .setIgnoreOnTimeout(true).setSyncType(SyncType.NOSYNC));
-                hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.COIN3, 0.8f)
-                        .setIgnoreOnTimeout(true).setSynced(false));
+                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SPARKLE));
+                hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKLE).setIgnoreOnTimeout(true));
+                hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.COIN3, 0.8f).setIgnoreOnTimeout(true));
                 hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));
                 hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), EGGPLANT_SPREAD));
                 hbox.addStrategy(new PickupVacuum(state, hbox, user.getBodyData()));
@@ -70,7 +66,7 @@ public class Eggplant extends SyncedAttacker {
                                 state.getMode().processPlayerScoreChange(state, playerBodyData.getPlayer(), 1);
                             }
 
-                            state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCRAP);
+                            state.getUIManager().getUiExtra().syncUIText(UITagType.SCRAP);
 
                             //activate effects that activate upon picking up scrap
                             playerBodyData.statusProcTime(new ProcTime.ScrapPickup());

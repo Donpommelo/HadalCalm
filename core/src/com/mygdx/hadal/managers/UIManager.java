@@ -7,25 +7,28 @@ import com.mygdx.hadal.states.PlayState;
 
 public class UIManager {
 
-    private final PlayState state;
+    protected final PlayState state;
 
     //Various play state ui elements. Some are initialized right away while others require the stage to be made first.
-    private final UIArtifacts uiArtifact;
-    private final UIExtra uiExtra;
-    private final UIObjective uiObjective;
-    private final UISpectator uiSpectator;
-    private final ChatWheel chatWheel;
-    private final DialogBox dialogBox;
+    protected UIArtifacts uiArtifact;
+    protected UIExtra uiExtra;
+    private UIObjective uiObjective;
+    private UISpectator uiSpectator;
+    protected ChatWheel chatWheel;
+    private DialogBox dialogBox;
 
     private UIPlay uiPlay;
     private UIHub uiHub;
-    private MessageWindow messageWindow;
-    private KillFeed killFeed;
-    private ScoreWindow scoreWindow;
+    protected MessageWindow messageWindow;
+    protected KillFeed killFeed;
+    protected ScoreWindow scoreWindow;
 
     public UIManager(PlayState state) {
         this.state = state;
+        initUIElementsCreate();
+    }
 
+    public void initUIElementsCreate() {
         this.uiArtifact = new UIArtifacts(state);
         this.uiExtra = new UIExtra(state);
         this.uiObjective = new UIObjective(state);
@@ -34,7 +37,7 @@ public class UIManager {
         this.dialogBox = new DialogBox(state);
     }
 
-    public void initUIElements(Stage stage) {
+    public void initUIElementsShow(Stage stage) {
         //If ui elements have not been created, create them. (upon first showing the state)
         if (uiPlay == null) {
             uiPlay = new UIPlay(state);

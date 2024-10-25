@@ -442,6 +442,7 @@ public enum UIText {
      * @return String to be displayed in game
      */
     public String text(String... replace) {
+        if (null == JSONManager.uiStrings) { return ""; }
 
         //no replacements means a static text. Read from file and cache
         if (0 == replace.length) {

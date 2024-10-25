@@ -6,8 +6,9 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.map.SettingTeamMode;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.enemies.EnemyType;
 import com.mygdx.hadal.states.PlayState;
@@ -47,11 +48,16 @@ public class DelayedSpawn extends Event {
 		this.bossName = bossName;
 
 		//bosses create bigger particles
+		ParticleCreate particleCreate = new ParticleCreate(Particle.RING, startPos)
+				.setLifespan(duration)
+				.setSyncType(SyncType.CREATESYNC)
+				.setScale(PARTICLE_SCALE_BOSS);
 		if (isBoss) {
-			new ParticleEntity(state, startPos, Particle.RING, duration, true, SyncType.CREATESYNC).setScale(PARTICLE_SCALE_BOSS);
+			particleCreate.setScale(PARTICLE_SCALE_BOSS);
 		} else {
-			new ParticleEntity(state, startPos, Particle.RING, duration, true, SyncType.CREATESYNC).setScale(PARTICLE_SCALE);
+			particleCreate.setScale(PARTICLE_SCALE);
 		}
+		EffectEntityManager.getParticle(state, particleCreate);
 	}
 
 	@Override

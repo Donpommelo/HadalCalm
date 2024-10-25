@@ -5,9 +5,6 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
-    dependencies {
-        classpath 'com.guardsquare:proguard-gradle:' + proguardVersion
-    }
 }
 
 def getGitHash = { ->

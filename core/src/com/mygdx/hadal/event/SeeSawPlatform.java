@@ -16,7 +16,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A See saw platform can rotate with physics input
@@ -84,7 +83,6 @@ public class SeeSawPlatform extends Event {
 		}
 	}
 
-	@NotNull
 	private EventData getEventData(float i) {
 		final float sectioncenter = i;
 

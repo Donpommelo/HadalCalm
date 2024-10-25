@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
-import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
@@ -248,7 +248,7 @@ public class ConsoleCommandUtil {
 			int scrap = Integer.parseInt(command);
 			if (0 <= scrap) {
 				JSONManager.record.setScrap(scrap);
-				state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCRAP);
+				state.getUIManager().getUiExtra().syncUIText(UITagType.SCRAP);
 				return 0;
 			}
 		} catch (NumberFormatException ignored) {}

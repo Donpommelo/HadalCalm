@@ -6,7 +6,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -48,15 +47,15 @@ public class Flounder extends SyncedAttacker {
 
                 hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
                 hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                         DamageSource.FLOUNDERBUSS, DamageTag.RANGED));
                 hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE1, 0.25f, true)
-                        .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                        .setPitchSpread(PITCH_SPREAD));
                 hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WET_SPLAT, 0.25f)
-                        .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                        .setPitchSpread(PITCH_SPREAD));
                 hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
 
                 hboxes[i] = hbox;

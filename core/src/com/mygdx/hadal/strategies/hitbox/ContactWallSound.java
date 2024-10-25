@@ -35,7 +35,7 @@ public class ContactWallSound extends HitboxStrategy {
 	private float pitchSpread = 0.0f;
 
 	//Does the server notify the client of this sound?
-	private boolean synced = true;
+	private boolean synced = false;
 
 	public ContactWallSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {
 		super(state, proj, user);

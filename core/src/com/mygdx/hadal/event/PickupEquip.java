@@ -245,9 +245,7 @@ public class PickupEquip extends Event {
 	}
 
 	@Override
-	public Object onServerDelete() {
-		return null;
-	}
+	public Object onServerDelete() { return null; }
 
 	public Equippable getEquip() { return equip; }
 

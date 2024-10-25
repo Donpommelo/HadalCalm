@@ -9,13 +9,13 @@ import com.badlogic.gdx.utils.IntArray;
 import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.WeaponUtils;
-import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SpriteManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -58,14 +58,12 @@ public class Boss5 extends EnemyFloating {
 
 	public Boss5(PlayState state, Vector2 startPos, short filter) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), Sprite.NOTHING, EnemyType.BOSS5, filter, hp, aiAttackCd, scrapDrop);
-		this.coreSprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST, Sprite.NEPTUNE_KING_CORE.getFrames());
-		this.bodySprite = new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_FAST, Sprite.NEPTUNE_KING_BODY.getFrames());
-		this.crownSprite = Sprite.NEPTUNE_KING_CROWN.getFrame();
+		this.coreSprite = SpriteManager.getAnimation(Sprite.NEPTUNE_KING_CORE);
+		this.bodySprite = SpriteManager.getAnimation(Sprite.NEPTUNE_KING_BODY);
+		this.crownSprite = SpriteManager.getFrame(Sprite.NEPTUNE_KING_CROWN);
 		addStrategy(new CreateMultiplayerHpScaling(state, this, 1400));
 
-		if (state.isServer()) {
-			new ParticleEntity(state, this, Particle.TYRRAZZA_TRAIL, 1.0f, 0.0f, true, SyncType.CREATESYNC).setScale(2.0f);
-		}
+		EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TYRRAZZA_TRAIL, this));
 	}
 
 	@Override
@@ -397,7 +395,6 @@ public class Boss5 extends EnemyFloating {
 	}
 
 	private static final Vector2 windupSize = new Vector2(90, 90);
-	private static final float particleLinger = 1.0f;
 
 	private void windupParticle(Particle particle, HadalColor color, float particleScale, float lifespan, float duration) {
 
@@ -411,7 +408,9 @@ public class Boss5 extends EnemyFloating {
 				hbox1.setSyncedDelete(true);
 
 				hbox1.addStrategy(new ControllerDefault(state, hbox1, getBodyData()));
-				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle, 0.0f, particleLinger).setParticleColor(color).setParticleSize(particleScale));
+				hbox1.addStrategy(new CreateParticles(state, hbox1, getBodyData(), particle)
+						.setParticleColor(color)
+						.setParticleSize(particleScale));
 				hbox1.addStrategy(new HitboxStrategy(state, hbox1, getBodyData()) {
 
 					@Override

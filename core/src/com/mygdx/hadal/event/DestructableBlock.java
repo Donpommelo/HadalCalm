@@ -13,8 +13,9 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.EventDto;
@@ -68,10 +69,11 @@ public class DestructableBlock extends Event {
 				
 				if (hp <= 0 && state.isServer()) {
 					event.queueDeletion();
-					
-					new ParticleEntity(state, new Vector2(event.getPixelPosition()), Particle.BOULDER_BREAK, 3.0f,
-							true, SyncType.CREATESYNC);
-					
+
+					EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BOULDER_BREAK, event.getPixelPosition())
+							.setLifespan(3.0f)
+							.setSyncType(SyncType.CREATESYNC));
+
 					//activated connected event when destroyed.
 					if (event.getConnectedEvent() != null) {
 						event.getConnectedEvent().getEventData().preActivate(this, null);

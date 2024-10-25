@@ -4,14 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.Cola;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.text.UIText;
@@ -110,12 +109,8 @@ public class ColaCannon extends RangedWeapon {
 				}
 
 				SoundEffect.SHAKE.playSourced(state, playerPosition, 1.0f);
-				ParticleEntity particle = new ParticleEntity(state, new Vector2(playerPosition), Particle.COLA_IMPACT, 1.0f,
-						true, SyncType.NOSYNC);
-
-				if (!state.isServer()) {
-					((ClientState) state).addEntity(particle.getEntityID(), particle, false, PlayState.ObjectLayer.EFFECT);
-				}
+				EffectEntityManager.getParticle(state, new ParticleCreate(Particle.COLA_IMPACT, playerPosition)
+						.setLifespan(1.0f));
 			}
 		}
 	}

@@ -8,13 +8,14 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -114,12 +115,9 @@ public class ProximityMineProjectile extends SyncedAttacker {
                         primed[0] = true;
                         hbox.setLifeSpan(MINE_LIFESPAN);
 
-                        ParticleEntity particles = new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.SMOKE, 1.0f,
-                                true, SyncType.NOSYNC).setScale(0.5f);
-
-                        if (!state.isServer()) {
-                            ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.HBOX);
-                        }
+                        EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SMOKE, hbox.getPixelPosition())
+                                        .setLifespan(1.0f)
+                                        .setScale(0.5f));
                     }
                 }
                 if (primed[0]) {
@@ -154,10 +152,10 @@ public class ProximityMineProjectile extends SyncedAttacker {
                 explosion.addStrategy(new FlashShaderNearDeath(state, explosion, user.getBodyData(), WARNING_TIME));
                 explosion.addStrategy(new DieExplode(state, explosion, user.getBodyData(), MINE_EXPLOSION_RADIUS, mineDamage,
                         MINE_EXPLOSION_KNOCKBACK, (short) 0, false, damageSource));
-                explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setSynced(false));
+                explosion.addStrategy(new DieSound(state, explosion, user.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(explosion.getEntityID(), explosion, false, ObjectLayer.HBOX);
                 }
             }
         });

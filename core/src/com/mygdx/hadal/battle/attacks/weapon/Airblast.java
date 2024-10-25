@@ -8,7 +8,6 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -53,8 +52,8 @@ public class Airblast extends SyncedAttacker {
                 DamageSource.AIRBLAST, DamageTag.REFLECT).setConstantKnockback(true, startVelocity));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(startVelocity),
                 startVelocity.nor().scl(HITBOX_SIZE.x / 2 / PPM)));
-        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_BLAST, 0.0f, 2.0f)
-                .setParticleVelocity(startVelocity.angleRad() + 180 * MathUtils.degRad).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_BLAST)
+                .setParticleVelocity(startVelocity.angleRad() + 180 * MathUtils.degRad));
 
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

@@ -3,6 +3,7 @@ package com.mygdx.hadal.battle.attacks.special;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -39,7 +40,7 @@ public class Ping extends SyncedAttacker {
         hboxPing.addStrategy(new Static(state, hboxPing, user.getBodyData()));
 
         if (!state.isServer()) {
-            ((ClientState) state).addEntity(hboxPing.getEntityID(), hboxPing, false, ClientState.ObjectLayer.HBOX);
+            ((ClientState) state).addEntity(hboxPing.getEntityID(), hboxPing, false, ObjectLayer.HBOX);
         }
 
         return hbox;

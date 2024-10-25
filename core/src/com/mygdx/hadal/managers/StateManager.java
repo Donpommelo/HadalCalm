@@ -26,24 +26,24 @@ public class StateManager {
 
 	//Stack of GameStates. These are all the states that the player has opened in that order.
 	public static final Stack<GameState> states = new Stack<>();
-	
+
 	//are we in single or multiplayer mode?
 	public static Mode currentMode = Mode.SINGLE;
-	
+
 	/**
 	 * Run every engine tick. This delegates to the top state telling it how much time has passed since last update.
 	 */
 	public static void update(float delta) {
 		states.peek().update(delta);
 	}
-	
+
 	/**
 	 * Run every engine tick after updating. This will draw stuff and works pretty much like update.
 	 */
 	public static void render(float delta) {
 		states.peek().render(delta);
 	}
-	
+
 	/**
 	 * Run upon deletion (exiting game). This disposes of all states and clears the stack.
 	 */
@@ -67,7 +67,7 @@ public class StateManager {
 		Particle.disposeParticlePool();
 		FrameBufferManager.clearAllFrameBuffers();
 	}
-	
+
 	/**
 	 * This is run when we change the current state.
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
@@ -84,7 +84,7 @@ public class StateManager {
 			states.peek().show();
 		}
 	}
-	
+
 	/**
 	 * This is a addState exclusively for special playstates.
 	 * @param map: level the new playstate will load
@@ -102,7 +102,7 @@ public class StateManager {
 			states.peek().show();
 		}
 	}
-	
+
 	/**
 	 * This is called by clients as an addPlayState for ClientStates.
 	 * @param map: level the new playstate will load
@@ -118,7 +118,7 @@ public class StateManager {
 			states.peek().show();
 		}
 	}
-	
+
 	/**
 	 * Called when game is paused. This adds a PauseState to the stack
 	 * @param ps: This is the playstate we are putting the pausestate on
@@ -135,7 +135,7 @@ public class StateManager {
 			states.peek().show();
 		}
 	}
-	
+
 	/**
 	 * This is called at the end of levels to display the results of the game
 	 * @param ps: This is the playstate we are putting the resultstate on
@@ -175,13 +175,13 @@ public class StateManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * This method is just a shortcut for returning to the hub state with a clean loadout
 	 */
 	public static void gotoHubState(HadalGame app, Class<? extends GameState> lastState) {
 		if (Mode.SINGLE == currentMode) {
-			
+
 			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise; hub
 			if (0 == JSONManager.record.getFlags().get("HUB_REACHED")) {
 				addPlayState(app, UnlockLevel.WRECK1, GameMode.CAMPAIGN, lastState, true, "");
@@ -192,25 +192,25 @@ public class StateManager {
 			addPlayState(app, UnlockLevel.HUB_MULTI, GameMode.HUB, lastState, true, "");
 		}
 	}
-	
+
 	/**
 	 * This is called upon adding a new state. It maps each state enum to the actual gameState that will be added to the stack
 	 * @param state: enum for the new type of state to be added
 	 * @param peekState: the state underneath this state
 	 * @return A new instance of the gameState corresponding to the input enum
-	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
+	 * NOTE: we no longer use this for any more complicated state that requires extra fields
 	 * Only used for: (TITLE, SPLASH, ABOUT, SETTING, LOBBY)
 	 */
 	public static GameState getState(HadalGame app, State state, GameState peekState) {
-        return switch (state) {
-            case TITLE -> new TitleState(app);
-            case SPLASH -> new InitState(app);
-            case ABOUT -> new AboutState(app, peekState);
-            case SETTING -> new SettingState(app, peekState);
-            case LOBBY -> new LobbyState(app, peekState);
-            default -> null;
-        };
-    }
+		return switch (state) {
+			case TITLE -> new TitleState(app);
+			case SPLASH -> new InitState(app);
+			case ABOUT -> new AboutState(app, peekState);
+			case SETTING -> new SettingState(app, peekState);
+			case LOBBY -> new LobbyState(app, peekState);
+			default -> null;
+		};
+	}
 
 	/**
 	 * 	We clear things like music/sound to free up some memory.
@@ -228,7 +228,7 @@ public class StateManager {
 			gs.resize();
 		}
 	}
-	
+
 	/**
 	 * This exports the current chat log into a text file.
 	 * This is mostly for my own documentation
@@ -238,20 +238,20 @@ public class StateManager {
 			Gdx.files.local("save/ChatLog.json").writeString(s + " \n", true);
 		}
 	}
-	
+
 	//This enum lists all the different types of gamestates.
 	public enum State {
 		SPLASH,
 		TITLE,
 		SETTING,
-		PLAY, 
+		PLAY,
 		VICTORY,
 		PAUSE,
 		CLIENTPLAY,
 		ABOUT,
 		LOBBY
 	}
-	
+
 	//These are the modes of the game
 	public enum Mode {
 		SINGLE,

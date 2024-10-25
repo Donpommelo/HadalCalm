@@ -6,14 +6,13 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.ParticleEntity;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.StatusComposite;
@@ -54,12 +53,10 @@ public class Batter extends SyncedAttacker {
         float particleLifespan = (1 - chargeAmount) * (MIN_PARTICLE_TERMINATION - MAX_PARTICLE_TERMINATION) + MAX_PARTICLE_TERMINATION;
 
         if (user instanceof Player) {
-            ParticleEntity particles = new ParticleEntity(user.getState(), user, particle, 1.5f, 1.0f, true, SyncType.NOSYNC)
-                    .setScale(0.5f).setPrematureOff(particleLifespan)
-                    .setColor(TextUtil.getPlayerColor((Player) user));
-            if (!state.isServer()) {
-                ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
-            }
+            EffectEntityManager.getParticle(state, new ParticleCreate(particle, user)
+                    .setLifespan(particleLifespan)
+                    .setScale(0.5f)
+                    .setColor(TextUtil.getPlayerColor((Player) user)));
         }
 
         //velocity scales with charge percentage
@@ -79,12 +76,12 @@ public class Batter extends SyncedAttacker {
         hbox.makeUnreflectable();
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, KNOCKBACK,
                 DamageSource.BATTERING_RAM, DamageTag.MELEE)
                 .setConstantKnockback(true, startVelocity));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true).setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.KICK1, 1.0f, true));
 
         return hbox;
     }

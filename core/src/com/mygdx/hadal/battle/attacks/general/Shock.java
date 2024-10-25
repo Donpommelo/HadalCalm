@@ -6,14 +6,13 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Shocked;
@@ -21,6 +20,7 @@ import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.TravelDistanceDie;
+import com.mygdx.hadal.users.User;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -72,11 +72,11 @@ public class Shock extends SyncedAttacker {
                 trail.addStrategy(new ControllerDefault(state, trail, player.getBodyData()));
                 trail.addStrategy(new AdjustAngle(state, trail, player.getBodyData()));
                 trail.addStrategy(new TravelDistanceDie(state, trail, player.getBodyData(), trailPath.len()));
-                trail.addStrategy(new CreateParticles(state, trail, player.getBodyData(), Particle.LIGHTNING_BOLT,
-                        0.0f, 3.0f).setRotate(true).setSyncType(SyncType.NOSYNC));
+                trail.addStrategy(new CreateParticles(state, trail, player.getBodyData(), Particle.LIGHTNING_BOLT)
+                        .setRotate(true));
 
                 if (!state.isServer()) {
-                    ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ClientState.ObjectLayer.HBOX);
+                    ((ClientState) state).addEntity(trail.getEntityID(), trail, false, ObjectLayer.HBOX);
                 }
             }
         }

@@ -14,6 +14,8 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
+import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
@@ -22,13 +24,12 @@ import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.event.modes.CrownHoldable;
 import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
+import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -39,7 +40,6 @@ import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.*;
-import com.mygdx.hadal.states.PlayState.ObjectLayer;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.User;
@@ -207,10 +207,12 @@ public class KryoClient {
 					score.setLives(p.lives);
 					score.setScore(p.score);
 					score.setExtraModeScore(p.extraModeScore);
+
+					//refresh hub if server validating vending purchase updates currency
+					boolean currencyChange = score.getCurrency() != p.currency;
 					score.setCurrency(p.currency);
 
-					//refresh hub because vending updates currency
-					if (p.connID == usm.getConnID()) {
+					if (p.connID == usm.getConnID() && currencyChange) {
 						cs.getUIManager().getUiHub().refreshHub(null);
 					}
 				});
@@ -785,17 +787,22 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					ParticleEntity entity;
+					ParticleCreate request;
 					if (p.attached) {
-						entity = new ParticleEntity(cs, null, p.particle, p.linger, p.lifespan, p.startOn, SyncType.NOSYNC);
+						request = new ParticleCreate(p.particle, (HadalEntity) null);
+					} else {
+						request = new ParticleCreate(p.particle, p.pos);
+					}
+					request.setLifespan(p.lifespan).setStartOn(p.startOn);
+					entity = EffectEntityManager.getParticle(cs, request);
+
+					if (p.attached) {
 						entity.setAttachedId(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
 						entity.setOffset(p.pos.x, p.pos.y);
-					} else {
-						entity = new ParticleEntity(cs, p.pos, p.particle, p.lifespan, p.startOn, SyncType.NOSYNC);
 					}
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.EFFECT);
+
 					entity.setScale(p.scale);
 					entity.setRotate(p.rotate);
-					entity.setPrematureOff(p.prematureOff);
 					if (0 != p.velocity) {
 						entity.setParticleVelocity(p.velocity);
 					}
@@ -851,9 +858,13 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					SoundEntity entity = new SoundEntity(cs, null, p.sound, p.lifespan, p.volume, p.pitch, p.looped, p.on, SyncType.NOSYNC);
+					SoundEntity entity = EffectEntityManager.getSound(cs, new SoundCreate(p.sound, null)
+							.setLifespan(p.lifespan)
+							.setVolume(p.volume)
+							.setPitch(p.pitch)
+							.setLooped(p.looped)
+							.setStartOn(p.on));
 					entity.setAttachedID(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, p.synced, ObjectLayer.STANDARD);
 				});
 			}
 			return true;
@@ -1043,14 +1054,6 @@ public class KryoClient {
 			return true;
 		}
 		
-		else if (o instanceof Packets.SyncSound p) {
-			final ClientState cs = getClientState();
-			if (null != cs) {
-				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p,p.timestamp));
-			}
-			return true;
-		}
-
 		//if none of the packets match, return false to indicate the packet was not a sync packet
 		return false;
 	}

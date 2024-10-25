@@ -5,16 +5,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
-
-import java.util.Objects;
 
 import static com.mygdx.hadal.managers.SkinManager.FONT_SPRITE;
 
@@ -69,15 +67,13 @@ public class PlayerUIHelper {
         this.state = state;
         this.player = player;
 
-        this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
-        this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
-        this.hpBar = Sprite.UI_MAIN_HEALTHBAR.getFrame();
-        this.hpBarFade = Sprite.UI_MAIN_HEALTH_MISSING.getFrame();
-        this.fuelBar = Sprite.UI_MAIN_FUELBAR.getFrame();
-        this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrame();
-        this.typingBubble =  new Animation<>(SpriteConstants.SPRITE_ANIMATION_SPEED_SLOW,
-                Objects.requireNonNull(Sprite.NOTIFICATIONS_CHAT.getFrames()));
-        typingBubble.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        this.reloadMeter = SpriteManager.getFrame(Sprite.UI_RELOAD_METER);
+        this.reloadBar = SpriteManager.getFrame(Sprite.UI_RELOAD_BAR);
+        this.hpBar = SpriteManager.getFrame(Sprite.UI_MAIN_HEALTHBAR);
+        this.hpBarFade = SpriteManager.getFrame(Sprite.UI_MAIN_HEALTH_MISSING);
+        this.fuelBar = SpriteManager.getFrame(Sprite.UI_MAIN_FUELBAR);
+        this.fuelCutoff = SpriteManager.getFrame(Sprite.UI_MAIN_FUEL_CUTOFF);
+        this.typingBubble =  SpriteManager.getAnimation(Sprite.NOTIFICATIONS_CHAT);
     }
 
     public void controllerEquip(float delta) {

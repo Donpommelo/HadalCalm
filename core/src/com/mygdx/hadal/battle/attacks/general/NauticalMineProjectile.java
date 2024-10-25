@@ -59,7 +59,7 @@ public class NauticalMineProjectile extends SyncedAttacker {
         hbox.addStrategy(new Pushable(state, hbox, user.getBodyData(), pushMultiplier));
         hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), NAUTICAL_MINE_EXPLOSION_RADIUS, NAUTICAL_MINE_EXPLOSION_DAMAGE,
                 NAUTICAL_MINE_EXPLOSION_KNOCKBACK, (short) 0, false, DamageSource.NAUTICAL_MINE));
-        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f).setSynced(false));
+        hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.4f));
         hbox.addStrategy(new FlashShaderNearDeath(state, hbox, user.getBodyData(), 1.0f));
         hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

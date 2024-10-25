@@ -5,7 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -46,7 +46,7 @@ public class Amita extends SyncedAttacker {
 
         center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
         center.addStrategy(new ContactWallDie(state, center, user.getBodyData()));
-        center.addStrategy(new DieSound(state, center, user.getBodyData(), SoundEffect.MAGIC3_BURST, 0.5f).setSynced(false));
+        center.addStrategy(new DieSound(state, center, user.getBodyData(), SoundEffect.MAGIC3_BURST, 0.5f));
         center.addStrategy(new HitboxStrategy(state, center, user.getBodyData()) {
 
             private final Vector2 angle = new Vector2(0, ORBITAL_RANGE);
@@ -66,7 +66,7 @@ public class Amita extends SyncedAttacker {
                     orbital.addStrategy(new DamageStandard(state, orbital, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                             DamageSource.AMITA_CANNON, DamageTag.RANGED).setRepeatable(true));
                     orbital.addStrategy(new ContactWallDie(state, orbital, user.getBodyData()));
-                    orbital.addStrategy(new DieParticles(state, orbital, user.getBodyData(), Particle.ORB_IMPACT).setSyncType(SyncType.NOSYNC));
+                    orbital.addStrategy(new DieParticles(state, orbital, user.getBodyData(), Particle.ORB_IMPACT));
                     orbital.addStrategy(new HitboxStrategy(state, orbital, user.getBodyData()) {
 
                         private final Vector2 centerPos = new Vector2();
@@ -97,7 +97,7 @@ public class Amita extends SyncedAttacker {
                     });
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(orbital.getEntityID(), orbital, false, ClientState.ObjectLayer.HBOX);
+                        ((ClientState) state).addEntity(orbital.getEntityID(), orbital, false, ObjectLayer.HBOX);
                     }
                 }
             }

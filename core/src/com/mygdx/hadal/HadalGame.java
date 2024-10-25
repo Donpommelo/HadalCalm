@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Collections;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.bots.BotManager;
@@ -33,10 +34,10 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String VERSION = "1.0.9L";
+	public static final String VERSION = "1.0.12A";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/773681/109l";
+	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/818445/1012a";
 
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -88,6 +89,9 @@ public class HadalGame extends ApplicationAdapter {
 
 		client = new KryoClient(this, usm);
 		server = new KryoServer(usm);
+
+		//this is necessary to prevent nested iterations from causing errors
+		Collections.allocateIterators = true;
 	}
 	
 	/**

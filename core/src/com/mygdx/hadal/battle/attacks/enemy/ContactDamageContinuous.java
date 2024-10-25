@@ -5,6 +5,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -49,8 +50,7 @@ public class ContactDamageContinuous extends SyncedAttacker {
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), damage, knockback,
                 DamageSource.ENEMY_ATTACK, DamageTag.MELEE).setStaticKnockback(true));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                .setSynced(false));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
         hbox.addStrategy((new HitboxStrategy(state, hbox, user.getBodyData()) {
 
             private float controllerCount;
@@ -80,7 +80,7 @@ public class ContactDamageContinuous extends SyncedAttacker {
                     pulse.addStrategy(new FixedToEntity(state, pulse, user.getBodyData(), new Vector2(), new Vector2()).setRotate(true));
 
                     if (!state.isServer()) {
-                        ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ClientState.ObjectLayer.HBOX);
+                        ((ClientState) state).addEntity(pulse.getEntityID(), pulse, false, ObjectLayer.HBOX);
                     }
                 }
             }

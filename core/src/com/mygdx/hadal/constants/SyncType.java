@@ -6,9 +6,10 @@ package com.mygdx.hadal.constants;
  * CREATESYNC: Server informs the server when the entity is created and deleted
  * TICKSYNC: Server repeatedly sends client packets about the entity's status while it is alive
  *
+ * TICKSYNC is no longer used; particle and sound entities no longer ever send sync packets
+ *
  */
 public enum SyncType {
     NOSYNC,
     CREATESYNC,
-    TICKSYNC
 }

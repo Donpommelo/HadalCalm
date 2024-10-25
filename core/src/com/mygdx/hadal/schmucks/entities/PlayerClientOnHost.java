@@ -5,6 +5,7 @@ import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
@@ -90,7 +91,7 @@ public class PlayerClientOnHost extends Player {
 
 			getEquipHelper().setCurrentSlot(p.currentSlot);
 			getEquipHelper().setCurrentTool(getEquipHelper().getMultitools()[p.currentSlot]);
-			setToolSprite(getEquipHelper().getCurrentTool().getWeaponSprite().getFrame());
+			setToolSprite(SpriteManager.getFrame(getEquipHelper().getCurrentTool().getWeaponSprite()));
 
 			float reloadPercent = PacketUtil.byteToPercent(p.reloadPercent);
 			getEquipHelper().getCurrentTool().setReloading(reloadPercent != -1.0f, true);

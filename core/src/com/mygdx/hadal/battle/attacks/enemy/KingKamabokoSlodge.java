@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -33,13 +32,11 @@ public class KingKamabokoSlodge extends SyncedAttacker {
         hbox.setDurability(3);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-        hbox.addStrategy(new DamageStandard(state, hbox,  user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
+        hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                 DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-        hbox.addStrategy(new CreateParticles(state, hbox,  user.getBodyData(), Particle.SLODGE, 0.0f, 1.0f)
-                .setParticleSize(90).setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new DieParticles(state, hbox,  user.getBodyData(), Particle.SLODGE_STATUS)
-                .setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactUnitSlow(state, hbox,  user.getBodyData(), SLODGE_DURATION, SLODGE_SLOW, Particle.SLODGE_STATUS));
+        hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SLODGE).setParticleSize(90));
+        hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SLODGE_STATUS));
+        hbox.addStrategy(new ContactUnitSlow(state, hbox, user.getBodyData(), SLODGE_DURATION, SLODGE_SLOW, Particle.SLODGE_STATUS));
 
         return hbox;
     }

@@ -9,15 +9,16 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.*;
 
@@ -45,28 +46,23 @@ public class UrchinNail extends SyncedAttacker {
         Hitbox hbox = new RangedHitbox(state, startPosition, STICKY_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 true, true, user, PROJ_SPRITE);
         hbox.setSpriteSize(PROJECTILE_SIZE);
-        hbox.setLayer(PlayState.ObjectLayer.EFFECT);
+        hbox.setLayer(ObjectLayer.EFFECT);
 
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.URCHIN_NAILGUN,
                 DamageTag.POKING, DamageTag.RANGED));
         hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), SPREAD));
-        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true).setSynced(false));
-        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NAIL_IMPACT)
-                .setSyncType(SyncType.NOSYNC));
-        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NAIL_BURST)
-                .setSyncType(SyncType.NOSYNC));
+        hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true));
+        hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.NAIL_IMPACT));
+        hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.NAIL_BURST));
         hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), false, true) {
 
             private ParticleEntity particles;
             @Override
             public void create() {
-                particles = new ParticleEntity(state, hbox, Particle.NAIL_TRAIL, 0.5f, 0.0f, true, SyncType.NOSYNC);
-                particles.setScale(hbox.getScale());
-                if (!state.isServer()) {
-                    ((ClientState) state).addEntity(particles.getEntityID(), particles, false, ClientState.ObjectLayer.EFFECT);
-                }
+                particles = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.NAIL_TRAIL, hbox)
+                        .setScale(hbox.getScale()));
             }
 
             private final Vector2 currentVelo = new Vector2();
@@ -90,7 +86,9 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.setSprite(Sprite.NAIL_STUCK);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
 
-                particles.turnOff();
+                if (particles != null) {
+                    particles.turnOff();
+                }
             }
 
             @Override
@@ -103,8 +101,9 @@ public class UrchinNail extends SyncedAttacker {
                 hbox.getMainFixture().setFilterData(filter);
                 hbox.setSprite(Sprite.NAIL);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
-
-                particles.turnOn();
+                if (particles != null) {
+                    particles.turnOn();
+                }
             }
         }.setStuckLifespan(LIFESPAN_STUCK));
         hbox.addStrategy(new FlashNearDeath(state, hbox, user.getBodyData(), FLASH_LIFESPAN));

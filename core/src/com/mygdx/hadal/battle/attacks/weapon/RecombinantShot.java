@@ -7,7 +7,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -61,17 +60,17 @@ public class RecombinantShot extends SyncedAttacker {
                 hbox.setRestitution(1.0f);
 
                 hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-                hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS).setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
                 hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new ContactWallLoseDurability(state, hbox, user.getBodyData()));
                 hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.BULLET_BODY_HIT, 0.3f, true)
-                        .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                        .setPitchSpread(PITCH_SPREAD));
                 hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SPRING, 0.3f)
-                        .setPitchSpread(PITCH_SPREAD).setSynced(false));
+                        .setPitchSpread(PITCH_SPREAD));
                 hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.RECOMBINANT_SHOTRIFLE,
                         DamageTag.SHRAPNEL, DamageTag.RANGED));
-                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BEACH_BALL_TRAIL, 0.0f, 0.5f)
-                        .setParticleColor(PROJ_TRAILS[SPRITES.get(i)]).setSyncType(SyncType.NOSYNC));
+                hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BEACH_BALL_TRAIL)
+                        .setParticleColor(PROJ_TRAILS[SPRITES.get(i)]));
                 hbox.addStrategy(new RotationConstant(state, hbox, user.getBodyData(), ROTATION_SPEED));
                 hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 

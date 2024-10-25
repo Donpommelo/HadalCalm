@@ -5,7 +5,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -48,8 +47,7 @@ public class NeptuneOrbital extends SyncedAttacker {
             orbital.addStrategy(new ControllerDefault(state, orbital, user.getBodyData()));
             orbital.addStrategy(new DamageStandard(state, orbital, user.getBodyData(), BASE_DAMAGE, KNOCKBACK,
                     DamageSource.ENEMY_ATTACK, DamageTag.RANGED).setStaticKnockback(true).setRepeatable(true));
-            orbital.addStrategy(new ContactUnitSound(state, orbital, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true)
-                    .setSynced(false));
+            orbital.addStrategy(new ContactUnitSound(state, orbital, user.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
             orbital.addStrategy(new HitboxStrategy(state, orbital, user.getBodyData()) {
 
                 private final Vector2 centerPos = new Vector2();
@@ -85,7 +83,7 @@ public class NeptuneOrbital extends SyncedAttacker {
 
             if (i == 0) {
                 orbital.addStrategy(new CreateSound(state, orbital, user.getBodyData(), SoundEffect.MAGIC25_SPELL,
-                        0.8f, true).setPitch(0.5f).setSyncType(SyncType.NOSYNC));
+                        0.8f, true).setPitch(0.5f));
             }
 
             hboxes[i] = orbital;
