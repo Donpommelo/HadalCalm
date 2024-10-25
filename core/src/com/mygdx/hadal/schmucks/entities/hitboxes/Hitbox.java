@@ -389,8 +389,7 @@ public class Hitbox extends HadalEntity {
 		this.sprite = sprite;
 		if (!Sprite.NOTHING.equals(sprite)) {
 			projectileSprite = SpriteManager.getAnimation(sprite);
-			projectileSprite.setPlayMode(sprite.getPlayMode());
-			if (!PlayMode.NORMAL.equals(projectileSprite.getPlayMode())) {
+			if (!PlayMode.NORMAL.equals(sprite.getPlayMode())) {
 				looping = true;
 			}
 		}

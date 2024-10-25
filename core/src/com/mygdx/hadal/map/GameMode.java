@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.bots.BotPersonality.BotDifficulty;
 import com.mygdx.hadal.bots.RallyPoint;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.JSONManager;
@@ -321,7 +321,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.modifyNewPlayer(state, this, newLoadout, p, hitboxFilter);
         }
-        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
+        state.getUIManager().getUiExtra().syncUIText(UITagType.PLAYERS_ALIVE);
     }
 
     public void postCreatePlayer(PlayState state, Player p) {
@@ -363,7 +363,7 @@ public enum GameMode {
         for (ModeSetting setting : applicableSettings) {
             setting.processPlayerDeath(state, this, perp, vic, source, tags);
         }
-        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.PLAYERS_ALIVE);
+        state.getUIManager().getUiExtra().syncUIText(UITagType.PLAYERS_ALIVE);
     }
 
     /**
@@ -384,7 +384,7 @@ public enum GameMode {
 
                 //tell score window and ui extra to update next interval
                 user.setScoreUpdated(true);
-                state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCORE);
+                state.getUIManager().getUiExtra().syncUIText(UITagType.SCORE);
             }
         }
     }
@@ -404,7 +404,7 @@ public enum GameMode {
             }
 
             //tell ui extra to sync updated score
-            state.getUIManager().getUiExtra().syncUIText(UITag.uiType.TEAMSCORE);
+            state.getUIManager().getUiExtra().syncUIText(UITagType.TEAMSCORE);
         }
     }
 

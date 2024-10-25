@@ -66,7 +66,7 @@ public class KryoServer {
 	 * This is called upon starting a new server. initialize server and tracked client data 
 	 * start is false if we are loading singleplayer and don't actually want the server to start
 	 */
-	public void init(boolean start) {
+	public void init(boolean start, boolean headless) {
 		//this apparently saves a bit of time when serializing certain classes
 		Kryo kryo = new Kryo() {
 
@@ -87,7 +87,10 @@ public class KryoServer {
 
 		usm.resetUsers();
 		usm.setConnID(0);
-		usm.getUsers().put(0, new User(0, JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
+
+		if (!headless) {
+			usm.getUsers().put(0, new User(0, JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
+		}
 
 		if (!start) { return; }
 

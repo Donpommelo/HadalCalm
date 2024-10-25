@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.constants.Stats;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.SpriteManager;
@@ -129,7 +129,7 @@ public class UIExtra extends AHadalActor {
 	/**
 	 * This is run whenever the contents of the ui change. It sets the text according to updated tags and info
 	 */
-	public void syncUIText(uiType changedType) {
+	public void syncUIText(UITagType changedType) {
 
 		//clear existing text
 		text.setLength(0);
@@ -174,7 +174,7 @@ public class UIExtra extends AHadalActor {
 
 		for (String type : tags.split(",")) {
 			boolean found = false;
-			for (UITag.uiType tag : UITag.uiType.values()) {
+			for (UITagType tag : UITagType.values()) {
 				if (tag.toString().equals(type)) {
 					found = true;
 					uiTags.add(new UITag(this, tag));
@@ -184,10 +184,10 @@ public class UIExtra extends AHadalActor {
 
 			//If a string matches no tag types, we just display the text as is.
 			if (!found) {
-				uiTags.add(new UITag(this, uiType.MISC, type));
+				uiTags.add(new UITag(this, UITagType.MISC, type));
 			}
 		}
-		syncUIText(uiType.ALL);
+		syncUIText(UITagType.ALL);
 	}
 	
 	private final StringBuilder tags = new StringBuilder();
@@ -200,7 +200,7 @@ public class UIExtra extends AHadalActor {
 
 		//misc tags return their exact text. Other tags return their type name
 		for (UITag tag : uiTags) {
-			if (uiType.MISC.equals(tag.getType())) {
+			if (UITagType.MISC.equals(tag.getType())) {
 				tags.append(tag.getMisc()).append(",");
 			} else {
 				tags.append(tag.getType().toString()).append(",");

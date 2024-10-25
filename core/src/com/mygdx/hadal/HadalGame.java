@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Collections;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.bots.BotManager;
@@ -88,6 +89,9 @@ public class HadalGame extends ApplicationAdapter {
 
 		client = new KryoClient(this, usm);
 		server = new KryoServer(usm);
+
+		//this is necessary to prevent nested iterations from causing errors
+		Collections.allocateIterators = true;
 	}
 	
 	/**

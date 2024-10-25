@@ -324,7 +324,9 @@ public class PlayState extends GameState {
 	        serverLoaded = true;
 			PacketManager.serverTCPAll(new Packets.ServerLoaded());
 			BotManager.initiateBots(this);
-			HadalGame.usm.getOwnUser().getTransitionManager().levelStartSpawn(this, reset);
+			if (HadalGame.usm.getOwnUser() != null) {
+				HadalGame.usm.getOwnUser().getTransitionManager().levelStartSpawn(this, reset);
+			}
 		}
 
 		//this makes the physics separate from the game framerate
@@ -422,7 +424,7 @@ public class PlayState extends GameState {
 							score.getLives(), score.getCurrency(), user.getPing(), user.isSpectator()));
 				}
 			}
-			if (changeMade && getUIManager() != null) {
+			if (changeMade) {
 				getUIManager().getScoreWindow().syncScoreTable();
 			}
 		}

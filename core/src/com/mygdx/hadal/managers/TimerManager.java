@@ -1,6 +1,6 @@
 package com.mygdx.hadal.managers;
 
-import com.mygdx.hadal.actors.UITag;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
@@ -29,7 +29,7 @@ public class TimerManager {
         timer = timerSet;
         timerIncr = timerIncrement;
 
-        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.TIMER);
+        state.getUIManager().getUiExtra().syncUIText(UITagType.TIMER);
     }
 
     //display a time warning when the time is low
@@ -59,7 +59,7 @@ public class TimerManager {
             } else {
                 displayedTimer = currentTimer / 60 + ": " + seconds;
             }
-            state.getUIManager().getUiExtra().syncUIText(UITag.uiType.TIMER);
+            state.getUIManager().getUiExtra().syncUIText(UITagType.TIMER);
         }
 
         //upon timer running out, a designated event activates.

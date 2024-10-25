@@ -1,6 +1,7 @@
 package com.mygdx.hadal.server;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Collections;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.StateManager;
@@ -20,7 +21,10 @@ public class HadalGameHeadless extends HadalGame {
         StateManager.states.peek().show();
 
         server = new KryoServer(usm);
-        server.init(true);
+        server.init(true, true);
+
+        //this is necessary to prevent nested iterations from causing errors
+        Collections.allocateIterators = true;
     }
 
     @Override

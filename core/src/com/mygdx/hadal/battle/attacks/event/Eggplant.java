@@ -1,10 +1,10 @@
 package com.mygdx.hadal.battle.attacks.event;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.JSONManager;
@@ -66,7 +66,7 @@ public class Eggplant extends SyncedAttacker {
                                 state.getMode().processPlayerScoreChange(state, playerBodyData.getPlayer(), 1);
                             }
 
-                            state.getUIManager().getUiExtra().syncUIText(UITag.uiType.SCRAP);
+                            state.getUIManager().getUiExtra().syncUIText(UITagType.SCRAP);
 
                             //activate effects that activate upon picking up scrap
                             playerBodyData.statusProcTime(new ProcTime.ScrapPickup());

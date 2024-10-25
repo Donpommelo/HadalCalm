@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -207,7 +208,7 @@ public class UISpectator extends AHadalActor {
                     targetId = nextUser.getConnID();
 
                     //sync ui so it shows info for your spectating target
-                    state.getUIManager().getUiExtra().syncUIText(UITag.uiType.ALL);
+                    state.getUIManager().getUiExtra().syncUIText(UITagType.ALL);
                     return true;
                 }
             }

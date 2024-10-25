@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SpriteConstants;
@@ -60,8 +61,7 @@ public class PlayerSpriteHelper {
     private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 
     private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
-        gemWidth, gemHeight;
-    private final int toolWidth, toolHeight;
+        gemWidth, gemHeight, toolWidth, toolHeight;
 
     private UnlockCharacter character;
     private AlignmentFilter team;
@@ -71,8 +71,11 @@ public class PlayerSpriteHelper {
         this.player = player;
         this.scale = scale;
 
-        this.toolWidth = player.getToolSprite().getRegionWidth();
-        this.toolHeight = player.getToolSprite().getRegionHeight();
+        //tool sprite is null in the case of headless server
+        if (player.getToolSprite() != null) {
+            this.toolWidth = player.getToolSprite().getRegionWidth();
+            this.toolHeight = player.getToolSprite().getRegionHeight();
+        }
     }
 
     /**
@@ -101,6 +104,9 @@ public class PlayerSpriteHelper {
      * @param newTeam: the new team color to draw
      */
     public void replaceBodySprite(SpriteBatch batch, UnlockCharacter newCharacter, AlignmentFilter newTeam) {
+
+        //return if headless server
+        if (HadalGame.assetManager == null) { return; }
 
         if (null != newCharacter) {
             this.character = newCharacter;
@@ -277,6 +283,9 @@ public class PlayerSpriteHelper {
      * This is run when the player despawns from disconnecting or dying.
      */
     public void despawn(DespawnType type, Vector2 playerLocation, Vector2 playerVelocity) {
+        //return if headless server
+        if (HadalGame.assetManager == null) { return; }
+
         switch (type) {
             case GIB -> createGibs(playerLocation, playerVelocity);
             case BIFURCATE -> createBifurcation(playerLocation, playerVelocity);

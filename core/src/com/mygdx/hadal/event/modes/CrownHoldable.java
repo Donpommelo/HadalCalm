@@ -62,7 +62,7 @@ public class CrownHoldable extends Event {
 				.setColor(HadalColor.GOLDEN_YELLOW));
 
 		//make objective marker track this event
-		state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT,true, false, false);
+		state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, true, false, false);
 
 		//we must set this event's layer to make it render underneath players
 		setLayer(ObjectLayer.HBOX);

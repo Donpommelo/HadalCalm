@@ -1,4 +1,4 @@
-package com.mygdx.hadal.server;
+package com.mygdx.hadal.server.managers;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;

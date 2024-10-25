@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
-import com.mygdx.hadal.actors.UITag;
+import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
@@ -269,7 +269,7 @@ public class SettingArcade extends ModeSetting {
                     TransitionState.NEWLEVEL, "");
         }
 
-        state.getUIManager().getUiExtra().syncUIText(UITag.uiType.WINBOARD);
+        state.getUIManager().getUiExtra().syncUIText(UITagType.WINBOARD);
     }
 
     public static void addNewUser(ScoreManager score) {
