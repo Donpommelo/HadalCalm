@@ -184,18 +184,18 @@ public class MessageWindow {
 				if (state.isServer()) {
 
 					//if this is a console commend, execute it. (if it is used by host and console is enabled)
-					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText())) {
+					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText(), HadalGame.usm.getConnID())) {
 						if (JSONManager.setting.isConsoleEnabled()) {
 							if (-1 == ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText())) {
-								HadalGame.server.addChatToAll(state, enterMessage.getText(), DialogType.DIALOG, 0);
+								HadalGame.server.addChatToAll(state, enterMessage.getText(), DialogType.DIALOG, HadalGame.usm.getConnID());
 							}
 						} else {
-							HadalGame.server.addChatToAll(state, enterMessage.getText(), DialogType.DIALOG, 0);
+							HadalGame.server.addChatToAll(state, enterMessage.getText(), DialogType.DIALOG, HadalGame.usm.getConnID());
 						}
 					}
 				} else {
 					//if this is a chat command, execute it.
-					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText())) {
+					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText(), HadalGame.usm.getConnID())) {
 						PacketManager.clientTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}

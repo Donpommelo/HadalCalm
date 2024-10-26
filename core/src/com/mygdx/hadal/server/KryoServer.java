@@ -589,27 +589,6 @@ public class KryoServer {
 				}
 
 				/*
-				 * A Client has typed /killme and wants their player to be killed (not disconnected)
-				 */
-				else if (o instanceof Packets.ClientYeet) {
-					final PlayState ps = getPlayState();
-					if (null != ps) {
-						ps.addPacketEffect(() -> {
-							User user = usm.getUsers().get(c.getID());
-							if (user != null) {
-								Player player = user.getPlayer();
-								if (player != null) {
-									if (player.getPlayerData() != null) {
-										player.getPlayerData().receiveDamage(9999, new Vector2(),
-												player.getPlayerData(), false, null, DamageSource.MISC);
-									}
-								}
-							}
-						});
-					}
-				}
-
-				/*
 				 * Client has died in their own world. This counts as an kill that should be echoed to other client
 				 */
 				else if (o instanceof final Packets.DeleteClientSelf p) {
@@ -839,7 +818,7 @@ public class KryoServer {
 				return ((SettingState) currentState).getPlayState();
 			} else if (currentState instanceof AboutState) {
 				return ((AboutState) currentState).getPlayState();
-			}else if (currentState instanceof ResultsState) {
+			} else if (currentState instanceof ResultsState) {
 				return ((ResultsState) currentState).getPs();
 			}
 		}
@@ -867,8 +846,10 @@ public class KryoServer {
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
 	public void addNotificationToAll(final PlayState ps, final String name, final String text, final boolean override, final DialogType type) {
-		if (ps.getUIManager().getDialogBox() != null && server != null) {
+		if (server != null) {
 			server.sendToAllTCP(new Packets.ServerNotification(name, text, override, type));
+		}
+		if (ps.getUIManager().getDialogBox() != null) {
 			Gdx.app.postRunnable(() -> ps.getUIManager().getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}
@@ -881,8 +862,10 @@ public class KryoServer {
 	 * @param connID: connID of the player sending the chat message
 	 */
 	public void addChatToAll(final PlayState ps, final String text, final DialogType type, final int connID) {
-		if (ps.getUIManager().getMessageWindow() != null && server != null) {
+		if (server != null) {
 			server.sendToAllTCP(new Packets.ServerChat(text, type, connID));
+		}
+		if (ps.getUIManager().getMessageWindow() != null) {
 			Gdx.app.postRunnable(() -> ps.getUIManager().getMessageWindow().addText(text, type, connID));
 		}
 	}
@@ -897,8 +880,10 @@ public class KryoServer {
 	 * @param type: type of dialog (dialog, system msg, etc)
 	 */
 	public void addNotificationToAllExcept(final PlayState ps, int connID, final String name, final String text, boolean override, DialogType type) {
-		if (ps.getUIManager().getDialogBox() != null && server != null) {
+		if (server != null) {
 			server.sendToAllExceptTCP(connID, new Packets.ServerNotification(name, text, override, type));
+		}
+		if (ps.getUIManager().getDialogBox() != null) {
 			Gdx.app.postRunnable(() -> ps.getUIManager().getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null, type));
 		}
 	}

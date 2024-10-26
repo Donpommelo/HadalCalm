@@ -34,7 +34,7 @@ public class UIManager {
         this.uiObjective = new UIObjective(state);
         this.uiSpectator = new UISpectator(state);
         this.chatWheel = new ChatWheel(state);
-        this.dialogBox = new DialogBox(state);
+        this.dialogBox = new DialogBox();
     }
 
     public void initUIElementsShow(Stage stage) {

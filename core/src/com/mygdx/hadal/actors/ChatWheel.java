@@ -183,7 +183,7 @@ public class ChatWheel {
 	public void emote(Player player, int emoteIndex, int connID) {
 		//special logic for the emote that does a chat command (/roll)
 		if (6 == emoteIndex) {
-			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
+			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex], connID);
 		} else {
 			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, connID);
 		}

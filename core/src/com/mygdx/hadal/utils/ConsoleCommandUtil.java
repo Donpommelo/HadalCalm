@@ -47,7 +47,7 @@ public class ConsoleCommandUtil {
 	 * @param command: the string text to be interpreted
 	 * @return an int to indicate whether this was parsed as a command (0) or not (-1)
 	 */
-	public static int parseChatCommand(PlayState state, Player player, String command) {
+	public static int parseChatCommand(PlayState state, Player player, String command, int connID) {
 
 		if (null != player) {
 			if (null != player.getPlayerData()) {
@@ -60,7 +60,7 @@ public class ConsoleCommandUtil {
 							message.append(loadout.multitools[i].getName()).append(" ");
 						}
 					}
-					emitMessage(state, message.toString());
+					emitMessage(state, message.toString(), connID);
 					return 0;
 				}
 
@@ -73,33 +73,29 @@ public class ConsoleCommandUtil {
 							message.append(loadout.artifacts[i].getName()).append(" ");
 						}
 					}
-					emitMessage(state, message.toString());
+					emitMessage(state, message.toString(), connID);
 					return 0;
 				}
 
 				if ("/active".equals(command)) {
-					emitMessage(state, "Active Item: " + loadout.activeItem.getName());
+					emitMessage(state, "Active Item: " + loadout.activeItem.getName(), connID);
 					return 0;
 				}
 
 				if ("/team".equals(command)) {
-					emitMessage(state, "Team: " + loadout.team.getTeamName());
+					emitMessage(state, "Team: " + loadout.team.getTeamName(), 0);
 					return 0;
 				}
 
 				if ("/killme".equals(command)) {
-					if (state.isServer()) {
-						player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
-								null, DamageSource.MISC);
-					} else {
-						PacketManager.clientTCP(new Packets.ClientYeet());
-					}
+					player.getPlayerData().receiveDamage(9999, new Vector2(), player.getPlayerData(), false,
+							null, DamageSource.MISC);
 					return 0;
 				}
 			}
 
 			if ("/roll".equals(command)) {
-				emitMessage(state, "Rolled A Number: " + MathUtils.random(MAX_ROLL));
+				emitMessage(state, "Rolled A Number: " + MathUtils.random(MAX_ROLL), connID);
 				return 0;
 			}
 
@@ -116,9 +112,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 
-	private static void emitMessage(PlayState state, String message) {
+	private static void emitMessage(PlayState state, String message, int connID) {
 		if (state.isServer()) {
-			HadalGame.server.addChatToAll(state, message, DialogType.SYSTEM, 0);
+			HadalGame.server.addChatToAll(state, message, DialogType.SYSTEM, connID);
 		} else {
 			PacketManager.clientTCP(new Packets.ClientChat(message, DialogType.SYSTEM));
 		}

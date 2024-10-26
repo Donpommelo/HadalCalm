@@ -15,7 +15,6 @@ public class PlayStateHeadless extends PlayState {
     }
 
     public void initManagers(String startID) {
-//        this.renderManager = new RenderManager(this, map);
         this.cameraManager = new CameraManagerHeadless(this, map);
         this.uiManager = new UIManagerHeadless(this);
 

@@ -11,7 +11,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.Dialog;
 import com.mygdx.hadal.text.DialogInfo;
 
@@ -58,9 +57,6 @@ public class DialogBox extends AHadalActor {
 	//This is a queue of dialogues in the order that they will be displayed.
 	private final Queue<Dialog> dialogs = new Queue<>();
 
-	//Reference to the playstate. Used to reference gsm fields
-	private final PlayState ps;
-
 	//This counter keeps track of the lifespan of dialogues that have a set duration
 	private float durationCount;
 
@@ -70,9 +66,8 @@ public class DialogBox extends AHadalActor {
 	//this keeps track of the actor's animation frames
 	protected float animCdCount;
 	
-	public DialogBox(PlayState ps) {
+	public DialogBox() {
 		super(BOX_X, BOX_Y);
-		this.ps = ps;
 	}
 
 	//accumulator used to make dialog box movement not tied to framerate
