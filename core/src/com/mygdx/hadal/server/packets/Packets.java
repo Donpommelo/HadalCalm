@@ -138,6 +138,22 @@ public class Packets {
 			this.loadout = loadout;
 		}
 	}
+
+	public static class ClientLevelRequest {
+		public UnlockLevel level;
+		public GameMode mode;
+
+		public ClientLevelRequest() {}
+
+		/**
+		 * A ClientLevelRequest is sent from Client to Server when a client host wants to transition to a new level
+		 * @param level: the new level we transition to
+		 */
+		public ClientLevelRequest(UnlockLevel level, GameMode mode) {
+			this.level = level;
+			this.mode = mode;
+		}
+	}
 	
 	public static class ClientPlayerCreated {
 		
@@ -819,23 +835,26 @@ public class Packets {
 		public float maxTimer;
 		public float timer;
 		public float timerIncr;
+		public int hostID;
 		public AlignmentFilter[] teams;
 		public int[] scores;
 		public SyncUI() {}
 		
 		/**
-		 * A SyncUI is sent from the Server to the Client whenever the ui is updated.
-		 * The client updates their ui to represent the changes.
+		 * A SyncUI is sent from the Server to the Client when the client loads into a level. (To handle mid-round joins)
+		 * After joining, the client can handle things like the timer themselves
 		 * @param maxTimer: what to set the global game timer to (max)
 		 * @param timer: what to set the global game timer to (current)
 		 * @param timerIncr: How much should the timer be incrementing by (probably +-1 or 0)
+		 * @param hostID: connection id of the current host (can be this client, since server spawns new user before sending this)
 		 * @param teams: the list of teams currently active for the match
 		 * @param scores: list of scores for each team
 		 */
-		public SyncUI(float maxTimer, float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
+		public SyncUI(float maxTimer, float timer, float timerIncr, int hostID, AlignmentFilter[] teams, int[] scores) {
 			this.maxTimer = maxTimer;
 			this.timer = timer;
 			this.timerIncr = timerIncr;
+			this.hostID = hostID;
 			this.teams = teams;
 			this.scores = scores;
 		}
@@ -1120,7 +1139,8 @@ public class Packets {
 		kryo.register(ClientChat.class);
     	kryo.register(ClientReady.class);
     	kryo.register(LoadLevel.class);
-    	kryo.register(ClientLoaded.class);
+		kryo.register(ClientLoaded.class);
+		kryo.register(ClientLevelRequest.class);
     	kryo.register(ClientPlayerCreated.class);
     	kryo.register(ClientStartTransition.class);
     	kryo.register(SyncScore.class);

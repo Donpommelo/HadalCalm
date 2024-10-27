@@ -54,6 +54,7 @@ public class SpawnerObjective extends Event {
 				.setBodyType(BodyDef.BodyType.KinematicBody)
 				.addToWorld(world);
 
+
 		//in eggplant mode, this event should be visible in the objective ui
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
 			state.getUIManager().getUiObjective().addObjective(this, Sprite.NASU,true, true, true);

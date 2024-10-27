@@ -32,7 +32,7 @@ public class FadeManager {
     //this is a black texture used for fading in/out transitions.
     private static final Texture black = new Texture(Gdx.files.internal("black.png"));
 
-    public static void render(HadalGame app, SpriteBatch batch, float delta) {
+    public static void render(HadalGame app, SpriteBatch batch) {
 
         //Render the black image used for fade transitions
         if (0.0f < fadeLevel) {
@@ -43,6 +43,9 @@ public class FadeManager {
             batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
             batch.end();
         }
+    }
+
+    public static void controller(float delta) {
 
         //only fade when the states specifies that transitions should fade (i.e. no fade when closing pause menu)
         if (StateManager.states.peek().processTransitions()) {

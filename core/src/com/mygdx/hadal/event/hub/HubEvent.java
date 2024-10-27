@@ -103,19 +103,6 @@ public class HubEvent extends Event {
 			}
 		}
 	}
-	
-	@Override
-	public void clientController(float delta) {
-		if (open && closeOnLeave) {
-			if (null != HadalGame.usm.getOwnPlayer()) {
-				if (getPosition().dst2(HadalGame.usm.getOwnPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE) {
-					leave();
-					open = false;
-				}
-			}
-
-		}
-	}
 
 	/**
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.

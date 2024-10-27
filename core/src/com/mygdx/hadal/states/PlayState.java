@@ -83,7 +83,7 @@ public class PlayState extends GameState {
 	protected EndgameManager endgameManager;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
-	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
+	protected final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
 	private final OrderedSet<HadalEntity> createList = new OrderedSet<>();
 
 	//These sets are used by the Client for removing/adding entities.
@@ -529,7 +529,9 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void dispose() {
-		getRenderManager().getWorldManager().dispose();
+		if (getRenderManager() != null) {
+			getRenderManager().getWorldManager().dispose();
+		}
 
 		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
@@ -546,7 +548,10 @@ public class PlayState extends GameState {
 		if (stage != null) {
 			stage.dispose();
 		}
-		CameraUtil.resetCameraRotation(camera);
+
+		if (camera != null) {
+			CameraUtil.resetCameraRotation(camera);
+		}
 	}
 
 	@Override

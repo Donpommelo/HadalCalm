@@ -74,6 +74,7 @@ public class UserTransitionManager {
                             } else {
                                 particleLocation.set(startPoint.getStartPos()).sub(0, startPoint.getSize().y);
                             }
+
                             EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT_PRE, particleLocation)
                                     .setLifespan(forewarnTime)
                                     .setSyncType(SyncType.CREATESYNC));

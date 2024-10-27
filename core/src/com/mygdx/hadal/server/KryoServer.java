@@ -22,6 +22,7 @@ import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.TransitionManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -89,7 +90,7 @@ public class KryoServer {
 		usm.setConnID(0);
 
 		if (!headless) {
-			usm.getUsers().put(0, new User(0, JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
+			usm.addUserServer(new User(0, JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 		}
 
 		if (!start) { return; }
@@ -98,30 +99,28 @@ public class KryoServer {
 			
 			@Override
 			public void disconnected(final Connection c) {
-				final PlayState ps = getPlayState();
-				if (ps != null) {
-					ps.addPacketEffect(() -> {
-						//Identify the player that disconnected
-						User user = usm.getUsers().get(c.getID());
-						if (user != null) {
+				User user = usm.getUsers().get(c.getID());
+				if (user != null) {
+					Gdx.app.postRunnable(() -> {
+						//remove disconnecting player from users. We do this regardless of user's player
+						//or if we can run a playstate's packet effects
+						usm.getUsers().remove(c.getID());
+						PacketManager.serverTCPAll(new Packets.RemoveScore(c.getID()));
 
-							//free up the disconnected user's player slot
-							user.getHitboxFilter().setUsed(false);
-
-							Player player = user.getPlayer();
-							if (player != null) {
-								//Inform all that the player disconnected and kill the player
-								if (player.getPlayerData() != null) {
-									player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageSource.DISCONNECT);
+						Player player = user.getPlayer();
+						final PlayState ps = getPlayState();
+						if (ps != null) {
+							ps.addPacketEffect(() -> {
+								if (player != null) {
+									//Inform all that the player disconnected and kill the player
+									if (player.getPlayerData() != null) {
+										player.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageSource.DISCONNECT);
+									}
+									addNotificationToAll(ps, "", UIText.CLIENT_DISCONNECTED.text(player.getName()),
+											true, DialogType.SYSTEM);
 								}
-								addNotificationToAll(ps, "", UIText.CLIENT_DISCONNECTED.text(player.getName()),
-										true, DialogType.SYSTEM);
-							}
-
-							//remove disconnecting player from users
-							usm.getUsers().remove(c.getID());
-							ps.getUIManager().getScoreWindow().syncScoreTable();
-							PacketManager.serverTCPAll(new Packets.RemoveScore(c.getID()));
+								ps.getUIManager().getScoreWindow().syncScoreTable();
+							});
 						}
 					});
 				}
@@ -351,12 +350,19 @@ public class KryoServer {
 
 							//sync client ui elements
 							PacketManager.serverTCP(c.getID(), new Packets.SyncUI(ps.getTimerManager().getMaxTimer(), ps.getTimerManager().getTimer(),
-									ps.getTimerManager().getTimerIncr(),	AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
+									ps.getTimerManager().getTimerIncr(), usm.getHostID(), AlignmentFilter.currentTeams, AlignmentFilter.teamScores));
 							PacketManager.serverTCP(c.getID(), new Packets.SyncSharedSettings(JSONManager.sharedSetting));
 						});
 					}
 				}
-				
+
+				else if (o instanceof Packets.ClientLevelRequest p) {
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						ps.addPacketEffect(() -> ps.getTransitionManager().loadLevel(p.level, p.mode, TransitionManager.TransitionState.NEWLEVEL, ""));
+					}
+				}
+
 				/*
 				 * The Client has loaded the level.
 				 * sync the client's loadout and activate the event connected to the start point.
@@ -750,8 +756,8 @@ public class KryoServer {
 			user = usm.getUsers().get(connID);
 		} else {
 			user = new User(connID, name, loadout);
-			usm.getUsers().put(connID, user);
 			user.setTeamFilter(loadout.team);
+			usm.addUserServer(user);
 		}
 		user.getLoadoutManager().setActiveLoadout(loadout);
 		return user;

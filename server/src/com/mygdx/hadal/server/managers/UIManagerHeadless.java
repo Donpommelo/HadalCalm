@@ -15,6 +15,7 @@ public class UIManagerHeadless extends UIManager {
     public void initUIElementsCreate() {
         this.uiArtifact = new UIArtifactsHeadless(state);
         this.uiExtra = new UIExtraHeadless(state);
+        this.uiObjective = new UIObjectiveHeadless(state);
 
         this.chatWheel = new ChatWheelHeadless(state);
 

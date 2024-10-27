@@ -17,6 +17,9 @@ public class UserManager {
     //this is the player's own connID
     private int connID;
 
+    //ID of the host, which can be a client. -1 means no host is designated and will be set when a user connects.
+    private int hostID = -1;
+
     //This is an entity representing the player's controlled entity.
     private Player ownPlayer;
 
@@ -32,6 +35,26 @@ public class UserManager {
             }
         }
         return playerNum;
+    }
+
+    public void addUser(User user) {
+        users.put(user.getConnID(), user);
+    }
+
+    public void addUserServer(User user) {
+        addUser(user);
+        if (getHost() == null) {
+            hostID = user.getConnID();
+        }
+    }
+
+    public User getHost() {
+        for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
+            if (conn.key == hostID) {
+                return conn.value;
+            }
+        }
+        return null;
     }
 
     /**
@@ -53,9 +76,15 @@ public class UserManager {
 
     public ObjectMap<Integer, User> getUsers() { return users; }
 
+    public boolean isHost() { return connID == hostID; }
+
     public int getConnID() { return connID; }
 
     public void setConnID(int connID) { this.connID = connID; }
+
+    public int getHostID() { return hostID; }
+
+    public void setHostID(int hostID) { this.hostID = hostID; }
 
     public Player getOwnPlayer() { return ownPlayer; }
 

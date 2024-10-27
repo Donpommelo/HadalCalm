@@ -14,15 +14,15 @@ import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_OUT_SPEED;
 
 public class TransitionManager {
 
-    private final PlayState state;
+    protected final PlayState state;
 
     //if we are transitioning to another state, this is that state
     protected TransitionState nextState;
 
     //If we are transitioning to another level, this is that level.
-    private UnlockLevel nextLevel;
-    private GameMode nextMode;
-    private String nextStartID;
+    protected UnlockLevel nextLevel;
+    protected GameMode nextMode;
+    protected String nextStartID;
 
     public TransitionManager(PlayState state) {
         this.state = state;
@@ -70,7 +70,6 @@ public class TransitionManager {
                 nextState = null;
                 break;
             case NEWLEVEL:
-
                 //remove this state and add a new play state with a fresh loadout
                 StateManager.removeState(SettingState.class, false);
                 StateManager.removeState(AboutState.class, false);
@@ -135,9 +134,9 @@ public class TransitionManager {
             nextMode = mode;
             this.nextStartID = nextStartID;
 
+            Transition transition = new Transition().setNextState(transitionState).setReset(transitionState == TransitionState.NEWLEVEL);
             for (User user : HadalGame.usm.getUsers().values()) {
-                user.getTransitionManager().beginTransition(state, new Transition().setNextState(transitionState)
-                        .setReset(transitionState == TransitionState.NEWLEVEL));
+                user.getTransitionManager().beginTransition(state, transition);
             }
         }
     }

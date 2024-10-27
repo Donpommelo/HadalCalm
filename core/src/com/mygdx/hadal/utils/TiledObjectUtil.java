@@ -729,7 +729,7 @@ public class TiledObjectUtil {
      */
     public static void parseDesignatedEvents(PlayState state) {
     	for (String key : triggeredEvents.keys()) {
-    		if (globalTimer.equals(key)) {
+    		if (globalTimer.equals(key) && state.isServer()) {
     			state.setGlobalTimer(triggeredEvents.get(key));
     		}
 			if (globalSpectatorActivation.equals(key)) {

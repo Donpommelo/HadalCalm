@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -54,7 +53,6 @@ public class DroneBit extends EnemySwimming {
 		armBackSprite = SpriteManager.getFrame(Sprite.DRONE_ARM_BACK);
 		armFrontSprite = SpriteManager.getFrame(Sprite.DRONE_ARM_FRONT);
 		eyeSprite = SpriteManager.getAnimation(Sprite.DRONE_EYE);
-		eyeSprite.setPlayMode(PlayMode.NORMAL);
 		getSwimStrategy().setMaxRange(maxRange);
 		getSwimStrategy().setMinRange(minRange);
 		getSwimStrategy().setMoveSpeed(2.0f);

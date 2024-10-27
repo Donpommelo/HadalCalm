@@ -5,16 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
-import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
-import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -62,8 +59,6 @@ public class Navigations extends HubEvent {
 
 		Pattern pattern = Pattern.compile(search);
 		final UIHub hub = state.getUIManager().getUiHub();
-		final Navigations me = this;
-
 		for (UnlockLevel c : UnlockLevel.getUnlocks(checkUnlock, newTags)) {
 			final UnlockLevel selected = c;
 
@@ -87,13 +82,10 @@ public class Navigations extends HubEvent {
 
 						if (state.isServer()) {
 							state.getTransitionManager().loadLevel(selected, TransitionState.NEWLEVEL, "");
-							//play a particle when the player uses this event
-							EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT, me)
-									.setLifespan(3.0f)
-									.setSyncType(SyncType.CREATESYNC)
-									.setOffset(new Vector2(0, - me.getSize().y / 2)));
+						} else if (HadalGame.usm.isHost()) {
+							//client hosts request a transition to the selected level
+							PacketManager.clientTCP(new Packets.ClientLevelRequest(selected, selected.getModes()[0]));
 						} else {
-
 							//clients suggest maps when clicking
 							PacketManager.clientTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),
 									DialogType.SYSTEM));

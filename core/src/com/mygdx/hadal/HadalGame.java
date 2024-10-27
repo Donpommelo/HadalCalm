@@ -118,7 +118,8 @@ public class HadalGame extends ApplicationAdapter {
 		currentMenu.draw();
 
 		//manage fade state transitions
-		FadeManager.render(this, batch, delta);
+		FadeManager.render(this, batch);
+		FadeManager.controller(delta);
 
 		//music player controller is used for fading tracks
 		MusicPlayer.controller(delta);

@@ -3,6 +3,7 @@ package com.mygdx.hadal.server;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Collections;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.FadeManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
@@ -33,6 +34,9 @@ public class HadalGameHeadless extends HadalGame {
 
         //update the state, update the ui, render the state, then render the ui.
         StateManager.update(delta);
+
+        //FadeManager still used for delays, but not for fading
+        FadeManager.controller(delta);
     }
 
     @Override

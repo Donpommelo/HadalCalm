@@ -19,11 +19,9 @@ public class StringManager {
         this.name = name;
     }
 
-    //this indicates the user's ping, and gives an indication of which player is the host or a bot
+    //this indicates the user's ping, and gives an indication of which player is a bot
     public String getPingText() {
-        if (user.getConnID() == 0) {
-            return "(HOST) ";
-        } else if (user.getConnID() < 0) {
+        if (user.getConnID() < 0) {
             return "(BOT) ";
         } else {
             return "(" + user.getPing() + " ms) ";

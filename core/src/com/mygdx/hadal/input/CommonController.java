@@ -2,6 +2,7 @@ package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
@@ -108,7 +109,7 @@ public class CommonController extends InputAdapter {
 
 	public void keyDown(PlayerAction action) {
 		//when spectating, host interact activates the map's designated "spectator event", if existant
-		if (state.isServer() && state.getSpectatorManager().isSpectatorMode()) {
+		if (HadalGame.usm.isHost() && state.getSpectatorManager().isSpectatorMode()) {
 			if (action == PlayerAction.INTERACT) {
 				if (state.getSpectatorActivation() != null) {
 					state.getSpectatorActivation().getEventData().onInteract(null);

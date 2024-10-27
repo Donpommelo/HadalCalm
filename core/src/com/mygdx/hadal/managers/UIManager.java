@@ -12,7 +12,7 @@ public class UIManager {
     //Various play state ui elements. Some are initialized right away while others require the stage to be made first.
     protected UIArtifacts uiArtifact;
     protected UIExtra uiExtra;
-    private UIObjective uiObjective;
+    protected UIObjective uiObjective;
     private UISpectator uiSpectator;
     protected ChatWheel chatWheel;
     private DialogBox dialogBox;

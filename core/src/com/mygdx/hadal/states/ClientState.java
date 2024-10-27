@@ -72,6 +72,7 @@ public class ClientState extends PlayState {
 			}
 		}
 		TiledObjectUtil.parseTiledTriggerLayer();
+		TiledObjectUtil.parseDesignatedEvents(this);
 
 		AlignmentFilter.resetTeams();
 

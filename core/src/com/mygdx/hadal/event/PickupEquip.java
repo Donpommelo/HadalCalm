@@ -106,7 +106,9 @@ public class PickupEquip extends Event {
 							if (weaponLifespan > WEAPON_REROLL_CD || me.unlock.equals(UnlockEquip.NOTHING)) {
 								weaponLifespan = 0.0f;
 								rollWeapon();
-								standardParticle.turnOn();
+								if (standardParticle != null) {
+									standardParticle.turnOn();
+								}
 								equipChanged = true;
 							}
 						} else {

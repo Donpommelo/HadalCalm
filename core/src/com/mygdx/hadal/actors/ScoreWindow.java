@@ -12,13 +12,13 @@ import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.users.ScoreManager;
-import com.mygdx.hadal.users.StringManager;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.StringManager;
+import com.mygdx.hadal.users.User;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
@@ -137,7 +137,7 @@ public class ScoreWindow {
 		Text artifactsLabel = new Text(UIText.ARTIFACTS.text());
 		artifactsLabel.setScale(SCORE_TITLE_SCALE);
 
-		tableScore.add(title).height(SCORE_TITLE_HEIGHT).colspan(6).row();
+		tableScore.add(title).height(SCORE_TITLE_HEIGHT).colspan(5).row();
 		tableScore.add(playerLabel).height(SCORE_TITLE_HEIGHT).padRight(SCORE_PAD_X);
 		tableScore.add(kdaLabel).height(SCORE_TITLE_HEIGHT).padRight(SCORE_PAD_X);
 		tableScore.add(scoreLabel).height(SCORE_TITLE_HEIGHT).padRight(SCORE_PAD_X);
@@ -304,9 +304,11 @@ public class ScoreWindow {
 		ScoreManager scoreManager = user.getScoreManager();
 		StringManager stringManager = user.getStringManager();
 
-		String nameText = stringManager.getNameAbridgedColored(MAX_NAME_LENGTH);
-
-		Text name = new Text(stringManager.getPingText() + nameText);
+		String nameText = stringManager.getPingText() + stringManager.getNameAbridgedColored(MAX_NAME_LENGTH);
+		if (connID == HadalGame.usm.getHostID()) {
+			nameText = nameText + " (HOST)";
+		}
+		Text name = new Text(nameText);
 		name.setScale(SCORE_SCALE);
 		name.addListener(new ClickListener() {
 

@@ -105,8 +105,7 @@ public class KryoClient {
         	public void connected(Connection c) {
 				PacketManager.clientTCP(new Packets.PlayerConnect(true, JSONManager.loadout.getName(), HadalGame.VERSION, null));
                 usm.setConnID(c.getID());
-				usm.getUsers().put(c.getID(), new User(c.getID(), JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
-
+				usm.addUser(new User(c.getID(), JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 			}
         	
         	/**
@@ -198,7 +197,7 @@ public class KryoClient {
 						User user = new User(p.connID, p.name, p.loadout);
 						user.setSpectator(p.spectator);
 						user.setPing(p.ping);
-						usm.getUsers().put(p.connID, user);
+						usm.addUser(user);
 					}
 					score.setWins(p.wins);
 					score.setKills(p.kills);
@@ -557,6 +556,7 @@ public class KryoClient {
 					cs.getTimerManager().setMaxTimer(p.maxTimer);
 					cs.getTimerManager().setTimer(p.timer);
 					cs.getTimerManager().setTimerIncr(p.timerIncr);
+					usm.setHostID(p.hostID);
 				});
 			}
 		}
@@ -609,7 +609,7 @@ public class KryoClient {
 							if (null != userOld) {
 								updatedUser.setPlayer(userOld.getPlayer());
 							}
-							usm.getUsers().put(user.connID, updatedUser);
+							usm.addUser(updatedUser);
 						}
 					}
 				});
@@ -907,7 +907,7 @@ public class KryoClient {
 						user = usm.getUsers().get(p.connID);
 					} else {
 						user = new User(p.connID, p.name, p.loadout);
-						usm.getUsers().put(p.connID, user);
+						usm.addUser(user);
 					}
 					user.setTeamFilter(p.loadout.team);
 
