@@ -54,11 +54,13 @@ public class EnemyCrawling extends Enemy {
 	public void create() {
 		super.create();
 		body.setGravityScale(1.0f);
-		
-		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_DROPTHROUGHWALL);
-		getMainFixture().setFilterData(filter);
-		
+
+		if (getMainFixture() != null) {
+			Filter filter = getMainFixture().getFilterData();
+			filter.maskBits = (short) (BodyConstants.BIT_WALL | BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_DROPTHROUGHWALL);
+			getMainFixture().setFilterData(filter);
+		}
+
 		if (state.isServer()) {
 			this.feetData = new FeetData(UserDataType.FEET, this);
 			new HadalFixture(

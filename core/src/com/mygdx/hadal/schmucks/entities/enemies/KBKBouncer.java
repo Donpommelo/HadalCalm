@@ -37,7 +37,9 @@ public class KBKBouncer extends EnemyCrawling {
 	@Override
 	public void create() {
 		super.create();
-		getMainFixture().setRestitution(1.0f);
+		if (getMainFixture() != null) {
+			getMainFixture().setRestitution(1.0f);
+		}
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_DRAG, drag, getBodyData()));
 	}

@@ -78,10 +78,12 @@ public class Boss2 extends EnemyFloating {
 	public void create() {
 		super.create();
 
-		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE);
-		getMainFixture().setFilterData(filter);
-		
+		if (getMainFixture() != null) {
+			Filter filter = getMainFixture().getFilterData();
+			filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE);
+			getMainFixture().setFilterData(filter);
+		}
+
 		final BodyData me = getBodyData();
 		
 		//each boss link has the same body data. damaging a link damages the boss with reduced damage

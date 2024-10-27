@@ -67,9 +67,11 @@ public class Platform extends Event {
 				loaded = true;
 				teamFilter = AlignmentFilter.currentTeams[teamIndex].getFilter();
 
-				Filter filter = getMainFixture().getFilterData();
-				filter.groupIndex = teamFilter;
-				getMainFixture().setFilterData(filter);
+				if (getMainFixture() != null) {
+					Filter filter = getMainFixture().getFilterData();
+					filter.groupIndex = teamFilter;
+					getMainFixture().setFilterData(filter);
+				}
 			}
 		}
 	}

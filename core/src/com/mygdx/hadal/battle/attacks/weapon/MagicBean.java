@@ -65,8 +65,10 @@ public class MagicBean extends SyncedAttacker {
             @Override
             public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
-                    if (fixB.getEntity().getMainFixture().getFilterData().categoryBits == BodyConstants.BIT_DROPTHROUGHWALL) {
-                        hbox.die();
+                    if (fixB.getEntity().getMainFixture() != null) {
+                        if (fixB.getEntity().getMainFixture().getFilterData().categoryBits == BodyConstants.BIT_DROPTHROUGHWALL) {
+                            hbox.die();
+                        }
                     }
                 }
             }

@@ -53,10 +53,11 @@ public class DropThroughPlatform extends Event {
 						if (entity instanceof Player p) {
 							if (p.getFastfallHelper().isFastFalling()) { return; }
 						}
-						Filter filter = entity.getMainFixture().getFilterData();
-						filter.maskBits = (short) (filter.maskBits | BodyConstants.BIT_DROPTHROUGHWALL);
-
-						entity.getMainFixture().setFilterData(filter);
+						if (entity.getMainFixture() != null) {
+							Filter filter = entity.getMainFixture().getFilterData();
+							filter.maskBits = (short) (filter.maskBits | BodyConstants.BIT_DROPTHROUGHWALL);
+							entity.getMainFixture().setFilterData(filter);
+						}
 
 						feet.getTerrain().add(this.event);
 					}
@@ -71,10 +72,13 @@ public class DropThroughPlatform extends Event {
 				if (fixB != null) {
 					if (fixB instanceof FeetData feet) {
 						HadalEntity entity = fixB.getEntity();
-						Filter filter = entity.getMainFixture().getFilterData();
-						filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_DROPTHROUGHWALL);
-						entity.getMainFixture().setFilterData(filter);
-						
+
+						if (entity.getMainFixture() != null) {
+							Filter filter = entity.getMainFixture().getFilterData();
+							filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_DROPTHROUGHWALL);
+							entity.getMainFixture().setFilterData(filter);
+						}
+
 						feet.getTerrain().removeValue(this.event, false);
 					}
 				}
@@ -85,9 +89,11 @@ public class DropThroughPlatform extends Event {
 			 */
 			@Override
 			public void onInteract(Player p) {
-				Filter filter = p.getMainFixture().getFilterData();
-				filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_DROPTHROUGHWALL);
-				p.getMainFixture().setFilterData(filter);
+				if (p.getMainFixture() != null) {
+					Filter filter = p.getMainFixture().getFilterData();
+					filter.maskBits = (short) (filter.maskBits &~ BodyConstants.BIT_DROPTHROUGHWALL);
+					p.getMainFixture().setFilterData(filter);
+				}
 			}
 		};
 

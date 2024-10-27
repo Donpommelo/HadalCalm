@@ -80,9 +80,11 @@ public class UrchinNail extends SyncedAttacker {
             @Override
             protected void onStick(HadalEntity target, Body body) {
                 super.onStick(target, body);
-                Filter filter = hbox.getMainFixture().getFilterData();
-                filter.maskBits = (short) 0;
-                hbox.getMainFixture().setFilterData(filter);
+                if (hbox.getMainFixture() != null) {
+                    Filter filter = hbox.getMainFixture().getFilterData();
+                    filter.maskBits = (short) 0;
+                    hbox.getMainFixture().setFilterData(filter);
+                }
                 hbox.setSprite(Sprite.NAIL_STUCK);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
 
@@ -95,10 +97,11 @@ public class UrchinNail extends SyncedAttacker {
             protected void onUnstick() {
                 super.onUnstick();
                 hbox.setLinearVelocity(currentVelo.setAngleRad(hbox.getAngle()).scl(-1));
-
-                Filter filter = hbox.getMainFixture().getFilterData();
-                filter.maskBits = (short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_SENSOR);
-                hbox.getMainFixture().setFilterData(filter);
+                if (hbox.getMainFixture() != null) {
+                    Filter filter = hbox.getMainFixture().getFilterData();
+                    filter.maskBits = (short) (BodyConstants.BIT_PROJECTILE | BodyConstants.BIT_WALL | BodyConstants.BIT_PLAYER | BodyConstants.BIT_ENEMY | BodyConstants.BIT_SENSOR);
+                    hbox.getMainFixture().setFilterData(filter);
+                }
                 hbox.setSprite(Sprite.NAIL);
                 hbox.setSpriteSize(PROJECTILE_SIZE);
                 if (particles != null) {
