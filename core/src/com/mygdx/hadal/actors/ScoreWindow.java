@@ -153,6 +153,7 @@ public class ScoreWindow {
 		orderedUsers.sort((a, b) -> {
 			int cmp = (a.isSpectator() ? 1 : 0) - (b.isSpectator() ? 1 : 0);
 			if (0 == cmp) { cmp = b.getScoreManager().getScore() - a.getScoreManager().getScore(); }
+			if (0 == cmp) { cmp = a.getConnID() - b.getConnID(); }
 
 			//this makes the player always able to see their score at the top of scoreboards
 			if (!a.isSpectator() && a.getConnID() == HadalGame.usm.getConnID()) {
@@ -233,7 +234,7 @@ public class ScoreWindow {
 
 		//ui height scales to number of options available
 		float height = OPTIONS_HEIGHT;
-		if (state.isServer()) {
+		if (HadalGame.usm.isHost()) {
 			if (0 != connID) {
 				height += OPTIONS_EXTRA_HEIGHT;
 			}
@@ -275,16 +276,20 @@ public class ScoreWindow {
 			tableOptions.add(mute).height(OPTIONS_HEIGHT).pad(5).row();
 
 			//only host can ban.
-			if (state.isServer()) {
+			if (HadalGame.usm.isHost()) {
 				//host cannot ban self
-				if (0 != connID) {
+				if (HadalGame.usm.getHostID() != connID) {
 					Text ban = new Text(UIText.BAN.text()).setButton(true);
 					ban.setScale(SETTINGS_SCALE);
 					ban.addListener(new ClickListener() {
 
 						@Override
 						public void clicked(InputEvent e, float x, float y) {
-							HadalGame.server.kickPlayer(state, user, connID);
+							if (state.isServer()) {
+								HadalGame.server.kickPlayer(state, user, connID);
+							} else {
+								PacketManager.clientTCP(new Packets.ClientYeet(connID));
+							}
 							tableOptions.remove();
 							windowOptions.remove();
 						}

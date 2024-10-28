@@ -1,13 +1,13 @@
-package com.mygdx.hadal.server;
+package com.mygdx.hadal.server.states;
 
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.EndgameManager;
 import com.mygdx.hadal.managers.SpawnManager;
 import com.mygdx.hadal.managers.SpectatorManager;
 import com.mygdx.hadal.managers.TimerManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.managers.CameraManagerHeadless;
+import com.mygdx.hadal.server.managers.EndgameManagerHeadless;
 import com.mygdx.hadal.server.managers.TransitionManagerHeadless;
 import com.mygdx.hadal.server.managers.UIManagerHeadless;
 import com.mygdx.hadal.states.PlayState;
@@ -26,16 +26,9 @@ public class PlayStateHeadless extends PlayState {
         this.spawnManager = new SpawnManager(this, startID);
         this.transitionManager = new TransitionManagerHeadless(this);
         this.spectatorManager = new SpectatorManager(this);
-        this.endgameManager = new EndgameManager(this);
+        this.endgameManager = new EndgameManagerHeadless(this);
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void update(float delta) {
-        super.update(delta);
-    }
+    public void show() {}
 }

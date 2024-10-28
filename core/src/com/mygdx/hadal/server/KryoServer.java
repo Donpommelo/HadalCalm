@@ -594,6 +594,14 @@ public class KryoServer {
 					}
 				}
 
+				else if (o instanceof Packets.ClientNextMapResponse p) {
+					if (!StateManager.states.empty()) {
+						if (StateManager.states.peek() instanceof final ResultsState vs) {
+							Gdx.app.postRunnable(() -> vs.exitResultsState(p.returnToHub, p.nextMap));
+						}
+					}
+				}
+
 				/*
 				 * Client has died in their own world. This counts as an kill that should be echoed to other client
 				 */
@@ -725,6 +733,18 @@ public class KryoServer {
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
 								ArcadeMarquis.playerVote(ps, user, p.vote);
+							}
+						});
+					}
+				}
+
+				else if (o instanceof Packets.ClientYeet p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							User user = usm.getUsers().get(p.connID);
+							if (user != null) {
+								kickPlayer(ps, user, p.connID);
 							}
 						});
 					}

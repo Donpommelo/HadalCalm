@@ -8,6 +8,7 @@ import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.server.states.PlayStateHeadless;
 import com.mygdx.hadal.users.UserManager;
 
 public class HadalGameHeadless extends HadalGame {

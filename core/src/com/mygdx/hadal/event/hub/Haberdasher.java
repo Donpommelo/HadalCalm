@@ -277,12 +277,6 @@ public class Haberdasher extends HubEvent {
 		}
 	}
 
-	@Override
-	public void clientController(float delta) {
-		super.clientController(delta);
-		controller(delta);
-	}
-
 	/**
 	 * This returns whether the player already has the given cosmetic equipped
 	 */

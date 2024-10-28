@@ -6,7 +6,8 @@ import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.TransitionManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.server.PlayStateHeadless;
+import com.mygdx.hadal.server.states.PlayStateHeadless;
+import com.mygdx.hadal.server.states.ResultsStateHeadless;
 import com.mygdx.hadal.states.*;
 import com.mygdx.hadal.users.Transition;
 import com.mygdx.hadal.users.User;
@@ -23,12 +24,16 @@ public class TransitionManagerHeadless extends TransitionManager {
         switch (nextState) {
             case NEWLEVEL:
                 //remove this state and add a new play state with a fresh loadout
-                StateManager.removeState(SettingState.class, false);
-                StateManager.removeState(AboutState.class, false);
                 StateManager.removeState(PauseState.class, false);
-
                 StateManager.removeState(PlayStateHeadless.class, false);
                 StateManager.states.push(new PlayStateHeadless(state.getApp(), nextLevel, nextMode, true, nextStartID));
+                StateManager.states.peek().show();
+                break;
+            case RESULTS:
+                StateManager.removeState(PauseState.class, false);
+                StateManager.removeState(PlayStateHeadless.class, false);
+
+                StateManager.states.push(new ResultsStateHeadless(state.getApp(), state));
                 StateManager.states.peek().show();
                 break;
         }

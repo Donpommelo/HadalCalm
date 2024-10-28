@@ -30,6 +30,7 @@ import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.requests.SoundCreate;
+import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.entities.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -481,6 +482,18 @@ public class KryoClient {
 					vs.getPs().addPacketEffect(() -> vs.readyPlayer(p.playerID));
 				} else if (StateManager.states.peek() instanceof final PlayState ps) {
 					ps.addPacketEffect(() -> SettingArcade.readyUp(ps, p.playerID));
+				}
+			}
+		}
+
+		else if (o instanceof Packets.ServerNextMapRequest p) {
+			if (!StateManager.states.empty()) {
+				if (StateManager.states.peek() instanceof final ResultsState vs) {
+					Gdx.app.postRunnable(() -> PacketManager.clientTCP(
+							new Packets.ClientNextMapResponse(vs.isReturnToHub(), vs.getNextMap())));
+				} else {
+					Gdx.app.postRunnable(() -> PacketManager.clientTCP(
+							new Packets.ClientNextMapResponse(true, UnlockLevel.HUB_MULTI)));
 				}
 			}
 		}

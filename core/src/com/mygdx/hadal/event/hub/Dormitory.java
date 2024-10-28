@@ -136,10 +136,4 @@ public class Dormitory extends HubEvent {
 			}
 		}
 	}
-
-	@Override
-	public void clientController(float delta) {
-		super.clientController(delta);
-		controller(delta);
-	}
 }

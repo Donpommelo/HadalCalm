@@ -25,7 +25,7 @@ import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
 public class EndgameManager {
 
-    private final PlayState state;
+    protected final PlayState state;
 
     //If we are transitioning to a results screen, this is the displayed text;
     protected String resultsText = "";

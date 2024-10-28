@@ -104,6 +104,11 @@ public class HubEvent extends Event {
 		}
 	}
 
+	@Override
+	public void clientController(float delta) {
+		controller(delta);
+	}
+
 	/**
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */

@@ -71,7 +71,6 @@ public class SpectatorManager {
      * This is only run by the server
      */
     public void exitSpectator(User user) {
-
         if (user != null) {
             if (user.isSpectator()) {
                 //cannot exit spectator if server is full

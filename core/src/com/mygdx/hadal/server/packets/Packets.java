@@ -299,7 +299,31 @@ public class Packets {
 			this.playerID = playerID;
 		}
 	}
-	
+
+	public static class ServerNextMapRequest {
+
+		/**
+		 * This is sent from a headless server to the host client when exiting result state.
+		 * This prompts the host client to inform the server whether to go to the next map or return to the hub
+		 */
+		public ServerNextMapRequest() {}
+	}
+
+	public static class ClientNextMapResponse {
+		public boolean returnToHub;
+		public UnlockLevel nextMap;
+		public ClientNextMapResponse() {}
+
+		/**
+		 * This is sent from a host client to a headless server after exiting results state and being prompted by the server.
+		 * This prompts the server to transition from the results state into the next playstate
+		 */
+		public ClientNextMapResponse(boolean returnToHub, UnlockLevel nextMap) {
+			this.returnToHub = returnToHub;
+			this.nextMap = nextMap;
+		}
+	}
+
 	public static class SyncScore {
 		public int connID;
 		public String name;
@@ -1035,11 +1059,16 @@ public class Packets {
 	}
 
 	public static class ClientYeet {
-
+		public int connID;
+		public ClientYeet() {}
 		/**
 		 * A ClientYeet packet is sent from server to client to disconnect the client
+		 * It is also sent from a client host to a headless server to indicate a kick
+		 * @param connID: this is the id of the player that is getting kicked.
 		 */
-		public ClientYeet() {}
+		public ClientYeet(int connID) {
+			this.connID = connID;
+		}
 	}
 
 	public static class SyncEmote {
@@ -1143,7 +1172,9 @@ public class Packets {
 		kryo.register(ClientLevelRequest.class);
     	kryo.register(ClientPlayerCreated.class);
     	kryo.register(ClientStartTransition.class);
-    	kryo.register(SyncScore.class);
+		kryo.register(ServerNextMapRequest.class);
+		kryo.register(ClientNextMapResponse.class);
+		kryo.register(SyncScore.class);
     	kryo.register(CreateEntity.class);
     	kryo.register(CreateEnemy.class);
 		kryo.register(DeleteEntity.class);
