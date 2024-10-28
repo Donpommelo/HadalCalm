@@ -242,6 +242,11 @@ public class SettingArcade extends ModeSetting {
                     .setFadeDelay(MEDIUM_FADE_DELAY)
                     .setOverride(true));
         }
+
+        //Server not being host indicates a headless server. Need to kick off transition manually since there is no host user
+        if (!HadalGame.usm.isHost())  {
+            state.getTransitionManager().beginTransition(TransitionState.NEWLEVEL, SLOW_FADE_OUT_SPEED, MEDIUM_FADE_DELAY, false);
+        }
     }
 
     public static void readyUp(PlayState state, int playerID) {

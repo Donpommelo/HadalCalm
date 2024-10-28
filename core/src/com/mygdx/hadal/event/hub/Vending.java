@@ -45,7 +45,11 @@ public class Vending extends HubEvent {
 		this.numWeapon = numWeapon;
 		this.numArtifact = numArtifact;
 		this.numMagic = numMagic;
-		setChoices();
+
+		//don't set choices for headless server with no user, since they can't check artifact ownership
+		if (HadalGame.usm.getOwnUser() != null) {
+			setChoices();
+		}
 
 		REFRESH_COST_CURRENT = REFRESH_COST_BASE;
 	}

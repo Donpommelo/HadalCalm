@@ -22,14 +22,10 @@ public class LoamskinLocket extends Artifact {
 			private float previousHealth;
 			private boolean activated;
 			@Override
-			public void onInflict() {
-				previousHealth = p.getCurrentHp();
-			}
+			public void onInflict() { previousHealth = p.getCurrentHp(); }
 			
 			@Override
-			public void onRemove() {
-				p.setCurrentHp(p.getCurrentHp() + BONUS_HP);
-			}
+			public void onRemove() { p.setCurrentHp(p.getCurrentHp() + BONUS_HP * p.getStat(Stats.MAX_HP)); }
 			
 			@Override
 			public void timePassing(float delta) {
