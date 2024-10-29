@@ -1152,6 +1152,16 @@ public class Packets {
 		}
 	}
 
+	public static class ServerNewHost {
+		public int hostID;
+
+		public ServerNewHost() {}
+
+		public ServerNewHost(int hostID) {
+			this.hostID = hostID;
+		}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1211,6 +1221,7 @@ public class Packets {
 		kryo.register(SyncObjectiveMarker.class);
 		kryo.register(SyncArcadeModeChoices.class);
 		kryo.register(SyncClientModeVote.class);
+		kryo.register(ServerNewHost.class);
 
 		kryo.register(PacketsSync.SyncEntity.class);
 		kryo.register(PacketsSync.SyncEntityAngled.class);

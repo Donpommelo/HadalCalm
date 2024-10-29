@@ -1,7 +1,10 @@
 package com.mygdx.hadal.users;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.server.packets.Packets;
 
 /**
  * The UserManager is created when the game begins and maintains a list of users connected to the game.
@@ -45,6 +48,20 @@ public class UserManager {
         addUser(user);
         if (getHost() == null) {
             hostID = user.getConnID();
+        }
+    }
+
+    public void removeUser(int connID) { users.remove(connID); }
+
+    public void removeUserServer(int connID) {
+        removeUser(connID);
+        if (users.isEmpty()) {
+            Gdx.app.exit();
+        } else if (connID == hostID) {
+
+            //if the host disconnected, choose a new host and inform clients
+            hostID = users.keys().toArray().get(0);
+            PacketManager.serverTCPAll(new Packets.ServerNewHost(hostID));
         }
     }
 

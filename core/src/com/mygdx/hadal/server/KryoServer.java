@@ -104,7 +104,7 @@ public class KryoServer {
 					Gdx.app.postRunnable(() -> {
 						//remove disconnecting player from users. We do this regardless of user's player
 						//or if we can run a playstate's packet effects
-						usm.getUsers().remove(c.getID());
+						usm.removeUserServer(c.getID());
 						PacketManager.serverTCPAll(new Packets.RemoveScore(c.getID()));
 
 						Player player = user.getPlayer();

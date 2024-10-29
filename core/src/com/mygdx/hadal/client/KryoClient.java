@@ -14,9 +14,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
-import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
@@ -307,7 +305,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.RemoveScore p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> usm.getUsers().remove(p.connID));
+				cs.addPacketEffect(() -> usm.removeUser(p.connID));
 			}
 		}
 
@@ -637,6 +635,10 @@ public class KryoClient {
 			if (null != cs) {
 				cs.getTransitionManager().returnToTitle(0.0f);
 			}
+		}
+
+		else if (o instanceof Packets.ServerNewHost p) {
+			HadalGame.usm.setHostID(p.hostID);
 		}
 	}
 

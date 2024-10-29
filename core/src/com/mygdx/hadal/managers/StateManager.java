@@ -53,13 +53,15 @@ public class StateManager {
 		}
 		states.clear();
 
-		HadalGame.assetManager.finishLoading();
-		Array<String> assetNames = HadalGame.assetManager.getAssetNames();
+		if (HadalGame.assetManager != null) {
+			HadalGame.assetManager.finishLoading();
+			Array<String> assetNames = HadalGame.assetManager.getAssetNames();
 
-		for (String assetName : assetNames) {
-			Object asset = HadalGame.assetManager.get(assetName);
-			if (asset instanceof TextureAtlas atlas) {
-				atlas.dispose();
+			for (String assetName : assetNames) {
+				Object asset = HadalGame.assetManager.get(assetName);
+				if (asset instanceof TextureAtlas atlas) {
+					atlas.dispose();
+				}
 			}
 		}
 

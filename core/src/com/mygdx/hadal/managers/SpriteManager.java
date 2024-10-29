@@ -12,7 +12,6 @@ import java.util.Objects;
 public class SpriteManager {
 
     public static Array<? extends TextureRegion> getFrames(Sprite sprite) {
-
         if (HadalGame.assetManager == null) {
             return null;
         }

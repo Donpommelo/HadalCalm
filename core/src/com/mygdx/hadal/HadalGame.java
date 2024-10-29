@@ -154,8 +154,13 @@ public class HadalGame extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		StateManager.dispose();
-		batch.dispose();
-		assetManager.dispose();
+
+		if (batch != null) {
+			batch.dispose();
+		}
+		if (assetManager != null) {
+			assetManager.dispose();
+		}
 		MusicPlayer.dispose();
 		FadeManager.dispose();
 		SkinManager.dispose();
@@ -163,8 +168,12 @@ public class HadalGame extends ApplicationAdapter {
 		BotManager.terminatePathfindingThreads();
 
         try {
-			client.dispose();
-			server.dispose();
+			if (client != null) {
+				client.dispose();
+			}
+			if (server != null) {
+				server.dispose();
+			}
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
