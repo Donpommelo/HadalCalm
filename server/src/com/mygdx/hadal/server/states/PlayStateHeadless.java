@@ -6,6 +6,7 @@ import com.mygdx.hadal.managers.SpectatorManager;
 import com.mygdx.hadal.managers.TimerManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.server.ServerMapLoader;
 import com.mygdx.hadal.server.managers.CameraManagerHeadless;
 import com.mygdx.hadal.server.managers.EndgameManagerHeadless;
 import com.mygdx.hadal.server.managers.TransitionManagerHeadless;
@@ -18,6 +19,7 @@ public class PlayStateHeadless extends PlayState {
         super(app, level, mode, true, reset, startID);
     }
 
+    @Override
     public void initManagers(String startID) {
         this.cameraManager = new CameraManagerHeadless(this, map);
         this.uiManager = new UIManagerHeadless(this);
@@ -30,5 +32,12 @@ public class PlayStateHeadless extends PlayState {
     }
 
     @Override
+    public void initMap() {
+        map = new ServerMapLoader().load(level.getMap());
+    }
+
+    @Override
     public void show() {}
+
+
 }

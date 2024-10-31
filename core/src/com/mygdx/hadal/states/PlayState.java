@@ -68,7 +68,7 @@ public class PlayState extends GameState {
 	private final Array<UnlockManager.UnlockTag> mapEquipTags = new Array<>();
 
 	//These process and store the map parsed from the Tiled file.
-	protected final TiledMap map;
+	protected TiledMap map;
 
 	//world manages the Box2d world and physics.
 	protected World world;
@@ -158,8 +158,7 @@ public class PlayState extends GameState {
 		entityLists.add(entities);
 		entityLists.add(effects);
 
-		//load map. We override the render so that we can apply a shader to the tileset
-		map = new TmxMapLoader().load(level.getMap());
+		initMap();
 
 		//We clear things like music/sound/shaders to periodically free up some memory
 		StateManager.clearMemory();
@@ -239,6 +238,10 @@ public class PlayState extends GameState {
 		this.transitionManager = new TransitionManager(this);
 		this.spectatorManager = new SpectatorManager(this);
 		this.endgameManager = new EndgameManager(this);
+	}
+
+	public void initMap() {
+		map = new TmxMapLoader().load(level.getMap());
 	}
 
 	@Override

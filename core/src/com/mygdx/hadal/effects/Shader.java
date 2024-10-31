@@ -2,6 +2,7 @@ package com.mygdx.hadal.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
@@ -77,7 +78,7 @@ public enum Shader {
 	 * Load this shader's shader program if not created yet. Bind and initate the shader's strategies
 	 */
 	public void loadShader() {
-		
+		if (HadalGame.assetManager == null) { return; }
 		if (this.equals(NOTHING)) { return; }
 
 		loadStaticShader();
@@ -92,7 +93,7 @@ public enum Shader {
 	 * This loads a static shader
 	 */
 	public void loadStaticShader() {
-
+		if (HadalGame.assetManager == null) { return; }
 		if (this.equals(NOTHING)) { return; }
 
 		//load the shader and create its strategies

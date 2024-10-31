@@ -30,7 +30,11 @@ public class FadeManager {
     private static Runnable runAfterTransition;
 
     //this is a black texture used for fading in/out transitions.
-    private static final Texture black = new Texture(Gdx.files.internal("black.png"));
+    private static Texture black;
+
+    public static void initTextures() {
+        black = new Texture(Gdx.files.internal("black.png"));
+    }
 
     public static void render(HadalGame app, SpriteBatch batch) {
 

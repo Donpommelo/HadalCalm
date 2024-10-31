@@ -150,10 +150,10 @@ public class PauseState extends GameState {
 				        	}
 	    				} else if (HadalGame.usm.isHost()) {
 							if (StateManager.currentMode == Mode.SINGLE) {
-								PacketManager.clientTCP(new Packets.ClientLevelRequest(UnlockLevel.SSTUNICATE1, GameMode.HUB));
+								PacketManager.clientTCP(new Packets.ClientLevelRequest(UnlockLevel.SSTUNICATE1, GameMode.HUB, null));
 							}
 							if (StateManager.currentMode == Mode.MULTI) {
-								PacketManager.clientTCP(new Packets.ClientLevelRequest(UnlockLevel.HUB_MULTI, GameMode.HUB));
+								PacketManager.clientTCP(new Packets.ClientLevelRequest(UnlockLevel.HUB_MULTI, GameMode.HUB, null));
 							}
 						}
 			        	SoundEffect.NEGATIVE.play(1.0f, false);

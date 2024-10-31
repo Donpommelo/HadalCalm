@@ -19,7 +19,9 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.CursorManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.TooltipManager;
 import com.mygdx.hadal.text.UIText;
 
@@ -770,11 +772,15 @@ public class SettingState extends GameState {
 	 */
 	private void updateSharedSettings() {
 		JSONManager.sharedSetting = JSONManager.setting.generateSharedSetting();
-		
+
 		//the server should update their scoretable when settings are changed
 		if (playState != null) {
 			if (playState.isServer()) {
 				playState.getUIManager().getScoreWindow().syncSettingTable();
+			} else if (HadalGame.usm.isHost()) {
+
+				//client hosts should send updated settings to server to echo.
+				PacketManager.clientTCP(new Packets.SyncSharedSettings(JSONManager.sharedSetting));
 			}
 		}
 	}

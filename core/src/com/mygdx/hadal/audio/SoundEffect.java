@@ -193,7 +193,8 @@ public enum SoundEffect {
 	}
 	
 	public long play(float volume, float pitch, boolean singleton) {
-		
+		if (HadalGame.assetManager == null) { return 0L; }
+
 		if (singleton) {
 			getSound().stop();
 		}
@@ -202,6 +203,8 @@ public enum SoundEffect {
 	}
 
 	public void playNoModifiers(float volume) {
+		if (HadalGame.assetManager == null) { return; }
+
 		getSound().play(volume, 1.0f, 0.0f);
 	}
 
@@ -214,6 +217,7 @@ public enum SoundEffect {
 	}
 
 	public long playSourced(PlayState state, Vector2 worldPos, float volume, float pitch) {
+		if (HadalGame.assetManager == null) { return 0L; }
 
 		long soundId = getSound().play();
 
@@ -232,6 +236,8 @@ public enum SoundEffect {
 	}
 	
 	public long playUniversal(PlayState state, Vector2 worldPos, float volume, float pitch, boolean singleton) {
+		if (HadalGame.assetManager == null) { return 0L; }
+
 		//Send a packet to the client and play the sound
 		if (state.isServer()) {
 			PacketManager.serverUDPAll(new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
@@ -253,6 +259,8 @@ public enum SoundEffect {
 	}
 	
 	public void playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, float pitch, boolean singleton) {
+		if (HadalGame.assetManager == null) { return; }
+
 		if (state.isServer() && null != player) {
 			
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client

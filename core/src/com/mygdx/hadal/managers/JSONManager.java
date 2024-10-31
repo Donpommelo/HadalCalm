@@ -34,7 +34,7 @@ public class JSONManager {
     //This contains the settings that are shared with clients (or shared from server if we are the client)
     public static SharedSetting sharedSetting, hostSetting;
 
-    public static void initJSON(HadalGame app) {
+    public static void initJSON() {
 
         //we set output settings to json so intellij editor doesn't get pissy about double quotes
         JSON.setOutputType(JsonWriter.OutputType.json);
@@ -67,11 +67,13 @@ public class JSONManager {
         setting = Setting.retrieveSetting();
         outfits = SavedOutfits.retrieveOutfits();
 
+        sharedSetting = setting.generateSharedSetting();
+        hostSetting = setting.generateSharedSetting();
+    }
+
+    public static void initJSONDisplay(HadalGame app) {
         //set the game's display to match the player's saved settings
         setting.setDisplay(app, null, true);
         CursorManager.setCursor();
-
-        sharedSetting = setting.generateSharedSetting();
-        hostSetting = setting.generateSharedSetting();
     }
 }

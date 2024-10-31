@@ -15,6 +15,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
+import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.GameMode;
@@ -25,6 +26,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -243,8 +245,16 @@ public class NavigationsMultiplayer extends HubEvent {
 						if (state.isServer()) {
 							state.getTransitionManager().loadLevel(selected, modeChosen, TransitionState.NEWLEVEL, "");
 						} else if (HadalGame.usm.isHost()) {
+
+							//need to set mode settings here, since we usually do that after initializing play state.
+							//We need to send this to the headless server prior to state transition
+							for (ModeSetting setting : modeChosen.getSettings()) {
+								setting.saveSetting(state, modeChosen);
+							}
+
 							//client hosts request a transition to the selected level
-							PacketManager.clientTCP(new Packets.ClientLevelRequest(selected, modeChosen));
+							HashMap<String, Integer> modeSettings = JSONManager.setting.getModeSettings(modeChosen);
+							PacketManager.clientTCP(new Packets.ClientLevelRequest(selected, modeChosen, modeSettings));
 						} else {
 							//clients suggest maps when clicking
 							PacketManager.clientTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),

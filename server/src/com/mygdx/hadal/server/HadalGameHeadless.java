@@ -3,21 +3,27 @@ package com.mygdx.hadal.server;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Collections;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.bots.BotManager;
+import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.server.managers.loaders.EffectEntityLoaderHeadless;
+import com.mygdx.hadal.server.managers.loaders.SpriteLoaderHeadless;
 import com.mygdx.hadal.server.states.PlayStateHeadless;
 import com.mygdx.hadal.users.UserManager;
+
+import java.io.IOException;
 
 public class HadalGameHeadless extends HadalGame {
 
     @Override
     public void create() {
+        EffectEntityManager.initLoader(new EffectEntityLoaderHeadless());
+        SpriteManager.initLoader(new SpriteLoaderHeadless());
+
         usm = new UserManager();
 
-        JSONManager.initJSON(this);
+        JSONManager.initJSON();
 
         StateManager.states.push(new PlayStateHeadless(this, UnlockLevel.HUB_MULTI, GameMode.HUB, true, ""));
         StateManager.states.peek().show();
@@ -42,4 +48,17 @@ public class HadalGameHeadless extends HadalGame {
 
     @Override
     public void resize(int width, int height) {}
+
+    @Override
+    public void dispose() {
+        StateManager.dispose();
+        BotManager.terminatePathfindingThreads();
+        try {
+            if (server != null) {
+                server.dispose();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

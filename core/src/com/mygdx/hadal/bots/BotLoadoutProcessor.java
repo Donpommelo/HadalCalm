@@ -526,10 +526,12 @@ public class BotLoadoutProcessor {
         Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 
         //easy bots or bots in single player when the player has no artifacts do not use artifacts
-        if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
-                (StateManager.Mode.SINGLE.equals(StateManager.currentMode) &&
-                        0 == HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed())) {
-            return artifacts;
+        if (HadalGame.usm.getOwnUser() != null) {
+            if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
+                    (StateManager.Mode.SINGLE.equals(StateManager.currentMode) &&
+                            0 == HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed())) {
+                return artifacts;
+            }
         }
 
         Array<UnlockArtifact> artifactOptions = new Array<>();

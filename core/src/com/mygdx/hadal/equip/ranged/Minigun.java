@@ -99,7 +99,6 @@ public class Minigun extends RangedWeapon {
 				slow = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.STUN, user)
 						.setStartOn(false)
 						.setScale(0.6f));
-
 			}
 			if (slow != null) {
 				slow.turnOn();

@@ -5,3 +5,29 @@ dependencies {
     implementation project(":core")
     implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
 }
+
+project.ext.assetsDir = new File("../core/assets")
+def jarName = "${appName}-${version}.jar"
+
+jar {
+    archiveFileName.set(jarName)
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    destinationDirectory = file("${getLayout().getBuildDirectory().asFile.get().absolutePath}/lib")
+    dependsOn configurations.runtimeClasspath
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    exclude('linux/arm32/**', 'linux/arm64/**', 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
+    from files(project.assetsDir)
+
+    exclude('cursors/**', 'fonts/**', 'Images/**', 'music/**', 'particles/**', 'sound/**', 'shaders/**', 'sprites/**', 'ui/**', '*.png', '*.jpg')
+    from files(project.assetsDir)
+
+
+    dependencies {
+        exclude('META-INF/INDEX.LIST', 'META-INF/maven/**')
+    }
+
+    manifest {
+        attributes 'Main-Class': 'com.mygdx.hadal.server.ServerLauncher'
+    }
+}

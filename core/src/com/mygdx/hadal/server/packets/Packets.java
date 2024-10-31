@@ -142,6 +142,7 @@ public class Packets {
 	public static class ClientLevelRequest {
 		public UnlockLevel level;
 		public GameMode mode;
+		public HashMap<String, Integer> modeSettings;
 
 		public ClientLevelRequest() {}
 
@@ -149,9 +150,10 @@ public class Packets {
 		 * A ClientLevelRequest is sent from Client to Server when a client host wants to transition to a new level
 		 * @param level: the new level we transition to
 		 */
-		public ClientLevelRequest(UnlockLevel level, GameMode mode) {
+		public ClientLevelRequest(UnlockLevel level, GameMode mode, HashMap<String, Integer> modeSettings) {
 			this.level = level;
 			this.mode = mode;
+			this.modeSettings = modeSettings;
 		}
 	}
 	
@@ -985,6 +987,7 @@ public class Packets {
 		
 		/**
 		 * A SyncSharedSettings is sent from the server to the client when the client connects, or when settings are changed.
+		 * This is also sent from client host to a headless server when settings are changed
 		 * @param settings: the host settings to be displayed in the score window ui
 		 */
 		public SyncSharedSettings(SharedSetting settings) {

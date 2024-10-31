@@ -84,7 +84,7 @@ public class Navigations extends HubEvent {
 							state.getTransitionManager().loadLevel(selected, TransitionState.NEWLEVEL, "");
 						} else if (HadalGame.usm.isHost()) {
 							//client hosts request a transition to the selected level
-							PacketManager.clientTCP(new Packets.ClientLevelRequest(selected, selected.getModes()[0]));
+							PacketManager.clientTCP(new Packets.ClientLevelRequest(selected, selected.getModes()[0], null));
 						} else {
 							//clients suggest maps when clicking
 							PacketManager.clientTCP(new Packets.ClientChat(UIText.MAP_SUGGEST.text(selected.getName()),

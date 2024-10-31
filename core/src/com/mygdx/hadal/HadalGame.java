@@ -15,6 +15,8 @@ import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.StateManager.State;
+import com.mygdx.hadal.managers.loaders.EffectEntityLoader;
+import com.mygdx.hadal.managers.loaders.SpriteLoader;
 import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.UPNPUtil;
@@ -68,6 +70,9 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void create() {
+		EffectEntityManager.initLoader(new EffectEntityLoader());
+		SpriteManager.initLoader(new SpriteLoader());
+
 		batch = new SpriteBatch();
 		
 	    camera = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
@@ -79,7 +84,10 @@ public class HadalGame extends ApplicationAdapter {
 	    usm = new UserManager();
 
 		StateManager.addState(this, State.SPLASH, null);
-		JSONManager.initJSON(this);
+		JSONManager.initJSON();
+		JSONManager.initJSONDisplay(this);
+
+		FadeManager.initTextures();
 
 		//enable upnp for both tcp and udp
 		if (JSONManager.setting.isEnableUPNP()) {

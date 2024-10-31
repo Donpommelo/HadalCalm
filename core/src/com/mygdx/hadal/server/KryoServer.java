@@ -25,6 +25,7 @@ import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.TransitionManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.SettingArcade;
+import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -43,6 +44,7 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -359,7 +361,14 @@ public class KryoServer {
 				else if (o instanceof Packets.ClientLevelRequest p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						ps.addPacketEffect(() -> ps.getTransitionManager().loadLevel(p.level, p.mode, TransitionManager.TransitionState.NEWLEVEL, ""));
+						ps.addPacketEffect(() -> {
+							if (p.modeSettings != null) {
+								for (Map.Entry<String, Integer> setting : p.modeSettings.entrySet()) {
+									JSONManager.setting.setModeSetting(p.mode, SettingSave.getByName(setting.getKey()), setting.getValue());
+								}
+							}
+							ps.getTransitionManager().loadLevel(p.level, p.mode, TransitionManager.TransitionState.NEWLEVEL, "");
+						});
 					}
 				}
 
@@ -746,6 +755,20 @@ public class KryoServer {
 							if (user != null) {
 								kickPlayer(ps, user, p.connID);
 							}
+						});
+					}
+				}
+
+				/*
+				 * The Server tells us the new settings after settings change.
+				 * Update our settings to the ones specified
+				 */
+				else if (o instanceof final Packets.SyncSharedSettings p) {
+					final PlayState ps = getPlayState();
+					if (null != ps) {
+						ps.addPacketEffect(() -> {
+							JSONManager.sharedSetting = p.settings;
+							ps.getUIManager().getScoreWindow().syncSettingTable();
 						});
 					}
 				}
