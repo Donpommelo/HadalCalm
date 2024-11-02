@@ -8,10 +8,7 @@ import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.server.managers.loaders.EffectEntityLoaderHeadless;
-import com.mygdx.hadal.server.managers.loaders.ShaderLoaderHeadless;
-import com.mygdx.hadal.server.managers.loaders.SoundLoaderHeadless;
-import com.mygdx.hadal.server.managers.loaders.SpriteLoaderHeadless;
+import com.mygdx.hadal.server.managers.loaders.*;
 import com.mygdx.hadal.server.states.PlayStateHeadless;
 import com.mygdx.hadal.users.UserManager;
 
@@ -25,6 +22,7 @@ public class HadalGameHeadless extends HadalGame {
         SpriteManager.initLoader(new SpriteLoaderHeadless());
         ShaderManager.initLoader(new ShaderLoaderHeadless());
         SoundManager.initLoader(new SoundLoaderHeadless());
+        RagdollManager.initLoader(new RagdollLoaderHeadless());
 
         usm = new UserManager();
 

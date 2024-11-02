@@ -48,7 +48,7 @@ public class PetrifiedPayload extends Artifact {
 				WeaponUtils.createExplosion(state, perp.getSchmuck().getPixelPosition(), explosionSize, p.getSchmuck(),
 						explosionDamagePlayer, explosionKnockback, p.getSchmuck().getHitboxFilter(), false, DamageSource.PETRIFIED_PAYLOAD);
 			}
-		});
+		}).setUserOnly(true);
 	}
 
 	@Override

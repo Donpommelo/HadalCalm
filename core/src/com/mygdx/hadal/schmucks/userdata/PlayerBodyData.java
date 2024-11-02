@@ -125,11 +125,6 @@ public class PlayerBodyData extends BodyData {
 	@Override
 	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
 
-		//set death info to be sent to clients once death is processed
-		player.setDamageSource(source);
-		player.setDamageTags(tags);
-		player.setPerpID(perp.getSchmuck().getEntityID());
-
 		if (player.isAlive()) {
 
 			DespawnType type = CombatUtil.getDespawnType(source, tags);

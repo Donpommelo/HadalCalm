@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
@@ -13,10 +14,13 @@ import com.mygdx.hadal.schmucks.entities.helpers.DamageEffectHelper;
 import com.mygdx.hadal.schmucks.entities.helpers.SpecialHpHelper;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.PacketUtil;
+
+import java.util.UUID;
 
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
@@ -124,7 +128,23 @@ public class Schmuck extends HadalEntity {
 				moveState = p.moveState;
 			}
 			getBodyData().setCurrentHp(PacketUtil.byteToPercent(p.hpPercent) * getBodyData().getStat(Stats.MAX_HP));
+		} else if (o instanceof Packets.DeleteSchmuck p) {
+			HadalEntity entity = state.findEntity(p.uuidMSBPerp, p.uuidLSBPerp);
+			if (entity instanceof Schmuck perp) {
+				getBodyData().die(perp.getBodyData(), p.source, p.tags);
+			} else {
+				getBodyData().die(state.getWorldDummy().getBodyData(), p.source, p.tags);
+			}
 		}
+	}
+
+	//this is the type of death we have. Send to client so they can process the death on their end.
+	private UUID perpID;
+	private DamageSource damageSource = DamageSource.MISC;
+	private DamageTag[] damageTags = new DamageTag[] {};
+	@Override
+	public Object onServerDelete() {
+		return new Packets.DeleteSchmuck(entityID, perpID, state.getTimer(), damageSource, damageTags);
 	}
 
 	private final Vector2 impulse = new Vector2();
@@ -176,4 +196,10 @@ public class Schmuck extends HadalEntity {
 	public DamageEffectHelper getDamageEffectHelper() {	return damageEffectHelper; }
 
 	public SpecialHpHelper getSpecialHpHelper() { return specialHpHelper; }
+
+	public void setPerpID(UUID perpID) { this.perpID = perpID; }
+
+	public void setDamageSource(DamageSource damageSource) { this.damageSource = damageSource; }
+
+	public void setDamageTags(DamageTag[] damageTags) { this.damageTags = damageTags; }
 }

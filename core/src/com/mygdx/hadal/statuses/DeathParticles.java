@@ -2,7 +2,6 @@ package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.requests.ParticleCreate;
@@ -30,7 +29,6 @@ public class DeathParticles extends Status {
 	@Override
 	public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 		EffectEntityManager.getParticle(state, new ParticleCreate(particle, inflicted.getSchmuck().getPixelPosition())
-				.setLifespan(duration)
-				.setSyncType(SyncType.CREATESYNC));
+				.setLifespan(duration));
 	}
 }

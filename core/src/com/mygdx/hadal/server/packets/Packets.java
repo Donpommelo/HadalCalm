@@ -442,11 +442,11 @@ public class Packets {
         }
 	}
 
-	public static class DeletePlayer extends DeleteEntity {
+	public static class DeleteSchmuck extends DeleteEntity {
 		public long uuidMSBPerp, uuidLSBPerp;
 		public DamageSource source;
 		public DamageTag[] tags;
-		public DeletePlayer() {}
+		public DeleteSchmuck() {}
 
 		/**
 		 * A DeletePlayer is sent from the Server to the Client to tell the Client to delete a player.
@@ -457,7 +457,7 @@ public class Packets {
 		 * @param source: source of fatal damage (for death message)
 		 * @param tags: tags associated with fatal damage (for death message
 		 */
-		public DeletePlayer(UUID entityID, UUID perpID, float timestamp, DamageSource source, DamageTag[] tags) {
+		public DeleteSchmuck(UUID entityID, UUID perpID, float timestamp, DamageSource source, DamageTag[] tags) {
 			super(entityID, timestamp);
 			if (null != perpID) {
 				this.uuidMSBPerp = perpID.getMostSignificantBits();
@@ -579,49 +579,6 @@ public class Packets {
             this.newPickup = newPickup;
             this.lifespan = lifespan;
 		}
-	}
-	
-	public static class CreateRagdoll {
-		public long uuidMSB, uuidLSB;
-        public Vector2 pos;
-        public Vector2 size;
-        public Sprite sprite;
-        public Vector2 velocity;
-        public float duration;
-        public float gravity;
-        public boolean setVelo;
-		public boolean sensor;
-		public boolean fade;
-        public CreateRagdoll() {}
-        
-        /**
-         * A CreateRagdoll is sent from the server to the client to tell the client to create a ragdoll with the contained data.
-         * Ragdolls are not synced between server and client.
-		 * @param entityID: entityID of the player to create ragdoll for
-		 * @param pos: position to create the new ragdoll
-		 * @param size: size of the ragdolls (in case the player has any size modifiers)
-		 * @param sprite: sprite of the ragdoll to create
-		 * @param velocity: starting velocity of the ragdoll
-		 * @param duration: lifespan of the ragdoll
-		 * @param gravity: effect of gravity on the ragdoll
-		 * @param setVelo: whether to set the velocity of newly created ragdolls
-		 * @param sensor: should the ragdoll not have collisions with other objects?
-		 * @param fade: should the ragdoll fade when it is about to despawn?
-         */
-        public CreateRagdoll(UUID entityID, Vector2 pos, Vector2 size, Sprite sprite, Vector2 velocity, float duration,
-							 float gravity, boolean setVelo, boolean sensor, boolean fade) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-        	this.pos = pos;
-        	this.size = size;
-        	this.sprite = sprite;
-        	this.velocity = velocity;
-        	this.duration = duration;
-        	this.gravity = gravity;
-        	this.setVelo = setVelo;
-        	this.sensor = sensor;
-        	this.fade = fade;
-        }
 	}
 
 	public static class SyncPickup {
@@ -1191,7 +1148,7 @@ public class Packets {
     	kryo.register(CreateEntity.class);
     	kryo.register(CreateEnemy.class);
 		kryo.register(DeleteEntity.class);
-		kryo.register(DeletePlayer.class);
+		kryo.register(DeleteSchmuck.class);
 		kryo.register(DeleteClientSelf.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
@@ -1206,7 +1163,6 @@ public class Packets {
 		kryo.register(CreateGrave.class);
 		kryo.register(RequestStartSyncedEvent.class);
 		kryo.register(CreateStartSyncedEvent.class);
-    	kryo.register(CreateRagdoll.class);
 
     	kryo.register(SyncUI.class);
     	kryo.register(SyncSoundSingle.class);

@@ -9,8 +9,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.RagdollManager;
 import com.mygdx.hadal.managers.SpriteManager;
-import com.mygdx.hadal.schmucks.entities.Ragdoll;
+import com.mygdx.hadal.requests.RagdollCreate;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.PacketUtil;
@@ -172,10 +173,18 @@ public class Turret extends Enemy {
 	public boolean queueDeletion() {
 		if (alive) {
 			final Vector2 entityLocation = new Vector2(getPixelPosition());
-			new Ragdoll(state, entityLocation, size, Sprite.TURRET_BASE, getLinearVelocity(), 1.5f, 1.0f,
-					true, false, true).setFade();
-			new Ragdoll(state, entityLocation, size, turretBarrelSprite, getLinearVelocity(), 1.5f, 1.0f,
-					true, false, true).setFade();
+			RagdollCreate ragdollCreate = new RagdollCreate()
+					.setSprite(Sprite.TURRET_BASE)
+					.setPosition(entityLocation)
+					.setSize(size)
+					.setVelocity(getLinearVelocity())
+					.setLifespan(1.5f)
+					.setGravity(1.0f)
+					.setStartVelocity(true)
+					.setFade();
+			RagdollManager.getRagdoll(state, ragdollCreate);
+			ragdollCreate.setSprite(turretBarrelSprite);
+			RagdollManager.getRagdoll(state, ragdollCreate);
 		}
 		return super.queueDeletion();
 	}

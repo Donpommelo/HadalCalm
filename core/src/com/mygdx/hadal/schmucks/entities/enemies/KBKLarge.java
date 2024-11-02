@@ -56,7 +56,7 @@ public class KBKLarge extends EnemySwimming {
 				EnemyType.SPLITTER_MEDIUM.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);
 				EnemyType.SPLITTER_MEDIUM.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);
 			}
-		});
+		}.setServerOnly(true));
 	}
 
 	@Override

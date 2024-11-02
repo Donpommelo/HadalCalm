@@ -8,8 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.RagdollManager;
+import com.mygdx.hadal.requests.RagdollCreate;
 import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 
@@ -134,22 +135,29 @@ public class CharacterCosmetic {
     /**
      * Called when player ragdolls are created to spawn a ragdoll for the cosmetic if applicable
      */
-    public Ragdoll createRagdoll(PlayState state, AlignmentFilter team, UnlockCharacter character,
+    public void createRagdoll(PlayState state, AlignmentFilter team, UnlockCharacter character,
                                  Vector2 playerLocation, float scale, Vector2 playerVelocity) {
         if (null == frames) {
             getFrames();
         }
         if (0 != frames.getKeyFrames().length) {
+            RagdollCreate ragdollCreate = new RagdollCreate()
+                    .setPosition(playerLocation)
+                    .setSize(new Vector2(cosmeticWidth, cosmeticHeight).scl(scale))
+                    .setVelocity(playerVelocity)
+                    .setLifespan(GIB_DURATION)
+                    .setGravity(GIB_GRAVITY)
+                    .setStartVelocity(true)
+                    .setFade();
+
             if (useShader || team.isCosmeticApply()) {
-                return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
-                        drawShadedCosmetic(state.getBatch(), team, character, mirror, false).getKeyFrame(0),
-                        playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
+                ragdollCreate.setTextureRegion(drawShadedCosmetic(state.getBatch(), team, character, mirror, false).getKeyFrame(0));
             } else {
-                return new Ragdoll(state, playerLocation, new Vector2(cosmeticWidth, cosmeticHeight).scl(scale),
-                        frames.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
+                ragdollCreate.setTextureRegion(frames.getKeyFrame(0));
             }
+
+            RagdollManager.getRagdoll(state, ragdollCreate);
         }
-        return null;
     }
 
     /**

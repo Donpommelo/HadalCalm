@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.*;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
@@ -34,8 +33,6 @@ import com.mygdx.hadal.utils.PlayerConditionUtil;
 import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
-
-import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -428,14 +425,6 @@ public class Player extends Schmuck {
 				hitboxFilter, scaleModifier, dontMoveCamera, pvpOverride, start == null ? null : start.getTriggeredID());
 	}
 
-	//this is the type of death we have. Send to client so they can process the death on their end.
-	private UUID perpID;
-	private DamageSource damageSource = DamageSource.MISC;
-	private DamageTag[] damageTags = new DamageTag[] {};
-	@Override
-	public Object onServerDelete() {
-		return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
-
 	/**
 	 * This is called every engine tick. 
 	 * The server player sends one packet to the corresponding client player and one to all players.
@@ -487,7 +476,7 @@ public class Player extends Schmuck {
 			equipHelper.getCurrentTool().setChargeCd(chargePercent);
 
 			processConditionCode(p.conditionCode);
-		} else if (o instanceof Packets.DeletePlayer p) {
+		} else if (o instanceof Packets.DeleteSchmuck p) {
 
 			//if the client is told to delete another player, process their death.
 			if (this instanceof PlayerSelfOnClient) {
@@ -681,12 +670,6 @@ public class Player extends Schmuck {
 	public LoadoutMagicHelper getMagicHelper() { return magicHelper; }
 
 	public LoadoutCosmeticsHelper getCosmeticsHelper() { return cosmeticsHelper; }
-
-	public void setPerpID(UUID perpID) { this.perpID = perpID; }
-
-	public void setDamageSource(DamageSource damageSource) { this.damageSource = damageSource; }
-
-	public void setDamageTags(DamageTag[] damageTags) { this.damageTags = damageTags; }
 
 	public void setDontMoveCamera(boolean dontMoveCamera) {	this.dontMoveCamera = dontMoveCamera; }
 

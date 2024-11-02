@@ -991,24 +991,6 @@ public class KryoClient {
 		}
 		
 		/*
-		 * Server tells us to create a ragdoll. Ragdolls are not synced.
-		 */
-		else if (o instanceof final Packets.CreateRagdoll p) {
-			final ClientState cs = getClientState();
-			if (null != cs) {
-				cs.addPacketEffect(() -> {
-					Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo,
-							p.sensor, false);
-					if (p.fade) {
-						entity.setFade();
-					}
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, false, ObjectLayer.STANDARD);
-				});
-			}
-			return true;
-		}
-		
-		/*
 		 * Event Creation for specific Pickup event.
 		 */
 		else if (o instanceof final Packets.CreatePickup p) {

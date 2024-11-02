@@ -46,7 +46,7 @@ public class KingKamabokoPoison extends SyncedAttacker {
                 DamageSource.ENEMY_ATTACK, DamageTag.POISON, DamageTag.RANGED));
         hbox.addStrategy(new DiePoison(state, hbox, user.getBodyData(), POISON_RADIUS, POISON_DAMAGE, POISON_DURATION,
                 user.getHitboxFilter(), DamageSource.ENEMY_ATTACK));
-        hbox.addStrategy(new DieRagdoll(state, hbox, user.getBodyData(), false));
+        hbox.addStrategy(new DieRagdoll(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DEFLATE, 0.25f));
 
         return hbox;

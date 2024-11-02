@@ -45,7 +45,7 @@ public class Fugu extends SyncedAttacker {
         hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), BASE_DAMAGE, KNOCKBACK, DamageSource.FUGUN,
                 DamageTag.POISON, DamageTag.RANGED));
-        hbox.addStrategy(new DieRagdoll(state, hbox, user.getBodyData(), false));
+        hbox.addStrategy(new DieRagdoll(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DEFLATE, 0.25f));
 
         hbox.addStrategy(new DiePoison(state, hbox, user.getBodyData(), POISON_RADIUS, POISON_DAMAGE, POISON_DURATION,

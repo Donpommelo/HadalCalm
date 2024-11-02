@@ -420,6 +420,11 @@ public class BodyData extends HadalData {
 	 */
 	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
 		if (schmuck.queueDeletion()) {
+			//set death info to be sent to clients once death is processed
+			schmuck.setDamageSource(source);
+			schmuck.setDamageTags(tags);
+			schmuck.setPerpID(perp.getSchmuck().getEntityID());
+
 			perp.statusProcTime(new ProcTime.Kill(this, source, tags));
 			statusProcTime(new ProcTime.Death(perp, source, tags));
 		}		

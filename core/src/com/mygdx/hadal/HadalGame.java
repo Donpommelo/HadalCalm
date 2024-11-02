@@ -73,6 +73,7 @@ public class HadalGame extends ApplicationAdapter {
 		SpriteManager.initLoader(new SpriteLoader());
 		ShaderManager.initLoader(new ShaderLoader());
 		SoundManager.initLoader(new SoundLoader());
+		RagdollManager.initLoader(new RagdollLoader());
 
 		batch = new SpriteBatch();
 		
