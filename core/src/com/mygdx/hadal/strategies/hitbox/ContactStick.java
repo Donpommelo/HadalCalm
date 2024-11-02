@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.event.Wall;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -92,7 +94,10 @@ public class ContactStick extends HitboxStrategy {
 	}
 
 	protected void onStick(HadalEntity target, Body body) {
-		SoundEffect.SQUISH.playSourced(state, hbox.getPixelPosition(), 0.8f, 1.0f);
+		SoundManager.play(state, new SoundLoad(SoundEffect.SQUISH)
+				.setVolume(0.8f)
+				.setPosition(hbox.getPixelPosition()));
+
 		stuckToTarget = true;
 
 		this.target = target;

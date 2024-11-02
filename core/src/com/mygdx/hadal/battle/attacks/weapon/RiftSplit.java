@@ -9,6 +9,8 @@ import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -35,7 +37,9 @@ public class RiftSplit extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.METAL_IMPACT_1.playSourced(state, startPosition, 0.4f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.METAL_IMPACT_1)
+                .setVolume(0.4f)
+                .setPosition(startPosition));
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 false, true, user, PROJ_SPRITE);

@@ -7,7 +7,9 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Shocked;
@@ -36,7 +38,10 @@ public class PlusMinusUse extends SyncedAttacker {
                 if (procCdCount >= PROC_CD) {
                     procCdCount -= PROC_CD;
 
-                    SoundEffect.THUNDER.playSourced(state, user.getPixelPosition(), 0.5f);
+                    SoundManager.play(state, new SoundLoad(SoundEffect.THUNDER)
+                            .setVolume(0.5f)
+                            .setPosition(user.getPixelPosition()));
+
                     user.getBodyData().addStatus(new Shocked(state, user.getBodyData(), user.getBodyData(),
                             CHAIN_DAMAGE, CHAIN_RADIUS, CHAIN_AMOUNT,
                             user.getHitboxFilter(), SyncedAttack.SHOCK_PLUS_MINUS));

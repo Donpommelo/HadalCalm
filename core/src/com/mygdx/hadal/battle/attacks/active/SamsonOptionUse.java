@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -50,7 +52,10 @@ public class SamsonOptionUse extends SyncedAttacker {
                         float nextX = extraFields[explosionNumber * 2];
                         float nextY = extraFields[explosionNumber * 2 + 1];
 
-                        SoundEffect.EXPLOSION6.playSourced(state, explosionPosition.set(nextX, nextY), 0.5f);
+                        SoundManager.play(state, new SoundLoad(SoundEffect.EXPLOSION6)
+                                .setVolume(0.5f)
+                                .setPosition(explosionPosition.set(nextX, nextY)));
+
                         WeaponUtils.createExplosion(state, explosionPosition, EXPLOSION_RADIUS, user, EXPLOSION_DAMAGE, EXPLOSION_KNOCKBACK,
                                 user.getHitboxFilter(), false, DamageSource.SAMSON_OPTION);
                     }

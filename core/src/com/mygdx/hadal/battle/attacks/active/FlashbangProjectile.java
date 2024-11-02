@@ -9,6 +9,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -36,7 +38,9 @@ public class FlashbangProjectile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 0.35f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.LAUNCHER)
+                .setVolume(0.35f)
+                .setPosition(user.getPixelPosition()));
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 false, false, user, PROJ_SPRITE);
@@ -53,7 +57,10 @@ public class FlashbangProjectile extends SyncedAttacker {
 
             @Override
             public void die() {
-                SoundEffect.FLASHBANG.playSourced(state, this.hbox.getPixelPosition(), 1.5f, 1.8f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.FLASHBANG)
+                        .setVolume(1.5f)
+                        .setPitch(1.8f)
+                        .setPosition(this.hbox.getPixelPosition()));
 
                 Hitbox hbox = new Hitbox(state, this.hbox.getPixelPosition(), new Vector2(CURRENT_RADIUS, CURRENT_RADIUS),
                         0.4f, new Vector2(0, 0), (short) 0, true, false, user, Sprite.NOTHING);

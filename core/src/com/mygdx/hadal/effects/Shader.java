@@ -1,8 +1,6 @@
 package com.mygdx.hadal.effects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
@@ -73,34 +71,6 @@ public enum Shader {
 		this.strategies = strategies;
 		this.background = background;
 	}
-	
-	/**
-	 * Load this shader's shader program if not created yet. Bind and initate the shader's strategies
-	 */
-	public void loadShader() {
-		if (HadalGame.assetManager == null) { return; }
-		if (this.equals(NOTHING)) { return; }
-
-		loadStaticShader();
-
-		shaderProgram.bind();
-		for (ShaderStrategy strat : strategies) {
-			strat.create(shaderProgram);
-		}
-	}
-
-	/**
-	 * This loads a static shader
-	 */
-	public void loadStaticShader() {
-		if (HadalGame.assetManager == null) { return; }
-		if (this.equals(NOTHING)) { return; }
-
-		//load the shader and create its strategies
-		if (null == shaderProgram) {
-			shaderProgram = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
-		}
-	}
 
 	/**
 	 * This is called when a play state is initiated
@@ -161,6 +131,14 @@ public enum Shader {
 	}
 
 	public ShaderProgram getShaderProgram() { return shaderProgram; }
-	
+
+	public void setShaderProgram(ShaderProgram shaderProgram) { this.shaderProgram = shaderProgram; }
+
+	public ShaderStrategy[] getStrategies() { return strategies; }
+
+	public String getFragId() {	return fragId; }
+
+	public String getVertId() { return vertId; }
+
 	public boolean isBackground() { return background; }
 }

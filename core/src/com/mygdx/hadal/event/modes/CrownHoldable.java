@@ -11,7 +11,9 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -126,7 +128,7 @@ public class CrownHoldable extends Event {
 				if (timeCount >= 1.0f) {
 					timeCount = 0;
 					state.getMode().processPlayerScoreChange(state, target, 1);
-					SoundEffect.COIN3.playUniversal(state, getPixelPosition(), 1.0f, false);
+					SoundManager.play(state, new SoundLoad(SoundEffect.COIN3).setPosition(getPixelPosition()));
 				}
 			}
 		} else if (awayFromSpawn) {
@@ -147,6 +149,16 @@ public class CrownHoldable extends Event {
 			if (target != null) {
 				hbLocation.set(target.getPosition());
 				setTransform(hbLocation, getAngle());
+
+				if (target.isAlive()) {
+
+					//client does not process score, but does play sound
+					timeCount += delta;
+					if (timeCount >= 1.0f) {
+						timeCount = 0;
+						SoundManager.play(state, new SoundLoad(SoundEffect.COIN3).setPosition(getPixelPosition()));
+					}
+				}
 			}
 		}
 	}

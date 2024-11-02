@@ -11,7 +11,9 @@ import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -42,7 +44,10 @@ public class LoveArrow extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.BOW_SHOOT.playSourced(state, startPosition, 0.6f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.BOW_SHOOT)
+                .setVolume(0.6f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         float chargeAmount = 0.0f;
@@ -95,7 +100,9 @@ public class LoveArrow extends SyncedAttacker {
 
                         if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxFilter() == user.getHitboxFilter())) {
                             ((BodyData) fixB).regainHp(heal, creator, true);
-                            SoundEffect.COIN3.playSourced(state, hbox.getPixelPosition(), 0.5f);
+                            SoundManager.play(state, new SoundLoad(SoundEffect.COIN3)
+                                    .setVolume(0.5f)
+                                    .setPosition(hbox.getPixelPosition()));
 
                             EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BOW_HEAL, hbox.getPixelPosition())
                                     .setLifespan(1.0f));

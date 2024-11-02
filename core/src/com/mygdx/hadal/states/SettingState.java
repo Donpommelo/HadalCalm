@@ -21,6 +21,8 @@ import com.mygdx.hadal.managers.CursorManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.TooltipManager;
 import com.mygdx.hadal.text.UIText;
@@ -126,7 +128,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						displaySelected();
 			        }
@@ -138,7 +140,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						controlsSelected();
 			        }
@@ -150,7 +152,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						audioSelected();
 			        }
@@ -162,7 +164,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						serverSelected();
 			        }
@@ -174,7 +176,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						miscSelected();
 			        }
@@ -186,7 +188,7 @@ public class SettingState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.NEGATIVE.play(1.0f, false);
+						SoundManager.play(SoundEffect.NEGATIVE);
 						saveSettings();
 
 						//if exiting to title screen, play transition. Otherwise, just remove this state
@@ -200,7 +202,7 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH3.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH3);
 						resetSettings();
 			        }
 			    });
@@ -463,16 +465,18 @@ public class SettingState extends GameState {
 		sound.addListener(new InputListener() {
 
 			@Override
-			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					JSONManager.setting.indexToHitsound(
-						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
+
+					SoundManager.play(new SoundLoad(JSONManager.setting.indexToHitsound(hitsoundOptions.getSelectedIndex()))
+							.setVolume(sound.getValue() * master.getValue())
+							.setNoModifiers(true));
 				}
 			}
 
 			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				return true;
 			}
 		});
@@ -525,8 +529,9 @@ public class SettingState extends GameState {
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting master volume, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					JSONManager.setting.indexToHitsound(
-						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
+					SoundManager.play(new SoundLoad(JSONManager.setting.indexToHitsound(hitsoundOptions.getSelectedIndex()))
+									.setVolume(sound.getValue() * master.getValue())
+									.setNoModifiers(true));
 				}
 
 				JSONManager.setting.setMusicVolume(master.getValue());
@@ -553,8 +558,9 @@ public class SettingState extends GameState {
 				
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					JSONManager.setting.indexToHitsound(
-						hitsoundOptions.getSelectedIndex()).playNoModifiers(hitsound.getValue() * master.getValue());
+					SoundManager.play(new SoundLoad(JSONManager.setting.indexToHitsound(hitsoundOptions.getSelectedIndex()))
+							.setVolume(sound.getValue() * master.getValue())
+							.setNoModifiers(true));
 				}
 			}
 		});
@@ -578,8 +584,9 @@ public class SettingState extends GameState {
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					JSONManager.setting.indexToHitsound(
-						hitsoundOptions.getSelectedIndex()).playNoModifiers(hitsound.getValue() * master.getValue());
+					SoundManager.play(new SoundLoad(JSONManager.setting.indexToHitsound(hitsoundOptions.getSelectedIndex()))
+							.setVolume(sound.getValue() * master.getValue())
+							.setNoModifiers(true));
 				}
 			}
 

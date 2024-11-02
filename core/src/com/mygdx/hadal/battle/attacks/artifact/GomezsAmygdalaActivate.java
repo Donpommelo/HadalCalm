@@ -7,7 +7,9 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -21,7 +23,10 @@ public class GomezsAmygdalaActivate extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        SoundEffect.MAGIC18_BUFF.playSourced(state, user.getPixelPosition(), 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC18_BUFF)
+                .setVolume(0.5f)
+                .setPosition(startPosition));
+
         EffectEntityManager.getParticle(state, new ParticleCreate(Particle.PICKUP_ENERGY, user)
                 .setLifespan(BUFF_DURATION));
 

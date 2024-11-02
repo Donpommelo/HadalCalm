@@ -8,6 +8,8 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.DestructableBlock;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
@@ -26,7 +28,8 @@ public class Terraform extends SyncedAttacker {
             weaponVelo.set(extraFields[0], extraFields[1]);
         }
 
-        SoundEffect.MAGIC1_ACTIVE.playSourced(state, startPosition, 1.0f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC1_ACTIVE).setPosition(startPosition));
+
         if (state.isServer()) {
             Event block = new DestructableBlock(state, user.getProjectileOrigin(weaponVelo, BLOCK_SIZE.x), BLOCK_SIZE, BLOCK_HP, false) {
 

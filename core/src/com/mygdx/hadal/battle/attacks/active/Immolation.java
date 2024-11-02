@@ -10,6 +10,8 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -31,7 +33,7 @@ public class Immolation extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        SoundEffect.WOOSH.playSourced(state, user.getPixelPosition(), 1.0f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.WOOSH).setPosition(startPosition));
 
         user.getBodyData().addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 6.0f, user.getBodyData(), user.getBodyData()));
 

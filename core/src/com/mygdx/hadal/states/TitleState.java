@@ -25,6 +25,7 @@ import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.StateManager.Mode;
 import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.NameGenerator;
 
@@ -199,7 +200,7 @@ public class TitleState extends GameState {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						Gdx.net.openURI(HadalGame.VERSION_URL);
 					}
 				});
@@ -218,7 +219,7 @@ public class TitleState extends GameState {
 
 						inputDisabled = true;
 
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 
 						//Save current name into records.
 						JSONManager.loadout.setName(enterName.getText());
@@ -241,8 +242,8 @@ public class TitleState extends GameState {
 						}
 
 						inputDisabled = true;
-						
-						SoundEffect.UISWITCH1.play(1.0f, false);
+
+						SoundManager.play(SoundEffect.UISWITCH1);
 						
 						//Save current name into records.
 						JSONManager.loadout.setName(enterName.getText());
@@ -266,8 +267,8 @@ public class TitleState extends GameState {
 
 						if (inputDisabled) { return; }
 						inputDisabled = true;
-						
-						SoundEffect.UISWITCH1.play(1.0f, false);
+
+						SoundManager.play(SoundEffect.UISWITCH1);
 						
 						//Enter the Setting State.
 						transitionOut(() -> StateManager.addState(app, State.SETTING, me));
@@ -282,8 +283,8 @@ public class TitleState extends GameState {
 
 						if (inputDisabled) { return; }
 						inputDisabled = true;
-						
-						SoundEffect.UISWITCH1.play(1.0f, false);
+
+						SoundManager.play(SoundEffect.UISWITCH1);
 						
 						//Enter the About State.
 						transitionOut(() -> StateManager.addState(app, State.ABOUT, me));
@@ -307,8 +308,8 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						
-						SoundEffect.UISWITCH3.play(1.0f, false);
+
+						SoundManager.play(SoundEffect.UISWITCH3);
 						enterName.setText(NameGenerator.generateFirstLast(JSONManager.setting.isRandomNameAlliteration()));
 			        	setNotification(UIText.RAND_NAME_GEN.text());
 				        }

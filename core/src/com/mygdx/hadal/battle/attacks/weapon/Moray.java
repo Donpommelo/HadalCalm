@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -32,7 +34,10 @@ public class Moray extends SyncedAttacker {
 
         Hitbox[] hboxes = new Hitbox[startPosition.length];
         if (startPosition.length != 0) {
-            SoundEffect.LASERSHOT.playSourced(state, startPosition[0], 0.9f);
+            SoundManager.play(state, new SoundLoad(SoundEffect.LASERSHOT)
+                    .setVolume(0.9f)
+                    .setPosition(startPosition[0]));
+
             user.recoil(weaponVelocity, RECOIL);
 
             final int numX = extraFields.length >= 2 ? (int) extraFields[0] : 0;

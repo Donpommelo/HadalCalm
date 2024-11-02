@@ -11,7 +11,9 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -95,7 +97,10 @@ public class BloodletterProjectile extends SyncedAttacker {
 
                                 createBlood(schmuck, baseHealMultiplier * modifiedDamage);
 
-                                SoundEffect.SLURP.playSourced(state, startPosition, 0.75f);
+                                SoundManager.play(state, new SoundLoad(SoundEffect.SLURP)
+                                        .setVolume(0.75f)
+                                        .setPosition(startPosition));
+
                                 EffectEntityManager.getParticle(state, new ParticleCreate(Particle.VAMPIRE, schmuck)
                                         .setLifespan(2.0f));
                             }

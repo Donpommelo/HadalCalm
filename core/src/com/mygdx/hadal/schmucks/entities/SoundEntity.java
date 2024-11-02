@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.SoundCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -74,18 +76,23 @@ public class SoundEntity extends HadalEntity {
 			Vector2 attachedLocation = new Vector2();
 			attachedLocation.set(attachedEntity.getPixelPosition());
 
-			this.soundID = sound.playSourced(state, attachedLocation, volume, pitch);
+			this.soundID = SoundManager.play(state, new SoundLoad(sound)
+					.setVolume(volume)
+					.setPitch(pitch)
+					.setPosition(attachedLocation));
 			if (null != attachedEntity.getBody()) {
-				sound.updateSoundLocation(state, attachedLocation, volume, soundID);
+				SoundManager.updateSoundLocation(state, sound, attachedLocation, volume, soundID);
 			}
 		} else {
 			//otherwise, we just get the sound id and pause it.
-			this.soundID = sound.play(volume, pitch, false);
-			sound.getSound().pause(soundID);
+			this.soundID = SoundManager.play(new SoundLoad(sound)
+					.setVolume(volume)
+					.setPitch(pitch));
+			sound.loadSound().pause(soundID);
 		}
 
 		//set the looping of the sound
-		sound.getSound().setLooping(soundID, looped);
+		sound.loadSound().setLooping(soundID, looped);
 	}
 
 	@Override
@@ -105,7 +112,7 @@ public class SoundEntity extends HadalEntity {
 			//when a sound finishes fading out, pause it and delete it, if it is set to despawn
 			if (0.0 >= volume) {
 				volume = 0.0f;
-				sound.getSound().pause(soundID);
+				sound.loadSound().pause(soundID);
 				fade = 0.0f;
 				on = false;
 				
@@ -126,7 +133,7 @@ public class SoundEntity extends HadalEntity {
 		if (temp) {
 			lifespan -= delta;
 			if (0 >= lifespan) {
-				sound.getSound().pause(soundID);
+				sound.loadSound().pause(soundID);
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
@@ -142,7 +149,7 @@ public class SoundEntity extends HadalEntity {
 			//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 			if (null != attachedEntity) {
 				if (attachedEntity.isAlive() && null != attachedEntity.getBody()) {
-					sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundID);
+					SoundManager.updateSoundLocation(state, sound, attachedEntity.getPixelPosition(), volume, soundID);
 				} else {
 					turnOff();
 					despawn = true;
@@ -163,7 +170,7 @@ public class SoundEntity extends HadalEntity {
 		if (null == attachedEntity && null != attachedID) {
 			attachedEntity = state.findEntity(attachedID);
 			if (on) {
-				sound.getSound().resume(soundID);
+				sound.loadSound().resume(soundID);
 			}
 		}
 	}
@@ -196,7 +203,7 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public void dispose() {
 		if (!destroyed) {
-			sound.getSound().stop(soundID);
+			sound.loadSound().stop(soundID);
 		}
 		super.dispose();
 	}
@@ -204,7 +211,7 @@ public class SoundEntity extends HadalEntity {
 	public void turnOn() {
 		on = true;
 		fade = DEFAULT_FADE_IN_SPEED;
-		sound.getSound().resume(soundID);
+		sound.loadSound().resume(soundID);
 	}
 	
 	public void turnOff() {

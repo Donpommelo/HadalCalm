@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.hadal.effects.Shader;
+import com.mygdx.hadal.managers.ShaderManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
@@ -32,14 +33,14 @@ public class ShaderHelper {
      * @param shaderCount: how long does this shader last?
      */
     public void setShader(Shader shader, float shaderCount) {
-        shader.loadShader();
+        ShaderManager.loadShader(shader);
         this.shader = shader;
         this.shaderDuration = shaderCount;
         this.shaderCount = shaderCount;
     }
 
     public void setStaticShader(Shader shader, float shaderCount) {
-        shader.loadStaticShader();
+        ShaderManager.loadStaticShader(shader);
         this.shaderStatic = shader;
         this.shaderStaticCount = shaderCount;
     }

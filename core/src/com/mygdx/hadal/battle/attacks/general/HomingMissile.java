@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -38,7 +40,8 @@ public class HomingMissile extends SyncedAttacker {
 
         if (extraFields.length > 0) {
             if (extraFields[0] == 1) {
-                SoundEffect.DEFLATE.playSourced(state, user.getPixelPosition(), 1.0f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.DEFLATE)
+                        .setPosition(startPosition));
             }
         }
 

@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.UserDataType;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -38,9 +40,6 @@ public class ContactUnitSound extends HitboxStrategy {
 	//if the hbox is still, we ignore the velocity requirement before playing a sound. (mostly used for sticky bombs)
 	private final boolean still;
 	
-	//Does the server notify the client of this sound?
-	private boolean synced = false;
-
 	public ContactUnitSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume, boolean still) {
 		super(state, proj, user);
 		this.sound = sound;
@@ -64,11 +63,10 @@ public class ContactUnitSound extends HitboxStrategy {
 					procCdCount = 0;
 
 					float newPitch = pitch + (MathUtils.random() - 0.5f) * pitchSpread;
-					if (synced) {
-						sound.playUniversal(state, hbox.getPixelPosition(), volume, newPitch, false);
-					} else {
-						sound.playSourced(state, hbox.getPixelPosition(), volume, newPitch);
-					}
+					SoundManager.play(state, new SoundLoad(sound)
+							.setVolume(volume)
+							.setPitch(newPitch)
+							.setPosition(hbox.getPixelPosition()));
 				}
 			}
 		}
@@ -81,11 +79,6 @@ public class ContactUnitSound extends HitboxStrategy {
 
 	public ContactUnitSound setPitchSpread(float pitchSpread) {
 		this.pitchSpread = pitchSpread;
-		return this;
-	}
-
-	public ContactUnitSound setSynced(boolean synced) {
-		this.synced = synced;
 		return this;
 	}
 }

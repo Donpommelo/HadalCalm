@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Equippable;
@@ -8,6 +9,8 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.SpriteManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -133,7 +136,11 @@ public class LoadoutEquipHelper {
         player.getPlayerData().calcStats();
 
         //play sounds for weapon switching
-        SoundEffect.LOCKANDLOAD.playExclusive(player.getState(), null, player, 0.5f, true);
+        if (player.equals(HadalGame.usm.getOwnPlayer())) {
+            SoundManager.play(new SoundLoad(SoundEffect.LOCKANDLOAD)
+                    .setVolume(0.5f)
+                    .setSingleton(true));
+        }
     }
 
     /**

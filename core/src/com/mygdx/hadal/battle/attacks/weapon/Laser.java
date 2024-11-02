@@ -10,6 +10,8 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -41,7 +43,10 @@ public class Laser extends SyncedAttacker {
         if (extraFields.length >= 1) {
             distance = extraFields[0];
         }
-        SoundEffect.FUTURE_GUN12.playSourced(state, startPosition, 0.8f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.FUTURE_GUN12)
+                .setVolume(0.8f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         //Create Hitbox from position to wall using raycast distance. Set angle and position of hitbox and make it static.

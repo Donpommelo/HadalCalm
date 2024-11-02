@@ -20,6 +20,7 @@ import com.mygdx.hadal.managers.StateManager.Mode;
 import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.users.User;
@@ -75,8 +76,8 @@ public class PauseState extends GameState {
 		if (ps.isServer() && paused) {
 			PacketManager.serverTCPAll(new Packets.Paused(pauser));
 		}
-		
-		SoundEffect.POSITIVE.play(1.0f, false);
+
+		SoundManager.play(SoundEffect.POSITIVE);
 	}
 
 	@Override
@@ -156,7 +157,7 @@ public class PauseState extends GameState {
 								PacketManager.clientTCP(new Packets.ClientLevelRequest(UnlockLevel.HUB_MULTI, GameMode.HUB, null));
 							}
 						}
-			        	SoundEffect.NEGATIVE.play(1.0f, false);
+						SoundManager.play(SoundEffect.NEGATIVE);
 			        }
 			    });
 				
@@ -167,7 +168,7 @@ public class PauseState extends GameState {
 			        	
 			        	//Setting pops a setting state on top of the pause state.
 						StateManager.addState(app, State.SETTING, me);
-			        	SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 			        }
 			    });
 
@@ -178,7 +179,7 @@ public class PauseState extends GameState {
 
 						//Setting pops a about state on top of the pause state.
 						StateManager.addState(app, State.ABOUT, me);
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 					}
 				});
 				
@@ -216,8 +217,7 @@ public class PauseState extends GameState {
 			        	//Exiting returns to the title state and stops the server/client, disconnecting.
 						StateManager.removeState(PauseState.class);
 			        	ps.getTransitionManager().returnToTitle(0.0f);
-			        	
-			        	SoundEffect.NEGATIVE.play(1.0f, false);
+						SoundManager.play(SoundEffect.NEGATIVE);
 			        }
 			    });
 				
@@ -301,7 +301,7 @@ public class PauseState extends GameState {
 		
 		//If the state has been unpaused, remove it
 		if (toRemove) {
-			SoundEffect.NEGATIVE.play(1.0f, false);
+			SoundManager.play(SoundEffect.NEGATIVE);
 			
 			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
 			if (ps != null) {

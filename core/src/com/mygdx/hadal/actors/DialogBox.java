@@ -11,6 +11,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.text.Dialog;
 import com.mygdx.hadal.text.DialogInfo;
 
@@ -148,7 +149,7 @@ public class DialogBox extends AHadalActor {
 			currX = 0;
 			currY = 0;
 
-			SoundEffect.BLOP.play(1.0f, false);
+			SoundManager.play(SoundEffect.BLOP);
 		}
 		dialogs.addLast(new Dialog(info, radio, trigger, type));
 	}
@@ -183,8 +184,8 @@ public class DialogBox extends AHadalActor {
 				currX = 0;
 				currY = 0;
 			}
-			
-			SoundEffect.BLOP.play(1.0f, false);
+
+			SoundManager.play(SoundEffect.BLOP);
 		}
 	}
 	

@@ -310,24 +310,7 @@ public class EnemyUtils {
 			}
 		});
 	}
-	
-	public static void shootBullet(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
-		boss.getActions().add(new EnemyAction(boss, duration) {
-			
-			@Override
-			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, Sprite.ORB_RED);
-				
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
-						DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(true));
-			}
-		});
-	}
-	
+
 	public static void fallingDebris(final PlayState state, Enemy boss, final float duration) {
 		
 		boss.getSecondaryActions().add(new EnemyAction(boss, duration) {

@@ -9,6 +9,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -31,7 +33,10 @@ public class FalseSunWillOWisp extends SyncedAttacker {
                                             float[] extraFields) {
 
         float pitch = (MathUtils.random() - 0.5f) * PITCH_SPREAD;
-        SoundEffect.BOTTLE_ROCKET.playSourced(state, startPosition, 0.25f, 0.5f + pitch);
+        SoundManager.play(state, new SoundLoad(SoundEffect.BOTTLE_ROCKET)
+                .setVolume(0.25f)
+                .setPitch(0.5f + pitch)
+                .setPosition(startPosition));
 
         RangedHitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(startVelocity, PROJ_SIZE.x), PROJ_SIZE,
                 LIFESPAN, startVelocity, user.getHitboxFilter(), true, true, user, Sprite.NOTHING);

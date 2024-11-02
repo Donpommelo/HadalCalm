@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -38,7 +40,10 @@ public class Pepper extends SyncedAttacker {
         }
         float finalSpread = spread;
         float pitch = 1.0f + finalSpread * PITCH_CHANGE;
-        SoundEffect.FUTURE_GUN23.playSourced(state, user.getPixelPosition(), 0.4f, pitch);
+        SoundManager.play(state, new SoundLoad(SoundEffect.FUTURE_GUN23)
+                .setVolume(0.4f)
+                .setPitch(pitch)
+                .setPosition(startPosition));
 
         RangedHitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
                 true, true, user, PROJ_SPRITE);

@@ -15,8 +15,7 @@ import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.StateManager.State;
-import com.mygdx.hadal.managers.loaders.EffectEntityLoader;
-import com.mygdx.hadal.managers.loaders.SpriteLoader;
+import com.mygdx.hadal.managers.loaders.*;
 import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.UPNPUtil;
@@ -72,6 +71,8 @@ public class HadalGame extends ApplicationAdapter {
 	public void create() {
 		EffectEntityManager.initLoader(new EffectEntityLoader());
 		SpriteManager.initLoader(new SpriteLoader());
+		ShaderManager.initLoader(new ShaderLoader());
+		SoundManager.initLoader(new SoundLoader());
 
 		batch = new SpriteBatch();
 		

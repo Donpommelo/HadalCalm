@@ -8,7 +8,9 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -57,7 +59,10 @@ public class Spring extends Event {
 					if (procCdCount >= PROC_CD) {
 						procCdCount = 0;
 
-						SoundEffect.SPRING.playSourced(state, getPixelPosition(), 0.25f);
+						SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+								.setVolume(0.25f)
+								.setPosition(getPixelPosition()));
+
 						EffectEntityManager.getParticle(state, new ParticleCreate(Particle.MOMENTUM, getPixelPosition())
 								.setLifespan(1.0f));
 					}

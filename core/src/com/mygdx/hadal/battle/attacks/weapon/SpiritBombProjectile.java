@@ -13,7 +13,9 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -53,7 +55,10 @@ public class SpiritBombProjectile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.MAGIC25_SPELL.playSourced(state, startPosition, 0.75f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC25_SPELL)
+                .setVolume(0.75f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
@@ -152,7 +157,11 @@ public class SpiritBombProjectile extends SyncedAttacker {
             private boolean looped;
             @Override
             public void die() {
-                SoundEffect.PING.playSourced(state, hbox.getPixelPosition(), 0.6f, 1.5f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.PING)
+                        .setVolume(0.6f)
+                        .setPitch(1.5f)
+                        .setPosition(hbox.getPixelPosition()));
+
                 Hitbox explosion = getExplosion();
                 explosion.setSpriteSize(SPRITE_SIZE);
                 explosion.setSpriteOffset(SPRITE_OFFSET);

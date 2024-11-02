@@ -13,7 +13,9 @@ import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -40,7 +42,11 @@ public class UrchinNail extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.NAILGUN.playSourced(state, startPosition, 0.7f, 1.2f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.NAILGUN)
+                .setVolume(0.7f)
+                .setPitch(1.2f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         Hitbox hbox = new RangedHitbox(state, startPosition, STICKY_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),

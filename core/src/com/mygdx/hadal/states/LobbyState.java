@@ -20,6 +20,7 @@ import com.mygdx.hadal.managers.FadeManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.packets.Packets;
@@ -172,7 +173,7 @@ public class LobbyState extends GameState {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         if (refreshCdCount >= REFRESH_CD) {
-                            SoundEffect.UISWITCH1.play(1.0f, false);
+                            SoundManager.play(SoundEffect.UISWITCH1);
 
                             retrieveLobbies();
                             refreshCdCount = 0.0f;
@@ -202,7 +203,7 @@ public class LobbyState extends GameState {
                         if (inputDisabled) { return; }
                         inputDisabled = true;
 
-                        SoundEffect.UISWITCH1.play(1.0f, false);
+                        SoundManager.play(SoundEffect.UISWITCH1);
 
                         //Start up the Client
                         HadalGame.client.init();
@@ -251,7 +252,7 @@ public class LobbyState extends GameState {
                         if (inputDisabled) { return; }
                         inputDisabled = true;
 
-                        SoundEffect.UISWITCH1.play(1.0f, false);
+                        SoundManager.play(SoundEffect.UISWITCH1);
 
                         //Enter the Setting State.
                         transitionOut(() -> StateManager.addState(app, StateManager.State.SETTING, me));
@@ -285,7 +286,7 @@ public class LobbyState extends GameState {
                             HadalGame.socket.emit("makeLobby", lobbyData.toString());
                         }
 
-                        SoundEffect.UISWITCH1.play(1.0f, false);
+                        SoundManager.play(SoundEffect.UISWITCH1);
 
                         //Start up the server in multiplayer mode
                         HadalGame.server.init(true, false);
@@ -304,7 +305,7 @@ public class LobbyState extends GameState {
 
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        SoundEffect.NEGATIVE.play(1.0f, false);
+                        SoundManager.play(SoundEffect.NEGATIVE);
 
                         transitionOut(() -> StateManager.removeState(LobbyState.class));
                     }
@@ -446,7 +447,7 @@ public class LobbyState extends GameState {
                         if (inputDisabled) { return; }
                         inputDisabled = true;
 
-                        SoundEffect.UISWITCH1.play(1.0f, false);
+                        SoundManager.play(SoundEffect.UISWITCH1);
                         setNotification(UIText.JOINING.text());
 
                         HadalGame.client.init();
@@ -534,7 +535,7 @@ public class LobbyState extends GameState {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                SoundEffect.UISWITCH3.play(1.0f, false);
+                SoundManager.play(SoundEffect.UISWITCH3);
                 tablePassword.remove();
                 tablePassword.setVisible(true);
 
@@ -546,7 +547,7 @@ public class LobbyState extends GameState {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                SoundEffect.UISWITCH3.play(1.0f, false);
+                SoundManager.play(SoundEffect.UISWITCH3);
                 tablePassword.remove();
                 tablePassword.setVisible(false);
 

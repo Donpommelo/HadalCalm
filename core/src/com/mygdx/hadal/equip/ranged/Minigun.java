@@ -8,8 +8,10 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.requests.SoundCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
@@ -91,7 +93,9 @@ public class Minigun extends RangedWeapon {
 		boolean firing = shooting && user.getUiHelper().getChargePercent() == 1.0f;
 
 		if (!shooting && (chargeSound != null || (fireSound != null && fireSound.isOn()))) {
-			SoundEffect.MINIGUN_DOWN.playSourced(state, playerPosition, 0.5f);
+			SoundManager.play(state, new SoundLoad(SoundEffect.MINIGUN_DOWN)
+					.setVolume(0.5f)
+					.setPosition(playerPosition));
 		}
 
 		if (shooting) {

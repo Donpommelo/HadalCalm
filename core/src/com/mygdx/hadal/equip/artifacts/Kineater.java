@@ -1,6 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -21,8 +23,9 @@ public class Kineater extends Artifact {
 		enchantment = new Status(state, p) {
 			
 			@Override
-			public void afterBossSpawn(Enemy boss) { 
-				SoundEffect.MAGIC27_EVIL.playUniversal(state, boss.getPixelPosition(), 1.0f, false);
+			public void afterBossSpawn(Enemy boss) {
+				SoundManager.playUniversal(state, new SoundLoad(SoundEffect.MAGIC27_EVIL)
+						.setPosition(boss.getPixelPosition()));
 				boss.getBodyData().setCurrentHp(boss.getBodyData().getCurrentHp() * (1.0f - HP_DRAIN_PERCENT));
 			}
 		}.setServerOnly(true);

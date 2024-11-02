@@ -235,14 +235,6 @@ public enum EnemyType {
 		}
 	},
 	
-	TURRET_BOSS("TURRET BOSS") {
-
-		@Override
-		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField) {
-			return new TurretBoss(state, startPos, extraField, filter);
-		}
-	},
-	
 	BOSS4("FALSE SUN") {
 
 		@Override

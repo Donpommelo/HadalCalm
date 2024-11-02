@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.attacks.weapon.AssaultBitBeam;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.enemies.DroneBit;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
@@ -90,7 +92,9 @@ public class AssaultBits extends RangedWeapon {
 				if (bitRespawn >= getChargeTime()) {
 					bitRespawn = 0.0f;
 
-					SoundEffect.CYBER2.playUniversal(state, playerPosition, 0.4f, false);
+					SoundManager.playUniversal(state, new SoundLoad(SoundEffect.CYBER2)
+							.setVolume(0.4f)
+							.setPosition(playerPosition));
 
 					//bits are removed from the list upon death
 					DroneBit bit = new DroneBit(state, playerPosition, 0.0f, user.getHitboxFilter()) {

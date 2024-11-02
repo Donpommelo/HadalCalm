@@ -5,7 +5,9 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
@@ -158,13 +160,18 @@ public class MovementJumpHelper {
             if (player.getGroundedHelper().isGrounded()) {
 
                 //activate jump particles and
-                SoundEffect.JUMP.playSourced(state, playerPosition, 0.2f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.JUMP)
+                        .setVolume(0.2f)
+                        .setPosition(playerPosition));
+
                 EffectEntityManager.getParticle(state, new ParticleCreate(Particle.WATER_BURST,
                         new Vector2(playerPosition).sub(0, player.getSize().y / 2))
                         .setLifespan(1.0f));
             } else {
                 //activate double-jump particles and sound
-                SoundEffect.DOUBLEJUMP.playSourced(state, playerPosition, 0.2f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.DOUBLEJUMP)
+                        .setVolume(0.2f)
+                        .setPosition(playerPosition));
                 EffectEntityManager.getParticle(state, new ParticleCreate(Particle.SPLASH, player)
                         .setLifespan(0.75f));
             }

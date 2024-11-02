@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -28,8 +30,10 @@ public class KingKamabokoPoison extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-
-        SoundEffect.LAUNCHER4.playSourced(state, startPosition, 0.4f, 0.8f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.LAUNCHER4)
+                .setVolume(0.4f)
+                .setPitch(0.8f)
+                .setPosition(startPosition));
 
         RangedHitbox hbox = new RangedHitbox(state, user.getProjectileOrigin(startVelocity, PROJECTILE_SIZE.x), PROJECTILE_SIZE,
                 LIFESPAN, startVelocity, user.getHitboxFilter(), false, true, user, PROJ_SPRITE);

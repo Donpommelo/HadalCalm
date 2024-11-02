@@ -5,9 +5,12 @@ import com.badlogic.gdx.utils.Collections;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.bots.BotManager;
 import com.mygdx.hadal.managers.*;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.managers.loaders.EffectEntityLoaderHeadless;
+import com.mygdx.hadal.server.managers.loaders.ShaderLoaderHeadless;
+import com.mygdx.hadal.server.managers.loaders.SoundLoaderHeadless;
 import com.mygdx.hadal.server.managers.loaders.SpriteLoaderHeadless;
 import com.mygdx.hadal.server.states.PlayStateHeadless;
 import com.mygdx.hadal.users.UserManager;
@@ -20,6 +23,8 @@ public class HadalGameHeadless extends HadalGame {
     public void create() {
         EffectEntityManager.initLoader(new EffectEntityLoaderHeadless());
         SpriteManager.initLoader(new SpriteLoaderHeadless());
+        ShaderManager.initLoader(new ShaderLoaderHeadless());
+        SoundManager.initLoader(new SoundLoaderHeadless());
 
         usm = new UserManager();
 

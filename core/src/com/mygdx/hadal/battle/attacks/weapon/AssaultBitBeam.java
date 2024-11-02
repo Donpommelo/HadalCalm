@@ -9,6 +9,8 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ranged.AssaultBits;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -31,7 +33,10 @@ public class AssaultBitBeam extends SyncedAttacker {
         Hitbox[] hboxes = new Hitbox[startPosition.length];
 
         if (startPosition.length != 0) {
-            SoundEffect.SHOOT2.playSourced(state, startPosition[0], 0.6f);
+            SoundManager.play(state, new SoundLoad(SoundEffect.SHOOT2)
+                    .setVolume(0.6f)
+                    .setPosition(startPosition[0]));
+
             for (int i = 0; i < startPosition.length; i++) {
                 Hitbox hbox = new RangedHitbox(state, startPosition[i], PROJECTILE_SIZE, LIFESPAN, startVelocity[i],
                         user.getHitboxFilter(), true,true, user, PROJ_SPRITE);

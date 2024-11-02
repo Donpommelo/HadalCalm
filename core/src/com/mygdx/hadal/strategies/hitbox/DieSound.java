@@ -1,6 +1,8 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -22,9 +24,6 @@ public class DieSound extends HitboxStrategy {
 	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
 	private float pitch = 1.0f;
 
-	//Does the server notify the client of this sound?
-	private boolean synced = false;
-
 	//if true, this will not play if the hbox dies by timing out
 	private boolean ignoreOnTimeout;
 
@@ -36,23 +35,15 @@ public class DieSound extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-
 		if (ignoreOnTimeout && hbox.getLifeSpan() <= 0.0f) { return; }
-
-		if (synced) {
-			sound.playUniversal(state, hbox.getPixelPosition(), volume, pitch, false);
-		} else {
-			sound.playSourced(state, hbox.getPixelPosition(), volume, pitch);
-		}
+		SoundManager.play(state, new SoundLoad(sound)
+				.setVolume(volume)
+				.setPitch(pitch)
+				.setPosition(hbox.getPixelPosition()));
 	}
 	
 	public DieSound setPitch(float pitch) {
 		this.pitch = pitch;
-		return this;
-	}
-
-	public DieSound setSynced(boolean synced) {
-		this.synced = synced;
 		return this;
 	}
 

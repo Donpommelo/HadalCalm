@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -30,7 +32,10 @@ public class SeraphCross extends SyncedAttacker {
         position.set(user.getPixelPosition());
         if (extraFields.length > 0) {
             if (0 == extraFields[0]) {
-                SoundEffect.ROLLING_ROCKET.playSourced(state, user.getPixelPosition(), 0.5f, 2.5f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.ROLLING_ROCKET)
+                        .setVolume(0.5f)
+                        .setPitch(2.5f)
+                        .setPosition(position));
             }
         }
 

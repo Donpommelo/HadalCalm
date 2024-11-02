@@ -17,6 +17,8 @@ import com.mygdx.hadal.event.hub.HubEvent;
 import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -157,7 +159,7 @@ public class UIHub {
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
 	public void enter(HubEvent hub) {
-		SoundEffect.DOORBELL.play(0.2f, false);
+		SoundManager.play(new SoundLoad(SoundEffect.DOORBELL).setVolume(0.2f));
 		lastHubEvent = hub;
 
 		active = true;
@@ -315,7 +317,7 @@ public class UIHub {
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
-		SoundEffect.WOOSH.play(1.0f, 0.8f, false);
+		SoundManager.play(new SoundLoad(SoundEffect.UISWITCH1).setPitch(0.8f));
 
 		active = false;
 

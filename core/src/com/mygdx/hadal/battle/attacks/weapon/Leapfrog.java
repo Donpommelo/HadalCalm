@@ -11,6 +11,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -44,8 +46,13 @@ public class Leapfrog extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.SPRING.playSourced(state, startPosition, 0.3f);
-        SoundEffect.FROG_CROAK.playSourced(state, startPosition, 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+                .setVolume(0.3f)
+                .setPosition(startPosition));
+        SoundManager.play(state, new SoundLoad(SoundEffect.FROG_CROAK)
+                .setVolume(0.5f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
@@ -142,8 +149,13 @@ public class Leapfrog extends SyncedAttacker {
                     aerialCount = 0.0f;
 
                     if (jumpStart && jumpDuration >= LEAP_DELAY) {
-                        SoundEffect.SPRING.playSourced(state, startPosition, 0.3f);
-                        SoundEffect.FROG_CROAK.playSourced(state, startPosition, 0.5f);
+                        SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+                                .setVolume(0.3f)
+                                .setPosition(startPosition));
+                        SoundManager.play(state, new SoundLoad(SoundEffect.FROG_CROAK)
+                                .setVolume(0.5f)
+                                .setPosition(startPosition));
+
                         hbox.setLinearVelocity(adjustedVelocity);
                         groundedCount = 0;
                         leapAmount++;

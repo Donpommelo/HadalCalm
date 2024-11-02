@@ -5,6 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -23,7 +25,9 @@ public class Ping extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.PING.playSourced(state, startPosition, 0.6f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.PING)
+                .setVolume(0.6f)
+                .setPosition(startPosition));
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PING_SIZE, PING_LIFESPAN, new Vector2(),
                 user.getHitboxFilter(), true, false, user, Sprite.NOTIFICATIONS_ALERT);

@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -26,7 +28,9 @@ public class StickGrenade extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.LAUNCHER.playSourced(state, user.getPixelPosition(), 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.LAUNCHER)
+                .setVolume(0.5f)
+                .setPosition(startPosition));
 
         Hitbox hbox = new RangedHitbox(state, startPosition, STICK_GRENADE_SIZE, STICK_GRENADE_LIFESPAN, startVelocity,
                 user.getHitboxFilter(), false, false, user, Sprite.CABER);

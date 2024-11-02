@@ -7,7 +7,9 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.loaders.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -19,7 +21,10 @@ public class ReservedFuelUse extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        SoundEffect.MAGIC2_FUEL.playSourced(state, user.getPixelPosition(), 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC2_FUEL)
+                .setVolume(0.5f)
+                .setPosition(startPosition));
+
         EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BRIGHT, user)
                 .setLifespan(DURATION)
                 .setColor(HadalColor.FRENCH_LIME));

@@ -2,13 +2,9 @@ package com.mygdx.hadal.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
-import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 
 /**
  * Sound Effects each represent a single sound effect in the game. some of these effects can loop. (ogg files)
@@ -163,7 +159,7 @@ public enum SoundEffect {
 	/**
 	 * This loads a selected sound from its filename
 	 */
-	public Sound getSound() {
+	public Sound loadSound() {
 		if (null == sound) {
 			sound = Gdx.audio.newSound(Gdx.files.internal(soundFileName));
 		}
@@ -182,100 +178,7 @@ public enum SoundEffect {
 			}
 		}
 	}
-	
-	/**
-	 * This plays a single sound for the player and returns the sound id
-	 * singleton is for sounds that only have 1 instance playing at a time. (mostly menus)
-	 * Do not use singleton sounds for multiple sound effects
-	 */
-	public long play(float volume, boolean singleton) {
-		return play(volume, 1.0f, singleton);
-	}
-	
-	public long play(float volume, float pitch, boolean singleton) {
-		if (HadalGame.assetManager == null) { return 0L; }
 
-		if (singleton) {
-			getSound().stop();
-		}
-
-		return getSound().play(volume * JSONManager.setting.getSoundVolume() * JSONManager.setting.getMasterVolume(), pitch, 0.0f);
-	}
-
-	public void playNoModifiers(float volume) {
-		if (HadalGame.assetManager == null) { return; }
-
-		getSound().play(volume, 1.0f, 0.0f);
-	}
-
-	/**
-	 * This is used to play sounds that have a source in the world.
-	 * The volume and pan of the sound depends on the location relative to the player listening.
-	 */
-	public long playSourced(PlayState state, Vector2 worldPos, float volume) {
-		return playSourced(state, worldPos, volume, 1.0f);
-	}
-
-	public long playSourced(PlayState state, Vector2 worldPos, float volume, float pitch) {
-		if (HadalGame.assetManager == null) { return 0L; }
-
-		long soundId = getSound().play();
-
-		getSound().setPitch(soundId, pitch);
-		
-		updateSoundLocation(state, worldPos, volume, soundId);
-		return soundId;
-	}
-	
-	/**
-	 * This plays a sound effect for all players.
-	 * This is only run by the host.
-	 */
-	public long playUniversal(PlayState state, Vector2 worldPos, float volume, boolean singleton) {
-		return playUniversal(state, worldPos, volume, 1.0f, singleton);
-	}
-	
-	public long playUniversal(PlayState state, Vector2 worldPos, float volume, float pitch, boolean singleton) {
-		if (HadalGame.assetManager == null) { return 0L; }
-
-		//Send a packet to the client and play the sound
-		if (state.isServer()) {
-			PacketManager.serverUDPAll(new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
-		}
-		
-		if (null == worldPos) {
-			return play(volume, pitch, singleton);
-		} else {
-			return playSourced(state, worldPos, volume, pitch);
-		}
-	}
-	
-	/**
-	 * This plays a sound effect for a single player.
-	 * This is only run by the host
-	 */
-	public void playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, boolean singleton) {
-		playExclusive(state, worldPos, player, volume, 1.0f, singleton);
-	}
-	
-	public void playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, float pitch, boolean singleton) {
-		if (HadalGame.assetManager == null) { return; }
-
-		if (state.isServer() && null != player) {
-			
-			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
-			if (0 == player.getUser().getConnID()) {
-				if (null == worldPos) {
-					play(volume, pitch, singleton);
-				} else {
-					playSourced(state, worldPos, volume, pitch);
-				}
-			} else {
-				PacketManager.serverTCP(player.getUser().getConnID(), new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
-			}
-		}
-	}
-	
 	/**
 	 * This actually plays the hitsound.
 	 * This is run for player that dealt the damage and is run for both host or client
@@ -288,63 +191,10 @@ public enum SoundEffect {
 			if (large) {
 				pitch = 1.5f;
 			}
-			JSONManager.setting.indexToHitsound().play(JSONManager.setting.getHitsoundVolume() * JSONManager.setting.getMasterVolume(), pitch, true);
+			SoundManager.play(null, new SoundLoad(JSONManager.setting.indexToHitsound())
+					.setVolume(JSONManager.setting.getHitsoundVolume() * JSONManager.setting.getMasterVolume())
+					.setPitch(pitch)
+					.setSingleton(true));
 		}
-	}
-	
-	//maxDist is the largest distance the player can hear sounds from.
-	//Further sounds will be quieter.
-	private static final float MAX_DIST = 3500.0f;
-	/**
-	 * updateSoundLocation updates the volume and pan of single instance of a sound.
-	 * This is done based on the sound's location relative to the player.
-	 * This is used for sounds attached to entities. 
-	 */
-	private final Vector2 playerPosition = new Vector2();
-	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
-		Player player = HadalGame.usm.getOwnPlayer();
-
-		//this avoids playing sounds at default volume if player has not loaded in yet
-		if (null == player) {
-			getSound().setPan(soundId, 0.0f, volume * JSONManager.setting.getSoundVolume() * JSONManager.setting.getMasterVolume());
-			return;
-		}
-
-		//check if player exists and is alive (to avoid sudden sound change on death)
-		if (null != player.getBody() && player.isAlive()) {
-			playerPosition.set(player.getPixelPosition());
-		}
-
-		//as a spectator, the center of the camera is treated as the player location
-		if (state.getSpectatorManager().isSpectatorMode()) {
-			playerPosition.set(state.getCamera().position.x, state.getCamera().position.y);
-		}
-
-		float xDist = worldPos.x - playerPosition.x;
-		float yDist = worldPos.y - playerPosition.y;
-		float dist = Math.abs(xDist) + Math.abs(yDist);
-
-		float pan;
-		float newVolume;
-
-		//sound will be played from right/left headphone depending on relative x-coordinate
-		if (MAX_DIST < xDist) {
-			pan = 1.0f;
-		} else if (-MAX_DIST > xDist) {
-			pan = -1.0f;
-		} else {
-			pan = xDist / MAX_DIST;
-		}
-
-		//sound volume scales inversely to distance from sound
-		if (MAX_DIST < dist) {
-			newVolume = 0.0f;
-		} else if (0 >= dist) {
-			newVolume = 1.0f;
-		} else {
-			newVolume = (MAX_DIST - dist) / MAX_DIST;
-		}
-
-		getSound().setPan(soundId, pan, newVolume * volume * JSONManager.setting.getSoundVolume() * JSONManager.setting.getMasterVolume());
 	}
 }

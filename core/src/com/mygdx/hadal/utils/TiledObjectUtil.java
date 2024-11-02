@@ -322,8 +322,7 @@ public class TiledObjectUtil {
 			case "Sound" -> e = new SoundEmitter(state, position, size,
 					object.getProperties().get("sound", String.class),
 					object.getProperties().get("float", 1.0f, float.class),
-					object.getProperties().get("global", true, boolean.class),
-					object.getProperties().get("universal", true, boolean.class));
+					object.getProperties().get("global", true, boolean.class));
 			case "Objective" -> e = new ObjectiveChanger(state,
 					object.getProperties().get("displayOffScreen", false, boolean.class),
 					object.getProperties().get("displayOnScreen", false, boolean.class),

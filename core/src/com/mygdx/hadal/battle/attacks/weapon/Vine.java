@@ -11,6 +11,8 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -76,7 +78,10 @@ public class Vine extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.ATTACK1.playSourced(state, user.getPixelPosition(), 0.4f, 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.ATTACK1)
+                .setVolume(0.4f)
+                .setPitch(0.5f)
+                .setPosition(startPosition));
 
         final int vineNum = extraFields.length > 1 ? (int) extraFields[0] : 0;
         final int splitNum = extraFields.length > 1 ? (int) extraFields[1] : 0;

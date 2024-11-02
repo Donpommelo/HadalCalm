@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -36,7 +38,10 @@ public class FalseSunRadial extends SyncedAttacker {
     public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                              Vector2[] startVelocity, float[] extraFields) {
         position.set(user.getPixelPosition());
-        SoundEffect.MAGIC3_BURST.playSourced(state, position, 0.9f, 0.75f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC3_BURST)
+                .setVolume(0.9f)
+                .setPitch(0.75f)
+                .setPosition(position));
 
         Hitbox[] hboxes = new Hitbox[NUM_SHOTS];
 

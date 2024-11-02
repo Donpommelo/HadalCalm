@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
@@ -149,19 +148,8 @@ public class Turret extends Enemy {
 		
 		super.render(batch, entityLocation);
 	}
-	
-	private static final float baseDamage = 20.0f;
-	private static final float projSpeed = 25.0f;
-	private static final float knockback = 15.0f;
-	private static final int projSize = 40;
-	private static final float projLifespan = 4.0f;
-	private static final float projInterval = 0.5f;
-	@Override
-	public void attackInitiate() {
-		EnemyUtils.shootBullet(state, this, baseDamage, projSpeed, knockback, projSize, projLifespan, projInterval);
-	}
-	
-	//Turrets send their attack angle as a body angle because I don't feel like making a specific packet for them.
+
+    //Turrets send their attack angle as a body angle because I don't feel like making a specific packet for them.
 	//Just in case you were confused about this weird packet.
 	@Override
 	public void onServerSync() {

@@ -69,7 +69,7 @@ public class RenderEntityManager {
 
             //we sometimes set static shaders without loading them (overrided static shaders that are conditional)
             if (null == entry.key.getShaderProgram()) {
-                entry.key.loadStaticShader();
+                ShaderManager.loadStaticShader(entry.key);
             }
             state.getBatch().setShader(entry.key.getShaderProgram());
             for (HadalEntity entity : entry.value) {

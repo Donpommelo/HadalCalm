@@ -177,7 +177,7 @@ public class ResultsState extends GameState {
 	}
 
 	public void initializeVisuals() {
-		shader.loadShader();
+		ShaderManager.loadShader(shader);
 		this.snapshot = new TextureRegion(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
 	}
 

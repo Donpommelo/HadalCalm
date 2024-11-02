@@ -9,6 +9,8 @@ import com.mygdx.hadal.constants.SyncType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -41,7 +43,8 @@ public class Fafrotskies extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.THUNDER.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+		SoundManager.playUniversal(state, new SoundLoad(SoundEffect.THUNDER)
+				.setPosition(user.getPlayer().getPixelPosition()));
 
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), PROJECTILE_SIZE, LIFESPAN, this.weaponVelo.scl(PROJECTILE_SPEED), (short) 0, false, false, user.getPlayer(), PROJ_SPRITE);
 		

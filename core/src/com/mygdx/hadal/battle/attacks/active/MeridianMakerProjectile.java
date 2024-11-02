@@ -11,6 +11,8 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Currents;
+import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -39,7 +41,9 @@ public class MeridianMakerProjectile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.MAGIC11_WEIRD.playSourced(state, user.getPixelPosition(), 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC11_WEIRD)
+                .setVolume(0.5f)
+                .setPosition(startPosition));
 
         final Vector2 currentVec = new Vector2(startVelocity).nor().scl(CURRENT_FORCE);
 
