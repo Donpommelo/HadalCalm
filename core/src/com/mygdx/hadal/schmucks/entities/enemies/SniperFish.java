@@ -108,6 +108,18 @@ public class SniperFish extends EnemySwimming {
 		EnemyUtils.changeMoveState(this, MoveState.DEFAULT, 0.0f);
 	}
 
+	private final Vector2 reticlePosition = new Vector2();
+	@Override
+	public void controller(float delta) {
+		super.controller(delta);
+
+		//we keep track of the reticle target because we needs its position after it dies.
+		//headless server never queries pixel position for rendering, so it never gets updated after creation.
+		if (null != reticleTarget) {
+			reticlePosition.set(reticleTarget.getPixelPosition());
+		}
+	}
+
 	private final Vector2 originPt = new Vector2();
 	private final Vector2 addVelo = new Vector2();
 	@Override

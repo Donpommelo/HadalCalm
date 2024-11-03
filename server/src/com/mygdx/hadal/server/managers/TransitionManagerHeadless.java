@@ -29,6 +29,13 @@ public class TransitionManagerHeadless extends TransitionManager {
                 StateManager.states.push(new PlayStateHeadless(state.getApp(), nextLevel, nextMode, true, nextStartID));
                 StateManager.states.peek().show();
                 break;
+            case NEXTSTAGE:
+                //remove this state and add a new play state with a fresh loadout
+                StateManager.removeState(PauseState.class, false);
+                StateManager.removeState(PlayStateHeadless.class, false);
+                StateManager.states.push(new PlayStateHeadless(state.getApp(), nextLevel, nextMode, false, nextStartID));
+                StateManager.states.peek().show();
+                break;
             case RESULTS:
                 StateManager.removeState(PauseState.class, false);
                 StateManager.removeState(PlayStateHeadless.class, false);

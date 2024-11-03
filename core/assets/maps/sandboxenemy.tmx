@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="49">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="49">
  <properties>
   <property name="customShader" type="bool" value="true"/>
   <property name="music" value="EXTRA_ROOM"/>
@@ -59,6 +59,7 @@
    <properties>
     <property name="level" value="SANDBOX_HUB"/>
     <property name="startId" value="start0"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="toHub"/>
    </properties>
   </object>
@@ -89,6 +90,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="CRAWLER1"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn1"/>
    </properties>
   </object>
@@ -96,6 +98,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="CRAWLER2"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn2"/>
    </properties>
   </object>
@@ -103,6 +106,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="CRAWLER3"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn3"/>
    </properties>
   </object>
@@ -110,6 +114,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="SWIMMER1"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn4"/>
    </properties>
   </object>
@@ -117,6 +122,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="SWIMMER2"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn5"/>
    </properties>
   </object>
@@ -124,6 +130,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="LEAPER1"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn6"/>
    </properties>
   </object>
@@ -131,6 +138,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="TORPEDOFISH"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn7"/>
    </properties>
   </object>
@@ -138,6 +146,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="SCISSORFISH"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn8"/>
    </properties>
   </object>
@@ -145,6 +154,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="SPITTLEFISH"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn9"/>
    </properties>
   </object>
@@ -194,6 +204,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="SPLITTER_LARGE"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn10"/>
    </properties>
   </object>
@@ -201,6 +212,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="SPAWNER"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn11"/>
    </properties>
   </object>
@@ -208,6 +220,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="BOUNCER"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn12"/>
    </properties>
   </object>
@@ -215,6 +228,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="DRONE"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn13"/>
    </properties>
   </object>
@@ -222,6 +236,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="BOMBFISH"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn14"/>
    </properties>
   </object>
@@ -229,6 +244,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" value="SNIPERFISH"/>
+    <property name="syncClient" value="ECHO"/>
     <property name="triggeredId" value="testSpawn15"/>
    </properties>
   </object>

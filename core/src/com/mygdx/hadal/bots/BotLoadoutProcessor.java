@@ -494,29 +494,33 @@ public class BotLoadoutProcessor {
             UnlockArtifact.MOON_FLUTHER, UnlockArtifact.NICE_SHOES, UnlockArtifact.VOID_HYPONOME };
     private static final UnlockArtifact[] mobility1 = { UnlockArtifact.CURSED_CILICE, UnlockArtifact.NACREOUS_RUDDER };
     private static final UnlockArtifact[] defensive3 = { UnlockArtifact.FALLACY_OF_FLESH, UnlockArtifact.HORNS_OF_AMMON };
-    private static final UnlockArtifact[] defensive2 = { UnlockArtifact.BLASTEMA, UnlockArtifact.FARADAYS_CAGE, UnlockArtifact.FRACTURE_PLATE,
-            UnlockArtifact.GLUTTONOUS_GREY_GLOVE, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.VISE_OF_SHAME };
+    private static final UnlockArtifact[] defensive2 = { UnlockArtifact.BLASTEMA, UnlockArtifact.FARADAYS_CAGE, UnlockArtifact.FINIFUGALITY,
+            UnlockArtifact.FRACTURE_PLATE,
+            UnlockArtifact.GLUTTONOUS_GREY_GLOVE, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.LOCH_SHIELD, UnlockArtifact.VISE_OF_SHAME };
     private static final UnlockArtifact[] defensive1 = { UnlockArtifact.NUMBER_ONE_BOSS_MUG, UnlockArtifact.DAS_BOOT,
             UnlockArtifact.DAY_AT_THE_FAIR, UnlockArtifact.GEMMULE, UnlockArtifact.KUMQUAT, UnlockArtifact.LOTUS_LANTERN,
+            UnlockArtifact.MANGROVE_SEED,
             UnlockArtifact.MOUTHBREATHER_CERTIFICATE, UnlockArtifact.NOCTILUCENT_PROMISE, UnlockArtifact.NUTRILOG_CRUNCHBAR_PLUS,
             UnlockArtifact.SALIGRAM, UnlockArtifact.TUNICATE_TUNIC};
     private static final UnlockArtifact[] offensive3 = { UnlockArtifact.BUCKET_OF_BATTERIES, UnlockArtifact.EMAUDELINES_PRISM, UnlockArtifact.JURY_RIGGED_BINDINGS };
     private static final UnlockArtifact[] offensive2 = { UnlockArtifact.BOOK_OF_BURIAL, UnlockArtifact.BRITTLING_POWDER, UnlockArtifact.CHAOS_CONJURANT,
-            UnlockArtifact.CLOCKWISE_CAGE, UnlockArtifact.CRIME_DISCOURAGEMENT_STICK, UnlockArtifact.ERSATZ_SMILE,
-            UnlockArtifact.GOMEZS_AMYGDALA, UnlockArtifact.PEER_PRESSURE, UnlockArtifact.ROYAL_JUJUBE_BANG,
+            UnlockArtifact.CLOCKWISE_CAGE, UnlockArtifact.CONCEPT13, UnlockArtifact.CRIME_DISCOURAGEMENT_STICK, UnlockArtifact.ERSATZ_SMILE,
+            UnlockArtifact.GOMEZS_AMYGDALA, UnlockArtifact.HONEYED_TENEBRAE, UnlockArtifact.PEER_PRESSURE, UnlockArtifact.ROYAL_JUJUBE_BANG,
             UnlockArtifact.SHILLERS_DEATHCAP, UnlockArtifact.TRIGGERFISH_FINGER, UnlockArtifact.TYPHON_FANG,
             UnlockArtifact.VESTIGIAL_CHAMBER, UnlockArtifact.VOLATILE_DERMIS, UnlockArtifact.WHITE_WHALE_CHARM,
             UnlockArtifact.WRATH_OF_THE_FROGMAN };
     private static final UnlockArtifact[] offensive1 = { UnlockArtifact.EIGHT_BALL, UnlockArtifact.ABYSSAL_INSIGNIA, UnlockArtifact.BATTLE_BUOY,
-            UnlockArtifact.CALL_OF_THE_VOID, UnlockArtifact.CROWN_OF_THORNS, UnlockArtifact.FORAGERS_HIVE, UnlockArtifact.IRON_SIGHTS, UnlockArtifact.KERMUNGLER,
+            UnlockArtifact.CALL_OF_THE_VOID, UnlockArtifact.CONTEMPT_FOR_LIFE, UnlockArtifact.CROWN_OF_THORNS, UnlockArtifact.FORAGERS_HIVE, UnlockArtifact.HEARTSNATCHER,
+            UnlockArtifact.IRON_SIGHTS, UnlockArtifact.KERMUNGLER,
             UnlockArtifact.MOUTHFUL_OF_BEES, UnlockArtifact.NUCLEAR_PUNCH_THRUSTERS, UnlockArtifact.NURDLER, UnlockArtifact.PEACHWOOD_SWORD,
             UnlockArtifact.PEPPER, UnlockArtifact.PETRIFIED_PAYLOAD, UnlockArtifact.RED_TIDE_TALISMAN, UnlockArtifact.SAMURAI_SHARK,
             UnlockArtifact.SWORD_OF_SYZYGY, UnlockArtifact.VOW_OF_EMPTY_HANDS };
     private static final UnlockArtifact[] misc3 = { UnlockArtifact.AU_COURANT, UnlockArtifact.CARLOCS_THESIS, UnlockArtifact.HEART_OF_SPEROS,
             UnlockArtifact.INFORMANTS_TIE, UnlockArtifact.KINESIS_LENS, UnlockArtifact.TENUOUS_GRIP_ON_REALITY };
     private static final UnlockArtifact[] misc2 = { UnlockArtifact.CURIOUS_SAUCE, UnlockArtifact.EXTRA_ROW_OF_TEETH, UnlockArtifact.ICE9 };
-    private static final UnlockArtifact[] misc1 = { UnlockArtifact.ANARCHISTS_COOKBOOK, UnlockArtifact.BUTTONMAN_BUTTONS, UnlockArtifact.ICE9,
-            UnlockArtifact.SINKING_FEELING};
+    private static final UnlockArtifact[] misc1 = { UnlockArtifact.ANARCHISTS_COOKBOOK, UnlockArtifact.BROOCH_OF_BETTER_DAYS,
+            UnlockArtifact.BUTTONMAN_BUTTONS, UnlockArtifact.ICE9,
+            UnlockArtifact.QUALIA_UMBILICA, UnlockArtifact.SINKING_FEELING, UnlockArtifact.SUMMONING_TWOFISH};
 
     /**
      * This gives a bot a set of random artifacts from a curated list, obeying artifact slot restrictions

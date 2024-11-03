@@ -44,10 +44,9 @@ public class SniperReticle extends SyncedAttacker {
             public void create() {
                 super.create();
                 arrow = SpriteManager.getAnimation(Sprite.SNIPER_ARROW);
-                projectileSprite.setPlayMode(Sprite.SNIPER_ARROW.getPlayMode());
 
-                this.arrowWidth = SpriteManager.getFrame(Sprite.SNIPER_ARROW).getRegionWidth() * SCALE;
-                this.arrowHeight = SpriteManager.getFrame(Sprite.SNIPER_ARROW).getRegionHeight() * SCALE;
+                this.arrowWidth = SpriteManager.getDimensions(Sprite.SNIPER_ARROW).x * SCALE;
+                this.arrowHeight = SpriteManager.getDimensions(Sprite.SNIPER_ARROW).y * SCALE;
             }
 
             private final Vector2 userLocation = new Vector2();
