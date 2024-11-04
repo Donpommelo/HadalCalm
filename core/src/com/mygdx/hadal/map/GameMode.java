@@ -375,6 +375,7 @@ public enum GameMode {
         if (!state.isServer()) { return; }
         if (p != null) {
             User user = p.getUser();
+
             if (user != null) {
                 user.getScoreManager().setScore(user.getScoreManager().getScore() + scoreIncrement);
 

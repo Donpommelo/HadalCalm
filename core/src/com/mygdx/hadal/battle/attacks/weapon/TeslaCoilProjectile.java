@@ -64,25 +64,12 @@ public class TeslaCoilProjectile extends SyncedAttacker {
                 //keep track of the coil's travel distance
                 this.startLocation.set(hbox.getPixelPosition());
                 this.distance = startLocation.dst(endLocation) - PROJECTILE_SIZE.x;
+                System.out.println("END LOCATION : " + endLocation + " DISTANCE" + distance);
             }
 
             private final Vector2 entityLocation = new Vector2();
             @Override
             public void controller(float delta) {
-
-                //planted coils stop and activates
-                if (firstPlanted) {
-                    firstPlanted = false;
-                    planted = true;
-
-                    if (hbox.getBody() != null) {
-                        hbox.setLinearVelocity(0, 0);
-                        hbox.getBody().setType(BodyDef.BodyType.StaticBody);
-                    }
-                    SoundManager.play(state, new SoundLoad(SoundEffect.METAL_IMPACT_1)
-                            .setVolume(0.5f)
-                            .setPosition(startPosition));
-                }
 
                 //activated coils periodically check world for nearby coils
                 //this is only processed by the server
@@ -116,8 +103,26 @@ public class TeslaCoilProjectile extends SyncedAttacker {
 
                 //After reaching the location clicked, the coil is marked as planted
                 if (!planted && startLocation.dst2(hbox.getPixelPosition()) >= distance * distance) {
+                    System.out.println("PLANTED : " + hbox.getPixelPosition());
+
                     firstPlanted = true;
                     controllerCount = PULSE_INTERVAL;
+                }
+
+                //planted coils stop and activates
+                if (firstPlanted) {
+                    firstPlanted = false;
+                    planted = true;
+
+                    if (hbox.getBody() != null) {
+                        System.out.println("FROZEN : " + hbox.getPixelPosition());
+
+                        hbox.setLinearVelocity(0, 0);
+                        hbox.getBody().setType(BodyDef.BodyType.StaticBody);
+                    }
+                    SoundManager.play(state, new SoundLoad(SoundEffect.METAL_IMPACT_1)
+                            .setVolume(0.5f)
+                            .setPosition(startPosition));
                 }
             }
 
@@ -154,6 +159,7 @@ public class TeslaCoilProjectile extends SyncedAttacker {
                 if (!activated) {
                     activated = true;
                     Vector2 otherPosition = new Vector2(hboxOther.getPixelPosition());
+                    System.out.println(hbox.getPixelPosition() + " " + hboxOther.getPixelPosition());
                     SyncedAttack.TESLA_ACTIVATION.initiateSyncedAttackSingle(state, user, hbox.getPixelPosition(),
                             startVelocity, otherPosition.x, otherPosition.y);
                 }

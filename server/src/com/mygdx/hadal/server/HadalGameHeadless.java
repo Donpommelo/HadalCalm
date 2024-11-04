@@ -28,6 +28,7 @@ public class HadalGameHeadless extends HadalGame {
 
         JSONManager.initJSON();
 
+        StateManager.currentMode = StateManager.Mode.MULTI;
         StateManager.states.push(new PlayStateHeadless(this, UnlockLevel.HUB_MULTI, GameMode.HUB, true, ""));
         StateManager.states.peek().show();
 
