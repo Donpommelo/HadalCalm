@@ -86,7 +86,7 @@ public class ReviveGravestone extends Event {
 
 		if (state.getSpectatorManager().isSpectatorMode()) {
 			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
-		} else if (HadalGame.usm.getOwnUser().getTeamFilter() == user.getTeamFilter()) {
+		} else if (HadalGame.usm.getOwnUser() != null && HadalGame.usm.getOwnUser().getTeamFilter() == user.getTeamFilter()) {
 			state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 		}
 

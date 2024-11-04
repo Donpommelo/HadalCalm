@@ -201,7 +201,7 @@ public class KillFeed {
      * @param player: the client to receive the notification
      */
     public void sendNotification(String text, Player player) {
-        if (!HadalGame.usm.getOwnUser().equals(player.getUser())) {
+        if (player.getUser() != HadalGame.usm.getOwnUser()) {
             PacketManager.serverTCP(player.getUser().getConnID(), new Packets.SyncNotification(text));
         } else {
             addNotification(text, false);
