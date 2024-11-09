@@ -55,13 +55,17 @@ public class UserManager {
 
     public void removeUserServer(int connID) {
         removeUser(connID);
-        if (users.isEmpty()) {
+        if (getNumPlayers() == 0) {
             Gdx.app.exit();
         } else if (connID == hostID) {
-
             //if the host disconnected, choose a new host and inform clients
-            hostID = users.keys().toArray().get(0);
-            PacketManager.serverTCPAll(new Packets.ServerNewHost(hostID));
+            for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
+                if (!conn.value.isSpectator() && 0.0f <= conn.key) {
+                    hostID = users.keys().toArray().get(0);
+                    PacketManager.serverTCPAll(new Packets.ServerNewHost(hostID));
+                    break;
+                }
+            }
         }
     }
 

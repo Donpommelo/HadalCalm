@@ -120,7 +120,6 @@ public class ParticleEntity extends HadalEntity {
 	private final Vector3 visualBoundsExtension = new Vector3();
 	@Override
 	public void controller(float delta) {
-
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !completing) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
@@ -195,7 +194,8 @@ public class ParticleEntity extends HadalEntity {
 	}
 
 	public void turnOn() {
-		if (!on || effect.isComplete()) {
+		//need to check completing so we don't cancel the completion by toggling back on
+		if ((!on || effect.isComplete()) && !completing) {
 			on = true;
 			effect.start();
 		}

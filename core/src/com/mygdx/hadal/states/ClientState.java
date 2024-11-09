@@ -149,16 +149,17 @@ public class ClientState extends PlayState {
 			packet.entity.setReceivingSyncs(packet.synced);
 		}
 		createListClient.clear();
-		
+
 		//All entities that are set to be removed are removed.
 		for (Integer key : removeListClient) {
-			HadalEntity entity = findEntity(key);
-			if (entity != null) {
-				entity.dispose();
-			}
 			for (ObjectMap<Integer, HadalEntity> m : entityLists) {
-				m.remove(key);
+				HadalEntity entity = m.get(key);
+				if (entity != null) {
+					entity.dispose();
+					m.remove(key);
+				}
 			}
+//			UUIDUtil.releaseUnsyncedID(key);
 		}
 		removeListClient.clear();
 
@@ -271,17 +272,13 @@ public class ClientState extends PlayState {
 	 */
 	@Override
 	public HadalEntity findEntity(int entityID) {
-		HadalEntity entity = entities.get(entityID);
-		if (entity != null) {
-			return entity;
-		} else {
-			entity = effects.get(entityID);
+		for (ObjectMap<Integer, HadalEntity> m : entityLists) {
+			HadalEntity entity = m.get(entityID);
 			if (entity != null) {
 				return entity;
-			} else {
-				return hitboxes.get(entityID);
 			}
 		}
+		return null;
 	}
 
 	/**
@@ -302,12 +299,6 @@ public class ClientState extends PlayState {
 		//clean up all client entities. (some entities require running their dispose() to function properly (soundEntities turning off)
 		for (ObjectMap<Integer, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {
-				entity.dispose();
-			}
-		}
-		for (Integer key : removeListClient) {
-			HadalEntity entity = findEntity(key);
-			if (entity != null) {
 				entity.dispose();
 			}
 		}

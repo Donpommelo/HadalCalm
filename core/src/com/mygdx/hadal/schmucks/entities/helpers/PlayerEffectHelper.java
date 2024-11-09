@@ -9,7 +9,6 @@ import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -110,13 +109,6 @@ public class PlayerEffectHelper {
         //this is here to prevent the client from not updating the last, fatal instance of damage in the ui
         if (!state.isServer()) {
             player.getPlayerData().setCurrentHp(0);
-
-            if (hoverBubbles != null) {
-                ((ClientState) state).removeEntity(hoverBubbles.getEntityID());
-            }
-            if (dustCloud != null) {
-                ((ClientState) state).removeEntity(dustCloud.getEntityID());
-            }
         }
     }
 

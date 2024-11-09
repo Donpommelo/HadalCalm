@@ -1,5 +1,8 @@
 package com.mygdx.hadal.utils;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class UUIDUtil {
 
     private static final int MIN_OBJECT_ID = -(1 << 28);     // -268,435,456
@@ -8,12 +11,16 @@ public class UUIDUtil {
 
     private static int playStateID = 0;
 
+    private static final Queue<Integer> availableUnsyncedIDs = new LinkedList<>();
+
     private static int currentSyncedID = 0;
     private static int currentUnsyncedID = 0;
 
     // Reset counters when transitioning to a new level
     public static void nextPlayState() {
         playStateID = (playStateID + 1) & MAX_PLAY_STATE_ID; // Cycle through 0–15
+
+        availableUnsyncedIDs.clear();
         currentSyncedID = 0;
         currentUnsyncedID = 0;
     }
@@ -25,11 +32,18 @@ public class UUIDUtil {
         return newID;
     }
 
-    // Generates a unique negative ID for a client-only object
     public static int generateUnsyncedID() {
-        int newID = MIN_OBJECT_ID - (currentUnsyncedID & MAX_OBJECT_ID);
-        currentUnsyncedID = (currentUnsyncedID + 1) & MAX_OBJECT_ID;
+        int nextId;
+        if (availableUnsyncedIDs.isEmpty()) {
+            nextId = currentUnsyncedID;
+            currentUnsyncedID = (currentUnsyncedID + 1) & MAX_OBJECT_ID;
+        } else {
+            nextId = availableUnsyncedIDs.poll();
+        }
+        return MIN_OBJECT_ID - (nextId & MAX_OBJECT_ID);
+    }
 
-        return newID;
+    public static void releaseUnsyncedID(int unsyncedID) {
+        availableUnsyncedIDs.offer(unsyncedID);
     }
 }

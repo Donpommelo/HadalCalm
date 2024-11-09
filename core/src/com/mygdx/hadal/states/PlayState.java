@@ -366,10 +366,11 @@ public class PlayState extends GameState {
 
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity : removeList) {
+			entity.dispose();
+
 			for (ObjectSet<HadalEntity> s : entityLists) {
 				s.remove(entity);
 			}
-			entity.dispose();
 
 			//Upon deleting an entity, tell the clients so they can follow suit.
 			Object packet = entity.onServerDelete();
@@ -543,10 +544,7 @@ public class PlayState extends GameState {
 				entity.dispose();
 			}
 		}
-		for (HadalEntity entity : removeList) {
-			entity.dispose();
-		}
-		
+
 		world.dispose();
 		map.dispose();
 
