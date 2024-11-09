@@ -52,8 +52,8 @@ public class Hexenhowitzer extends RangedWeapon {
 	private Status glowing;
 	
 	public Hexenhowitzer(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,false,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 	
 	@Override

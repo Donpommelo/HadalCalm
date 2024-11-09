@@ -140,15 +140,15 @@ public class Leapfrog extends SyncedAttacker {
 
             private float leapAmount;
             private float groundedCount;
-            private float aerialCount;
+            private float lastJumpCount;
             private float jumpDuration, landDuration;
             private boolean jumpStart, jumping, landStart;
             @Override
             public void controller(float delta) {
                 if (feetData.getNumContacts() > 0) {
-                    aerialCount = 0.0f;
-
                     if (jumpStart && jumpDuration >= LEAP_DELAY) {
+                        lastJumpCount = 0.0f;
+
                         SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
                                 .setVolume(0.3f)
                                 .setPosition(startPosition));
@@ -194,8 +194,8 @@ public class Leapfrog extends SyncedAttacker {
                     groundedCount = 0;
 
                     //safeguard for projectiles that never touch the ground
-                    aerialCount += delta;
-                    if (aerialCount >= MAX_LEAP_DURATION) {
+                    lastJumpCount += delta;
+                    if (lastJumpCount >= MAX_LEAP_DURATION) {
                         hbox.die();
                     }
                 }

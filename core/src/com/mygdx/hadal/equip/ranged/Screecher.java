@@ -43,8 +43,8 @@ public class Screecher extends RangedWeapon {
 	private float shortestFraction;
 	
 	public Screecher(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN);
 	}
 
 	private final Vector2 endPt = new Vector2();

@@ -37,15 +37,12 @@ public class ContactStick extends HitboxStrategy {
 	//this stores the relative location of the stuck projectile after accounting for rotation
 	private final Vector2 rotatedLocation = new Vector2();
 
-	private final float originalGravity;
-
 	private float stuckLifespan;
 
 	public ContactStick(PlayState state, Hitbox proj, BodyData user, boolean walls, boolean dudes) {
 		super(state, proj, user);
 		this.stickToWalls = walls;
 		this.stickToDudes = dudes;
-		this.originalGravity = proj.getGravity();
 		this.stuckLifespan = proj.getLifeSpan();
 
 		//set this here since sticky hboxes can't use the adjust angle strategy
@@ -114,7 +111,7 @@ public class ContactStick extends HitboxStrategy {
 	protected void onUnstick() {
 		stuckToTarget = false;
 		if (hbox.getBody() != null) {
-			hbox.getBody().setGravityScale(originalGravity);
+			hbox.getBody().setGravityScale(1.0f);
 		}
 	}
 

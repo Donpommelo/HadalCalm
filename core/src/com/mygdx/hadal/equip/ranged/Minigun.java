@@ -36,15 +36,15 @@ public class Minigun extends RangedWeapon {
 	private static final float LIFESPAN = MinigunBullet.LIFESPAN;
 	private static final float BASE_DAMAGE = MinigunBullet.BASE_DAMAGE;
 
-	private static final Sprite weaponSprite = Sprite.MT_MACHINEGUN;
-	private static final Sprite eventSprite = Sprite.P_MACHINEGUN;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_MACHINEGUN;
+	private static final Sprite EVENT_SPRITE = Sprite.P_MACHINEGUN;
 
 	private SoundEntity chargeSound, fireSound;
 	private ParticleEntity slow;
 
 	public Minigun(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
-				weaponSprite, eventSprite, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 	
 	@Override

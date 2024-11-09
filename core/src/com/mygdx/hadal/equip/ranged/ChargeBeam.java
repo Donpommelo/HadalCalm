@@ -36,8 +36,8 @@ public class ChargeBeam extends RangedWeapon {
 	private ParticleEntity charge, overcharge;
 
 	public ChargeBeam(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x * 3.0f, LIFESPAN, MAX_CHARGE);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x * 3.0f, LIFESPAN, MAX_CHARGE);
 	}
 
 	@Override

@@ -21,6 +21,8 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.FlashNearDeath;
 
+import static com.mygdx.hadal.constants.Constants.PPM;
+
 public class TeslaCoilProjectile extends SyncedAttacker {
 
     public static final Vector2 PROJECTILE_SIZE = new Vector2(45, 45);
@@ -112,6 +114,7 @@ public class TeslaCoilProjectile extends SyncedAttacker {
                     planted = true;
 
                     if (hbox.getBody() != null) {
+                        hbox.setTransform(endLocation.scl(1 / PPM), 0);
                         hbox.setLinearVelocity(0, 0);
                         hbox.getBody().setType(BodyDef.BodyType.StaticBody);
                     }

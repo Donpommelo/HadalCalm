@@ -34,8 +34,8 @@ public class AssaultBits extends RangedWeapon {
 	private static final Sprite EVENT_SPRITE = Sprite.P_CHAINLIGHTNING;
 	
 	public AssaultBits(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,
-				true, WEAPON_SPRITE, EVENT_SPRITE, LIFESPAN, PROJECTILE_SIZE.x, SUMMON_SHOOT_CD);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				LIFESPAN, PROJECTILE_SIZE.x, SUMMON_SHOOT_CD);
 	}
 	
 	private final Vector2 realWeaponVelo = new Vector2();

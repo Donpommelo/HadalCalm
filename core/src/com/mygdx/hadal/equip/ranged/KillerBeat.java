@@ -36,8 +36,8 @@ public class KillerBeat extends RangedWeapon {
 	private static final IntArray NOTES = new IntArray(NOTE_ARRAY);
 
 	public KillerBeat(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 		setCharging(true);
 	}
 
