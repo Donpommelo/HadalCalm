@@ -45,7 +45,6 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * This is the server of the game.
@@ -174,7 +173,7 @@ public class KryoServer {
 										} else {
 											hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
 										}
-										hbox.setEntityID(new UUID(p1.uuidMSB, p1.uuidLSB));
+										hbox.setEntityID(p1.entityID);
 									} else {
 										if (p instanceof PacketsAttacks.SingleClientIndependentExtra p1) {
 											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p1.extraFields);
@@ -207,7 +206,7 @@ public class KryoServer {
 											hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
 										}
 										for (int i = 0; i < hboxes.length; i++) {
-											hboxes[i].setEntityID(new UUID(p1.uuidMSB[i], p1.uuidLSB[i]));
+											hboxes[i].setEntityID(p1.entityID[i]);
 										}
 									} else {
 										if (p instanceof PacketsAttacks.MultiClientIndependentExtra p2) {
@@ -621,7 +620,7 @@ public class KryoServer {
 							User vic = usm.getUsers().get(c.getID());
 							if (null != vic) {
 								if (null != vic.getPlayer()) {
-									HadalEntity perp = ps.findEntity(p.uuidMSB, p.uuidLSB);
+									HadalEntity perp = ps.findEntity(p.entityID);
 									if (perp instanceof Schmuck schmuck) {
 										vic.getPlayer().getPlayerData().die(schmuck.getBodyData(), p.source, p.tags);
 									} else {
@@ -644,7 +643,7 @@ public class KryoServer {
 							if (user != null) {
 								Player player = user.getPlayer();
 								if (player != null) {
-									HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
+									HadalEntity entity = ps.findEntity(p.entityID);
 									if (entity != null) {
 										if (entity instanceof Event event) {
 											event.getEventData().preActivate(null, player);
@@ -687,7 +686,7 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
 						ps.addPacketEffect(() -> {
-							HadalEntity entity = ps.findEntity(p.uuidMSB, p.uuidLSB);
+							HadalEntity entity = ps.findEntity(p.entityID);
 							if (null != entity) {
 								if (entity instanceof PickupEquip pickupEquip) {
 									pickupEquip.setEquip(UnlocktoItem.getUnlock(p.newPickup, null));
@@ -760,7 +759,7 @@ public class KryoServer {
 				}
 
 				/*
-				 * The Server tells us the new settings after settings change.
+				 * The client tells us the new settings after settings change.
 				 * Update our settings to the ones specified
 				 */
 				else if (o instanceof final Packets.SyncSharedSettings p) {
@@ -768,6 +767,7 @@ public class KryoServer {
 					if (null != ps) {
 						ps.addPacketEffect(() -> {
 							JSONManager.sharedSetting = p.settings;
+							JSONManager.setting.setArtifactSlots(p.settings.getArtifactSlots());
 							ps.getUIManager().getScoreWindow().syncSettingTable();
 						});
 					}

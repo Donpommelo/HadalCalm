@@ -235,7 +235,7 @@ public class KryoClient {
 
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
+					HadalEntity entity = cs.findEntity(p.entityID);
 					if (null != entity) {
 						if (entity instanceof Event event) {
 							if (usm.getUsers().containsKey(p.connID)) {
@@ -274,7 +274,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					HadalEntity entity = cs.findEntity(p.uuidMSB, p.uuidLSB);
+					HadalEntity entity = cs.findEntity(p.entityID);
 					if (null != entity) {
 						if (entity instanceof PickupEquip pickupEquip) {
 							pickupEquip.setEquip(UnlocktoItem.getUnlock(p.newPickup, null));
@@ -589,7 +589,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> cs.getUIManager().getUiObjective()
-						.addObjectiveClient(new UUID(p.uuidMSB, p.uuidLSB), p.icon, p.color, p.displayOffScreen,
+						.addObjectiveClient(p.entityID, p.icon, p.color, p.displayOffScreen,
 								p.displayOnScreen, p.displayClearCircle));
 			}
 		}
@@ -669,7 +669,7 @@ public class KryoClient {
 					illusion.serverPos.set(p.pos).scl(1 / PPM);
 					illusion.serverAngle.setAngleRad(p.angle);
 					illusion.copyServerInstantly = p.instant;
-					cs.addEntity(p.uuidMSB, p.uuidLSB, illusion, p.synced, p.layer);
+					cs.addEntity(p.entityID, illusion, p.synced, p.layer);
 				});
 			}
 			return true;
@@ -682,7 +682,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
+					HadalEntity creator = cs.findEntity(p.creatorID);
 					if (null == creator) {
 						creator = cs.getWorldDummy();
 					}
@@ -696,7 +696,7 @@ public class KryoClient {
 							}
 							hbox.serverPos.set(p.pos).scl(1 / PPM);
 							hbox.serverVelo.set(p.velo);
-							cs.addEntity(p1.uuidMSB, p1.uuidLSB, hbox, true, ObjectLayer.HBOX);
+							cs.addEntity(p1.entityID, hbox, true, ObjectLayer.HBOX);
 						} else {
 							if (p instanceof PacketsAttacks.SingleServerIndependentExtra p2) {
 								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false, p2.extraFields);
@@ -720,7 +720,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
+					HadalEntity creator = cs.findEntity(p.creatorID);
 					if (null == creator) {
 						creator = cs.getWorldDummy();
 					}
@@ -742,8 +742,8 @@ public class KryoClient {
 								if (p.velo.length > i) {
 									hboxes[i].serverVelo.set(p.velo[i]);
 								}
-								if (p1.uuidMSB.length > i && p1.uuidLSB.length > i) {
-									cs.addEntity(p1.uuidMSB[i], p1.uuidLSB[i], hboxes[i], true, ObjectLayer.HBOX);
+								if (p1.entityID.length > i) {
+									cs.addEntity(p1.entityID[i], hboxes[i], true, ObjectLayer.HBOX);
 								}
 							}
 						} else {
@@ -774,7 +774,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
-					HadalEntity creator = cs.findEntity(new UUID(p.uuidMSBCreator, p.uuidLSBCreator));
+					HadalEntity creator = cs.findEntity(p.creatorID);
 					if (null == creator) {
 						creator = cs.getWorldDummy();
 					}
@@ -797,7 +797,7 @@ public class KryoClient {
 		else if (o instanceof final Packets.DeleteEntity p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
+				cs.addPacketEffect(() -> cs.syncEntity(p.entityID, p, p.timestamp));
 			}
 			return true;
 		}
@@ -821,7 +821,7 @@ public class KryoClient {
 					entity = EffectEntityManager.getParticle(cs, request);
 
 					if (p.attached) {
-						entity.setAttachedId(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
+						entity.setAttachedId(p.attachedID);
 						entity.setOffset(p.pos.x, p.pos.y);
 					}
 
@@ -843,7 +843,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					FlagCapturable entity = new FlagCapturable(cs, p.pos, null, p.teamIndex);
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, true, ObjectLayer.HBOX);
+					cs.addEntity(p.entityID, entity, true, ObjectLayer.HBOX);
 				});
 			}
 			return true;
@@ -854,7 +854,7 @@ public class KryoClient {
 			if (null != cs) {
 				cs.addPacketEffect(() -> {
 					CrownHoldable entity = new CrownHoldable(cs, p.pos);
-					cs.addEntity(p.uuidMSB, p.uuidLSB, entity, true, ObjectLayer.HBOX);
+					cs.addEntity(p.entityID, entity, true, ObjectLayer.HBOX);
 				});
 			}
 			return true;
@@ -867,7 +867,7 @@ public class KryoClient {
 					User user = usm.getUsers().get(p.connID);
 					if (null != user) {
 						ReviveGravestone grave = new ReviveGravestone(cs, p.pos, user, p.returnMaxTimer, null);
-						cs.addEntity(p.uuidMSB, p.uuidLSB, grave, true, ObjectLayer.HBOX);
+						cs.addEntity(p.entityID, grave, true, ObjectLayer.HBOX);
 					}
 				});
 			}
@@ -888,7 +888,7 @@ public class KryoClient {
 							.setPitch(p.pitch)
 							.setLooped(p.looped)
 							.setStartOn(p.on));
-					entity.setAttachedID(new UUID(p.uuidMSBAttached, p.uuidLSBAttached));
+					entity.setAttachedID(p.attachedID);
 				});
 			}
 			return true;
@@ -904,7 +904,7 @@ public class KryoClient {
 				cs.addPacketEffect(() -> {
 					Enemy enemy = p.type.generateEnemy(cs, p.pos, p.hitboxFilter, 0);
 					enemy.serverPos.set(p.pos).scl(1 / PPM);
-					cs.addEntity(p.uuidMSB, p.uuidLSB, enemy, true, ObjectLayer.STANDARD);
+					cs.addEntity(p.entityID, enemy, true, ObjectLayer.STANDARD);
 					enemy.setBoss(p.boss);
 					if (p.boss) {
 						enemy.setName(p.name);
@@ -951,7 +951,7 @@ public class KryoClient {
 					newPlayer.setStartPos(p.startPosition);
 					newPlayer.setHitboxFilter(hitboxFilterOverride);
 					newPlayer.changeScaleModifier(p.scaleModifier);
-					cs.addEntity(p.uuidMSB, p.uuidLSB, newPlayer, true, ObjectLayer.STANDARD);
+					cs.addEntity(p.entityID, newPlayer, true, ObjectLayer.STANDARD);
 
 					if (p.connID == usm.getConnID()) {
 						usm.setOwnPlayer(newPlayer);
@@ -983,7 +983,7 @@ public class KryoClient {
 						blueprint.getProperties().put(pair.getKey(), pair.getValue());
 					}
 
-					Event e = TiledObjectUtil.parseSingleEventWithTriggersWithUUID(cs, blueprint, new UUID(p.uuidMSB, p.uuidLSB), p.synced);
+					Event e = TiledObjectUtil.parseSingleEventWithTriggersWithUUID(cs, blueprint, p.entityID, p.synced);
 					e.serverPos.set(e.getStartPos()).scl(1 / PPM);
 				});
 			}
@@ -1006,7 +1006,7 @@ public class KryoClient {
 					}
 					pickup.serverPos.set(pickup.getStartPos()).scl(1 / PPM);
 
-					cs.addEntity(p.uuidMSB, p.uuidLSB, pickup, true, ObjectLayer.STANDARD);
+					cs.addEntity(p.entityID, pickup, true, ObjectLayer.STANDARD);
 				});
 			}
 			return true;
@@ -1055,7 +1055,7 @@ public class KryoClient {
 		if (o instanceof PacketsSync.SyncEntity p) {
 			final ClientState cs = getClientState();
 			if (null != cs) {
-				cs.addPacketEffect(() -> cs.syncEntity(p.uuidMSB, p.uuidLSB, p, p.timestamp));
+				cs.addPacketEffect(() -> cs.syncEntity(p.entityID, p, p.timestamp));
 			}
 			return true;
 		}

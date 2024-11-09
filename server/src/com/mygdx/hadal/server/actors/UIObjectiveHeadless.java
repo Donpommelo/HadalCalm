@@ -14,5 +14,7 @@ public class UIObjectiveHeadless extends UIObjective {
 
     @Override
     public void addObjective(HadalEntity objective, Sprite sprite, HadalColor color, boolean displayObjectiveOffScreen,
-                             boolean displayObjectiveOnScreen, boolean displayClearCircle) {}
+                             boolean displayObjectiveOnScreen, boolean displayClearCircle) {
+
+    }
 }

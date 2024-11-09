@@ -30,8 +30,6 @@ import com.mygdx.hadal.server.EventDto;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.UUID;
-
 /**
  * This util parses a Tiled file into an in-game map.
  * @author Fricieweitz Flogory
@@ -148,7 +146,7 @@ public class TiledObjectUtil {
 	 * This is like parseAddTiledEvent, except for events that are received from the server and require a UUID to receive
 	 * packets that sync or reference the event.
 	 */
-	public static Event parseAddTiledEventWithUUID(PlayState state, MapObject object, UUID entityID, boolean synced) {
+	public static Event parseAddTiledEventWithUUID(PlayState state, MapObject object, int entityID, boolean synced) {
 		Event e = parseTiledEvent(state, object, false);
 		if (state instanceof ClientState clientState && e != null) {
 			clientState.addEntity(entityID, e, synced, ObjectLayer.STANDARD);
@@ -935,7 +933,7 @@ public class TiledObjectUtil {
 	 * Similar to parseSingleEventWithTriggers, except used for synced events received from server that need the UUID
 	 * in order to receive sync packets
 	 */
-	public static Event parseSingleEventWithTriggersWithUUID(PlayState state, MapObject object, UUID entityID, boolean synced) {
+	public static Event parseSingleEventWithTriggersWithUUID(PlayState state, MapObject object, int entityID, boolean synced) {
 		Event e = parseAddTiledEventWithUUID(state, object, entityID, synced);
 		parseTiledSingleTrigger(e);
 		return e;

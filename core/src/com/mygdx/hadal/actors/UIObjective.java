@@ -8,8 +8,6 @@ import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.UUID;
-
 /**
  * UIObjective displays an icon along the periphery of the screen to indicate the location of an objective.
  * These objectives can be set by the objective event.
@@ -59,7 +57,7 @@ public class UIObjective extends AHadalActor {
 				displayObjectiveOnScreen, displayClearCircle));
 	}
 
-	public void addObjectiveClient(UUID objectiveID, Sprite sprite, HadalColor color, boolean displayObjectiveOffScreen,
+	public void addObjectiveClient(int objectiveID, Sprite sprite, HadalColor color, boolean displayObjectiveOffScreen,
 								   boolean displayObjectiveOnScreen, boolean displayClearCircle) {
 		ObjectiveMarker newObjective = new ObjectiveMarker(state, null, sprite, color, displayObjectiveOffScreen,
 				displayObjectiveOnScreen, displayClearCircle);

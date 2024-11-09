@@ -235,7 +235,7 @@ public class LoadoutArtifactHelper {
             return Math.min((int) (JSONManager.record.getSlotsUnlocked() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
         } else {
             if (player.getState().isServer()) {
-                return Math.min((int) (JSONManager.setting.getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
+                return Math.min((int) (JSONManager.sharedSetting.getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
             } else {
                 return Math.min((int) (JSONManager.hostSetting.getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
             }

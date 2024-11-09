@@ -16,8 +16,6 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.UUID;
-
 /**
  * The particle entity is an invisible, ephemeral entity that emits particle effects.
  * This is needed so that other entities can have particle effects that persist beyond their own disposal.
@@ -33,7 +31,7 @@ public class ParticleEntity extends HadalEntity {
 	
 	//Is this entity following another entity?
 	private HadalEntity attachedEntity;
-	private UUID attachedId;
+	private Integer attachedId;
 	
 	//the interval that this effect is turned on and the lifespan of this entity
 	private float interval, lifespan;
@@ -362,7 +360,7 @@ public class ParticleEntity extends HadalEntity {
 
 	public HadalEntity getAttachedEntity() { return attachedEntity; }
 
-	public void setAttachedId(UUID attachedId) { this.attachedId = attachedId; }
+	public void setAttachedId(int attachedId) { this.attachedId = attachedId; }
 
 	public void setOffset(float offsetX, float offsetY) { this.offset.set(offsetX, offsetY); }
 

@@ -13,8 +13,6 @@ import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.UUID;
-
 /**
  * An Objective Marker represents a single object that should have a ui element displayed when it is offscreen
  *
@@ -39,7 +37,7 @@ public class ObjectiveMarker {
     private HadalEntity objectiveTarget;
 
     //for the client, this is the id of the entity we want to track (if it hasn't spawned yet)
-    private UUID objectiveTargetID;
+    private Integer objectiveTargetID;
     private final boolean displayObjectiveOffScreen, displayObjectiveOnScreen, displayClearCircle;
 
     public ObjectiveMarker(PlayState state, HadalEntity objectiveTarget, Sprite sprite, HadalColor color,
@@ -164,5 +162,5 @@ public class ObjectiveMarker {
         return lastLocation;
     }
 
-    public void setObjectiveTargetID(UUID objectiveTargetID) { this.objectiveTargetID = objectiveTargetID; }
+    public void setObjectiveTargetID(int objectiveTargetID) { this.objectiveTargetID = objectiveTargetID; }
 }

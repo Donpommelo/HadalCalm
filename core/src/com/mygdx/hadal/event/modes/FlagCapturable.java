@@ -297,7 +297,7 @@ public class FlagCapturable extends Event {
 		if (o instanceof PacketsSync.SyncFlag p) {
 			returnPercent = PacketUtil.byteToPercent(p.returnPercent);
 			if (o instanceof PacketsSync.SyncFlagAttached p1) {
-				HadalEntity entity = state.findEntity(p1.uuidMSBAttached, p1.uuidLSBAttached);
+				HadalEntity entity = state.findEntity(p1.attachedID);
 				if (null != entity) {
 					if (entity instanceof Player player) {
 						target = player;

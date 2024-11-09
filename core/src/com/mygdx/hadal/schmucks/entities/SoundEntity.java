@@ -11,8 +11,6 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.UUID;
-
 /**
  * A SoundEntity is like a ParticleEntity except for Sound. It attaches to another entity and plays sound from that entity's location
  * It also helps sync the sound between server and client.
@@ -49,7 +47,7 @@ public class SoundEntity extends HadalEntity {
 	
 	//Is this entity following another entity? If so, what is the entity's id (used by client)
 	private HadalEntity attachedEntity;
-	private UUID attachedID;
+	private Integer attachedID;
 	
 	//how is this entity synced? (this works identically to particle entities)
 	private final SyncType sync;
@@ -228,7 +226,7 @@ public class SoundEntity extends HadalEntity {
 		despawn = true;
 	}
 
-	public void setAttachedID(UUID attachedID) { this.attachedID = attachedID; }
+	public void setAttachedID(int attachedID) { this.attachedID = attachedID; }
 
 	public boolean isOn() { return on; }
 }

@@ -20,8 +20,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.PacketUtil;
 
-import java.util.UUID;
-
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
  * They also have some innate stats.
@@ -129,7 +127,7 @@ public class Schmuck extends HadalEntity {
 			}
 			getBodyData().setCurrentHp(PacketUtil.byteToPercent(p.hpPercent) * getBodyData().getStat(Stats.MAX_HP));
 		} else if (o instanceof Packets.DeleteSchmuck p) {
-			HadalEntity entity = state.findEntity(p.uuidMSBPerp, p.uuidLSBPerp);
+			HadalEntity entity = state.findEntity(p.perpID);
 			if (entity instanceof Schmuck perp) {
 				getBodyData().die(perp.getBodyData(), p.source, p.tags);
 			} else {
@@ -139,7 +137,7 @@ public class Schmuck extends HadalEntity {
 	}
 
 	//this is the type of death we have. Send to client so they can process the death on their end.
-	private UUID perpID;
+	private int perpID;
 	private DamageSource damageSource = DamageSource.MISC;
 	private DamageTag[] damageTags = new DamageTag[] {};
 	@Override
@@ -197,7 +195,7 @@ public class Schmuck extends HadalEntity {
 
 	public SpecialHpHelper getSpecialHpHelper() { return specialHpHelper; }
 
-	public void setPerpID(UUID perpID) { this.perpID = perpID; }
+	public void setPerpID(int perpID) { this.perpID = perpID; }
 
 	public void setDamageSource(DamageSource damageSource) { this.damageSource = damageSource; }
 

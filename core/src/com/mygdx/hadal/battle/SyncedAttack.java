@@ -20,8 +20,6 @@ import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
-import java.util.UUID;
-
 /**
  * A SyncedAttack represents an "attack" sent from server to client containing information about hitboxes produced, hitbox strategies,
  * sound, particles etc. This is used to only send one packet when an attack is executed rather than multiple for each
@@ -408,7 +406,7 @@ public enum SyncedAttack {
      */
     public void syncAttackMultiServer(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, int connID,
                                       boolean isSynced, boolean catchup) {
-        UUID[] hboxID = new UUID[hboxes.length];
+        int[] hboxID = new int[hboxes.length];
         Vector2[] positions = new Vector2[hboxes.length];
         Vector2[] velocities = new Vector2[hboxes.length];
         for (int i = 0; i < hboxes.length; i++) {
@@ -443,7 +441,7 @@ public enum SyncedAttack {
     }
 
     public void syncAttackMultiClient(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, boolean isSynced) {
-        UUID[] hboxID = new UUID[hboxes.length];
+        int[] hboxID = new int[hboxes.length];
         Vector2[] positions = new Vector2[hboxes.length];
         Vector2[] velocities = new Vector2[hboxes.length];
         for (int i = 0; i < hboxes.length; i++) {

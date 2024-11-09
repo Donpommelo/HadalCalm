@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.effects.HadalColor;
 
-import java.util.UUID;
-
 /**
  * This contains various entity sync packets.
  * These are sent by each entity from server to client regularly to give information like position
@@ -13,7 +11,7 @@ import java.util.UUID;
 public class PacketsSync {
 
     public static class SyncEntity {
-        public long uuidMSB, uuidLSB;
+        public int entityID;
         public Vector2 pos;
         public Vector2 velocity;
         public float timestamp;
@@ -29,9 +27,8 @@ public class PacketsSync {
          * @param velocity: linear velocity of the entity
          * @param timestamp: time of sync. Used for client prediction.
          */
-        public SyncEntity(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp) {
-            this.uuidLSB = entityID.getLeastSignificantBits();
-            this.uuidMSB = entityID.getMostSignificantBits();
+        public SyncEntity(int entityID, Vector2 pos, Vector2 velocity, float timestamp) {
+            this.entityID = entityID;
             this.pos = pos;
             this.velocity = velocity;
             this.timestamp = timestamp;
@@ -48,7 +45,7 @@ public class PacketsSync {
          *
          * @param angle: angle of the entity's body.
          */
-        public SyncEntityAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, float angle) {
+        public SyncEntityAngled(int entityID, Vector2 pos, Vector2 velocity, float timestamp, float angle) {
             super(entityID, pos, velocity, timestamp);
             this.angle = angle;
         }
@@ -68,7 +65,7 @@ public class PacketsSync {
          * @param moveState: The State of the Schmuck. Used for animations on the Client's end
          * @param hpPercent: The amount of remaining hp this schmuck has.
          */
-        public SyncSchmuck(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
+        public SyncSchmuck(int entityID, Vector2 pos, Vector2 velocity, float timestamp,
                            MoveState moveState, byte hpPercent) {
             super(entityID, pos, velocity, timestamp);
             this.moveState = moveState;
@@ -87,7 +84,7 @@ public class PacketsSync {
          *
          * @param angle: angle of the entity's body.
          */
-        public SyncSchmuckAngled(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
+        public SyncSchmuckAngled(int entityID, Vector2 pos, Vector2 velocity, float timestamp,
                                  MoveState moveState, byte hpPercent, float angle) {
             super(entityID, pos, velocity, timestamp, moveState, hpPercent);
             this.angle = angle;
@@ -102,7 +99,7 @@ public class PacketsSync {
 
         /**
          */
-        public SyncSchmuckColor(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp,
+        public SyncSchmuckColor(int entityID, Vector2 pos, Vector2 velocity, float timestamp,
                                 MoveState moveState, byte hpPercent, float desiredScale, HadalColor color) {
             super(entityID, pos, velocity, timestamp, moveState, hpPercent);
             this.desiredScale = desiredScale;
@@ -173,14 +170,14 @@ public class PacketsSync {
          * This sync packet is used for the flag event in ctf mode to sync its return timer
          * @param returnPercent: return timer percent
          */
-        public SyncFlag(UUID entityID, Vector2 pos, Vector2 velocity, float timestamp, byte returnPercent) {
+        public SyncFlag(int entityID, Vector2 pos, Vector2 velocity, float timestamp, byte returnPercent) {
             super(entityID, pos, velocity, timestamp);
             this.returnPercent = returnPercent;
         }
     }
 
     public static class SyncFlagAttached extends SyncFlag {
-        public long uuidMSBAttached, uuidLSBAttached;
+        public int attachedID;
 
         public SyncFlagAttached() {}
 
@@ -188,10 +185,9 @@ public class PacketsSync {
          * This sync packet is used for the flag event in ctf mode when flag is picked up
          * @param attachedID: entityID of the player that is carrying the flag
          */
-        public SyncFlagAttached(UUID entityID, UUID attachedID, Vector2 pos, Vector2 velocity, float timestamp, byte returnPercent) {
+        public SyncFlagAttached(int entityID, int attachedID, Vector2 pos, Vector2 velocity, float timestamp, byte returnPercent) {
             super(entityID, pos, velocity, timestamp, returnPercent);
-            this.uuidLSBAttached = attachedID.getLeastSignificantBits();
-            this.uuidMSBAttached = attachedID.getMostSignificantBits();
+            this.attachedID = attachedID;
         }
     }
 }

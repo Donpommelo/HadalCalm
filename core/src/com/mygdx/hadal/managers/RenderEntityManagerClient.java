@@ -4,8 +4,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.ClientState;
 
-import java.util.UUID;
-
 public class RenderEntityManagerClient extends RenderEntityManager {
 
     private final ClientState clientState;
@@ -17,7 +15,7 @@ public class RenderEntityManagerClient extends RenderEntityManager {
 
     @Override
     public void renderEntities() {
-        for (ObjectMap<UUID, HadalEntity> m : clientState.getEntityListsClient()) {
+        for (ObjectMap<Integer, HadalEntity> m : clientState.getEntityListsClient()) {
             for (HadalEntity entity : m.values()) {
                 renderEntity(entity);
             }

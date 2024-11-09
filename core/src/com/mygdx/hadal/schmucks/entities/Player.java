@@ -486,7 +486,7 @@ public class Player extends Schmuck {
 					getPlayerData().die(state.getWorldDummy().getBodyData(), p.source, p.tags);
 				}
 			} else {
-				HadalEntity entity = state.findEntity(p.uuidMSBPerp, p.uuidLSBPerp);
+				HadalEntity entity = state.findEntity(p.perpID);
 				if (entity instanceof Schmuck perp) {
 					getPlayerData().die(perp.getBodyData(), p.source, p.tags);
 				} else {

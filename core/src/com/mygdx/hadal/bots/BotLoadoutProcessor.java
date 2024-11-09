@@ -14,7 +14,6 @@ import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -530,12 +529,9 @@ public class BotLoadoutProcessor {
         Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 
         //easy bots or bots in single player when the player has no artifacts do not use artifacts
-        if (HadalGame.usm.getOwnUser() != null) {
-            if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
-                    (StateManager.Mode.SINGLE.equals(StateManager.currentMode) &&
-                            0 == HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed())) {
-                return artifacts;
-            }
+        if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
+                (HadalGame.usm.getOwnUser() != null && 0 == HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed())) {
+            return artifacts;
         }
 
         Array<UnlockArtifact> artifactOptions = new Array<>();

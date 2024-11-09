@@ -45,12 +45,12 @@ import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+import com.mygdx.hadal.utils.UUIDUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 
@@ -87,7 +87,7 @@ public class PlayState extends GameState {
 	private final OrderedSet<HadalEntity> createList = new OrderedSet<>();
 
 	//These sets are used by the Client for removing/adding entities.
-	protected final OrderedSet<UUID> removeListClient = new OrderedSet<>();
+	protected final OrderedSet<Integer> removeListClient = new OrderedSet<>();
 	protected final OrderedSet<ClientState.CreatePacket> createListClient = new OrderedSet<>();
 
 	//This is a set of all non-hitbox entities in the world
@@ -162,6 +162,7 @@ public class PlayState extends GameState {
 
 		//We clear things like music/sound/shaders to periodically free up some memory
 		StateManager.clearMemory();
+		UUIDUtil.nextPlayState();
 
 		//we clear shaded cosmetics to avoid having too many cached fbos
 		UnlockCosmetic.clearShadedCosmetics();
@@ -567,20 +568,15 @@ public class PlayState extends GameState {
 	 * This looks for an entity in the world with the given entityID
 	 * this is kinda slow. don't overuse it.
 	 */
-	public HadalEntity findEntity(UUID entityID) {
-
+	public HadalEntity findEntity(int entityID) {
 		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
-				if (entity.getEntityID().equals(entityID)) {
+				if (entity.getEntityID() == entityID) {
 					return entity;
 				}
 			}
 		}
 		return null;
-	}
-
-	public HadalEntity findEntity(long uuidMSB, long uuidLSB) {
-		return findEntity(new UUID(uuidMSB, uuidLSB));
 	}
 
 	/**
