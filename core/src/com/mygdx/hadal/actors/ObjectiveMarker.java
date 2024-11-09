@@ -30,7 +30,8 @@ public class ObjectiveMarker {
     private final boolean colored;
     private final Color color;
 
-    private final float circleWidth, circleHeight, width, height, arrowWidth, arrowHeight;
+    private float width, height;
+    private final float circleWidth, circleHeight, arrowWidth, arrowHeight;
     private final float corner;
 
     //If there is an objective target that has a display if offscreen, this is that entity.
@@ -53,23 +54,25 @@ public class ObjectiveMarker {
 
         this.arrow = SpriteManager.getFrame(Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW);
         this.corner = MathUtils.atan2(-HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-        this.circleWidth = SpriteManager.getFrame(Sprite.CLEAR_CIRCLE_ALERT).getRegionWidth() * SCALE;
-        this.circleHeight = SpriteManager.getFrame(Sprite.CLEAR_CIRCLE_ALERT).getRegionHeight() * SCALE;
-        if (displayClearCircle) {
-            if (icon.getRegionWidth() > icon.getRegionHeight()) {
-                this.width = circleWidth;
-                this.height = (float) icon.getRegionHeight() / icon.getRegionWidth() * width;
+        this.circleWidth = SpriteManager.getDimensions(Sprite.CLEAR_CIRCLE_ALERT).x * SCALE;
+        this.circleHeight = SpriteManager.getDimensions(Sprite.CLEAR_CIRCLE_ALERT).y * SCALE;
+        if (icon != null) {
+            if (displayClearCircle) {
+                if (icon.getRegionWidth() > icon.getRegionHeight()) {
+                    this.width = circleWidth;
+                    this.height = (float) icon.getRegionHeight() / icon.getRegionWidth() * width;
+                } else {
+                    this.height = circleHeight;
+                    this.width = (float) icon.getRegionWidth() / icon.getRegionHeight() * height;
+                }
             } else {
-                this.height = circleHeight;
-                this.width = (float) icon.getRegionWidth() / icon.getRegionHeight() * height;
+                this.width = icon.getRegionWidth() * SCALE;
+                this.height = icon.getRegionHeight() * SCALE;
             }
-        } else {
-            this.width = icon.getRegionWidth() * SCALE;
-            this.height = icon.getRegionHeight() * SCALE;
         }
 
-        this.arrowWidth = arrow.getRegionWidth() * SCALE;
-        this.arrowHeight = arrow.getRegionHeight() * SCALE;
+        this.arrowWidth = SpriteManager.getDimensions(Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW).x * SCALE;
+        this.arrowHeight = SpriteManager.getDimensions(Sprite.NOTIFICATIONS_DIRECTIONAL_ARROW).y * SCALE;
     }
 
     private float x, y;

@@ -59,6 +59,10 @@ public class UIManager {
         uiArtifact.addTable(stage);
     }
 
+    public void controller() {
+        uiObjective.controller();
+    }
+
     /**
      * This sets the game's boss, filling the boss ui.
      * @param enemy: This is the boss whose hp will be used for the boss hp bar

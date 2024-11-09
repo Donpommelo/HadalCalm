@@ -487,6 +487,7 @@ public class PlayState extends GameState {
 			getTimerManager().incrementTimer(delta);
 			timer += delta;
 			getCameraManager().controller(delta);
+			getUIManager().controller();
 		}
 	}
 	
