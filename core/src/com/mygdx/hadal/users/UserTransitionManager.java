@@ -118,6 +118,11 @@ public class UserTransitionManager {
             //set respawn point upon respawn initializing so we know where it is when we draw spawn particles
             if (TransitionState.RESPAWN.equals(nextState)) {
                 if (!startOverridden) {
+
+                    Loadout newLoadout = new Loadout(user.getLoadoutManager().getSavedLoadout());
+                    state.getMode().processNewPlayerAlignment(state, newLoadout, user.getConnID());
+                    user.getLoadoutManager().setActiveLoadout(newLoadout);
+
                     startPoint = state.getSpawnManager().getSavePoint(user);
 
                     //if desired, set camera to prospective respawn point right away (for initial spawn)

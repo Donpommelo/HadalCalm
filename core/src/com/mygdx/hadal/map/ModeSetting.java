@@ -62,6 +62,13 @@ public class ModeSetting {
     public void loadSettingMisc(PlayState state, GameMode mode) {}
 
     /**
+     * This is run when initiating a new player's respawn
+     * @param newLoadout: new player's loadout. edit it to set defaults
+     * @param connID: the id of the user we are creating a player for
+     */
+    public void processNewPlayerAlignment(PlayState state, GameMode mode, Loadout newLoadout, int connID) {}
+
+    /**
      * This is run when creating a new player
      * @param newLoadout: new player's loadout. edit it to set defaults
      * @param connID: the id of the user we are creating a player for

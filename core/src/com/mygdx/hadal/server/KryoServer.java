@@ -167,18 +167,17 @@ public class KryoServer {
 								Player player = user.getPlayer();
 								if (player != null) {
 									if (p instanceof PacketsAttacks.SingleClientDependent p1) {
-										Hitbox hbox;
 										if (p instanceof PacketsAttacks.SingleClientDependentExtra p2) {
-											hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p2.extraFields);
+											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), p1.entityID,
+													false, p2.extraFields);
 										} else {
-											hbox = p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), p1.entityID, false);
 										}
-										hbox.setEntityID(p1.entityID);
 									} else {
 										if (p instanceof PacketsAttacks.SingleClientIndependentExtra p1) {
-											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false, p1.extraFields);
+											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), 0,false, p1.extraFields);
 										} else {
-											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), false);
+											p.attack.initiateSyncedAttackSingle(ps, player, p.pos, p.velo, c.getID(), 0,false);
 										}
 									}
 								}
@@ -201,18 +200,18 @@ public class KryoServer {
 									if (p instanceof PacketsAttacks.MultiClientDependent p1) {
 										Hitbox[] hboxes;
 										if (p instanceof PacketsAttacks.MultiClientDependentExtra p2) {
-											hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+											hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), p1.entityID, false, p2.extraFields);
 										} else {
-											hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+											hboxes = p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), p1.entityID, false);
 										}
 										for (int i = 0; i < hboxes.length; i++) {
 											hboxes[i].setEntityID(p1.entityID[i]);
 										}
 									} else {
 										if (p instanceof PacketsAttacks.MultiClientIndependentExtra p2) {
-											p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false, p2.extraFields);
+											p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), null, false, p2.extraFields);
 										} else {
-											p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), false);
+											p.attack.initiateSyncedAttackMulti(ps, player, p.weaponVelo, p.pos, p.velo, c.getID(), null, false);
 										}
 									}
 								}

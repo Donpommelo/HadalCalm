@@ -255,18 +255,22 @@ public enum SyncedAttack {
      * @param startPosition: Starting position of the hitbox produced by this attack
      * @param startVelocity: Starting velocity of the hitbox produced by this attack
      * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param entityID: When the server receives a synced attack from the client, we need to set server entity id before echoing
      * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitbox that this attack produces
      */
     public Hitbox initiateSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
-                                             int connID, boolean origin, float... extraFields) {
+                                             int connID, int entityID, boolean origin, float... extraFields) {
 
         Hitbox hbox = syncedAttacker.performSyncedAttackSingle(state, user, startPosition, startVelocity, extraFields);
         hbox.setAttack(this);
         hbox.setSyncedMulti(false);
         hbox.setExtraFields(extraFields);
         if (state.isServer()) {
+            if (entityID != 0) {
+                hbox.setEntityID(entityID);
+            }
             syncAttackSingleServer(hbox, extraFields, connID, hbox.isSynced(), false);
         } else {
 
@@ -282,7 +286,7 @@ public enum SyncedAttack {
     }
 
     public Hitbox initiateSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float... extraFields) {
-        return initiateSyncedAttackSingle(state, user, startPosition, startVelocity, 0, true, extraFields);
+        return initiateSyncedAttackSingle(state, user, startPosition, startVelocity, 0, 0, true, extraFields);
     }
 
     /**
@@ -364,12 +368,13 @@ public enum SyncedAttack {
      * @param startPosition: Starting positions of each hitbox produced by this attack
      * @param startVelocity: Starting velocities of each hitbox produced by this attack
      * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param entityID: When the server receives a synced attack from the client, we need to set server entity id before echoing
      * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitboxes that this attack produces
      */
     public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-            Vector2[] startVelocity, int connID, boolean origin, float... extraFields) {
+            Vector2[] startVelocity, int connID, int[] entityID, boolean origin, float... extraFields) {
         Hitbox[] hboxes = syncedAttacker.performSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, extraFields);
         for (Hitbox hbox : hboxes) {
             hbox.setAttack(this);
@@ -380,6 +385,13 @@ public enum SyncedAttack {
             boolean isSynced = hboxes[0].isSynced();
 
             if (state.isServer()) {
+                if (entityID != null) {
+                    for (int i = 0; i < hboxes.length; i++) {
+                        if (entityID.length > i) {
+                            hboxes[i].setEntityID(entityID[i]);
+                        }
+                    }
+                }
                 syncAttackMultiServer(weaponVelocity, hboxes, extraFields, connID, isSynced, false);
             } else {
                 if (origin) {
@@ -395,7 +407,7 @@ public enum SyncedAttack {
 
     public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                               Vector2[] startVelocity, float... extraFields) {
-        return initiateSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, 0, true, extraFields);
+        return initiateSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, 0, null, true, extraFields);
     }
 
     /**

@@ -154,6 +154,10 @@ public class Hitbox extends HadalEntity {
 		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
 		setSprite(sprite);
 		setLayer(ObjectLayer.HBOX);
+
+		if (procEffects) {
+			creator.getBodyData().statusProcTime(new ProcTime.InitHitbox(this));
+		}
 	}
 
 	/**

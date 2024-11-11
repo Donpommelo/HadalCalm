@@ -30,6 +30,13 @@ public class InformantsTie extends Artifact {
 				new Status(state, p) {
 
 			@Override
+			public void onHitboxInit(Hitbox hbox) {
+				if (!hbox.isEffectsMovement()) { return; }
+				hbox.setSynced(true);
+				hbox.setSyncedDelete(true);
+			}
+
+			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsMovement()) { return; }
 				

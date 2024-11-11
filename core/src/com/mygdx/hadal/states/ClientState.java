@@ -19,6 +19,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+import com.mygdx.hadal.utils.UUIDUtil;
 
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 
@@ -144,6 +145,9 @@ public class ClientState extends PlayState {
 			packet.entity.create();
 
 			if (packet.entityID != null) {
+				if (packet.entity.getEntityID() != packet.entityID) {
+					UUIDUtil.releaseUnsyncedID(packet.entity.getEntityID());
+				}
 				packet.entity.setEntityID(packet.entityID);
 			}
 			packet.entity.setReceivingSyncs(packet.synced);
@@ -159,7 +163,7 @@ public class ClientState extends PlayState {
 					m.remove(key);
 				}
 			}
-//			UUIDUtil.releaseUnsyncedID(key);
+			UUIDUtil.releaseUnsyncedID(key);
 		}
 		removeListClient.clear();
 

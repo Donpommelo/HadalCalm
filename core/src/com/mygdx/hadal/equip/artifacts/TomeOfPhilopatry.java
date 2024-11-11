@@ -13,7 +13,7 @@ public class TomeOfPhilopatry extends Artifact {
 
 	private static final int SLOT_COST = 1;
 	
-	private static final float BONUS_PROJ_LIFESPAN = 0.5f;
+	private static final float BONUS_PROJ_LIFESPAN = 0.75f;
 	private static final float BONUS_PROJ_DURABILITY = 1.0f;
 	private static final float RETURN_AMP = 4.0f;
 	
@@ -27,7 +27,14 @@ public class TomeOfPhilopatry extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, BONUS_PROJ_LIFESPAN, p),
 				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, BONUS_PROJ_DURABILITY, p),
 				new Status(state, p) {
-			
+
+			@Override
+			public void onHitboxInit(Hitbox hbox) {
+				if (!hbox.isEffectsMovement()) { return; }
+				hbox.setSynced(true);
+				hbox.setSyncedDelete(true);
+			}
+
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (hbox.isEffectsMovement()) {

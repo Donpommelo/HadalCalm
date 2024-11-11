@@ -1,12 +1,13 @@
 package com.mygdx.hadal.utils;
 
+import com.mygdx.hadal.HadalGame;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class UUIDUtil {
 
-    private static final int MIN_OBJECT_ID = -(1 << 28);     // -268,435,456
-    private static final int MAX_OBJECT_ID = (1 << 28) - 1; // 28 bits for object ID
+
     private static final int MAX_PLAY_STATE_ID = 15;        // 4 bits for play state ID (0 to 15)
 
     private static int playStateID = 0;
@@ -19,7 +20,6 @@ public class UUIDUtil {
     // Reset counters when transitioning to a new level
     public static void nextPlayState() {
         playStateID = (playStateID + 1) & MAX_PLAY_STATE_ID; // Cycle through 0–15
-
         availableUnsyncedIDs.clear();
         currentSyncedID = 0;
         currentUnsyncedID = 0;
@@ -27,23 +27,34 @@ public class UUIDUtil {
 
     // Generates a new ID for an object
     public static int generateSyncedID() {
-        int newID = (playStateID << 28) | (currentSyncedID & MAX_OBJECT_ID);
-        currentSyncedID = (currentSyncedID + 1) & MAX_OBJECT_ID;
-        return newID;
+        currentSyncedID = (currentSyncedID + 1) & ((1 << 27) - 1);
+        return (playStateID << 27) | (currentSyncedID);
     }
 
     public static int generateUnsyncedID() {
-        int nextId;
+        int newID;
         if (availableUnsyncedIDs.isEmpty()) {
-            nextId = currentUnsyncedID;
-            currentUnsyncedID = (currentUnsyncedID + 1) & MAX_OBJECT_ID;
+
+            //make sure connID is within 6 bits
+            int connID = HadalGame.usm.getConnID() & 0b111111;
+
+            //make sure entityID is within 25 bits
+            currentUnsyncedID = (currentUnsyncedID + 1) & 0x01FFFFFF;
+
+            //combine bits and make negative
+            newID = (1 << 31) | (connID << 25) | (currentUnsyncedID);
         } else {
-            nextId = availableUnsyncedIDs.poll();
+            newID = availableUnsyncedIDs.poll();
         }
-        return MIN_OBJECT_ID - (nextId & MAX_OBJECT_ID);
+        return newID;
     }
 
     public static void releaseUnsyncedID(int unsyncedID) {
-        availableUnsyncedIDs.offer(unsyncedID);
+        if (unsyncedID < 0) {
+            int connID = (unsyncedID >>> 25) & 0b111111;
+            if (connID == HadalGame.usm.getConnID()) {
+                availableUnsyncedIDs.offer(unsyncedID);
+            }
+        }
     }
 }

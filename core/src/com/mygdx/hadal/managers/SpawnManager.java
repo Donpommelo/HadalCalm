@@ -52,7 +52,7 @@ public class SpawnManager {
         state.getMode().processNewPlayerLoadout(state, newLoadout, user.getConnID());
         user.getLoadoutManager().setActiveLoadout(newLoadout);
 
-        //set start pont, generate one if a designated one isn't passed in
+        //set start point, generate one if a designated one isn't passed in
         Event spawn = start;
         if (spawn == null) {
             spawn = getSavePoint(user);

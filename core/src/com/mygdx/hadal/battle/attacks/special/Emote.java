@@ -48,12 +48,20 @@ public class Emote extends SyncedAttacker {
             @Override
             public void controller(float delta) {
 
-                //non-special emotes despawn if the user dies
-                if (!user.isAlive() && !special) {
-                    hbox.die();
+                if (!special) {
+                    if (user.isAlive()) {
+                        entityLocation.set(user.getPosition()).add(0, (user.getSize().y / 2 + 50) / PPM);
+                        hbox.setTransform(entityLocation, hbox.getAngle());
+                        hbox.setLinearVelocity(user.getLinearVelocity());
+                    } else {
+
+                        //non-special emotes despawn if the user dies
+                        hbox.die();
+                    }
                 } else {
                     controllerCount += delta;
 
+                    //special emotes only temporarily track the user, and move freely as hitboxes afterwards
                     if (EMOTE_LIFESPAN >= controllerCount) {
                         entityLocation.set(user.getPosition()).add(0, (user.getSize().y / 2 + 50) / PPM);
                         hbox.setTransform(entityLocation, hbox.getAngle());

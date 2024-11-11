@@ -299,6 +299,13 @@ public enum GameMode {
         }
     }
 
+    public void processNewPlayerAlignment(PlayState state, Loadout newLoadout, int connID) {
+        if (!state.isServer()) { return; }
+        for (ModeSetting setting : applicableSettings) {
+            setting.processNewPlayerAlignment(state, this, newLoadout, connID);
+        }
+    }
+
     /**
      * This is run when a player is created. This is used to change properties of the player prior to player init
      * @param newLoadout: the new loadout the player will spawn with. modify to change starting loadout

@@ -288,7 +288,21 @@ public abstract class ProcTime {
 			return this;
 		}
 	}
-	
+
+	public static class InitHitbox extends ProcTime {
+		public final Hitbox hbox;
+
+		public InitHitbox(Hitbox hbox) {
+			this.hbox = hbox;
+		}
+
+		@Override
+		public ProcTime statusProcTime(Status status) {
+			status.onHitboxInit(hbox);
+			return this;
+		}
+	}
+
 	public static class CreateHitbox extends ProcTime {
 		public final Hitbox hbox;
 		
@@ -302,7 +316,7 @@ public abstract class ProcTime {
 			return this;
 		}
 	}
-	
+
 	public static class PlayerCreate extends ProcTime {
 		public final boolean reset;
 

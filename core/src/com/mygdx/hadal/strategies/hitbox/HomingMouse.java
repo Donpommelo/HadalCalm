@@ -32,7 +32,6 @@ public class HomingMouse extends HitboxStrategy {
 		if (user.getSchmuck() instanceof Player player) {
 			owner = player;
 		}
-
 		hbox.setSynced(true);
 		hbox.setSyncedDelete(true);
 	}

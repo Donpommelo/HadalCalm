@@ -690,18 +690,18 @@ public class KryoClient {
 						Hitbox hbox;
 						if (p instanceof PacketsAttacks.SingleServerDependent p1) {
 							if (p instanceof PacketsAttacks.SingleServerDependentExtra p2) {
-								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false, p2.extraFields);
+								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, 0, false, p2.extraFields);
 							} else {
-								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false);
+								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, 0, false);
 							}
 							hbox.serverPos.set(p.pos).scl(1 / PPM);
 							hbox.serverVelo.set(p.velo);
 							cs.addEntity(p1.entityID, hbox, true, ObjectLayer.HBOX);
 						} else {
 							if (p instanceof PacketsAttacks.SingleServerIndependentExtra p2) {
-								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false, p2.extraFields);
+								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, 0, false, p2.extraFields);
 							} else {
-								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, false);
+								hbox = p.attack.initiateSyncedAttackSingle(cs, schmuck, p.pos, p.velo, 0, 0, false);
 							}
 							hbox.serverPos.set(p.pos).scl(1 / PPM);
 							hbox.serverVelo.set(p.velo);
@@ -730,10 +730,10 @@ public class KryoClient {
 						if (p instanceof PacketsAttacks.MultiServerDependent p1) {
 							if (p instanceof PacketsAttacks.MultiServerDependentExtra p2) {
 								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
-										0, false, p2.extraFields);
+										0, null, false, p2.extraFields);
 							} else {
 								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
-										0, false);
+										0, null, false);
 							}
 							for (int i = 0; i < hboxes.length; i++) {
 								if (p.pos.length > i) {
@@ -749,10 +749,10 @@ public class KryoClient {
 						} else {
 							if (p instanceof PacketsAttacks.MultiServerIndependentExtra p1) {
 								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
-										0, false, p1.extraFields);
+										0, null, false, p1.extraFields);
 							} else {
 								hboxes = p.attack.initiateSyncedAttackMulti(cs, schmuck, p.weaponVelo, p.pos, p.velo,
-										0, false);
+										0, null, false);
 							}
 							for (int i = 0; i < hboxes.length; i++) {
 								if (p.pos.length > i) {
