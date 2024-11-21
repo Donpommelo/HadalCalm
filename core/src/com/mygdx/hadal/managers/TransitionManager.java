@@ -12,6 +12,10 @@ import java.util.Objects;
 
 import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_OUT_SPEED;
 
+/**
+ * TransitionManager controls PlayState transitions.
+ * Do not confuse with UserTransitionManager which process transitions for a single user.
+ */
 public class TransitionManager {
 
     protected final PlayState state;

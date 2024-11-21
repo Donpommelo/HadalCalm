@@ -20,7 +20,7 @@ import com.mygdx.hadal.managers.StateManager.Mode;
 import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
-import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.users.User;

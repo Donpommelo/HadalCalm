@@ -25,7 +25,7 @@ import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.StateManager.Mode;
 import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.text.NameGenerator;
 

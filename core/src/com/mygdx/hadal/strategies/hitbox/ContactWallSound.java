@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.UserDataType;
-import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;

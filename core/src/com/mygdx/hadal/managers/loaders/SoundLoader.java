@@ -10,13 +10,25 @@ import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * SoundLoader centralizes the playing of sounds.
+ * This makes it easier for headless servers to skip this (since it doesn't have the sound files)
+ * Don't confuse this with the EffectEntityLoader creating SoundEntities; this is used for sounds not attached to an entity.
+ */
 public class SoundLoader {
 
+    /**
+     * This plays a single sound
+     */
     public long play(PlayState state, SoundLoad soundLoad) {
+
+        //singleton sounds stop other instances of the sound from playing
         if (soundLoad.isSingleton()) {
             soundLoad.getSound().loadSound().stop();
         }
         float volume = soundLoad.getVolume();
+
+        //No modifiers field skips volume setting. atm, only used by hitsound demo in sound menu.
         if (!soundLoad.isNoModifiers()) {
             volume = volume * JSONManager.setting.getSoundVolume() * JSONManager.setting.getMasterVolume();
         }
@@ -30,6 +42,9 @@ public class SoundLoader {
         return soundID;
     }
 
+    /**
+     * This plays a single sound for all players
+     */
     public void playUniversal(PlayState state, SoundLoad soundLoad) {
         //Send a packet to the client and play the sound
         if (state.isServer()) {

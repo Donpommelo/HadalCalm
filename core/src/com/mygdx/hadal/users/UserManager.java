@@ -44,6 +44,9 @@ public class UserManager {
         users.put(user.getConnID(), user);
     }
 
+    /**
+     * When the server adds a user, we set that user as host if no host exists yet.
+     */
     public void addUserServer(User user) {
         addUser(user);
         if (getHost() == null) {
@@ -53,6 +56,9 @@ public class UserManager {
 
     public void removeUser(int connID) { users.remove(connID); }
 
+    /**
+     * When the server removes a user, check if we need to reassign host status to another user
+     */
     public void removeUserServer(int connID) {
         removeUser(connID);
 
@@ -64,7 +70,7 @@ public class UserManager {
             }
         }
 
-        //if only bot players are left, close the server. (human spectators keep loby open)
+        //if only bot players are left, close the server. (human spectators keep lobby open)
         if (playerNum == 0) {
             Gdx.app.exit();
         } else if (connID == hostID) {

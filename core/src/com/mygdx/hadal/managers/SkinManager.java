@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.mygdx.hadal.HadalGame;
 
+/**
+ * SkinManager loads and keeps track of ui skins
+ */
 public class SkinManager {
 
     //skin for ui windows as well as other patches and atlases. Why are these kept here? Dunno.

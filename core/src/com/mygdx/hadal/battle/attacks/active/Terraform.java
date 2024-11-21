@@ -8,7 +8,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.DestructableBlock;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
-import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.Schmuck;

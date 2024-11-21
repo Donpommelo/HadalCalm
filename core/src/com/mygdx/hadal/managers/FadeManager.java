@@ -8,6 +8,10 @@ import com.mygdx.hadal.HadalGame;
 import static com.mygdx.hadal.HadalGame.CONFIG_HEIGHT;
 import static com.mygdx.hadal.HadalGame.CONFIG_WIDTH;
 
+/**
+ * FadeManager handles fading and transitions.
+ * This includes drawing the fade texture, but also handles post-fade transition effects.
+ */
 public class FadeManager {
 
     //this is the rate at which the screen fades from/to black.

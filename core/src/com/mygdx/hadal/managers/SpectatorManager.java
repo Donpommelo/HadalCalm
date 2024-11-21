@@ -14,6 +14,9 @@ import com.mygdx.hadal.users.User;
 import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_OUT_SPEED;
 import static com.mygdx.hadal.users.Transition.SHORT_FADE_DELAY;
 
+/**
+ * SpectatorManager handles players entering/exiting spectator mode
+ */
 public class SpectatorManager {
 
     private final PlayState state;

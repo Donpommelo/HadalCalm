@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 
+/**
+ * RagdollLoader centralizes the loading of shaders.
+ * This makes it easier for headless servers to skip this (since it doesn't have the shader files)
+ */
 public class ShaderLoader {
 
     /**

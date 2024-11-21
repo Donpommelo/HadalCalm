@@ -23,6 +23,9 @@ import com.mygdx.hadal.users.User;
 
 import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
+/**
+ * EndgameManager process post-game logic before transitioning to ResultsState.
+ */
 public class EndgameManager {
 
     protected final PlayState state;
@@ -170,6 +173,7 @@ public class EndgameManager {
             }
         }
 
+        //Normally, we transition to Results, but for Arcade, we decide whether to return to break room based on win count
         if (SettingArcade.arcade) {
             SettingArcade.processEndOfRound(state, state.getMode());
         } else {
@@ -243,6 +247,7 @@ public class EndgameManager {
     }
 
     public String getResultsText() { return resultsText; }
+
     public void setResultsText(String resultsText) { this.resultsText = resultsText; }
 
     public void setLevelEnded(boolean levelEnded) { this.levelEnded = levelEnded; }

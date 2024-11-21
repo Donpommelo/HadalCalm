@@ -7,6 +7,10 @@ import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * EffectEntityManager creates particle and sound entities.
+ * Logic is delegated to Loader to make it easier for headless server to have different logic
+ */
 public class EffectEntityManager {
 
     private static EffectEntityLoader loader;

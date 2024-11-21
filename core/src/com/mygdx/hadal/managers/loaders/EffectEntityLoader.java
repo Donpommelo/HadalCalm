@@ -8,6 +8,10 @@ import com.mygdx.hadal.schmucks.entities.SoundEntity;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * EffectEntityLoader centralizes the creation of particle and sound entities.
+ * This makes it easier for headless servers to handle them (by skipping their creation)
+ */
 public class EffectEntityLoader {
 
     public ParticleEntity getParticle(PlayState state, ParticleCreate particleCreate) {
@@ -29,11 +33,15 @@ public class EffectEntityLoader {
         return soundEntity;
     }
 
+    /**
+     * Based on a ParticleCreate object, this modifies the new particle entity with several fields.
+     */
     public static void modifyParticle(ParticleEntity particleEntity, ParticleCreate particleCreate) {
         particleEntity.setRotate(particleCreate.isRotate());
         particleEntity.setShowOnInvis(particleCreate.isShowOnInvis());
         particleEntity.setColor(particleCreate.getColor());
 
+        //zeroed color and offset indicate default values
         if (!particleCreate.getColorRGB().isZero()) {
             particleEntity.setColor(particleCreate.getColorRGB());
         }

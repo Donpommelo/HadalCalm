@@ -44,7 +44,7 @@ public class CameraManager {
         this.state = state;
         this.map = map;
 
-        //map null in case of headless server
+        //map will be null in case of headless server
         if (map != null) {
             zoom = map.getProperties().get("zoom", 1.0f, float.class);
             zoomDesired = zoom;

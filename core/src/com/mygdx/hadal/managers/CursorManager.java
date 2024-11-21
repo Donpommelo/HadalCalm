@@ -11,6 +11,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 
+/**
+ * CursorManager creates and renders the player's cursor. This is separated out for organizational purposes.
+ * This also renders the cursor, if it is restricted to the window
+ */
 public class CursorManager {
 
     private static final int PIXMAP_SIZE = 128;
@@ -19,7 +23,10 @@ public class CursorManager {
     public static final Vector2 MOUSE_POSITION = new Vector2();
     public static final Vector2 CURSOR_POSITION = new Vector2();
 
+    //This texture is used when cursor is locked in window to draw cursor.
     private static Texture lastCursorTexture;
+
+    //for free cursors, we just set this cursor in Gdx graphics
     private static Cursor lastCursor;
 
     public static void setCursor() {
@@ -79,9 +86,11 @@ public class CursorManager {
     private static final Vector3 tmpVec3 = new Vector3();
 
     public static void draw(SpriteBatch batch) {
+
+        //for restricted cursors, the mouse is locked to the middle of the screen.
         if (JSONManager.setting.isMouseRestrict() && null != lastCursorTexture) {
 
-
+            //calculate the location of where the mouse should be; limit it to window size
             MOUSE_POSITION.set(Gdx.input.getX(), Gdx.input.getY());
 
             MOUSE_POSITION.set(
@@ -105,7 +114,7 @@ public class CursorManager {
     }
 
     public static void dispose() {
-        if (null != lastCursorTexture) {
+        if (lastCursorTexture != null) {
             lastCursorTexture.dispose();
         }
         if (lastCursor != null) {

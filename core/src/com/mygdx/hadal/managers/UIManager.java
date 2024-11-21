@@ -5,6 +5,10 @@ import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * UIManager controls severl PlayState UI elements.
+ * This allows the headless server to process a different set of UI elements (special headless versions that do not load/render assets)
+ */
 public class UIManager {
 
     protected final PlayState state;

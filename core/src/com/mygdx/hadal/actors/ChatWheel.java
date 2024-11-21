@@ -43,7 +43,7 @@ public class ChatWheel {
 	private static final float BORDER_THICKNESS = 5.0f;
 
 	//this is a list of all the emote options
-	private static final String[] options = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
+	private static final String[] OPTIONS = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
 
 	private final PlayState state;
 
@@ -119,7 +119,7 @@ public class ChatWheel {
 		wheel.setInnerRadiusPercent(WHEEL_THRESHOLD);
 
 		//add all options to the wheel
-		for (int i = 0; i < options.length; i ++) {
+		for (int i = 0; i < OPTIONS.length; i ++) {
 			Backdrop option = new Backdrop(indexToEmote(i), 50, 50, getFrameIndex(i)).setMirror();
 			option.setScale(TEXT_SCALE_UNSELECTED);
 			wheel.addActor(option);
@@ -156,7 +156,7 @@ public class ChatWheel {
 			if (active) {
 				int option = wheel.getHoveredIndex();
 
-				if (-1 != option && option < options.length) {
+				if (-1 != option && option < OPTIONS.length) {
 
 					//if emote is off cooldown, execute the emote
 					if (0.0f >= emoteCount) {
@@ -183,9 +183,9 @@ public class ChatWheel {
 	public void emote(Player player, int emoteIndex, int connID) {
 		//special logic for the emote that does a chat command (/roll)
 		if (6 == emoteIndex) {
-			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex], connID);
+			ConsoleCommandUtil.parseChatCommand(state, player, OPTIONS[emoteIndex], connID);
 		} else {
-			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, connID);
+			HadalGame.server.addChatToAll(state, OPTIONS[emoteIndex], DialogType.SYSTEM, connID);
 		}
 		if (null != player) {
 			if (null != player.getPlayerData()) {

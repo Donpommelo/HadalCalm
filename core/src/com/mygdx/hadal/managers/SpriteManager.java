@@ -7,6 +7,10 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.loaders.SpriteLoader;
 
+/**
+ * SpriteManager loads sprites.
+ * Logic is delegated to Loader to make it easier for headless server to have different logic
+ */
 public class SpriteManager {
 
     private static SpriteLoader loader;

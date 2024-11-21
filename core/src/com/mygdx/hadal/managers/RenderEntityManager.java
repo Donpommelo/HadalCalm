@@ -8,6 +8,9 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * RenderEntityManager is used by the PlayState to render entities
+ */
 public class RenderEntityManager {
 
     private final PlayState state;

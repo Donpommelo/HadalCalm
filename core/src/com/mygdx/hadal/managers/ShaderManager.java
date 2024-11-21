@@ -3,6 +3,10 @@ package com.mygdx.hadal.managers;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.managers.loaders.ShaderLoader;
 
+/**
+ * ShaderManager loads shaders.
+ * Logic is delegated to Loader to make it easier for headless server to have different logic
+ */
 public class ShaderManager {
 
     private static ShaderLoader loader;

@@ -21,7 +21,7 @@ import com.mygdx.hadal.managers.CursorManager;
 import com.mygdx.hadal.managers.JSONManager;
 import com.mygdx.hadal.managers.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
-import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.TooltipManager;

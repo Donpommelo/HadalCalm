@@ -9,6 +9,9 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.event.hub.Wallpaper;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * RenderShaderManager is used by the PlayState to set shaders for backgrounds
+ */
 public class RenderShaderManager {
 
     private final PlayState state;

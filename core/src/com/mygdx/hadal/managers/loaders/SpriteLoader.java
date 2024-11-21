@@ -8,8 +8,16 @@ import com.mygdx.hadal.effects.Sprite;
 
 import java.util.Objects;
 
+/**
+ * SpriteLoader centralizes the loading of Sprites.
+ * This makes it easier for headless servers to skip this (since it doesn't have the sprite files)
+ * Notably, getting frames/animations will return null for headless servers.
+ */
 public class SpriteLoader {
 
+    /**
+     * This returns the frames for a single sprite.
+     */
     public Array<? extends TextureRegion> getFrames(Sprite sprite) {
 
         if (sprite.equals(Sprite.NOTHING)) {
@@ -42,6 +50,9 @@ public class SpriteLoader {
         return sprite.getFrames();
     }
 
+    /**
+     * This returns an animation for a given sprite.
+     */
     public Animation<TextureRegion> getAnimation(Sprite sprite, float speed, Animation.PlayMode playMode) {
         Array<? extends TextureRegion> frames = getFrames(sprite);
         Animation<TextureRegion> animation = new Animation<>(speed, frames);
@@ -49,6 +60,9 @@ public class SpriteLoader {
         return animation;
     }
 
+    /**
+     * This returns a single frame for a given sprite.
+     */
     public TextureRegion getFrame(Sprite sprite, int frame) {
         Array<? extends TextureRegion> frames = getFrames(sprite);
 
@@ -59,6 +73,11 @@ public class SpriteLoader {
         return frames.get(frame);
     }
 
+    /**
+     * This returns a vector2 dimensions of a given sprite.
+     * This exists so headless servers can handle this by returning a set amount
+     * (since they can't load the sprite and won't know its dimensions)
+     */
     public Vector2 getDimensions(Sprite sprite) {
         TextureRegion frame = getFrame(sprite, 0);
         return new Vector2(frame.getRegionWidth(), frame.getRegionHeight());

@@ -11,7 +11,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.loaders.SoundManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.text.Dialog;
 import com.mygdx.hadal.text.DialogInfo;
 

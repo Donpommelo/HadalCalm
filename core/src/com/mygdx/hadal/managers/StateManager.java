@@ -19,7 +19,6 @@ import java.util.Stack;
 
 /**
  * The GameStateManager manages a stack of game states. This delegates logic to the current game state.
- * For some reason, we are also making it store several public fields like the game record and atlases.
  * @author Fartrand Fucciatello
  */
 public class StateManager {
@@ -233,7 +232,7 @@ public class StateManager {
 
 	/**
 	 * This exports the current chat log into a text file.
-	 * This is mostly for my own documentation
+	 * This is mostly for documentation
 	 */
 	public static void exportChatLogs() {
 		for (String s : MessageWindow.getTextRecord()) {

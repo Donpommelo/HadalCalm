@@ -1,10 +1,15 @@
-package com.mygdx.hadal.managers.loaders;
+package com.mygdx.hadal.managers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.managers.loaders.SoundLoader;
 import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * SoundManager loads sounds.
+ * Logic is delegated to Loader to make it easier for headless server to have different logic
+ */
 public class SoundManager {
 
     private static SoundLoader loader;
