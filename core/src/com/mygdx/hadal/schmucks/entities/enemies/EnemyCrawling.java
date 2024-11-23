@@ -229,7 +229,7 @@ public class EnemyCrawling extends Enemy {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncSchmuckAngled p) {
 			serverAngle.set(0, 0);
-			moveDirection = p.angle;
+			moveDirection = PacketUtil.byteToAngle(p.angle);
 		}
 	}
 	

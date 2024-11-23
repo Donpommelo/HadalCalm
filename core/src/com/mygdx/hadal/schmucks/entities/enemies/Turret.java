@@ -165,7 +165,7 @@ public class Turret extends Enemy {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncSchmuckAngled p) {
 			serverAngle.set(0, 0);
-			attackAngle = p.angle;
+			attackAngle = PacketUtil.byteToAngle(p.angle);
 		}
 	}
 

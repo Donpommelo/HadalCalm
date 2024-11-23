@@ -453,14 +453,14 @@ public class Player extends Schmuck {
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayerSnapshot p) {
-			PacketsSync.SyncSchmuck childPacket = new PacketsSync.SyncSchmuck(entityID, p.pos, p.velocity,
+			PacketsSync.SyncSchmuck childPacket = new PacketsSync.SyncSchmuck(entityID, p.posX, p.posY, p.veloX, p.veloY,
 					p.timestamp, p.moveState, p.hpPercent);
 			super.onClientSync(childPacket);
 
 			getBodyData().setCurrentHp(PacketUtil.byteToPercent(p.hpPercent) * getBodyData().getStat(Stats.MAX_HP));
 			getBodyData().setCurrentFuel(PacketUtil.byteToPercent(p.fuelPercent) * getBodyData().getStat(Stats.MAX_FUEL));
 
-			mouseHelper.setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
+			mouseHelper.setDesiredLocation(PacketUtil.shortToFloat(p.mouseX), PacketUtil.shortToFloat(p.mouseY));
 			equipHelper.setCurrentSlot(p.currentSlot);
 			equipHelper.setCurrentTool(equipHelper.getMultitools()[p.currentSlot]);
 			setToolSprite(SpriteManager.getFrame(equipHelper.getCurrentTool().getWeaponSprite()));

@@ -17,6 +17,7 @@ import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.PacketUtil;
 import com.mygdx.hadal.utils.UUIDUtil;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
@@ -239,21 +240,21 @@ public abstract class HadalEntity {
 
 				float angle = 0;
 				if (o instanceof PacketsSync.SyncEntityAngled a) {
-					angle = a.angle;
+					angle = PacketUtil.byteToAngle(a.angle);
 				}
 				if (o instanceof PacketsSync.SyncSchmuckAngled a) {
-					angle = a.angle;
+					angle = PacketUtil.byteToAngle(a.angle);
 				}
 				//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity of the most recent snapshot and the one before it
 				if (copyServerInstantly) {
-					setTransform(p.pos, angle);
+					setTransform(PacketUtil.shortToFloat(p.posX), PacketUtil.shortToFloat(p.posY), angle);
 				} else {
 					prevPos.set(serverPos);
-					serverPos.set(p.pos);
+					serverPos.set(PacketUtil.shortToFloat(p.posX), PacketUtil.shortToFloat(p.posY));
 					
 					prevVelo.set(serverVelo);
-					serverVelo.set(p.velocity);
-					
+					serverVelo.set(PacketUtil.shortToFloat(p.veloX), PacketUtil.shortToFloat(p.veloY));
+
 					serverAngle.setAngleRad(angle);
 				}
 			}

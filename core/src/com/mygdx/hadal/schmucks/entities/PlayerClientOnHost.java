@@ -68,7 +68,7 @@ public class PlayerClientOnHost extends Player {
 
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
 			PacketManager.serverUDPAllExcept(getUser().getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getUser().getConnID(),
-					p.pos, p.velocity, p.mousePosition,
+					p.posX, p.posY, p.veloX, p.veloY, p.mouseX, p.mouseY,
 					state.getTimer(), p.moveState,
 					p.hpPercent,
 					p.fuelPercent,
@@ -87,7 +87,7 @@ public class PlayerClientOnHost extends Player {
 
 			moveState = p.moveState;
 
-			getMouseHelper().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
+			getMouseHelper().setDesiredLocation(PacketUtil.shortToFloat(p.mouseX), PacketUtil.shortToFloat(p.mouseY));
 
 			getEquipHelper().setCurrentSlot(p.currentSlot);
 			getEquipHelper().setCurrentTool(getEquipHelper().getMultitools()[p.currentSlot]);
@@ -107,10 +107,10 @@ public class PlayerClientOnHost extends Player {
 
 			if (null != body) {
 				prevPos.set(serverPos);
-				serverPos.set(p.pos);
+				serverPos.set(PacketUtil.shortToFloat(p.posX), PacketUtil.shortToFloat(p.posY));
 
 				prevVelo.set(serverVelo);
-				serverVelo.set(p.velocity);
+				serverVelo.set(PacketUtil.shortToFloat(p.veloX), PacketUtil.shortToFloat(p.veloY));
 
 				serverAngle.setAngleRad(0);
 			}
