@@ -32,6 +32,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * This util parses a Tiled file into an in-game map.
+ * This has also grown to contain logic that parses a single object from a map
  * @author Fricieweitz Flogory
  */
 public class TiledObjectUtil {
@@ -75,8 +76,8 @@ public class TiledObjectUtil {
     private static final ObjectMap<MovingPoint, String> movePointConnections = new ObjectMap<>();
     private static final ObjectMap<ChoiceBranch, String> choiceBranchOptions = new ObjectMap<>();
 	private static final ObjectMap<String, Prefabrication> prefabrications = new ObjectMap<>();
-
 	public static final Array<SpawnerWave> waveSpawners = new Array<>();
+
 	/**
      * Parses Tiled objects into in game events
      * @param state: Current GameState
@@ -118,11 +119,10 @@ public class TiledObjectUtil {
 		} else {
 			e = parseTiledEventServerOnly(state, object);
 		}
-		if (null == e) {
+		if (e == null) {
 			e = parseTiledEventClientIndependent(state, object);
 		}
-
-		if (null == e) {
+		if (e == null) {
 			genPrefab(state, object, rect);
 		}
 

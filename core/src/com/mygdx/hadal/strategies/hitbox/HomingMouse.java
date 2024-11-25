@@ -48,7 +48,7 @@ public class HomingMouse extends HitboxStrategy {
 		while (controllerCount >= Constants.INTERVAL) {
 			controllerCount -= Constants.INTERVAL;
 
-			if (null != owner) {
+			if (owner != null) {
 				currentVelocity.set(hbox.getLinearVelocity());
 				desiredDirection.set(owner.getMouseHelper().getPosition()).sub(hbox.getPosition()).nor();
 				currentDirection.set(currentVelocity).nor();

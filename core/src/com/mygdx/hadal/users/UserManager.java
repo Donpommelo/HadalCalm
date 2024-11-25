@@ -33,7 +33,7 @@ public class UserManager {
         int playerNum = 0;
 
         for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
-            if (!conn.value.isSpectator() && 0.0f <= conn.key) {
+            if (!conn.value.isSpectator() && conn.key >= 0.0f) {
                 playerNum++;
             }
         }
@@ -65,7 +65,7 @@ public class UserManager {
         int playerNum = 0;
 
         for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
-            if (0.0f <= conn.key) {
+            if (conn.key >= 0.0f) {
                 playerNum++;
             }
         }
@@ -76,7 +76,7 @@ public class UserManager {
         } else if (connID == hostID) {
             //if the host disconnected, choose a new host from the non-bot users and inform clients
             for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
-                if (0.0f <= conn.key) {
+                if (conn.key >= 0.0f) {
                     hostID = conn.key;
                     PacketManager.serverTCPAll(new Packets.ServerNewHost(hostID));
                     break;
@@ -99,7 +99,7 @@ public class UserManager {
      * Null players (for spectators or users with players that haven't spawned yet) always return true
      */
     public boolean isOwnTeam(User user) {
-        if (null == ownPlayer || null == user.getPlayer()) { return true; }
+        if (ownPlayer == null || user.getPlayer() == null) { return true; }
         return ownPlayer.getHitboxFilter() == user.getPlayer().getHitboxFilter();
     }
 

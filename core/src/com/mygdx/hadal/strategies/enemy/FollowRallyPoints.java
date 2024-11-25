@@ -6,6 +6,10 @@ import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 
+/**
+ * This strategy is used for enemies that move along a set path of rally point events across the map.
+ * Applies to bosses to navigate specific arenas
+ */
 public class FollowRallyPoints extends EnemyStrategy {
 
     //This is a dummy event in the map that the enemy is moving towards

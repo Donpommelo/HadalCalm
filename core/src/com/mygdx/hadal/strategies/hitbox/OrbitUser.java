@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 public class OrbitUser extends HitboxStrategy {
 	
 	//this is the angle of the hbox compared to the player, the distance and the speed that it rotates
-	private final float  distance, speed;
+	private final float distance, speed;
 	private final float startAngle;
 	
 	public OrbitUser(PlayState state, Hitbox proj, BodyData user, float startAngle, float distance, float speed) {

@@ -6,9 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy makes hboxes adjust their angle according to their velocity.
- * Usually used by long hitboxes
- * @author Frurgnerd Frasky
+ * This strategy makes hboxes rotate by setting angular velocity upon creating.
  */
 public class RotationConstant extends HitboxStrategy {
 

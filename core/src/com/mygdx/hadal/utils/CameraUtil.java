@@ -107,18 +107,18 @@ public class CameraUtil {
      */
     public static void inflictTrauma(float amount, PlayerBodyData player) {
         if (!JSONManager.setting.isScreenShake() &&
-                (null == player || 0 == player.getStat(Stats.CAMERA_SHAKE))) { return; }
+                (player == null || player.getStat(Stats.CAMERA_SHAKE) == 0)) { return; }
 
         float shakeBonus = 1.0f;
-        if (null != player) {
+        if (player != null) {
             shakeBonus = 1.0f + player.getStat(Stats.CAMERA_SHAKE);
         }
 
         float adjustedAmount = amount * TRAUMA_MULTIPLIER * shakeBonus;
 
         //small instances of trauma are set to a constant value but have a cooldown
-        if (MIN_TRAUMA > adjustedAmount) {
-            if (0.0f <= traumaCount) {
+        if (adjustedAmount < MIN_TRAUMA) {
+            if (traumaCount >= 0.0f) {
                 traumaCount = TRAUMA_COOLDOWN;
                 trauma = Math.min(shakeBonus, MIN_TRAUMA * shakeBonus);
             }

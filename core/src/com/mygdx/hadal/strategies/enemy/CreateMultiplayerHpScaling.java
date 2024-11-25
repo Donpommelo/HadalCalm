@@ -7,6 +7,9 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 import com.mygdx.hadal.constants.Stats;
 
+/**
+ * This strategy causes enemies to gain max hp based on number of players. (applies to bosses)
+ */
 public class CreateMultiplayerHpScaling extends EnemyStrategy {
 
     private final float hp;
@@ -21,7 +24,7 @@ public class CreateMultiplayerHpScaling extends EnemyStrategy {
         multiplayerScaling(HadalGame.usm.getNumPlayers());
     }
 
-    public void multiplayerScaling(int numPlayers) {
+    private void multiplayerScaling(int numPlayers) {
         enemy.getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, hp * numPlayers, enemy.getBodyData()));
     }
 }

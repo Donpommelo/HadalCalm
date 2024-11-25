@@ -145,6 +145,7 @@ public class ClientState extends PlayState {
 			packet.entity.create();
 
 			if (packet.entityID != null) {
+				//when setting entityID from server, we release our client-auto-generated one.
 				if (packet.entity.getEntityID() != packet.entityID) {
 					UUIDUtil.releaseUnsyncedID(packet.entity.getEntityID());
 				}

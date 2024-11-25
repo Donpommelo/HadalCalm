@@ -221,7 +221,6 @@ public enum UnlockCosmetic {
 
     /**
      * This is called when a player is ragdolled.
-     * @return the cosmetic ragdoll
      */
     public void createRagdoll(PlayState state, AlignmentFilter team, UnlockCharacter character,
                                  Vector2 playerLocation, float scale, Vector2 playerVelocity) {

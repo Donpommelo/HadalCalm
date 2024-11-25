@@ -196,7 +196,7 @@ public class AboutState extends GameState {
 		app.newMenu(stage);
 		transitionIn();
 		
-		//start off with about selected
+		//start off with sound room selected
 		soundRoomSelected();
 	}
 

@@ -15,14 +15,15 @@ public class StatsManager {
 
 	public StatsManager() {}
 
+	/**
+	 * This is run when damage is inflicted to increment stats
+	 */
 	public void receiveDamage(Schmuck perp, Schmuck vic, float damage) {
 		if (perp.getHitboxFilter() != vic.getHitboxFilter()) {
-
 			//track perp's damage dealt
 			if (damage > 0.0f) {
 				incrementDamageDealt(damage);
 			}
-
 		} else {
 			if (damage > 0.0f) {
 				if (perp.equals(vic)) {
@@ -34,6 +35,9 @@ public class StatsManager {
 		}
 	}
 
+	/**
+	 * Reset stats at start of level;
+	 */
 	public void newLevelReset() {
 		damageDealtEnemies = 0.0f;
 		damageDealtAllies = 0.0f;

@@ -15,8 +15,8 @@ public class Light extends ShaderStrategy {
 
 	@Override
 	public void playController(PlayState state, ShaderProgram shader, float delta) {
-		if (null != HadalGame.usm.getOwnPlayer()) {
-			if (null != HadalGame.usm.getOwnPlayer().getPlayerData()) {
+		if (HadalGame.usm.getOwnPlayer() != null) {
+			if (HadalGame.usm.getOwnPlayer().getPlayerData() != null) {
 				shader.setUniformf("u_light", HadalGame.usm.getOwnPlayer().getPlayerData().getStat(Stats.LIGHT_RADIUS));
 			}
 		}

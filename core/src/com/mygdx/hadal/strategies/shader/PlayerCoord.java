@@ -17,7 +17,7 @@ public class PlayerCoord extends ShaderStrategy {
 	private final Vector2 playerLocation = new Vector2();
 	@Override
 	public void playController(PlayState state, ShaderProgram shader, float delta) {
-		if (null != HadalGame.usm.getOwnPlayer()) {
+		if (HadalGame.usm.getOwnPlayer() != null) {
 			playerLocation.set(HadalGame.usm.getOwnPlayer().getPixelPosition());
 			screenCoord.x = playerLocation.x;
 			screenCoord.y = playerLocation.y;

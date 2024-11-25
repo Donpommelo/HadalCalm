@@ -442,13 +442,13 @@ public enum UIText {
      * @return String to be displayed in game
      */
     public String text(String... replace) {
-        if (null == JSONManager.uiStrings) { return ""; }
+        if (JSONManager.uiStrings == null) { return ""; }
 
         //no replacements means a static text. Read from file and cache
-        if (0 == replace.length) {
-            if (null == cachedText) {
+        if (replace.length == 0) {
+            if (cachedText == null) {
                 JsonValue text = JSONManager.uiStrings.get(key);
-                if (null != text) {
+                if (text != null) {
                     cachedText = text.asString();
                 } else {
                     cachedText = JSONManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
@@ -459,10 +459,10 @@ public enum UIText {
 
             //iterate through replace tags and replace with input strings
             JsonValue text = JSONManager.uiStrings.get(key);
-            if (null != text) {
+            if (text != null) {
                 String tempText = text.asString();
                 for (int i = 0; i < replace.length; i++) {
-                    if (null != replace[i]) {
+                    if (replace[i] != null) {
                         tempText = tempText.replace("<s" + i + ">", replace[i]);
                     }
                 }

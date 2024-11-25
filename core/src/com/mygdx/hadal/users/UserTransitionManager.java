@@ -106,7 +106,7 @@ public class UserTransitionManager {
             } else {
                 this.nextState = transition.getNextState();
                 this.transitionTime = transition.getFadeDelay();
-                if (0.0f != transition.getFadeSpeed()) {
+                if (transition.getFadeSpeed() != 0.0f) {
                     this.transitionTime += 1.0f / transition.getFadeSpeed();
                 }
                 this.forewarnTime = transition.getForewarnTime();
@@ -138,6 +138,7 @@ public class UserTransitionManager {
                 }
             }
 
+            //host begins transition. clients are sent a packet telling them to begin transition
             if (user.getConnID() == 0) {
                 //this extra check is for state transitions, not user transitions
                 if (transition.isOverride() || state.getTransitionManager().getNextState() == null) {
@@ -155,7 +156,7 @@ public class UserTransitionManager {
      */
     public void respawn(PlayState state) {
         PlayerBodyData playerData = null;
-        if (null != user.getPlayer() && !reset) {
+        if (user.getPlayer() != null && !reset) {
             playerData = user.getPlayer().getPlayerData();
         }
 
@@ -180,7 +181,7 @@ public class UserTransitionManager {
         } else {
 
             //alive check prevents duplicate players if entering/respawning simultaneously
-            if (null == user.getPlayer() || (null != user.getPlayer() && !user.getPlayer().isAlive())) {
+            if (user.getPlayer() == null || (user.getPlayer() != null && !user.getPlayer().isAlive())) {
                 user.getLoadoutManager().setActiveLoadout(user.getLoadoutManager().getSavedLoadout());
                 HadalGame.server.createNewClientPlayer(state, user, playerData, reset, startPoint);
             }

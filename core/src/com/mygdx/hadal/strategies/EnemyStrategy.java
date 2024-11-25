@@ -8,6 +8,9 @@ import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * An EnemyStrategy implements the methods used to control an enemy schmuck after it has been created
+ */
 public abstract class EnemyStrategy implements IEnemyStrategy {
 
     //reference to game state.

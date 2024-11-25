@@ -49,8 +49,8 @@ public class ConsoleCommandUtil {
 	 */
 	public static int parseChatCommand(PlayState state, Player player, String command, int connID) {
 
-		if (null != player) {
-			if (null != player.getPlayerData()) {
+		if (player != null) {
+			if (player.getPlayerData() != null) {
 				Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
 				if ("/weapon".equals(command)) {
 					StringBuilder message = new StringBuilder("Weapons: ");
@@ -112,6 +112,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 
+	/**
+	 * Emits a specific message to the lobby with its type set to "system"
+	 */
 	private static void emitMessage(PlayState state, String message, int connID) {
 		if (state.isServer()) {
 			HadalGame.server.addChatToAll(state, message, DialogType.SYSTEM, connID);
@@ -126,15 +129,15 @@ public class ConsoleCommandUtil {
 	public static int parseConsoleCommand(PlayState state, String command) {
 		String[] commands = command.split(" ");
 		
-		if (0 == commands.length) {
+		if (commands.length == 0) {
 			return -1;
 		}
 
-		if (null == HadalGame.usm.getOwnPlayer()) {
+		if (HadalGame.usm.getOwnPlayer() == null) {
 			return 0;
 		}
 
-		if (1 < commands.length) {
+		if (commands.length > 1) {
 			switch (commands[0]) {
 				case "hp":
 					return setHp(commands[1]);
@@ -176,7 +179,7 @@ public class ConsoleCommandUtil {
 		
 		try {
 			float hp = Float.parseFloat(command);
-			if (HadalGame.usm.getOwnPlayer().isAlive() && 0.0 <= hp) {
+			if (HadalGame.usm.getOwnPlayer().isAlive() && hp >= 0) {
 				HadalGame.usm.getOwnPlayer().getPlayerData().setCurrentHp(hp);
 				return 0;
 			}
@@ -189,10 +192,9 @@ public class ConsoleCommandUtil {
 	 * The player enters "am x" to set their ammo to x amount
 	 */
 	public static int setAmmo(String command) {
-		
 		try {
 			int ammo = Integer.parseInt(command);
-			if (HadalGame.usm.getOwnPlayer().isAlive() && 0.0f <= ammo) {
+			if (HadalGame.usm.getOwnPlayer().isAlive() && ammo >= 0) {
 				HadalGame.usm.getOwnPlayer().getEquipHelper().getCurrentTool().setAmmoLeft(ammo);
 				return 0;
 			}
@@ -208,7 +210,7 @@ public class ConsoleCommandUtil {
 		
 		try {
 			float charge = Float.parseFloat(command);
-			if (HadalGame.usm.getOwnPlayer().isAlive() && 0.0f <= charge) {
+			if (HadalGame.usm.getOwnPlayer().isAlive() && charge >= 0) {
 				HadalGame.usm.getOwnPlayer().getMagicHelper().getMagic().setCurrentChargePercent(charge);
 				return 0;
 			}
@@ -239,10 +241,9 @@ public class ConsoleCommandUtil {
 	 * The player enters "scr x" to set their scrap amount to x amount
 	 */
 	public static int setScrap(PlayState state, String command) {
-		
 		try {
 			int scrap = Integer.parseInt(command);
-			if (0 <= scrap) {
+			if (scrap >= 0) {
 				JSONManager.record.setScrap(scrap);
 				state.getUIManager().getUiExtra().syncUIText(UITagType.SCRAP);
 				return 0;
@@ -256,7 +257,6 @@ public class ConsoleCommandUtil {
 	 * The player enters "warp x" to teleport to x level (where x is the enum name of the level)
 	 */
 	public static int warp(PlayState state, String command) {
-		
 		try {
 			UnlockLevel level = UnlockLevel.getByName(command.toUpperCase());
 			state.getTransitionManager().loadLevel(level, TransitionState.NEWLEVEL, "");

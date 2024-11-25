@@ -25,6 +25,7 @@ public class FiringWeapon extends Status {
 	//tool used to fire this status
 	private final Equippable tool;
 
+	//The number of shots that will be fired and the shots fired so far
 	private final int shotNum;
 	private int shotsFired;
 
@@ -38,11 +39,8 @@ public class FiringWeapon extends Status {
 	
 	@Override
 	public void timePassing(float delta) {
-		
 		super.timePassing(delta);
-		
 
-		
 		//when it activates, this status sets the tool's weaponVelo field and then fires it 
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
@@ -55,6 +53,8 @@ public class FiringWeapon extends Status {
 				}
 
 				shotsFired++;
+
+				//keep track of shots fired for spray weapons whose properties change as shots are fired (cola, slodge)
 				player.getSpecialWeaponHelper().setSprayWeaponShotNumber(shotsFired);
 
 				if (shotsFired <= shotNum) {

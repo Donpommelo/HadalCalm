@@ -8,6 +8,10 @@ import com.mygdx.hadal.schmucks.entities.enemies.Krill;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This is a status inflicted by the Krill Command active item.
+ * In addition to its particle effect, this spawns a krill enemy that attacks the victim
+ */
 public class MarkedKrill extends Status {
 
     private static final int NUM_KRILL = 4;

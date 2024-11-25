@@ -24,7 +24,7 @@ public class ContactStick extends HitboxStrategy {
 	private final boolean stickToWalls, stickToDudes;
 	protected boolean stuckToTarget;
 
-	//The angle that the projectile should be stuck at
+	//The angle that the projectile should be stuck at. targetAngle allows for sticking to rotating body.
 	private float angle, targetAngle;
 
 	//the target body that the hbox is stuck to. TargetBody is separate in case of entities with multiple bodies
@@ -37,6 +37,7 @@ public class ContactStick extends HitboxStrategy {
 	//this stores the relative location of the stuck projectile after accounting for rotation
 	private final Vector2 rotatedLocation = new Vector2();
 
+	//lifespan of hbox after being stuck
 	private float stuckLifespan;
 
 	public ContactStick(PlayState state, Hitbox proj, BodyData user, boolean walls, boolean dudes) {

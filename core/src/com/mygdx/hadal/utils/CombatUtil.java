@@ -4,8 +4,15 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper.DespawnType;
 
+/**
+ * This contains utility functions used whe processing combat.
+ * atm, this just includes death animation processing
+ */
 public class CombatUtil {
 
+    /**
+     * This parses the cause of death (source and any tags of the lethal instance of damage) to return the despawn type
+     */
     public static DespawnType getDespawnType(DamageSource source, DamageTag... tags) {
         DespawnType type = DespawnType.GIB;
 

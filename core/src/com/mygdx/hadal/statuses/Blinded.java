@@ -11,7 +11,10 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
-
+/**
+ * Blind debuff is inflicted by certain artifacts or active items.
+ * This causes the screen to fade in from white.
+ */
 public class Blinded extends Status {
 
 	private static final float FADE_COOLDOWN = 0.5f;

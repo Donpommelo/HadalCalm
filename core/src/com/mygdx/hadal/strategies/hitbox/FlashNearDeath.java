@@ -7,6 +7,8 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.constants.Constants;
 
 /**
+ * this strategy makes a hitbox flash when its lifespan is below a specified threshold.
+ * Unlike FlashShaderNearDeath, this does not use a shader; it just skips renders for the hbox
  */
 public class FlashNearDeath extends HitboxStrategy {
 

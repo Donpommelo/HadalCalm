@@ -5,6 +5,8 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ *  ResetVelocity stores a velocity vector and sets its user's velocity to this vector when it expires
+ *  atm, only used by ghost step active item
  *  @author Bichnold Boppigginbotham
  */
 public class ResetVelocity extends Status {

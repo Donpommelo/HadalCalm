@@ -5,7 +5,7 @@ package com.mygdx.hadal.constants;
  * NOSYNC: The entity is not synced, but crreated independently between client and server
  * CREATESYNC: Server informs the server when the entity is created and deleted
  * TICKSYNC: Server repeatedly sends client packets about the entity's status while it is alive
- *
+ * <p>
  * TICKSYNC is no longer used; particle and sound entities no longer ever send sync packets
  *
  */

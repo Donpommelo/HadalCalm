@@ -96,7 +96,7 @@ public class PauseState extends GameState {
 				float menuHeight = HEIGHT;
 				
 				//extra "return to hub" option is added if the hub has been reached or if the player is in multiplayer mode.
-				if (HadalGame.usm.isHost() && (1 == JSONManager.record.getFlags().get("HUB_REACHED") || StateManager.currentMode == Mode.MULTI)) {
+				if (HadalGame.usm.isHost() && (JSONManager.record.getFlags().get("HUB_REACHED") == 1 || StateManager.currentMode == Mode.MULTI)) {
 					menuHeight += EXTRA_ROW_HEIGHT;
 				}
 				
@@ -225,7 +225,7 @@ public class PauseState extends GameState {
 				table.add(resumeOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 				
 				//don't add return to hub option in singleplayer if hub hasn't been reached yet
-				if (HadalGame.usm.isHost() && (1 == JSONManager.record.getFlags().get("HUB_REACHED") || StateManager.currentMode == Mode.MULTI)) {
+				if (HadalGame.usm.isHost() && (JSONManager.record.getFlags().get("HUB_REACHED") == 1 || StateManager.currentMode == Mode.MULTI)) {
 					table.add(hubOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
 				}
 				table.add(settingOption).height(OPTION_HEIGHT).pad(OPTION_PAD).row();

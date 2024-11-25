@@ -11,6 +11,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
+ * This causes a hbox to repeatedly damage enemies overlapping with it (rather than a single instance upon contact)
  */
 public class DamagePulse extends HitboxStrategy {
 

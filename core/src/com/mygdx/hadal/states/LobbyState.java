@@ -469,7 +469,7 @@ public class LobbyState extends GameState {
                 lobbyOptions.add(lobbyOption).padTop(OPTION_PAD).width(SCROLL_WIDTH).height(OPTION_HEIGHT).row();
             }
 
-            if (lobbies.length() == 0) {
+            if (lobbies.isEmpty()) {
                 setNotification(UIText.NO_LOBBIES.text());
             } else {
                 setNotification(UIText.LOBBIES_RETRIEVED.text());

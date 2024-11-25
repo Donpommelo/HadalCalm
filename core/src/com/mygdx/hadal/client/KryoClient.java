@@ -24,7 +24,6 @@ import com.mygdx.hadal.event.modes.FlagCapturable;
 import com.mygdx.hadal.event.modes.ReviveGravestone;
 import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
-import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingSave;
 import com.mygdx.hadal.requests.ParticleCreate;

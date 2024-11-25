@@ -176,6 +176,9 @@ public class ResultsState extends GameState {
 		}
 	}
 
+	/**
+	 * Shaders and snapshot are separated so headless server can more easily skip
+	 */
 	public void initializeVisuals() {
 		ShaderManager.loadShader(shader);
 		this.snapshot = new TextureRegion(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());

@@ -17,6 +17,11 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 import com.mygdx.hadal.utils.PacketUtil;
 
+/**
+ * This strategy applies to "floating" moving behavior.
+ * This just controls the direction the enemy faces and makes them rotate smoothly towards their desired targets.
+ * This also controls things like bosses spinning.
+ */
 public class MovementFloat extends EnemyStrategy {
 
     //the speed that the boss spins when spinning

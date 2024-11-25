@@ -8,6 +8,10 @@ import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 
+/**
+ * This strategy applies enemies that utilize bot pathfinding to choose targets.
+ * This is done similarly to bot players
+ */
 public class TargetPathfinding extends EnemyStrategy {
 
     private final BotController controller;

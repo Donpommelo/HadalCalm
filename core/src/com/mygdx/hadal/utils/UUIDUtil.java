@@ -26,7 +26,9 @@ public class UUIDUtil {
     private static int currentSyncedID = 0;
     private static int currentUnsyncedID = 0;
 
-    // Reset counters when transitioning to a new level
+    /**
+     * Reset counters when transitioning to a new level
+     */
     public static void nextPlayState() {
         playStateID = (playStateID + 1) & MAX_PLAY_STATE_ID;
         availableUnsyncedIDs.clear();

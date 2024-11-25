@@ -11,6 +11,10 @@ import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 import com.mygdx.hadal.utils.WorldUtil;
 
+/**
+ * This strategy is used by enemies who do not use bot pathfinding to find targets (bosses, maps with no pathfinding points)
+ * This just raycasts at nearby enemies to choose a target
+ */
 public class TargetNoPathfinding extends EnemyStrategy {
 
     //This is the range that the enemy will be able to detect targets
@@ -21,6 +25,7 @@ public class TargetNoPathfinding extends EnemyStrategy {
     private Schmuck homeAttempt;
     private Fixture closestFixture;
 
+    //can the enemy find targets through walls? True for bosses
     private final boolean trackThroughWalls;
 
     public TargetNoPathfinding(PlayState state, Enemy enemy, boolean trackThroughWalls) {
