@@ -83,6 +83,9 @@ public class ModeSetting {
      */
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {}
 
+    /**
+     * This is run after a player is created; for effects that require the player's body to exist
+     */
     public void postCreatePlayer(PlayState state, GameMode mode, Player p) {}
 
     /**

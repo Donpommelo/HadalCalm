@@ -61,8 +61,11 @@ public class Player extends Schmuck {
 	private float scaleModifier = 0.0f;
 	private float gravityModifier = 1.0f;
 	private float restitutionModifier = 0.0f;
+
+	//makes the camera not move when respawning (used for matryoshka mode instant respawn)
 	private boolean dontMoveCamera;
 
+	//player logic is now delegated to helper classes for organizational purposes
 	private final PlayerSpriteHelper spriteHelper;
 	private final PlayerUIHelper uiHelper;
 	private final PlayerEffectHelper effectHelper;
@@ -103,7 +106,7 @@ public class Player extends Schmuck {
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
 	
-	//This is the connection id and user of the player (0 if server)
+	//The user of the player contains the connection id, stats, score and other fields
 	private User user;
 	
 	//should we reset this player's playerData stuff upon creation
@@ -268,7 +271,7 @@ public class Player extends Schmuck {
 		//for silent spawn
 		user.afterPlayerCreate(this);
 
-		//for mode-specific effects that require a
+		//for mode-specific effects that require a created player
 		state.getMode().postCreatePlayer(state, this);
 
 		//if buttons were held, before spawning, they should start off pressed
@@ -286,7 +289,7 @@ public class Player extends Schmuck {
 	}
 
 	/**
-	 * The player's controller currently polls for input.
+	 * The player's controller currently delegates to helpers to carry out logic
 	 */
 	protected final Vector2 playerPixelPosition = new Vector2();
 	protected final Vector2 playerVelocity = new Vector2();
@@ -304,6 +307,10 @@ public class Player extends Schmuck {
 		super.controller(delta);
 	}
 
+	/**
+	 * Process movement, including jumps, boost, fastfall.
+	 * Clients process this for themselves instead of being controlled by sync packets
+	 */
 	protected void processMovement(float delta, Vector2 playerVelocity) {
 		controllerCount += delta;
 
@@ -322,6 +329,9 @@ public class Player extends Schmuck {
 		airblastHelper.controller(delta);
 	}
 
+	/**
+	 * Process shooting and active item. Run by clients for self, but not other clients.
+	 */
 	protected void processEquipment(float delta) {
 		shootHelper.controller(delta);
 
@@ -331,6 +341,9 @@ public class Player extends Schmuck {
 		}
 	}
 
+	/**
+	 * This runs various miscellaneous functions that clients run for themselves
+	 */
 	protected void processMiscellaneous(float delta) {
 
 		//process cds
@@ -342,6 +355,9 @@ public class Player extends Schmuck {
 		playerData.processRecentDamagedBy(delta);
 	}
 
+	/**
+	 * This runs various miscellaneous functions that are run for all players
+	 */
 	protected void processMiscellaneousUniversal(float delta, Vector2 playerPosition, Vector2 playerVelocity) {
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		if (this.isOrigin()) {
@@ -379,7 +395,7 @@ public class Player extends Schmuck {
 
 		float transparency = effectHelper.processInvisibility();
 
-		if (0.0f != transparency) {
+		if (transparency != 0.0f) {
 			//render player sprite using sprite helper
 			spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
 					groundedHelper.isGrounded(), entityLocation,
@@ -394,15 +410,15 @@ public class Player extends Schmuck {
 		if (state.getSpectatorManager().isSpectatorMode() || user.getHitboxFilter() == HadalGame.usm.getOwnUser().getHitboxFilter()) {
 			visible = true;
 		} else {
-			if (null != HadalGame.usm.getOwnPlayer()) {
-				if (null != HadalGame.usm.getOwnPlayer().getPlayerData()) {
+			if (HadalGame.usm.getOwnPlayer() != null) {
+				if (HadalGame.usm.getOwnPlayer().getPlayerData() != null) {
 					if (HadalGame.usm.getOwnPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
 						visible = true;
 					}
 				}
 			}
 		}
-		if (0.0f != transparency) {
+		if (transparency != 0.0f) {
 			uiHelper.render(batch, entityLocation, visible);
 		}
 

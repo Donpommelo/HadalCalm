@@ -84,10 +84,10 @@ public class PlayerSpriteHelper {
      * @param team: the new team color to draw
      */
     public void setBodySprite(SpriteBatch batch, UnlockCharacter character, AlignmentFilter team) {
-        boolean replace = this.character != character && null != character;
+        boolean replace = this.character != character && character != null;
 
         //replace frame buffer if the input contains a new character or team
-        if (this.team != team && null != team) {
+        if (this.team != team && team != null) {
             replace = true;
         }
 
@@ -107,10 +107,10 @@ public class PlayerSpriteHelper {
         //return if headless server
         if (HadalGame.assetManager == null) { return; }
 
-        if (null != newCharacter) {
+        if (newCharacter != null) {
             this.character = newCharacter;
         }
-        if (null != newTeam) {
+        if (newTeam != null) {
             this.team = newTeam;
         }
 
@@ -242,7 +242,7 @@ public class PlayerSpriteHelper {
 
         //head type cosmetics replace the head, so we don't want to draw the base head unless not rendering cosmetics or only rendering 1 non-head cosmetic
         boolean head = player.getUser().getLoadoutManager().getActiveLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank();
-        if (null != lockedCosmetic) {
+        if (lockedCosmetic != null) {
             head = true;
             if (CosmeticSlot.HEAD == lockedCosmetic.getCosmeticSlot()) {
                 head = lockedCosmetic.isBlank();
@@ -265,7 +265,7 @@ public class PlayerSpriteHelper {
      */
     private void renderCosmetics(Batch batch, float animationTimeExtra, boolean flip, UnlockCosmetic lockedCosmetic) {
         Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
-        if (null == lockedCosmetic) {
+        if (lockedCosmetic == null) {
             //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
             for (UnlockCosmetic cosmetic : loadout.cosmetics) {
                 headLocation.set(cosmetic.render(batch, loadout.team,

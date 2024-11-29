@@ -266,6 +266,9 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 
+	/**
+	 * This is used for pickups, like trick-or-treat candy or eggplants that should vacuum to the player when nearby
+	 */
 	public void onPickup(HadalData picker) {
 
 		if (!alive) { return; }

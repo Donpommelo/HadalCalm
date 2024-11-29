@@ -33,7 +33,7 @@ public class ModeGunGame extends ModeSetting {
         User user = HadalGame.usm.getUsers().get(connID);
 
         //when a player respawns, set their weapon to their last held weapon, determined by score
-        if (null != user) {
+        if (user != null) {
             int currentGunIndex = Math.min(user.getScoreManager().getScore(), weaponOrder.length - 1);
             newLoadout.multitools[0] = weaponOrder[currentGunIndex];
         }
@@ -46,7 +46,7 @@ public class ModeGunGame extends ModeSetting {
         if (perp instanceof Player player) {
             state.getMode().processPlayerScoreChange(state, player, 1);
 
-            if (null != player.getUser()) {
+            if (player.getUser() != null) {
                 int currentGunIndex = player.getUser().getScoreManager().getScore();
                 if (currentGunIndex < weaponOrder.length) {
 

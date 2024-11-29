@@ -3,6 +3,9 @@ package com.mygdx.hadal.map;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.text.GameText;
 
+/**
+ * An arcade mode is an option that players can vote on when deciding the next round in arcade mode
+ */
 public enum ArcadeMode {
 
     DEATHMATCH(GameMode.DEATHMATCH),
@@ -35,6 +38,9 @@ public enum ArcadeMode {
 
     public String getName() { return name; }
 
+    /**
+     * For arcade modes that do not correspond to a game mode, this function returns the unique settings their unique settings
+     */
     public ObjectMap<String, Integer> getUniqueSettings() {
         ObjectMap<String, Integer> uniqueSettings = new ObjectMap<>();
         switch (this) {

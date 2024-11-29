@@ -13,9 +13,9 @@ import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.PacketUtil;
 
 /**
- * A ClientPlayer represents a client's own player.
- * This processes things like client prediction
- * @author Hepepper Hasufferson
+ * A PlayerClientOnHost represents a client's player on the server.
+ * This receives sync packets from the clients and echoes them to all other clients.
+ * @author Clodswallop Clidimir
  */
 public class PlayerClientOnHost extends Player {
 
@@ -34,7 +34,7 @@ public class PlayerClientOnHost extends Player {
 			if (state.getTimer() >= nextTimeStamp) {
 				Object[] o = bufferedTimestamps.removeIndex(0);
 
-				if (null != o) {
+				if (o != null) {
 					//check timestamp in case snapshots are sent out of order
 					if ((float) o[1] > nextTimeStamp) {
 						prevTimeStamp = nextTimeStamp;

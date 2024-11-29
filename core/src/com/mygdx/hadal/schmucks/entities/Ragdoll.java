@@ -52,7 +52,7 @@ public class Ragdoll extends HadalEntity {
 	private boolean fade, fadeStarted;
 	private Shader fadeShader;
 
-	private boolean spinning = true;
+	private final boolean spinning;
 
 	public Ragdoll(PlayState state, RagdollCreate ragdollCreate) {
 		super(state, ragdollCreate.getPosition(), ragdollCreate.getSize());

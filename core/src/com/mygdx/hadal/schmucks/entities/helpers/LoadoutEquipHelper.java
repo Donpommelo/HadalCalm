@@ -121,7 +121,7 @@ public class LoadoutEquipHelper {
      * current weapon is kept track of.
      */
     public void setEquip() {
-        if (null == player.getPlayerData()) { return; }
+        if (player.getPlayerData() == null) { return; }
 
         //process current weapon, in case on-unequip/on-equip functions are needed
         if (currentTool != null) {

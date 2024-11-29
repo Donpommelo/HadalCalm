@@ -27,6 +27,7 @@ public class SavedLoadout {
 	//This is the player's starting name
 	private String name;
 
+	//this is the version of the game when the loadout was made. Used to check compatbility issues when game is updated.
 	private String version;
 
 	//the name used if the name field is left empty
@@ -47,7 +48,7 @@ public class SavedLoadout {
 	 * This simple saves the record in a designated file
 	 */
 	public void saveLoadout(User user) {
-		if (null != user) {
+		if (user != null) {
 			user.getLoadoutManager().setSavedLoadout(new Loadout(this));
 		}
 		Gdx.files.local("save/Loadout.json").writeString(JSON.prettyPrint(this), false);
@@ -83,7 +84,7 @@ public class SavedLoadout {
 	}
 
 	/**
-	 * This retrieves the player's loadout at the start of the game
+	 * This retrieves the player's loadout at the start of the game.
 	 * @return the player's saved loadout (or a default loadout if file is missing or malformed)
 	 */
 	public static SavedLoadout retrieveLoadout() {

@@ -181,7 +181,7 @@ public class Setting {
 
 		//in arcade mode, we use the default value for setting, unless there is a specific override value
 		if (SettingArcade.arcade) {
-			if (null != SettingArcade.currentMode) {
+			if (SettingArcade.currentMode != null) {
 				if (SettingArcade.currentMode.getUniqueSettings().containsKey(setting.name())) {
 					return SettingArcade.currentMode.getUniqueSettings().get(setting.name());
 				}

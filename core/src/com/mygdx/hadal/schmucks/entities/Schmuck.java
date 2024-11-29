@@ -21,8 +21,7 @@ import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.PacketUtil;
 
 /**
- * A Schmuck is an entity that can use equipment like the player or an enemy.
- * They also have some innate stats.
+ * A Schmuck is an entity that has innate stats, can have statuses and receive/deal damage.
  * @author Creetcorn Cleddner
  *
  */
@@ -42,6 +41,8 @@ public class Schmuck extends HadalEntity {
     
 	//This particle is triggered upon receiving damage
 	public final ParticleEntity impact;
+
+	//these helpers control special visual effects
 	private final DamageEffectHelper damageEffectHelper;
 	private final SpecialHpHelper specialHpHelper;
 

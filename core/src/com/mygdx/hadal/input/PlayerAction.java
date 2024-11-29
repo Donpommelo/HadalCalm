@@ -118,9 +118,9 @@ public enum PlayerAction {
 	 * This is used when controls are reset
 	 */
 	public boolean isPressed() {
-		if (0 <= key && key <= 2) {
+		if (key>= 0 && key <= 2) {
 			return Gdx.input.isButtonPressed(key);
-		} else if (5 <= key && key <= 255){
+		} else if (key >= 5 && key <= 255){
 			return Gdx.input.isKeyPressed(key);
 		}
 		return false;

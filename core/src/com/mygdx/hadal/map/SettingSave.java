@@ -2,6 +2,9 @@ package com.mygdx.hadal.map;
 
 import com.badlogic.gdx.utils.ObjectMap;
 
+/**
+ * A SettingSave keeps track of each mode setting and designates its default starting value.
+ */
 public enum SettingSave {
 
     BASE_HP(2),
@@ -44,7 +47,6 @@ public enum SettingSave {
     }
 
     SettingSave(int startingValue) { this.startingValue = startingValue; }
-
 
     public int getStartingValue() { return startingValue; }
 

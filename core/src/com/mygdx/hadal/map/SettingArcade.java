@@ -30,16 +30,21 @@ import static com.mygdx.hadal.managers.SkinManager.SKIN;
 import static com.mygdx.hadal.users.Transition.*;
 
 /**
- * This mode setting is used for modes where the host can designate a time limit.
- * When the time expires, the player or team with the most points wins
- * @author Blashutanga Bluryl
+ * This mode setting is used for Arcade Mode.
+ * Players start off in a break room where they can vote on next map and buy artifacts
+ * Players return to this room after each round and victories are awarded based on total wins
  */
 public class SettingArcade extends ModeSetting {
 
     private static final UnlockEquip[] BASE_EQUIP = {UnlockEquip.SPEARGUN, UnlockEquip.NOTHING, UnlockEquip.NOTHING};
 
+    //iwe we currently in arcade mode (since the state's mode might be something else). Have multiple players fulfilled win condition?
     public static boolean arcade, overtime;
+
+    //round limit, current round, amount of wins before a player wins the whole game
     public static int roundNum, currentRound, winCap;
+
+    //this is the mode of the current round
     public static ArcadeMode currentMode;
 
     private final String endText;
@@ -133,6 +138,8 @@ public class SettingArcade extends ModeSetting {
 
     @Override
     public String loadSettingStart(PlayState state, GameMode mode) {
+
+        //arcade being false means we have just started the arcade. Otherwise, increment round number
         if (!arcade) {
             startArcade(mode);
         } else {
@@ -170,6 +177,8 @@ public class SettingArcade extends ModeSetting {
 
     @Override
     public void postCreatePlayer(PlayState state, GameMode mode, Player p) {
+
+        //player that won last round gets a special visual effect in break room
         if (state.isServer() && p.getUser().getScoreManager().isWonLast()) {
             p.getPlayerData().addStatus(new Celebrating(state, p.getPlayerData(), p.getPlayerData()));
         }
@@ -177,6 +186,8 @@ public class SettingArcade extends ModeSetting {
 
     @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+
+        //reset weapons in break room
         for (int i = 0; i < Loadout.MAX_WEAPON_SLOTS; i++) {
             if (BASE_EQUIP.length > i) {
                 newLoadout.multitools[i] = BASE_EQUIP[i];
@@ -184,6 +195,10 @@ public class SettingArcade extends ModeSetting {
         }
     }
 
+    /**
+     * This is run upon initiating arcade mode. Set each player's arcade loadout to keep track of bought artifacts
+     * Also keep track of currency and reset stats.
+     */
     private void startArcade(GameMode mode) {
         for (User user : HadalGame.usm.getUsers().values()) {
             user.getScoreManager().setNextRoundVote(-1);
@@ -200,11 +215,15 @@ public class SettingArcade extends ModeSetting {
         overtime = false;
     }
 
+    /**
+     * This is run at the end of any arcade break room, or arcade mode.
+     */
     public static void processEndOfRound(PlayState state, GameMode mode) {
         for (User user : HadalGame.usm.getUsers().values()) {
             user.setScoreUpdated(true);
         }
 
+        //if we are in the break room, initiate thte next round with thw voted mode
         if (mode.equals(GameMode.ARCADE)) {
             int vote = ArcadeMarquis.getVotedOption();
             currentMode = ArcadeMarquis.getModeChoices().get(vote);
@@ -212,6 +231,8 @@ public class SettingArcade extends ModeSetting {
             state.getTransitionManager().setNextLevel(ArcadeMarquis.getMapChoices().get(vote));
             state.getTransitionManager().setNextMode(currentMode.getMode());
         } else {
+
+            //if we just finished an arcade round, check win conditions to see if we return to break room or results screen
             if (roundNum != 0 && currentRound > roundNum && endArcadeMode(state)) {
                 return;
             } else {
@@ -249,6 +270,9 @@ public class SettingArcade extends ModeSetting {
         }
     }
 
+    /**
+     * This is run when a player readies up. echo ready up and load level if all players are done.
+     */
     public static void readyUp(PlayState state, int playerID) {
         User readyUser = HadalGame.usm.getUsers().get(playerID);
         if (state.isServer()) {
@@ -277,6 +301,9 @@ public class SettingArcade extends ModeSetting {
         state.getUIManager().getUiExtra().syncUIText(UITagType.WINBOARD);
     }
 
+    /**
+     * Players that join mid arcade mode start off with some currency
+     */
     public static void addNewUser(ScoreManager score) {
         int baseCurrency = indexToStartingCurrency(JSONManager.setting.getModeSetting(GameMode.ARCADE, SettingSave.ARCADE_CURRENCY_START));
         baseCurrency += (indexToRoundCurrency(JSONManager.setting.getModeSetting(GameMode.ARCADE, SettingSave.ARCADE_CURRENCY_ROUND))
@@ -284,6 +311,10 @@ public class SettingArcade extends ModeSetting {
         score.setCurrency(baseCurrency);
     }
 
+    /**
+     * Exit arcade mode if we have a winner.
+     * If there is a tie, we enter overtime.
+     */
     private static boolean endArcadeMode(PlayState state) {
         int highScore = 0;
         int numHighScore = 0;

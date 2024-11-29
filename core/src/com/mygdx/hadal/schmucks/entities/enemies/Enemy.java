@@ -305,6 +305,10 @@ public class Enemy extends Schmuck {
 		return super.getProjectileOrigin(startVelo, projSize);
 	}
 
+	/**
+	 * If the map has bot pathfinding nodes, swimming enemies will use the same bot logic to navigate the map.
+	 * Otherwise, we use the older logic of chasing players in sight
+	 */
 	public void setupPathingStrategies() {
 		if (!BotManager.rallyPoints.isEmpty() && this instanceof EnemySwimming) {
 			addStrategy(new TargetPathfinding(state, this));

@@ -33,8 +33,8 @@ public class ModeEggplantHunt extends ModeSetting {
     @Override
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
         //null check in case this is an "extra kill" to give summoner kill credit for a summon
-        if (null != vic) {
-            if (null != vic.getUser()) {
+        if (vic != null) {
+            if (vic.getUser() != null) {
 
                 //upon death, lose eggplants and drop them according to how many you have
                 ScoreManager field = vic.getUser().getScoreManager();

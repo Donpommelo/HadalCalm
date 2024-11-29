@@ -24,6 +24,7 @@ public class Record {
 	//this is the last ip connected to
 	private String lastIp;
 
+	//saveVersion is checked to see if record is compatible with latest game version
 	private int saveVersion;
 
 	//This is a map of the player's unlocks

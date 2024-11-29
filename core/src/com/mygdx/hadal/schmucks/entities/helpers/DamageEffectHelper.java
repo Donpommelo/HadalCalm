@@ -9,6 +9,10 @@ import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * DamageEffectHelper displays special visual effects from certain damage effects.
+ * This includes receiving critical damage, or reduced damage (not added yet)
+ */
 public class DamageEffectHelper {
 
     private static final float BASE_COOLDOWN = 1.0f;

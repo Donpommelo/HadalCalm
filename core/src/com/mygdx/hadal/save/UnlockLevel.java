@@ -247,6 +247,9 @@ public enum UnlockLevel {
 		return UnlocksByName.getOrDefault(s, HUB_MULTI);
 	}
 
+	/**
+	 * Map size is displayed to the player in the ui. Also determins how many bots to create if bot number is set to default
+	 */
 	public enum MapSize {
 
 		TINY(UIText.TINY, 2),

@@ -299,6 +299,11 @@ public enum GameMode {
         }
     }
 
+    /**
+     * This is run before a player is created.
+     * This is separate from processNewPlayerLoadout because it occurs before the player spawns.
+     * This is needed for affects that modify the player's loadout, since their team decides where they spawn in some modes
+     */
     public void processNewPlayerAlignment(PlayState state, Loadout newLoadout, int connID) {
         if (!state.isServer()) { return; }
         for (ModeSetting setting : applicableSettings) {

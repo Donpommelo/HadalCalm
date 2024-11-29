@@ -184,7 +184,7 @@ public class LoadoutArtifactHelper {
      * @param save whether this change should be saved into loadout file
      */
     public void syncArtifacts(boolean override, boolean save) {
-        if (null == player.getPlayerData()) { return; }
+        if (player.getPlayerData() == null) { return; }
 
         if (!override) {
             checkArtifactSlotCosts();

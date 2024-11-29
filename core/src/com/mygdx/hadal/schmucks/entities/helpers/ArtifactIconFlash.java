@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.save.UnlockArtifact;
 
+/**
+ * An ArtifactIconFlash is a single instance of an artifact icon flashing upon activating.
+ * Kept track of in ArtifactIconHelper
+ */
 public class ArtifactIconFlash {
 
     private static final float BASE_LIFESPAN = 1.5f;
@@ -30,6 +34,8 @@ public class ArtifactIconFlash {
     public void render(SpriteBatch batch, Vector2 playerLocation) {
         float size = MIN_SIZE;
         float distance = DISTANCE_Y_START;
+
+        //icon grows to a max size and moves upward to a max distance from the player before slowing down
         if (lifespan > DISTANCE_THRESHOLD) {
             size += (BASE_LIFESPAN - lifespan) / (BASE_LIFESPAN - DISTANCE_THRESHOLD) * (MAX_SIZE - MIN_SIZE);
             distance += (BASE_LIFESPAN - lifespan) / (BASE_LIFESPAN - DISTANCE_THRESHOLD) * (DISTANCE_Y - DISTANCE_Y_START);

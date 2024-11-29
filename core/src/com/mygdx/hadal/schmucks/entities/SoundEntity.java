@@ -28,6 +28,7 @@ public class SoundEntity extends HadalEntity {
 	//this is the sound id of the instance of the sound
 	private final long soundID;
 
+	//how much longer this entity lasts and whether it despawns when lifespan expires
 	private float lifespan;
 	private final boolean temp;
 
@@ -70,7 +71,7 @@ public class SoundEntity extends HadalEntity {
 		temp = lifespan != 0;
 
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
-		if (on && null != attachedEntity) {
+		if (on && attachedEntity != null) {
 			Vector2 attachedLocation = new Vector2();
 			attachedLocation.set(attachedEntity.getPixelPosition());
 
@@ -78,7 +79,7 @@ public class SoundEntity extends HadalEntity {
 					.setVolume(volume)
 					.setPitch(pitch)
 					.setPosition(attachedLocation));
-			if (null != attachedEntity.getBody()) {
+			if (attachedEntity.getBody() != null) {
 				SoundManager.updateSoundLocation(state, sound, attachedLocation, volume, soundID);
 			}
 		} else {
@@ -104,11 +105,11 @@ public class SoundEntity extends HadalEntity {
 	public void controller(float delta) {
 		
 		//process sound fading. Gradually change sound volume until it reaches 0.0 or max volume.
-		if (0 != fade) {
+		if (fade != 0) {
 			volume += delta * fade;
 			
 			//when a sound finishes fading out, pause it and delete it, if it is set to despawn
-			if (0.0 >= volume) {
+			if (volume <= 0.0f) {
 				volume = 0.0f;
 				sound.loadSound().pause(soundID);
 				fade = 0.0f;
@@ -128,6 +129,7 @@ public class SoundEntity extends HadalEntity {
 			}
 		}
 
+		//temporary entities decrement lifespan and are removed when expired
 		if (temp) {
 			lifespan -= delta;
 			if (0 >= lifespan) {
@@ -145,8 +147,8 @@ public class SoundEntity extends HadalEntity {
 			syncAccumulator = 0;
 			
 			//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
-			if (null != attachedEntity) {
-				if (attachedEntity.isAlive() && null != attachedEntity.getBody()) {
+			if (attachedEntity != null) {
+				if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 					SoundManager.updateSoundLocation(state, sound, attachedEntity.getPixelPosition(), volume, soundID);
 				} else {
 					turnOff();
@@ -165,7 +167,7 @@ public class SoundEntity extends HadalEntity {
 		super.clientController(delta);
 		controller(delta);
 
-		if (null == attachedEntity && null != attachedID) {
+		if (attachedEntity == null && attachedID != null) {
 			attachedEntity = state.findEntity(attachedID);
 			if (on) {
 				sound.loadSound().resume(soundID);
@@ -179,7 +181,7 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public Object onServerCreate(boolean catchup) {
 		if (sync.equals(SyncType.CREATESYNC)) {
-			if (null != attachedEntity) {
+			if (attachedEntity != null) {
 				return new Packets.CreateSound(attachedEntity.getEntityID(), sound, lifespan, volume, pitch, looped, on);
 			}
 		}

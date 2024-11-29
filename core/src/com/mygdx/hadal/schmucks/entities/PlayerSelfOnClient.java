@@ -16,7 +16,7 @@ import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
 
 /**
  * A ClientPlayer represents a client's own player.
- * This processes things like client prediction
+ * This processes the client's own properties and sends sync packets to the server based on its authoritative position
  * @author Hepepper Hasufferson
  */
 public class PlayerSelfOnClient extends Player {

@@ -9,7 +9,7 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
 /**
  * LoadoutHelper manages the player's loadout.
  * The "true" active loadout is now part of User's loadout manager instead
- * This contains player-specific loadout utility functions that run when player is createed, modified etc
+ * This contains player-specific loadout utility functions that run when player is created, modified etc
  */
 public class LoadoutHelper {
 

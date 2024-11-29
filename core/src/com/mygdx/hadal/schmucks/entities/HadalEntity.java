@@ -236,7 +236,7 @@ public abstract class HadalEntity {
 	 */
 	public void onClientSync(Object o) {
 		if (o instanceof PacketsSync.SyncEntity p) {
-			if (null != body) {
+			if (body != null) {
 
 				float angle = 0;
 				if (o instanceof PacketsSync.SyncEntityAngled a) {

@@ -58,7 +58,7 @@ public class ModeCapturetheFlag extends ModeSetting {
                         if (flag.isCaptured()) {
                             if (bot.equals(flag.getTarget())) {
                                 FlagSpawner home = FLAG_SPAWNERS.get(bot.getUser().getLoadoutManager().getActiveLoadout().team);
-                                if (null != home) {
+                                if (home != null) {
                                     bot.getBotController().setEventTarget(home);
                                     path.add(new RallyPoint.RallyPointMultiplier(BotManager.getNearestPoint(bot, home.getPosition()),
                                             home, FLAG_RETURN_DESIRE_MULTIPLIER));

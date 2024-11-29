@@ -6,6 +6,10 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Player;
 
+/**
+ * ArtifactIconHelper manages the artifact icon flashes that appear when an artifact activates.
+ * This maintains the list of ArtifactIconFlash and manages the cooldown between flashes
+ */
 public class ArtifactIconHelper {
 
     private static final float BASE_COOLDOWN = 0.25f;
@@ -27,6 +31,7 @@ public class ArtifactIconHelper {
             cooldown -= delta;
         }
 
+        //decrement lifespan for current icon flash and remove it when complete
         for (ArtifactIconFlash artifact : artifacts) {
             if (artifact.isStarted()) {
                 artifact.controller(delta);
@@ -56,6 +61,10 @@ public class ArtifactIconHelper {
         }
     }
 
+    /**
+     * Run when an artifact activates.
+     * Add the icon flash to the list. No duplicates allowed
+     */
     public void addArtifactFlash(UnlockArtifact artifact) {
         boolean copyFound = false;
         for (ArtifactIconFlash artifactOld : artifacts) {

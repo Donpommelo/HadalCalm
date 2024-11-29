@@ -13,6 +13,7 @@ import com.mygdx.hadal.text.UIText;
 import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 /**
+ * SettingLoadoutOutfit allows the player to designate one of their saved outfits as a loadout all players spawn with
  */
 public class SettingLoadoutOutfit extends ModeSetting {
 
