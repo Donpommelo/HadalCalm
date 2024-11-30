@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.mygdx.hadal.save.UnlockCharacter;
 
+/**
+ * A ColorPalette represents a set of colors used for character color replacement costumes
+ */
 public enum ColorPalette {
 
     BASE(HadalColor.WHITE, HadalColor.BASE_SATURATED_DARK, HadalColor.BASE_MID_DARK, HadalColor.BASE_DESATURATED_DARK,

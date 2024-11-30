@@ -99,7 +99,6 @@ public class FlagCapturable extends Event {
 		//make objective marker track this event
 		state.getUIManager().getUiObjective().addObjective(this, Sprite.CLEAR_CIRCLE_ALERT, color, true, false, false);
 
-
 		this.returnMeter = SpriteManager.getFrame(Sprite.UI_RELOAD_METER);
 		this.returnBar = SpriteManager.getFrame(Sprite.UI_RELOAD_BAR);
 
@@ -115,13 +114,13 @@ public class FlagCapturable extends Event {
 			@Override
 			public void onTouch(HadalData fixB) {
 				if (!state.isServer()) { return; }
-				if (null != fixB) {
+				if (fixB != null) {
 					if (!captured) {
 						if (fixB instanceof PlayerBodyData playerData) {
 
 							//if this is touching a flag blocker, do not register pickups
 							boolean blockPickup = false;
-							if (null != lastBlocker) {
+							if (lastBlocker != null) {
 								if (lastBlocker.getEventData().getSchmucks().contains(event) &&
 										lastBlocker.getEventData().getSchmucks().contains(fixB.getEntity())) {
 									blockPickup = true;
@@ -238,7 +237,7 @@ public class FlagCapturable extends Event {
 
 		//this makes flag following player less janky for clients when held
 		if (captured) {
-			if (null != target) {
+			if (target != null) {
 				hbLocation.set(target.getPosition());
 				setTransform(hbLocation, getAngle());
 			}
@@ -298,7 +297,7 @@ public class FlagCapturable extends Event {
 			returnPercent = PacketUtil.byteToPercent(p.returnPercent);
 			if (o instanceof PacketsSync.SyncFlagAttached p1) {
 				HadalEntity entity = state.findEntity(p1.attachedID);
-				if (null != entity) {
+				if (entity != null) {
 					if (entity instanceof Player player) {
 						target = player;
 						captured = true;
@@ -324,9 +323,9 @@ public class FlagCapturable extends Event {
 				flag.getEventData().preActivate(null, lastHolder);
 				queueDeletion();
 
-				if (null != target) {
-					if (null != target.getPlayerData()) {
-						if (null != flagDebuff) {
+				if (target != null) {
+					if (target.getPlayerData() != null) {
+						if (flagDebuff != null) {
 							target.getPlayerData().removeStatus(flagDebuff);
 						}
 					}

@@ -65,6 +65,7 @@ public class EventUtils {
                 new Vector2(1.0f / 2,  - event.getSize().y / 2),
                 new Vector2(event.getSize().x, event.getSize().y / 8),
                 BodyConstants.BIT_SENSOR, BodyConstants.BIT_DROPTHROUGHWALL, (short) 0)
+                .setFriction(1.0f)
                 .addToBody(event.getBody())
                 .setUserData(feetData);
     }

@@ -15,13 +15,14 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
  * <p>
- * Fields: N/A
+ * Fields:
+ * teamIndex: int index of the team which will drop flag upon touching this
+ * (you do not drop flag touching impasseable enemy spawn)
  *
  * @author Dogginbotham Drurgeon
  */
 public class FlagBlocker extends Event {
 
-    //This is the team which will drop flag upon touching this (you do not drop flag touching impasseable enemy spawn)
     private final int teamIndex;
 
     public FlagBlocker(PlayState state, Vector2 startPos, Vector2 size, int teamIndex) {

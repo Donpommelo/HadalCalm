@@ -75,8 +75,8 @@ public class MovingPoint extends Event {
 	private float lastDistLength;
 	@Override
 	public void controller(float delta) {
-		if (null != getConnectedEvent()) {
-			if (null != getConnectedEvent().getBody()) {
+		if (getConnectedEvent() != null) {
+			if (getConnectedEvent().getBody() != null) {
 				targetPosition.set(getConnectedEvent().getPosition());
 				dist.set(targetPosition).sub(getPosition());
 
@@ -92,7 +92,7 @@ public class MovingPoint extends Event {
 						e.setLinearVelocity(dist.nor().scl(speed));
 					}
 				} else if (!needsToStartMoving && (dist.len2() < delta * delta * speed * speed ||
-						(0 != lastDistLength && lastDistLength < distLength))) {
+						(lastDistLength != 0 && lastDistLength < distLength))) {
 
 					//reset saved distance when changing target point
 					distLength = 0.0f;
@@ -106,7 +106,7 @@ public class MovingPoint extends Event {
 					}
 
 					//if there isn't another rally point, stop moving
-					if (null == getConnectedEvent().getConnectedEvent()) {
+					if (getConnectedEvent().getConnectedEvent() == null) {
 						setLinearVelocity(0, 0);
 
 						//Move all connected events by same amount.
@@ -117,7 +117,7 @@ public class MovingPoint extends Event {
 
 						//activate next event in the chain and move to next rally point
 						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
-						if (null != getConnectedEvent().getConnectedEvent().getBody()) {
+						if (getConnectedEvent().getConnectedEvent().getBody() != null) {
 							setConnectedEvent(getConnectedEvent().getConnectedEvent());
 						} else {
 							if (pause) {
@@ -160,7 +160,7 @@ public class MovingPoint extends Event {
 	 * Add another event to be connected to this moving point. Connected events must be synced
 	 */
 	public void addConnection(Event e) {
-		if (null != e) {
+		if (e != null) {
 			connected.put(e, new Vector2(e.getStartPos()).sub(startPos).scl(1 / PPM));
 			if (syncConnected) {
 				e.setIndependent(false);
@@ -174,7 +174,7 @@ public class MovingPoint extends Event {
 	private final Vector2 delayedPosition = new Vector2();
 	@Override
 	public Object onServerSyncInitial() {
-		if (null == getConnectedEvent()) {
+		if (getConnectedEvent() == null) {
 			return new Packets.CreateStartSyncedEvent(state.getTimer(), triggeredID, null, getPosition(), getLinearVelocity());
 		} else {
 			return new Packets.CreateStartSyncedEvent(state.getTimer(), triggeredID, getConnectedEvent().getTriggeredID(), getPosition(), getLinearVelocity());
@@ -185,6 +185,7 @@ public class MovingPoint extends Event {
 	public void onClientSyncInitial(float timer, Event target, Vector2 position, Vector2 velocity) {
 		delayedPosition.set(position).add(velocity.scl(-2 * SYNC_TIME));
 
+		//in case of mid-game join, client needs server's current location, not starting location
 		setTransform(delayedPosition, 0);
 		for (ObjectMap.Entry<Event, Vector2> e : connected.entries()) {
 			tempConnectedPosition.set(delayedPosition).add(e.value);

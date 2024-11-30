@@ -15,7 +15,8 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
  * <p>
  * Fields:
  * startId: String id of the start point. Many maps have multiple start points, so these are used to determine which one the player is entering from
- * 
+ * teamIndex: In team modes, only players with this team index will spawn at this point
+ *
  * @author Xardamom Xeryl
  */
 public class StartPoint extends Event {
@@ -25,6 +26,8 @@ public class StartPoint extends Event {
 
 	private final String startId;
 	private final int teamIndex;
+
+	//this cooldown prevents multiple players from spawning at the same point simultaneuously, unless there are no other options
 	private float spawnCd;
 	
 	public StartPoint(PlayState state, Vector2 startPos, Vector2 size, String startId, int teamIndex) {

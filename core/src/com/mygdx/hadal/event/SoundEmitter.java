@@ -21,8 +21,7 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
  * sound: THe string enum name of the sound played
  * volume: 0.0f - 1.0f- of how loud the sound is
  * global: boolean if the sound is played from a specified location or not (for determining pan)
- * universal: boolean if the sound is played for all players or not
- * 
+ *
  * @author Honjo Himeister
  */
 public class SoundEmitter extends Event {

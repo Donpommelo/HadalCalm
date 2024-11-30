@@ -78,7 +78,7 @@ public enum Shader {
 	 */
 	public static void clearShader() {
 		for (Shader shader : Shader.values()) {
-			if (null != shader.shaderProgram) {
+			if (shader.shaderProgram != null) {
 				shader.shaderProgram.dispose();
 				shader.shaderProgram = null;
 			}

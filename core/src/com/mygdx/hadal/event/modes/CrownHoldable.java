@@ -30,7 +30,11 @@ import com.mygdx.hadal.utils.b2d.HadalFixture;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
- *
+ * This event is used for the Kingmaker mode. Players pick up the crown and gain score while surviving holding it.
+ * <p>
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * <p>
  *  @author Himbino Hectmaker
  */
 public class CrownHoldable extends Event {
@@ -169,7 +173,6 @@ public class CrownHoldable extends Event {
 			super.clientInterpolation();
 		}
 	}
-
 
 	@Override
 	public Object onServerCreate(boolean catchup) {

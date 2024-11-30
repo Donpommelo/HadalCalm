@@ -73,7 +73,7 @@ public class SpawnerObjective extends Event {
 	@Override
 	public void controller(float delta) {
 
-		//in eggplant mode, spawn scrap periodically
+		//in eggplant/trick or treat mode, spawn scrap/candy periodically
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
 			timeCount += delta;
 			if (timeCount >= EGGPLANT_INTERVAL) {

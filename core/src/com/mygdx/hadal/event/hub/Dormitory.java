@@ -88,8 +88,8 @@ public class Dormitory extends HubEvent {
 				final UIHub hub = state.getUIManager().getUiHub();
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-				if (null == ownPlayer) { return; }
-				if (null == ownPlayer.getPlayerData()) { return; }
+				if (ownPlayer == null) { return; }
+				if (ownPlayer.getPlayerData() == null) { return; }
 
 				UnlockCharacter selected = loadingCharacters.removeIndex(0);
 

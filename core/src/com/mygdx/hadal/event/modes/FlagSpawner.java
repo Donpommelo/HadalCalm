@@ -54,7 +54,7 @@ public class FlagSpawner extends Event {
                 spawnerParticles(false);
 
                 //give score credit to the player and give notification
-                if (null != p) {
+                if (p != null) {
                     String playerName = TextUtil.getPlayerColorName(p, MAX_NAME_LENGTH);
                     state.getUIManager().getKillFeed().addNotification(UIText.CTF_CAPTURE.text(playerName), false);
                     state.getMode().processPlayerScoreChange(state, p, 1);
@@ -77,7 +77,7 @@ public class FlagSpawner extends Event {
     public void controller(float delta) {
 
         //flag is spawned after a set delay
-        if (0.0f < spawnCountdown) {
+        if (spawnCountdown > 0.0f) {
             spawnCountdown -= delta;
             if (spawnCountdown <= 0.0f) {
                 spawnFlag();
@@ -85,7 +85,7 @@ public class FlagSpawner extends Event {
         } else {
             //spawn a flag if it is dead or nonexistent
             boolean flagded = false;
-            if (null == flag) {
+            if (flag == null) {
                 flagded = true;
             } else if (!flag.isAlive()) {
                 flagded = true;
@@ -121,7 +121,7 @@ public class FlagSpawner extends Event {
     public void triggerFailMessage() {
 
         //message is activated when attempting to capture flag while enemy holds your flag
-        if (0.0f >= messageCount) {
+        if (messageCount <= 0.0f) {
             if (teamIndex < AlignmentFilter.currentTeams.length) {
                 messageCount = MESSAGE_COOLDOWN;
                 String teamColor = AlignmentFilter.currentTeams[teamIndex].getColoredAdjective();

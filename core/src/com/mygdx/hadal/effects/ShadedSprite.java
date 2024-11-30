@@ -75,7 +75,7 @@ public class ShadedSprite {
 
             batch.draw(tex, 0, 0);
 
-            if (null != shader) {
+            if (shader != null) {
                 batch.setShader(null);
             }
             batch.end();
@@ -93,7 +93,7 @@ public class ShadedSprite {
             fbo.add(frame);
         }
 
-        if (null != shader) {
+        if (shader != null) {
             shader.dispose();
         }
 

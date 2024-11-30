@@ -11,6 +11,15 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import static com.mygdx.hadal.schmucks.entities.enemies.WaveType.waveLimit;
 
+/**
+ * In arena mode, the SpawnWaveController is created and controls the WaveSpawner events in the map.
+ * This event decides which WaveSpawners should be activated and when
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * <p>
+ * Fields:
+ * waves: This is a list of waves to be spawned in order. Empty means infinite waves (survival mode)
+ */
 public class SpawnerWaveController extends Event {
 
     private static final float FIRST_WAVE_DELAY = 5.0f;
@@ -61,6 +70,9 @@ public class SpawnerWaveController extends Event {
         removeEnemies.clear();
     }
 
+    /**
+     * Based on the tags, we decide what the next wave of enemies should be.
+     */
     private void getNextWave(Array<WaveType.WaveTag> tags) {
         WaveType nextWave = WaveType.WAVE1;
         if (infinite) {
@@ -95,6 +107,11 @@ public class SpawnerWaveController extends Event {
     private final ObjectMap<Integer, Array<SpawnerWave>> exclusiveSpawn = new ObjectMap<>();
     private final ObjectMap<Integer, SpawnerWave> inclusiveSpawn = new ObjectMap<>();
     private final Array<SpawnerWave> possibleSpawns = new Array<>();
+
+    /**
+     * Based on the next wave, we decide which spawners should handle creating it.
+     * Some enemies have wave number restrictions
+     */
     private void processNextWave(WaveType nextWave) {
         waveNum++;
 
@@ -112,6 +129,8 @@ public class SpawnerWaveController extends Event {
 
             possibleSpawns.clear();
             if (enemy.getExclusiveIndex() != 0) {
+
+                //enemy cannot use the same spawner as another enemy with the same exclusive index
                 if (exclusiveSpawn.containsKey(enemy.getExclusiveIndex())) {
                     for (SpawnerWave i : TiledObjectUtil.waveSpawners) {
                         if (i.getTags().contains(enemy.getTag(),false) &&
@@ -129,6 +148,8 @@ public class SpawnerWaveController extends Event {
                 if (possibleSpawns.isEmpty()) {
                     possibleSpawns.addAll(TiledObjectUtil.waveSpawners);
                 }
+
+                //decide which of the possible spawners will create this specific enemy
                 SpawnerWave spawner = possibleSpawns.random();
                 enemy.setSpawner(spawner);
                 if (exclusiveSpawn.containsKey(enemy.getExclusiveIndex())) {
@@ -142,9 +163,13 @@ public class SpawnerWaveController extends Event {
 
             possibleSpawns.clear();
             if (enemy.getInclusiveIndex() != 0) {
+
+                //null check in case exclusive spawn check already found a spawner
                 if (enemy.getSpawner() != null) {
                     inclusiveSpawn.put(enemy.getInclusiveIndex(), enemy.getSpawner());
                 } else {
+
+                    //enemy must use the same spawner as another enemy with the same inclusive index
                     if (inclusiveSpawn.containsKey(enemy.getInclusiveIndex())) {
                         enemy.setSpawner(inclusiveSpawn.get(enemy.getInclusiveIndex()));
                     } else {

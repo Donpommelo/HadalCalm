@@ -20,6 +20,7 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * The Outfitter allows the player to save and load saved outfits
  */
 public class Outfitter extends HubEvent {
 
@@ -42,8 +43,8 @@ public class Outfitter extends HubEvent {
 				public void clicked(InputEvent e, float x, float y) {
 					Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-					if (null == ownPlayer) { return; }
-					if (null == ownPlayer.getPlayerData()) { return; }
+					if (ownPlayer == null) { return; }
+					if (ownPlayer.getPlayerData() == null) { return; }
 
 					//selecting outfit equips its weapons/artifacts/active item
 					if (state.isServer()) {

@@ -40,9 +40,9 @@ public class Rotator extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (continuous) {
-					if (null != getConnectedEvent()) {
-						if (null != getConnectedEvent().getBody()) {
-							if (0 == getConnectedEvent().getAngularVelocity()) {
+					if (getConnectedEvent() != null) {
+						if (getConnectedEvent().getBody() != null) {
+							if (getConnectedEvent().getAngularVelocity() == 0) {
 								getConnectedEvent().setAngularVelocity(angle);
 							} else {
 								getConnectedEvent().setAngularVelocity(0);
@@ -50,7 +50,7 @@ public class Rotator extends Event {
 						}
 					}
 				} else {
-					if (null != getConnectedEvent()) {
+					if (getConnectedEvent() != null) {
 						getConnectedEvent().setTransform(getConnectedEvent().getPosition(), angle * MathUtils.degRad);
 					}
 				}
@@ -77,7 +77,7 @@ public class Rotator extends Event {
 	public Object onServerSyncInitial() {
 		if (!continuous) { return null; }
 
-		if (null == getConnectedEvent()) {
+		if (getConnectedEvent() == null) {
 			return null;
 		} else {
 			delayedAngle.setAngleRad(getConnectedEvent().getAngle());
@@ -88,7 +88,9 @@ public class Rotator extends Event {
 
 	@Override
 	public void onClientSyncInitial(float timer, Event target, Vector2 position, Vector2 velocity) {
-		if (null != getConnectedEvent()) {
+
+		//in case of mid-game join, client needs server's current angle, not starting angle
+		if (getConnectedEvent() != null) {
 			delayedAngle.set(position).setAngleDeg(position.angleDeg() - angle * 2 * SYNC_TIME);
 			getConnectedEvent().setTransform(getConnectedEvent().getPosition(), delayedAngle.angleRad());
 		}

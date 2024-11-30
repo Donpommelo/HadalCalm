@@ -35,6 +35,7 @@ public class Platform extends Event {
 	private final int teamIndex;
 	private final float restitution;
 
+	//we keep track of when this platform is loaded so, on the first controller tick, we can set alignment team filter
 	private boolean loaded;
 
 	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution,

@@ -202,7 +202,7 @@ public class PickupEquip extends Event {
 	}
 
 	private Object getActivationPacket() {
-		if (null == triggeredID) {
+		if (triggeredID == null) {
 			return new Packets.SyncPickup(entityID, UnlockEquip.getUnlockFromEquip(equip.getClass()));
 		} else {
 			return new Packets.SyncPickupTriggered(triggeredID, UnlockEquip.getUnlockFromEquip(equip.getClass()));

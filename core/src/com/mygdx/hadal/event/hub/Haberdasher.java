@@ -211,8 +211,8 @@ public class Haberdasher extends HubEvent {
 
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-				if (null == ownPlayer) { return; }
-				if (null == ownPlayer.getPlayerData()) { return; }
+				if (ownPlayer == null) { return; }
+				if (ownPlayer.getPlayerData() == null) { return; }
 
 				UnlockCosmetic selected = loadingCosmetics.removeIndex(0);
 
@@ -237,7 +237,7 @@ public class Haberdasher extends HubEvent {
 					public void clicked(InputEvent e, float x, float y) {
 						Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-						if (null == ownPlayer) { return; }
+						if (ownPlayer == null) { return; }
 
 						UnlockCosmetic choice = selected;
 						if (!isEquipping(ownPlayer.getUser(), selected)) {

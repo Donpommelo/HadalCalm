@@ -88,8 +88,8 @@ public class Painter extends HubEvent {
 
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-				if (null == ownPlayer) { return; }
-				if (null == ownPlayer.getPlayerData()) { return; }
+				if (ownPlayer == null) { return; }
+				if (ownPlayer.getPlayerData() == null) { return; }
 
 				AlignmentFilter selected = loadingCharacters.removeIndex(0);
 				HubOptionPlayer option;

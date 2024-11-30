@@ -26,6 +26,9 @@ import com.mygdx.hadal.utils.TextUtil;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
+ * The Vending appears in the Arcade break room and displays a list of random artifacts.
+ * The player can select these to purchse them with scrap earned between rounds.
+ * The player can also refresh options (cost increases each time used)
  */
 public class Vending extends HubEvent {
 
@@ -88,6 +91,8 @@ public class Vending extends HubEvent {
 
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
+
+					//server purchases artifacts. clients send a purchase request
 					if (state.isServer()) {
 						Vending.checkUnlock(state, selected, HadalGame.usm.getOwnUser());
 
@@ -113,7 +118,11 @@ public class Vending extends HubEvent {
 		hub.refreshHub(this);
 	}
 
-	public void setChoices() {
+	/**
+	 * This loads random store options.
+	 * Need to ensure no artifacts are repeated.
+	 */
+	private void setChoices() {
 		weapons.clear();
 		artifacts.clear();
 		magics.clear();
@@ -143,6 +152,9 @@ public class Vending extends HubEvent {
 		}
 	}
 
+	/**
+	 * Check if player owns an artifact. Used to avoid duplicate options
+	 */
 	private boolean checkArtifactOwnership(UnlockArtifact artifact) {
 		UnlockArtifact[] artifacts = HadalGame.usm.getOwnUser().getLoadoutManager().getActiveLoadout().artifacts;
 		boolean alreadyUsed = false;
@@ -155,6 +167,9 @@ public class Vending extends HubEvent {
 		return alreadyUsed;
 	}
 
+	/**
+	 * Run when player chooses refresh option; brings up a new set of choices
+	 */
 	public void refreshOptions() {
 		if (HadalGame.usm.getOwnUser().getScoreManager().getCurrency() >= REFRESH_COST_CURRENT) {
 			if (state.isServer()) {
@@ -172,6 +187,10 @@ public class Vending extends HubEvent {
 		}
 	}
 
+	/**
+	 * This checks an unlock to see whether it can be afforded by the user.
+	 * If so, buy it and gain the artifact.
+	 */
 	public static void checkUnlock(PlayState state, UnlockArtifact selected, User user) {
 		int cost = JSONManager.artifactInfo.getPrices().get(selected.name());
 

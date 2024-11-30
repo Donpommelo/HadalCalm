@@ -37,6 +37,12 @@ import static com.mygdx.hadal.managers.SkinManager.FONT_SPRITE;
 import static com.mygdx.hadal.users.Transition.MEDIUM_FADE_DELAY;
 
 /**
+ * This event is created when players die in some modes (pve or Resurrectionist)
+ * Instead of respawning after a set time, players will spawn from the grave if an ally stands nesr it
+ * <p>
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * <p>
  */
 public class ReviveGravestone extends Event {
 

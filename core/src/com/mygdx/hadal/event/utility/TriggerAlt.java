@@ -46,7 +46,7 @@ public class TriggerAlt extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				
-				if (null != activator && activator.getEvent() instanceof TriggerAlt trigger) {
+				if (activator != null && activator.getEvent() instanceof TriggerAlt trigger) {
 					setMessage(trigger.getMessage());
 				} else {
 					if (event.getConnectedEvent() != null) {

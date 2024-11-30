@@ -56,7 +56,7 @@ public class PlayerChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				PlayerBodyData data = p.getPlayerData();
-				if (null == data) { return; }
+				if (data == null) { return; }
 
 				boolean activated = false;
 				

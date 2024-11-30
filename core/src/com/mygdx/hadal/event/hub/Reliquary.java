@@ -81,8 +81,8 @@ public class Reliquary extends HubEvent {
 					public void clicked(InputEvent e, float x, float y) {
 						Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-						if (null == ownPlayer) { return; }
-						if (null == ownPlayer.getPlayerData()) { return; }
+						if (ownPlayer == null) { return; }
+						if (ownPlayer.getPlayerData() == null) { return; }
 
 						if (state.isServer()) {
 							ownPlayer.getArtifactHelper().addArtifact(selected, false, true);

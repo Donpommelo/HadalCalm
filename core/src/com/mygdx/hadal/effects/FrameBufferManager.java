@@ -17,6 +17,10 @@ import com.mygdx.hadal.users.User;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * FrameBufferManager contains static functions that create frame buffer objects for players.
+ * This applies team color replacement shaders to character base sprites
+ */
 public class FrameBufferManager {
 
     private static final HashMap<CharacterColor, FrameBuffer> FRAME_BUFFER = new HashMap<>();
@@ -24,7 +28,7 @@ public class FrameBufferManager {
     public static FrameBuffer getFrameBuffer(SpriteBatch batch, UnlockCharacter character, AlignmentFilter team) {
 
         FrameBuffer fbo = FRAME_BUFFER.get(new CharacterColor(character, team));
-        if (null != fbo) {
+        if (fbo != null) {
             return fbo;
         }
 
@@ -51,13 +55,13 @@ public class FrameBufferManager {
 
         batch.draw(tex, 0, 0);
 
-        if (null != shader) {
+        if (shader != null) {
             batch.setShader(null);
         }
         batch.end();
         fbo.end();
 
-        if (null != shader) {
+        if (shader != null) {
             shader.dispose();
         }
 

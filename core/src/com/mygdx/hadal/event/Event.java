@@ -80,6 +80,7 @@ public class Event extends HadalEntity {
     //This particle is turned on when the event is interacted with in a specific way (differs for each event)
     protected ParticleEntity standardParticle;
 
+	//events keep track of their triggered id so they can send activation packets to the client
     protected String triggeredID;
 
     //Does this event send a sync packet to client every engine tick?
@@ -92,6 +93,7 @@ public class Event extends HadalEntity {
     //will the event not be drawn when off screen?
     private boolean cullable = true;
 
+	//these keep track of flashing visual effect for events that are about to despawn
 	private float flashLifespan;
 	private float flashCount;
     
@@ -270,7 +272,7 @@ public class Event extends HadalEntity {
 
 		//independent events do not send a create packet when created, b/c the client creates it themselves
 		if (independent) { return null; }
-		if (null == dto) {
+		if (dto == null) {
 			if (body != null && !Sprite.NOTHING.equals(sprite)) {
 				return new Packets.CreateEntity(entityID, size, getPixelPosition(), getAngle(), sprite,	synced,
 						isSyncInstant(), ObjectLayer.STANDARD, scaleAlign);

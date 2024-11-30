@@ -200,7 +200,7 @@ public enum Particle {
 	 * When we get a particle, we obtain it from the pool and add it to the list to keep track of
 	 */
 	public PooledEffect getParticle(ParticleEntity entity) {
-		if (null == effectPool) {
+		if (effectPool == null) {
 			initParticlePool();
 		}
 
@@ -210,7 +210,7 @@ public enum Particle {
 		//reset colors to original
 		if (originalColors.size == newEffect.getEmitters().size) {
 			for (int i = 0; i < newEffect.getEmitters().size; i++) {
-				if ( originalColors.get(i).length == 3) {
+				if (originalColors.get(i).length == 3) {
 					float[] colors = newEffect.getEmitters().get(i).getTint().getColors();
 					colors[0] = originalColors.get(i)[0];
 					colors[1] = originalColors.get(i)[1];
@@ -233,7 +233,7 @@ public enum Particle {
 		for (ObjectMap.Entry<PooledEffect, ParticleEntity> effect : effects.entries()) {
 
 			//null values indicate a non-entity particle (used in menus like results screen confetti)
-			if (null == effect.value) {
+			if (effect.value == null) {
 				effect.key.draw(batch, delta);
 			} else if (effect.value.isEffectNotCulled()) {
 				if (!effect.value.isShowOnInvis()
@@ -294,7 +294,7 @@ public enum Particle {
 	 */
 	public static void disposeParticlePool() {
 		for (Particle effect : Particle.values()) {
-			if (null != effect.prototype) {
+			if (effect.prototype != null) {
 				effect.prototype.dispose();
 			}
 		}
