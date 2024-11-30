@@ -73,7 +73,7 @@ public class BotLoadoutProcessor {
                         RallyPoint tempPoint = BotManager.getNearestPoint(player, pickup.getPosition());
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
-                        if (null != tempPoint) {
+                        if (tempPoint != null) {
                             bestPoint[0] = tempPoint;
                             bestTarget[0] = pickup;
                             return false;
@@ -105,7 +105,7 @@ public class BotLoadoutProcessor {
                         RallyPoint tempPoint = BotManager.getNearestPoint(player, data.getEntity().getPosition());
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
-                        if (null != tempPoint) {
+                        if (tempPoint != null) {
                             bestPoint[0] = tempPoint;
                             bestTarget[0] = data.getEntity();
                             return false;
@@ -342,12 +342,12 @@ public class BotLoadoutProcessor {
 
                 //spray-type weapons are suitable when firing to avoid switching immediately after gaining firing status
                 case COLACANNON, SLODGE_NOZZLE, STUTTERGUN:
-                    if (0 == ranged.getClipLeft() && null == player.getPlayerData().getStatus(FiringWeapon.class)) {
+                    if (ranged.getClipLeft() == 0 && player.getPlayerData().getStatus(FiringWeapon.class) == null) {
                         suitability =  inRange ? 1 : 0;
                     }
                     break;
                 default:
-                    if (0 == ranged.getClipLeft()) {
+                    if (ranged.getClipLeft() == 0) {
                         suitability =  inRange ? 1 : 0;
                     }
                     break;
@@ -459,7 +459,7 @@ public class BotLoadoutProcessor {
      * Only used for stickybomb launcher
      */
     private static void manualReload(PlayerBot player, Equippable weapon, boolean shooting) {
-        if (0 == weapon.getClipLeft()) {
+        if (weapon.getClipLeft() == 0) {
             player.getController().keyDown(PlayerAction.RELOAD);
             player.getController().keyUp(PlayerAction.RELOAD);
         } else if (shooting) {
@@ -530,7 +530,7 @@ public class BotLoadoutProcessor {
 
         //easy bots or bots in single player when the player has no artifacts do not use artifacts
         if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
-                (HadalGame.usm.getOwnUser() != null && 0 == HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed())) {
+                (HadalGame.usm.getOwnUser() != null && HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed() == 0)) {
             return artifacts;
         }
 
@@ -545,7 +545,7 @@ public class BotLoadoutProcessor {
         int currentSlot = 0;
         boolean mobilityFound = 1 == slots;
 
-        while (0 < slots) {
+        while (slots > 0) {
             artifactOptions.clear();
 
             //if there is >1 slot available, bots will prioritize having at least 1 mobility item
@@ -554,12 +554,12 @@ public class BotLoadoutProcessor {
                 artifactOptions.addAll(mobility2);
                 artifactOptions.addAll(mobility1);
             } else {
-                if (3 <= slots) {
+                if (slots >= 3) {
                     artifactOptions.addAll(defensive3);
                     artifactOptions.addAll(offensive3);
                     artifactOptions.addAll(misc3);
                 }
-                if (2 <= slots) {
+                if (slots >= 2) {
                     artifactOptions.addAll(mobility2);
                     artifactOptions.addAll(defensive2);
                     artifactOptions.addAll(offensive2);
@@ -571,7 +571,7 @@ public class BotLoadoutProcessor {
                 artifactOptions.addAll(misc1);
             }
 
-            if (0 < artifactOptions.size && currentSlot < artifacts.length) {
+            if (artifactOptions.size > 0 && currentSlot < artifacts.length) {
                 UnlockArtifact newArtifact = artifactOptions.get(MathUtils.random(artifactOptions.size - 1));
                 boolean artifactUnique = true;
 
@@ -620,7 +620,7 @@ public class BotLoadoutProcessor {
                 }
 
             }
-            if (0 < cosmeticOptions.size) {
+            if (cosmeticOptions.size > 0) {
                 cosmetics[index] = cosmeticOptions.get(MathUtils.random(cosmeticOptions.size - 1));
             }
             index++;
@@ -656,7 +656,7 @@ public class BotLoadoutProcessor {
                 break;
             //active items that require being withing range of enemies
             case JUMP_KICK, MARINE_SNOWGLOBE, ORBITAL_SHIELD, PLUS_MINUS, TAINTED_WATER:
-                if (weapon.isUsable() && 0.0f < distanceSquared &&
+                if (weapon.isUsable() && distanceSquared > 0.0f &&
                         weapon.getBotRangeMin() * weapon.getBotRangeMin() > distanceSquared) {
                     player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
                 } else {

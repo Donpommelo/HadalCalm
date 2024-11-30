@@ -25,9 +25,9 @@ public class PickupUtils {
         int modifiedAmount = amount;
 
         if (user instanceof Player player) {
-            if (statCheck && null != player.getPlayerData()) {
-                if (1.0f > player.getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount
-                        && 0 < player.getPlayerData().getStat(Stats.EXTRA_SCRAP)) {
+            if (statCheck && player.getPlayerData() != null) {
+                if (player.getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f
+                        && player.getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
                     modifiedAmount = amount + 1;
                 } else {
                     modifiedAmount = (int) (amount * (1 + player.getPlayerData().getStat(Stats.EXTRA_SCRAP)));

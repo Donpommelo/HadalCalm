@@ -356,6 +356,10 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * Host client requests level from headless server.
+				 * Use their mode settings and load the level
+				 */
 				else if (o instanceof Packets.ClientLevelRequest p) {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
@@ -445,7 +449,7 @@ public class KryoServer {
         		}
 
 				/*
-				 * The client has sen an entire loadout to replace with. Occurs from using Outfitter
+				 * The client has sent an entire loadout to replace with. Occurs from using Outfitter
 				 */
 				else if (o instanceof final PacketsLoadout.SyncWholeLoadout p) {
 					final PlayState ps = getPlayState();
@@ -601,6 +605,9 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * A host client is ready in the results state. Return to hub or go to next map based on their choice
+				 */
 				else if (o instanceof Packets.ClientNextMapResponse p) {
 					if (!StateManager.states.empty()) {
 						if (StateManager.states.peek() instanceof final ResultsState vs) {
@@ -614,11 +621,11 @@ public class KryoServer {
 				 */
 				else if (o instanceof final Packets.DeleteClientSelf p) {
 					final PlayState ps = getPlayState();
-					if (null != ps) {
+					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							User vic = usm.getUsers().get(c.getID());
-							if (null != vic) {
-								if (null != vic.getPlayer()) {
+							if (vic != null) {
+								if (vic.getPlayer() != null) {
 									HadalEntity perp = ps.findEntity(p.entityID);
 									if (perp instanceof Schmuck schmuck) {
 										vic.getPlayer().getPlayerData().die(schmuck.getBodyData(), p.source, p.tags);
@@ -636,7 +643,7 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.ActivateEvent p) {
 					final PlayState ps = getPlayState();
-					if (null != ps) {
+					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
@@ -660,7 +667,7 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.ActivateEventByTrigger p) {
 					final PlayState ps = getPlayState();
-					if (null != ps) {
+					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
@@ -683,10 +690,10 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.SyncPickup p) {
 					final PlayState ps = getPlayState();
-					if (null != ps) {
+					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							HadalEntity entity = ps.findEntity(p.entityID);
-							if (null != entity) {
+							if (entity != null) {
 								if (entity instanceof PickupEquip pickupEquip) {
 									pickupEquip.setEquip(UnlocktoItem.getUnlock(p.newPickup, null));
 								}
@@ -701,10 +708,10 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.SyncPickupTriggered p) {
 					final PlayState ps = getPlayState();
-					if (null != ps) {
+					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
-							if (null != event) {
+							if (event != null) {
 								if (event instanceof PickupEquip pickupEquip) {
 									pickupEquip.setEquip(UnlocktoItem.getUnlock(p.newPickup, null));
 									pickupEquip.setEquipChanged(true);
@@ -720,12 +727,12 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.RequestStartSyncedEvent p) {
 					final PlayState ps = getPlayState();
-					if (null != ps) {
+					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							Event event = TiledObjectUtil.getTriggeredEvents().get(p.triggeredID);
-							if (null != event) {
+							if (event != null) {
 								Object packet = event.onServerSyncInitial();
-								if (null != packet) {
+								if (packet != null) {
 									PacketManager.serverTCP(c.getID(), packet);
 								}
 							}
@@ -733,9 +740,12 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * Client has voted on a mode in the arcade break room.
+				 */
 				else if (o instanceof Packets.SyncClientModeVote p) {
 					final PlayState ps = getPlayState();
-					if (null != ps) {
+					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							User user = usm.getUsers().get(c.getID());
 							if (user != null) {
@@ -745,6 +755,9 @@ public class KryoServer {
 					}
 				}
 
+				/*
+				 * Host client has chosen to kick another player
+				 */
 				else if (o instanceof Packets.ClientYeet p) {
 					final PlayState ps = getPlayState();
 					if (null != ps) {
@@ -763,7 +776,7 @@ public class KryoServer {
 				 */
 				else if (o instanceof final Packets.SyncSharedSettings p) {
 					final PlayState ps = getPlayState();
-					if (null != ps) {
+					if (ps != null) {
 						ps.addPacketEffect(() -> {
 							JSONManager.sharedSetting = p.settings;
 							JSONManager.setting.setArtifactSlots(p.settings.getArtifactSlots());

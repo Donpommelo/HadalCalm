@@ -34,7 +34,7 @@ public class EnemyUtils {
 			public void execute() {
 				Event dummy = state.getDummyPoint(dummyId);
 
-				if (null != dummy) {
+				if (dummy != null) {
 					enemy.setMovementTarget(dummy, speed);
 				}
 			}
@@ -214,7 +214,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				if (null == target) { return; }
+				if (target == null) { return; }
 				
 				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());
 				enemy.setLinearVelocity(dist.nor().scl(moveSpeed));
@@ -229,7 +229,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				if (null == target) { return; }
+				if (target == null) { return; }
 				
 				enemy.setMovementTarget(null, moveSpeed);
 				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());
@@ -318,7 +318,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Event ceiling = state.getDummyPoint("ceiling");
-				if (null != ceiling) {
+				if (ceiling != null) {
 					SyncedAttack.BOSS_FALLING_DEBRIS.initiateSyncedAttackSingle(state, enemy,
 							new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
 							new Vector2());
@@ -333,7 +333,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Event ceiling = state.getDummyPoint("ceiling");
-				if (null != ceiling) {
+				if (ceiling != null) {
 					type.generateEnemy(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
 							enemy.getHitboxFilter(), extraField);
 				}
@@ -389,7 +389,7 @@ public class EnemyUtils {
 	
 	public static float ceilingHeight(PlayState state) {
 		Event ceiling = state.getDummyPoint("ceiling");
-		if (null != ceiling) {
+		if (ceiling != null) {
 			return ceiling.getPixelPosition().y;
 		} else {
 			return 0.0f;
@@ -398,7 +398,7 @@ public class EnemyUtils {
 	
 	public static float floorHeight(PlayState state) {
 		Event floor = state.getDummyPoint("floor");
-		if (null != floor) {
+		if (floor != null) {
 			return floor.getPixelPosition().y;
 		} else {
 			return 0.0f;
@@ -407,7 +407,7 @@ public class EnemyUtils {
 	
 	public static float getLeftSide(PlayState state) {
 		Event floor = state.getDummyPoint("floor");
-		if (null != floor) {
+		if (floor != null) {
 			return floor.getPixelPosition().x - floor.getSize().x / 2;
 		} else {
 			return 0.0f;
@@ -416,7 +416,7 @@ public class EnemyUtils {
 	
 	public static float getRightSide(PlayState state) {
 		Event floor = state.getDummyPoint("floor");
-		if (null != floor) {
+		if (floor != null) {
 			return floor.getPixelPosition().x + floor.getSize().x / 2;
 		} else {
 			return 0.0f;

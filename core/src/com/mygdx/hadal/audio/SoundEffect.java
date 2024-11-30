@@ -160,7 +160,7 @@ public enum SoundEffect {
 	 * This loads a selected sound from its filename
 	 */
 	public Sound loadSound() {
-		if (null == sound) {
+		if (sound == null) {
 			sound = Gdx.audio.newSound(Gdx.files.internal(soundFileName));
 		}
 		return sound;
@@ -172,7 +172,7 @@ public enum SoundEffect {
 	 */
 	public static void clearSound() {
 		for (SoundEffect effect: SoundEffect.values()) {
-			if (null != effect.sound) {
+			if (effect.sound != null) {
 				effect.sound.dispose();
 				effect.sound = null;
 			}
@@ -184,7 +184,7 @@ public enum SoundEffect {
 	 * This is run for player that dealt the damage and is run for both host or client
 	 */
 	public static void playHitSound(boolean large) {
-		if (0 != JSONManager.setting.getHitsound()) {
+		if (JSONManager.setting.getHitsound() != 0) {
 			
 			float pitch = 1.0f;
 			

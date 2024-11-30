@@ -60,7 +60,7 @@ public enum MusicTrack {
 	 * load the music if not already loaded and return it
 	 */
 	public Music getMusic() {
-		if (null == music) {
+		if (music == null) {
 			music = Gdx.audio.newMusic(Gdx.files.internal(musicFileName));
 		}
 		return music;
@@ -74,7 +74,7 @@ public enum MusicTrack {
 		for (MusicTrack track: MusicTrack.values()) {
 
 			//we don't want to dispose the current track because a playstate can be created while music stays the same
-			if (null != track.music && track != MusicPlayer.getCurrentTrack()) {
+			if (track.music != null && track != MusicPlayer.getCurrentTrack()) {
 				track.music.dispose();
 				track.music = null;
 			}
