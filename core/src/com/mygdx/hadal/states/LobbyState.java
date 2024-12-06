@@ -602,6 +602,13 @@ public class LobbyState extends GameState {
         }
     }
 
+    public String getServerName() {
+        if (enterName != null) {
+            return enterName.getText();
+        }
+        return "";
+    }
+
     /**
      * @return returns the player's public ip for hosting servers
      */

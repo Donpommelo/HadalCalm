@@ -65,7 +65,6 @@ public class KillFeed {
 
     private static final float SCALE = 0.25f;
 
-    //Reference to the gsm. Used to reference gsm fields.
     private final PlayState ps;
     private VerticalGroup feed, notification;
     private Table deathInfoTable;
@@ -169,7 +168,7 @@ public class KillFeed {
         messages.add(message);
         feed.addActor(message);
 
-        if (null != perp) {
+        if (perp != null) {
             if (perp.getUser() == HadalGame.usm.getOwnUser() && perp != vic) {
                 String vicName = TextUtil.getPlayerColorName(vic, MAX_NAME_LENGTH);
                 addNotification(UIText.YOU_HAVE_SLAIN.text(vicName), false);
@@ -237,12 +236,12 @@ public class KillFeed {
                 super.act(delta);
 
                 //increment displayed respawn time (does not actually control respawn, but should be same number)
-                if (0.0f < respawnTime) {
+                if (respawnTime > 0.0f) {
                     respawnTime -= delta;
 
                     formatDeathTimer();
 
-                    if (0.0f >= respawnTime) {
+                    if (respawnTime <= 0.0f) {
                         deathInfoTable.addAction(Actions.moveTo(DEATH_INFO_X, DEATH_INFO_Y, TRANSITION_DURATION, INTP_FASTSLOW));
                         deathInfoTable.setVisible(false);
                     }
@@ -282,7 +281,7 @@ public class KillFeed {
      */
     public void addKillInfo(float respawnTime) {
         deathInfoTable.clear();
-        if (!killedBy.isEmpty() && null != killerPerp) {
+        if (!killedBy.isEmpty() && killerPerp != null) {
             deathInfoTable.setHeight(DEATH_INFO_HEIGHT);
         } else {
             deathInfoTable.setHeight(DEATH_INFO_HEIGHT_SHORT);
@@ -314,7 +313,7 @@ public class KillFeed {
             deathInfoTable.add(deathPerp).pad(DEATH_INFO_PAD).row();
 
             //if there is a player killer, get their character bust to display in kill feed
-            if (null != killerPerp) {
+            if (killerPerp != null) {
                 HubOptionPlayer killerBustSprite = new HubOptionPlayer("", killerPerp,
                         killerPerp.getUser().getLoadoutManager().getActiveLoadout().character,
                         killerPerp.getUser().getLoadoutManager().getActiveLoadout().team,
@@ -380,7 +379,7 @@ public class KillFeed {
     public void setKillSource(Player perp, EnemyType type, DamageSource source) {
         killedBy = "";
         killerPerp = null;
-        if (null != perp) {
+        if (perp != null) {
             killerPerp = perp;
             if (perp.getUser() == HadalGame.usm.getOwnUser()) {
                 killedBy = UIText.DEATH_CAUSE_YOURSELF.text();
@@ -388,7 +387,7 @@ public class KillFeed {
                 killedBy = perp.getName();
             }
         }
-        if (null != type) {
+        if (type != null) {
             killedBy = type.getName();
         }
         this.deathCause = source.getKillSource();

@@ -931,7 +931,24 @@ public class Packets {
 			this.settings = settings;
 		}
 	}
-	
+
+	public static class SyncInitialHeadlessSettings extends SyncSharedSettings {
+		public String serverName;
+
+		public SyncInitialHeadlessSettings() {}
+
+		public SyncInitialHeadlessSettings(SharedSetting settings, String serverName) {
+			super(settings);
+			this.serverName = serverName;
+		}
+
+	}
+
+	public static class HeadlessHostRequest {
+
+		public HeadlessHostRequest() {}
+	}
+
 	public static class LatencySyn {
 		public float timestamp;
 		public int latency;
@@ -1148,8 +1165,10 @@ public class Packets {
     	kryo.register(CreateSound.class);
     	kryo.register(StartSpectate.class);
 		kryo.register(EndSpectate.class);
-    	kryo.register(SyncSharedSettings.class);
-    	kryo.register(LatencySyn.class);
+		kryo.register(SyncSharedSettings.class);
+		kryo.register(SyncInitialHeadlessSettings.class);
+		kryo.register(HeadlessHostRequest.class);
+		kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);
     	kryo.register(SyncExtraResultsInfo.class);
 		kryo.register(RemoveScore.class);

@@ -95,7 +95,7 @@ public class ChatWheel {
 				}
 
 				//decrement emote cooldown
-				if (0.0f < emoteCount) {
+				if (emoteCount > 0.0f) {
 					emoteCount -= delta;
 				}
 
@@ -156,10 +156,10 @@ public class ChatWheel {
 			if (active) {
 				int option = wheel.getHoveredIndex();
 
-				if (-1 != option && option < OPTIONS.length) {
+				if (option != -1 && option < OPTIONS.length) {
 
 					//if emote is off cooldown, execute the emote
-					if (0.0f >= emoteCount) {
+					if (emoteCount <= 0.0f) {
 						emoteCount = EMOTE_CD;
 						//server processes the emote. clients send packet to server
 						if (state.isServer()) {
@@ -182,13 +182,13 @@ public class ChatWheel {
 	 */
 	public void emote(Player player, int emoteIndex, int connID) {
 		//special logic for the emote that does a chat command (/roll)
-		if (6 == emoteIndex) {
+		if (emoteIndex == 6) {
 			ConsoleCommandUtil.parseChatCommand(state, player, OPTIONS[emoteIndex], connID);
 		} else {
 			HadalGame.server.addChatToAll(state, OPTIONS[emoteIndex], DialogType.SYSTEM, connID);
 		}
-		if (null != player) {
-			if (null != player.getPlayerData()) {
+		if (player != null) {
+			if (player.getPlayerData() != null) {
 				SyncedAttack.EMOTE.initiateSyncedAttackSingle(state, player, new Vector2(), new Vector2(), emoteIndex);
 			}
 		}

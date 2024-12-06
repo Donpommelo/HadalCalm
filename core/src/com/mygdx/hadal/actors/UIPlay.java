@@ -130,8 +130,8 @@ public class UIPlay extends AHadalActor {
 		Player player = HadalGame.usm.getOwnPlayer();
 
 		//Calc the fields needed to draw the bars
-		if (null != player) {
-			if (null != player.getPlayerData()) {
+		if (player != null) {
+			if (player.getPlayerData() != null) {
 				hpCurrent = player.getPlayerData().getCurrentHp();
 				hpMax = player.getPlayerData().getStat(Stats.MAX_HP);
 				hpRatio = hpCurrent / hpMax;
@@ -142,6 +142,7 @@ public class UIPlay extends AHadalActor {
 				numWeaponSlots = player.getEquipHelper().getNumWeaponSlots();
 				activePercent = player.getMagicHelper().getMagic().chargePercent();
 
+				//conditional hp shows up the same way as delayed health loss, but will decrement more slowly
 				hpConditional = player.getSpecialHpHelper().getConditionalHp();
 
 				if (hpConditional != 0.0f) {
@@ -151,7 +152,7 @@ public class UIPlay extends AHadalActor {
 			}
 		}
 
-		if (bossFight && null != boss.getBody()) {
+		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
 			bossHpRatio = BOSS_HP_FLOOR + (bossHpRatio * (1 - BOSS_HP_FLOOR));
 		}
@@ -163,7 +164,7 @@ public class UIPlay extends AHadalActor {
 	@Override
 	public void act(float delta) {
 
-		if (0 == hpConditional) {
+		if (hpConditional == 0) {
 			uiAccumulator += delta;
 			while (UI_TIME <= uiAccumulator) {
 				uiAccumulator -= UI_TIME;
@@ -179,7 +180,7 @@ public class UIPlay extends AHadalActor {
 		//This makes low Hp indicator blink at low health
 		if (HP_LOW_THRESHOLD >= hpRatio) {
 			blinkCdCount -= delta;
-			if (0 > blinkCdCount) {
+			if (blinkCdCount < 0) {
 				blinking = !blinking;
 				blinkCdCount = BLINK_CD;
 			}
@@ -195,7 +196,7 @@ public class UIPlay extends AHadalActor {
 		calcVars();
 
 		//Draw boss hp bar, if existent. Do this before player check so spectators can see boss hp
-		if (bossFight && null != boss.getBody()) {
+		if (bossFight && boss.getBody() != null) {
 			FONT_UI.getData().setScale(FONT_SCALE_SMALL);
 			FONT_UI.draw(batch, bossName, BOSS_NAME_X, BOSS_NAME_Y);
 			
@@ -218,8 +219,8 @@ public class UIPlay extends AHadalActor {
 
 		Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-		if (null == ownPlayer) { return; }
-		if (null == ownPlayer.getPlayerData()) { return; }
+		if (ownPlayer == null) { return; }
+		if (ownPlayer.getPlayerData() == null) { return; }
 		if (!ownPlayer.isAlive()) { return; }
 
 		//hide rest of ui if specified in settings. We don't want to hide boss ui.
@@ -249,7 +250,7 @@ public class UIPlay extends AHadalActor {
 		MAIN_X + 48, MAIN_Y + 90, 100, -1, true);
 
 		//we want to use a smaller font for high clip size weapons
-		if (5 < weaponText.length()) {
+		if (weaponText.length() > 5) {
 			FONT_UI.getData().setScale(FONT_SCALE_MEDIUM);
 		} else {
 			FONT_UI.getData().setScale(FONT_SCALE_LARGE);
@@ -277,7 +278,7 @@ public class UIPlay extends AHadalActor {
 		//draw active item ui and charge indicator
 		FONT_UI.draw(batch, ownPlayer.getMagicHelper().getMagic().getName(),
 				ACTIVE_X, MAIN_Y + activeHeightScaled + ACTIVE_TEXT_Y);
-		if (1.0f <= activePercent) {
+		if (activePercent >= 1.0f) {
 			batch.draw(hp, ACTIVE_X, ACTIVE_Y, activeWidthScaled, activeHeightScaled * activePercent);
 		} else {
 			batch.draw(hpMissing, ACTIVE_X, ACTIVE_Y, activeWidthScaled, activeHeightScaled * activePercent);

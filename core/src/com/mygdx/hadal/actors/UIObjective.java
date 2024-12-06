@@ -38,7 +38,7 @@ public class UIObjective extends AHadalActor {
 	public void controller() {
 		//draw all objective markers. Delete the ones attached to dead objects
 		for (ObjectiveMarker marker : objectives) {
-			if (null != marker.getObjectiveTarget()) {
+			if (marker.getObjectiveTarget() != null) {
 				if (!marker.getObjectiveTarget().isAlive()) {
 					objectivesToRemove.add(marker);
 				}

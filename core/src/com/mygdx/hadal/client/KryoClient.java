@@ -659,8 +659,21 @@ public class KryoClient {
 			}
 		}
 
+		/*
+		 * Headless server host has changed; update host indicator
+		 */
 		else if (o instanceof Packets.ServerNewHost p) {
 			HadalGame.usm.setHostID(p.hostID);
+		}
+
+		else if (o instanceof Packets.HeadlessHostRequest p) {
+
+			if (!StateManager.states.isEmpty()) {
+				if (StateManager.states.peek() instanceof LobbyState lobbyState) {
+					Gdx.app.postRunnable(() -> PacketManager.clientTCP(
+							new Packets.SyncInitialHeadlessSettings(JSONManager.sharedSetting, lobbyState.getServerName())));
+				}
+			}
 		}
 	}
 

@@ -42,7 +42,7 @@ public class UIArtifacts {
 
 		//When starting up normally, the player's data is not loaded yet, and we do not need to sync.
 		//data will also be null if the player spawns in as a spectator
-		if (null != HadalGame.usm.getOwnUser()) {
+		if (HadalGame.usm.getOwnUser() != null) {
 			for (UnlockArtifact a : HadalGame.usm.getOwnUser().getLoadoutManager().getActiveLoadout().artifacts) {
 				if (!UnlockArtifact.NOTHING.equals(a)) {
 					addTag(a);

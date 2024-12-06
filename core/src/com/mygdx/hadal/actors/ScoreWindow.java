@@ -235,7 +235,7 @@ public class ScoreWindow {
 		//ui height scales to number of options available
 		float height = OPTIONS_HEIGHT;
 		if (HadalGame.usm.isHost()) {
-			if (0 != connID) {
+			if (connID != 0) {
 				height += OPTIONS_EXTRA_HEIGHT;
 			}
 		}
@@ -247,7 +247,7 @@ public class ScoreWindow {
 		tableOptions.setPosition(x, y);
 
 		//user can mute/unmute players
-		if (null != user) {
+		if (user != null) {
 			Text mute = new Text("").setButton(true);
 			if (user.isMuted()) {
 				mute.setText(UIText.UNMUTE.text());

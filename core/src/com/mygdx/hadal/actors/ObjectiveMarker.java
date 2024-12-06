@@ -80,7 +80,7 @@ public class ObjectiveMarker {
     private final Vector2 objectiveLocation = new Vector2();
     private final Vector3 centerPosition = new Vector3();
     public void draw(Batch batch) {
-        if (null != objectiveTarget) {
+        if (objectiveTarget != null) {
 
             objectiveLocation.set(objectiveTarget.getPixelPosition());
 
@@ -142,9 +142,9 @@ public class ObjectiveMarker {
 
         //if client is trying to track a nonexistent entity, we search for it here
         if (!state.isServer()) {
-            if (null != objectiveTargetID) {
+            if (objectiveTargetID != null) {
                 HadalEntity newObjective = state.findEntity(objectiveTargetID);
-                if (null != newObjective) {
+                if (newObjective != null) {
                     objectiveTarget = newObjective;
                     objectiveTargetID = null;
                 }
@@ -159,7 +159,7 @@ public class ObjectiveMarker {
      * This finds the location of the current game objective. Used for bot ai as well as some shaders
      */
     public Vector2 getObjectiveLocation() {
-        if (null != objectiveTarget) {
+        if (objectiveTarget != null) {
             lastLocation.set(objectiveTarget.getPixelPosition());
         }
         return lastLocation;

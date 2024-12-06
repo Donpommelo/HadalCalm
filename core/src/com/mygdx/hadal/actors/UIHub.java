@@ -210,7 +210,7 @@ public class UIHub {
 			tagFilter = new SelectBox<>(SKIN);
 			tagFilter.setItems(hub.getSearchTags());
 
-			if (null != hub.getLastTag()) {
+			if (hub.getLastTag() != null) {
 				for (String tagName : hub.getSearchTags()) {
 					if (tagName.equals(hub.getLastTag().name())) {
 						tagFilter.setSelected(tagName);
@@ -323,7 +323,7 @@ public class UIHub {
 
 		tableOuter.addAction(Actions.sequence(Actions.moveTo(TABLE_X, TABLE_Y, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
 			Actions.run(() -> {
-				if (null != state.getStage()) {
+				if (state.getStage() != null) {
 					if (options == state.getStage().getScrollFocus()) {
 						state.getStage().setScrollFocus(null);
 					}
@@ -349,8 +349,12 @@ public class UIHub {
 		}
 	}
 
+	/**
+	 * This refreshes the last hub event and is run when receiving an artifact sync from the server
+	 * This uns after processing artifact selling/buying by the server and updates the hub even with updated options and currency
+	 */
 	public void refreshHubOptions() {
-		if (null != lastHubEvent) {
+		if (lastHubEvent != null) {
 			lastHubEvent.leave();
 			lastHubEvent.enter();
 		}
@@ -370,9 +374,9 @@ public class UIHub {
 
 		Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-		if (null == ownPlayer) { return; }
+		if (ownPlayer == null) { return; }
 
-		if (null != ownPlayer.getPlayerData()) {
+		if (ownPlayer.getPlayerData() != null) {
 			for (UnlockArtifact c : ownPlayer.getUser().getLoadoutManager().getActiveLoadout().artifacts) {
 
 				//display all equipped artifacts and give option to unequip
@@ -459,7 +463,7 @@ public class UIHub {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				if (null != outfits.getSelected()) {
+				if (outfits.getSelected() != null) {
 					JSONManager.outfits.removeOutfit(outfits.getSelected());
 				}
 				hub.enter();
@@ -478,7 +482,7 @@ public class UIHub {
 
 		Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-		if (null == ownPlayer) { return; }
+		if (ownPlayer == null) { return; }
 
 		Text slotsTitle = new Text(UIText.UI_SCRAP.text(String.valueOf(HadalGame.usm.getOwnUser().getScoreManager().getCurrency())));
 		slotsTitle.setScale(0.5f);
@@ -506,7 +510,7 @@ public class UIHub {
 	 * Helper method that returns a tag depending on which hub event is being used
 	 */
 	private UnlockTag indexToFilterTag() {
-		if (null == tagFilter) {
+		if (tagFilter == null) {
 			return UnlockTag.ALL;
 		} else {
 			return switch (tagFilter.getSelectedIndex()) {
@@ -530,7 +534,7 @@ public class UIHub {
 	 * 	this converts slot cost filter to actual slot cost (because 0 indexing)
 	 */
 	private int indexToFilterSlot() {
-		if (null == slotsFilter) {
+		if (slotsFilter == null) {
 			return -1;
 		} else {
 			return slotsFilter.getSelectedIndex() - 1;

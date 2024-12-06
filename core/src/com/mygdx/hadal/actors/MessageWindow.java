@@ -152,7 +152,7 @@ public class MessageWindow {
 			}
 
 			//sync controller to avoid sticky keys (set all keys to current held position)
-			if (null != state.getController()) {
+			if (state.getController() != null) {
 				((PlayerController) state.getController()).syncController();
 			}
 			fadeOut();
@@ -165,7 +165,7 @@ public class MessageWindow {
 			stage.setScrollFocus(textLog);
 
 			//reset controller to avoid sticky keys (releases all held keys)
-			if (null != state.getController()) {
+			if (state.getController() != null) {
 				((PlayerController) state.getController()).resetController();
 			}
 			fadeIn();
@@ -186,9 +186,9 @@ public class MessageWindow {
 				if (state.isServer()) {
 
 					//if this is a console commend, execute it. (if it is used by host and console is enabled)
-					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText(), HadalGame.usm.getConnID())) {
+					if (ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText(), HadalGame.usm.getConnID()) == -1) {
 						if (JSONManager.setting.isConsoleEnabled()) {
-							if (-1 == ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText())) {
+							if (ConsoleCommandUtil.parseConsoleCommand(state, enterMessage.getText()) == -1) {
 								HadalGame.server.addChatToAll(state, enterMessage.getText(), DialogType.DIALOG, HadalGame.usm.getConnID());
 							}
 						} else {
@@ -197,7 +197,7 @@ public class MessageWindow {
 					}
 				} else {
 					//if this is a chat command, execute it.
-					if (-1 == ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText(), HadalGame.usm.getConnID())) {
+					if (ConsoleCommandUtil.parseChatCommand(state, HadalGame.usm.getOwnPlayer(), enterMessage.getText(), HadalGame.usm.getConnID()) == -1) {
 						PacketManager.clientTCP(new Packets.ClientChat(enterMessage.getText(), DialogType.DIALOG));
 					}
 				}
@@ -273,7 +273,7 @@ public class MessageWindow {
             		//if typing, we notify other players that we are typing to display the speech bubble
             		if (typing) {
             			typing = false;
-						if (null != HadalGame.usm.getOwnPlayer()) {
+						if (HadalGame.usm.getOwnPlayer() != null) {
 							HadalGame.usm.getOwnPlayer().getUiHelper().startTyping();
 						}
             		}
@@ -347,14 +347,14 @@ public class MessageWindow {
 		User user = HadalGame.usm.getUsers().get(connID);
 
 		//do not display messages from muted players
-		if (null != user) {
+		if (user != null) {
 			if (!user.isMuted()) {
 				String newText;
 
 				//system messages are all red.
 				if (DialogType.SYSTEM.equals(type)) {
 					newText = "[RED]" + user.getStringManager().getNameShort() + ": " + text + " []";
-				} else if (null == user.getPlayer()) {
+				} else if (user.getPlayer() == null) {
 
 					//text is white if player is a spectator or otherwise has no player
 					newText = "[WHITE]" + user.getStringManager().getNameShort() + ": " + text + " []";

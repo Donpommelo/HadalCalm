@@ -60,6 +60,8 @@ public class KryoServer {
 	//name of the server to be displayed in the lobby state
 	private String serverName = "";
 
+	private boolean headless, hostSet;
+
 	public KryoServer(UserManager userManager) {
 		this.usm = userManager;
 	}
@@ -90,6 +92,7 @@ public class KryoServer {
 		usm.resetUsers();
 		usm.setConnID(0);
 
+		this.headless = headless;
 		if (!headless) {
 			usm.addUserServer(new User(0, JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 		}
@@ -97,7 +100,17 @@ public class KryoServer {
 		if (!start) { return; }
 
 		Listener packetListener = new Listener() {
-			
+
+			@Override
+			public void connected(final Connection c) {
+				if (headless && !hostSet) {
+					hostSet = true;
+					Gdx.app.postRunnable(() -> {
+						PacketManager.serverTCP(c.getID(), new Packets.HeadlessHostRequest());
+					});
+				}
+			}
+
 			@Override
 			public void disconnected(final Connection c) {
 				User user = usm.getUsers().get(c.getID());
@@ -781,6 +794,10 @@ public class KryoServer {
 							JSONManager.sharedSetting = p.settings;
 							JSONManager.setting.setArtifactSlots(p.settings.getArtifactSlots());
 							ps.getUIManager().getScoreWindow().syncSettingTable();
+
+							if (p instanceof Packets.SyncInitialHeadlessSettings headlessSettings) {
+								serverName = headlessSettings.serverName;
+							}
 						});
 					}
 				}
