@@ -1,1 +1,0 @@
-java -jar HadalCalm-1.0.1314.jar > server_output.log 2>&1 
