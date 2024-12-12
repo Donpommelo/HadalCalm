@@ -65,8 +65,8 @@ jobs:
         username: ec2-user
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
-        source: ./server/build/lib/HadalServer.jar
-        target: ~/HadalServer.jar
+        source: server/build/lib/HadalServer.jar
+        target: ~/project
 
     - name: SSH into EC2 and Deploy Server
       uses: appleboy/ssh-action@v1.2.0
