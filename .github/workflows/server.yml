@@ -29,20 +29,21 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+        aws-region: us-east-2
         
     - name: Start EC2 Instance
       run: |
         INSTANCE_ID=i-03d7994f355793647
         echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
-        aws ec2 start-instances --instance-ids $INSTANCE_ID --region us-east-2
-        aws ec2 wait instance-running --instance-ids $INSTANCE_ID --region us-east-2
+        aws ec2 start-instances --instance-ids $INSTANCE_ID
+        aws ec2 wait instance-running --instance-ids $INSTANCE_ID
         
     - name: Get EC2 Public IP
       run: |
         PUBLIC_IP=$(aws ec2 describe-instances \
           --instance-ids ${{ env.INSTANCE_ID }} \
-          --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+          --query "Reservations[0].Instances[0].PublicIpAddress" \
+          --output text)
         echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
 
     - name: Clean up old files
@@ -88,11 +89,14 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+        aws-region: us-east-2
 
     - name: Create AMI
       run: |
-        aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} --name "HadalServerAMI-$(date +%Y-%m-%d)" --no-reboot
+        aws ec2 create-image \
+        --instance-id ${{ env.INSTANCE_ID }} \
+        --name "HadalServerAMI-$(date +%Y-%m-%d)" \
+        --no-reboot
         echo "AMI created successfully."
 
     - name: Stop EC2 Instance
