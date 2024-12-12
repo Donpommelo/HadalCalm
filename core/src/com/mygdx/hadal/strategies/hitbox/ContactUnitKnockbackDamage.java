@@ -56,6 +56,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 
 				final BodyData vic = (BodyData) fixB;
 
+				//debuff target's mobility so they cannot easily cancel the knockback momentul
 				vic.addStatus(new Status(state, LIFESPAN, false, creator, vic) {
 
 					@Override

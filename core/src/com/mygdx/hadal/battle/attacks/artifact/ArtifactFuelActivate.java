@@ -5,7 +5,9 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -23,7 +25,9 @@ public class ArtifactFuelActivate extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        SoundEffect.MAGIC2_FUEL.playSourced(state, user.getPixelPosition(), 0.4f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC2_FUEL)
+                .setVolume(0.4f)
+                .setPosition(startPosition));
 
         ((Player) user).getArtifactIconHelper().addArtifactFlash(effectSource);
 

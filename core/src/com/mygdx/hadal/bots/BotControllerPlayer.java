@@ -49,20 +49,20 @@ public class BotControllerPlayer extends BotController {
             player.incrementWeaponWobble(delta);
         }
 
-        if (0.0f < jumpDesireCount) {
+        if (jumpDesireCount > 0.0f) {
             jumpDesireCount -= delta;
-            if (0.0f >= jumpDesireCount) {
+            if (jumpDesireCount <= 0.0f) {
                 player.getController().keyUp(PlayerAction.JUMP);
             }
         }
 
-        if (0.0f < noFuelWaitCount) {
+        if (noFuelWaitCount > 0.0f) {
             noFuelWaitCount -= delta;
         }
 
-        if (0.0f < shootReleaseCount) {
+        if (shootReleaseCount > 0.0f) {
             shootReleaseCount -= delta;
-            if (0.0f >= shootReleaseCount) {
+            if (shootReleaseCount <= 0.0f) {
                 player.getController().keyUp(PlayerAction.FIRE);
             }
         }
@@ -77,8 +77,6 @@ public class BotControllerPlayer extends BotController {
             boostDesireCount = BOOST_DESIRE_COOLDOWN;
             player.getController().keyDown(PlayerAction.BOOST);
             player.getController().keyUp(PlayerAction.BOOST);
-
-//            player.getMouseHelper().setDesiredLocation(preBoostMouseLocation.x, preBoostMouseLocation.y);
         }
     }
 
@@ -110,7 +108,7 @@ public class BotControllerPlayer extends BotController {
      */
     @Override
     public void processBotAttacking(Vector2 playerLocation, Vector2 playerVelocity) {
-        if (null != shootTarget) {
+        if (shootTarget != null) {
             shootTargetPosition.set(shootTarget.getPosition());
             BotLoadoutProcessor.processWeaponSwitching(player, playerLocation, shootTargetPosition, shootTarget.isAlive());
             BotLoadoutProcessor.processWeaponAim(player, shootTargetPosition, shootTarget.getLinearVelocity(),
@@ -148,25 +146,25 @@ public class BotControllerPlayer extends BotController {
         }
 
         //x-direction movement simply decided by direction
-        if (0 < thisLocation.x) {
+        if (thisLocation.x > 0) {
             player.getController().keyDown(PlayerAction.WALK_RIGHT);
             player.getController().keyUp(PlayerAction.WALK_LEFT);
         }
-        if (0 > thisLocation.x) {
+        if (thisLocation.x < 0) {
             player.getController().keyDown(PlayerAction.WALK_LEFT);
             player.getController().keyUp(PlayerAction.WALK_RIGHT);
         }
 
         //if moving upwards, bot will use jumps if available and hover otherwise
-        if (0 < thisLocation.y) {
-            if (0 >= jumpDesireCount) {
+        if (thisLocation.y > 0) {
+            if (jumpDesireCount <= 0) {
                 if (player.getJumpHelper().getExtraJumpsUsed() < player.getJumpHelper().getExtraJumps()) {
                     player.getController().keyDown(PlayerAction.JUMP);
                     player.getController().keyUp(PlayerAction.JUMP);
                     jumpDesireCount = JUMP_DESIRE_COOLDOWN;
                 } else {
                     if (player.getPlayerData().getCurrentFuel() >= player.getJumpHelper().getHoverCost()) {
-                        if (0 >= noFuelWaitCount) {
+                        if (noFuelWaitCount <= 0) {
                             player.getController().keyDown(PlayerAction.JUMP);
                             jumpDesireCount = JUMP_DESIRE_COOLDOWN;
                         }
@@ -181,7 +179,7 @@ public class BotControllerPlayer extends BotController {
 
         //in appropriate situations, bots will use fastfall
         if (((-FASTFALL_DIST_THRESHOLD > thisLocation.y && !player.getGroundedHelper().isGrounded()) ||
-                (0 > thisLocation.y && !player.getFeetData().getTerrain().isEmpty()))
+                (thisLocation.y < 0 && !player.getFeetData().getTerrain().isEmpty()))
                 && FASTFALL_VELO_THRESHOLD < player.getLinearVelocity().y) {
             player.getController().keyDown(PlayerAction.CROUCH);
         } else {
@@ -194,7 +192,7 @@ public class BotControllerPlayer extends BotController {
     public Array<RallyPoint.RallyPointMultiplier> getTargetPoints(Vector2 playerLocation, float multiplier) {
         Array<RallyPoint.RallyPointMultiplier> targetPoints = super.getTargetPoints(playerLocation,
                 1.0f + player.getViolenceDesireMultiplier());
-        if (null != shootTarget) {
+        if (shootTarget != null) {
             if (!shootTarget.equals(lastShootTarget)) {
                 player.resetWeaponWobble();
             }
@@ -230,7 +228,7 @@ public class BotControllerPlayer extends BotController {
             weaponEvent = weaponPointTarget.target();
 
             //bots desire weapons more if they are not content with their current loadout and less if they are
-            if (null != weaponPointTarget.point()) {
+            if (weaponPointTarget.point() != null) {
                 if (WEAPON_THRESHOLD_1 > totalAffinity) {
                     weaponDesireMultiplier = WEAPON_MULTIPLIER_1;
                 }

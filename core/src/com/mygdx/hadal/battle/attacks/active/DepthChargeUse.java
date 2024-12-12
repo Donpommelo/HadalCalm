@@ -5,6 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -33,7 +35,9 @@ public class DepthChargeUse extends SyncedAttacker {
                 if (procCdCount >= PROC_CD) {
                     procCdCount -= PROC_CD;
 
-                    SoundEffect.EXPLOSION6.playUniversal(state, explosionPos, 0.8f, false);
+                    SoundManager.play(state, new SoundLoad(SoundEffect.EXPLOSION6)
+                            .setVolume(0.8f)
+                            .setPosition(explosionPos));
 
                     WeaponUtils.createExplosion(state, explosionPos, EXPLOSION_SIZE.x, user, EXPLOSION_DAMAGE,
                             EXPLOSION_KNOCKBACK, user.getHitboxFilter(), true, DamageSource.DEPTH_CHARGE);

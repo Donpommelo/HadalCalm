@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -44,7 +46,10 @@ public class Diatom extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.FUTURE_GUN15.playSourced(state, startPosition, 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.FUTURE_GUN15)
+                .setVolume(0.5f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         float effectiveRange = 0.0f;

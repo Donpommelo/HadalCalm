@@ -79,7 +79,6 @@ public enum UIText {
     HITSOUND_VOLUME("AUDIO_HITSOUND_VOLUME"),
     HITSOUND_OPTIONS("AUDIO_HITSOUND_OPTIONS"),
     SERVER_SIZE("SERVER_MAX_SIZE"),
-    PORT_NUMBER("SERVER_PORT"),
     SERVER_PASSWORD("SERVER_PASSWORD"),
     ARTIFACT_SLOTS("SERVER_ARTIFACT_SLOTS"),
     NAME_ALLITERATION("MISC_NAME_ALLITERATION"),
@@ -100,6 +99,7 @@ public enum UIText {
     SERVER_NAME_DEFAULT("LOBBY_SERVER_NAME_DEFAULT"),
     SERVER_SETTING_CHANGE("LOBBY_SERVER_SETTING_CHANGE"),
     SERVER_CREATE("LOBBY_SERVER_CREATE"),
+    SERVER_CREATE_LOCAL("LOBBY_SERVER_CREATE_LOCAL"),
     SEARCHING_SERVER("LOBBY_NOTIF_SEARCHING_SERVER"),
     SEARCHING_MM("LOBBY_NOTIF_SEARCHING_MM"),
     CONNECTED("LOBBY_NOTIF_CONNECTED"),
@@ -442,13 +442,13 @@ public enum UIText {
      * @return String to be displayed in game
      */
     public String text(String... replace) {
-        if (null == JSONManager.uiStrings) { return ""; }
+        if (JSONManager.uiStrings == null) { return ""; }
 
         //no replacements means a static text. Read from file and cache
-        if (0 == replace.length) {
-            if (null == cachedText) {
+        if (replace.length == 0) {
+            if (cachedText == null) {
                 JsonValue text = JSONManager.uiStrings.get(key);
-                if (null != text) {
+                if (text != null) {
                     cachedText = text.asString();
                 } else {
                     cachedText = JSONManager.uiStrings.get(STRING_NOT_FOUND.key).asString();
@@ -459,10 +459,10 @@ public enum UIText {
 
             //iterate through replace tags and replace with input strings
             JsonValue text = JSONManager.uiStrings.get(key);
-            if (null != text) {
+            if (text != null) {
                 String tempText = text.asString();
                 for (int i = 0; i < replace.length; i++) {
-                    if (null != replace[i]) {
+                    if (replace[i] != null) {
                         tempText = tempText.replace("<s" + i + ">", replace[i]);
                     }
                 }

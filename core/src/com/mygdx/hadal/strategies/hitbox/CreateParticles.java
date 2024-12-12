@@ -41,6 +41,7 @@ public class CreateParticles extends HitboxStrategy {
 	//velocity of particles. Used for things like airblast bubble movement
 	private float velocity;
 
+	//offset of particles. Used for hitboxes that are not centered on the attached entity
 	private float offsetX, offsetY;
 
 	private SyncType syncType = SyncType.NOSYNC;

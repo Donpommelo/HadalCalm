@@ -55,7 +55,6 @@ public class Eggplant extends SyncedAttacker {
 
                     @Override
                     public void onPickup(HadalData picker) {
-
                         if (picker instanceof PlayerBodyData playerBodyData) {
                             //in single player, scrap gives the player 1 unit of currency
                             if (StateManager.currentMode == StateManager.Mode.SINGLE) {

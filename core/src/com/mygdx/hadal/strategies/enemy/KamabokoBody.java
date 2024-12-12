@@ -13,6 +13,10 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 
+/**
+ * This contains several visual effects associated with kamaboko enemies.
+ * This includes death particles and randomized face sprite
+ */
 public class KamabokoBody extends EnemyStrategy {
 
     private static final int SMILE_OFFSET = 200;

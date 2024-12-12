@@ -34,8 +34,8 @@ public class Puffballer extends RangedWeapon {
 	private final Vector2 pos1 = new Vector2();
 
 	public Puffballer(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN);
 	}
 
 	private final Vector2 newVelocity = new Vector2();

@@ -1,3 +1,6 @@
+sourceSets.main.java.srcDirs = [ "src/" ]
+project.ext.assetsDir = new File("../core/assets")
+
 buildscript {
     repositories {
         gradlePluginPortal()
@@ -11,21 +14,14 @@ buildscript {
 
 if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
     apply plugin: 'org.beryx.runtime'
-}
-else {
+} else {
     apply plugin: 'application'
 }
-
-sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
-sourceSets.main.java.srcDirs = [ "src/" ]
-mainClassName = 'com.mygdx.hadal.desktop.DesktopLauncher'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
-
-project.ext.assetsDir = new File("../core/assets")
 
 dependencies {
     implementation project(":core")
@@ -39,7 +35,7 @@ def jarName = "${appName}-${version}.jar"
 def os = System.properties['os.name'].toLowerCase(Locale.ROOT)
 
 run {
-    workingDir = rootProject.file('assets').path
+    mainClass = 'com.mygdx.hadal.desktop.DesktopLauncher'
     setIgnoreExitValue(true)
 }
 
@@ -50,7 +46,6 @@ jar {
     dependsOn configurations.runtimeClasspath
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     exclude('linux/arm32/**', 'linux/arm64/**', 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
-
     from files(project.assetsDir)
 
 //    project.delete("../core/assets/save/ChatLog.json")
@@ -65,20 +60,9 @@ jar {
     }
 
     manifest {
-        attributes 'Main-Class': project.mainClassName
+        attributes 'Main-Class': run.mainClass
     }
 }
-
-//task proguard(type : proguard.gradle.ProGuardTask) {
-//    outputs.upToDateWhen { false }
-//    configuration 'proguard-rules.pro'
-//    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
-//
-//    injars "build/lib/${appName}-Demo.jar"
-//    outjars "build/lib/${appName}.jar"
-//}
-//
-//proguard.dependsOn jar
 
 if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_14)) {
     runtime {

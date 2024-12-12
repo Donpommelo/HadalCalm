@@ -22,6 +22,12 @@ import com.mygdx.hadal.users.User;
 
 import static com.mygdx.hadal.users.Transition.LONG_FADE_DELAY;
 
+/**
+ * The AllyRevive setting makes players drop graves upon death.
+ * Instead of respawning after a duration, players must be revived by an ally that stands near the grave.
+ * Respawn time increases each time the player is revived.
+ * Used in pve modes, as well as resurrectionist
+ */
 public class AllyRevive extends ModeSetting {
 
     @Override
@@ -115,6 +121,7 @@ public class AllyRevive extends ModeSetting {
                     float reviveTimer = numReviveTimer(vic.getUser().getScoreManager().getExtraModeScore());
                     vic.getUser().getScoreManager().setExtraModeScore(vic.getUser().getScoreManager().getExtraModeScore() + 1);
 
+                    //revive stone created upon death. Avoid unreachable graces by spawning at player start location instead
                     if (DamageSource.MAP_FALL.equals(source)) {
                         new ReviveGravestone(state, vic.getStart().getPixelPosition(), vic.getUser(), reviveTimer, vic.getStart());
                     } else {
@@ -131,7 +138,7 @@ public class AllyRevive extends ModeSetting {
     public void processAIPath(PlayState state, PlayerBot bot, Vector2 playerLocation,
                               Array<RallyPoint.RallyPointMultiplier> path) {
         state.getWorld().QueryAABB((fixture -> {
-                    //check for allied grave markers in thte bot's vinicity and find a path towards a random one
+                    //check for allied grave markers in thte bot's vicinity and find a path towards a random one
                     if (fixture.getUserData() instanceof final EventData eventData) {
                         if (eventData.getEvent() instanceof final ReviveGravestone grave) {
                             if (grave.getGraveTeam() == bot.getUser().getLoadoutManager().getActiveLoadout().team) {

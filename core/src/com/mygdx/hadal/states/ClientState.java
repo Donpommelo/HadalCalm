@@ -10,7 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.input.CommonController;
 import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -19,8 +19,7 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.TiledObjectUtil;
-
-import java.util.UUID;
+import com.mygdx.hadal.utils.UUIDUtil;
 
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 
@@ -32,16 +31,16 @@ import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 public class ClientState extends PlayState {
 	
 	//This is a set of all non-hitbox entities in the world mapped from their entityID
-	private final OrderedMap<UUID, HadalEntity> entities = new OrderedMap<>();
+	private final OrderedMap<Integer, HadalEntity> entities = new OrderedMap<>();
 	
 	//This is a set of all hitboxes mapped from their unique entityID
-	private final OrderedMap<UUID, HadalEntity> hitboxes = new OrderedMap<>();
+	private final OrderedMap<Integer, HadalEntity> hitboxes = new OrderedMap<>();
 
 	//This is a set of all particle effects mapped from their unique entityID
-	private final OrderedMap<UUID, HadalEntity> effects = new OrderedMap<>();
+	private final OrderedMap<Integer, HadalEntity> effects = new OrderedMap<>();
 
 	//this is a list containing all the aforementioned entity lists
-	private final Array<OrderedMap<UUID, HadalEntity>> entityLists = new Array<>();
+	private final Array<OrderedMap<Integer, HadalEntity>> entityLists = new Array<>();
 
 	//This is a list of sync instructions. It contains [entityID, object to be synced]
 	private final Array<SyncPacket> sync = new Array<>();
@@ -50,8 +49,8 @@ public class ClientState extends PlayState {
 	private final Vector3 mousePosition = new Vector3();
 
 	//This is the time since the last missed create packet we send the server. Kept track of to avoid sending too many at once.
-	private final ObjectMap<UUID, Float> timeSinceLastMissedCreate = new ObjectMap<>();
-	private final Array<UUID> missedCreatesToRemove = new Array<>();
+	private final ObjectMap<Integer, Float> timeSinceLastMissedCreate = new ObjectMap<>();
+	private final Array<Integer> missedCreatesToRemove = new Array<>();
 
 	public ClientState(HadalGame app, UnlockLevel level, GameMode mode) {
 		super(app, level, mode, false, true, "");
@@ -72,6 +71,7 @@ public class ClientState extends PlayState {
 			}
 		}
 		TiledObjectUtil.parseTiledTriggerLayer();
+		TiledObjectUtil.parseDesignatedEvents(this);
 
 		AlignmentFilter.resetTeams();
 
@@ -145,21 +145,26 @@ public class ClientState extends PlayState {
 			packet.entity.create();
 
 			if (packet.entityID != null) {
+				//when setting entityID from server, we release our client-auto-generated one.
+				if (packet.entity.getEntityID() != packet.entityID) {
+					UUIDUtil.releaseUnsyncedID(packet.entity.getEntityID());
+				}
 				packet.entity.setEntityID(packet.entityID);
 			}
 			packet.entity.setReceivingSyncs(packet.synced);
 		}
 		createListClient.clear();
-		
+
 		//All entities that are set to be removed are removed.
-		for (UUID key : removeListClient) {
-			HadalEntity entity = findEntity(key);
-			if (entity != null) {
-				entity.dispose();
+		for (Integer key : removeListClient) {
+			for (ObjectMap<Integer, HadalEntity> m : entityLists) {
+				HadalEntity entity = m.get(key);
+				if (entity != null) {
+					entity.dispose();
+					m.remove(key);
+				}
 			}
-			for (ObjectMap<UUID, HadalEntity> m : entityLists) {
-				m.remove(key);
-			}
+			UUIDUtil.releaseUnsyncedID(key);
 		}
 		removeListClient.clear();
 
@@ -175,13 +180,13 @@ public class ClientState extends PlayState {
 		}
 
 		missedCreatesToRemove.clear();
-		for (ObjectMap.Entry<UUID, Float> entry : timeSinceLastMissedCreate) {
+		for (ObjectMap.Entry<Integer, Float> entry : timeSinceLastMissedCreate) {
 			entry.value -= delta;
 			if (entry.value <= 0.0f) {
 				missedCreatesToRemove.add(entry.key);
 			}
 		}
-		for (UUID id : missedCreatesToRemove) {
+		for (Integer id : missedCreatesToRemove) {
 			timeSinceLastMissedCreate.remove(id);
 		}
 		
@@ -209,7 +214,7 @@ public class ClientState extends PlayState {
 		}
 
 		//clientController is run for the objects that process on client side.
-		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
+		for (ObjectMap<Integer, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {
 				entity.clientController(delta);
 				entity.getShaderHelper().decreaseShaderCount(delta);
@@ -241,32 +246,27 @@ public class ClientState extends PlayState {
 	 * @param synced: should this object receive a regular sync packet from the server?
 	 * @param layer: is this layer a hitbox (rendered underneath) or not?
 	 */
-	public void addEntity(UUID entityID, HadalEntity entity, boolean synced, ObjectLayer layer) {
+	public void addEntity(Integer entityID, HadalEntity entity, boolean synced, ObjectLayer layer) {
 		CreatePacket packet = new CreatePacket(entityID, entity, synced, layer);
 		createListClient.add(packet);
-	}
-
-	public void addEntity(long uuidMSB, long uuidLSB, HadalEntity entity, boolean synced, ObjectLayer layer) {
-		addEntity(new UUID(uuidMSB, uuidLSB), entity, synced, layer);
 	}
 
 	/**
 	 * This is called whenever the client is told to remove an object from the world.
 	 * @param entityID: The unique id of the object to be removed.
 	 */
-	public void removeEntity(UUID entityID) {
+	public void removeEntity(int entityID) {
 		removeListClient.add(entityID);
 	}
 
 	/**
 	 * This is called whenever the client is told to synchronize an object from the world.
-	 * @param uuidMSB: The most-significant bits of the uuid
-	 * @param uuidLSB: The least-significant bits of the uuid
+	 * @param entityID: The entity unique id
 	 * @param o: The SyncEntity Packet to use to synchronize the object
 	 * @param timestamp: the time of the sync on the server.
 	 */
-	public void syncEntity(long uuidMSB, long uuidLSB, Object o, float timestamp) {
-		SyncPacket packet = new SyncPacket(new UUID(uuidMSB, uuidLSB), o, timestamp);
+	public void syncEntity(int entityID, Object o, float timestamp) {
+		SyncPacket packet = new SyncPacket(entityID, o, timestamp);
 		sync.add(packet);
 	}
 
@@ -276,18 +276,14 @@ public class ClientState extends PlayState {
 	 * @return The found object (or null if nonexistent)
 	 */
 	@Override
-	public HadalEntity findEntity(UUID entityID) {
-		HadalEntity entity = entities.get(entityID);
-		if (entity != null) {
-			return entity;
-		} else {
-			entity = effects.get(entityID);
+	public HadalEntity findEntity(int entityID) {
+		for (ObjectMap<Integer, HadalEntity> m : entityLists) {
+			HadalEntity entity = m.get(entityID);
 			if (entity != null) {
 				return entity;
-			} else {
-				return hitboxes.get(entityID);
 			}
 		}
+		return null;
 	}
 
 	/**
@@ -306,14 +302,8 @@ public class ClientState extends PlayState {
 	public void dispose() {
 		
 		//clean up all client entities. (some entities require running their dispose() to function properly (soundEntities turning off)
-		for (ObjectMap<UUID, HadalEntity> m : entityLists) {
+		for (ObjectMap<Integer, HadalEntity> m : entityLists) {
 			for (HadalEntity entity : m.values()) {
-				entity.dispose();
-			}
-		}
-		for (UUID key : removeListClient) {
-			HadalEntity entity = findEntity(key);
-			if (entity != null) {
 				entity.dispose();
 			}
 		}
@@ -323,12 +313,12 @@ public class ClientState extends PlayState {
 	/**
 	 * This record represents a packet telling the client to sync an object
 	 */
-	private record SyncPacket(UUID entityID, Object packet, float timestamp) {}
+	private record SyncPacket(Integer entityID, Object packet, float timestamp) {}
 
 	/**
 	 * This record represents a packet telling the client to create an object
 	 */
-	public record CreatePacket(UUID entityID, HadalEntity entity, boolean synced, ObjectLayer layer) {}
+	public record CreatePacket(Integer entityID, HadalEntity entity, boolean synced, ObjectLayer layer) {}
 
 	/**
 	 * The destroy and create methods do nothing for the client. 
@@ -340,7 +330,7 @@ public class ClientState extends PlayState {
 	@Override
 	public void create(HadalEntity entity) {}
 
-	public Array<OrderedMap<UUID, HadalEntity>> getEntityListsClient() { return entityLists; }
+	public Array<OrderedMap<Integer, HadalEntity>> getEntityListsClient() { return entityLists; }
 
 	public float getLatency() { return latency; }
 

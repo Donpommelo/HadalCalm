@@ -58,7 +58,7 @@ public class BombFish extends EnemySwimming {
 							new Vector2[] {}, new Vector2[] {});
 				}
 			}
-		});
+		}.setServerOnly(true));
 	}
 
 	private static final float ACTIVATION_TIME = 1.2f;

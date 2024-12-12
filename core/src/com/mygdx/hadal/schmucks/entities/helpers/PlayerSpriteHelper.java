@@ -9,21 +9,20 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.MoveState;
-import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.SpriteConstants;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.RagdollManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.RagdollCreate;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.schmucks.entities.Player;
-import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.PlayerMiscUtil;
 
@@ -85,10 +84,10 @@ public class PlayerSpriteHelper {
      * @param team: the new team color to draw
      */
     public void setBodySprite(SpriteBatch batch, UnlockCharacter character, AlignmentFilter team) {
-        boolean replace = this.character != character && null != character;
+        boolean replace = this.character != character && character != null;
 
         //replace frame buffer if the input contains a new character or team
-        if (this.team != team && null != team) {
+        if (this.team != team && team != null) {
             replace = true;
         }
 
@@ -108,10 +107,10 @@ public class PlayerSpriteHelper {
         //return if headless server
         if (HadalGame.assetManager == null) { return; }
 
-        if (null != newCharacter) {
+        if (newCharacter != null) {
             this.character = newCharacter;
         }
-        if (null != newTeam) {
+        if (newTeam != null) {
             this.team = newTeam;
         }
 
@@ -243,7 +242,7 @@ public class PlayerSpriteHelper {
 
         //head type cosmetics replace the head, so we don't want to draw the base head unless not rendering cosmetics or only rendering 1 non-head cosmetic
         boolean head = player.getUser().getLoadoutManager().getActiveLoadout().cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank();
-        if (null != lockedCosmetic) {
+        if (lockedCosmetic != null) {
             head = true;
             if (CosmeticSlot.HEAD == lockedCosmetic.getCosmeticSlot()) {
                 head = lockedCosmetic.isBlank();
@@ -266,7 +265,7 @@ public class PlayerSpriteHelper {
      */
     private void renderCosmetics(Batch batch, float animationTimeExtra, boolean flip, UnlockCosmetic lockedCosmetic) {
         Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
-        if (null == lockedCosmetic) {
+        if (lockedCosmetic == null) {
             //draw cosmetics. Use head coordinates. Update coordinates if any cosmetics replace the head
             for (UnlockCosmetic cosmetic : loadout.cosmetics) {
                 headLocation.set(cosmetic.render(batch, loadout.team,
@@ -283,7 +282,8 @@ public class PlayerSpriteHelper {
      * This is run when the player despawns from disconnecting or dying.
      */
     public void despawn(DespawnType type, Vector2 playerLocation, Vector2 playerVelocity) {
-        //return if headless server
+
+        //return in case of headless server
         if (HadalGame.assetManager == null) { return; }
 
         switch (type) {
@@ -299,38 +299,32 @@ public class PlayerSpriteHelper {
     private void createGibs(Vector2 playerLocation, Vector2 playerVelocity) {
         Loadout loadout = player.getUser().getLoadoutManager().getActiveLoadout();
 
+        RagdollCreate ragdollCreate = new RagdollCreate()
+                .setPosition(playerLocation)
+                .setVelocity(playerVelocity)
+                .setLifespan(GIB_DURATION)
+                .setGravity(GIB_GRAVITY)
+                .setStartVelocity(true)
+                .setFade();
+
         //head type cosmetics replace the head, so we don't want to create a ragdoll for it
         if (loadout.cosmetics[CosmeticSlot.HEAD.getSlotNumber()].isBlank()) {
-            Ragdoll headRagdoll = new Ragdoll(state, playerLocation, new Vector2(headWidth, headHeight).scl(scale),
-                    headSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
-
-            if (!state.isServer()) {
-                ((ClientState) state).addEntity(headRagdoll.getEntityID(), headRagdoll, false, ObjectLayer.STANDARD);
-            }
+            ragdollCreate.setTextureRegion(headSprite.getKeyFrame(0)).setSize(new Vector2(headWidth, headHeight).scl(scale));
+            RagdollManager.getRagdoll(state, ragdollCreate);
         }
 
-        Ragdoll bodyRagdoll = new Ragdoll(state, playerLocation, new Vector2(bodyWidth, bodyHeight).scl(scale),
-                bodyStillSprite.getKeyFrame(0), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
+        ragdollCreate.setTextureRegion(bodyStillSprite.getKeyFrame(0)).setSize(new Vector2(bodyWidth, bodyHeight).scl(scale));
+        RagdollManager.getRagdoll(state, ragdollCreate);
 
-        Ragdoll armRagdoll = new Ragdoll(state, playerLocation, new Vector2(armWidth, armHeight).scl(scale),
-                armSprite, playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
+        ragdollCreate.setTextureRegion(armSprite).setSize(new Vector2(armWidth, armHeight).scl(scale));
+        RagdollManager.getRagdoll(state, ragdollCreate);
 
-        Ragdoll toolRagdoll = new Ragdoll(state, playerLocation, new Vector2(toolWidth, toolHeight).scl(scale),
-                player.getToolSprite(), playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false).setFade();
+        ragdollCreate.setTextureRegion(player.getToolSprite()).setSize(new Vector2(toolWidth, toolHeight).scl(scale));
+        RagdollManager.getRagdoll(state, ragdollCreate);
 
         //Get cosmetic ragdolls
         for (UnlockCosmetic cosmetic : loadout.cosmetics) {
-            Ragdoll cosmeticRagdoll = cosmetic.createRagdoll(state, loadout.team, loadout.character, playerLocation, scale, playerVelocity);
-            if (null != cosmeticRagdoll && !state.isServer()) {
-                ((ClientState) state).addEntity(cosmeticRagdoll.getEntityID(), cosmeticRagdoll, false, ObjectLayer.STANDARD);
-            }
-        }
-
-        //the client needs to create ragdolls separately b/c we can't serialize the frame buffer object.
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(armRagdoll.getEntityID(), armRagdoll, false, ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(toolRagdoll.getEntityID(), toolRagdoll, false, ObjectLayer.STANDARD);
+            cosmetic.createRagdoll(state, loadout.team, loadout.character, playerLocation, scale, playerVelocity);
         }
     }
 
@@ -341,28 +335,16 @@ public class PlayerSpriteHelper {
         TextureRegion ragdollTexture = new TextureRegion(ragdollBuffer.getColorBufferTexture(), 0,
                 RAGDOLL_FBO_HEIGHT, RAGDOLL_FBO_WIDTH, -RAGDOLL_FBO_HEIGHT);
 
-        Ragdoll bodyRagdoll = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT)
-                .scl(1.0f + player.getScaleModifier()),
-                ragdollTexture, playerVelocity, 2.0f, 0.0f, true, false) {
-
-            @Override
-            public void create() {
-                super.create();
-                body.setAngularDamping(4.0f);
-                body.setLinearDamping(3.0f);
-            }
-
-            //we need to dispose of the fbo when the ragdolls are done
-            @Override
-            public void dispose() {
-                super.dispose();
-                ragdollBuffer.dispose();
-            }
-        }.setFade(1.75f, Shader.PERLIN_COLOR_FADE);
-
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(bodyRagdoll.getEntityID(), bodyRagdoll, false, ObjectLayer.STANDARD);
-        }
+        RagdollManager.getRagdollFBO(state, new RagdollCreate()
+                .setTextureRegion(ragdollTexture)
+                .setPosition(playerLocation)
+                .setSize(new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT).scl(1.0f + player.getScaleModifier()))
+                .setVelocity(playerVelocity)
+                .setLifespan(2.0f)
+                .setGravity(GIB_GRAVITY)
+                .setDampening(4.0f, 3.0f)
+                .setStartVelocity(true)
+                .setFade(1.75f, Shader.PERLIN_COLOR_FADE), ragdollBuffer);
     }
 
     private void createBifurcation(Vector2 playerLocation, Vector2 playerVelocity) {
@@ -372,27 +354,17 @@ public class PlayerSpriteHelper {
         TextureRegion ragdollTexture2 = new TextureRegion(ragdollBuffer.getColorBufferTexture(), 0,
                 RAGDOLL_FBO_HEIGHT / 2, RAGDOLL_FBO_WIDTH, -RAGDOLL_FBO_HEIGHT / 2);
 
-        Ragdoll ragdollOne = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT / 2.0f)
-                .scl(1.0f + player.getScaleModifier()),
-                ragdollTexture1, playerVelocity, GIB_DURATION, GIB_GRAVITY, true, false) {
+        RagdollCreate ragdollCreate = new RagdollCreate()
+                .setPosition(playerLocation)
+                .setSize(new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT / 2.0f).scl(1.0f + player.getScaleModifier()))
+                .setVelocity(playerVelocity)
+                .setLifespan(GIB_DURATION)
+                .setGravity(GIB_GRAVITY)
+                .setStartVelocity(true)
+                .setFade();
 
-            //we need to dispose of the fbo when the ragdolls are done
-            @Override
-            public void dispose() {
-                super.dispose();
-                ragdollBuffer.dispose();
-            }
-
-        }.setFade().setSpinning(false);
-
-        Ragdoll ragdollTwo = new Ragdoll(state, playerLocation, new Vector2(RAGDOLL_WIDTH, RAGDOLL_HEIGHT / 2.0f)
-                .scl(1.0f + player.getScaleModifier()),
-                ragdollTexture2, new Vector2(playerVelocity).scl(-1), GIB_DURATION, GIB_GRAVITY, true, false).setFade();
-
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(ragdollOne.getEntityID(), ragdollOne, false, ObjectLayer.STANDARD);
-            ((ClientState) state).addEntity(ragdollTwo.getEntityID(), ragdollTwo, false, ObjectLayer.STANDARD);
-        }
+        RagdollManager.getRagdollFBO(state, ragdollCreate.setTextureRegion(ragdollTexture1), ragdollBuffer);
+        RagdollManager.getRagdoll(state, ragdollCreate.setTextureRegion(ragdollTexture2).setSpinning(false));
     }
 
     private void createWarpAnimation(Vector2 playerLocation) {

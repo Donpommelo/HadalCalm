@@ -13,7 +13,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- *
+ * PickupVacuum causes the hbox to be "vacuumed" by players that come close.
+ * When vacuumed, hbox will move to player until making contact and despawning.
  */
 public class PickupVacuum extends HitboxStrategy {
 
@@ -24,8 +25,13 @@ public class PickupVacuum extends HitboxStrategy {
 	private static final float VACUUM_PUSH = 15.0f;
 	private static final float VACUUM_PICKUP_RANGE = 5.0f;
 
+	//has the hbox made contact with a player's pickup radius yet? Is it currently moving towards a player?
 	private boolean vacuumStarted, vacuuming;
+
+	//after vacuum begins, pixkup is initially pushed away and only begins vacuuming after a short delay
 	private float vacuumDelay, vacuumDuration;
+
+	//the entity this is being vacuumed towards.
 	private HadalEntity vacuumTarget;
 
 	public PickupVacuum(PlayState state, Hitbox proj, BodyData user) {

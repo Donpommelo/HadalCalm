@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockCosmetic;
 import com.mygdx.hadal.schmucks.entities.Player;

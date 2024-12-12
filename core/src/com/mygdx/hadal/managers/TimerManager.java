@@ -4,6 +4,10 @@ import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 
+/**
+ * TimerManager keeps track of PlayState game timer.
+ * This increments timer, controls ui notifications/display and runs special event upon time running out.
+ */
 public class TimerManager {
 
     private final PlayState state;

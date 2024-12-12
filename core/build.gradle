@@ -8,5 +8,9 @@ dependencies {
     implementation "com.github.crykn:kryonet:$kryonetVersion"
     implementation "com.github.payne911:PieMenu:$pieMenuVersion"
     implementation "org.bitlet:weupnp:$weupnpVersion"
+    implementation "com.squareup.okio:okio:$okioVersion"
+    implementation "org.json:json:$jsonVersion"
     implementation "io.socket:socket.io-client:$socketioVersion"
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+    implementation "ch.qos.logback:logback-core:$logbackVersion"
 }

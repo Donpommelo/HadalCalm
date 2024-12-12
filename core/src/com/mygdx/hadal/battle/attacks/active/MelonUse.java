@@ -7,7 +7,9 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Regeneration;
@@ -21,7 +23,10 @@ public class MelonUse extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        SoundEffect.EATING.playSourced(state, user.getPixelPosition(), 0.8f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.EATING)
+                .setVolume(0.8f)
+                .setPosition(startPosition));
+
         EffectEntityManager.getParticle(state, new ParticleCreate(Particle.KAMABOKO_IMPACT, user)
                 .setLifespan(PARTICLE_DURATION)
                 .setColor(HadalColor.FRENCH_LIME));

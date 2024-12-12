@@ -31,9 +31,6 @@ public class RangedWeapon extends Equippable {
 	//projectile properties. (size is needed to determine projectile spawn origin)
 	protected final float projectileSize, projectileSpeed, projectileLifespan;
 
-	//Does this weapon automatically start reloading when at 0 clip? (exceptions for weapons with special reload functions)
-	protected final boolean autoreload;
-
 	/**
 	 * Ranged weapons, like most equipment, is constructed when creating tool spawns or default schmuck loadouts
 	 * @param user: Schmuck that is using this tool.
@@ -43,14 +40,13 @@ public class RangedWeapon extends Equippable {
 	 * @param projectileSpeed: The initial velocity of hitboxes created by this weapon.
 	 * @param shootCd: The delay after using this tool before you can use a tool again.
 	 * @param reloadAmount: The amount of clip restored upon one reload
-	 * @param autoreload: Does this weapon automatically begin reloading when at 0 clip? (exceptions for weapons that perform special actions on reload.)
 	 * @param weaponSprite: The weapon's multitool weapon
 	 * @param eventSprite: The weapon's pickup event sprite
 	 * @param chargeTime: The weapon's max charge amount (only used for charge weapons)
 	 * @param projectileSize: The weapon's projectile size. Used to determine projectile starting location offset to avoid wall clipping
 	 */	
 	public RangedWeapon(Player user, int clipSize, int ammoSize, float reloadTime, float projectileSpeed,
-						float shootCd, int reloadAmount, boolean autoreload, Sprite weaponSprite, Sprite eventSprite,
+						float shootCd, int reloadAmount, Sprite weaponSprite, Sprite eventSprite,
 						float projectileSize, float projectileLifespan, float chargeTime) {
 		super(user, shootCd, weaponSprite, eventSprite, chargeTime);
 		this.clipSize = clipSize;
@@ -61,16 +57,15 @@ public class RangedWeapon extends Equippable {
 		this.ammoPercent = 1.0f;
 		this.reloadTime = reloadTime;
 		this.reloadAmount = reloadAmount;
-		this.autoreload = autoreload;
 		this.projectileSpeed = projectileSpeed;
 		this.projectileSize = projectileSize;
 		this.projectileLifespan = projectileLifespan;
 	}
 	
 	public RangedWeapon(Player user, int clipSize, int ammoSize, float reloadTime, float projectileSpeed, float shootCd, int reloadAmount,
-			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize, float projectileLifespan) {
+			Sprite weaponSprite, Sprite eventSprite, float projectileSize, float projectileLifespan) {
 		this(user, clipSize, ammoSize, reloadTime, projectileSpeed, shootCd, reloadAmount,
-				autoreload, weaponSprite, eventSprite, projectileSize, projectileLifespan, 1);
+				weaponSprite, eventSprite, projectileSize, projectileLifespan, 1);
 	}
 
 	/**
@@ -130,7 +125,7 @@ public class RangedWeapon extends Equippable {
 		}
 		
 		//if out of clip, start reloading
-		if (clipLeft <= 0 && autoreload && getAmmoLeft() > 0) {
+		if (clipLeft <= 0 && getAmmoLeft() > 0) {
 			if (!reloading) {
 				reloading = true;
 				reloadCd = 0;

@@ -19,14 +19,15 @@ public class PickupUtils {
      */
     public static void spawnScrap(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                   int amount, boolean statCheck, boolean score) {
+        if (!state.isServer()) { return; }
         float countScore = score ? 1.0f : 0.0f;
 
         int modifiedAmount = amount;
 
         if (user instanceof Player player) {
-            if (statCheck && null != player.getPlayerData()) {
-                if (1.0f > player.getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount
-                        && 0 < player.getPlayerData().getStat(Stats.EXTRA_SCRAP)) {
+            if (statCheck && player.getPlayerData() != null) {
+                if (player.getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f
+                        && player.getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
                     modifiedAmount = amount + 1;
                 } else {
                     modifiedAmount = (int) (amount * (1 + player.getPlayerData().getStat(Stats.EXTRA_SCRAP)));

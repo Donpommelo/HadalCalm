@@ -137,6 +137,7 @@ public enum AlignmentFilter {
     //can this team be assigned randomly without anyone picking it? Set to false for the "weird" options
     private boolean standardChoice = true;
 
+    //should shaders apply to cosmetics? True for things like censored or sepia
     private boolean cosmeticApply = false;
 
     AlignmentFilter(int filter) {

@@ -41,7 +41,7 @@ public class Timer extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (null != activator && activator.getEvent() instanceof TriggerAlt trigger) {
+				if (activator != null && activator.getEvent() instanceof TriggerAlt trigger) {
 					String msg = trigger.getMessage();
 					switch (msg) {
 						case "on" -> ((Timer) event).on = true;

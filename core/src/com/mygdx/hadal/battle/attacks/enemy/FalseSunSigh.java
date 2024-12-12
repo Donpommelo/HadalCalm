@@ -9,6 +9,8 @@ import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -54,7 +56,10 @@ public class FalseSunSigh extends SyncedAttacker {
 
                     if (!activated) {
                         activated = true;
-                        SoundEffect.ICE_IMPACT.playSourced(state, cloud.getPixelPosition(), 0.9f, 0.5f);
+                        SoundManager.play(state, new SoundLoad(SoundEffect.ICE_IMPACT)
+                                .setVolume(0.9f)
+                                .setPitch(0.5f)
+                                .setPosition(cloud.getPixelPosition()));
                     }
 
                     //after a delay, each cloud shoots a stream of ice outwards

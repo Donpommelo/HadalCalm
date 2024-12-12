@@ -10,6 +10,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -48,7 +50,11 @@ public class RecombinantShot extends SyncedAttacker {
         user.recoil(weaponVelocity, RECOIL);
 
         if (startPosition.length != 0) {
-            SoundEffect.SPRING.playSourced(state, startPosition[0], 0.75f, 4.0f);
+            SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+                    .setVolume(0.75f)
+                    .setPitch(4.0f)
+                    .setPosition(startPosition[0]));
+
             SPRITES.shuffle();
             for (int i = 0; i < startPosition.length; i++) {
                 Sprite projSprite = PROJ_SPRITES[SPRITES.get(i)];
@@ -89,7 +95,11 @@ public class RecombinantShot extends SyncedAttacker {
                             if (count <= 0.0f) {
                                 if (user instanceof Player player) {
                                     float pitch = (MathUtils.random() - 0.5f) * PITCH_SPREAD;
-                                    SoundEffect.SPRING.playSourced(state, startPosition[0], 0.75f, 2.0f + pitch);
+                                    SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+                                            .setVolume(0.75f)
+                                            .setPitch(2.0f + pitch)
+                                            .setPosition(startPosition[0]));
+
                                     hbox.setLinearVelocity(player.getMouseHelper().getPosition().sub(hbox.getPosition()).nor().scl(HOME_SPEED));
                                     hbox.getBody().setLinearDamping(0);
                                 }

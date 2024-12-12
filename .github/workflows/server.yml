@@ -1,0 +1,101 @@
+name: Build and Deploy to EC2 and Create AMI
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  build-and-deploy:
+    name: Build and Deploy Server to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: 21
+
+    - name: Build jar
+      run: ./gradlew.bat server:jar
+
+    - name: Fix file names
+      run: mv server/build/lib/*.jar HadalServer.jar
+
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+        
+    - name: Start EC2 Instance
+      run: |
+        INSTANCE_ID=i-03d7994f355793647
+        echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
+        aws ec2 start-instances --instance-ids $INSTANCE_ID
+        aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+        
+    - name: Get EC2 Public IP
+      run: |
+        PUBLIC_IP=$(aws ec2 describe-instances \
+          --instance-ids ${{ env.INSTANCE_ID }} \
+          --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+        echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
+
+    - name: Clean up old files
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+          host: ${{ env.PUBLIC_IP }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Navigate to the project directory, or create it if it doesn't exist
+            mkdir -p ~/project && cd ~/project
+            rm -rf *
+          
+    - name: Upload JAR to EC2
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ env.PUBLIC_IP }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        source: ./server/build/libs/HadalServer.jar
+        target: ~/HadalServer.jar
+
+    - name: SSH into EC2 and Deploy Server
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ env.PUBLIC_IP }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          pkill -f HadalServer.jar || true
+          nohup java -jar ~/HadalServer.jar > debug.log 2>&1 &
+
+  create-ami:
+    name: Create AMI
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Create AMI
+      run: |
+        aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} --name "HadalServerAMI-$(date +%Y-%m-%d)" --no-reboot
+        echo "AMI created successfully."
+
+    - name: Stop EC2 Instance
+      run: |
+        aws ec2 stop-instances --instance-ids ${{ env.INSTANCE_ID }}
+        aws ec2 wait instance-stopped --instance-ids ${{ env.INSTANCE_ID }}
+        echo "Instance stopped successfully."

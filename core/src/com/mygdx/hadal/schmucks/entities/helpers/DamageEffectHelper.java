@@ -3,10 +3,16 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * DamageEffectHelper displays special visual effects from certain damage effects.
+ * This includes receiving critical damage, or reduced damage (not added yet)
+ */
 public class DamageEffectHelper {
 
     private static final float BASE_COOLDOWN = 1.0f;
@@ -34,7 +40,11 @@ public class DamageEffectHelper {
     public void addCritFlash() {
         if (critCooldown <= 0.0f) {
             critCooldown = BASE_COOLDOWN;
-            SoundEffect.SLASH.playSourced(state, schmuck.getPixelPosition(), 1.1f, 0.5f);
+            SoundManager.play(state, new SoundLoad(SoundEffect.SLASH)
+                    .setVolume(1.1f)
+                    .setPitch(0.5f)
+                    .setPosition(schmuck.getPixelPosition()));
+
             EffectEntityManager.getParticle(state, new ParticleCreate(Particle.EXPLOSION, schmuck)
                     .setLifespan(1.0f));
         }

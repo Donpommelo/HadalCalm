@@ -9,6 +9,7 @@ import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * ToggleWeaponDrops makes it so players drop their weapons as pickups upon death
  */
 public class ToggleWeaponDrops extends ModeSetting {
 

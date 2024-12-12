@@ -7,6 +7,33 @@ package com.mygdx.hadal.utils;
  */
 public class PacketUtil {
 
+    private static final float SCALE_FACTOR = 10.0f;
+
+    /**
+     * These 2 functions convert a float (for position or velocity vector) into shorts and back to float
+     * This is done for serialization purposes for syncing objects to save bytes
+     * Note: this should never be used for values that, when multiplied by SCALE_FACTOR, are too big for a short
+     */
+    public static short floatToShort(float value) {
+        return (short) (value * SCALE_FACTOR);
+    }
+
+    public static float shortToFloat(short value) {
+        return value / SCALE_FACTOR;
+    }
+
+    /**
+     * These 2 functions convert a degree angle into a byte and back to a float
+     * This is done for serialization purposes for syncing objects to save bytes
+     */
+    public static byte angleToByte(float angle) {
+        return (byte) (angle / 360.0f * 255);
+    }
+
+    public static float byteToAngle(byte angleByte) {
+        return (angleByte & 0xFF) / 255.0f * 360.0f;
+    }
+
     /**
      * This converts a float percentage (0.0 to 1.0) into a byte that can be converted back by the recipient.
      * The returned byte will be between 0 and 127.

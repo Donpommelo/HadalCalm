@@ -36,7 +36,7 @@ public class ModeMatryoshka extends ModeSetting {
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {
         if (!state.isServer()) { return; }
         //when a new player is spawned, their size is set according to the number of lives they have left
-        if (null != p.getUser()) {
+        if (p.getUser() != null) {
             int livesLeft = Math.min(p.getUser().getScoreManager().getLives(), SIZE_SCALE_LIST.length) - 1;
             p.changeScaleModifier(SIZE_SCALE_LIST[livesLeft]);
             p.setDontMoveCamera(true);
@@ -47,10 +47,10 @@ public class ModeMatryoshka extends ModeSetting {
     public void processPlayerDeath(PlayState state, GameMode mode, Schmuck perp, Player vic, DamageSource source, DamageTag... tags) {
 
         //null check in case this is an "extra kill" to give summoner kill credit for a summon
-        if (null != vic) {
+        if (vic != null) {
             //When a player dies, they lose 1 life and respawn instantly
             User user = vic.getUser();
-            if (null != user) {
+            if (user != null) {
                 user.getScoreManager().setLives(user.getScoreManager().getLives() - 1);
                 if (user.getScoreManager().getLives() <= 0) {
                     mode.processPlayerLivesOut(state, vic);

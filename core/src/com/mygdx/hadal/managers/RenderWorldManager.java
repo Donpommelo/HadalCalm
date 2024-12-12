@@ -7,6 +7,9 @@ import com.mygdx.hadal.states.PlayState;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
+/**
+ * RenderWorldManager is used by the PlayState to draw the world
+ */
 public class RenderWorldManager {
 
     private final PlayState state;

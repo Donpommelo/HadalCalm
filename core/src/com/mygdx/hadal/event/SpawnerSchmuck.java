@@ -62,7 +62,7 @@ public class SpawnerSchmuck extends Event {
 			public void onActivate(EventData activator, Player p) {
 				if (!state.isServer()) { return; }
 				
-				if (activator.getEvent() instanceof TriggerAlt trigger) {
+				if (activator != null && activator.getEvent() instanceof TriggerAlt trigger) {
 					numEnemies += Integer.parseInt(trigger.getMessage());
 				} else {
 					if (amountLeft < limit || limit == 0) {

@@ -12,15 +12,13 @@ import com.mygdx.hadal.battle.attacks.special.Emote;
 import com.mygdx.hadal.battle.attacks.special.Ping;
 import com.mygdx.hadal.battle.attacks.weapon.*;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.server.packets.PacketsAttacks;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.UUID;
 
 /**
  * A SyncedAttack represents an "attack" sent from server to client containing information about hitboxes produced, hitbox strategies,
@@ -257,18 +255,22 @@ public enum SyncedAttack {
      * @param startPosition: Starting position of the hitbox produced by this attack
      * @param startVelocity: Starting velocity of the hitbox produced by this attack
      * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param entityID: When the server receives a synced attack from the client, we need to set server entity id before echoing
      * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitbox that this attack produces
      */
     public Hitbox initiateSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
-                                             int connID, boolean origin, float... extraFields) {
+                                             int connID, int entityID, boolean origin, float... extraFields) {
 
         Hitbox hbox = syncedAttacker.performSyncedAttackSingle(state, user, startPosition, startVelocity, extraFields);
         hbox.setAttack(this);
         hbox.setSyncedMulti(false);
         hbox.setExtraFields(extraFields);
         if (state.isServer()) {
+            if (entityID != 0) {
+                hbox.setEntityID(entityID);
+            }
             syncAttackSingleServer(hbox, extraFields, connID, hbox.isSynced(), false);
         } else {
 
@@ -284,7 +286,7 @@ public enum SyncedAttack {
     }
 
     public Hitbox initiateSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, float... extraFields) {
-        return initiateSyncedAttackSingle(state, user, startPosition, startVelocity, 0, true, extraFields);
+        return initiateSyncedAttackSingle(state, user, startPosition, startVelocity, 0, 0, true, extraFields);
     }
 
     /**
@@ -299,7 +301,7 @@ public enum SyncedAttack {
         Object packet;
 
         if (synced) {
-            if (0 == extraFields.length) {
+            if (extraFields.length == 0) {
                 packet = new PacketsAttacks.SingleServerDependent(hbox.getEntityID(), hbox.getCreator().getEntityID(),
                         catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
                         catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), this);
@@ -309,7 +311,7 @@ public enum SyncedAttack {
                         catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), extraFields, this);
             }
         } else {
-            if (0 == extraFields.length) {
+            if (extraFields.length == 0) {
                 packet = new PacketsAttacks.SingleServerIndependent(hbox.getCreator().getEntityID(),
                         catchup ? hbox.getPixelPosition() : hbox.getStartPos(),
                         catchup ? hbox.getLinearVelocity() : hbox.getStartVelo(), this);
@@ -321,7 +323,7 @@ public enum SyncedAttack {
         }
 
         //0 connID indicates a server-created attack. If client created, we don't need to send the packet to the creator.
-        if (0 == connID) {
+        if (connID == 0) {
             PacketManager.serverUDPAll(packet);
         } else {
             PacketManager.serverUDPAllExcept(connID, packet);
@@ -336,7 +338,7 @@ public enum SyncedAttack {
      */
     public void syncAttackSingleClient(Hitbox hbox, float[] extraFields, boolean synced) {
         if (synced) {
-            if (0 == extraFields.length) {
+            if (extraFields.length == 0) {
                 PacketManager.clientUDP(new PacketsAttacks.SingleClientDependent(hbox.getEntityID(),
                         hbox.getStartPos(),
                         hbox.getStartVelo(), this));
@@ -346,7 +348,7 @@ public enum SyncedAttack {
                         hbox.getStartVelo(), extraFields, this));
             }
         } else {
-            if (0 == extraFields.length) {
+            if (extraFields.length == 0) {
                 PacketManager.clientUDP(new PacketsAttacks.SingleClientIndependent(
                         hbox.getStartPos(),
                         hbox.getStartVelo(), this));
@@ -366,22 +368,30 @@ public enum SyncedAttack {
      * @param startPosition: Starting positions of each hitbox produced by this attack
      * @param startVelocity: Starting velocities of each hitbox produced by this attack
      * @param connID: If this is the server syncing an attack from the client, this is that client's connID
+     * @param entityID: When the server receives a synced attack from the client, we need to set server entity id before echoing
      * @param origin: Is this initiating the original attack, or relaying one from a client/the host?
      * @param extraFields: Any extra information required for client to replicate this attack
      * @return the hitboxes that this attack produces
      */
     public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
-            Vector2[] startVelocity, int connID, boolean origin, float... extraFields) {
+            Vector2[] startVelocity, int connID, int[] entityID, boolean origin, float... extraFields) {
         Hitbox[] hboxes = syncedAttacker.performSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, extraFields);
         for (Hitbox hbox : hboxes) {
             hbox.setAttack(this);
             hbox.setSyncedMulti(true);
             hbox.setExtraFields(extraFields);
         }
-        if (0 != hboxes.length) {
+        if (hboxes.length != 0) {
             boolean isSynced = hboxes[0].isSynced();
 
             if (state.isServer()) {
+                if (entityID != null) {
+                    for (int i = 0; i < hboxes.length; i++) {
+                        if (entityID.length > i) {
+                            hboxes[i].setEntityID(entityID[i]);
+                        }
+                    }
+                }
                 syncAttackMultiServer(weaponVelocity, hboxes, extraFields, connID, isSynced, false);
             } else {
                 if (origin) {
@@ -397,7 +407,7 @@ public enum SyncedAttack {
 
     public Hitbox[] initiateSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                               Vector2[] startVelocity, float... extraFields) {
-        return initiateSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, 0, true, extraFields);
+        return initiateSyncedAttackMulti(state, user, weaponVelocity, startPosition, startVelocity, 0, null, true, extraFields);
     }
 
     /**
@@ -408,7 +418,7 @@ public enum SyncedAttack {
      */
     public void syncAttackMultiServer(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, int connID,
                                       boolean isSynced, boolean catchup) {
-        UUID[] hboxID = new UUID[hboxes.length];
+        int[] hboxID = new int[hboxes.length];
         Vector2[] positions = new Vector2[hboxes.length];
         Vector2[] velocities = new Vector2[hboxes.length];
         for (int i = 0; i < hboxes.length; i++) {
@@ -418,7 +428,7 @@ public enum SyncedAttack {
         }
         Object packet;
         if (isSynced) {
-            if (0 == extraFields.length) {
+            if (extraFields.length == 0) {
                 packet = new PacketsAttacks.MultiServerDependent(hboxID, hboxes[0].getCreator().getEntityID(),
                         weaponVelocity, positions, velocities, this);
             } else {
@@ -426,7 +436,7 @@ public enum SyncedAttack {
                         weaponVelocity, positions, velocities, extraFields, this);
             }
         } else {
-            if (0 == extraFields.length) {
+            if (extraFields.length == 0) {
                 packet = new PacketsAttacks.MultiServerIndependent(hboxes[0].getCreator().getEntityID(),
                         weaponVelocity, positions, velocities, this);
             } else {
@@ -435,7 +445,7 @@ public enum SyncedAttack {
             }
         }
 
-        if (0 == connID) {
+        if (connID == 0) {
             PacketManager.serverUDPAll(packet);
         } else {
             PacketManager.serverUDPAllExcept(connID, packet);
@@ -443,7 +453,7 @@ public enum SyncedAttack {
     }
 
     public void syncAttackMultiClient(Vector2 weaponVelocity, Hitbox[] hboxes, float[] extraFields, boolean isSynced) {
-        UUID[] hboxID = new UUID[hboxes.length];
+        int[] hboxID = new int[hboxes.length];
         Vector2[] positions = new Vector2[hboxes.length];
         Vector2[] velocities = new Vector2[hboxes.length];
         for (int i = 0; i < hboxes.length; i++) {
@@ -452,13 +462,13 @@ public enum SyncedAttack {
             velocities[i] = hboxes[i].getStartVelo();
         }
         if (isSynced) {
-            if (0 == extraFields.length) {
+            if (extraFields.length == 0) {
                 PacketManager.clientUDP(new PacketsAttacks.MultiClientDependent(hboxID, weaponVelocity, positions, velocities, this));
             } else {
                 PacketManager.clientUDP(new PacketsAttacks.MultiClientDependentExtra(hboxID, weaponVelocity, positions, velocities, extraFields, this));
             }
         } else {
-            if (0 == extraFields.length) {
+            if (extraFields.length == 0) {
                 PacketManager.clientUDP(new PacketsAttacks.MultiClientIndependent(weaponVelocity, positions, velocities, this));
             } else {
                 PacketManager.clientUDP(new PacketsAttacks.MultiClientIndependentExtra(weaponVelocity, positions, velocities, extraFields, this));
@@ -500,13 +510,13 @@ public enum SyncedAttack {
 
     public void syncAttackNoHboxServer(Schmuck user, Vector2 startPos, boolean independent, float[] extraFields, int connID) {
         Object packet;
-        if (0 == extraFields.length) {
+        if (extraFields.length == 0) {
             packet = new PacketsAttacks.SyncedAttackNoHboxServer(user.getEntityID(), startPos, this);
         } else {
             packet = new PacketsAttacks.SyncedAttackNoHboxExtraServer(user.getEntityID(), startPos, extraFields, this);
         }
 
-        if (0 == connID || !independent) {
+        if (connID == 0 || !independent) {
             PacketManager.serverUDPAll(packet);
         } else {
             PacketManager.serverUDPAllExcept(connID, packet);
@@ -514,7 +524,7 @@ public enum SyncedAttack {
     }
 
     public void syncAttackNoHboxClient(Vector2 startPos, boolean independent, float[] extraFields) {
-        if (0 == extraFields.length) {
+        if (extraFields.length == 0) {
             PacketManager.clientUDP(new PacketsAttacks.SyncedAttackNoHbox(startPos, independent, this));
         } else {
             PacketManager.clientUDP(new PacketsAttacks.SyncedAttackNoHboxExtra(startPos, independent, extraFields, this));

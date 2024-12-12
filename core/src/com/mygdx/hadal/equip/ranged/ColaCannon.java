@@ -8,7 +8,9 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -44,8 +46,8 @@ public class ColaCannon extends RangedWeapon {
 	private float lastNoise;
 
 	public ColaCannon(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 
 	private float lastVelocity;
@@ -108,7 +110,9 @@ public class ColaCannon extends RangedWeapon {
 					lastNoise = 0.0f;
 				}
 
-				SoundEffect.SHAKE.playSourced(state, playerPosition, 1.0f);
+				SoundManager.play(state, new SoundLoad(SoundEffect.SHAKE)
+						.setPosition(playerPosition));
+
 				EffectEntityManager.getParticle(state, new ParticleCreate(Particle.COLA_IMPACT, playerPosition)
 						.setLifespan(1.0f));
 			}

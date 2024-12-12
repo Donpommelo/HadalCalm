@@ -7,6 +7,10 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 
+/**
+ * This causes the enemy to award the player a point when defeated.
+ * This is used for cooperative survival modes as a way to track kills
+ */
 public class DeathPlayerScore extends EnemyStrategy {
 
     public DeathPlayerScore(PlayState state, Enemy enemy) {

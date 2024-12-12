@@ -12,13 +12,16 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class User {
 
+    //the user's connection id. This is treated as a user id for most purposes
     private final int connID;
+
+    //the user's latency connecting to the host
     private int ping;
 
     //player info and relevant score information
     private Player player;
 
-    //managers keep track of loadout, name and transition state respectively
+    //managers keep track of loadout, name and transition state and visual effects respectively
     private final LoadoutManager loadoutManager;
     private final StringManager stringManager;
     private final UserTransitionManager transitionManager;
@@ -78,6 +81,10 @@ public class User {
         effectManager.newLevelReset();
     }
 
+    /**
+     * This is run in the player's create().
+     * atm, this just checks a single artifact to hide spawn visual effects for invisible respawn
+     */
     public void afterPlayerCreate(Player player) {
         effectManager.afterPlayerCreate(player);
     }
@@ -107,7 +114,6 @@ public class User {
             this.spectator = spectator;
         }
     }
-
 
     public Player getPlayer() { return player; }
 

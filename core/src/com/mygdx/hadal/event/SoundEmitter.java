@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -19,22 +21,20 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
  * sound: THe string enum name of the sound played
  * volume: 0.0f - 1.0f- of how loud the sound is
  * global: boolean if the sound is played from a specified location or not (for determining pan)
- * universal: boolean if the sound is played for all players or not
- * 
+ *
  * @author Honjo Himeister
  */
 public class SoundEmitter extends Event {
 
 	private final SoundEffect sound;
 	private final float volume;
-	private final boolean global, universal;
+	private final boolean global;
 	
-	public SoundEmitter(PlayState state, Vector2 startPos, Vector2 size, String sound, float volume, boolean global, boolean universal) {
+	public SoundEmitter(PlayState state, Vector2 startPos, Vector2 size, String sound, float volume, boolean global) {
 		super(state, startPos, size);
 		this.sound = SoundEffect.valueOf(sound);
 		this.volume = volume;
 		this.global = global;
-		this.universal = universal;
 	}
 	
 	@Override
@@ -44,20 +44,11 @@ public class SoundEmitter extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
-				if (global) {
-					if (universal) {
-						sound.playUniversal(state, null, volume, false);
-					} else {
-						sound.playExclusive(state, null, p, volume, false);
-					}
-				} else {
-					if (universal) {
-						sound.playUniversal(state, event.getPixelPosition(), volume, false);
-					} else {
-						sound.playExclusive(state, event.getPixelPosition(), p, volume, false);
-					}
+				SoundLoad soundLoad = new SoundLoad(sound).setVolume(volume);
+				if (!global) {
+					soundLoad.setPosition(event.getPixelPosition());
 				}
+				SoundManager.play(state, soundLoad);
 			}
 		};
 

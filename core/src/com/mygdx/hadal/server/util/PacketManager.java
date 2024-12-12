@@ -1,10 +1,13 @@
-package com.mygdx.hadal.managers;
+package com.mygdx.hadal.server.util;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
 import com.mygdx.hadal.server.packets.Packets;
 
+/**
+ * PacketManager contains packet-sending functions for both client and server.
+ */
 public class PacketManager {
 
     private static Client client;

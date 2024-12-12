@@ -11,7 +11,7 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.map.ArcadeMode;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -27,6 +27,11 @@ import java.util.Map;
 
 import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
+/**
+ * The Arcade Marquis appears in the Arcade Break room.
+ * ATM, this displays the next mode options and allows the players to vote.
+ *
+ */
 public class ArcadeMarquis extends Event {
 
     private static final int CHOICE_NUMBER = 4;
@@ -59,10 +64,14 @@ public class ArcadeMarquis extends Event {
         FONT_UI.draw(batch, text.toString(), entityLocation.x, entityLocation.y);
     }
 
+    /**
+     * Determine what the next mode options are
+     */
     private static void initializeChoices(PlayState state) {
         modeChoices.clear();
         mapChoices.clear();
 
+        //first option will always be a standard deathmatch
         modeChoices.add(ArcadeMode.DEATHMATCH);
         mapChoices.add(getApplicableMap(GameMode.DEATHMATCH));
 
@@ -89,6 +98,11 @@ public class ArcadeMarquis extends Event {
     }
 
     private static final HashMap<Integer, Integer> voteCounts = new HashMap<>();
+
+    /**
+     * When moving on to the next round, we determine the winner of the vote and return its index
+     * Ties are broken randomly
+     */
     public static int getVotedOption() {
         int maxVote = 0;
         for (int i = 0; i < modeChoices.size; i++) {
@@ -114,6 +128,9 @@ public class ArcadeMarquis extends Event {
         return winningOptions.random();
     }
 
+    /**
+     * This is run by the client receiving options from the server.
+     */
     public static void updateClientChoices(String[] modes, String[] maps) {
         modeChoices.clear();
         mapChoices.clear();
@@ -126,6 +143,9 @@ public class ArcadeMarquis extends Event {
         updateText();
     }
 
+    /**
+     * This is run when a player votes. Server keeps track and client sends their choice.
+     */
     public static void playerVote(PlayState state, User user, int vote) {
         if (state.isServer()) {
             user.getScoreManager().setNextRoundVote(vote);

@@ -9,7 +9,9 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -62,7 +64,7 @@ public class Anchor extends SyncedAttacker {
                     if (!landed) {
                         landed = true;
 
-                        SoundEffect.METAL_IMPACT_2.playSourced(state, hboxLocation, 1.0f);
+                        SoundManager.play(state, new SoundLoad(SoundEffect.METAL_IMPACT_2).setPosition(hboxLocation));
                         EffectEntityManager.getParticle(state, new ParticleCreate(Particle.BOULDER_BREAK, hboxLocation)
                                 .setLifespan(0.5f));
                     }

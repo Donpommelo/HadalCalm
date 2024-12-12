@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -68,7 +70,10 @@ public class BrigglesBladedBoot extends Artifact {
 						
 						@Override
 						public void onHit(HadalData fixB, Body body) {
-							SoundEffect.KICK1.playSourced(state, p.getSchmuck().getPixelPosition(), 0.3f);
+							SoundManager.play(state, new SoundLoad(SoundEffect.KICK1)
+									.setVolume(0.3f)
+									.setPosition(p.getSchmuck().getPixelPosition()));
+
 							p.getSchmuck().pushMomentumMitigation(0, RECOIL);
 						}
 						

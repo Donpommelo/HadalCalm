@@ -23,6 +23,8 @@ import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
 /**
+ * The TrickOrTreating status is applied to players when playing the special event mode.
+ * This keeps track of player held candy and process candy stealing, dropping and returning
  */
 public class TrickOrTreating extends Status {
 
@@ -39,6 +41,7 @@ public class TrickOrTreating extends Status {
 	private final Player player;
 	private int candyCount;
 
+	//these keep track of recently returned candy; used for global message.
 	private boolean recentReturn;
 	private float recentReturnTime;
 	private int recentReturnCount;
@@ -54,9 +57,11 @@ public class TrickOrTreating extends Status {
 	private float controllerCount;
 	@Override
 	public void timePassing(float delta) {
-		if (0.0f < recentReturnTime && state.isServer()) {
+
+		//after returning candy, a message is emitted after a delay after last candy is returned
+		if (recentReturnTime > 0.0f && state.isServer()) {
 			recentReturnTime -= delta;
-			if (0.0f > recentReturnTime) {
+			if (recentReturnTime < 0.0f) {
 				String playerName = TextUtil.getPlayerColorName(player, MAX_NAME_LENGTH);
 				state.getUIManager().getKillFeed().addNotification(UIText.CANDY_RETRIEVED.text(playerName, "" + recentReturnCount), true);
 
@@ -68,6 +73,8 @@ public class TrickOrTreating extends Status {
 
 	@Override
 	public void onRender(SpriteBatch batch, Vector2 playerLocation, Vector2 playerSize) {
+
+		//draw candy icon and count when rendering player with candy
 		if (0 < player.getUser().getScoreManager().getExtraModeScore()) {
 			batch.draw(candyIcon,
 					playerLocation.x - playerSize.x / 2 - 20,
@@ -83,12 +90,17 @@ public class TrickOrTreating extends Status {
 
 	@Override
 	public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
+
+		//all candy is dropped on death
 		if (0 < candyCount && state.isServer()) {
 			PickupUtils.spawnCandy(state, player, player.getPixelPosition(), player.getLinearVelocity(), candyCount);
 			incrementCandyCount(-candyCount);
 		}
 	}
 
+	/**
+	 * run when player is nearby bucket. Returns candy to friendly bucket or steals from enemy one
+	 */
 	public void bucketCheck(TrickorTreatBucket bucket, float delta) {
 		if (AlignmentFilter.currentTeams[bucket.getTeamIndex()] != player.getUser().getLoadoutManager().getActiveLoadout().team) {
 			int enemyCandyCount = AlignmentFilter.teamScores[bucket.getTeamIndex()];
@@ -110,6 +122,9 @@ public class TrickOrTreating extends Status {
 		}
 	}
 
+	/**
+	 * Reduces bucket candy and spawns a cnady pickup that is vacuumed towards the player
+	 */
 	private void stealCandy(TrickorTreatBucket bucket) {
 		bucket.getEventData().preActivate(null, player);
 		Hitbox candy = SyncedAttack.CANDY.initiateSyncedAttackSingle(state, player, bucket.getPixelPosition(), new Vector2());
@@ -118,6 +133,9 @@ public class TrickOrTreating extends Status {
 		candy.addStrategy(vacuumStrategy);
 	}
 
+	/**
+	 * Reduces held candy and spawns a candy pickup that is vacuumed towards the bucket
+	 */
 	private void returnCandy(TrickorTreatBucket bucket) {
 		incrementCandyCount(-1);
 
@@ -141,6 +159,9 @@ public class TrickOrTreating extends Status {
 		player.getUser().setScoreUpdated(true);
 	}
 
+	/**
+	 * This controls candy steal speed. Dependent on the amount of candy left in the bucket
+	 */
 	private float getCandyStealTime(int bucketCandyCount) {
 		float candyScore = Math.min(Math.max(bucketCandyCount - candyCount, 0) / CANDY_STEAL_THRESHOLD_MIN, 1.0f);
 		return CANDY_STEAL_TIME_MAX - candyScore * (CANDY_STEAL_TIME_MAX - CANDY_STEAL_TIME_MIN);

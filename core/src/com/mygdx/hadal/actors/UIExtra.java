@@ -77,7 +77,7 @@ public class UIExtra extends AHadalActor {
 	 * In team modes, this renders ally hp bars in the upper right hand side of the screen
 	 */
 	private void renderTeamHp(Batch batch, short viewingUserTeam) {
-		if (null == state.getUIManager().getScoreWindow()) { return; }
+		if (state.getUIManager().getScoreWindow() == null) { return; }
 		if (SettingTeamMode.TeamMode.FFA == state.getMode().getTeamMode()) { return; }
 
 		float currentY = HadalGame.CONFIG_HEIGHT - START_Y_EXTRA;
@@ -85,8 +85,8 @@ public class UIExtra extends AHadalActor {
 
 		//iterate through each non-spectator on the same team
 		for (User user : state.getUIManager().getScoreWindow().getOrderedUsers()) {
-			if (!user.isSpectator() && null != user.getPlayer()) {
-				if (null != user.getPlayer().getPlayerData() &&
+			if (!user.isSpectator() && user.getPlayer() != null) {
+				if (user.getPlayer().getPlayerData() != null &&
 						(!user.equals(HadalGame.usm.getOwnUser()) || SettingArcade.arcade)) {
 					if (user.getPlayer().getHitboxFilter() == viewingUserTeam) {
 						if (SettingArcade.arcade && state.getMode().equals(GameMode.ARCADE)) {
@@ -139,7 +139,7 @@ public class UIExtra extends AHadalActor {
 		//if we are spectating another player, we want to ui to match the spectate target instead of ourselves
 		boolean spectatorFound = false;
 		if (state.getSpectatorManager().isSpectatorMode()) {
-			if (null != state.getUIManager().getUiSpectator().getSpectatorTarget()) {
+			if (state.getUIManager().getUiSpectator().getSpectatorTarget() != null) {
 				user = state.getUIManager().getUiSpectator().getSpectatorTarget().getUser();
 				spectatorFound = true;
 			}
@@ -149,8 +149,8 @@ public class UIExtra extends AHadalActor {
 		}
 
 		//check if user is null b/c several ui tags require checking user information
-		if (null != user) {
-			if (null != user.getPlayer()) {
+		if (user != null) {
+			if (user.getPlayer() != null) {
 				viewingUserTeam = user.getPlayer().getHitboxFilter();
 			}
 			for (UITag uiTag : uiTags) {
@@ -270,13 +270,13 @@ public class UIExtra extends AHadalActor {
 	 * This iterates through each team and gets the number of players on that team that are currently alive
 	 */
 	public void sortTeamAlive(StringBuilder text) {
-		if (null != state.getUIManager().getScoreWindow()) {
+		if (state.getUIManager().getScoreWindow() != null) {
 			int scoreNum = 0;
 			for (int i = 0; i < AlignmentFilter.teamScores.length; i++) {
 				int numAlive = 0;
 				for (User user : state.getUIManager().getScoreWindow().getOrderedUsers()) {
 					if (!user.isSpectator()) {
-						if (null != user.getPlayer()) {
+						if (user.getPlayer() != null) {
 							if (user.getPlayer().isAlive()) {
 								if (user.getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[i]) {
 									numAlive++;
@@ -321,7 +321,7 @@ public class UIExtra extends AHadalActor {
 	}
 
 	public void processArcadeRound(StringBuilder text) {
-		if (null != state.getUIManager().getScoreWindow()) {
+		if (state.getUIManager().getScoreWindow() != null) {
 			if (SettingArcade.overtime) {
 				text.append(UIText.UI_ARCADE_ROUND.text(String.valueOf(SettingArcade.currentRound))).append("\n");
 			} else {

@@ -9,6 +9,8 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -72,7 +74,9 @@ public class TouchMeNot extends Artifact {
 										Vector2 newVelo = new Vector2(fixB.getEntity().getPosition()).sub(p.getSchmuck().getPosition());
 										fixB.getEntity().setLinearVelocity(newVelo.nor().scl(KNOCKBACK));
 
-										SoundEffect.SPRING.playSourced(state, p.getSchmuck().getPixelPosition(), 0.2f);
+										SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+												.setVolume(0.2f)
+												.setPosition(p.getSchmuck().getPixelPosition()));
 									}
 								}
 							}

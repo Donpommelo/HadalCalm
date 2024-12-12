@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -35,7 +37,9 @@ public class Slodge extends SyncedAttacker {
         if (extraFields.length > 0) {
             shotNum = (int) extraFields[0];
             if (extraFields[0] == 1) {
-                SoundEffect.DARKNESS1.playSourced(state, user.getPixelPosition(), 0.9f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.WIND2)
+                        .setVolume(0.9f)
+                        .setPosition(startPosition));
             }
         }
 

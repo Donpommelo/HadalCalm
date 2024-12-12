@@ -8,8 +8,10 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.requests.SoundCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
@@ -34,15 +36,15 @@ public class Minigun extends RangedWeapon {
 	private static final float LIFESPAN = MinigunBullet.LIFESPAN;
 	private static final float BASE_DAMAGE = MinigunBullet.BASE_DAMAGE;
 
-	private static final Sprite weaponSprite = Sprite.MT_MACHINEGUN;
-	private static final Sprite eventSprite = Sprite.P_MACHINEGUN;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_MACHINEGUN;
+	private static final Sprite EVENT_SPRITE = Sprite.P_MACHINEGUN;
 
 	private SoundEntity chargeSound, fireSound;
 	private ParticleEntity slow;
 
 	public Minigun(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
-				weaponSprite, eventSprite, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 	
 	@Override
@@ -91,7 +93,9 @@ public class Minigun extends RangedWeapon {
 		boolean firing = shooting && user.getUiHelper().getChargePercent() == 1.0f;
 
 		if (!shooting && (chargeSound != null || (fireSound != null && fireSound.isOn()))) {
-			SoundEffect.MINIGUN_DOWN.playSourced(state, playerPosition, 0.5f);
+			SoundManager.play(state, new SoundLoad(SoundEffect.MINIGUN_DOWN)
+					.setVolume(0.5f)
+					.setPosition(playerPosition));
 		}
 
 		if (shooting) {
@@ -99,7 +103,6 @@ public class Minigun extends RangedWeapon {
 				slow = EffectEntityManager.getParticle(state, new ParticleCreate(Particle.STUN, user)
 						.setStartOn(false)
 						.setScale(0.6f));
-
 			}
 			if (slow != null) {
 				slow.turnOn();

@@ -18,6 +18,7 @@ import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.text.TooltipManager;
 import com.mygdx.hadal.text.UIText;
 
@@ -123,7 +124,7 @@ public class AboutState extends GameState {
 
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						soundRoomSelected();
 					}
 				});
@@ -134,7 +135,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						aboutSelected();
 			        }
 			    });
@@ -145,7 +146,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						tipsSelected();
 			        }
 			    });
@@ -156,7 +157,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						miscSelected();
 			        }
 			    });
@@ -167,7 +168,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						creditsSelected();
 			        }
 			    });
@@ -178,7 +179,7 @@ public class AboutState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.NEGATIVE.play(1.0f, false);
+						SoundManager.play(SoundEffect.NEGATIVE);
 						transitionOut(() -> StateManager.removeState(AboutState.class));
 			        }
 			    });
@@ -195,7 +196,7 @@ public class AboutState extends GameState {
 		app.newMenu(stage);
 		transitionIn();
 		
-		//start off with about selected
+		//start off with sound room selected
 		soundRoomSelected();
 	}
 
@@ -251,7 +252,7 @@ public class AboutState extends GameState {
 
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-					SoundEffect.NEGATIVE.play(1.0f, false);
+					SoundManager.play(SoundEffect.NEGATIVE);
 					MusicPlayer.playSong(track, 1.0f);
 					setTrack(track, true);
 				}
@@ -281,7 +282,7 @@ public class AboutState extends GameState {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(1.0f, false);
+				SoundManager.play(SoundEffect.NEGATIVE);
 				if (MusicPlayer.getCurrentSong() != null) {
 					if (MusicPlayer.getCurrentSong().isPlaying()) {
 						MusicPlayer.pause();
@@ -304,7 +305,7 @@ public class AboutState extends GameState {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(1.0f, false);
+				SoundManager.play(SoundEffect.NEGATIVE);
 				MusicPlayer.stop();
 				setTrack(null, false);
 			}
@@ -318,7 +319,7 @@ public class AboutState extends GameState {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.NEGATIVE.play(1.0f, false);
+				SoundManager.play(SoundEffect.NEGATIVE);
 
 				if (MusicPlayer.getCurrentSong() != null) {
 					MusicPlayer.getCurrentSong().setPosition(MusicPlayer.getCurrentTrack().getTrackLength());
@@ -392,7 +393,7 @@ public class AboutState extends GameState {
 			
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH1.play(1.0f, false);
+				SoundManager.play(SoundEffect.UISWITCH1);
 				Gdx.net.openURI("https://donpommelo.itch.io/");
 	        }
 	    });
@@ -405,7 +406,7 @@ public class AboutState extends GameState {
 			
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH1.play(1.0f, false);
+				SoundManager.play(SoundEffect.UISWITCH1);
 				Gdx.net.openURI("https://www.instagram.com/shoebanfoo/");
 	        }
 	    });
@@ -418,7 +419,7 @@ public class AboutState extends GameState {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH1.play(1.0f, false);
+				SoundManager.play(SoundEffect.UISWITCH1);
 				Gdx.net.openURI("https://soundcloud.com/vcrchitect/");
 			}
 		});

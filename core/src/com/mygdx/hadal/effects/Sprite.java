@@ -213,7 +213,7 @@ public enum Sprite {
 	DRONE_ARM_BACK(SpriteType.DRONE, "drone_arm_back"),
 	DRONE_ARM_FRONT(SpriteType.DRONE, "drone_arm_front"),
 	DRONE_BODY(SpriteType.DRONE, "drone_body"),
-	DRONE_EYE(SpriteType.DRONE, "drone_eye", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),
+	DRONE_EYE(SpriteType.DRONE, "drone_eye", PlayMode.NORMAL, SpriteConstants.SPRITE_ANIMATION_SPEED),
 	DRONE_DOT(SpriteType.DRONE, "drone_dot"),
 	
 	TURRET_BASE(SpriteType.TURRET, "base", PlayMode.LOOP, SpriteConstants.SPRITE_ANIMATION_SPEED),

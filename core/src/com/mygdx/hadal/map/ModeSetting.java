@@ -62,6 +62,13 @@ public class ModeSetting {
     public void loadSettingMisc(PlayState state, GameMode mode) {}
 
     /**
+     * This is run when initiating a new player's respawn
+     * @param newLoadout: new player's loadout. edit it to set defaults
+     * @param connID: the id of the user we are creating a player for
+     */
+    public void processNewPlayerAlignment(PlayState state, GameMode mode, Loadout newLoadout, int connID) {}
+
+    /**
      * This is run when creating a new player
      * @param newLoadout: new player's loadout. edit it to set defaults
      * @param connID: the id of the user we are creating a player for
@@ -76,6 +83,9 @@ public class ModeSetting {
      */
     public void modifyNewPlayer(PlayState state, GameMode mode, Loadout newLoadout, Player p, short hitboxFilter) {}
 
+    /**
+     * This is run after a player is created; for effects that require the player's body to exist
+     */
     public void postCreatePlayer(PlayState state, GameMode mode, Player p) {}
 
     /**

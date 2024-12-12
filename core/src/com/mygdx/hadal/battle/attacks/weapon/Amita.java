@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -35,7 +37,10 @@ public class Amita extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.ELECTRIC_CHAIN.playSourced(state, startPosition, 0.4f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.ELECTRIC_CHAIN)
+                .setVolume(0.4f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         //we create an invisible hitbox that moves in a straight line.

@@ -300,6 +300,18 @@ public enum GameMode {
     }
 
     /**
+     * This is run before a player is created.
+     * This is separate from processNewPlayerLoadout because it occurs before the player spawns.
+     * This is needed for affects that modify the player's loadout, since their team decides where they spawn in some modes
+     */
+    public void processNewPlayerAlignment(PlayState state, Loadout newLoadout, int connID) {
+        if (!state.isServer()) { return; }
+        for (ModeSetting setting : applicableSettings) {
+            setting.processNewPlayerAlignment(state, this, newLoadout, connID);
+        }
+    }
+
+    /**
      * This is run when a player is created. This is used to change properties of the player prior to player init
      * @param newLoadout: the new loadout the player will spawn with. modify to change starting loadout
      * @param connID: connID of the player being created. We use connID b/c the player isn't created yet
@@ -375,6 +387,7 @@ public enum GameMode {
         if (!state.isServer()) { return; }
         if (p != null) {
             User user = p.getUser();
+
             if (user != null) {
                 user.getScoreManager().setScore(user.getScoreManager().getScore() + scoreIncrement);
 

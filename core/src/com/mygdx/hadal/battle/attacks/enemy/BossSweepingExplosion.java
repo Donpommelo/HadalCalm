@@ -5,6 +5,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.battle.WeaponUtils;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
@@ -16,7 +18,10 @@ public class BossSweepingExplosion extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        SoundEffect.EXPLOSION6.playSourced(state, startPosition, 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.EXPLOSION6)
+                .setVolume(0.5f)
+                .setPosition(startPosition));
+
         WeaponUtils.createExplosion(state, startPosition, EXPLOSION_SIZE, user, EXPLOSION_DAMAGE,
                 EXPLOSION_KNOCKBACK, user.getHitboxFilter(), true, DamageSource.ENEMY_ATTACK);
     }

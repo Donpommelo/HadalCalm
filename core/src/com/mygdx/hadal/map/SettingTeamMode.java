@@ -108,6 +108,24 @@ public class SettingTeamMode extends ModeSetting {
     }
 
     @Override
+    public void processNewPlayerAlignment(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
+        User user = HadalGame.usm.getUsers().get(connID);
+        if (user != null) {
+
+            //on auto-assign team mode, player teams are set to their "override" value
+            if (mode.isTeamDesignated()) {
+                if (!user.isTeamAssigned()) {
+                    AlignmentFilter.assignNewPlayerToTeam(user);
+                }
+            } else {
+
+                //otherwise, we use this line to set their "team" value to their chosen color
+                user.setTeamFilter(newLoadout.team);
+            }
+        }
+    }
+
+    @Override
     public void processNewPlayerLoadout(PlayState state, GameMode mode, Loadout newLoadout, int connID) {
         if (state.isServer()) {
             User user = HadalGame.usm.getUsers().get(connID);
@@ -115,14 +133,7 @@ public class SettingTeamMode extends ModeSetting {
 
                 //on auto-assign team mode, player teams are set to their "override" value
                 if (mode.isTeamDesignated()) {
-                    if (!user.isTeamAssigned()) {
-                        AlignmentFilter.assignNewPlayerToTeam(user);
-                    }
                     newLoadout.team = user.getTeamFilter();
-                } else {
-
-                    //otherwise, we use this line to set their "team" value to their chosen color
-                    user.setTeamFilter(newLoadout.team);
                 }
             }
         }

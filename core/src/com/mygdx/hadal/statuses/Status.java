@@ -113,7 +113,9 @@ public class Status implements Comparable<Status> {
 	public void onReloadStart(Equippable tool) {}
 
 	public void onReloadFinish(Equippable tool) {}
-	
+
+	public void onHitboxInit(Hitbox hbox) {}
+
 	public void onHitboxCreation(Hitbox hbox) {}
 	
 	public void playerCreate(boolean reset) {}

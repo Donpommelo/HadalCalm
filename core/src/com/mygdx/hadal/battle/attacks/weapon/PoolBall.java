@@ -10,6 +10,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -53,7 +55,10 @@ public class PoolBall extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.BILLIARD_HIT.playSourced(state, startPosition, 0.8f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.BILLIARD_HIT)
+                .setVolume(0.8f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         float chargeAmount = 0.0f;
@@ -121,7 +126,9 @@ public class PoolBall extends SyncedAttacker {
             public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
                     if (UserDataType.HITBOX.equals(fixB.getType()) || UserDataType.WALL.equals(fixB.getType())) {
-                        SoundEffect.BILLIARD_HIT.playSourced(state, startPosition, 0.3f);
+                        SoundManager.play(state, new SoundLoad(SoundEffect.BILLIARD_HIT)
+                                .setVolume(0.3f)
+                                .setPosition(startPosition));
                     }
                 }
             }

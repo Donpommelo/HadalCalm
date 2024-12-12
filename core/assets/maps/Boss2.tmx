@@ -132,7 +132,7 @@
     <property name="independent" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="32" name="Start" type="Start" x="1600" y="1248" width="32" height="32">
+  <object id="32" name="Start" type="Start" x="1600" y="1024" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
@@ -271,17 +271,17 @@
     <property name="triggeredId" value="shake"/>
    </properties>
   </object>
-  <object id="73" name="Start" type="Start" x="1792" y="1248" width="32" height="32">
+  <object id="73" name="Start" type="Start" x="1792" y="1024" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="74" name="Start" type="Start" x="1984" y="1248" width="32" height="32">
+  <object id="74" name="Start" type="Start" x="1984" y="1024" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="75" name="Start" type="Start" x="2176" y="1248" width="32" height="32">
+  <object id="75" name="Start" type="Start" x="2176" y="1024" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>

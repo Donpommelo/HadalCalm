@@ -9,8 +9,8 @@ import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.SpriteManager;
+import com.mygdx.hadal.requests.RagdollCreate;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.b2d.HadalBody;
@@ -31,11 +31,7 @@ public class Ragdoll extends HadalEntity {
 	private static final float ANGLE_AMP = 2.0f;
 	private static final float BASE_ANGLE = 8.0f;
 
-	//these control the ragdoll fading before despawning
-	private static final float FADE_LIFESPAN = 1.0f;
-
 	//This is the sprite that will be displayed
-	private Sprite sprite;
 	private TextureRegion ragdollSprite;
 	
 	//how long does the ragdoll last
@@ -43,7 +39,7 @@ public class Ragdoll extends HadalEntity {
 	private final float gravity;
 	
 	private final Vector2 startVelo;
-	private final float startAngle;
+	private final float startAngle, angularDampening, linearDampening;
 	
 	//is the ragdoll a sensor? (i.e does it have collision)
 	private final boolean sensor;
@@ -51,51 +47,35 @@ public class Ragdoll extends HadalEntity {
 	//do we set the velocity of the ragdoll upon spawning or just change its angle? 
 	private final boolean setVelo;
 	
-	//when this ragdoll is created on the server, does the client create a ragdoll of its own (this is false for stuff like currents)
-	private final boolean synced;
-
 	//does the ragdoll fade when its lifespan decreases? Only if needed, since fading sets the batch
 	private float fadeDuration;
 	private boolean fade, fadeStarted;
 	private Shader fadeShader;
 
-	private boolean spinning = true;
+	private final boolean spinning;
 
-	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity,
-				   boolean setVelo, boolean sensor, boolean synced) {
-		super(state, startPos, size);
-		this.startVelo = new Vector2(startVelo);
-		this.startAngle = BASE_ANGLE * ANGLE_AMP;
-		this.ragdollDuration = duration;
-		this.gravity = gravity;
-		this.sprite = sprite;
-		this.sensor = sensor;
-		this.setVelo = setVelo;
-		this.synced = synced;
-		if (!Sprite.NOTHING.equals(sprite)) {
-			ragdollSprite = SpriteManager.getFrame(sprite);
+	public Ragdoll(PlayState state, RagdollCreate ragdollCreate) {
+		super(state, ragdollCreate.getPosition(), ragdollCreate.getSize());
+		this.startVelo = ragdollCreate.getVelocity();
+		this.angularDampening = ragdollCreate.getAngularDampening();
+		this.linearDampening = ragdollCreate.getLinearDampening();
+		this.ragdollDuration = ragdollCreate.getLifespan();
+		this.gravity = ragdollCreate.getGravity();
+		this.sensor = ragdollCreate.isSensor();
+		this.setVelo = ragdollCreate.isStartVelocity();
+		this.spinning = ragdollCreate.isSpinning();
+
+		if (ragdollCreate.getTextureRegion() != null) {
+			ragdollSprite = ragdollCreate.getTextureRegion();
+		} else if (!Sprite.NOTHING.equals(ragdollCreate.getSprite())) {
+			ragdollSprite = SpriteManager.getFrame(ragdollCreate.getSprite());
 		}
-		
-		setSyncDefault(false);
-	}
 
-	/**
-	 * This alternate constructor is used for ragdolls that do not use a designated sprite (i.e. from a frame buffer)
-	 * Because there is no Sprite, these are not serializable and must be made on both client and server.
-	 * Also, remember to manually dispose of the frame buffer object that is used for this ragdoll
-	 */
-	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, TextureRegion textureRegion, Vector2 startVelo, float duration,
-				   float gravity, boolean setVelo, boolean sensor) {
-		super(state, startPos, size);
-		this.startVelo = startVelo;
-		this.ragdollDuration = duration;
-		this.gravity = gravity;
-		this.sensor = sensor;
-		this.setVelo = setVelo;
-		ragdollSprite = textureRegion;
-
-		this.synced = false;
-		setSyncDefault(false);
+		if (ragdollCreate.isFade()) {
+			this.fade = true;
+			this.fadeDuration = ragdollCreate.getFadeDuration();
+			this.fadeShader = ragdollCreate.getFadeShader();
+		}
 
 		//ragdoll spin direction depends on which way it is moving
 		if (startVelo.x >= 0) {
@@ -103,6 +83,8 @@ public class Ragdoll extends HadalEntity {
 		} else {
 			this.startAngle = BASE_ANGLE * ANGLE_AMP;
 		}
+
+		setSyncDefault(false);
 	}
 
 	private final Vector2 newVelocity = new Vector2();
@@ -120,6 +102,7 @@ public class Ragdoll extends HadalEntity {
 		if (spinning) {
 			setAngularVelocity(startAngle);
 		}
+
 		float newDegrees = startVelo.angleDeg() + MathUtils.random(-SPREAD, SPREAD + 1);
 		newVelocity.set(startVelo).add(1, 1);
 		
@@ -127,6 +110,13 @@ public class Ragdoll extends HadalEntity {
 			setLinearVelocity(newVelocity.nor().scl(VELO_AMP).setAngleDeg(newDegrees));
 		} else {
 			setLinearVelocity(newVelocity.setAngleDeg(newDegrees));
+		}
+
+		if (angularDampening != 0.0f) {
+			body.setAngularDamping(angularDampening);
+		}
+		if (linearDampening != 0.0f) {
+			body.setLinearDamping(linearDampening);
 		}
 	}
 
@@ -171,36 +161,7 @@ public class Ragdoll extends HadalEntity {
 				MathUtils.radDeg * getAngle());
 		}
 	}
-	
-	/**
-	 * As Default: Upon created, the frag tells the client to create a client illusion tracking it
-	 */
-	@Override
-	public Object onServerCreate(boolean catchup) {
-		if (synced) {
-			return new Packets.CreateRagdoll(entityID, getPixelPosition(), size, sprite, startVelo, ragdollDuration, gravity,
-					setVelo, sensor, fade);
-		} else {
-			return null;
-		}
-	}
 
 	@Override
 	public Object onServerDelete() { return null; }
-
-	public Ragdoll setFade() {
-		return setFade(FADE_LIFESPAN, Shader.FADE);
-	}
-
-	public Ragdoll setFade(float fadeDuration, Shader fadeShader) {
-		this.fade = true;
-		this.fadeDuration = fadeDuration;
-		this.fadeShader = fadeShader;
-		return this;
-	}
-
-	public Ragdoll setSpinning(boolean spinning) {
-		this.spinning = spinning;
-		return this;
-	}
 }

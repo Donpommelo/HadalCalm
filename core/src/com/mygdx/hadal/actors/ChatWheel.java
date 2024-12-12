@@ -11,7 +11,7 @@ import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
@@ -43,7 +43,7 @@ public class ChatWheel {
 	private static final float BORDER_THICKNESS = 5.0f;
 
 	//this is a list of all the emote options
-	private static final String[] options = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
+	private static final String[] OPTIONS = {"RAGE", "NO", "YES", "LOVE", "SLEEP", "READY", "/roll", "SWEAT"};
 
 	private final PlayState state;
 
@@ -95,7 +95,7 @@ public class ChatWheel {
 				}
 
 				//decrement emote cooldown
-				if (0.0f < emoteCount) {
+				if (emoteCount > 0.0f) {
 					emoteCount -= delta;
 				}
 
@@ -119,7 +119,7 @@ public class ChatWheel {
 		wheel.setInnerRadiusPercent(WHEEL_THRESHOLD);
 
 		//add all options to the wheel
-		for (int i = 0; i < options.length; i ++) {
+		for (int i = 0; i < OPTIONS.length; i ++) {
 			Backdrop option = new Backdrop(indexToEmote(i), 50, 50, getFrameIndex(i)).setMirror();
 			option.setScale(TEXT_SCALE_UNSELECTED);
 			wheel.addActor(option);
@@ -156,10 +156,10 @@ public class ChatWheel {
 			if (active) {
 				int option = wheel.getHoveredIndex();
 
-				if (-1 != option && option < options.length) {
+				if (option != -1 && option < OPTIONS.length) {
 
 					//if emote is off cooldown, execute the emote
-					if (0.0f >= emoteCount) {
+					if (emoteCount <= 0.0f) {
 						emoteCount = EMOTE_CD;
 						//server processes the emote. clients send packet to server
 						if (state.isServer()) {
@@ -182,13 +182,13 @@ public class ChatWheel {
 	 */
 	public void emote(Player player, int emoteIndex, int connID) {
 		//special logic for the emote that does a chat command (/roll)
-		if (6 == emoteIndex) {
-			ConsoleCommandUtil.parseChatCommand(state, player, options[emoteIndex]);
+		if (emoteIndex == 6) {
+			ConsoleCommandUtil.parseChatCommand(state, player, OPTIONS[emoteIndex], connID);
 		} else {
-			HadalGame.server.addChatToAll(state, options[emoteIndex], DialogType.SYSTEM, connID);
+			HadalGame.server.addChatToAll(state, OPTIONS[emoteIndex], DialogType.SYSTEM, connID);
 		}
-		if (null != player) {
-			if (null != player.getPlayerData()) {
+		if (player != null) {
+			if (player.getPlayerData() != null) {
 				SyncedAttack.EMOTE.initiateSyncedAttackSingle(state, player, new Vector2(), new Vector2(), emoteIndex);
 			}
 		}

@@ -11,6 +11,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -44,8 +46,13 @@ public class Leapfrog extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.SPRING.playSourced(state, startPosition, 0.3f);
-        SoundEffect.FROG_CROAK.playSourced(state, startPosition, 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+                .setVolume(0.3f)
+                .setPosition(startPosition));
+        SoundManager.play(state, new SoundLoad(SoundEffect.FROG_CROAK)
+                .setVolume(0.5f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         Hitbox hbox = new RangedHitbox(state, startPosition, PROJECTILE_SIZE, LIFESPAN, startVelocity, user.getHitboxFilter(),
@@ -133,17 +140,22 @@ public class Leapfrog extends SyncedAttacker {
 
             private float leapAmount;
             private float groundedCount;
-            private float aerialCount;
+            private float lastJumpCount;
             private float jumpDuration, landDuration;
             private boolean jumpStart, jumping, landStart;
             @Override
             public void controller(float delta) {
                 if (feetData.getNumContacts() > 0) {
-                    aerialCount = 0.0f;
-
                     if (jumpStart && jumpDuration >= LEAP_DELAY) {
-                        SoundEffect.SPRING.playSourced(state, startPosition, 0.3f);
-                        SoundEffect.FROG_CROAK.playSourced(state, startPosition, 0.5f);
+                        lastJumpCount = 0.0f;
+
+                        SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+                                .setVolume(0.3f)
+                                .setPosition(startPosition));
+                        SoundManager.play(state, new SoundLoad(SoundEffect.FROG_CROAK)
+                                .setVolume(0.5f)
+                                .setPosition(startPosition));
+
                         hbox.setLinearVelocity(adjustedVelocity);
                         groundedCount = 0;
                         leapAmount++;
@@ -182,8 +194,8 @@ public class Leapfrog extends SyncedAttacker {
                     groundedCount = 0;
 
                     //safeguard for projectiles that never touch the ground
-                    aerialCount += delta;
-                    if (aerialCount >= MAX_LEAP_DURATION) {
+                    lastJumpCount += delta;
+                    if (lastJumpCount >= MAX_LEAP_DURATION) {
                         hbox.die();
                     }
                 }

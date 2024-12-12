@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -32,7 +34,10 @@ public class SeraphSpiral extends SyncedAttacker {
     public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                              Vector2[] startVelocity, float[] extraFields) {
         position.set(user.getPixelPosition());
-        SoundEffect.MAGIC3_BURST.playSourced(state, position, 1.1f, 0.75f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC3_BURST)
+                .setVolume(1.1f)
+                .setPitch(0.75f)
+                .setPosition(position));
 
         boolean bonus = false;
         int clockwise = -1;

@@ -8,8 +8,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * Ablaze units receive damage over time.
- * @author Glamhock Glecnicbasket
+ * Celebrating shmucks have confetti. Used when returning gto arcade break room
  */
 public class Celebrating extends Status {
 

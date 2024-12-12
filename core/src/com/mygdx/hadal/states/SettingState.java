@@ -19,7 +19,11 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.CursorManager;
 import com.mygdx.hadal.managers.JSONManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
+import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.TooltipManager;
 import com.mygdx.hadal.text.UIText;
 
@@ -81,7 +85,7 @@ public class SettingState extends GameState {
 
 	//These are all of the display and buttons visible to the player.
 	private Text displayOption, controlOption, audioOption, serverOption, miscOption, exitOption, resetOption;
-	private TextField portNumber, serverPassword;
+	private TextField serverPassword;
 	private SelectBox<String> screenOptions, resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor,
 		hitsoundOptions, artifactSlots, playerCapacity;
 	private Slider sound, music, master, hitsound;
@@ -124,7 +128,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						displaySelected();
 			        }
@@ -136,7 +140,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						controlsSelected();
 			        }
@@ -148,7 +152,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						audioSelected();
 			        }
@@ -160,7 +164,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						serverSelected();
 			        }
@@ -172,7 +176,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH1);
 						saveSettings();
 						miscSelected();
 			        }
@@ -184,7 +188,7 @@ public class SettingState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.NEGATIVE.play(1.0f, false);
+						SoundManager.play(SoundEffect.NEGATIVE);
 						saveSettings();
 
 						//if exiting to title screen, play transition. Otherwise, just remove this state
@@ -198,7 +202,7 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH3.play(1.0f, false);
+						SoundManager.play(SoundEffect.UISWITCH3);
 						resetSettings();
 			        }
 			    });
@@ -461,16 +465,18 @@ public class SettingState extends GameState {
 		sound.addListener(new InputListener() {
 
 			@Override
-			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					JSONManager.setting.indexToHitsound(
-						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
+
+					SoundManager.play(new SoundLoad(JSONManager.setting.indexToHitsound(hitsoundOptions.getSelectedIndex()))
+							.setVolume(sound.getValue() * master.getValue())
+							.setNoModifiers(true));
 				}
 			}
 
 			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				return true;
 			}
 		});
@@ -523,8 +529,9 @@ public class SettingState extends GameState {
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting master volume, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					JSONManager.setting.indexToHitsound(
-						hitsoundOptions.getSelectedIndex()).playNoModifiers(sound.getValue() * master.getValue());
+					SoundManager.play(new SoundLoad(JSONManager.setting.indexToHitsound(hitsoundOptions.getSelectedIndex()))
+									.setVolume(sound.getValue() * master.getValue())
+									.setNoModifiers(true));
 				}
 
 				JSONManager.setting.setMusicVolume(master.getValue());
@@ -551,8 +558,9 @@ public class SettingState extends GameState {
 				
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					JSONManager.setting.indexToHitsound(
-						hitsoundOptions.getSelectedIndex()).playNoModifiers(hitsound.getValue() * master.getValue());
+					SoundManager.play(new SoundLoad(JSONManager.setting.indexToHitsound(hitsoundOptions.getSelectedIndex()))
+							.setVolume(sound.getValue() * master.getValue())
+							.setNoModifiers(true));
 				}
 			}
 		});
@@ -576,8 +584,9 @@ public class SettingState extends GameState {
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				//when selecting a hitsound, we want to play an example for the player
 				if (hitsoundOptions.getSelectedIndex() != 0) {
-					JSONManager.setting.indexToHitsound(
-						hitsoundOptions.getSelectedIndex()).playNoModifiers(hitsound.getValue() * master.getValue());
+					SoundManager.play(new SoundLoad(JSONManager.setting.indexToHitsound(hitsoundOptions.getSelectedIndex()))
+							.setVolume(sound.getValue() * master.getValue())
+							.setNoModifiers(true));
 				}
 			}
 
@@ -612,18 +621,11 @@ public class SettingState extends GameState {
 		Text maxPlayers = new Text(UIText.SERVER_SIZE.text());
 		maxPlayers.setScale(DETAILS_SCALE);
 
-		Text port = new Text(UIText.PORT_NUMBER.text());
-		port.setScale(DETAILS_SCALE);
-
 		Text password = new Text(UIText.SERVER_PASSWORD.text());
 		password.setScale(DETAILS_SCALE);
 
 		Text slots = new Text(UIText.ARTIFACT_SLOTS.text());
 		slots.setScale(DETAILS_SCALE);
-		
-		portNumber = new TextField(String.valueOf(JSONManager.setting.getPortNumber()), SKIN);
-		portNumber.setMaxLength(5);
-		portNumber.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
 
 		serverPassword = new TextField(JSONManager.setting.getServerPassword(), SKIN);
 		serverPassword.setMaxLength(20);
@@ -639,8 +641,6 @@ public class SettingState extends GameState {
 		
 		details.add(maxPlayers);
 		details.add(playerCapacity).colspan(2).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
-		details.add(port);
-		details.add(portNumber).colspan(2).width(100).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(password);
 		details.add(serverPassword).colspan(2).width(100).height(DETAIL_HEIGHT).pad(DETAIL_PAD).row();
 		details.add(slots);
@@ -723,7 +723,6 @@ public class SettingState extends GameState {
 			}
 			case SERVER -> {
 				JSONManager.setting.setMaxPlayers(playerCapacity.getSelectedIndex());
-				JSONManager.setting.setPortNumber(Integer.parseInt(portNumber.getText()));
 				JSONManager.setting.setServerPassword(serverPassword.getText());
 				JSONManager.setting.setArtifactSlots(artifactSlots.getSelectedIndex());
 				JSONManager.setting.saveSetting();
@@ -770,11 +769,15 @@ public class SettingState extends GameState {
 	 */
 	private void updateSharedSettings() {
 		JSONManager.sharedSetting = JSONManager.setting.generateSharedSetting();
-		
+
 		//the server should update their scoretable when settings are changed
 		if (playState != null) {
 			if (playState.isServer()) {
 				playState.getUIManager().getScoreWindow().syncSettingTable();
+			} else if (HadalGame.usm.isHost()) {
+
+				//client hosts should send updated settings to server to echo.
+				PacketManager.clientTCP(new Packets.SyncSharedSettings(JSONManager.sharedSetting));
 			}
 		}
 	}

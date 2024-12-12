@@ -11,7 +11,9 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.EventUtils;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -28,7 +30,11 @@ import com.mygdx.hadal.utils.b2d.HadalFixture;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
- *
+ * This event is used for the Kingmaker mode. Players pick up the crown and gain score while surviving holding it.
+ * <p>
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * <p>
  *  @author Himbino Hectmaker
  */
 public class CrownHoldable extends Event {
@@ -126,7 +132,7 @@ public class CrownHoldable extends Event {
 				if (timeCount >= 1.0f) {
 					timeCount = 0;
 					state.getMode().processPlayerScoreChange(state, target, 1);
-					SoundEffect.COIN3.playUniversal(state, getPixelPosition(), 1.0f, false);
+					SoundManager.play(state, new SoundLoad(SoundEffect.COIN3).setPosition(getPixelPosition()));
 				}
 			}
 		} else if (awayFromSpawn) {
@@ -147,6 +153,16 @@ public class CrownHoldable extends Event {
 			if (target != null) {
 				hbLocation.set(target.getPosition());
 				setTransform(hbLocation, getAngle());
+
+				if (target.isAlive()) {
+
+					//client does not process score, but does play sound
+					timeCount += delta;
+					if (timeCount >= 1.0f) {
+						timeCount = 0;
+						SoundManager.play(state, new SoundLoad(SoundEffect.COIN3).setPosition(getPixelPosition()));
+					}
+				}
 			}
 		}
 	}
@@ -157,7 +173,6 @@ public class CrownHoldable extends Event {
 			super.clientInterpolation();
 		}
 	}
-
 
 	@Override
 	public Object onServerCreate(boolean catchup) {
@@ -181,7 +196,7 @@ public class CrownHoldable extends Event {
 
 		if (o instanceof PacketsSync.SyncFlag) {
 			if (o instanceof PacketsSync.SyncFlagAttached p1) {
-				HadalEntity entity = state.findEntity(p1.uuidMSBAttached, p1.uuidLSBAttached);
+				HadalEntity entity = state.findEntity(p1.attachedID);
 				if (entity != null) {
 					if (entity instanceof Player player) {
 						target = player;

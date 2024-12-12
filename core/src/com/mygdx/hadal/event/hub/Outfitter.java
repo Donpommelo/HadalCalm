@@ -11,7 +11,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -20,6 +20,7 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * The Outfitter allows the player to save and load saved outfits
  */
 public class Outfitter extends HubEvent {
 
@@ -42,8 +43,8 @@ public class Outfitter extends HubEvent {
 				public void clicked(InputEvent e, float x, float y) {
 					Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-					if (null == ownPlayer) { return; }
-					if (null == ownPlayer.getPlayerData()) { return; }
+					if (ownPlayer == null) { return; }
+					if (ownPlayer.getPlayerData() == null) { return; }
 
 					//selecting outfit equips its weapons/artifacts/active item
 					if (state.isServer()) {

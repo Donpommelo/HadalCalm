@@ -1,5 +1,6 @@
 package com.mygdx.hadal.server.managers;
 
+import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.managers.UIManager;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.server.actors.*;
@@ -15,6 +16,7 @@ public class UIManagerHeadless extends UIManager {
     public void initUIElementsCreate() {
         this.uiArtifact = new UIArtifactsHeadless(state);
         this.uiExtra = new UIExtraHeadless(state);
+        this.uiObjective = new UIObjective(state);
 
         this.chatWheel = new ChatWheelHeadless(state);
 

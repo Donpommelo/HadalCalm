@@ -10,6 +10,10 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Blinded;
 
+/**
+ * RenderManager encapsulates several other managers that process graphics in the playstate.
+ * This is organized like this so headless server can just not have a render manager
+ */
 public class RenderManager {
 
     private final PlayState state;

@@ -6,14 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
-import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.*;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.input.PlayerController;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -34,8 +33,6 @@ import com.mygdx.hadal.utils.PlayerConditionUtil;
 import com.mygdx.hadal.utils.WorldUtil;
 import com.mygdx.hadal.utils.b2d.HadalBody;
 import com.mygdx.hadal.utils.b2d.HadalFixture;
-
-import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -64,8 +61,11 @@ public class Player extends Schmuck {
 	private float scaleModifier = 0.0f;
 	private float gravityModifier = 1.0f;
 	private float restitutionModifier = 0.0f;
+
+	//makes the camera not move when respawning (used for matryoshka mode instant respawn)
 	private boolean dontMoveCamera;
 
+	//player logic is now delegated to helper classes for organizational purposes
 	private final PlayerSpriteHelper spriteHelper;
 	private final PlayerUIHelper uiHelper;
 	private final PlayerEffectHelper effectHelper;
@@ -106,7 +106,7 @@ public class Player extends Schmuck {
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
 	
-	//This is the connection id and user of the player (0 if server)
+	//The user of the player contains the connection id, stats, score and other fields
 	private User user;
 	
 	//should we reset this player's playerData stuff upon creation
@@ -271,7 +271,7 @@ public class Player extends Schmuck {
 		//for silent spawn
 		user.afterPlayerCreate(this);
 
-		//for mode-specific effects that require a
+		//for mode-specific effects that require a created player
 		state.getMode().postCreatePlayer(state, this);
 
 		//if buttons were held, before spawning, they should start off pressed
@@ -289,7 +289,7 @@ public class Player extends Schmuck {
 	}
 
 	/**
-	 * The player's controller currently polls for input.
+	 * The player's controller currently delegates to helpers to carry out logic
 	 */
 	protected final Vector2 playerPixelPosition = new Vector2();
 	protected final Vector2 playerVelocity = new Vector2();
@@ -307,6 +307,10 @@ public class Player extends Schmuck {
 		super.controller(delta);
 	}
 
+	/**
+	 * Process movement, including jumps, boost, fastfall.
+	 * Clients process this for themselves instead of being controlled by sync packets
+	 */
 	protected void processMovement(float delta, Vector2 playerVelocity) {
 		controllerCount += delta;
 
@@ -325,6 +329,9 @@ public class Player extends Schmuck {
 		airblastHelper.controller(delta);
 	}
 
+	/**
+	 * Process shooting and active item. Run by clients for self, but not other clients.
+	 */
 	protected void processEquipment(float delta) {
 		shootHelper.controller(delta);
 
@@ -334,6 +341,9 @@ public class Player extends Schmuck {
 		}
 	}
 
+	/**
+	 * This runs various miscellaneous functions that clients run for themselves
+	 */
 	protected void processMiscellaneous(float delta) {
 
 		//process cds
@@ -345,6 +355,9 @@ public class Player extends Schmuck {
 		playerData.processRecentDamagedBy(delta);
 	}
 
+	/**
+	 * This runs various miscellaneous functions that are run for all players
+	 */
 	protected void processMiscellaneousUniversal(float delta, Vector2 playerPosition, Vector2 playerVelocity) {
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		if (this.isOrigin()) {
@@ -382,7 +395,7 @@ public class Player extends Schmuck {
 
 		float transparency = effectHelper.processInvisibility();
 
-		if (0.0f != transparency) {
+		if (transparency != 0.0f) {
 			//render player sprite using sprite helper
 			spriteHelper.render(batch, mouseHelper.getAttackAngle(), moveState, animationTime, animationTimeExtra,
 					groundedHelper.isGrounded(), entityLocation,
@@ -397,15 +410,15 @@ public class Player extends Schmuck {
 		if (state.getSpectatorManager().isSpectatorMode() || user.getHitboxFilter() == HadalGame.usm.getOwnUser().getHitboxFilter()) {
 			visible = true;
 		} else {
-			if (null != HadalGame.usm.getOwnPlayer()) {
-				if (null != HadalGame.usm.getOwnPlayer().getPlayerData()) {
+			if (HadalGame.usm.getOwnPlayer() != null) {
+				if (HadalGame.usm.getOwnPlayer().getPlayerData() != null) {
 					if (HadalGame.usm.getOwnPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
 						visible = true;
 					}
 				}
 			}
 		}
-		if (0.0f != transparency) {
+		if (transparency != 0.0f) {
 			uiHelper.render(batch, entityLocation, visible);
 		}
 
@@ -427,14 +440,6 @@ public class Player extends Schmuck {
 		return new Packets.CreatePlayer(entityID, user.getConnID(), getPixelPosition(), name, user.getLoadoutManager().getActiveLoadout(),
 				hitboxFilter, scaleModifier, dontMoveCamera, pvpOverride, start == null ? null : start.getTriggeredID());
 	}
-
-	//this is the type of death we have. Send to client so they can process the death on their end.
-	private UUID perpID;
-	private DamageSource damageSource = DamageSource.MISC;
-	private DamageTag[] damageTags = new DamageTag[] {};
-	@Override
-	public Object onServerDelete() {
-		return new Packets.DeletePlayer(entityID, perpID, state.getTimer(), damageSource, damageTags); }
 
 	/**
 	 * This is called every engine tick. 
@@ -464,14 +469,14 @@ public class Player extends Schmuck {
 	public void onClientSync(Object o) {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncPlayerSnapshot p) {
-			PacketsSync.SyncSchmuck childPacket = new PacketsSync.SyncSchmuck(entityID, p.pos, p.velocity,
+			PacketsSync.SyncSchmuck childPacket = new PacketsSync.SyncSchmuck(entityID, p.posX, p.posY, p.veloX, p.veloY,
 					p.timestamp, p.moveState, p.hpPercent);
 			super.onClientSync(childPacket);
 
 			getBodyData().setCurrentHp(PacketUtil.byteToPercent(p.hpPercent) * getBodyData().getStat(Stats.MAX_HP));
 			getBodyData().setCurrentFuel(PacketUtil.byteToPercent(p.fuelPercent) * getBodyData().getStat(Stats.MAX_FUEL));
 
-			mouseHelper.setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
+			mouseHelper.setDesiredLocation(PacketUtil.shortToFloat(p.mouseX), PacketUtil.shortToFloat(p.mouseY));
 			equipHelper.setCurrentSlot(p.currentSlot);
 			equipHelper.setCurrentTool(equipHelper.getMultitools()[p.currentSlot]);
 			setToolSprite(SpriteManager.getFrame(equipHelper.getCurrentTool().getWeaponSprite()));
@@ -487,7 +492,7 @@ public class Player extends Schmuck {
 			equipHelper.getCurrentTool().setChargeCd(chargePercent);
 
 			processConditionCode(p.conditionCode);
-		} else if (o instanceof Packets.DeletePlayer p) {
+		} else if (o instanceof Packets.DeleteSchmuck p) {
 
 			//if the client is told to delete another player, process their death.
 			if (this instanceof PlayerSelfOnClient) {
@@ -497,7 +502,7 @@ public class Player extends Schmuck {
 					getPlayerData().die(state.getWorldDummy().getBodyData(), p.source, p.tags);
 				}
 			} else {
-				HadalEntity entity = state.findEntity(p.uuidMSBPerp, p.uuidLSBPerp);
+				HadalEntity entity = state.findEntity(p.perpID);
 				if (entity instanceof Schmuck perp) {
 					getPlayerData().die(perp.getBodyData(), p.source, p.tags);
 				} else {
@@ -681,12 +686,6 @@ public class Player extends Schmuck {
 	public LoadoutMagicHelper getMagicHelper() { return magicHelper; }
 
 	public LoadoutCosmeticsHelper getCosmeticsHelper() { return cosmeticsHelper; }
-
-	public void setPerpID(UUID perpID) { this.perpID = perpID; }
-
-	public void setDamageSource(DamageSource damageSource) { this.damageSource = damageSource; }
-
-	public void setDamageTags(DamageTag[] damageTags) { this.damageTags = damageTags; }
 
 	public void setDontMoveCamera(boolean dontMoveCamera) {	this.dontMoveCamera = dontMoveCamera; }
 

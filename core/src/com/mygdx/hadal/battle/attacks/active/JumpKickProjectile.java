@@ -9,7 +9,9 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -30,7 +32,7 @@ public class JumpKickProjectile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.WOOSH.playSourced(state, startPosition, 1.0f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.WOOSH).setPosition(startPosition));
 
         boolean right = startVelocity.x > 0;
         Particle particle = Particle.MOREAU_LEFT;

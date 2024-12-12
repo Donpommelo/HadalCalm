@@ -3,8 +3,6 @@ package com.mygdx.hadal.server.packets;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.SyncedAttack;
 
-import java.util.UUID;
-
 public class PacketsAttacks {
 
     public static class SingleClientIndependent {
@@ -28,7 +26,7 @@ public class PacketsAttacks {
     }
 
     public static class SingleClientDependent extends SingleClientIndependent {
-        public long uuidMSB, uuidLSB;
+        public int entityID;
 
         public SingleClientDependent() {}
 
@@ -40,15 +38,14 @@ public class PacketsAttacks {
          * @param velo: The starting velocity/trajectory of the hbox this attack will create
          * @param attack: the type of attack that is being executed
          */
-        public SingleClientDependent(UUID entityID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
+        public SingleClientDependent(int entityID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
             super(pos, velo, attack);
-            this.uuidLSB = entityID.getLeastSignificantBits();
-            this.uuidMSB = entityID.getMostSignificantBits();
+            this.entityID = entityID;
         }
     }
 
     public static class SingleServerIndependent {
-        public long uuidMSBCreator, uuidLSBCreator;
+        public int creatorID;
         public Vector2 pos, velo;
         public SyncedAttack attack;
 
@@ -62,9 +59,8 @@ public class PacketsAttacks {
          * @param velo: The starting velocity/trajectory of the hbox this attack will create
          * @param attack: the type of attack that is being executed
          */
-        public SingleServerIndependent(UUID creatorID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
-            this.uuidLSBCreator = creatorID.getLeastSignificantBits();
-            this.uuidMSBCreator = creatorID.getMostSignificantBits();
+        public SingleServerIndependent(int creatorID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
+            this.creatorID = creatorID;
             this.pos = pos;
             this.velo = velo;
             this.attack = attack;
@@ -72,7 +68,7 @@ public class PacketsAttacks {
     }
 
     public static class SingleServerDependent extends SingleServerIndependent {
-        public long uuidMSB, uuidLSB;
+        public int entityID;
 
         public SingleServerDependent() {}
 
@@ -85,10 +81,9 @@ public class PacketsAttacks {
          * @param velo: The starting velocity/trajectory of the hbox this attack will create
          * @param attack: the type of attack that is being executed
          */
-        public SingleServerDependent(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
+        public SingleServerDependent(int entityID, int creatorID, Vector2 pos, Vector2 velo, SyncedAttack attack) {
             super(creatorID, pos, velo, attack);
-            this.uuidLSB = entityID.getLeastSignificantBits();
-            this.uuidMSB = entityID.getMostSignificantBits();
+            this.entityID = entityID;
         }
     }
 
@@ -118,7 +113,7 @@ public class PacketsAttacks {
          * so the client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */
-        public SingleClientDependentExtra(UUID entityID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
+        public SingleClientDependentExtra(int entityID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
             super(entityID, pos, velo, attack);
             this.extraFields = extraFields;
         }
@@ -134,7 +129,7 @@ public class PacketsAttacks {
          * so the client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */
-        public SingleServerIndependentExtra(UUID creatorID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
+        public SingleServerIndependentExtra(int creatorID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
             super(creatorID, pos, velo, attack);
             this.extraFields = extraFields;
         }
@@ -150,7 +145,7 @@ public class PacketsAttacks {
          * so the client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */
-        public SingleServerDependentExtra(UUID entityID, UUID creatorID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
+        public SingleServerDependentExtra(int entityID, int creatorID, Vector2 pos, Vector2 velo, float[] extraFields, SyncedAttack attack) {
             super(entityID, creatorID, pos, velo, attack);
             this.extraFields = extraFields;
         }
@@ -179,7 +174,7 @@ public class PacketsAttacks {
     }
 
     public static class MultiClientDependent extends MultiClientIndependent {
-        public long[] uuidMSB, uuidLSB;
+        public int[] entityID;
 
         public MultiClientDependent() {}
 
@@ -190,19 +185,15 @@ public class PacketsAttacks {
          * @param velo: The starting velocities/trajectories of the hboxes this attack will create
          * @param attack: the type of attack that is being executed
          */
-        public MultiClientDependent(UUID[] entityID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
+        public MultiClientDependent(int[] entityID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
             super(weaponVelo, pos, velo, attack);
-            this.uuidLSB = new long[entityID.length];
-            this.uuidMSB = new long[entityID.length];
-            for (int i = 0; i < entityID.length; i++) {
-                uuidLSB[i] = entityID[i].getLeastSignificantBits();
-                uuidMSB[i] = entityID[i].getMostSignificantBits();
-            }
+            this.entityID = new int[entityID.length];
+            System.arraycopy(entityID, 0, this.entityID, 0, entityID.length);
         }
     }
 
     public static class MultiServerIndependent {
-        public long uuidMSBCreator, uuidLSBCreator;
+        public int creatorID;
         public Vector2 weaponVelo;
         public Vector2[] pos, velo;
         public SyncedAttack attack;
@@ -217,9 +208,8 @@ public class PacketsAttacks {
          * @param velo: The starting velocities/trajectories of the hboxes this attack will create
          * @param attack: the type of attack that is being executed
          */
-        public MultiServerIndependent(UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
-            this.uuidLSBCreator = creatorID.getLeastSignificantBits();
-            this.uuidMSBCreator = creatorID.getMostSignificantBits();
+        public MultiServerIndependent(int creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
+            this.creatorID = creatorID;
             this.weaponVelo = weaponVelo;
             this.pos = pos;
             this.velo = velo;
@@ -228,7 +218,7 @@ public class PacketsAttacks {
     }
 
     public static class MultiServerDependent extends MultiServerIndependent {
-        public long[] uuidMSB, uuidLSB;
+        public int[] entityID;
 
         public MultiServerDependent() {}
 
@@ -240,14 +230,10 @@ public class PacketsAttacks {
          * @param velo: The starting velocities/trajectories of the hboxes this attack will create
          * @param attack: the type of attack that is being executed
          */
-        public MultiServerDependent(UUID[] entityID, UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
+        public MultiServerDependent(int[] entityID, int creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, SyncedAttack attack) {
             super(creatorID, weaponVelo, pos, velo, attack);
-            this.uuidLSB = new long[entityID.length];
-            this.uuidMSB = new long[entityID.length];
-            for (int i = 0; i < entityID.length; i++) {
-                uuidLSB[i] = entityID[i].getLeastSignificantBits();
-                uuidMSB[i] = entityID[i].getMostSignificantBits();
-            }
+            this.entityID = new int[entityID.length];
+            System.arraycopy(entityID, 0, this.entityID, 0, entityID.length);
         }
     }
 
@@ -277,7 +263,7 @@ public class PacketsAttacks {
          * so thee client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */
-        public MultiClientDependentExtra(UUID[] entityID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
+        public MultiClientDependentExtra(int[] entityID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
             super(entityID, weaponVelo, pos, velo, attack);
             this.extraFields = extraFields;
         }
@@ -293,7 +279,7 @@ public class PacketsAttacks {
          * so thee client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */
-        public MultiServerIndependentExtra(UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
+        public MultiServerIndependentExtra(int creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
             super(creatorID, weaponVelo, pos, velo, attack);
             this.extraFields = extraFields;
         }
@@ -309,7 +295,7 @@ public class PacketsAttacks {
          * so thee client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */
-        public MultiServerDependentExtra(UUID[] entityID, UUID creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
+        public MultiServerDependentExtra(int[] entityID, int creatorID, Vector2 weaponVelo, Vector2[] pos, Vector2[] velo, float[] extraFields, SyncedAttack attack) {
             super(entityID, creatorID, weaponVelo, pos, velo, attack);
             this.extraFields = extraFields;
         }
@@ -337,7 +323,7 @@ public class PacketsAttacks {
     }
 
     public static class SyncedAttackNoHboxServer {
-        public long uuidMSBCreator, uuidLSBCreator;
+        public int creatorID;
         public Vector2 pos;
         public SyncedAttack attack;
 
@@ -350,9 +336,8 @@ public class PacketsAttacks {
          * @param pos: The starting position of the hbox this attack will create
          * @param attack: the type of attack that is being executed
          */
-        public SyncedAttackNoHboxServer(UUID creatorID, Vector2 pos, SyncedAttack attack) {
-            this.uuidLSBCreator = creatorID.getLeastSignificantBits();
-            this.uuidMSBCreator = creatorID.getMostSignificantBits();
+        public SyncedAttackNoHboxServer(int creatorID, Vector2 pos, SyncedAttack attack) {
+            this.creatorID = creatorID;
             this.pos = pos;
             this.attack = attack;
         }
@@ -384,7 +369,7 @@ public class PacketsAttacks {
          * so the client can process things like charge levels
          * @param extraFields: extra information needed to execute this specific attack
          */
-        public SyncedAttackNoHboxExtraServer(UUID creatorID, Vector2 pos, float[] extraFields, SyncedAttack attack) {
+        public SyncedAttackNoHboxExtraServer(int creatorID, Vector2 pos, float[] extraFields, SyncedAttack attack) {
             super(creatorID, pos, attack);
             this.extraFields = extraFields;
         }

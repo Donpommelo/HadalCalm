@@ -14,6 +14,7 @@ import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.map.SettingTeamMode;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.text.UIText;
@@ -23,9 +24,12 @@ import com.mygdx.hadal.users.User;
 
 import static com.mygdx.hadal.managers.SkinManager.FONT_UI;
 
+/**
+ * EndgameManager process post-game logic before transitioning to ResultsState.
+ */
 public class EndgameManager {
 
-    private final PlayState state;
+    protected final PlayState state;
 
     //If we are transitioning to a results screen, this is the displayed text;
     protected String resultsText = "";
@@ -170,6 +174,7 @@ public class EndgameManager {
             }
         }
 
+        //Normally, we transition to Results, but for Arcade, we decide whether to return to break room based on win count
         if (SettingArcade.arcade) {
             SettingArcade.processEndOfRound(state, state.getMode());
         } else {
@@ -243,6 +248,7 @@ public class EndgameManager {
     }
 
     public String getResultsText() { return resultsText; }
+
     public void setResultsText(String resultsText) { this.resultsText = resultsText; }
 
     public void setLevelEnded(boolean levelEnded) { this.levelEnded = levelEnded; }

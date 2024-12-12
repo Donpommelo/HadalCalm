@@ -34,7 +34,7 @@ public class EnemyUtils {
 			public void execute() {
 				Event dummy = state.getDummyPoint(dummyId);
 
-				if (null != dummy) {
+				if (dummy != null) {
 					enemy.setMovementTarget(dummy, speed);
 				}
 			}
@@ -214,7 +214,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				if (null == target) { return; }
+				if (target == null) { return; }
 				
 				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());
 				enemy.setLinearVelocity(dist.nor().scl(moveSpeed));
@@ -229,7 +229,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				if (null == target) { return; }
+				if (target == null) { return; }
 				
 				enemy.setMovementTarget(null, moveSpeed);
 				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());
@@ -310,24 +310,7 @@ public class EnemyUtils {
 			}
 		});
 	}
-	
-	public static void shootBullet(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
-		boss.getActions().add(new EnemyAction(boss, duration) {
-			
-			@Override
-			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngleDeg(enemy.getAttackAngle());
-				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxFilter(), true, true, enemy, Sprite.ORB_RED);
-				
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback,
-						DamageSource.ENEMY_ATTACK, DamageTag.RANGED));
-				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true).setSynced(true));
-			}
-		});
-	}
-	
+
 	public static void fallingDebris(final PlayState state, Enemy boss, final float duration) {
 		
 		boss.getSecondaryActions().add(new EnemyAction(boss, duration) {
@@ -335,7 +318,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Event ceiling = state.getDummyPoint("ceiling");
-				if (null != ceiling) {
+				if (ceiling != null) {
 					SyncedAttack.BOSS_FALLING_DEBRIS.initiateSyncedAttackSingle(state, enemy,
 							new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
 							new Vector2());
@@ -350,7 +333,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				Event ceiling = state.getDummyPoint("ceiling");
-				if (null != ceiling) {
+				if (ceiling != null) {
 					type.generateEnemy(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((MathUtils.random() -  0.5f) * ceiling.getSize().x, 0)),
 							enemy.getHitboxFilter(), extraField);
 				}
@@ -406,7 +389,7 @@ public class EnemyUtils {
 	
 	public static float ceilingHeight(PlayState state) {
 		Event ceiling = state.getDummyPoint("ceiling");
-		if (null != ceiling) {
+		if (ceiling != null) {
 			return ceiling.getPixelPosition().y;
 		} else {
 			return 0.0f;
@@ -415,7 +398,7 @@ public class EnemyUtils {
 	
 	public static float floorHeight(PlayState state) {
 		Event floor = state.getDummyPoint("floor");
-		if (null != floor) {
+		if (floor != null) {
 			return floor.getPixelPosition().y;
 		} else {
 			return 0.0f;
@@ -424,7 +407,7 @@ public class EnemyUtils {
 	
 	public static float getLeftSide(PlayState state) {
 		Event floor = state.getDummyPoint("floor");
-		if (null != floor) {
+		if (floor != null) {
 			return floor.getPixelPosition().x - floor.getSize().x / 2;
 		} else {
 			return 0.0f;
@@ -433,7 +416,7 @@ public class EnemyUtils {
 	
 	public static float getRightSide(PlayState state) {
 		Event floor = state.getDummyPoint("floor");
-		if (null != floor) {
+		if (floor != null) {
 			return floor.getPixelPosition().x + floor.getSize().x / 2;
 		} else {
 			return 0.0f;

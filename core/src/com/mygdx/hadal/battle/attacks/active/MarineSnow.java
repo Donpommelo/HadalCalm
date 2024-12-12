@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -26,7 +28,10 @@ public class MarineSnow extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.FREEZE_IMPACT.playSourced(state, startPosition, 0.9f, 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.FREEZE_IMPACT)
+                .setVolume(0.9f)
+                .setPitch(0.5f)
+                .setPosition(startPosition));
 
         Hitbox hbox = new RangedHitbox(state, user.getPixelPosition(), PROJECTILE_SIZE, DURATION, new Vector2(), user.getHitboxFilter(),
                 false, false, user, Sprite.NOTHING);

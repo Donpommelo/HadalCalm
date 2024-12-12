@@ -32,7 +32,6 @@ import com.mygdx.hadal.users.StatsManager;
 import com.mygdx.hadal.users.User.UserDto;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * These are packets sent between the Server and Client.
@@ -136,6 +135,24 @@ public class Packets {
 			this.spectator = spectator;
 			this.name = name;
 			this.loadout = loadout;
+		}
+	}
+
+	public static class ClientLevelRequest {
+		public UnlockLevel level;
+		public GameMode mode;
+		public HashMap<String, Integer> modeSettings;
+
+		public ClientLevelRequest() {}
+
+		/**
+		 * A ClientLevelRequest is sent from Client to Server when a client host wants to transition to a new level
+		 * @param level: the new level we transition to
+		 */
+		public ClientLevelRequest(UnlockLevel level, GameMode mode, HashMap<String, Integer> modeSettings) {
+			this.level = level;
+			this.mode = mode;
+			this.modeSettings = modeSettings;
 		}
 	}
 	
@@ -283,7 +300,31 @@ public class Packets {
 			this.playerID = playerID;
 		}
 	}
-	
+
+	public static class ServerNextMapRequest {
+
+		/**
+		 * This is sent from a headless server to the host client when exiting result state.
+		 * This prompts the host client to inform the server whether to go to the next map or return to the hub
+		 */
+		public ServerNextMapRequest() {}
+	}
+
+	public static class ClientNextMapResponse {
+		public boolean returnToHub;
+		public UnlockLevel nextMap;
+		public ClientNextMapResponse() {}
+
+		/**
+		 * This is sent from a host client to a headless server after exiting results state and being prompted by the server.
+		 * This prompts the server to transition from the results state into the next playstate
+		 */
+		public ClientNextMapResponse(boolean returnToHub, UnlockLevel nextMap) {
+			this.returnToHub = returnToHub;
+			this.nextMap = nextMap;
+		}
+	}
+
 	public static class SyncScore {
 		public int connID;
 		public String name;
@@ -316,7 +357,7 @@ public class Packets {
 	}
 
 	public static class CreateEntity {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public Vector2 size;
 		public Vector2 pos;
 		public float angle;
@@ -339,10 +380,9 @@ public class Packets {
 		 * @param layer: Hitbox or Standard layer? (Hitboxes are rendered underneath other entities)
 		 * @param align: The new object's align type. Used to determine how the client illusion should be rendered
 		 */
-		public CreateEntity(UUID entityID, Vector2 size, Vector2 pos, float angle, Sprite sprite, boolean synced, boolean instant,
+		public CreateEntity(int entityID, Vector2 size, Vector2 pos, float angle, Sprite sprite, boolean synced, boolean instant,
                             ObjectLayer layer, alignType align) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+			this.entityID = entityID;
 			this.pos = pos;
 			this.angle = angle;
             this.size = size;
@@ -355,7 +395,7 @@ public class Packets {
 	}
 
 	public static class CreateEnemy {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public Vector2 pos;
 		public EnemyType type;
 		public short hitboxFilter;
@@ -372,9 +412,8 @@ public class Packets {
 		 * @param boss: is this a boss enemy?
 		 * @param name: if a boss, what name shows up in the ui?
 		 */
-		public CreateEnemy(UUID entityID, Vector2 pos, EnemyType type, short hitboxFilter, boolean boss, String name) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public CreateEnemy(int entityID, Vector2 pos, EnemyType type, short hitboxFilter, boolean boss, String name) {
+			this.entityID = entityID;
             this.pos = pos;
             this.type = type;
             this.hitboxFilter = hitboxFilter;
@@ -384,7 +423,7 @@ public class Packets {
 	}
 	
 	public static class DeleteEntity {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public float timestamp;
 		public DeleteEntity() {}
 		
@@ -393,18 +432,17 @@ public class Packets {
 		 * @param entityID: ID of the entity to be deleted.
 		 * @param timestamp: when this deletion occurred. Used to handle the possibility of packet loss.
 		 */
-		public DeleteEntity(UUID entityID, float timestamp) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public DeleteEntity(int entityID, float timestamp) {
+			this.entityID = entityID;
 			this.timestamp = timestamp;
         }
 	}
 
-	public static class DeletePlayer extends DeleteEntity {
-		public long uuidMSBPerp, uuidLSBPerp;
+	public static class DeleteSchmuck extends DeleteEntity {
+		public int perpID;
 		public DamageSource source;
 		public DamageTag[] tags;
-		public DeletePlayer() {}
+		public DeleteSchmuck() {}
 
 		/**
 		 * A DeletePlayer is sent from the Server to the Client to tell the Client to delete a player.
@@ -415,19 +453,16 @@ public class Packets {
 		 * @param source: source of fatal damage (for death message)
 		 * @param tags: tags associated with fatal damage (for death message
 		 */
-		public DeletePlayer(UUID entityID, UUID perpID, float timestamp, DamageSource source, DamageTag[] tags) {
+		public DeleteSchmuck(int entityID, int perpID, float timestamp, DamageSource source, DamageTag[] tags) {
 			super(entityID, timestamp);
-			if (null != perpID) {
-				this.uuidMSBPerp = perpID.getMostSignificantBits();
-				this.uuidLSBPerp = perpID.getLeastSignificantBits();
-			}
+			this.perpID = perpID;
 			this.source = source;
 			this.tags = tags;
 		}
 	}
 
 	public static class DeleteClientSelf {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public DamageSource source;
 		public DamageTag[] tags;
 		public DeleteClientSelf() {}
@@ -438,16 +473,15 @@ public class Packets {
 		 * @param source: The source of damage that got the last hit; for kill text
 		 * @param tags: Tags of the damage instance. Used for kill text
 		 */
-		public DeleteClientSelf(UUID entityID, DamageSource source, DamageTag[] tags) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public DeleteClientSelf(int entityID, DamageSource source, DamageTag[] tags) {
+			this.entityID = entityID;
 			this.source = source;
 			this.tags = tags;
 		}
 	}
 
 	public static class CreatePlayer {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public int connID;
 		public Vector2 startPosition;
 		public String name;
@@ -475,11 +509,10 @@ public class Packets {
 		 * @param pvpOverride: should this player's hitbox always be set to their alignment? (used for hub training room)
 		 * @param startTriggeredId: id of the start event to trigger upon creating player
 		 */
-		public CreatePlayer(UUID entityID, int connID, Vector2 startPosition, String name, Loadout loadout,
+		public CreatePlayer(int entityID, int connID, Vector2 startPosition, String name, Loadout loadout,
 					short hitboxFilter, float scaleModifier, boolean dontMoveCamera, boolean pvpOverride,
 					String startTriggeredId) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+			this.entityID = entityID;
             this.connID = connID;
             this.startPosition = startPosition;
             this.name = name;
@@ -493,7 +526,7 @@ public class Packets {
 	}
 	
 	public static class CreateEvent {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
         public EventDto blueprint;
         public boolean synced;
 		public CreateEvent() {}
@@ -506,16 +539,15 @@ public class Packets {
 		 * @param blueprint: MapObject of the event to be parsed in the TiledObjectUtils
 		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateEvent(UUID entityID, EventDto blueprint, boolean synced) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public CreateEvent(int entityID, EventDto blueprint, boolean synced) {
+			this.entityID = entityID;
             this.blueprint = blueprint;
             this.synced = synced;
         }
 	}
 	
 	public static class CreatePickup {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
         public Vector2 pos;
         public UnlockEquip newPickup;
 		public float lifespan;
@@ -530,60 +562,16 @@ public class Packets {
 		 * @param newPickup: The pickup that this event should start with.
 		 * @param lifespan: lifespan of pickup (only used if pickup is synced)
          */
-		public CreatePickup(UUID entityID, Vector2 pos, UnlockEquip newPickup, float lifespan) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public CreatePickup(int entityID, Vector2 pos, UnlockEquip newPickup, float lifespan) {
+			this.entityID = entityID;
             this.pos = pos;
             this.newPickup = newPickup;
             this.lifespan = lifespan;
 		}
 	}
-	
-	public static class CreateRagdoll {
-		public long uuidMSB, uuidLSB;
-        public Vector2 pos;
-        public Vector2 size;
-        public Sprite sprite;
-        public Vector2 velocity;
-        public float duration;
-        public float gravity;
-        public boolean setVelo;
-		public boolean sensor;
-		public boolean fade;
-        public CreateRagdoll() {}
-        
-        /**
-         * A CreateRagdoll is sent from the server to the client to tell the client to create a ragdoll with the contained data.
-         * Ragdolls are not synced between server and client.
-		 * @param entityID: entityID of the player to create ragdoll for
-		 * @param pos: position to create the new ragdoll
-		 * @param size: size of the ragdolls (in case the player has any size modifiers)
-		 * @param sprite: sprite of the ragdoll to create
-		 * @param velocity: starting velocity of the ragdoll
-		 * @param duration: lifespan of the ragdoll
-		 * @param gravity: effect of gravity on the ragdoll
-		 * @param setVelo: whether to set the velocity of newly created ragdolls
-		 * @param sensor: should the ragdoll not have collisions with other objects?
-		 * @param fade: should the ragdoll fade when it is about to despawn?
-         */
-        public CreateRagdoll(UUID entityID, Vector2 pos, Vector2 size, Sprite sprite, Vector2 velocity, float duration,
-							 float gravity, boolean setVelo, boolean sensor, boolean fade) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
-        	this.pos = pos;
-        	this.size = size;
-        	this.sprite = sprite;
-        	this.velocity = velocity;
-        	this.duration = duration;
-        	this.gravity = gravity;
-        	this.setVelo = setVelo;
-        	this.sensor = sensor;
-        	this.fade = fade;
-        }
-	}
 
 	public static class SyncPickup {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public UnlockEquip newPickup;
 		public SyncPickup() {}
 
@@ -593,9 +581,8 @@ public class Packets {
 		 * @param entityID: ID of the activated Pickup
 		 * @param newPickup: enum name of the new pickup.
 		 */
-		public SyncPickup(UUID entityID, UnlockEquip newPickup) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public SyncPickup(int entityID, UnlockEquip newPickup) {
+			this.entityID = entityID;
 			this.newPickup = newPickup;
 		}
 	}
@@ -618,7 +605,7 @@ public class Packets {
 	}
 
 	public static class ActivateEvent {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public int connID;
 		public ActivateEvent() {}
 		
@@ -628,9 +615,8 @@ public class Packets {
 		 * @param entityID: ID of the activated Pickup
 		 * @param connID: The connection id of the player that activated this event
 		 */
-		public ActivateEvent(UUID entityID, int connID) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public ActivateEvent(int entityID, int connID) {
+			this.entityID = entityID;
             this.connID = connID;
         }
 	}
@@ -652,7 +638,7 @@ public class Packets {
 	}
 
 	public static class CreateParticles {
-		public long uuidMSBAttached, uuidLSBAttached;
+		public int attachedID;
         public Vector2 pos;
         public boolean attached;
 		public Particle particle;
@@ -679,10 +665,9 @@ public class Packets {
 		 * @param velocity: the velocity of the particles. (0 means to set the as the default)
 		 * @param color: the color tint of the particle
 		 */
-		public CreateParticles(UUID attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
+		public CreateParticles(int attachedID, Vector2 pos, boolean attached, Particle particle, boolean startOn,
 		   	float lifespan, float scale, boolean rotate, float velocity, Vector3 color) {
-			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
-			this.uuidMSBAttached = attachedID.getMostSignificantBits();
+			this.attachedID = attachedID;
 			this.pos = pos;
 			this.attached = attached;
 			this.particle = particle;
@@ -696,8 +681,7 @@ public class Packets {
 
 		public CreateParticles(ParticleCreate particleCreate) {
 			if (particleCreate.getAttachedEntity() != null) {
-				this.uuidLSBAttached = particleCreate.getAttachedEntity().getEntityID().getLeastSignificantBits();
-				this.uuidMSBAttached = particleCreate.getAttachedEntity().getEntityID().getMostSignificantBits();
+				this.attachedID = particleCreate.getAttachedEntity().getEntityID();
 				this.attached = true;
 			}
 			this.pos = particleCreate.getPosition();
@@ -712,7 +696,7 @@ public class Packets {
 	}
 
 	public static class CreateFlag {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public Vector2 pos;
 		public int teamIndex;
 
@@ -724,16 +708,15 @@ public class Packets {
 		 * @param pos: The starting position of this event
 		 * @param teamIndex: The team alignment that owns this flag
 		 */
-		public CreateFlag(UUID entityID, Vector2 pos, int teamIndex) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public CreateFlag(int entityID, Vector2 pos, int teamIndex) {
+			this.entityID = entityID;
 			this.pos = pos;
 			this.teamIndex = teamIndex;
 		}
 	}
 
 	public static class CreateCrown {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public Vector2 pos;
 
 		public CreateCrown() {}
@@ -743,15 +726,14 @@ public class Packets {
 		 * @param entityID: ID of the newly created Crown
 		 * @param pos: The starting position of this event
 		 */
-		public CreateCrown(UUID entityID, Vector2 pos) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public CreateCrown(int entityID, Vector2 pos) {
+			this.entityID = entityID;
 			this.pos = pos;
 		}
 	}
 
 	public static class CreateGrave {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public int connID;
 		public Vector2 pos;
 		public float returnMaxTimer;
@@ -765,9 +747,8 @@ public class Packets {
 		 * @param pos: The starting position of this event
 		 * @param returnMaxTimer: The amount of time required to revive the player
 		 */
-		public CreateGrave(UUID entityID, int connID, Vector2 pos, float returnMaxTimer) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+		public CreateGrave(int entityID, int connID, Vector2 pos, float returnMaxTimer) {
+			this.entityID = entityID;
 			this.connID = connID;
 			this.pos = pos;
 			this.returnMaxTimer = returnMaxTimer;
@@ -819,23 +800,26 @@ public class Packets {
 		public float maxTimer;
 		public float timer;
 		public float timerIncr;
+		public int hostID;
 		public AlignmentFilter[] teams;
 		public int[] scores;
 		public SyncUI() {}
 		
 		/**
-		 * A SyncUI is sent from the Server to the Client whenever the ui is updated.
-		 * The client updates their ui to represent the changes.
+		 * A SyncUI is sent from the Server to the Client when the client loads into a level. (To handle mid-round joins)
+		 * After joining, the client can handle things like the timer themselves
 		 * @param maxTimer: what to set the global game timer to (max)
 		 * @param timer: what to set the global game timer to (current)
 		 * @param timerIncr: How much should the timer be incrementing by (probably +-1 or 0)
+		 * @param hostID: connection id of the current host (can be this client, since server spawns new user before sending this)
 		 * @param teams: the list of teams currently active for the match
 		 * @param scores: list of scores for each team
 		 */
-		public SyncUI(float maxTimer, float timer, float timerIncr, AlignmentFilter[] teams, int[] scores) {
+		public SyncUI(float maxTimer, float timer, float timerIncr, int hostID, AlignmentFilter[] teams, int[] scores) {
 			this.maxTimer = maxTimer;
 			this.timer = timer;
 			this.timerIncr = timerIncr;
+			this.hostID = hostID;
 			this.teams = teams;
 			this.scores = scores;
 		}
@@ -868,7 +852,7 @@ public class Packets {
 	}
 	
 	public static class CreateSound {
-		public long uuidMSBAttached, uuidLSBAttached;
+		public int attachedID;
 		public SoundEffect sound;
 		public float lifespan;
 		public float volume;
@@ -890,10 +874,9 @@ public class Packets {
 		 * @param looped: does the sound loop?
 		 * @param on: does the sound start off on?
 		 */
-		public CreateSound(UUID attachedID, SoundEffect sound, float lifespan, float volume, float pitch,
+		public CreateSound(int attachedID, SoundEffect sound, float lifespan, float volume, float pitch,
 						   boolean looped, boolean on) {
-			this.uuidLSBAttached = attachedID.getLeastSignificantBits();
-			this.uuidMSBAttached = attachedID.getMostSignificantBits();
+			this.attachedID = attachedID;
 			this.sound = sound;
 			this.lifespan = lifespan;
 			this.volume = volume;
@@ -903,8 +886,7 @@ public class Packets {
 		}
 
 		public CreateSound(SoundCreate soundCreate) {
-			this.uuidLSBAttached = soundCreate.getAttachedEntity().getEntityID().getLeastSignificantBits();
-			this.uuidMSBAttached = soundCreate.getAttachedEntity().getEntityID().getMostSignificantBits();
+			this.attachedID = soundCreate.getAttachedEntity().getEntityID();
 			this.sound = soundCreate.getSound();
 			this.lifespan = soundCreate.getLifespan();
 			this.volume = soundCreate.getVolume();
@@ -942,13 +924,39 @@ public class Packets {
 		
 		/**
 		 * A SyncSharedSettings is sent from the server to the client when the client connects, or when settings are changed.
+		 * This is also sent from client host to a headless server when settings are changed
 		 * @param settings: the host settings to be displayed in the score window ui
 		 */
 		public SyncSharedSettings(SharedSetting settings) {
 			this.settings = settings;
 		}
 	}
-	
+
+	public static class SyncInitialHeadlessSettings extends SyncSharedSettings {
+		public String serverName;
+
+		public SyncInitialHeadlessSettings() {}
+
+		/**
+		 * A SyncInitialHeadlessSettings is sent from a host client to the headless server after connecting.
+		 * This ensures the starting settings are synced, and also gives the server name
+		 */
+		public SyncInitialHeadlessSettings(SharedSetting settings, String serverName) {
+			super(settings);
+			this.serverName = serverName;
+		}
+
+	}
+
+	public static class HeadlessHostRequest {
+
+		/**
+		 * A HeadlessHostRequest is sent from a headless server to a client host after they connect.
+		 * This prompts the client host to send the server their settings and the server name
+		 */
+		public HeadlessHostRequest() {}
+	}
+
 	public static class LatencySyn {
 		public float timestamp;
 		public int latency;
@@ -1016,13 +1024,16 @@ public class Packets {
 	}
 
 	public static class ClientYeet {
-
+		public int connID;
+		public ClientYeet() {}
 		/**
 		 * A ClientYeet packet is sent from server to client to disconnect the client
-		 * It is also sent from client to server to tell the server to kill the client's player.
-		 * Why use the same packet for completely different purposes? no reason.
+		 * It is also sent from a client host to a headless server to indicate a kick
+		 * @param connID: this is the id of the player that is getting kicked.
 		 */
-		public ClientYeet() {}
+		public ClientYeet(int connID) {
+			this.connID = connID;
+		}
 	}
 
 	public static class SyncEmote {
@@ -1054,7 +1065,7 @@ public class Packets {
 	}
 
 	public static class SyncObjectiveMarker {
-		public long uuidMSB, uuidLSB;
+		public int entityID;
 		public HadalColor color;
 		public boolean displayOnScreen;
 		public boolean displayOffScreen;
@@ -1072,10 +1083,9 @@ public class Packets {
 		 * @param displayOnScreen: should the marker be displayed when the target is on screen?
 		 * @param icon: what icon should be used for the marker?
 		 */
-		public SyncObjectiveMarker(UUID entityID, HadalColor color, boolean displayOffScreen, boolean displayOnScreen,
+		public SyncObjectiveMarker(int entityID, HadalColor color, boolean displayOffScreen, boolean displayOnScreen,
 								   boolean displayClearCircle, Sprite icon) {
-			this.uuidLSB = entityID.getLeastSignificantBits();
-			this.uuidMSB = entityID.getMostSignificantBits();
+			this.entityID = entityID;
 			this.color = color;
 			this.displayOffScreen = displayOffScreen;
 			this.displayOnScreen = displayOnScreen;
@@ -1106,6 +1116,16 @@ public class Packets {
 		}
 	}
 
+	public static class ServerNewHost {
+		public int hostID;
+
+		public ServerNewHost() {}
+
+		public ServerNewHost(int hostID) {
+			this.hostID = hostID;
+		}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1122,14 +1142,17 @@ public class Packets {
 		kryo.register(ClientChat.class);
     	kryo.register(ClientReady.class);
     	kryo.register(LoadLevel.class);
-    	kryo.register(ClientLoaded.class);
+		kryo.register(ClientLoaded.class);
+		kryo.register(ClientLevelRequest.class);
     	kryo.register(ClientPlayerCreated.class);
     	kryo.register(ClientStartTransition.class);
-    	kryo.register(SyncScore.class);
+		kryo.register(ServerNextMapRequest.class);
+		kryo.register(ClientNextMapResponse.class);
+		kryo.register(SyncScore.class);
     	kryo.register(CreateEntity.class);
     	kryo.register(CreateEnemy.class);
 		kryo.register(DeleteEntity.class);
-		kryo.register(DeletePlayer.class);
+		kryo.register(DeleteSchmuck.class);
 		kryo.register(DeleteClientSelf.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePickup.class);
@@ -1144,15 +1167,16 @@ public class Packets {
 		kryo.register(CreateGrave.class);
 		kryo.register(RequestStartSyncedEvent.class);
 		kryo.register(CreateStartSyncedEvent.class);
-    	kryo.register(CreateRagdoll.class);
 
     	kryo.register(SyncUI.class);
     	kryo.register(SyncSoundSingle.class);
     	kryo.register(CreateSound.class);
     	kryo.register(StartSpectate.class);
 		kryo.register(EndSpectate.class);
-    	kryo.register(SyncSharedSettings.class);
-    	kryo.register(LatencySyn.class);
+		kryo.register(SyncSharedSettings.class);
+		kryo.register(SyncInitialHeadlessSettings.class);
+		kryo.register(HeadlessHostRequest.class);
+		kryo.register(LatencySyn.class);
     	kryo.register(LatencyAck.class);
     	kryo.register(SyncExtraResultsInfo.class);
 		kryo.register(RemoveScore.class);
@@ -1162,6 +1186,7 @@ public class Packets {
 		kryo.register(SyncObjectiveMarker.class);
 		kryo.register(SyncArcadeModeChoices.class);
 		kryo.register(SyncClientModeVote.class);
+		kryo.register(ServerNewHost.class);
 
 		kryo.register(PacketsSync.SyncEntity.class);
 		kryo.register(PacketsSync.SyncEntityAngled.class);

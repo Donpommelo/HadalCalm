@@ -87,45 +87,6 @@ public class PlayerBot extends Player {
         currentWobble = personality.getWobbleMax();
     }
 
-//    private final Vector2 playerLocation = new Vector2();
-//    @Override
-//    public void render(SpriteBatch batch) {
-//        super.render(batch);
-//        playerLocation.set(getPixelPosition());
-//
-//        HadalGame.FONT_SPRITE.draw(batch, botController.getCurrentMood().toString() + " " + botController.getEventTarget() + " " +
-//                botController.getPointPath().size, playerLocation.x + 20, playerLocation.y + 20);
-//
-//    }
-//    private static final ShapeRenderer debugRenderer = new ShapeRenderer();
-//    @Override
-//    public void render(SpriteBatch batch) {
-//        super.render(batch);
-//
-//        RallyPoint lastPoint = null;
-//        for (RallyPoint point: botController.getPointPath()) {
-//            if (lastPoint != null) {
-//                Gdx.gl.glLineWidth(2);
-//                batch.end();
-//                debugRenderer.setProjectionMatrix(state.getCamera().combined);
-//                debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-//                debugRenderer.setColor(Color.CYAN);
-//                debugRenderer.line(new Vector2(lastPoint.getPosition()).scl(32), new Vector2(point.getPosition()).scl(32));
-//                debugRenderer.end();
-//                batch.begin();
-//                Gdx.gl.glLineWidth(1);
-//            }
-//            lastPoint = point;
-//        }
-//        batch.end();
-//        debugRenderer.setProjectionMatrix(state.getCamera().combined);
-//        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        debugRenderer.setColor(Color.CYAN);
-//        debugRenderer.circle(getMouse().getPixelPosition().x, getMouse().getPixelPosition().y, 50);
-//        debugRenderer.end();
-//        batch.begin();
-//    }
-
     public BotControllerPlayer getBotController() { return botController; }
 
     public Vector2 getWeaponWobble() { return weaponWobble; }

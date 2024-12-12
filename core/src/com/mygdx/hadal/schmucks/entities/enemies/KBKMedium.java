@@ -59,7 +59,7 @@ public class KBKMedium extends EnemySwimming {
 				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);
 				EnemyType.SPLITTER_SMALL.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), getHitboxFilter(), 0.0f);
 			}
-		});
+		}.setServerOnly(true));
 	}
 
 	@Override

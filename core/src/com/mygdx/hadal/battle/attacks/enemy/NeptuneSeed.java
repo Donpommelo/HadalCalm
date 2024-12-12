@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.SyncedAttack;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -29,7 +31,10 @@ public class NeptuneSeed extends SyncedAttacker {
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
         position.set(user.getPixelPosition());
-        SoundEffect.SPIT.playSourced(state, position, 1.2f, 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.SPIT)
+                .setVolume(1.2f)
+                .setPitch(0.5f)
+                .setPosition(position));
 
         RangedHitbox hbox = new RangedHitbox(state, position, SEED_SIZE, LIFESPAN, new Vector2(0, SEED_SPEED),
                 user.getHitboxFilter(), false, false, user, PROJ_SPRITE);

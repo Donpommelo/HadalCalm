@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -32,15 +34,18 @@ public class KillerNotes extends SyncedAttacker {
         if (startPosition.length != 0) {
             for (int i = 0; i < startPosition.length; i++) {
                 int note = extraFields.length <= i ? 0 : (int) extraFields[i];
+                SoundEffect soundEffect = SoundEffect.PIANO_C;
                 switch (note) {
-                    case 0 -> SoundEffect.PIANO_C.playSourced(state, startPosition[i], 0.5f, 1.0f);
-                    case 1 -> SoundEffect.PIANO_D.playSourced(state, startPosition[i], 0.5f, 1.0f);
-                    case 2 -> SoundEffect.PIANO_F.playSourced(state, startPosition[i], 0.5f, 1.0f);
-                    case 3 -> SoundEffect.PIANO_G.playSourced(state, startPosition[i], 0.5f, 1.0f);
-                    case 4 -> SoundEffect.PIANO_A.playSourced(state, startPosition[i], 0.5f, 1.0f);
-                    case 5 -> SoundEffect.PIANO_B.playSourced(state, startPosition[i], 0.5f, 1.0f);
-                    case 6 -> SoundEffect.PIANO_C2.playSourced(state, startPosition[i], 0.5f, 1.0f);
+                    case 1 -> soundEffect = SoundEffect.PIANO_D;
+                    case 2 -> soundEffect = SoundEffect.PIANO_F;
+                    case 3 -> soundEffect = SoundEffect.PIANO_G;
+                    case 4 -> soundEffect = SoundEffect.PIANO_A;
+                    case 5 -> soundEffect = SoundEffect.PIANO_B;
+                    case 6 -> soundEffect = SoundEffect.PIANO_C2;
                 }
+                SoundManager.play(state, new SoundLoad(soundEffect)
+                        .setVolume(0.5f)
+                        .setPosition(startPosition[i]));
 
                 Hitbox hbox = new RangedHitbox(state, startPosition[i], PROJECTILE_SIZE, LIFESPAN, startVelocity[i], user.getHitboxFilter(),
                         true, true, user, PROJ_SPRITE);

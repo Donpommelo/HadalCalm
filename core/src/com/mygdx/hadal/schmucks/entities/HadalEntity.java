@@ -10,15 +10,15 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Shader;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.helpers.ShaderHelper;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-
-import java.util.UUID;
+import com.mygdx.hadal.utils.PacketUtil;
+import com.mygdx.hadal.utils.UUIDUtil;
 
 import static com.mygdx.hadal.constants.Constants.PPM;
 
@@ -52,7 +52,7 @@ public abstract class HadalEntity {
 	protected boolean receivingSyncs;
 
 	//This is the id that clients use to track synchronized entities
-	protected UUID entityID;
+	protected int entityID;
 	
 	//Used by the server. Does this entity send a sync packet periodically (every 1 / 10 sec)? Does this entity send a sync packet at a faster rate? (every 1 / 60 sec) 
 	private boolean syncDefault = true, syncInstant = false;
@@ -75,7 +75,11 @@ public abstract class HadalEntity {
 		this.startPos = new Vector2(startPos);
 		
 		//give this entity a random, unique id
-		this.entityID = UUID.randomUUID();
+		if (state.isServer()) {
+			this.entityID = UUIDUtil.generateSyncedID();
+		} else {
+			this.entityID = UUIDUtil.generateUnsyncedID();
+		}
 
 		this.shaderHelper = new ShaderHelper(state, this);
 
@@ -232,25 +236,25 @@ public abstract class HadalEntity {
 	 */
 	public void onClientSync(Object o) {
 		if (o instanceof PacketsSync.SyncEntity p) {
-			if (null != body) {
+			if (body != null) {
 
 				float angle = 0;
 				if (o instanceof PacketsSync.SyncEntityAngled a) {
-					angle = a.angle;
+					angle = PacketUtil.byteToAngle(a.angle);
 				}
 				if (o instanceof PacketsSync.SyncSchmuckAngled a) {
-					angle = a.angle;
+					angle = PacketUtil.byteToAngle(a.angle);
 				}
 				//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity of the most recent snapshot and the one before it
 				if (copyServerInstantly) {
-					setTransform(p.pos, angle);
+					setTransform(PacketUtil.shortToFloat(p.posX), PacketUtil.shortToFloat(p.posY), angle);
 				} else {
 					prevPos.set(serverPos);
-					serverPos.set(p.pos);
+					serverPos.set(PacketUtil.shortToFloat(p.posX), PacketUtil.shortToFloat(p.posY));
 					
 					prevVelo.set(serverVelo);
-					serverVelo.set(p.velocity);
-					
+					serverVelo.set(PacketUtil.shortToFloat(p.veloX), PacketUtil.shortToFloat(p.veloY));
+
 					serverAngle.setAngleRad(angle);
 				}
 			}
@@ -403,9 +407,9 @@ public abstract class HadalEntity {
 
 	public boolean isAlive() { return alive; }
 	
-	public UUID getEntityID() { return entityID; }
+	public int getEntityID() { return entityID; }
 	
-	public void setEntityID(UUID entityID) { this.entityID = entityID; }
+	public void setEntityID(int entityID) { this.entityID = entityID; }
 
 	public Vector2 getStartPos() { return startPos;	}
 	

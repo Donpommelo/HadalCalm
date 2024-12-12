@@ -36,7 +36,6 @@ public class StatusInflicter extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
 				if (p != null) {
 					if (duration != 0.0f) {
 						p.getPlayerData().addStatus(new StatChangeStatus(state, duration, stat, amount, p.getPlayerData(), p.getPlayerData()));

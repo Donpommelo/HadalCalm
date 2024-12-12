@@ -16,7 +16,9 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.hub.HubEvent;
 import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -157,7 +159,7 @@ public class UIHub {
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
 	public void enter(HubEvent hub) {
-		SoundEffect.DOORBELL.play(0.2f, false);
+		SoundManager.play(new SoundLoad(SoundEffect.DOORBELL).setVolume(0.2f));
 		lastHubEvent = hub;
 
 		active = true;
@@ -208,7 +210,7 @@ public class UIHub {
 			tagFilter = new SelectBox<>(SKIN);
 			tagFilter.setItems(hub.getSearchTags());
 
-			if (null != hub.getLastTag()) {
+			if (hub.getLastTag() != null) {
 				for (String tagName : hub.getSearchTags()) {
 					if (tagName.equals(hub.getLastTag().name())) {
 						tagFilter.setSelected(tagName);
@@ -315,13 +317,13 @@ public class UIHub {
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
-		SoundEffect.WOOSH.play(1.0f, 0.8f, false);
+		SoundManager.play(new SoundLoad(SoundEffect.UISWITCH1).setPitch(0.8f));
 
 		active = false;
 
 		tableOuter.addAction(Actions.sequence(Actions.moveTo(TABLE_X, TABLE_Y, TRANSITION_DURATION_SLOW, Interpolation.pow5Out),
 			Actions.run(() -> {
-				if (null != state.getStage()) {
+				if (state.getStage() != null) {
 					if (options == state.getStage().getScrollFocus()) {
 						state.getStage().setScrollFocus(null);
 					}
@@ -347,8 +349,12 @@ public class UIHub {
 		}
 	}
 
+	/**
+	 * This refreshes the last hub event and is run when receiving an artifact sync from the server
+	 * This uns after processing artifact selling/buying by the server and updates the hub even with updated options and currency
+	 */
 	public void refreshHubOptions() {
-		if (null != lastHubEvent) {
+		if (lastHubEvent != null) {
 			lastHubEvent.leave();
 			lastHubEvent.enter();
 		}
@@ -368,9 +374,9 @@ public class UIHub {
 
 		Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-		if (null == ownPlayer) { return; }
+		if (ownPlayer == null) { return; }
 
-		if (null != ownPlayer.getPlayerData()) {
+		if (ownPlayer.getPlayerData() != null) {
 			for (UnlockArtifact c : ownPlayer.getUser().getLoadoutManager().getActiveLoadout().artifacts) {
 
 				//display all equipped artifacts and give option to unequip
@@ -457,7 +463,7 @@ public class UIHub {
 
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				if (null != outfits.getSelected()) {
+				if (outfits.getSelected() != null) {
 					JSONManager.outfits.removeOutfit(outfits.getSelected());
 				}
 				hub.enter();
@@ -476,7 +482,7 @@ public class UIHub {
 
 		Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-		if (null == ownPlayer) { return; }
+		if (ownPlayer == null) { return; }
 
 		Text slotsTitle = new Text(UIText.UI_SCRAP.text(String.valueOf(HadalGame.usm.getOwnUser().getScoreManager().getCurrency())));
 		slotsTitle.setScale(0.5f);
@@ -504,7 +510,7 @@ public class UIHub {
 	 * Helper method that returns a tag depending on which hub event is being used
 	 */
 	private UnlockTag indexToFilterTag() {
-		if (null == tagFilter) {
+		if (tagFilter == null) {
 			return UnlockTag.ALL;
 		} else {
 			return switch (tagFilter.getSelectedIndex()) {
@@ -528,7 +534,7 @@ public class UIHub {
 	 * 	this converts slot cost filter to actual slot cost (because 0 indexing)
 	 */
 	private int indexToFilterSlot() {
-		if (null == slotsFilter) {
+		if (slotsFilter == null) {
 			return -1;
 		} else {
 			return slotsFilter.getSelectedIndex() - 1;

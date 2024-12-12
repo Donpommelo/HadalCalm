@@ -11,7 +11,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -88,8 +88,8 @@ public class Dormitory extends HubEvent {
 				final UIHub hub = state.getUIManager().getUiHub();
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-				if (null == ownPlayer) { return; }
-				if (null == ownPlayer.getPlayerData()) { return; }
+				if (ownPlayer == null) { return; }
+				if (ownPlayer.getPlayerData() == null) { return; }
 
 				UnlockCharacter selected = loadingCharacters.removeIndex(0);
 
@@ -135,11 +135,5 @@ public class Dormitory extends HubEvent {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void clientController(float delta) {
-		super.clientController(delta);
-		controller(delta);
 	}
 }

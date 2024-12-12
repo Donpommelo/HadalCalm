@@ -29,6 +29,7 @@ public class FixedToEntity extends HitboxStrategy {
 	//this is the entity that this hbox is fixed to. Usually the user for melee hboxes. Some hboxes have another hboxes fixed to them like sticky bombs
 	private HadalEntity target;
 
+	//is this attached to the same entity that created it? Used to prevent hbox filter from being changed to hurt creator
 	private boolean attachedToUser;
 
 	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center) {

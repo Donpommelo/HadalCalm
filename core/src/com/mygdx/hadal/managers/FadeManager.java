@@ -8,6 +8,10 @@ import com.mygdx.hadal.HadalGame;
 import static com.mygdx.hadal.HadalGame.CONFIG_HEIGHT;
 import static com.mygdx.hadal.HadalGame.CONFIG_WIDTH;
 
+/**
+ * FadeManager handles fading and transitions.
+ * This includes drawing the fade texture, but also handles post-fade transition effects.
+ */
 public class FadeManager {
 
     //this is the rate at which the screen fades from/to black.
@@ -30,9 +34,13 @@ public class FadeManager {
     private static Runnable runAfterTransition;
 
     //this is a black texture used for fading in/out transitions.
-    private static final Texture black = new Texture(Gdx.files.internal("black.png"));
+    private static Texture black;
 
-    public static void render(HadalGame app, SpriteBatch batch, float delta) {
+    public static void initTextures() {
+        black = new Texture(Gdx.files.internal("black.png"));
+    }
+
+    public static void render(HadalGame app, SpriteBatch batch) {
 
         //Render the black image used for fade transitions
         if (0.0f < fadeLevel) {
@@ -43,6 +51,9 @@ public class FadeManager {
             batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
             batch.end();
         }
+    }
+
+    public static void controller(float delta) {
 
         //only fade when the states specifies that transitions should fade (i.e. no fade when closing pause menu)
         if (StateManager.states.peek().processTransitions()) {

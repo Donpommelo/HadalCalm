@@ -10,6 +10,10 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.save.Record;
 
+/**
+ * JSONManager loads and saves json files for things like settings and records.
+ * It also handles things like game/ui text which are also stored as json files
+ */
 public class JSONManager {
 
     //these version numbers are used to decide whether we need to create a brand new save due to structrual changes
@@ -34,7 +38,7 @@ public class JSONManager {
     //This contains the settings that are shared with clients (or shared from server if we are the client)
     public static SharedSetting sharedSetting, hostSetting;
 
-    public static void initJSON(HadalGame app) {
+    public static void initJSON() {
 
         //we set output settings to json so intellij editor doesn't get pissy about double quotes
         JSON.setOutputType(JsonWriter.OutputType.json);
@@ -56,6 +60,7 @@ public class JSONManager {
         PlayerAction.retrieveKeys();
         record = Record.retrieveRecord();
 
+        //reset save file if the version is incompatible with the current version
         if (record.getSaveVersion() < JSONManager.LAST_COMPATIBLE_SAVE_VERSION) {
             Record.createNewRecord();
             SavedLoadout.createAndSaveNewLoadout();
@@ -67,11 +72,17 @@ public class JSONManager {
         setting = Setting.retrieveSetting();
         outfits = SavedOutfits.retrieveOutfits();
 
+        sharedSetting = setting.generateSharedSetting();
+        hostSetting = setting.generateSharedSetting();
+    }
+
+    /**
+     * Set display/cursor.
+     * Graphics settings are separated from main function so headless server can skip this part
+     */
+    public static void initJSONDisplay(HadalGame app) {
         //set the game's display to match the player's saved settings
         setting.setDisplay(app, null, true);
         CursorManager.setCursor();
-
-        sharedSetting = setting.generateSharedSetting();
-        hostSetting = setting.generateSharedSetting();
     }
 }

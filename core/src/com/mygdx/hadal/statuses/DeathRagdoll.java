@@ -5,7 +5,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.entities.Ragdoll;
+import com.mygdx.hadal.managers.RagdollManager;
+import com.mygdx.hadal.requests.RagdollCreate;
 import com.mygdx.hadal.schmucks.entities.helpers.PlayerSpriteHelper;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -29,19 +30,24 @@ public class DeathRagdoll extends Status {
 		super(state, p);
 		this.sprite = sprite;
 		this.size.set(size);
-		this.setServerOnly(true);
 	}
 	
 	@Override
 	public void onDeath(BodyData perp, DamageSource source, DamageTag... tags) {
 		PlayerSpriteHelper.DespawnType type = CombatUtil.getDespawnType(source, tags);
 
+		RagdollCreate ragdollCreate = new RagdollCreate()
+				.setSprite(sprite)
+				.setPosition(inflicted.getSchmuck().getPixelPosition())
+				.setSize(size)
+				.setVelocity(inflicted.getSchmuck().getLinearVelocity())
+				.setStartVelocity(true);
+
 		switch (type) {
-			case GIB -> new Ragdoll(state, inflicted.getSchmuck().getPixelPosition(), size, sprite, inflicted.getSchmuck().getLinearVelocity(),
-					GIB_DURATION, GRAVITY, true, false, true);
-			case VAPORIZE -> new Ragdoll(state, inflicted.getSchmuck().getPixelPosition(), size, sprite, inflicted.getSchmuck().getLinearVelocity(),
-					VAPORIZATION_DURATION, 0.0f, true, false, true).setFade(1.75f, Shader.PERLIN_COLOR_FADE)
-					.setFade(1.25f, Shader.PERLIN_COLOR_FADE);
+			case GIB -> ragdollCreate.setLifespan(GIB_DURATION).setGravity(GRAVITY).setFade();
+			case VAPORIZE -> ragdollCreate.setLifespan(VAPORIZATION_DURATION).setFade(1.25f, Shader.PERLIN_COLOR_FADE);
 		}
+
+		RagdollManager.getRagdoll(state, ragdollCreate);
 	}
 }

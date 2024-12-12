@@ -72,12 +72,12 @@ public class ArtifactIcon extends AHadalActor {
 
 		//this displays artifact short description when this actor is moused over
 		if (mouseOver) {
-		 SIMPLE_PATCH.draw(batch, getX() - ICON_PAD / 2 + textOffsetX,
-				 getY() - ICON_PAD / 2 + textOffsetY, layout.width + ICON_PAD, layout.height + ICON_PAD);
-		 FONT_UI.setColor(COLOR);
-		 FONT_UI.getData().setScale(FONT_SCALE);
-		 FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height,
-				 targetWidth, Align.left, true);
+			SIMPLE_PATCH.draw(batch, getX() - ICON_PAD / 2 + textOffsetX,
+					getY() - ICON_PAD / 2 + textOffsetY, layout.width + ICON_PAD, layout.height + ICON_PAD);
+	 		FONT_UI.setColor(COLOR);
+		 	FONT_UI.getData().setScale(FONT_SCALE);
+		 	FONT_UI.draw(batch, text, getX() + textOffsetX, getY() + textOffsetY + layout.height,
+					targetWidth, Align.left, true);
 		}
     }
 

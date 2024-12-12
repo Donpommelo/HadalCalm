@@ -9,6 +9,8 @@ import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -41,8 +43,10 @@ public class BendyBeams extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.LASERHARPOON.playUniversal(state, user.getPlayer().getPixelPosition(), 0.8f, false);
-		
+		SoundManager.playUniversal(state, new SoundLoad(SoundEffect.LASERHARPOON)
+						.setVolume(0.8f)
+						.setPosition(user.getPlayer().getPixelPosition()));
+
 		user.addStatus(new Status(state, DURATION, false, user, user) {
 			
 			private float procCdCount;

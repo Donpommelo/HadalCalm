@@ -16,10 +16,12 @@ public class ScoreManager {
 	private int lives = 1;
 
 	//did the player win their last game? This is used to let the client know who won in the results screen.
+	//ready is used to ready up in results state as well as arcade break room
 	private boolean wonLast, ready;
 	
-	//this unused constructor is needed by kryo for serialization
 	public ScoreManager() {
+
+		//for arcade mode, add user so mid-game joiners still get currency
 		if (SettingArcade.arcade) {
 			SettingArcade.addNewUser(this);
 		}
@@ -37,6 +39,7 @@ public class ScoreManager {
 		this.extraModeScore = 0;
 		this.lives = 1;
 
+		//we do not reset wonLast returning to arcade break room so we can add confetti to the winner.
 		if (!SettingArcade.arcade || !state.getMode().equals(GameMode.ARCADE)) {
 			wonLast = false;
 		}

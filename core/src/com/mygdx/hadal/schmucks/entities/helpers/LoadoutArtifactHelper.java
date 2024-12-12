@@ -5,7 +5,7 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -184,7 +184,7 @@ public class LoadoutArtifactHelper {
      * @param save whether this change should be saved into loadout file
      */
     public void syncArtifacts(boolean override, boolean save) {
-        if (null == player.getPlayerData()) { return; }
+        if (player.getPlayerData() == null) { return; }
 
         if (!override) {
             checkArtifactSlotCosts();
@@ -235,7 +235,7 @@ public class LoadoutArtifactHelper {
             return Math.min((int) (JSONManager.record.getSlotsUnlocked() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
         } else {
             if (player.getState().isServer()) {
-                return Math.min((int) (JSONManager.setting.getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
+                return Math.min((int) (JSONManager.sharedSetting.getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
             } else {
                 return Math.min((int) (JSONManager.hostSetting.getArtifactSlots() + player.getPlayerData().getStat(Stats.ARTIFACT_SLOTS)), Loadout.MAX_ARTIFACT_SLOTS);
             }

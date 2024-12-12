@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.event.Poison;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -20,7 +22,9 @@ public class BossPoisonCloud extends SyncedAttacker {
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
         if (extraFields.length > 0) {
             if (0 == extraFields[0]) {
-                SoundEffect.DARKNESS2.playSourced(state, startPosition, 0.4f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.DARKNESS2)
+                        .setVolume(0.4f)
+                        .setPosition(startPosition));
             }
         }
 

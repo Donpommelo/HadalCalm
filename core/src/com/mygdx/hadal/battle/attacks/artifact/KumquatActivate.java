@@ -6,7 +6,9 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
@@ -18,7 +20,9 @@ public class KumquatActivate extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        SoundEffect.EATING.playSourced(state, user.getPixelPosition(), 0.8f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.EATING)
+                .setVolume(0.8f)
+                .setPosition(startPosition));
 
         ((Player) user).getArtifactIconHelper().addArtifactFlash(UnlockArtifact.KUMQUAT);
 

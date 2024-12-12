@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -29,7 +31,9 @@ public class FalseSunBell extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.DOORBELL.playSourced(state, startPosition, 1.0f, 0.6f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.DOORBELL)
+                .setPitch(0.6f)
+                .setPosition(startPosition));
 
         Hitbox hbox = new Hitbox(state, startPosition, BELL_SIZE, LIFESPAN, new Vector2(),
                 user.getHitboxFilter(), false, false, user, PROJ_SPRITE);

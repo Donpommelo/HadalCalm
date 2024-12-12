@@ -9,6 +9,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -33,7 +35,11 @@ public class DeepSmelt extends SyncedAttacker {
         Hitbox[] hboxes = new Hitbox[startPosition.length];
         if (startPosition.length != 0) {
             float pitch = (MathUtils.random() - 0.5f) * PITCH_SPREAD;
-            SoundEffect.METAL_IMPACT_1.playSourced(state, startPosition[0], 0.5f, 1.0f + pitch);
+            SoundManager.play(state, new SoundLoad(SoundEffect.METAL_IMPACT_1)
+                    .setVolume(0.5f)
+                    .setPitch(1.0f + pitch)
+                    .setPosition(startPosition[0]));
+
             user.recoil(startVelocity[0], RECOIL);
 
             for (int i = 0; i < startPosition.length; i++) {

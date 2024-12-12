@@ -10,7 +10,7 @@ import com.mygdx.hadal.equip.ranged.SpeargunNerfed;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
@@ -106,7 +106,9 @@ public class PickupEquip extends Event {
 							if (weaponLifespan > WEAPON_REROLL_CD || me.unlock.equals(UnlockEquip.NOTHING)) {
 								weaponLifespan = 0.0f;
 								rollWeapon();
-								standardParticle.turnOn();
+								if (standardParticle != null) {
+									standardParticle.turnOn();
+								}
 								equipChanged = true;
 							}
 						} else {
@@ -200,7 +202,7 @@ public class PickupEquip extends Event {
 	}
 
 	private Object getActivationPacket() {
-		if (null == triggeredID) {
+		if (triggeredID == null) {
 			return new Packets.SyncPickup(entityID, UnlockEquip.getUnlockFromEquip(equip.getClass()));
 		} else {
 			return new Packets.SyncPickupTriggered(triggeredID, UnlockEquip.getUnlockFromEquip(equip.getClass()));

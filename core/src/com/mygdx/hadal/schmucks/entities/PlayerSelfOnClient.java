@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.ClientState;
@@ -16,7 +16,7 @@ import static com.mygdx.hadal.states.PlayState.SYNC_TIME;
 
 /**
  * A ClientPlayer represents a client's own player.
- * This processes things like client prediction
+ * This processes the client's own properties and sends sync packets to the server based on its authoritative position
  * @author Hepepper Hasufferson
  */
 public class PlayerSelfOnClient extends Player {

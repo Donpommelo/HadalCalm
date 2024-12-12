@@ -5,6 +5,10 @@ import com.mygdx.hadal.actors.*;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * UIManager controls severl PlayState UI elements.
+ * This allows the headless server to process a different set of UI elements (special headless versions that do not load/render assets)
+ */
 public class UIManager {
 
     protected final PlayState state;
@@ -12,7 +16,7 @@ public class UIManager {
     //Various play state ui elements. Some are initialized right away while others require the stage to be made first.
     protected UIArtifacts uiArtifact;
     protected UIExtra uiExtra;
-    private UIObjective uiObjective;
+    protected UIObjective uiObjective;
     private UISpectator uiSpectator;
     protected ChatWheel chatWheel;
     private DialogBox dialogBox;
@@ -34,7 +38,7 @@ public class UIManager {
         this.uiObjective = new UIObjective(state);
         this.uiSpectator = new UISpectator(state);
         this.chatWheel = new ChatWheel(state);
-        this.dialogBox = new DialogBox(state);
+        this.dialogBox = new DialogBox();
     }
 
     public void initUIElementsShow(Stage stage) {
@@ -57,6 +61,10 @@ public class UIManager {
 
         chatWheel.addTable(stage);
         uiArtifact.addTable(stage);
+    }
+
+    public void controller() {
+        uiObjective.controller();
     }
 
     /**

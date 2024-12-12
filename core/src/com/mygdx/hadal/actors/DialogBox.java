@@ -11,7 +11,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.text.Dialog;
 import com.mygdx.hadal.text.DialogInfo;
 
@@ -58,9 +58,6 @@ public class DialogBox extends AHadalActor {
 	//This is a queue of dialogues in the order that they will be displayed.
 	private final Queue<Dialog> dialogs = new Queue<>();
 
-	//Reference to the playstate. Used to reference gsm fields
-	private final PlayState ps;
-
 	//This counter keeps track of the lifespan of dialogues that have a set duration
 	private float durationCount;
 
@@ -70,9 +67,8 @@ public class DialogBox extends AHadalActor {
 	//this keeps track of the actor's animation frames
 	protected float animCdCount;
 	
-	public DialogBox(PlayState ps) {
+	public DialogBox() {
 		super(BOX_X, BOX_Y);
-		this.ps = ps;
 	}
 
 	//accumulator used to make dialog box movement not tied to framerate
@@ -88,16 +84,16 @@ public class DialogBox extends AHadalActor {
 			syncAccumulator -= syncTime;
 
 			//Keep track of duration of dialogues and advance when duration completes
-			if (0 < durationCount) {
+			if (durationCount > 0) {
 				durationCount -= syncTime;
 				
-				if (0 >= durationCount) {
+				if (durationCount <= 0) {
 					nextDialogue();
 				}
 			}
 			
 			//dialogue box lerps towards max size.
-			if (0 != dialogs.size) {
+			if (dialogs.size != 0) {
 				if (dialogs.first().getInfo().isSmall()) {
 					currX = currX + (MAX_X_SMALL - currX) * TEXT_LERP_SPEED;
 					currY = currY + (MAX_Y_SMALL - currY) * TEXT_LERP_SPEED;
@@ -122,7 +118,7 @@ public class DialogBox extends AHadalActor {
 	 */
 	public void addDialogue(String id, EventData radio, EventData trigger, DialogType type) {
 		
-		if (0 != dialogs.size) {
+		if (dialogs.size != 0) {
 			if (dialogs.first().getInfo().isOverride()) {
 				dialogs.clear();
 			}
@@ -130,7 +126,7 @@ public class DialogBox extends AHadalActor {
 		
 		JsonValue dialog = JSONManager.dialogs.get(id);
 		
-		if (null != dialog) {
+		if (dialog != null) {
 			for (JsonValue d : dialog) {
 				addDialogue(JSONManager.JSON.fromJson(DialogInfo.class, d.toJson(OutputType.json)), radio, trigger, type);
 			}	
@@ -147,13 +143,13 @@ public class DialogBox extends AHadalActor {
 		info.setDisplayedText();
 
 		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
-		if (0 == dialogs.size) {
+		if (dialogs.size == 0) {
 			durationCount = info.getDuration();
 
 			currX = 0;
 			currY = 0;
 
-			SoundEffect.BLOP.play(1.0f, false);
+			SoundManager.play(SoundEffect.BLOP);
 		}
 		dialogs.addLast(new Dialog(info, radio, trigger, type));
 	}
@@ -173,7 +169,7 @@ public class DialogBox extends AHadalActor {
 	public void nextDialogue() {
 
 		//Do nothing if queue is empty
-		if (0 != dialogs.size) {
+		if (dialogs.size != 0) {
 			
 			//If this dialogue is the last in a conversation, trigger the designated event.
 			if (dialogs.first().getInfo().isEnd() && dialogs.first().getTrigger() != null && dialogs.first().getRadio() != null) {
@@ -183,19 +179,19 @@ public class DialogBox extends AHadalActor {
 			dialogs.removeFirst();
 			
 			//If there is a next dialogue in line, set its duration and reset window location.
-			if (0 != dialogs.size) {
+			if (dialogs.size != 0) {
 				durationCount = dialogs.first().getInfo().getDuration();
 				currX = 0;
 				currY = 0;
 			}
-			
-			SoundEffect.BLOP.play(1.0f, false);
+
+			SoundManager.play(SoundEffect.BLOP);
 		}
 	}
 	
 	@Override
     public void draw(Batch batch, float alpha) {	 
-		if (0 != dialogs.size) {
+		if (dialogs.size != 0) {
 			
 			Dialog first = dialogs.first();
 
@@ -231,7 +227,7 @@ public class DialogBox extends AHadalActor {
 						getY() - MAX_Y - 8 + ADVANCE_HEIGHT, MAX_TEXT_WIDTH, Align.left, true);
 				}
 				 
-				if (null != first.getBust()) {
+				if (first.getBust() != null) {
 					batch.draw(first.getBust().getKeyFrame(animCdCount, true),
 						getX() + BUST_OFFSET_X, getY() + BUST_OFFSET_Y, BUST_WIDTH, BUST_HEIGHT);
 				}

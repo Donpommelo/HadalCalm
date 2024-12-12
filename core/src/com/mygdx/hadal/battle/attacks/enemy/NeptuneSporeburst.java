@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -41,7 +43,10 @@ public class NeptuneSporeburst extends SyncedAttacker {
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
         position.set(user.getPixelPosition());
-        SoundEffect.SPIT.playSourced(state, position, 1.2f, 0.5f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.SPIT)
+                .setVolume(1.2f)
+                .setPitch(0.5f)
+                .setPosition(position));
 
         RangedHitbox hbox = new RangedHitbox(state, position, SPORE_SIZE, SPORE_LIFESPAN,
                 startVelocity, user.getHitboxFilter(), false, false, user, PROJ_SPRITE);
@@ -60,7 +65,9 @@ public class NeptuneSporeburst extends SyncedAttacker {
             private final Vector2 newVelocity = new Vector2();
             @Override
             public void die() {
-                SoundEffect.EXPLOSION_FUN.playSourced(state, hbox.getPixelPosition(), 1.0f, 0.6f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.EXPLOSION_FUN)
+                        .setPitch(0.6f)
+                        .setPosition(hbox.getPixelPosition()));
 
                 for (int i = 0; i < SPORE_FRAG_NUMBER; i++) {
                     if (extraFields.length > i * 2 + 1) {

@@ -30,16 +30,16 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private static final float LIFESPAN = DeepSmelt.LIFESPAN;
 	private static final float BASE_DAMAGE = DeepSmelt.BASE_DAMAGE;
 
-	private static final Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
-	private static final Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_NEMATOCYTEARM;
+	private static final Sprite EVENT_SPRITE = Sprite.P_NEMATOCYTEARM;
 	
 	private final Vector2 projOrigin = new Vector2();
 	private final Vector2 projOffset = new Vector2();
 	private boolean overheated;
 	
 	public DeepSeaSmelter(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
-				weaponSprite, eventSprite, PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 	
 	@Override

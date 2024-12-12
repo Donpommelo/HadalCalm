@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.entities.helpers;
 
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -9,7 +9,7 @@ import com.mygdx.hadal.server.packets.PacketsLoadout;
 /**
  * LoadoutHelper manages the player's loadout.
  * The "true" active loadout is now part of User's loadout manager instead
- * This contains player-specific loadout utility functions that run when player is createed, modified etc
+ * This contains player-specific loadout utility functions that run when player is created, modified etc
  */
 public class LoadoutHelper {
 

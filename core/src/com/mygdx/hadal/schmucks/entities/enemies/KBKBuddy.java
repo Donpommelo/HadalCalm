@@ -43,11 +43,13 @@ public class KBKBuddy extends EnemySwimming {
 	@Override
 	public void create() {
 		super.create();
-		
-		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE);
-		getMainFixture().setFilterData(filter);
-		
+
+		if (getMainFixture() != null) {
+			Filter filter = getMainFixture().getFilterData();
+			filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE);
+			getMainFixture().setFilterData(filter);
+		}
+
 		getBodyData().addStatus(new Invulnerability(state, 0.1f, getBodyData(), getBodyData()));
 	}
 	

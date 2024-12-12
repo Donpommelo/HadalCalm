@@ -23,10 +23,12 @@ import com.mygdx.hadal.utils.b2d.HadalBody;
 
 /**
  *
- * Triggered Behavior: N/A
+ * Triggered Behavior: When activated, the bucket changes score depending on team alignment of activator
  * Triggering Behavior: N/A
  * <p>
- * Fields: teamIndex: int index of the team that is trying to score by bringing enemy candy to this event
+ * Fields:
+ * teamIndex: int index of the team that is trying to score by bringing enemy candy to this event
+ * mirror: boolean indicator of whether to flip this sprite or not
  *
  * @author Matannia Muchnold
  */
@@ -39,13 +41,13 @@ public class TrickorTreatBucket extends Event {
     private static final float BUCKET_FIRE_OFFSETX = 79.0f;
     private static final float BUCKET_FIRE_OFFSETY = -5.0f;
 
-    //index of the team whose flag this spawns
     private final int teamIndex;
 
     private final boolean mirror;
 
     private final TextureRegion bucketSprite, bucketSpriteEmpty;
 
+    //has the light color been set yet? Done on first controller tick after team colors are decided
     private boolean lightSet;
 
     public TrickorTreatBucket(PlayState state, Vector2 startPos, Vector2 size, int teamIndex, boolean mirror) {
@@ -117,7 +119,12 @@ public class TrickorTreatBucket extends Event {
         }
     }
 
-    public void setLightColor() {
+    /**
+     * This sets the color of the sprite's particle and adds an objective to the ui.
+     * We do this when creating the event, but also on the first render if it hasn't been set yet.
+     * This is because the client may not have received team colors yet
+     */
+    private void setLightColor() {
         if (teamIndex < AlignmentFilter.currentTeams.length) {
             HadalColor color = AlignmentFilter.currentTeams[teamIndex].getPalette().getIcon();
             EffectEntityManager.getParticle(state, new ParticleCreate(Particle.GHOST_LIGHT, this)

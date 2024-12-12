@@ -6,6 +6,9 @@ import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+/**
+ * The MockGL2 is used to replace the OpenGL context to avoid any references to graphics in the headless server
+ */
 public class MockGL2 implements GL20 {
 
     @Override

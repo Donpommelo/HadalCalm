@@ -9,6 +9,9 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.event.hub.Wallpaper;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * RenderShaderManager is used by the PlayState to set shaders for backgrounds
+ */
 public class RenderShaderManager {
 
     private final PlayState state;
@@ -21,10 +24,10 @@ public class RenderShaderManager {
 
         if (map.getProperties().get("customShader", false, Boolean.class)) {
             shaderBase = Wallpaper.SHADERS[JSONManager.setting.getCustomShader()];
-            shaderBase.loadShader();
+            ShaderManager.loadShader(shaderBase);
         } else if (map.getProperties().get("shader", String.class) != null) {
             shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
-            shaderBase.loadShader();
+            ShaderManager.loadShader(shaderBase);
         }
 
         //Init background image
@@ -78,6 +81,6 @@ public class RenderShaderManager {
      */
     public void setShaderBase(Shader shader) {
         shaderBase = shader;
-        shaderBase.loadShader();
+        ShaderManager.loadShader(shaderBase);
     }
 }

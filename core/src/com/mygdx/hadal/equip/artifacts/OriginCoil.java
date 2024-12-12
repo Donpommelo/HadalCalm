@@ -29,13 +29,17 @@ public class OriginCoil extends Artifact {
 	public void loadEnchantments(PlayState state, PlayerBodyData p) {
 		enchantment = new StatChangeStatus(state, Stats.RANGED_CLIP, BONUS_CLIP_SIZE, p) {
 
+			@Override
+			public void onHitboxInit(Hitbox hbox) {
+				if (!hbox.isEffectsMovement()) { return; }
+				hbox.setSynced(true);
+				hbox.setSyncedDelete(true);
+			}
+
 			private final Vector2 startVelo = new Vector2();
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				if (!hbox.isEffectsMovement()) { return; }
-
-				hbox.setSynced(true);
-				hbox.setSyncedDelete(true);
 
 				startVelo.set(hbox.getStartVelo()).scl(BOOST_MULTIPLIER);
 				hbox.getStartVelo().scl(SLOW);

@@ -7,7 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;
@@ -124,11 +124,6 @@ public class PlayerBodyData extends BodyData {
 
 	@Override
 	public void die(BodyData perp, DamageSource source, DamageTag... tags) {
-
-		//set death info to be sent to clients once death is processed
-		player.setDamageSource(source);
-		player.setDamageTags(tags);
-		player.setPerpID(perp.getSchmuck().getEntityID());
 
 		if (player.isAlive()) {
 

@@ -8,6 +8,9 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * RenderEntityManager is used by the PlayState to render entities
+ */
 public class RenderEntityManager {
 
     private final PlayState state;
@@ -69,7 +72,7 @@ public class RenderEntityManager {
 
             //we sometimes set static shaders without loading them (overrided static shaders that are conditional)
             if (null == entry.key.getShaderProgram()) {
-                entry.key.loadStaticShader();
+                ShaderManager.loadStaticShader(entry.key);
             }
             state.getBatch().setShader(entry.key.getShaderProgram());
             for (HadalEntity entity : entry.value) {

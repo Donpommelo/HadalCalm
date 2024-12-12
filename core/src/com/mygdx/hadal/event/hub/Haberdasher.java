@@ -17,7 +17,7 @@ import com.mygdx.hadal.effects.FrameBufferManager;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.save.CosmeticSlot;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -211,8 +211,8 @@ public class Haberdasher extends HubEvent {
 
 				Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-				if (null == ownPlayer) { return; }
-				if (null == ownPlayer.getPlayerData()) { return; }
+				if (ownPlayer == null) { return; }
+				if (ownPlayer.getPlayerData() == null) { return; }
 
 				UnlockCosmetic selected = loadingCosmetics.removeIndex(0);
 
@@ -237,7 +237,7 @@ public class Haberdasher extends HubEvent {
 					public void clicked(InputEvent e, float x, float y) {
 						Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-						if (null == ownPlayer) { return; }
+						if (ownPlayer == null) { return; }
 
 						UnlockCosmetic choice = selected;
 						if (!isEquipping(ownPlayer.getUser(), selected)) {
@@ -275,12 +275,6 @@ public class Haberdasher extends HubEvent {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void clientController(float delta) {
-		super.clientController(delta);
-		controller(delta);
 	}
 
 	/**

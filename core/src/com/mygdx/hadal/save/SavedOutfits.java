@@ -8,12 +8,14 @@ import com.badlogic.gdx.utils.SerializationException;
 import static com.mygdx.hadal.managers.JSONManager.JSON;
 import static com.mygdx.hadal.managers.JSONManager.READER;
 
+/**
+ * SavedOutfits is a list of saved loadouts the player can create and set at the Outfitter
+ */
 public class SavedOutfits {
 
     private ObjectMap<String, SavedLoadout> outfits;
 
-    public SavedOutfits() {
-    }
+    public SavedOutfits() {}
 
     public void addOutfit(String name, SavedLoadout outfit) {
         outfits.put(name, outfit);

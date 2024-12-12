@@ -10,6 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.constants.Constants;
 
 /**
+ * ToggleHealthDrops makes players sometimes drop small healthpacks upon death
  */
 public class ToggleHealthDrops extends ModeSetting {
 

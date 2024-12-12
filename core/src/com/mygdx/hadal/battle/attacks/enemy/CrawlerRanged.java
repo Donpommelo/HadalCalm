@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -27,7 +29,9 @@ public class CrawlerRanged extends SyncedAttacker {
 
         Hitbox[] hboxes = new Hitbox[startPosition.length];
         if (startPosition.length != 0) {
-            SoundEffect.SPIT.playSourced(state, startPosition[0], 0.8f);
+            SoundManager.play(state, new SoundLoad(SoundEffect.SPIT)
+                    .setVolume(0.8f)
+                    .setPosition(startPosition[0]));
 
             for (int i = 0; i < startPosition.length; i++) {
 

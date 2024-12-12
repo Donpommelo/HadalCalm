@@ -14,7 +14,7 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.entities.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -154,6 +154,10 @@ public class Hitbox extends HadalEntity {
 		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
 		setSprite(sprite);
 		setLayer(ObjectLayer.HBOX);
+
+		if (procEffects) {
+			creator.getBodyData().statusProcTime(new ProcTime.InitHitbox(this));
+		}
 	}
 
 	/**
@@ -262,6 +266,9 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 
+	/**
+	 * This is used for pickups, like trick-or-treat candy or eggplants that should vacuum to the player when nearby
+	 */
 	public void onPickup(HadalData picker) {
 
 		if (!alive) { return; }

@@ -11,6 +11,8 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -39,7 +41,10 @@ public class Airblast extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.AIRBLAST.playUniversal(state, startPosition, 0.4f, false);
+        SoundManager.play(state, new SoundLoad(SoundEffect.AIRBLAST)
+                .setVolume(0.4f)
+                .setPosition(startPosition));
+
         user.push(startVelocity.x, startVelocity.y, - MOMENTUM * (1 + user.getBodyData().getStat(Stats.BOOST_RECOIL)));
 
         Hitbox hbox = new Hitbox(state, startPosition, HITBOX_SIZE, SWING_CD, startVelocity, user.getHitboxFilter(),

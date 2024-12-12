@@ -19,15 +19,17 @@ public class StringManager {
         this.name = name;
     }
 
-    //this indicates the user's ping, and gives an indication of which player is the host or a bot
+    //this indicates the user's ping, and gives an indication of which player is a bot
+    private static final int PING_TEXT_LENGTH = 8;
     public String getPingText() {
-        if (user.getConnID() == 0) {
-            return "(HOST) ";
-        } else if (user.getConnID() < 0) {
-            return "(BOT) ";
+        String text;
+        if (user.getConnID() < 0) {
+            text = "(BOT)";
         } else {
-            return "(" + user.getPing() + " ms) ";
+            text = "(" + user.getPing() + " ms)";
         }
+        text = String.format("%-" + PING_TEXT_LENGTH + "s", text);
+        return text;
     }
 
     public String getNameShort() {

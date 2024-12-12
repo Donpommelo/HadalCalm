@@ -35,7 +35,7 @@ public class ScissorfishAttack extends SyncedAttacker {
         hbox.makeUnreflectable();
         hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
         hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), ATTACK_1_DAMAGE, DEFAULT_MELEE_KB,
-                DamageSource.ENEMY_ATTACK, DamageTag.MELEE).setStaticKnockback(true));
+                DamageSource.ENEMY_ATTACK, DamageTag.MELEE, DamageTag.CUTTING).setStaticKnockback(true));
         hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), startVelo).setRotate(true));
 
         return hbox;

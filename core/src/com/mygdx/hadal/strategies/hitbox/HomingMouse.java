@@ -32,7 +32,6 @@ public class HomingMouse extends HitboxStrategy {
 		if (user.getSchmuck() instanceof Player player) {
 			owner = player;
 		}
-
 		hbox.setSynced(true);
 		hbox.setSyncedDelete(true);
 	}
@@ -49,7 +48,7 @@ public class HomingMouse extends HitboxStrategy {
 		while (controllerCount >= Constants.INTERVAL) {
 			controllerCount -= Constants.INTERVAL;
 
-			if (null != owner) {
+			if (owner != null) {
 				currentVelocity.set(hbox.getLinearVelocity());
 				desiredDirection.set(owner.getMouseHelper().getPosition()).sub(hbox.getPosition()).nor();
 				currentDirection.set(currentVelocity).nor();

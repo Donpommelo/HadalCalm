@@ -9,6 +9,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -38,7 +40,10 @@ public class MaelstromProjectile extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.WIND2.playSourced(state, startPosition, 0.8f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.WIND2)
+                .setVolume(0.8f)
+                .setPosition(startPosition));
+
         user.recoil(startVelocity, RECOIL);
 
         final Vector2 explosionSize = new Vector2(PROJECTILE_SIZE);

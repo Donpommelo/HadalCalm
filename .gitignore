@@ -121,3 +121,5 @@ core/assets/err.txt
 /core/assets/save/Outfits.json
 /core/assets/save/Records.json
 /core/assets/save/Settings.json
+/server/build/
+

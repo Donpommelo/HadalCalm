@@ -9,7 +9,8 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- *
+ * This status creates a particle on the schmuck that can be further toggled on or off.
+ * Mostly used by certain artifacts with conditional effects
  * @author Liggnut Leblatt
  */
 public class ParticleToggleable extends Status {

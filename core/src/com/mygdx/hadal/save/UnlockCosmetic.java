@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.effects.CharacterCosmetic;
-import com.mygdx.hadal.schmucks.entities.Ragdoll;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.GameText;
@@ -222,17 +221,15 @@ public enum UnlockCosmetic {
 
     /**
      * This is called when a player is ragdolled.
-     * @return the cosmetic ragdoll
      */
-    public Ragdoll createRagdoll(PlayState state, AlignmentFilter team, UnlockCharacter character,
+    public void createRagdoll(PlayState state, AlignmentFilter team, UnlockCharacter character,
                                  Vector2 playerLocation, float scale, Vector2 playerVelocity) {
         if (ragdoll) {
             CharacterCosmetic cosmetic = cosmetics.get(character);
             if (cosmetic != null) {
-                return cosmetic.createRagdoll(state, team, character, playerLocation, scale, playerVelocity);
+                cosmetic.createRagdoll(state, team, character, playerLocation, scale, playerVelocity);
             }
         }
-        return null;
     }
 
     /**

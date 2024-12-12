@@ -1,9 +1,12 @@
 package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -90,7 +93,10 @@ public class ActiveItem extends Equippable {
 			currentCharge = maxCharge;
 			
 			if (uncharged) {
-				SoundEffect.MAGIC1_ACTIVE.playExclusive(user.getState(), user.getPixelPosition(), user, 0.4f, false);
+				if (user.equals(HadalGame.usm.getOwnPlayer())) {
+					SoundManager.play(new SoundLoad(SoundEffect.MAGIC1_ACTIVE)
+							.setVolume(0.4f));
+				}
 			}
 		}
 	}
@@ -109,7 +115,10 @@ public class ActiveItem extends Equippable {
 			currentCharge = maxCharge;
 			
 			if (uncharged) {
-				SoundEffect.MAGIC1_ACTIVE.playExclusive(user.getState(), user.getPixelPosition(), user, 0.4f, false);
+				if (user.equals(HadalGame.usm.getOwnPlayer())) {
+					SoundManager.play(new SoundLoad(SoundEffect.MAGIC1_ACTIVE)
+							.setVolume(0.4f));
+				}
 			}
 		}
 	}

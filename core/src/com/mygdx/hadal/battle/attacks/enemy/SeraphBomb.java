@@ -8,6 +8,8 @@ import com.mygdx.hadal.battle.WeaponUtils;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -47,7 +49,10 @@ public class SeraphBomb extends SyncedAttacker {
 
             @Override
             public void die() {
-                SoundEffect.EXPLOSION9.playSourced(state, hbox.getPixelPosition(), 0.5f, 0.5f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.FREEZE_IMPACT)
+                        .setVolume(0.5f)
+                        .setPitch(0.5f)
+                        .setPosition(hbox.getPixelPosition()));
 
                 WeaponUtils.createExplosion(state, hbox.getPixelPosition(), GRID_DISTANCE, creator.getSchmuck(),
                         BASE_DAMAGE, KNOCKBACK, creator.getSchmuck().getHitboxFilter(), false, DamageSource.ENEMY_ATTACK);

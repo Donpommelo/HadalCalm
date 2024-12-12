@@ -193,7 +193,7 @@ public enum PoetryGenerator {
 		
 		//deal with a/an and vowels
 		if ("a".equals(next.endTag)) {
-			if (2 <= nextWord.length()) {
+			if (nextWord.length() >= 2) {
 				if (VOWELS.contains(nextWord.charAt(1))) {
 					thisWord = " an";
 				}

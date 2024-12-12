@@ -1,79 +1,29 @@
 package com.mygdx.hadal.managers;
 
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.constants.SyncType;
+import com.mygdx.hadal.managers.loaders.EffectEntityLoader;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.requests.SoundCreate;
 import com.mygdx.hadal.schmucks.entities.ParticleEntity;
 import com.mygdx.hadal.schmucks.entities.SoundEntity;
-import com.mygdx.hadal.server.packets.Packets;
-import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * EffectEntityManager creates particle and sound entities.
+ * Logic is delegated to Loader to make it easier for headless server to have different logic
+ */
 public class EffectEntityManager {
 
+    private static EffectEntityLoader loader;
+
+    public static void initLoader(EffectEntityLoader loader) {
+        EffectEntityManager.loader = loader;
+    }
 
     public static ParticleEntity getParticle(PlayState state, ParticleCreate particleCreate) {
-        if (null == HadalGame.assetManager) {
-            if (particleCreate.getSyncType().equals(SyncType.CREATESYNC)) {
-                if (particleCreate.getScale() == null) {
-                    particleCreate.setScale(1.0f);
-                }
-                if (particleCreate.getVelocity() == null) {
-                    particleCreate.setVelocity(0.0f);
-                }
-                PacketManager.serverUDPAll(new Packets.CreateParticles(particleCreate));
-            }
-            return null;
-        }
-
-        ParticleEntity particleEntity = new ParticleEntity(state, particleCreate);
-        modifyParticle(particleEntity, particleCreate);
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(particleEntity.getEntityID(), particleEntity, false, ObjectLayer.EFFECT);
-        }
-
-        return particleEntity;
+        return EffectEntityManager.loader.getParticle(state, particleCreate);
     }
 
     public static SoundEntity getSound(PlayState state, SoundCreate soundCreate) {
-        if (null == HadalGame.assetManager) {
-            if (soundCreate.getSyncType().equals(SyncType.CREATESYNC)) {
-                if (null != soundCreate.getAttachedEntity()) {
-                    PacketManager.serverUDPAll(new Packets.CreateSound(soundCreate));
-                }
-            }
-            return null;
-        }
-
-        SoundEntity soundEntity = new SoundEntity(state, soundCreate);
-        if (!state.isServer()) {
-            ((ClientState) state).addEntity(soundEntity.getEntityID(), soundEntity, false, ObjectLayer.EFFECT);
-        }
-
-        return soundEntity;
-    }
-
-    public static void modifyParticle(ParticleEntity particleEntity, ParticleCreate particleCreate) {
-        particleEntity.setRotate(particleCreate.isRotate());
-        particleEntity.setShowOnInvis(particleCreate.isShowOnInvis());
-        particleEntity.setColor(particleCreate.getColor());
-
-        if (!particleCreate.getColorRGB().isZero()) {
-            particleEntity.setColor(particleCreate.getColorRGB());
-        }
-        if (!particleCreate.getOffset().isZero()) {
-            particleEntity.setOffset(particleCreate.getOffset().x, particleCreate.getOffset().y);
-        }
-        if (particleCreate.getScale() != null) {
-            particleEntity.setScale(particleCreate.getScale());
-        }
-        if (particleCreate.getAngle() != null) {
-            particleEntity.setParticleAngle(particleCreate.getAngle());
-        }
-        if (particleCreate.getVelocity() != null) {
-            particleEntity.setParticleVelocity(particleCreate.getVelocity());
-        }
+        return EffectEntityManager.loader.getSound(state, soundCreate);
     }
 }

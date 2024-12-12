@@ -7,7 +7,7 @@ import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.HadalColor;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.AlignmentFilter;
@@ -65,6 +65,7 @@ public class EventUtils {
                 new Vector2(1.0f / 2,  - event.getSize().y / 2),
                 new Vector2(event.getSize().x, event.getSize().y / 8),
                 BodyConstants.BIT_SENSOR, BodyConstants.BIT_DROPTHROUGHWALL, (short) 0)
+                .setFriction(1.0f)
                 .addToBody(event.getBody())
                 .setUserData(feetData);
     }

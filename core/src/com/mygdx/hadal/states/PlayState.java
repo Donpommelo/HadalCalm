@@ -41,16 +41,16 @@ import com.mygdx.hadal.schmucks.entities.WorldDummy;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.util.PacketManager;
+import com.mygdx.hadal.server.util.SocketManager;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.TiledObjectUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.mygdx.hadal.utils.UUIDUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.mygdx.hadal.constants.Constants.PHYSICS_TIME;
 
@@ -68,7 +68,7 @@ public class PlayState extends GameState {
 	private final Array<UnlockManager.UnlockTag> mapEquipTags = new Array<>();
 
 	//These process and store the map parsed from the Tiled file.
-	protected final TiledMap map;
+	protected TiledMap map;
 
 	//world manages the Box2d world and physics.
 	protected World world;
@@ -83,11 +83,11 @@ public class PlayState extends GameState {
 	protected EndgameManager endgameManager;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
-	private final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
+	protected final OrderedSet<HadalEntity> removeList = new OrderedSet<>();
 	private final OrderedSet<HadalEntity> createList = new OrderedSet<>();
 
 	//These sets are used by the Client for removing/adding entities.
-	protected final OrderedSet<UUID> removeListClient = new OrderedSet<>();
+	protected final OrderedSet<Integer> removeListClient = new OrderedSet<>();
 	protected final OrderedSet<ClientState.CreatePacket> createListClient = new OrderedSet<>();
 
 	//This is a set of all non-hitbox entities in the world
@@ -158,11 +158,11 @@ public class PlayState extends GameState {
 		entityLists.add(entities);
 		entityLists.add(effects);
 
-		//load map. We override the render so that we can apply a shader to the tileset
-		map = new TmxMapLoader().load(level.getMap());
+		initMap();
 
 		//We clear things like music/sound/shaders to periodically free up some memory
 		StateManager.clearMemory();
+		UUIDUtil.nextPlayState();
 
 		//we clear shaded cosmetics to avoid having too many cached fbos
 		UnlockCosmetic.clearShadedCosmetics();
@@ -239,6 +239,10 @@ public class PlayState extends GameState {
 		this.transitionManager = new TransitionManager(this);
 		this.spectatorManager = new SpectatorManager(this);
 		this.endgameManager = new EndgameManager(this);
+	}
+
+	public void initMap() {
+		map = new TmxMapLoader().load(level.getMap());
 	}
 
 	@Override
@@ -362,10 +366,11 @@ public class PlayState extends GameState {
 
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity : removeList) {
+			entity.dispose();
+
 			for (ObjectSet<HadalEntity> s : entityLists) {
 				s.remove(entity);
 			}
-			entity.dispose();
 
 			//Upon deleting an entity, tell the clients so they can follow suit.
 			Object packet = entity.onServerDelete();
@@ -456,25 +461,12 @@ public class PlayState extends GameState {
 		}
 		packetEffects.clear();
 
-		if (isServer()) {
+		if (HadalGame.usm.isHost()) {
 			//send server info to matchmaking server
 			lobbySyncAccumulator += delta;
 			if (lobbySyncAccumulator >= LOBBY_SYNC_TIME) {
 				lobbySyncAccumulator = 0;
-				if (HadalGame.socket != null) {
-					if (HadalGame.socket.connected()) {
-						JSONObject lobbyData = new JSONObject();
-						try {
-							lobbyData.put("playerNum", HadalGame.usm.getNumPlayers());
-							lobbyData.put("playerCapacity", JSONManager.setting.getMaxPlayers() + 1);
-							lobbyData.put("gameMode", mode.getName());
-							lobbyData.put("gameMap", level.getName());
-						} catch (JSONException jsonException) {
-							Gdx.app.log("LOBBY", "FAILED TO SEND LOBBY INFO " + jsonException);
-						}
-						HadalGame.socket.emit("updateLobby", lobbyData.toString());
-					}
-				}
+				SocketManager.updateLobby(this);
 			}
 		}
 
@@ -483,6 +475,7 @@ public class PlayState extends GameState {
 			getTimerManager().incrementTimer(delta);
 			timer += delta;
 			getCameraManager().controller(delta);
+			getUIManager().controller();
 		}
 	}
 	
@@ -529,24 +522,26 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void dispose() {
-		getRenderManager().getWorldManager().dispose();
+		if (getRenderManager() != null) {
+			getRenderManager().getWorldManager().dispose();
+		}
 
 		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
 				entity.dispose();
 			}
 		}
-		for (HadalEntity entity : removeList) {
-			entity.dispose();
-		}
-		
+
 		world.dispose();
 		map.dispose();
 
 		if (stage != null) {
 			stage.dispose();
 		}
-		CameraUtil.resetCameraRotation(camera);
+
+		if (camera != null) {
+			CameraUtil.resetCameraRotation(camera);
+		}
 	}
 
 	@Override
@@ -559,20 +554,15 @@ public class PlayState extends GameState {
 	 * This looks for an entity in the world with the given entityID
 	 * this is kinda slow. don't overuse it.
 	 */
-	public HadalEntity findEntity(UUID entityID) {
-
+	public HadalEntity findEntity(int entityID) {
 		for (ObjectSet<HadalEntity> s : entityLists) {
 			for (HadalEntity entity : s) {
-				if (entity.getEntityID().equals(entityID)) {
+				if (entity.getEntityID() == entityID) {
 					return entity;
 				}
 			}
 		}
 		return null;
-	}
-
-	public HadalEntity findEntity(long uuidMSB, long uuidLSB) {
-		return findEntity(new UUID(uuidMSB, uuidLSB));
 	}
 
 	/**

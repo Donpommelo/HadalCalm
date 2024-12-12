@@ -52,7 +52,7 @@ public enum MusicTrackType {
      * @return a random track from thte available pool
      */
     public MusicTrack getTrack() {
-        if (0 != tracks.length) {
+        if (tracks.length != 0) {
             return tracks[MathUtils.random(tracks.length - 1)];
         } else {
             return null;

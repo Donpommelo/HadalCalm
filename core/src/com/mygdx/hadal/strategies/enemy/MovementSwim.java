@@ -6,6 +6,10 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.EnemyStrategy;
 import com.mygdx.hadal.constants.Constants;
 
+/**
+ * This strategy applies to "swimming" moving behavior.
+ * This makes the enemy move towards their desired target (or wander if no target is found)
+ */
 public class MovementSwim extends EnemyStrategy {
 
     //this the frequency that the physics occurs

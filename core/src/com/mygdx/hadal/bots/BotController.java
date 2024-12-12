@@ -113,14 +113,14 @@ public class BotController {
         //bot considers their own velocity when deciding how they should move
         predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER);
         float fract = BotManager.raycastUtility(bot, targetLocation, predictedSelfLocation, BodyConstants.BIT_PLAYER);
-        if (1.0f > fract) {
+        if (fract < 1.0f) {
             predictedSelfLocation.set(playerLocation).mulAdd(playerVelocity, CURRENT_VELOCITY_MULTIPLIER * fract);
         }
 
         //find target and see if we have line of sight to it
         HadalEntity target = findTarget();
 
-        if (null != target) {
+        if (target != null) {
             collision = BotManager.raycastUtility(bot, predictedSelfLocation, target.getPosition(), BodyConstants.BIT_PLAYER);
             if (1.0f == collision) {
                 thisLocation.set(target.getPosition()).sub(predictedSelfLocation);
@@ -131,7 +131,7 @@ public class BotController {
 
         //if seeking player, raycast towards it and set target location if found
         if (BotMood.SEEK_ENEMY.equals(currentMood)) {
-            if (null != shootTarget && lineOfSight) {
+            if (shootTarget != null && lineOfSight) {
                 if (shootTarget.isAlive()) {
                     thisLocation.set(shootTarget.getPosition()).sub(predictedSelfLocation);
                     thisLocation.nor().scl(midrangeDifferenceSquare).scl(PLAYER_MOVEMENT_MULTIPLIER);
@@ -210,12 +210,12 @@ public class BotController {
         float shortestDistanceSquared = -1;
         boolean unobtructedTargetFound = false;
         for (User user : HadalGame.usm.getUsers().values()) {
-            if (null != user.getPlayer() && null != user.getPlayer().getPlayerData()) {
+            if (user.getPlayer() != null && user.getPlayer().getPlayerData() != null) {
 
                 //we don't want to target dead, invisible or invincible players
                 if (user.getPlayer().isAlive() && bot.getHitboxFilter() != user.getPlayer().getHitboxFilter() &&
-                        null == user.getPlayer().getPlayerData().getStatus(Invisibility.class) &&
-                        null == user.getPlayer().getPlayerData().getStatus(Invulnerability.class)) {
+                        user.getPlayer().getPlayerData().getStatus(Invisibility.class) == null &&
+                        user.getPlayer().getPlayerData().getStatus(Invulnerability.class) == null) {
 
                     //find shoot target by getting closest target with unobstructed vision
                     targetLocation.set(user.getPlayer().getPosition());
@@ -244,7 +244,7 @@ public class BotController {
                     }
                     //calc the shortest path and compare it to paths to other targets
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
-                    if (null != tempPoint) {
+                    if (tempPoint != null) {
                         float botScoreModifier = 1.0f - (user.getScoreManager().getExtraModeScore() * bot.getState().getMode().getBotScoreAggroModifier());
                         targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, user.getPlayer(),
                                 multiplier * botScoreModifier));
@@ -261,10 +261,10 @@ public class BotController {
                         bodyData.getSchmuck() instanceof Enemy enemy) {
                     targetLocation.set(enemy.getPosition());
                     RallyPoint tempPoint = BotManager.getNearestPoint(bot, targetLocation);
-                    if (null != tempPoint) {
+                    if (tempPoint != null) {
                         targetPoints.add(new RallyPoint.RallyPointMultiplier(tempPoint, enemy, ENEMY_MULTIPLIER));
                         if (targetLocation.dst2(playerLocation) < shortestPlayerDistanceSquared * ENEMY_MULTIPLIER
-                                || -1 == shortestPlayerDistanceSquared) {
+                                || shortestPlayerDistanceSquared == -1) {
                             shootTarget = enemy;
                         }
                         return false;

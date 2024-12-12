@@ -1,7 +1,10 @@
 package com.mygdx.hadal.users;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
+import com.mygdx.hadal.server.packets.Packets;
 
 /**
  * The UserManager is created when the game begins and maintains a list of users connected to the game.
@@ -17,6 +20,9 @@ public class UserManager {
     //this is the player's own connID
     private int connID;
 
+    //ID of the host, which can be a client. -1 means no host is designated and will be set when a user connects.
+    private int hostID = -1;
+
     //This is an entity representing the player's controlled entity.
     private Player ownPlayer;
 
@@ -27,11 +33,65 @@ public class UserManager {
         int playerNum = 0;
 
         for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
-            if (!conn.value.isSpectator() && 0.0f <= conn.key) {
+            if (!conn.value.isSpectator() && conn.key >= 0.0f) {
                 playerNum++;
             }
         }
         return playerNum;
+    }
+
+    public void addUser(User user) {
+        users.put(user.getConnID(), user);
+    }
+
+    /**
+     * When the server adds a user, we set that user as host if no host exists yet.
+     */
+    public void addUserServer(User user) {
+        addUser(user);
+        if (getHost() == null) {
+            hostID = user.getConnID();
+        }
+    }
+
+    public void removeUser(int connID) { users.remove(connID); }
+
+    /**
+     * When the server removes a user, check if we need to reassign host status to another user
+     */
+    public void removeUserServer(int connID) {
+        removeUser(connID);
+
+        int playerNum = 0;
+
+        for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
+            if (conn.key >= 0.0f) {
+                playerNum++;
+            }
+        }
+
+        //if only bot players are left, close the server. (human spectators keep lobby open)
+        if (playerNum == 0) {
+            Gdx.app.exit();
+        } else if (connID == hostID) {
+            //if the host disconnected, choose a new host from the non-bot users and inform clients
+            for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
+                if (conn.key >= 0.0f) {
+                    hostID = conn.key;
+                    PacketManager.serverTCPAll(new Packets.ServerNewHost(hostID));
+                    break;
+                }
+            }
+        }
+    }
+
+    public User getHost() {
+        for (ObjectMap.Entry<Integer, User> conn : users.iterator()) {
+            if (conn.key == hostID) {
+                return conn.value;
+            }
+        }
+        return null;
     }
 
     /**
@@ -39,7 +99,7 @@ public class UserManager {
      * Null players (for spectators or users with players that haven't spawned yet) always return true
      */
     public boolean isOwnTeam(User user) {
-        if (null == ownPlayer || null == user.getPlayer()) { return true; }
+        if (ownPlayer == null || user.getPlayer() == null) { return true; }
         return ownPlayer.getHitboxFilter() == user.getPlayer().getHitboxFilter();
     }
 
@@ -53,9 +113,15 @@ public class UserManager {
 
     public ObjectMap<Integer, User> getUsers() { return users; }
 
+    public boolean isHost() { return connID == hostID; }
+
     public int getConnID() { return connID; }
 
     public void setConnID(int connID) { this.connID = connID; }
+
+    public int getHostID() { return hostID; }
+
+    public void setHostID(int hostID) { this.hostID = hostID; }
 
     public Player getOwnPlayer() { return ownPlayer; }
 

@@ -16,6 +16,9 @@ import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.users.User;
 
+/**
+ * SpawnManager contains the logic for spawning new players
+ */
 public class SpawnManager {
 
     private final PlayState state;
@@ -33,7 +36,7 @@ public class SpawnManager {
         this.startID = null == startID ? "" : startID;
     }
 
-    /**This creates a player to occupy the playstate
+    /** This creates a player to occupy the playstate
      * @param start: start event to spawn the player at.
      * @param name: player name
      * @param loadout: the player's loadout
@@ -52,7 +55,7 @@ public class SpawnManager {
         state.getMode().processNewPlayerLoadout(state, newLoadout, user.getConnID());
         user.getLoadoutManager().setActiveLoadout(newLoadout);
 
-        //set start pont, generate one if a designated one isn't passed in
+        //set start point, generate one if a designated one isn't passed in
         Event spawn = start;
         if (spawn == null) {
             spawn = getSavePoint(user);
@@ -61,7 +64,7 @@ public class SpawnManager {
         Vector2 overiddenSpawn = new Vector2();
         if (spawn != null) {
             //servers spawn at the starting point if existent. We prefer using the body's position,
-            // but can also use the starting position if it hasn't been created yet.
+            //but can also use the starting position if it hasn't been created yet.
             if (spawn.getBody() != null) {
                 overiddenSpawn.set(spawn.getPixelPosition());
             } else {

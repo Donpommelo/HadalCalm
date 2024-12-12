@@ -14,7 +14,6 @@ import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
@@ -74,7 +73,7 @@ public class BotLoadoutProcessor {
                         RallyPoint tempPoint = BotManager.getNearestPoint(player, pickup.getPosition());
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
-                        if (null != tempPoint) {
+                        if (tempPoint != null) {
                             bestPoint[0] = tempPoint;
                             bestTarget[0] = pickup;
                             return false;
@@ -106,7 +105,7 @@ public class BotLoadoutProcessor {
                         RallyPoint tempPoint = BotManager.getNearestPoint(player, data.getEntity().getPosition());
 
                         //tentatively, we stop immediately upon finding an appropriate pickup to path towards
-                        if (null != tempPoint) {
+                        if (tempPoint != null) {
                             bestPoint[0] = tempPoint;
                             bestTarget[0] = data.getEntity();
                             return false;
@@ -343,12 +342,12 @@ public class BotLoadoutProcessor {
 
                 //spray-type weapons are suitable when firing to avoid switching immediately after gaining firing status
                 case COLACANNON, SLODGE_NOZZLE, STUTTERGUN:
-                    if (0 == ranged.getClipLeft() && null == player.getPlayerData().getStatus(FiringWeapon.class)) {
+                    if (ranged.getClipLeft() == 0 && player.getPlayerData().getStatus(FiringWeapon.class) == null) {
                         suitability =  inRange ? 1 : 0;
                     }
                     break;
                 default:
-                    if (0 == ranged.getClipLeft()) {
+                    if (ranged.getClipLeft() == 0) {
                         suitability =  inRange ? 1 : 0;
                     }
                     break;
@@ -460,7 +459,7 @@ public class BotLoadoutProcessor {
      * Only used for stickybomb launcher
      */
     private static void manualReload(PlayerBot player, Equippable weapon, boolean shooting) {
-        if (0 == weapon.getClipLeft()) {
+        if (weapon.getClipLeft() == 0) {
             player.getController().keyDown(PlayerAction.RELOAD);
             player.getController().keyUp(PlayerAction.RELOAD);
         } else if (shooting) {
@@ -494,29 +493,33 @@ public class BotLoadoutProcessor {
             UnlockArtifact.MOON_FLUTHER, UnlockArtifact.NICE_SHOES, UnlockArtifact.VOID_HYPONOME };
     private static final UnlockArtifact[] mobility1 = { UnlockArtifact.CURSED_CILICE, UnlockArtifact.NACREOUS_RUDDER };
     private static final UnlockArtifact[] defensive3 = { UnlockArtifact.FALLACY_OF_FLESH, UnlockArtifact.HORNS_OF_AMMON };
-    private static final UnlockArtifact[] defensive2 = { UnlockArtifact.BLASTEMA, UnlockArtifact.FARADAYS_CAGE, UnlockArtifact.FRACTURE_PLATE,
-            UnlockArtifact.GLUTTONOUS_GREY_GLOVE, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.VISE_OF_SHAME };
+    private static final UnlockArtifact[] defensive2 = { UnlockArtifact.BLASTEMA, UnlockArtifact.FARADAYS_CAGE, UnlockArtifact.FINIFUGALITY,
+            UnlockArtifact.FRACTURE_PLATE,
+            UnlockArtifact.GLUTTONOUS_GREY_GLOVE, UnlockArtifact.GOOD_HEALTH, UnlockArtifact.LOCH_SHIELD, UnlockArtifact.VISE_OF_SHAME };
     private static final UnlockArtifact[] defensive1 = { UnlockArtifact.NUMBER_ONE_BOSS_MUG, UnlockArtifact.DAS_BOOT,
             UnlockArtifact.DAY_AT_THE_FAIR, UnlockArtifact.GEMMULE, UnlockArtifact.KUMQUAT, UnlockArtifact.LOTUS_LANTERN,
+            UnlockArtifact.MANGROVE_SEED,
             UnlockArtifact.MOUTHBREATHER_CERTIFICATE, UnlockArtifact.NOCTILUCENT_PROMISE, UnlockArtifact.NUTRILOG_CRUNCHBAR_PLUS,
             UnlockArtifact.SALIGRAM, UnlockArtifact.TUNICATE_TUNIC};
     private static final UnlockArtifact[] offensive3 = { UnlockArtifact.BUCKET_OF_BATTERIES, UnlockArtifact.EMAUDELINES_PRISM, UnlockArtifact.JURY_RIGGED_BINDINGS };
     private static final UnlockArtifact[] offensive2 = { UnlockArtifact.BOOK_OF_BURIAL, UnlockArtifact.BRITTLING_POWDER, UnlockArtifact.CHAOS_CONJURANT,
-            UnlockArtifact.CLOCKWISE_CAGE, UnlockArtifact.CRIME_DISCOURAGEMENT_STICK, UnlockArtifact.ERSATZ_SMILE,
-            UnlockArtifact.GOMEZS_AMYGDALA, UnlockArtifact.PEER_PRESSURE, UnlockArtifact.ROYAL_JUJUBE_BANG,
+            UnlockArtifact.CLOCKWISE_CAGE, UnlockArtifact.CONCEPT13, UnlockArtifact.CRIME_DISCOURAGEMENT_STICK, UnlockArtifact.ERSATZ_SMILE,
+            UnlockArtifact.GOMEZS_AMYGDALA, UnlockArtifact.HONEYED_TENEBRAE, UnlockArtifact.PEER_PRESSURE, UnlockArtifact.ROYAL_JUJUBE_BANG,
             UnlockArtifact.SHILLERS_DEATHCAP, UnlockArtifact.TRIGGERFISH_FINGER, UnlockArtifact.TYPHON_FANG,
             UnlockArtifact.VESTIGIAL_CHAMBER, UnlockArtifact.VOLATILE_DERMIS, UnlockArtifact.WHITE_WHALE_CHARM,
             UnlockArtifact.WRATH_OF_THE_FROGMAN };
     private static final UnlockArtifact[] offensive1 = { UnlockArtifact.EIGHT_BALL, UnlockArtifact.ABYSSAL_INSIGNIA, UnlockArtifact.BATTLE_BUOY,
-            UnlockArtifact.CALL_OF_THE_VOID, UnlockArtifact.CROWN_OF_THORNS, UnlockArtifact.FORAGERS_HIVE, UnlockArtifact.IRON_SIGHTS, UnlockArtifact.KERMUNGLER,
+            UnlockArtifact.CALL_OF_THE_VOID, UnlockArtifact.CONTEMPT_FOR_LIFE, UnlockArtifact.CROWN_OF_THORNS, UnlockArtifact.FORAGERS_HIVE, UnlockArtifact.HEARTSNATCHER,
+            UnlockArtifact.IRON_SIGHTS, UnlockArtifact.KERMUNGLER,
             UnlockArtifact.MOUTHFUL_OF_BEES, UnlockArtifact.NUCLEAR_PUNCH_THRUSTERS, UnlockArtifact.NURDLER, UnlockArtifact.PEACHWOOD_SWORD,
             UnlockArtifact.PEPPER, UnlockArtifact.PETRIFIED_PAYLOAD, UnlockArtifact.RED_TIDE_TALISMAN, UnlockArtifact.SAMURAI_SHARK,
             UnlockArtifact.SWORD_OF_SYZYGY, UnlockArtifact.VOW_OF_EMPTY_HANDS };
     private static final UnlockArtifact[] misc3 = { UnlockArtifact.AU_COURANT, UnlockArtifact.CARLOCS_THESIS, UnlockArtifact.HEART_OF_SPEROS,
             UnlockArtifact.INFORMANTS_TIE, UnlockArtifact.KINESIS_LENS, UnlockArtifact.TENUOUS_GRIP_ON_REALITY };
     private static final UnlockArtifact[] misc2 = { UnlockArtifact.CURIOUS_SAUCE, UnlockArtifact.EXTRA_ROW_OF_TEETH, UnlockArtifact.ICE9 };
-    private static final UnlockArtifact[] misc1 = { UnlockArtifact.ANARCHISTS_COOKBOOK, UnlockArtifact.BUTTONMAN_BUTTONS, UnlockArtifact.ICE9,
-            UnlockArtifact.SINKING_FEELING};
+    private static final UnlockArtifact[] misc1 = { UnlockArtifact.ANARCHISTS_COOKBOOK, UnlockArtifact.BROOCH_OF_BETTER_DAYS,
+            UnlockArtifact.BUTTONMAN_BUTTONS, UnlockArtifact.ICE9,
+            UnlockArtifact.QUALIA_UMBILICA, UnlockArtifact.SINKING_FEELING, UnlockArtifact.SUMMONING_TWOFISH};
 
     /**
      * This gives a bot a set of random artifacts from a curated list, obeying artifact slot restrictions
@@ -527,8 +530,7 @@ public class BotLoadoutProcessor {
 
         //easy bots or bots in single player when the player has no artifacts do not use artifacts
         if (BotPersonality.BotDifficulty.EASY.equals(state.getMode().getBotDifficulty()) ||
-                (StateManager.Mode.SINGLE.equals(StateManager.currentMode) &&
-                        0 == HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed())) {
+                (HadalGame.usm.getOwnUser() != null && HadalGame.usm.getOwnUser().getLoadoutManager().getSavedLoadout().getArtifactSlotsUsed() == 0)) {
             return artifacts;
         }
 
@@ -543,7 +545,7 @@ public class BotLoadoutProcessor {
         int currentSlot = 0;
         boolean mobilityFound = 1 == slots;
 
-        while (0 < slots) {
+        while (slots > 0) {
             artifactOptions.clear();
 
             //if there is >1 slot available, bots will prioritize having at least 1 mobility item
@@ -552,12 +554,12 @@ public class BotLoadoutProcessor {
                 artifactOptions.addAll(mobility2);
                 artifactOptions.addAll(mobility1);
             } else {
-                if (3 <= slots) {
+                if (slots >= 3) {
                     artifactOptions.addAll(defensive3);
                     artifactOptions.addAll(offensive3);
                     artifactOptions.addAll(misc3);
                 }
-                if (2 <= slots) {
+                if (slots >= 2) {
                     artifactOptions.addAll(mobility2);
                     artifactOptions.addAll(defensive2);
                     artifactOptions.addAll(offensive2);
@@ -569,7 +571,7 @@ public class BotLoadoutProcessor {
                 artifactOptions.addAll(misc1);
             }
 
-            if (0 < artifactOptions.size && currentSlot < artifacts.length) {
+            if (artifactOptions.size > 0 && currentSlot < artifacts.length) {
                 UnlockArtifact newArtifact = artifactOptions.get(MathUtils.random(artifactOptions.size - 1));
                 boolean artifactUnique = true;
 
@@ -618,7 +620,7 @@ public class BotLoadoutProcessor {
                 }
 
             }
-            if (0 < cosmeticOptions.size) {
+            if (cosmeticOptions.size > 0) {
                 cosmetics[index] = cosmeticOptions.get(MathUtils.random(cosmeticOptions.size - 1));
             }
             index++;
@@ -654,7 +656,7 @@ public class BotLoadoutProcessor {
                 break;
             //active items that require being withing range of enemies
             case JUMP_KICK, MARINE_SNOWGLOBE, ORBITAL_SHIELD, PLUS_MINUS, TAINTED_WATER:
-                if (weapon.isUsable() && 0.0f < distanceSquared &&
+                if (weapon.isUsable() && distanceSquared > 0.0f &&
                         weapon.getBotRangeMin() * weapon.getBotRangeMin() > distanceSquared) {
                     player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
                 } else {

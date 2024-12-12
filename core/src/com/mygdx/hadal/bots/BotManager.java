@@ -41,7 +41,7 @@ public class BotManager {
      */
     public static void initiateBots(PlayState state) {
         for (User user : HadalGame.usm.getUsers().values()) {
-            if (0 > user.getConnID()) {
+            if (user.getConnID() < 0) {
                 user.getTransitionManager().beginTransition(state,
                         new Transition()
                                 .setNextState(TransitionState.RESPAWN)
@@ -61,7 +61,7 @@ public class BotManager {
     public static void initiateRallyPoints(PlayState state, TiledMap map) {
 
         MapLayer botLayer = map.getLayers().get("bot-layer");
-        if (null != botLayer) {
+        if (botLayer != null) {
             for (MapObject object : botLayer.getObjects()) {
                 PolylineMapObject current = (PolylineMapObject) object;
 
@@ -77,7 +77,7 @@ public class BotManager {
                 }
 
                 //set each vertex of the segment as a rally point and add its connections
-                if (2 == worldVertices.length) {
+                if (worldVertices.length == 2) {
                     if (!rallyPoints.containsKey(worldVertices[0])) {
                         rallyPoints.put(worldVertices[0], new RallyPoint(worldVertices[0]));
                     }
@@ -105,7 +105,7 @@ public class BotManager {
 
     //when match ends, we must shutdown executor to close remaining threads
     public static void terminatePathfindingThreads() {
-        if (null != executor) {
+        if (executor != null) {
             executor.shutdown();
         }
     }
@@ -147,14 +147,14 @@ public class BotManager {
             float currentDistSquared = raycastFraction * raycastFraction * sourceLocation.dst2(tempPointLocation);
 
             //if we have a line of sight with the point, check if its distance is less than the nearest point so far
-            if (1.0f == raycastFraction) {
+            if (raycastFraction == 1.0f) {
                 if (null == closestUnobstructed || currentDistSquared < closestDistUnobstructed) {
                     closestUnobstructed = rallyPoints.get(rallyPoint);
                     closestDistUnobstructed = currentDistSquared;
                 }
             } else {
                 //we also keep track of the closest point with no line of sight, but only use it if no better point exists
-                if (null == closestUnobstructed && (null == closestObstructed || currentDistSquared < closestDistObstructed)) {
+                if (closestUnobstructed == null && (closestObstructed == null || currentDistSquared < closestDistObstructed)) {
                     closestObstructed = rallyPoints.get(rallyPoint);
                     closestDistObstructed = currentDistSquared;
                 }
@@ -181,7 +181,7 @@ public class BotManager {
             float raycastFraction = raycastUtility(targeter, sourceLocation, tempPointLocation, BodyConstants.BIT_PLAYER);
 
             //if we have a line of sight with the point, check if its distance is less than the nearest point so far
-            if (1.0f == raycastFraction) {
+            if (raycastFraction == 1.0f) {
                 pathStarters.add(rallyPoint);
             }
         }
@@ -198,11 +198,11 @@ public class BotManager {
      * @return a reasonably short path between nodes in a graph using modified a* search or null if none exists
      */
     public static RallyPath getShortestPathBetweenPoints(Schmuck bot, RallyPoint start, RallyPoint end) {
-        if (null == start || null == end) { return null; }
+        if (start == null|| end == null) { return null; }
 
         //if we have this path cached, just return it to same some time
         RallyPath cachedPath = start.getCachedPath(bot, end);
-        if (null != cachedPath) { return cachedPath; }
+        if (cachedPath != null) { return cachedPath; }
 
         //reset variables to properly calculate distance between them and add starting point to open set
         openSet.clear();
@@ -228,7 +228,7 @@ public class BotManager {
                 do {
                     path.getPath().insert(0, current);
                     current = current.getPrevious();
-                } while (null != current);
+                } while (current != null);
 
                 //cache shortest paths for all points in the shortest path
                 Array<RallyPoint> tempPoints = new Array<>();
@@ -237,7 +237,7 @@ public class BotManager {
                     tempPoints.add(pointInPath);
 
                     //keep track of the path's team index for caching purposes
-                    if (-1 != pointInPath.getTeamIndex()) {
+                    if (pointInPath.getTeamIndex() != -1) {
                         teamIndex = pointInPath.getTeamIndex();
                     }
                     if (!start.getShortestPaths().containsKey(teamIndex)) {
@@ -259,7 +259,7 @@ public class BotManager {
 
                 //we only accept a path if it is not team exclusive, or if it exclusive to our own team
                 int teamIndex = parent.getConnections().get(neighbor).teamIndex();
-                if (-1 != teamIndex) {
+                if (teamIndex != -1) {
                     if (teamIndex < AlignmentFilter.currentTeams.length) {
                         if (bot.getHitboxFilter() != AlignmentFilter.currentTeams[teamIndex].getFilter()) {
                             neighbor.setVisited(true);

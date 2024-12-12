@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.entities.helpers;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;

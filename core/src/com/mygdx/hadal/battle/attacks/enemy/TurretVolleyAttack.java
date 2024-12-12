@@ -6,6 +6,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -29,7 +31,9 @@ public class TurretVolleyAttack extends SyncedAttacker {
                                             float[] extraFields) {
         if (extraFields.length > 0) {
             if (extraFields[0] == 1) {
-                SoundEffect.AR15.playSourced(state, user.getPixelPosition(), 0.75f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.AR15)
+                        .setVolume(0.75f)
+                        .setPosition(startPosition));
             }
         }
 

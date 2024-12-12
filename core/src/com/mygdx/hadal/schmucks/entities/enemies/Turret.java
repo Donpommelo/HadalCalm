@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.battle.EnemyUtils;
 import com.mygdx.hadal.constants.MoveState;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.RagdollManager;
 import com.mygdx.hadal.managers.SpriteManager;
-import com.mygdx.hadal.schmucks.entities.Ragdoll;
+import com.mygdx.hadal.requests.RagdollCreate;
 import com.mygdx.hadal.server.packets.PacketsSync;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.PacketUtil;
@@ -149,19 +149,8 @@ public class Turret extends Enemy {
 		
 		super.render(batch, entityLocation);
 	}
-	
-	private static final float baseDamage = 20.0f;
-	private static final float projSpeed = 25.0f;
-	private static final float knockback = 15.0f;
-	private static final int projSize = 40;
-	private static final float projLifespan = 4.0f;
-	private static final float projInterval = 0.5f;
-	@Override
-	public void attackInitiate() {
-		EnemyUtils.shootBullet(state, this, baseDamage, projSpeed, knockback, projSize, projLifespan, projInterval);
-	}
-	
-	//Turrets send their attack angle as a body angle because I don't feel like making a specific packet for them.
+
+    //Turrets send their attack angle as a body angle because I don't feel like making a specific packet for them.
 	//Just in case you were confused about this weird packet.
 	@Override
 	public void onServerSync() {
@@ -176,7 +165,7 @@ public class Turret extends Enemy {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncSchmuckAngled p) {
 			serverAngle.set(0, 0);
-			attackAngle = p.angle;
+			attackAngle = PacketUtil.byteToAngle(p.angle);
 		}
 	}
 
@@ -184,10 +173,18 @@ public class Turret extends Enemy {
 	public boolean queueDeletion() {
 		if (alive) {
 			final Vector2 entityLocation = new Vector2(getPixelPosition());
-			new Ragdoll(state, entityLocation, size, Sprite.TURRET_BASE, getLinearVelocity(), 1.5f, 1.0f,
-					true, false, true).setFade();
-			new Ragdoll(state, entityLocation, size, turretBarrelSprite, getLinearVelocity(), 1.5f, 1.0f,
-					true, false, true).setFade();
+			RagdollCreate ragdollCreate = new RagdollCreate()
+					.setSprite(Sprite.TURRET_BASE)
+					.setPosition(entityLocation)
+					.setSize(size)
+					.setVelocity(getLinearVelocity())
+					.setLifespan(1.5f)
+					.setGravity(1.0f)
+					.setStartVelocity(true)
+					.setFade();
+			RagdollManager.getRagdoll(state, ragdollCreate);
+			ragdollCreate.setSprite(turretBarrelSprite);
+			RagdollManager.getRagdoll(state, ragdollCreate);
 		}
 		return super.queueDeletion();
 	}

@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -24,7 +26,9 @@ public class BrittlingPowderActivate extends SyncedAttacker {
 
     public Hitbox[] performSyncedAttackMulti(PlayState state, Schmuck user, Vector2 weaponVelocity, Vector2[] startPosition,
                                              Vector2[] startVelocity, float[] extraFields) {
-        SoundEffect.WALL_HIT1.playSourced(state, startPosition[0], 0.75f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.WALL_HIT1)
+                .setVolume(0.75f)
+                .setPosition(startPosition[0]));
 
         Hitbox[] hboxes = new Hitbox[startPosition.length];
         for (int i = 0; i < startPosition.length; i++) {

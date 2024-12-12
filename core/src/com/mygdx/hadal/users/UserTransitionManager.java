@@ -9,7 +9,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -74,6 +74,7 @@ public class UserTransitionManager {
                             } else {
                                 particleLocation.set(startPoint.getStartPos()).sub(0, startPoint.getSize().y);
                             }
+
                             EffectEntityManager.getParticle(state, new ParticleCreate(Particle.TELEPORT_PRE, particleLocation)
                                     .setLifespan(forewarnTime)
                                     .setSyncType(SyncType.CREATESYNC));
@@ -105,7 +106,7 @@ public class UserTransitionManager {
             } else {
                 this.nextState = transition.getNextState();
                 this.transitionTime = transition.getFadeDelay();
-                if (0.0f != transition.getFadeSpeed()) {
+                if (transition.getFadeSpeed() != 0.0f) {
                     this.transitionTime += 1.0f / transition.getFadeSpeed();
                 }
                 this.forewarnTime = transition.getForewarnTime();
@@ -117,6 +118,11 @@ public class UserTransitionManager {
             //set respawn point upon respawn initializing so we know where it is when we draw spawn particles
             if (TransitionState.RESPAWN.equals(nextState)) {
                 if (!startOverridden) {
+
+                    Loadout newLoadout = new Loadout(user.getLoadoutManager().getSavedLoadout());
+                    state.getMode().processNewPlayerAlignment(state, newLoadout, user.getConnID());
+                    user.getLoadoutManager().setActiveLoadout(newLoadout);
+
                     startPoint = state.getSpawnManager().getSavePoint(user);
 
                     //if desired, set camera to prospective respawn point right away (for initial spawn)
@@ -132,6 +138,7 @@ public class UserTransitionManager {
                 }
             }
 
+            //host begins transition. clients are sent a packet telling them to begin transition
             if (user.getConnID() == 0) {
                 //this extra check is for state transitions, not user transitions
                 if (transition.isOverride() || state.getTransitionManager().getNextState() == null) {
@@ -149,7 +156,7 @@ public class UserTransitionManager {
      */
     public void respawn(PlayState state) {
         PlayerBodyData playerData = null;
-        if (null != user.getPlayer() && !reset) {
+        if (user.getPlayer() != null && !reset) {
             playerData = user.getPlayer().getPlayerData();
         }
 
@@ -174,7 +181,7 @@ public class UserTransitionManager {
         } else {
 
             //alive check prevents duplicate players if entering/respawning simultaneously
-            if (null == user.getPlayer() || (null != user.getPlayer() && !user.getPlayer().isAlive())) {
+            if (user.getPlayer() == null || (user.getPlayer() != null && !user.getPlayer().isAlive())) {
                 user.getLoadoutManager().setActiveLoadout(user.getLoadoutManager().getSavedLoadout());
                 HadalGame.server.createNewClientPlayer(state, user, playerData, reset, startPoint);
             }

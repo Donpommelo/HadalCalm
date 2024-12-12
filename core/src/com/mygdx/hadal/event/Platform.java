@@ -35,6 +35,7 @@ public class Platform extends Event {
 	private final int teamIndex;
 	private final float restitution;
 
+	//we keep track of when this platform is loaded so, on the first controller tick, we can set alignment team filter
 	private boolean loaded;
 
 	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution,
@@ -67,9 +68,11 @@ public class Platform extends Event {
 				loaded = true;
 				teamFilter = AlignmentFilter.currentTeams[teamIndex].getFilter();
 
-				Filter filter = getMainFixture().getFilterData();
-				filter.groupIndex = teamFilter;
-				getMainFixture().setFilterData(filter);
+				if (getMainFixture() != null) {
+					Filter filter = getMainFixture().getFilterData();
+					filter.groupIndex = teamFilter;
+					getMainFixture().setFilterData(filter);
+				}
 			}
 		}
 	}

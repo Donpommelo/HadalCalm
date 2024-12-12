@@ -18,6 +18,9 @@ import java.util.Arrays;
 
 /**
  * This strategy makes a hbox home in on enemies
+ * There are 2 versions of this:
+ * Homing: constantly pushed towards target (bees)
+ * Steering: Most other homing projectiles. Maintains velocity. Pushed perpendicularly to steer towards target.
  * @author Gogarth Gnornelius
  */
 public class HomingUnit extends HitboxStrategy {
@@ -207,6 +210,10 @@ public class HomingUnit extends HitboxStrategy {
 	private final Vector2 desiredDirection = new Vector2();
 	private final Vector2 currentDirection = new Vector2();
 	private final Vector2 lateralDirection = new Vector2();
+
+	/**
+	 * Unlike homing, steering projectiles maintain velocity and instead rotate to face their target
+	 */
 	private void steering() {
 		currentVelocity.set(hbox.getLinearVelocity());
 		desiredDirection.set(homing.getPosition()).sub(hbox.getPosition()).nor();

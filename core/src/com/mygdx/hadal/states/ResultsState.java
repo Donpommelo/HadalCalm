@@ -34,6 +34,7 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.LoadoutManager;
 import com.mygdx.hadal.users.ScoreManager;
@@ -113,10 +114,10 @@ public class ResultsState extends GameState {
 	private Text infoPlayerName;
 
 	//This is the playstate that the results state is placed on top of. Used to access the state's message window
-	private final PlayState ps;
+	protected final PlayState ps;
 
 	//This is a list of all the saved player fields (scores) from the completed playstate
-	private final Array<User> users = new Array<>();
+	protected final Array<User> users = new Array<>();
     private final Array<PlayerResultsIcon> icons = new Array<>();
 	private final Array<PooledEffect> effects = new Array<>();
 
@@ -131,7 +132,7 @@ public class ResultsState extends GameState {
 
 	//these are used to process the fade transition from a playstate
 	private final FrameBuffer fbo;
-	private final TextureRegion snapshot;
+	private TextureRegion snapshot;
 	private final Shader shader;
 
 	/**
@@ -144,8 +145,7 @@ public class ResultsState extends GameState {
 		this.ps = ps;
 		this.fbo = fbo;
 		this.shader = Shader.PERLIN_FADE;
-		shader.loadShader();
-		this.snapshot = new TextureRegion(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
+		initializeVisuals();
 
 		//First, we obtain the list of scores
 		for (User user : HadalGame.usm.getUsers().values()) {
@@ -175,6 +175,14 @@ public class ResultsState extends GameState {
 		for (User user : users) {
 			user.getScoreManager().setReady(user.getConnID() < 0);
 		}
+	}
+
+	/**
+	 * Shaders and snapshot are separated so headless server can more easily skip
+	 */
+	public void initializeVisuals() {
+		ShaderManager.loadShader(shader);
+		this.snapshot = new TextureRegion(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
 	}
 
 	@Override
@@ -236,7 +244,7 @@ public class ResultsState extends GameState {
 				});
 				readyOption.setScale(SCALE);
 
-				if (ps.isServer()) {
+				if (HadalGame.usm.isHost()) {
 					final Text forceReadyOption = new Text(UIText.FORCE_READY.text()).setButton(true);
 
 					forceReadyOption.addListener(new ClickListener() {
@@ -245,7 +253,11 @@ public class ResultsState extends GameState {
 						public void clicked(InputEvent e, float x, float y) {
 
 							//When pressed, the force ready option forces a transition.
-							allReady();
+							if (ps.isServer()) {
+								allReady();
+							} else {
+								PacketManager.clientTCP(new Packets.ClientNextMapResponse(isReturnToHub(), getNextMap()));
+							}
 						}
 					});
 					forceReadyOption.setScale(SCALE);
@@ -553,7 +565,6 @@ public class ResultsState extends GameState {
 
 			//Clients just find the player based on that index and sets them as ready.
 			users.get(playerID).getScoreManager().setReady(true);
-
 			icons.get(playerID).setReady(true);
 		}
 
@@ -578,19 +589,22 @@ public class ResultsState extends GameState {
 	 */
 	public void allReady() {
 		if (ps.isServer()) {
-			FadeManager.setRunAfterTransition(() -> {
-				StateManager.removeState(ResultsState.class, false);
-				if (returnToHub.isChecked()) {
-					StateManager.gotoHubState(app, LobbyState.class);
-					StateManager.gotoHubState(app, TitleState.class);
-				} else {
-					UnlockLevel nextLevel = nextMaps.get(nextMapNames.getSelectedIndex());
-					StateManager.addPlayState(app, nextLevel, ps.mode, LobbyState.class, true, "");
-					StateManager.addPlayState(app, nextLevel, ps.mode, TitleState.class, true, "");
-				}
-			});
+			exitResultsState(isReturnToHub(), getNextMap());
 		}
 		FadeManager.fadeOut();
+	}
+
+	public void exitResultsState(boolean returnToHub, UnlockLevel nextLevel) {
+		FadeManager.setRunAfterTransition(() -> {
+			StateManager.removeState(ResultsState.class, false);
+			if (returnToHub) {
+				StateManager.gotoHubState(app, LobbyState.class);
+				StateManager.gotoHubState(app, TitleState.class);
+			} else {
+				StateManager.addPlayState(app, nextLevel, ps.mode, LobbyState.class, true, "");
+				StateManager.addPlayState(app, nextLevel, ps.mode, TitleState.class, true, "");
+			}
+		});
 	}
 
 	private static final float PARTICLE_COOLDOWN = 1.5f;
@@ -634,4 +648,18 @@ public class ResultsState extends GameState {
 	}
 
 	public PlayState getPs() { return ps; }
+
+	public boolean isReturnToHub() {
+		if (returnToHub != null) {
+			return returnToHub.isChecked();
+		}
+		return true;
+	}
+
+	public UnlockLevel getNextMap() {
+		if (nextMaps != null && nextMapNames != null) {
+			return nextMaps.get(nextMapNames.getSelectedIndex());
+		}
+		return UnlockLevel.HUB_MULTI;
+	}
 }

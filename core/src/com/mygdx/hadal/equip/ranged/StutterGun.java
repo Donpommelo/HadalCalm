@@ -26,12 +26,12 @@ public class StutterGun extends RangedWeapon {
 	private static final float LIFESPAN = StutterLaser.LIFESPAN;
 	private static final float BASE_DAMAGE = StutterLaser.BASE_DAMAGE;
 
-	private static final Sprite weaponSprite = Sprite.MT_LASERRIFLE;
-	private static final Sprite eventSprite = Sprite.P_LASERRIFLE;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_LASERRIFLE;
+	private static final Sprite EVENT_SPRITE = Sprite.P_LASERRIFLE;
 	
 	public StutterGun(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, true,
-				weaponSprite, eventSprite, PROJECTILE_SIZE.x, LIFESPAN);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN);
 	}
 	
 	@Override

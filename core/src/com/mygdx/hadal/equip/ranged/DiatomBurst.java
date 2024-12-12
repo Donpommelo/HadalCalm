@@ -32,8 +32,8 @@ public class DiatomBurst extends RangedWeapon {
 	private static final Sprite EVENT_SPRITE = Sprite.P_GRENADE;
 
 	public DiatomBurst(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED_MAX, SHOOT_CD_MAX, RELOAD_AMOUNT, true,
-				WEAPON_SPRITE, EVENT_SPRITE, PROJECTILE_SIZE.x, LIFESPAN_MAX);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED_MAX, SHOOT_CD_MAX, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				PROJECTILE_SIZE.x, LIFESPAN_MAX);
 	}
 
 	private float reloadCounter;

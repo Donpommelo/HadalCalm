@@ -18,6 +18,7 @@ import com.mygdx.hadal.statuses.TrickOrTreating;
 import static com.mygdx.hadal.constants.Constants.PPM;
 
 /**
+ *  This modifier is used for the trick or treat mode and lets bots pathfind to steal and return candy
  */
 public class ModeTrickorTreat extends ModeSetting {
 
@@ -52,7 +53,7 @@ public class ModeTrickorTreat extends ModeSetting {
                         BUCKETS.put(AlignmentFilter.currentTeams[bucket.getTeamIndex()], bucket);
                     }
                     Status candyStatus = bot.getPlayerData().getStatus(TrickOrTreating.class);
-                    if (null != candyStatus) {
+                    if (candyStatus != null) {
                         if (candyStatus instanceof TrickOrTreating trickOrTreating) {
                             if (bot.getUser().getLoadoutManager().getActiveLoadout().team == AlignmentFilter.currentTeams[bucket.getTeamIndex()]) {
                                 if (0 < trickOrTreating.getCandyCount()) {

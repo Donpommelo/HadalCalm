@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.event.Wall;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -22,7 +24,7 @@ public class ContactStick extends HitboxStrategy {
 	private final boolean stickToWalls, stickToDudes;
 	protected boolean stuckToTarget;
 
-	//The angle that the projectile should be stuck at
+	//The angle that the projectile should be stuck at. targetAngle allows for sticking to rotating body.
 	private float angle, targetAngle;
 
 	//the target body that the hbox is stuck to. TargetBody is separate in case of entities with multiple bodies
@@ -35,15 +37,13 @@ public class ContactStick extends HitboxStrategy {
 	//this stores the relative location of the stuck projectile after accounting for rotation
 	private final Vector2 rotatedLocation = new Vector2();
 
-	private final float originalGravity;
-
+	//lifespan of hbox after being stuck
 	private float stuckLifespan;
 
 	public ContactStick(PlayState state, Hitbox proj, BodyData user, boolean walls, boolean dudes) {
 		super(state, proj, user);
 		this.stickToWalls = walls;
 		this.stickToDudes = dudes;
-		this.originalGravity = proj.getGravity();
 		this.stuckLifespan = proj.getLifeSpan();
 
 		//set this here since sticky hboxes can't use the adjust angle strategy
@@ -92,7 +92,10 @@ public class ContactStick extends HitboxStrategy {
 	}
 
 	protected void onStick(HadalEntity target, Body body) {
-		SoundEffect.SQUISH.playSourced(state, hbox.getPixelPosition(), 0.8f, 1.0f);
+		SoundManager.play(state, new SoundLoad(SoundEffect.SQUISH)
+				.setVolume(0.8f)
+				.setPosition(hbox.getPixelPosition()));
+
 		stuckToTarget = true;
 
 		this.target = target;
@@ -109,7 +112,7 @@ public class ContactStick extends HitboxStrategy {
 	protected void onUnstick() {
 		stuckToTarget = false;
 		if (hbox.getBody() != null) {
-			hbox.getBody().setGravityScale(originalGravity);
+			hbox.getBody().setGravityScale(1.0f);
 		}
 	}
 

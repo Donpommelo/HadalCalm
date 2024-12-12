@@ -139,8 +139,10 @@ public enum WaveType {
 		private int minWave = 1;
 		private int maxWave = waveLimit;
 
-		//
+		//waves with the same exclusive index cannot spawn at the same spawner
 		private int exclusiveIndex = 0;
+
+		//waves with the same inclusive index must spawn at the same spawner
 		private int inclusiveIndex = 0;
 
 		private SpawnerWave spawner;

@@ -3,13 +3,15 @@ package com.mygdx.hadal.event.utility;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.battle.DamageTag;
+import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.battle.DamageTag;
-import com.mygdx.hadal.constants.Stats;
 
 /**
  * A PlayerChanger changes some property of the player (Hp, fuel, scrap, maybe other stuff we add later?)
@@ -54,34 +56,42 @@ public class PlayerChanger extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				PlayerBodyData data = p.getPlayerData();
-				if (null == data) { return; }
+				if (data == null) { return; }
 
 				boolean activated = false;
 				
 				if (data.getCurrentFuel() < data.getStat(Stats.MAX_FUEL) && fuel > 0) {
 					data.fuelGain(fuel);
 					activated = true;
-					
-					SoundEffect.MAGIC2_FUEL.playSourced(state, p.getPixelPosition(), 0.3f);
+
+					SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC2_FUEL)
+							.setVolume(0.3f)
+							.setPosition(p.getPixelPosition()));
 				}
 				
 				if (data.getCurrentHp() < data.getStat(Stats.MAX_HP) && hp > 0) {
 					data.regainHp(hp * data.getStat(Stats.MAX_HP) / 100, p.getPlayerData(), true,
 							DamageTag.MEDPAK);
 					activated = true;
-					
-					SoundEffect.MAGIC21_HEAL.playSourced(state, p.getPixelPosition(), 0.3f);
+
+					SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC21_HEAL)
+							.setVolume(0.3f)
+							.setPosition(p.getPixelPosition()));
 				}
 				
 				if (p.getEquipHelper().getCurrentTool().getAmmoLeft() < p.getEquipHelper().getCurrentTool().getAmmoSize() && ammo > 0) {
 					p.getEquipHelper().getCurrentTool().gainAmmo(ammo);
 					activated = true;
-					
-					SoundEffect.LOCKANDLOAD.playSourced(state, p.getPixelPosition(), 0.8f);
-				}				
+
+					SoundManager.play(state, new SoundLoad(SoundEffect.LOCKANDLOAD)
+							.setVolume(0.8f)
+							.setPosition(p.getPixelPosition()));
+				}
 				
 				if (hp < 0) {
-					SoundEffect.DAMAGE5.playSourced(state, p.getPixelPosition(), 0.4f);
+					SoundManager.play(state, new SoundLoad(SoundEffect.DAMAGE5)
+							.setVolume(0.4f)
+							.setPosition(p.getPixelPosition()));
 
 					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false,
 							null, DamageSource.MAP_FALL);

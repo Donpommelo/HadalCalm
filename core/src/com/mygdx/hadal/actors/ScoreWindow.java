@@ -9,16 +9,16 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.users.ScoreManager;
-import com.mygdx.hadal.users.StringManager;
-import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.text.UIText;
+import com.mygdx.hadal.users.ScoreManager;
+import com.mygdx.hadal.users.StringManager;
+import com.mygdx.hadal.users.User;
 
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
@@ -137,7 +137,7 @@ public class ScoreWindow {
 		Text artifactsLabel = new Text(UIText.ARTIFACTS.text());
 		artifactsLabel.setScale(SCORE_TITLE_SCALE);
 
-		tableScore.add(title).height(SCORE_TITLE_HEIGHT).colspan(6).row();
+		tableScore.add(title).height(SCORE_TITLE_HEIGHT).colspan(5).row();
 		tableScore.add(playerLabel).height(SCORE_TITLE_HEIGHT).padRight(SCORE_PAD_X);
 		tableScore.add(kdaLabel).height(SCORE_TITLE_HEIGHT).padRight(SCORE_PAD_X);
 		tableScore.add(scoreLabel).height(SCORE_TITLE_HEIGHT).padRight(SCORE_PAD_X);
@@ -153,6 +153,7 @@ public class ScoreWindow {
 		orderedUsers.sort((a, b) -> {
 			int cmp = (a.isSpectator() ? 1 : 0) - (b.isSpectator() ? 1 : 0);
 			if (0 == cmp) { cmp = b.getScoreManager().getScore() - a.getScoreManager().getScore(); }
+			if (0 == cmp) { cmp = a.getConnID() - b.getConnID(); }
 
 			//this makes the player always able to see their score at the top of scoreboards
 			if (!a.isSpectator() && a.getConnID() == HadalGame.usm.getConnID()) {
@@ -233,8 +234,8 @@ public class ScoreWindow {
 
 		//ui height scales to number of options available
 		float height = OPTIONS_HEIGHT;
-		if (state.isServer()) {
-			if (0 != connID) {
+		if (HadalGame.usm.isHost()) {
+			if (connID != 0) {
 				height += OPTIONS_EXTRA_HEIGHT;
 			}
 		}
@@ -246,7 +247,7 @@ public class ScoreWindow {
 		tableOptions.setPosition(x, y);
 
 		//user can mute/unmute players
-		if (null != user) {
+		if (user != null) {
 			Text mute = new Text("").setButton(true);
 			if (user.isMuted()) {
 				mute.setText(UIText.UNMUTE.text());
@@ -275,16 +276,20 @@ public class ScoreWindow {
 			tableOptions.add(mute).height(OPTIONS_HEIGHT).pad(5).row();
 
 			//only host can ban.
-			if (state.isServer()) {
+			if (HadalGame.usm.isHost()) {
 				//host cannot ban self
-				if (0 != connID) {
+				if (HadalGame.usm.getHostID() != connID) {
 					Text ban = new Text(UIText.BAN.text()).setButton(true);
 					ban.setScale(SETTINGS_SCALE);
 					ban.addListener(new ClickListener() {
 
 						@Override
 						public void clicked(InputEvent e, float x, float y) {
-							HadalGame.server.kickPlayer(state, user, connID);
+							if (state.isServer()) {
+								HadalGame.server.kickPlayer(state, user, connID);
+							} else {
+								PacketManager.clientTCP(new Packets.ClientYeet(connID));
+							}
 							tableOptions.remove();
 							windowOptions.remove();
 						}
@@ -304,9 +309,11 @@ public class ScoreWindow {
 		ScoreManager scoreManager = user.getScoreManager();
 		StringManager stringManager = user.getStringManager();
 
-		String nameText = stringManager.getNameAbridgedColored(MAX_NAME_LENGTH);
-
-		Text name = new Text(stringManager.getPingText() + nameText);
+		String nameText = stringManager.getPingText() + stringManager.getNameAbridgedColored(MAX_NAME_LENGTH);
+		if (connID == HadalGame.usm.getHostID()) {
+			nameText = nameText + " (HOST)";
+		}
+		Text name = new Text(nameText);
 		name.setScale(SCORE_SCALE);
 		name.addListener(new ClickListener() {
 

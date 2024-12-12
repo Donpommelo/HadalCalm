@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -40,7 +42,10 @@ public class NeptuneShadow extends SyncedAttacker {
         final int finalShadowNum = shadowNum;
 
         if (0 == finalShadowNum) {
-            SoundEffect.DARKNESS2.playSourced(state, position, 0.4f, 0.6f);
+            SoundManager.play(state, new SoundLoad(SoundEffect.DARKNESS2)
+                    .setVolume(0.4f)
+                    .setPitch(0.6f)
+                    .setPosition(position));
         }
 
         RangedHitbox hbox = new RangedHitbox(state, position, PROJ_SIZE, LIFESPAN, new Vector2(),
@@ -72,7 +77,10 @@ public class NeptuneShadow extends SyncedAttacker {
                         hbox.setLinearVelocity(delayVelo);
 
                         if (finalShadowNum == SHADOW_NUM / 2) {
-                            SoundEffect.DARKNESS1.playSourced(state, hbox.getPixelPosition(), 0.4f, 0.6f);
+                            SoundManager.play(state, new SoundLoad(SoundEffect.DARKNESS1)
+                                    .setVolume(0.4f)
+                                    .setPitch(0.6f)
+                                    .setPosition(hbox.getPixelPosition()));
                         }
                     }
                 }

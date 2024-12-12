@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.entities.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -54,7 +53,6 @@ public class DroneBit extends EnemySwimming {
 		armBackSprite = SpriteManager.getFrame(Sprite.DRONE_ARM_BACK);
 		armFrontSprite = SpriteManager.getFrame(Sprite.DRONE_ARM_FRONT);
 		eyeSprite = SpriteManager.getAnimation(Sprite.DRONE_EYE);
-		eyeSprite.setPlayMode(PlayMode.NORMAL);
 		getSwimStrategy().setMaxRange(maxRange);
 		getSwimStrategy().setMinRange(minRange);
 		getSwimStrategy().setMoveSpeed(2.0f);
@@ -67,11 +65,13 @@ public class DroneBit extends EnemySwimming {
 	@Override
 	public void create() {
 		super.create();
-		
-		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE);
-		getMainFixture().setFilterData(filter);
-		
+
+		if (getMainFixture() != null) {
+			Filter filter = getMainFixture().getFilterData();
+			filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_PROJECTILE);
+			getMainFixture().setFilterData(filter);
+		}
+
 		getBodyData().addStatus(new Invulnerability(state, 0.1f, getBodyData(), getBodyData()));
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, kbResist, getBodyData()));
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));

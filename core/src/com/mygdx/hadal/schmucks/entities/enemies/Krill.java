@@ -47,9 +47,11 @@ public class Krill extends EnemySwimming {
 	public void create() {
 		super.create();
 
-		Filter filter = getMainFixture().getFilterData();
-		filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_ENEMY);
-		getMainFixture().setFilterData(filter);
+		if (getMainFixture() != null) {
+			Filter filter = getMainFixture().getFilterData();
+			filter.maskBits = (short) (BodyConstants.BIT_SENSOR | BodyConstants.BIT_ENEMY);
+			getMainFixture().setFilterData(filter);
+		}
 
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
 	}

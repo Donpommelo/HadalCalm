@@ -90,11 +90,12 @@ public class HubEvent extends Event {
 	
 	/**
 	 * This keeps track of whether the player is in front of the event or not.
+	 * Event closes if non-spectator player moves away
 	 */
 	@Override
 	public void controller(float delta) {
 		if (open && closeOnLeave) {
-			if (null != HadalGame.usm.getOwnPlayer()) {
+			if (HadalGame.usm.getOwnPlayer() != null) {
 				if (getPosition().dst2(HadalGame.usm.getOwnPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE
 						&& !state.getSpectatorManager().isSpectatorMode()) {
 					leave();
@@ -103,18 +104,10 @@ public class HubEvent extends Event {
 			}
 		}
 	}
-	
+
 	@Override
 	public void clientController(float delta) {
-		if (open && closeOnLeave) {
-			if (null != HadalGame.usm.getOwnPlayer()) {
-				if (getPosition().dst2(HadalGame.usm.getOwnPlayer().getPosition()) > MAX_DISTANCE * MAX_DISTANCE) {
-					leave();
-					open = false;
-				}
-			}
-
-		}
+		controller(delta);
 	}
 
 	/**

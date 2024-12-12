@@ -23,7 +23,6 @@ public class Curve extends HitboxStrategy {
 	
 	//the starting velocity of the hbox and the speed that it curves towards its target.
 	private final float startSpeed, lerp;
-	
 
 	//has the hbox reached its target yet? if so, stop adjusting its movement.
 	private boolean found;

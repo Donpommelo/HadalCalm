@@ -4,6 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 
+/**
+ * The SpecialHpHelper processes special effects that appear on the player's hp ui.
+ * Conditional Hp that gradually decrements shows up as semi-transparent
+ * Shield Hp does not currently have a visual effect, but is processed by an artifact effect
+ */
 public class SpecialHpHelper {
 
     public static final float BASE_DEGEN = 1.0f;
@@ -12,6 +17,7 @@ public class SpecialHpHelper {
 
     private final Schmuck schmuck;
 
+    //keep track of last damage source to credit kills
     private DamageSource lastDamageSource = DamageSource.MISC;
     private float conditionalHp, shieldHp;
     private float procCdCount;
@@ -25,6 +31,7 @@ public class SpecialHpHelper {
             procCdCount -= PROC_CD;
             if (conditionalHp > 0.0f) {
 
+                //conditional hp gradually decrements over time
                 float damage = PROC_CD * (BASE_DEGEN + DEGEN * conditionalHp);
                 schmuck.getBodyData().receiveDamage(damage, new Vector2(), schmuck.getBodyData(), false,
                         null, lastDamageSource);
@@ -39,6 +46,8 @@ public class SpecialHpHelper {
     }
 
     public float receiveShieldDamage(float damage) {
+
+        //shield hp is deducted first before actual damage is dealt
         if (damage > shieldHp) {
             float excessDamage = damage - shieldHp;
             shieldHp = 0.0f;

@@ -26,12 +26,12 @@ public class MagicBeanstalker extends RangedWeapon {
 
 	private static final float VINE_DAMAGE = Vine.VINE_DAMAGE;
 
-	private static final Sprite weaponSprite = Sprite.MT_SHOTGUN;
-	private static final Sprite eventSprite = Sprite.P_SHOTGUN;
+	private static final Sprite WEAPON_SPRITE = Sprite.MT_SHOTGUN;
+	private static final Sprite EVENT_SPRITE = Sprite.P_SHOTGUN;
 
 	public MagicBeanstalker(Player user) {
-		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT,true,
-				weaponSprite, eventSprite, SEED_SIZE.x, LIFESPAN, MAX_CHARGE);
+		super(user, CLIP_SIZE, AMMO_SIZE, RELOAD_TIME, PROJECTILE_SPEED, SHOOT_CD, RELOAD_AMOUNT, WEAPON_SPRITE, EVENT_SPRITE,
+				SEED_SIZE.x, LIFESPAN, MAX_CHARGE);
 	}
 	
 	@Override

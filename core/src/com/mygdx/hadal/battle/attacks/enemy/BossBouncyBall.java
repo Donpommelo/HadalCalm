@@ -7,6 +7,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -28,8 +30,10 @@ public class BossBouncyBall extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-
-        SoundEffect.SPRING.playUniversal(state, startPosition, 0.5f, 0.8f, false);
+        SoundManager.play(state, new SoundLoad(SoundEffect.SPRING)
+                        .setVolume(0.5f)
+                        .setPitch(0.8f)
+                        .setPosition(startPosition));
 
         Hitbox hbox = new Hitbox(state, user.getProjectileOrigin(startVelocity, PROJECTILE_SIZE.x), PROJECTILE_SIZE,
                 LIFESPAN, startVelocity, user.getHitboxFilter(), false, true, user, PROJ_SPRITE);

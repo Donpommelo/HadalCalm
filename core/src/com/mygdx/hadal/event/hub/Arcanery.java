@@ -67,8 +67,8 @@ public class Arcanery extends HubEvent {
 					public void clicked(InputEvent e, float x, float y) {
 						Player ownPlayer = HadalGame.usm.getOwnPlayer();
 
-						if (null == ownPlayer) { return; }
-						if (null == ownPlayer.getPlayerData()) { return; }
+						if (ownPlayer == null) { return; }
+						if (ownPlayer.getPlayerData() == null) { return; }
 
 						ownPlayer.getMagicHelper().pickup(UnlocktoItem.getUnlock(selected, ownPlayer));
 						JSONManager.loadout.setActive(HadalGame.usm.getOwnUser(), selected.toString());

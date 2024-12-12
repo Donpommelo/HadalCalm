@@ -8,7 +8,9 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.states.PlayState;
@@ -23,7 +25,9 @@ public class ReloaderUse extends SyncedAttacker {
 
     @Override
     public void performSyncedAttackNoHbox(PlayState state, Schmuck user, Vector2 startPosition, float[] extraFields) {
-        SoundEffect.RELOAD.playSourced(state, user.getPixelPosition(), 0.4f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.RELOAD)
+                .setVolume(0.4f)
+                .setPosition(startPosition));
 
         EffectEntityManager.getParticle(state, new ParticleCreate(Particle.PICKUP_AMMO, user)
                 .setLifespan(DURATION));

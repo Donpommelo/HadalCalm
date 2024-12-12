@@ -6,6 +6,8 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.battle.*;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.entities.hitboxes.RangedHitbox;
@@ -33,7 +35,9 @@ public class MagicBean extends SyncedAttacker {
     @Override
     public Hitbox performSyncedAttackSingle(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity,
                                             float[] extraFields) {
-        SoundEffect.WOOSH.playSourced(state, startPosition, 1.0f, 0.75f);
+        SoundManager.play(state, new SoundLoad(SoundEffect.WOOSH)
+                .setPitch(0.75f)
+                .setPosition(startPosition));
 
         float chargeAmount = 0.0f;
         if (extraFields.length > 0) {
@@ -65,8 +69,10 @@ public class MagicBean extends SyncedAttacker {
             @Override
             public void onHit(HadalData fixB, Body body) {
                 if (fixB != null) {
-                    if (fixB.getEntity().getMainFixture().getFilterData().categoryBits == BodyConstants.BIT_DROPTHROUGHWALL) {
-                        hbox.die();
+                    if (fixB.getEntity().getMainFixture() != null) {
+                        if (fixB.getEntity().getMainFixture().getFilterData().categoryBits == BodyConstants.BIT_DROPTHROUGHWALL) {
+                            hbox.die();
+                        }
                     }
                 }
             }

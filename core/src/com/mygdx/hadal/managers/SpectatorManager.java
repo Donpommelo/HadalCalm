@@ -6,6 +6,7 @@ import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.text.UIText;
 import com.mygdx.hadal.users.Transition;
@@ -14,6 +15,9 @@ import com.mygdx.hadal.users.User;
 import static com.mygdx.hadal.users.Transition.DEFAULT_FADE_OUT_SPEED;
 import static com.mygdx.hadal.users.Transition.SHORT_FADE_DELAY;
 
+/**
+ * SpectatorManager handles players entering/exiting spectator mode
+ */
 public class SpectatorManager {
 
     private final PlayState state;
@@ -71,7 +75,6 @@ public class SpectatorManager {
      * This is only run by the server
      */
     public void exitSpectator(User user) {
-
         if (user != null) {
             if (user.isSpectator()) {
                 //cannot exit spectator if server is full

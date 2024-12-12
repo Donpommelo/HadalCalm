@@ -54,6 +54,7 @@ public class SpawnerObjective extends Event {
 				.setBodyType(BodyDef.BodyType.KinematicBody)
 				.addToWorld(world);
 
+
 		//in eggplant mode, this event should be visible in the objective ui
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
 			state.getUIManager().getUiObjective().addObjective(this, Sprite.NASU,true, true, true);
@@ -72,7 +73,7 @@ public class SpawnerObjective extends Event {
 	@Override
 	public void controller(float delta) {
 
-		//in eggplant mode, spawn scrap periodically
+		//in eggplant/trick or treat mode, spawn scrap/candy periodically
 		if (GameMode.EGGPLANTS.equals(state.getMode())) {
 			timeCount += delta;
 			if (timeCount >= EGGPLANT_INTERVAL) {

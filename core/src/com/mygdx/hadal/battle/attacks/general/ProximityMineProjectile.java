@@ -13,7 +13,9 @@ import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.EffectEntityManager;
+import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.ParticleCreate;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
@@ -105,13 +107,18 @@ public class ProximityMineProjectile extends SyncedAttacker {
                     joint.localAnchorB.set(0, 0);
                     state.getWorld().createJoint(joint);
 
-                    SoundEffect.SLAP.playSourced(state, hbox.getPixelPosition(), 0.6f);
+                    SoundManager.play(state, new SoundLoad(SoundEffect.SLAP)
+                            .setVolume(0.6f)
+                            .setPosition(hbox.getPixelPosition()));
+
                     set = true;
                 }
                 if (set && !primed[0]) {
                     primeCount += delta;
                     if (PRIME_TIME <= primeCount) {
-                        SoundEffect.MAGIC27_EVIL.playSourced(state, hbox.getPixelPosition(), 1.0f);
+                        SoundManager.play(state, new SoundLoad(SoundEffect.MAGIC27_EVIL)
+                                .setPosition(hbox.getPixelPosition()));
+
                         primed[0] = true;
                         hbox.setLifeSpan(MINE_LIFESPAN);
 
@@ -141,7 +148,11 @@ public class ProximityMineProjectile extends SyncedAttacker {
 
             @Override
             public void die() {
-                SoundEffect.PING.playSourced(state, hbox.getPixelPosition(), 0.6f, 1.5f);
+                SoundManager.play(state, new SoundLoad(SoundEffect.PING)
+                        .setVolume(0.6f)
+                        .setPitch(015f)
+                        .setPosition(hbox.getPixelPosition()));
+
                 Hitbox explosion = new RangedHitbox(state, hbox.getPixelPosition(), MINE_SIZE, WARNING_TIME,  new Vector2(),
                         (short) 0, true, false, user, Sprite.LAND_MINE);
                 explosion.makeUnreflectable();

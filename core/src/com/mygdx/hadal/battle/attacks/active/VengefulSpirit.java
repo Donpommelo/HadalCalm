@@ -9,6 +9,8 @@ import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.battle.SyncedAttacker;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.managers.SoundManager;
+import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;
@@ -45,7 +47,9 @@ public class VengefulSpirit extends SyncedAttacker {
         }
 
         if (0 != startPosition.length) {
-            SoundEffect.DARKNESS2.playSourced(state, user.getPixelPosition(), 0.2f);
+            SoundManager.play(state, new SoundLoad(SoundEffect.DARKNESS2)
+                    .setVolume(0.2f)
+                    .setPosition(user.getPixelPosition()));
 
             for (int i = 0; i < startPosition.length; i++) {
                 Hitbox hbox = new RangedHitbox(state, startPosition[i], new Vector2(SPIRIT_SIZE, SPIRIT_SIZE), SPIRIT_LIFESPAN,

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.packets.PacketsSync;
@@ -13,9 +13,9 @@ import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.PacketUtil;
 
 /**
- * A ClientPlayer represents a client's own player.
- * This processes things like client prediction
- * @author Hepepper Hasufferson
+ * A PlayerClientOnHost represents a client's player on the server.
+ * This receives sync packets from the clients and echoes them to all other clients.
+ * @author Clodswallop Clidimir
  */
 public class PlayerClientOnHost extends Player {
 
@@ -34,7 +34,7 @@ public class PlayerClientOnHost extends Player {
 			if (state.getTimer() >= nextTimeStamp) {
 				Object[] o = bufferedTimestamps.removeIndex(0);
 
-				if (null != o) {
+				if (o != null) {
 					//check timestamp in case snapshots are sent out of order
 					if ((float) o[1] > nextTimeStamp) {
 						prevTimeStamp = nextTimeStamp;
@@ -68,7 +68,7 @@ public class PlayerClientOnHost extends Player {
 
 		if (o instanceof PacketsSync.SyncClientSnapshot p) {
 			PacketManager.serverUDPAllExcept(getUser().getConnID(), new PacketsSync.SyncPlayerSnapshot((byte) getUser().getConnID(),
-					p.pos, p.velocity, p.mousePosition,
+					p.posX, p.posY, p.veloX, p.veloY, p.mouseX, p.mouseY,
 					state.getTimer(), p.moveState,
 					p.hpPercent,
 					p.fuelPercent,
@@ -87,7 +87,7 @@ public class PlayerClientOnHost extends Player {
 
 			moveState = p.moveState;
 
-			getMouseHelper().setDesiredLocation(p.mousePosition.x, p.mousePosition.y);
+			getMouseHelper().setDesiredLocation(PacketUtil.shortToFloat(p.mouseX), PacketUtil.shortToFloat(p.mouseY));
 
 			getEquipHelper().setCurrentSlot(p.currentSlot);
 			getEquipHelper().setCurrentTool(getEquipHelper().getMultitools()[p.currentSlot]);
@@ -107,10 +107,10 @@ public class PlayerClientOnHost extends Player {
 
 			if (null != body) {
 				prevPos.set(serverPos);
-				serverPos.set(p.pos);
+				serverPos.set(PacketUtil.shortToFloat(p.posX), PacketUtil.shortToFloat(p.posY));
 
 				prevVelo.set(serverVelo);
-				serverVelo.set(p.velocity);
+				serverVelo.set(PacketUtil.shortToFloat(p.veloX), PacketUtil.shortToFloat(p.veloY));
 
 				serverAngle.setAngleRad(0);
 			}

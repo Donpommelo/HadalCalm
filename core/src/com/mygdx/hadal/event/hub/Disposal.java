@@ -13,7 +13,7 @@ import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.server.packets.PacketsLoadout;
@@ -25,6 +25,8 @@ import com.mygdx.hadal.utils.TextUtil;
 import static com.mygdx.hadal.constants.Constants.MAX_NAME_LENGTH;
 
 /**
+ * The Disposal appear in the Arcade break room and displays the user's artifacts.
+ * The player can select an artifact to sell it for scrap
  */
 public class Disposal extends HubEvent {
 
@@ -96,6 +98,9 @@ public class Disposal extends HubEvent {
 		hub.refreshHub(this);
 	}
 
+	/**
+	 * User sells an artifact. Gain currency and lose artifact.
+	 */
 	public static void sellArtifact(PlayState state, UnlockArtifact selected, User user) {
 		int cost = (int) (JSONManager.artifactInfo.getPrices().get(selected.name()) * SELL_PRICE_MODIFIER);
 
