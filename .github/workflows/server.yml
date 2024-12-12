@@ -22,7 +22,7 @@ jobs:
       run: ./gradlew server:jar
 
     - name: Fix file names
-      run: mv server/build/libs/*.jar HadalServer.jar
+      run: mv server/build/lib/*.jar HadalServer.jar
 
     - name: Set up AWS CLI
       uses: aws-actions/configure-aws-credentials@v4
