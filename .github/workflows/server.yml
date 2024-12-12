@@ -35,8 +35,8 @@ jobs:
       run: |
         INSTANCE_ID=i-03d7994f355793647
         echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
-        aws ec2 start-instances --instance-ids $INSTANCE_ID
-        aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+        aws ec2 start-instances --instance-ids $INSTANCE_ID --region us-east-2
+        aws ec2 wait instance-running --instance-ids $INSTANCE_ID --region us-east-2
         
     - name: Get EC2 Public IP
       run: |
