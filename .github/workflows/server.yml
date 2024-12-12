@@ -19,10 +19,10 @@ jobs:
         java-version: 21
 
     - name: Build jar
-      run: ./gradlew.bat server:jar
+      run: ./gradlew server:jar
 
     - name: Fix file names
-      run: mv server/build/lib/*.jar HadalServer.jar
+      run: mv server/build/libs/*.jar HadalServer.jar
 
     - name: Set up AWS CLI
       uses: aws-actions/configure-aws-credentials@v4
