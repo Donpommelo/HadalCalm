@@ -669,13 +669,8 @@ public class KryoClient {
 		}
 
 		else if (o instanceof Packets.HeadlessHostRequest) {
-
-			if (!StateManager.states.isEmpty()) {
-				if (StateManager.states.peek() instanceof LobbyState) {
-					Gdx.app.postRunnable(() -> PacketManager.clientTCP(
-							new Packets.SyncInitialHeadlessSettings(JSONManager.sharedSetting, SocketManager.getServerName())));
-				}
-			}
+			Gdx.app.postRunnable(() -> PacketManager.clientTCP(
+					new Packets.SyncInitialHeadlessSettings(JSONManager.sharedSetting, SocketManager.getServerName())));
 		}
 	}
 
