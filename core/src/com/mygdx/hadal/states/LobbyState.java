@@ -16,38 +16,25 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.audio.MusicTrackType;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.constants.ServerConstants;
 import com.mygdx.hadal.managers.FadeManager;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
-import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.SoundManager;
-import com.mygdx.hadal.map.GameMode;
-import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.util.PacketManager;
+import com.mygdx.hadal.server.util.SocketManager;
 import com.mygdx.hadal.text.UIText;
-import com.mygdx.hadal.utils.UPNPUtil;
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import okhttp3.Dispatcher;
-import okhttp3.OkHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import static com.mygdx.hadal.constants.Constants.*;
 import static com.mygdx.hadal.managers.SkinManager.SKIN;
 
 public class LobbyState extends GameState {
-
-    private final static String SERVER_IP = "https://hadal-calm-lobby.fly.dev/";
 
     //Dimensions of the setting menu
     private static final int JOIN_X = 1650;
@@ -97,7 +84,6 @@ public class LobbyState extends GameState {
     private static final float SUBTITLE_SCALE = 0.25f;
 
     private static final float REFRESH_CD = 4.0f;
-    private static final float CONNECTION_TIMEOUT = 10.0f;
 
     //This table contains the ui elements of the pause screen
     private Table joinLobby, lobbyOptions, lobbyTable, notificationTable, joinIP, host, tablePassword;
@@ -106,7 +92,7 @@ public class LobbyState extends GameState {
     private TextField enterName, enterIP, enterPassword;
 
     //options that the player can view
-    private Text hostOption, searchOption, exitOption, notifications;
+    private Text hostOption, hostOptionLocal, searchOption, exitOption, notifications;
 
     //this is the state underneath this state.
     private final GameState peekState;
@@ -115,11 +101,6 @@ public class LobbyState extends GameState {
     private boolean inputDisabled;
 
     private float refreshCdCount = REFRESH_CD;
-
-    private boolean connectionAttempted;
-    private float connectionDuration;
-
-    public static OkHttpClient client;
 
     public LobbyState(HadalGame app, GameState peekState) {
         super(app);
@@ -175,7 +156,7 @@ public class LobbyState extends GameState {
                         if (refreshCdCount >= REFRESH_CD) {
                             SoundManager.play(SoundEffect.UISWITCH1);
 
-                            retrieveLobbies();
+                            SocketManager.retrieveLobbies();
                             refreshCdCount = 0.0f;
                         }
                     }
@@ -218,10 +199,10 @@ public class LobbyState extends GameState {
                                 //trim whitespace from ip
                                 String trimmedIP = enterIP.getText().trim();
 
-                                HadalGame.client.getClient().connect(8000, trimmedIP, JSONManager.setting.getPortNumber(), JSONManager.setting.getPortNumber());
+                                HadalGame.client.getClient().connect(8000, trimmedIP, ServerConstants.PORT, ServerConstants.PORT);
 
                                 //save last joined ip if successful
-                                JSONManager.record.setlastIp(trimmedIP);
+                                JSONManager.record.setLastIP(trimmedIP);
 
                                 setNotification(UIText.CONNECTED.text(trimmedIP));
                             } catch (IOException ex) {
@@ -262,6 +243,21 @@ public class LobbyState extends GameState {
 
                 hostOption = new Text(UIText.SERVER_CREATE.text()).setButton(true);
                 hostOption.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+
+                        if (inputDisabled) { return; }
+                        inputDisabled = true;
+
+                        setNotification(UIText.HOSTED.text());
+                        SocketManager.makeOnlineServer(enterName.getText());
+                        SoundManager.play(SoundEffect.UISWITCH1);
+                    }
+                });
+                hostOption.setScale(OPTIONS_SCALE);
+
+                hostOptionLocal = new Text(UIText.SERVER_CREATE_LOCAL.text()).setButton(true);
+                hostOptionLocal.addListener(new ClickListener() {
 
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
@@ -270,22 +266,7 @@ public class LobbyState extends GameState {
                         inputDisabled = true;
 
                         setNotification(UIText.HOSTED.text());
-
-                        if (HadalGame.socket != null) {
-                            JSONObject lobbyData = new JSONObject();
-                            try {
-                                lobbyData.put("ip", getPublicIP());
-                                lobbyData.put("name", enterName.getText());
-                                lobbyData.put("playerNum", 1);
-                                lobbyData.put("playerCapacity", JSONManager.setting.getMaxPlayers() + 1);
-                                lobbyData.put("gameMode", GameMode.HUB.getName());
-                                lobbyData.put("gameMap", UnlockLevel.HUB_MULTI.getName());
-                            } catch (JSONException jsonException) {
-                                Gdx.app.log("LOBBY", "FAILED TO CREATE LOBBY " + jsonException);
-                            }
-                            HadalGame.socket.emit("makeLobby", lobbyData.toString());
-                        }
-
+                        SocketManager.makeLocalServer(enterName.getText());
                         SoundManager.play(SoundEffect.UISWITCH1);
 
                         //Start up the server in multiplayer mode
@@ -298,7 +279,7 @@ public class LobbyState extends GameState {
                         FadeManager.fadeOut();
                     }
                 });
-                hostOption.setScale(OPTIONS_SCALE);
+                hostOptionLocal.setScale(OPTIONS_SCALE);
 
                 exitOption = new Text(UIText.RETURN.text()).setButton(true);
                 exitOption.addListener(new ClickListener() {
@@ -331,26 +312,16 @@ public class LobbyState extends GameState {
                 host.add(hostTitle).colspan(2).height(OPTION_HEIGHT).pad(TITLE_PAD).row();
                 host.add(enterNameText).height(OPTION_HEIGHT).pad(TITLE_PAD);
                 host.add(enterName).width(TEXT_WIDTH).height(OPTION_HEIGHT).pad(TITLE_PAD).row();
-                host.add(serverSettings).colspan(2).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
                 host.add(hostOption).colspan(2).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+                host.add(hostOptionLocal).colspan(2).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
+                host.add(serverSettings).colspan(2).height(OPTION_HEIGHT).pad(OPTION_PAD).row();
                 host.add(exitOption).height(OPTION_HEIGHT).pad(OPTION_PAD).expandY().bottom().left().row();
             }
         };
         app.newMenu(stage);
         stage.setScrollFocus(options);
 
-        if (HadalGame.socket == null) {
-            connectSocket();
-            configSocketEvents();
-        } else if (!HadalGame.socket.connected()) {
-            connectSocket();
-            configSocketEvents();
-        }
-
-        if (HadalGame.socket != null) {
-            HadalGame.socket.emit("end");
-        }
-        retrieveLobbies();
+        SocketManager.initializeSocket(this);
 
         if (FadeManager.getFadeLevel() >= 1.0f) {
             FadeManager.fadeIn();
@@ -362,58 +333,6 @@ public class LobbyState extends GameState {
         transitionIn(() -> inputDisabled = false);
     }
 
-    public void connectSocket() {
-        try {
-            URI uri = URI.create(SERVER_IP);
-
-            client = new OkHttpClient.Builder()
-                    .dispatcher(new Dispatcher())
-                    .readTimeout(1, TimeUnit.MINUTES) // important for HTTP long-polling
-                    .build();
-
-            IO.Options options = new IO.Options();
-            options.callFactory = client;
-            options.webSocketFactory = client;
-
-            HadalGame.socket = IO.socket(uri, options);
-
-            HadalGame.socket.connect();
-
-            connectionAttempted = true;
-            connectionDuration = 0.0f;
-
-            setNotification(UIText.SEARCHING_MM.text());
-        } catch (Exception e) {
-            Gdx.app.log("LOBBY", "FAILED TO CONNECT SOCKET: " + e);
-        }
-    }
-
-    public void configSocketEvents() {
-        if (HadalGame.socket == null) { return; }
-
-        HadalGame.socket.on(Socket.EVENT_CONNECT, args -> {
-            Gdx.app.log("LOBBY", "CONNECTED ");
-            connectionAttempted = false;
-        })
-            .on(Socket.EVENT_CONNECT_ERROR, args -> Gdx.app.log("LOBBY", "CONNECTION ERROR " + Arrays.toString(args)))
-            .on(Socket.EVENT_DISCONNECT, args -> Gdx.app.log("LOBBY", "DISCONNECTED"))
-            .on("handshake", args -> Gdx.app.log("LOBBY", "HANDSHAKE RECEIVED"))
-            .on("receiveLobbies", args -> { Gdx.app.log("LOBBY", "LOBBIES RECEIVED " + args[0]);
-
-            JSONArray lobbies = (JSONArray) args[0];
-            updateLobbies(lobbies);
-        });
-    }
-
-    /**
-     * This makes a request to the server for a list of current lobbies
-     */
-    public void retrieveLobbies() {
-        if (HadalGame.socket != null) {
-            HadalGame.socket.emit("getLobbies");
-        }
-    }
-
     /**
      * This is run when we receive lobbies from server to display in the ui window
      * @param lobbies: the currently active lobbies
@@ -422,13 +341,15 @@ public class LobbyState extends GameState {
         try {
             lobbyOptions.clear();
             for (int i = 0; i < lobbies.length(); i++) {
-                String lobbyName = lobbies.getJSONObject(i).getString("name");
-                String lobbyIP = lobbies.getJSONObject(i).getString("ip");
+                JSONObject roomInfo = lobbies.getJSONObject(i);
+                String lobbyName = roomInfo.optString("name");
+                String lobbyIP = roomInfo.optString("ip");
+                String instanceID = roomInfo.optString("instanceID");
 
-                int playerNum = lobbies.getJSONObject(i).getInt("playerNum");
-                int playerCapacity = lobbies.getJSONObject(i).getInt("playerCapacity");
-                String gameMode = lobbies.getJSONObject(i).getString("gameMode");
-                String gameMap = lobbies.getJSONObject(i).getString("gameMap");
+                int playerNum = roomInfo.optInt("playerNum");
+                int playerCapacity = roomInfo.optInt("playerCapacity");
+                String gameMode = roomInfo.optString("gameMode");
+                String gameMap = roomInfo.optString("gameMap");
 
                 Table lobbyOption = new TableButton();
 
@@ -456,8 +377,8 @@ public class LobbyState extends GameState {
 
                             //Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
                             try {
-                                HadalGame.client.getClient().connect(5000, String.valueOf(lobbyIP),
-                                        JSONManager.setting.getPortNumber(), JSONManager.setting.getPortNumber());
+                                HadalGame.client.setInstanceID(instanceID);
+                                HadalGame.client.getClient().connect(5000, lobbyIP, ServerConstants.PORT, ServerConstants.PORT);
                             } catch (IOException ex) {
                                 Gdx.app.log("LOBBY", "FAILED TO JOIN: " + ex);
                                 setNotification(UIText.CONNECTION_FAILED.text());
@@ -487,14 +408,7 @@ public class LobbyState extends GameState {
             refreshCdCount += delta;
         }
 
-        if (connectionAttempted && connectionDuration < CONNECTION_TIMEOUT) {
-            connectionDuration += delta;
-
-            if (connectionDuration > CONNECTION_TIMEOUT) {
-                connectionAttempted = false;
-                setNotification(UIText.CONNECTION_MM_FAILED.text());
-            }
-        }
+        SocketManager.update(this, delta);
     }
 
     @Override
@@ -590,53 +504,6 @@ public class LobbyState extends GameState {
     @Override
     public void dispose() {
         stage.dispose();
-        if (HadalGame.socket != null) {
-            HadalGame.socket.close();
-            HadalGame.socket = null;
-
-            if (client != null) {
-                client.connectionPool().evictAll();
-                client.dispatcher().cancelAll();
-                client.dispatcher().executorService().shutdownNow();
-            }
-        }
-    }
-
-    public String getServerName() {
-        if (enterName != null) {
-            return enterName.getText();
-        }
-        return "";
-    }
-
-    /**
-     * @return returns the player's public ip for hosting servers
-     */
-    public static String getPublicIP() {
-
-        //if the player has already retrieved their ip when enabling upnp, this step is unnecessary.
-        if (!"".equals(UPNPUtil.myIP)) {
-            return UPNPUtil.myIP;
-        }
-
-        BufferedReader in = null;
-        try {
-            URI uri = URI.create("http://checkip.amazonaws.com");
-            URL whatismyip = uri.toURL();
-            in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
-            UPNPUtil.myIP = in.readLine();
-            return UPNPUtil.myIP;
-        } catch (IOException ioException) {
-            Gdx.app.error("ERROR RETRIEVING IP: ", ioException.getMessage());
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e2) {
-                    Gdx.app.error("ERROR RETRIEVING IP: ", e2.getMessage());
-                }
-            }
-        }
-        return null;
+        SocketManager.dispose();;
     }
 }

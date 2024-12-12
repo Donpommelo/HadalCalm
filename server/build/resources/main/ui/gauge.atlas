@@ -1,0 +1,38 @@
+
+gauge.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+boss_gauge
+  rotate: false
+  xy: 2, 190
+  size: 318, 186
+  split: 175, 54, 181, 1
+  orig: 318, 186
+  offset: 0, 0
+  index: -1
+boss_gauge_dark_red
+  rotate: false
+  xy: 2, 2
+  size: 318, 186
+  split: 38, 54, 153, 4
+  orig: 318, 186
+  offset: 0, 0
+  index: -1
+boss_gauge_grey
+  rotate: false
+  xy: 322, 190
+  size: 318, 186
+  split: 38, 54, 153, 4
+  orig: 318, 186
+  offset: 0, 0
+  index: -1
+boss_gauge_red
+  rotate: false
+  xy: 322, 2
+  size: 318, 186
+  split: 38, 54, 153, 4
+  orig: 318, 186
+  offset: 0, 0
+  index: -1

@@ -16,7 +16,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.map.ModeSetting;

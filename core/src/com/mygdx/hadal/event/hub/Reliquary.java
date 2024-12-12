@@ -11,7 +11,7 @@ import com.mygdx.hadal.actors.HubOption;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.CharacterCosmetic;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.entities.Player;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.constants.BodyConstants;
 import com.mygdx.hadal.constants.UserDataType;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;

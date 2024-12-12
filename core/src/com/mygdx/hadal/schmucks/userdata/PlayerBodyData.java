@@ -7,7 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.battle.DamageSource;
 import com.mygdx.hadal.battle.DamageTag;
 import com.mygdx.hadal.constants.Stats;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.entities.PlayerSelfOnClient;
 import com.mygdx.hadal.schmucks.entities.enemies.Enemy;

@@ -12,14 +12,14 @@ import com.badlogic.gdx.utils.Collections;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.bots.BotManager;
-import com.mygdx.hadal.client.KryoClient;
+import com.mygdx.hadal.constants.ServerConstants;
 import com.mygdx.hadal.managers.*;
 import com.mygdx.hadal.managers.StateManager.State;
 import com.mygdx.hadal.managers.loaders.*;
+import com.mygdx.hadal.server.KryoClient;
 import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.users.UserManager;
 import com.mygdx.hadal.utils.UPNPUtil;
-import io.socket.client.Socket;
 
 import java.io.IOException;
 
@@ -35,10 +35,10 @@ public class HadalGame extends ApplicationAdapter {
 	public static final float CONFIG_HEIGHT = 720.0f;
 	
 	//this is the game's version. This must match between client and host to connect.
-	public static final String VERSION = "1.0.12A";
+	public static final String VERSION = "1.1.0";
 
 	//version url takes player to patch notes page when version is clicked in title screen
-	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/818445/1012a";
+	public static final String VERSION_URL = "https://donpommelo.itch.io/hadal-calm/devlog/832347/110";
 
 	//Game cameras and respective viewports. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -56,9 +56,6 @@ public class HadalGame extends ApplicationAdapter {
 
     //User Manager keeps track of users for multiplayer
 	public static UserManager usm;
-
-    //socket is used to connect to matchmaking server
-	public static Socket socket;
 
 	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
@@ -93,8 +90,8 @@ public class HadalGame extends ApplicationAdapter {
 
 		//enable upnp for both tcp and udp
 		if (JSONManager.setting.isEnableUPNP()) {
-			UPNPUtil.upnp("TCP", "hadal-upnp-tcp", JSONManager.setting.getPortNumber());
-			UPNPUtil.upnp("UDP", "hadal-upnp-udp", JSONManager.setting.getPortNumber());
+			UPNPUtil.upnp("TCP", "hadal-upnp-tcp", ServerConstants.PORT);
+			UPNPUtil.upnp("UDP", "hadal-upnp-udp", ServerConstants.PORT);
 		}
 
 		client = new KryoClient(this, usm);

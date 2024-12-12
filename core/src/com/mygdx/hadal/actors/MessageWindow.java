@@ -19,7 +19,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;

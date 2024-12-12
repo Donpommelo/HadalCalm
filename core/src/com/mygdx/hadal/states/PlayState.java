@@ -41,13 +41,13 @@ import com.mygdx.hadal.schmucks.entities.WorldDummy;
 import com.mygdx.hadal.server.AlignmentFilter;
 import com.mygdx.hadal.server.packets.PacketEffect;
 import com.mygdx.hadal.server.packets.Packets;
+import com.mygdx.hadal.server.util.PacketManager;
+import com.mygdx.hadal.server.util.SocketManager;
 import com.mygdx.hadal.users.ScoreManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.utils.CameraUtil;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UUIDUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -461,25 +461,12 @@ public class PlayState extends GameState {
 		}
 		packetEffects.clear();
 
-		if (isServer()) {
+		if (HadalGame.usm.isHost()) {
 			//send server info to matchmaking server
 			lobbySyncAccumulator += delta;
 			if (lobbySyncAccumulator >= LOBBY_SYNC_TIME) {
 				lobbySyncAccumulator = 0;
-				if (HadalGame.socket != null) {
-					if (HadalGame.socket.connected()) {
-						JSONObject lobbyData = new JSONObject();
-						try {
-							lobbyData.put("playerNum", HadalGame.usm.getNumPlayers());
-							lobbyData.put("playerCapacity", JSONManager.setting.getMaxPlayers() + 1);
-							lobbyData.put("gameMode", mode.getName());
-							lobbyData.put("gameMap", level.getName());
-						} catch (JSONException jsonException) {
-							Gdx.app.log("LOBBY", "FAILED TO SEND LOBBY INFO " + jsonException);
-						}
-						HadalGame.socket.emit("updateLobby", lobbyData.toString());
-					}
-				}
+				SocketManager.updateLobby(this);
 			}
 		}
 

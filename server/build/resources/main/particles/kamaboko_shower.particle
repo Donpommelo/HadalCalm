@@ -1,0 +1,2022 @@
+chunk0
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 50
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 20.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 300.0
+highMax: 800.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 24.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84931505
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -90.0
+highMax: 90.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -90.0
+lowMax: 90.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -25.0
+highMax: 25.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 0.0
+lowMax: 100.0
+highMin: -300.0
+highMax: -500.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.21052632
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.19178082
+timeline2: 0.28082192
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_a.png
+
+
+chunk1
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 50
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 300.0
+highMax: 500.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84246576
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -90.0
+highMax: 90.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -180.0
+lowMax: -180.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -20.0
+highMax: 20.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 0.0
+lowMax: 50.0
+highMin: -200.0
+highMax: -500.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.24561404
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.19178082
+timeline2: 0.28767124
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_b.png
+
+
+chunk2
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 50
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 200.0
+highMax: 300.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 24.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84931505
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -60.0
+highMax: 60.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -90.0
+lowMax: 90.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -10.0
+highMax: 10.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 0.0
+lowMax: 70.0
+highMin: -300.0
+highMax: -500.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.2982456
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.19863014
+timeline2: 0.30136988
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_d.png
+
+
+chunk3
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 25
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 200.0
+highMax: 300.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 24.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84931505
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -60.0
+highMax: 60.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -90.0
+lowMax: 90.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -10.0
+highMax: 10.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 0.0
+lowMax: 30.0
+highMin: -300.0
+highMax: -500.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.24561404
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.21232876
+timeline2: 0.29452056
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_g.png
+
+
+chunk4
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 25
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 200.0
+highMax: 300.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 32.0
+lowMax: 32.0
+highMin: 32.0
+highMax: 32.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 24.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84931505
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -60.0
+highMax: 60.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -90.0
+lowMax: 90.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -10.0
+highMax: 10.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 0.0
+lowMax: 80.0
+highMin: -300.0
+highMax: -500.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.24561404
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.1780822
+timeline2: 0.28767124
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_i.png
+
+
+chunk5
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 50
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 12.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 200.0
+highMax: 300.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 24.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84931505
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -90.0
+highMax: 90.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -90.0
+lowMax: 90.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -30.0
+highMax: 30.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 0.0
+lowMax: 50.0
+highMin: -300.0
+highMax: -500.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.24561404
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.2260274
+timeline2: 0.30821916
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_j.png
+
+
+chunk6
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 50
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 10.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 200.0
+highMax: 300.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84246576
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -90.0
+highMax: 90.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -180.0
+lowMax: -180.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -20.0
+highMax: 20.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 0.0
+lowMax: 80.0
+highMin: -200.0
+highMax: -300.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.24561404
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.1849315
+timeline2: 0.28767124
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_e.png
+
+
+chunk7
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 50
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 12.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 200.0
+highMax: 300.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84246576
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -90.0
+highMax: 90.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -180.0
+lowMax: -180.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -20.0
+highMax: 20.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 50.0
+lowMax: 50.0
+highMin: -200.0
+highMax: -300.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.2631579
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.19863014
+timeline2: 0.3219178
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_h.png
+
+
+chunk8
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 50
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 20.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 200.0
+highMax: 800.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 16.0
+lowMax: 16.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84246576
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -90.0
+highMax: 90.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -180.0
+lowMax: -180.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 80.0
+lowMax: 80.0
+highMin: -200.0
+highMax: -300.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.2631579
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.1780822
+timeline2: 0.29452056
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_c.png
+
+
+chunk9
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 50
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 20.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 200.0
+highMax: 800.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 16.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 16.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84246576
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -90.0
+highMax: 90.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -180.0
+lowMax: -180.0
+highMin: -180.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 80.0
+lowMax: 80.0
+highMin: -200.0
+highMax: -300.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.24561404
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.19178082
+timeline2: 0.36301368
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+kamaboko_f.png
+
+
+fishbone
+- Delay -
+active: false
+- Duration - 
+lowMin: 200.0
+lowMax: 200.0
+- Count - 
+min: 0
+max: 25
+- Emission - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 2.0
+highMax: 5.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 300.0
+highMax: 800.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Life Offset - 
+active: false
+- X Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Y Offset - 
+active: true
+lowMin: -16.0
+lowMax: 16.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Shape - 
+shape: point
+- Spawn Width - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 8.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Spawn Height - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 8.0
+highMax: 8.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Scale - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 12.0
+highMax: 24.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Velocity - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -50.0
+highMax: 50.0
+relative: false
+scalingCount: 3
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.0
+timelineCount: 3
+timeline0: 0.0
+timeline1: 0.84931505
+timeline2: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -30.0
+highMax: 30.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Rotation - 
+active: true
+lowMin: -360.0
+lowMax: 360.0
+highMin: -360.0
+highMax: 360.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Wind - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -10.0
+highMax: 10.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
+- Gravity - 
+active: true
+lowMin: 50.0
+lowMax: 50.0
+highMin: -300.0
+highMax: -300.0
+relative: false
+scalingCount: 2
+scaling0: 0.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 0.29452056
+- Tint - 
+colorsCount: 3
+colors0: 1.0
+colors1: 1.0
+colors2: 1.0
+timelineCount: 1
+timeline0: 0.0
+- Transparency - 
+lowMin: 0.0
+lowMax: 0.0
+highMin: 1.0
+highMax: 1.0
+relative: false
+scalingCount: 4
+scaling0: 1.0
+scaling1: 1.0
+scaling2: 0.21052632
+scaling3: 0.0
+timelineCount: 4
+timeline0: 0.0
+timeline1: 0.1849315
+timeline2: 0.4041096
+timeline3: 1.0
+- Options - 
+attached: false
+continuous: true
+aligned: false
+additive: false
+behind: false
+premultipliedAlpha: false
+- Image Path -
+fishbone_a.png

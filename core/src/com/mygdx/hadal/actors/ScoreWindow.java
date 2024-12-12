@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.server.packets.Packets;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.constants.UserDataType;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.HadalEntity;
 import com.mygdx.hadal.schmucks.entities.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;

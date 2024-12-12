@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="49">
+ <properties>
+  <property name="customShader" type="bool" value="true"/>
+  <property name="music" value="EXTRA_ROOM"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="100" height="60">
+  <data encoding="base64" compression="zlib">
+   eAHt2ssKwkAMheF6AS+gLvT9n9V0kf3gpOk5+AvFTTuTfCeI2i4LLwQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQ6BY4xIZ3k+PYjbPDfufY82Vy3Hbw6d4y83jExifR4xl1rTPzT3ko95ozo1xjjEvJy6FXhxpLwohFHHp1qJE8qgS01nGYPYcaq1J16NWhRvKoEtBax2H2HGqsStWhV4cayaNKQGsdh9lzqLEqVYdeHWokjyoBrXUcZs+hxqr7SHnvQ/m/U4c8ssb0nH0nj7nPrcyj6j7Sda6cTa/OXpmZTZmHFyePYaqWE8mjhXl4E/IYpmo5kTxamIc3ccrjHV25PM/2a52f6FH9eZ+cmdnfHU7XK3/fvcTMqD6/tlVdyr+Rhj98OREBBBBAAAEEEEAAgUKBLxmZEow=
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="928" y="1440">
+   <polyline points="0,0 576,0 576,-544 1792,-544 1792,160 0,160 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="2" name="Start" type="Start" x="992" y="1536" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="defaultcamera"/>
+   </properties>
+  </object>
+  <object id="6" name="Dropthrough" type="Dropthrough" x="1504" y="1312" width="288" height="8"/>
+  <object id="7" name="Dropthrough" type="Dropthrough" x="2432" y="1312" width="288" height="8"/>
+  <object id="8" name="Platform" type="Platform" x="1952" y="1408" width="288" height="32">
+   <properties>
+    <property name="event" type="bool" value="true"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="player" type="bool" value="true"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="9" name="Bounds" type="Bounds" x="1408" y="800" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2a"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="10" name="Bounds" type="Bounds" x="2784" y="1696" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1a"/>
+   </properties>
+  </object>
+  <object id="11" name="Switch" type="Switch" x="960" y="1504" width="96" height="96">
+   <properties>
+    <property name="particle_amb" value="PORTAL"/>
+    <property name="particle_offsetY" type="float" value="-20"/>
+    <property name="sprite" value="PORTAL"/>
+    <property name="triggeringId" value="toHub"/>
+   </properties>
+  </object>
+  <object id="12" name="Warp" type="Warp" x="992" y="1728" width="32" height="32">
+   <properties>
+    <property name="level" value="SANDBOX_HUB"/>
+    <property name="startId" value="start0"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="toHub"/>
+   </properties>
+  </object>
+  <object id="13" name="ChoiceBranch" type="ChoiceBranch" x="1344" y="1504" width="96" height="96">
+   <properties>
+    <property name="optionNames" value="ENEMIES_OPTIONS"/>
+    <property name="options" value="testSpawn1,testSpawn2,testSpawn3,testSpawn4,testSpawn5,testSpawn6,testSpawn7,testSpawn8,testSpawn9,testSpawn10,testSpawn11,testSpawn12,testSpawn13,testSpawn14,testSpawn15"/>
+    <property name="title" value="TEXT_ENEMIES"/>
+   </properties>
+  </object>
+  <object id="14" name="Platform" type="Platform" x="1472" y="1440" width="32" height="160">
+   <properties>
+    <property name="enemy" type="bool" value="true"/>
+    <property name="event" type="bool" value="false"/>
+    <property name="independent" type="bool" value="true"/>
+    <property name="player" type="bool" value="false"/>
+    <property name="sprite" value="NOTHING"/>
+   </properties>
+  </object>
+  <object id="15" name="ParticleField" type="ParticleField" x="1472" y="1440" width="32" height="160">
+   <properties>
+    <property name="duration" type="float" value="5"/>
+    <property name="particle" value="SHADOW_CLOAK"/>
+    <property name="speed" type="float" value="2"/>
+   </properties>
+  </object>
+  <object id="16" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="CRAWLER1"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn1"/>
+   </properties>
+  </object>
+  <object id="17" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="CRAWLER2"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn2"/>
+   </properties>
+  </object>
+  <object id="18" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="CRAWLER3"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn3"/>
+   </properties>
+  </object>
+  <object id="19" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SWIMMER1"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn4"/>
+   </properties>
+  </object>
+  <object id="20" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SWIMMER2"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn5"/>
+   </properties>
+  </object>
+  <object id="21" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="LEAPER1"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn6"/>
+   </properties>
+  </object>
+  <object id="22" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="TORPEDOFISH"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn7"/>
+   </properties>
+  </object>
+  <object id="23" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SCISSORFISH"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn8"/>
+   </properties>
+  </object>
+  <object id="24" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SPITTLEFISH"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn9"/>
+   </properties>
+  </object>
+  <object id="36" name="Bounds" type="Bounds" x="1184" y="1504" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2d"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="37" name="Bounds" type="Bounds" x="1216" y="1504" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1d"/>
+   </properties>
+  </object>
+  <object id="38" name="Prefab" type="PrefabAlternator" x="1248" y="1440" width="96" height="160">
+   <properties>
+    <property name="align" type="int" value="0"/>
+    <property name="event1" value="defaultcamera"/>
+    <property name="event2" value="arenacamera"/>
+    <property name="prefabId" value="Alternator"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="39" name="Multitrigger" type="Multitrigger" x="896" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="defaultcamera"/>
+    <property name="triggeringId" value="bounds1d,bounds2d"/>
+   </properties>
+  </object>
+  <object id="40" name="Multitrigger" type="Multitrigger" x="896" y="1152" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="arenacamera"/>
+    <property name="triggeringId" value="bounds1a,bounds2a"/>
+   </properties>
+  </object>
+  <object id="41" name="Dropthrough" type="Dropthrough" x="1952" y="1088" width="288" height="8"/>
+  <object id="42" name="Text" type="Text" x="960" y="1440" width="32" height="32">
+   <properties>
+    <property name="text" value="TEXT_HUB"/>
+   </properties>
+  </object>
+  <object id="43" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SPLITTER_LARGE"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn10"/>
+   </properties>
+  </object>
+  <object id="44" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SPAWNER"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn11"/>
+   </properties>
+  </object>
+  <object id="45" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="BOUNCER"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn12"/>
+   </properties>
+  </object>
+  <object id="46" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="DRONE"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn13"/>
+   </properties>
+  </object>
+  <object id="47" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="BOMBFISH"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn14"/>
+   </properties>
+  </object>
+  <object id="48" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SNIPERFISH"/>
+    <property name="syncClient" value="ECHO"/>
+    <property name="triggeredId" value="testSpawn15"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

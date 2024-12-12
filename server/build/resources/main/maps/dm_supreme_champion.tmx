@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="66">
+ <imagelayer id="4" name="Image Layer 1">
+  <image source="../Images/supreme_champion.jpg" width="5184" height="3456"/>
+ </imagelayer>
+ <layer id="1" name="Tile Layer 1" width="180" height="120">
+  <data encoding="base64" compression="zlib">
+   eAHt0AENAAAAwqD3T20PBxEoDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDA/8AAUY8AAQ==
+  </data>
+ </layer>
+ <objectgroup id="6" name="bot-layer">
+  <object id="42" name="BotPoint" type="BotPoint" x="4224" y="1464">
+   <properties>
+    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="multiplier1" type="float" value="1"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="-368,696 -368,-40"/>
+  </object>
+  <object id="43" name="BotPoint" type="BotPoint" x="752" y="1872">
+   <properties>
+    <property name="multiplier0" type="float" value="0.1"/>
+    <property name="multiplier1" type="float" value="1"/>
+    <property name="valid1" type="bool" value="true"/>
+   </properties>
+   <polyline points="0,272 0,-464"/>
+  </object>
+  <object id="44" name="BotPoint" type="BotPoint" x="1008" y="1976">
+   <polyline points="240,168 -256,168"/>
+  </object>
+  <object id="45" name="BotPoint" type="BotPoint" x="472" y="2016">
+   <polyline points="-120,96 280,128"/>
+  </object>
+  <object id="46" name="BotPoint" type="BotPoint" x="1024" y="1032">
+   <polyline points="0,56 -272,376"/>
+  </object>
+  <object id="47" name="BotPoint" type="BotPoint" x="936" y="864">
+   <polyline points="88,224 248,32"/>
+  </object>
+  <object id="48" name="BotPoint" type="BotPoint" x="1256" y="640">
+   <polyline points="280,96 -72,256"/>
+  </object>
+  <object id="49" name="BotPoint" type="BotPoint" x="1704" y="736">
+   <polyline points="56,0 -168,0"/>
+  </object>
+  <object id="50" name="BotPoint" type="BotPoint" x="1768" y="736">
+   <polyline points="216,96 -8,0"/>
+  </object>
+  <object id="51" name="BotPoint" type="BotPoint" x="2088" y="800">
+   <polyline points="120,64 -104,32"/>
+  </object>
+  <object id="52" name="BotPoint" type="BotPoint" x="2248" y="864">
+   <polyline points="120,64 -40,0"/>
+  </object>
+  <object id="53" name="BotPoint" type="BotPoint" x="2376" y="896">
+   <polyline points="152,-32 -8,32"/>
+  </object>
+  <object id="54" name="BotPoint" type="BotPoint" x="2632" y="864">
+   <polyline points="-8,0 -104,0"/>
+  </object>
+  <object id="55" name="BotPoint" type="BotPoint" x="2632" y="832">
+   <polyline points="-8,224 -8,32"/>
+  </object>
+  <object id="56" name="BotPoint" type="BotPoint" x="2632" y="1056">
+   <polyline points="248,96 -8,0"/>
+  </object>
+  <object id="57" name="BotPoint" type="BotPoint" x="2920" y="960">
+   <polyline points="120,-32 -40,192"/>
+  </object>
+  <object id="58" name="BotPoint" type="BotPoint" x="3016" y="928">
+   <polyline points="312,224 24,0"/>
+  </object>
+  <object id="59" name="BotPoint" type="BotPoint" x="3400" y="1184">
+   <polyline points="120,160 -72,-32"/>
+  </object>
+  <object id="60" name="BotPoint" type="BotPoint" x="3560" y="1312">
+   <polyline points="296,112 -40,32"/>
+  </object>
+  <object id="61" name="BotPoint" type="BotPoint" x="3752" y="1504">
+   <polyline points="-168,640 104,656"/>
+  </object>
+  <object id="62" name="BotPoint" type="BotPoint" x="3984" y="1992">
+   <polyline points="496,152 -128,168"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="0" y="0">
+   <polyline points="224,0 4546,0 4544,2171 3491,2180 3491,2103 3480,2023 3507,1929 3510,1889 3542,1835 3509,1790 3607,1651 3452,1354 3356,1250 3270,1170 3162,1076 3034,1012 2898,1230 2522,1066 2558,916 2546,896 2506,900 2442,932 2384,986 2200,912 1976,882 1724,780 1610,766 1486,804 1356,858 1194,950 1120,1054 1044,1194 1016,1344 1044,1510 1110,1642 1294,1826 1556,2020 1724,2176 227,2150.5 224,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="7" name="Multitrigger" type="Multitrigger" x="128" y="3552" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2,w3,w4"/>
+   </properties>
+  </object>
+  <object id="9" name="Start" type="Start" x="1312" y="800" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="10" name="Start" type="Start" x="3200" y="1024" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="13" name="Bounds" type="Bounds" x="224" y="0" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="14" name="Bounds" type="Bounds" x="4512" y="2272" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="16" name="Spring" type="Spring" x="3812.67" y="2160" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="17" name="Spring" type="Spring" x="706" y="2142" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="18" name="Prefab" type="PrefabWeapon" x="1626.67" y="678" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="19" name="HboxSpawn" type="HboxSpawn" x="2464" y="920" width="32" height="32">
+   <properties>
+    <property name="damage" type="float" value="55"/>
+    <property name="dieSchmuck" type="bool" value="false"/>
+    <property name="dieWall" type="bool" value="false"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="gravity" type="float" value="0"/>
+    <property name="knockback" type="float" value="2"/>
+    <property name="lifespan" type="float" value="1"/>
+    <property name="particle" value="FIRE"/>
+    <property name="sizeX" type="float" value="100"/>
+    <property name="sizeY" type="float" value="50"/>
+    <property name="triggeredId" value="firebreath"/>
+    <property name="triggeringId" value="firetarget"/>
+    <property name="veloY" type="float" value="25"/>
+   </properties>
+  </object>
+  <object id="20" name="Timer" type="Timer" x="576" y="3488" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0.08"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="firetimer"/>
+    <property name="triggeringId" value="firebreath"/>
+   </properties>
+  </object>
+  <object id="21" name="Dummy" type="Dummy" x="2816" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy1"/>
+    <property name="triggeringId" value="dummy0"/>
+   </properties>
+  </object>
+  <object id="22" name="Dummy" type="Dummy" x="2496" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy0"/>
+    <property name="triggeringId" value="dummy1"/>
+   </properties>
+  </object>
+  <object id="23" name="MovePoint" type="MovePoint" x="2656" y="224" width="32" height="32">
+   <properties>
+    <property name="connections" value=""/>
+    <property name="speed" type="float" value="10"/>
+    <property name="triggeredId" value="firetarget"/>
+    <property name="triggeringId" value="dummy0"/>
+   </properties>
+  </object>
+  <object id="24" name="Timer" type="Timer" x="320" y="3488" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="20"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="firebreathstart"/>
+   </properties>
+  </object>
+  <object id="25" name="Multitrigger" type="Multitrigger" x="384" y="3488" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="firebreathstart"/>
+    <property name="triggeringId" value="firetimer,firestop,eyeglow"/>
+   </properties>
+  </object>
+  <object id="26" name="Timer" type="Timer" x="448" y="3488" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="5"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="firestop"/>
+    <property name="triggeringId" value="firestopper"/>
+   </properties>
+  </object>
+  <object id="27" name="Multitrigger" type="Multitrigger" x="512" y="3488" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="firestopper"/>
+    <property name="triggeringId" value="firestop,firetimer"/>
+   </properties>
+  </object>
+  <object id="28" name="ScrapSpawn" type="ScrapSpawn" x="2496" y="640" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="29" name="Prefab" type="PrefabSpawner" x="2469" y="804.5" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="30" name="Prefab" type="PrefabWeapon" x="3065" y="959" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="36" name="Prefab" type="PrefabWeapon" x="1184" y="2072" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="37" name="Prefab" type="PrefabWeapon" x="3524" y="2082.67" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w4"/>
+   </properties>
+  </object>
+  <object id="38" name="Start" type="Start" x="992" y="2080" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="39" name="Start" type="Start" x="3712" y="2112" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="40" name="HboxSpawn" type="HboxSpawn" x="2272" y="1536" width="32" height="32">
+   <properties>
+    <property name="gravity" type="float" value="0"/>
+    <property name="lifespan" type="float" value="3"/>
+    <property name="particle" value="LASER_PULSE"/>
+    <property name="sizeX" type="float" value="40"/>
+    <property name="sizeY" type="float" value="40"/>
+    <property name="triggeredId" value="eyeglow"/>
+   </properties>
+  </object>
+  <object id="63" name="Start" type="Start" x="1824" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="64" name="Start" type="Start" x="2240" y="864" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="65" name="Start" type="Start" x="2688" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="objective">
+  <object id="32" name="ObjectiveSpawn" type="ObjectiveSpawn" x="2496" y="320" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="33" name="Dummy" type="Dummy" x="2816" y="320" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg1"/>
+    <property name="triggeringId" value="egg2"/>
+   </properties>
+  </object>
+  <object id="34" name="Dummy" type="Dummy" x="2208" y="320" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="egg2"/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+  <object id="35" name="MovePoint" type="MovePoint" x="2496" y="320" width="32" height="32">
+   <properties>
+    <property name="connections" value="EGGPLANT_SPAWNER"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="syncConnected" type="bool" value="true"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="egg1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

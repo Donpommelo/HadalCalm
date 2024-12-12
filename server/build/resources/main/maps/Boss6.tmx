@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="77">
+ <properties>
+  <property name="customShader" type="bool" value="true"/>
+  <property name="music" value="BOSS_GOLDFISH_PURGATORY"/>
+  <property name="zoom" type="float" value="1.5"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="80" height="90">
+  <data encoding="base64" compression="zlib">
+   eAHt3MtKxFAQhGFv4AXUhb7/sxoXA3owlH8XoymmhEEx1ZPOl9acZDFXV/2qQAUqUIEKVKACFahABSrwtwLX2+6e+to1uBGn427b/trXrsFj/XZtfjM39fP+vqjf8zavtxf8eln+l1E/lRf/DuI3r9cD5UHz8UDiAKgHzYvdx2+mHjQfDyQOgHrQvNh9/GbqQfPxQOIAqAfNi93Hb6YeNL93v6zuE1PqqIebP90D0XVSSh09LppPcZj2ST1oftpXSh31oPkUh2mf1IPmp32l1FEPlb/fVig/PZ95ECuXlDr3eqr8BFP85vp5p7B+9fMEvOrOX/08Aa+683dsv5TnKNM+zz1/6/un3EdM+1Tr4dWD5qd9pdRRD5pPcZj2ST1oftpXSh31oPkUh2mf1EPlU56jTPt0rwfKz1tdHb+6ft45ql/9PAGvuvNXP0/Aq+78Hdtv+lwjpe7c87e+/3Rdn1Kn1sOrB82nOEz7pB40P+0rpY560HyKw7RP6kHz075S6qiHyk+fa6TUudcD5eetro5fXT/vHNWvfp6AV935q58n4FV3/o7tl/IcZdrnuedvff+U+4hpn2o9vHrQ/LSvlDrqQfMpDtM+qQfNT/tKqaMeNJ/iMO2Teqh8ynOUaZ/u9UD5eaur41fXzztH9aufJ+BVd/7q5wl41Z2///V723Z/yZ+H+r4d/2mt/fldrefWef1a25/r585A5+/73yP1VH5794k/fcbGJf5Ofa6Id7VqdQUqUIEKVKACFfg7gQ84uV5x
+  </data>
+ </layer>
+ <objectgroup id="3" name="collision-layer">
+  <object id="2" x="448" y="704">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="5" x="896" y="704">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="6" x="1344" y="704">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="7" x="1792" y="704">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="8" x="1792" y="1152">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="9" x="1344" y="1152">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="10" x="896" y="1152">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="11" x="448" y="1152">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="13" x="448" y="1600">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="14" x="896" y="1600">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="15" x="1344" y="1600">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="16" x="1792" y="1600">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="17" x="1792" y="2048">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="18" x="1344" y="2048">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="19" x="896" y="2048">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="20" x="448" y="2048">
+   <polyline points="0,0 224,0 224,224 0,224 0,0"/>
+  </object>
+  <object id="66" x="224" y="2496">
+   <polyline points="0,0 2016,0 2016,-2016 0,-2016 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="event-layer">
+  <object id="22" name="Start" type="Start" x="992" y="1536" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="23" name="Bounds" type="Bounds" x="128" y="384" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="24" name="Bounds" type="Bounds" x="2304" y="2592" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="25" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="26" name="Dummy" type="Dummy" x="320" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="0"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="27" name="Dummy" type="Dummy" x="768" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="1"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="28" name="Dummy" type="Dummy" x="1216" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="2"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="29" name="Dummy" type="Dummy" x="1664" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="3"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="30" name="Dummy" type="Dummy" x="2112" y="576" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="4"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="31" name="Dummy" type="Dummy" x="320" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="5"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="32" name="Dummy" type="Dummy" x="768" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="6"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="33" name="Dummy" type="Dummy" x="1216" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="7"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="34" name="Dummy" type="Dummy" x="1664" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="8"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="35" name="Dummy" type="Dummy" x="2112" y="1024" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="9"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="36" name="Dummy" type="Dummy" x="320" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="10"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="37" name="Dummy" type="Dummy" x="768" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="11"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="38" name="Dummy" type="Dummy" x="1216" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="12"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="39" name="Dummy" type="Dummy" x="1664" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="13"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="40" name="Dummy" type="Dummy" x="320" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="15"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="41" name="Dummy" type="Dummy" x="768" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="16"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="42" name="Dummy" type="Dummy" x="1216" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="17"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="43" name="Dummy" type="Dummy" x="1664" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="18"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="44" name="Dummy" type="Dummy" x="320" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="20"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="45" name="Dummy" type="Dummy" x="768" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="21"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="46" name="Dummy" type="Dummy" x="1216" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="22"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="47" name="Dummy" type="Dummy" x="1664" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="23"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="48" name="Dummy" type="Dummy" x="2112" y="1472" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="14"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="49" name="Dummy" type="Dummy" x="2112" y="1920" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="19"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="50" name="Dummy" type="Dummy" x="2080" y="2368" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="24"/>
+    <property name="independent" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="51" name="SchmuckSpawn" type="SchmuckSpawn" x="1216" y="1472" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="true"/>
+    <property name="bossname" value="Gilt-Scaled Seraph"/>
+    <property name="delay" type="float" value="2"/>
+    <property name="enemyId" value="BOSS6"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="spawn0"/>
+    <property name="triggeringId" value="fitewin"/>
+   </properties>
+  </object>
+  <object id="52" name="End" type="End" x="2016" y="2720" width="32" height="32">
+   <properties>
+    <property name="text" value="VICTORY"/>
+    <property name="triggeredId" value="levelend"/>
+    <property name="victory" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="53" name="Timer" type="Timer" x="160" y="96" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="initLimiter"/>
+   </properties>
+  </object>
+  <object id="54" name="Multitrigger" type="Multitrigger" x="224" y="96" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="initLimiter"/>
+    <property name="triggeringId" value="startTimer,w1,w2,spawn0,shake"/>
+   </properties>
+  </object>
+  <object id="56" name="Timer" type="Timer" x="160" y="224" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="20"/>
+    <property name="triggeringId" value="spawnWeapons"/>
+   </properties>
+  </object>
+  <object id="57" name="Multitrigger" type="Multitrigger" x="224" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2"/>
+   </properties>
+  </object>
+  <object id="58" name="Prefab" type="PrefabWeapon" x="512" y="1504" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="59" name="Prefab" type="PrefabWeapon" x="1856" y="1504" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="60" name="Prefab" type="PrefabSpawner" x="512" y="1952" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="61" name="Prefab" type="PrefabSpawner" x="1856" y="1952" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f2"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="62" name="Prefab" type="PrefabSpawner" x="960" y="1056" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f3"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="63" name="Prefab" type="PrefabSpawner" x="1408" y="1056" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f4"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="64" name="Prefab" type="PrefabSpawner" x="512" y="608" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f5"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="65" name="Prefab" type="PrefabSpawner" x="1856" y="608" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f6"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="67" name="Prefab" type="PrefabSpawner" x="1184" y="2400" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="30"/>
+    <property name="power" type="float" value="40"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="68" name="Start" type="Start" x="1440" y="1536" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="69" name="Start" type="Start" x="1440" y="1984" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="70" name="Start" type="Start" x="992" y="1984" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="71" name="Start" type="Start" x="992" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="72" name="Start" type="Start" x="1440" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="73" name="Start" type="Start" x="544" y="1536" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="74" name="Start" type="Start" x="1888" y="1536" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="75" name="Timer" type="Timer" x="1952" y="2720" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="2"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="fitewin"/>
+    <property name="triggeringId" value="levelend"/>
+   </properties>
+  </object>
+  <object id="76" name="Shake" type="Shake" x="288" y="96" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="2"/>
+    <property name="shake" type="float" value="200"/>
+    <property name="triggeredId" value="shake"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

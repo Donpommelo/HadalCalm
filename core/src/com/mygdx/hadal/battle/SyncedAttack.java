@@ -12,7 +12,7 @@ import com.mygdx.hadal.battle.attacks.special.Emote;
 import com.mygdx.hadal.battle.attacks.special.Ping;
 import com.mygdx.hadal.battle.attacks.weapon.*;
 import com.mygdx.hadal.constants.ObjectLayer;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.entities.Schmuck;
 import com.mygdx.hadal.schmucks.entities.hitboxes.Hitbox;

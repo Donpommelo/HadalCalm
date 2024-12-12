@@ -1,7 +1,7 @@
 package com.mygdx.hadal.server.managers.loaders;
 
 import com.mygdx.hadal.constants.SyncType;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.loaders.EffectEntityLoader;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.requests.SoundCreate;

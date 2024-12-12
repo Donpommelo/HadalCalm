@@ -5,7 +5,7 @@ import com.mygdx.hadal.constants.Stats;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.SettingArcade;
 import com.mygdx.hadal.save.UnlockArtifact;

@@ -2,7 +2,7 @@ package com.mygdx.hadal.server.actors;
 
 import com.mygdx.hadal.actors.ScoreWindow;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.states.PlayState;
 

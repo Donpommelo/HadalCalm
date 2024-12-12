@@ -1,0 +1,174 @@
+
+neptuneking.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+terrazza_body
+  rotate: false
+  xy: 2, 1620
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 0
+terrazza_body
+  rotate: false
+  xy: 2, 1258
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 1
+terrazza_body
+  rotate: false
+  xy: 364, 1620
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 2
+terrazza_body
+  rotate: false
+  xy: 2, 896
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 3
+terrazza_body
+  rotate: false
+  xy: 364, 1258
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 4
+terrazza_body
+  rotate: false
+  xy: 726, 1620
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 5
+terrazza_body
+  rotate: false
+  xy: 2, 534
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 6
+terrazza_body
+  rotate: false
+  xy: 364, 896
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 7
+terrazza_body
+  rotate: false
+  xy: 726, 1258
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 8
+terrazza_core
+  rotate: false
+  xy: 1088, 1620
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 0
+terrazza_core
+  rotate: false
+  xy: 2, 172
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 1
+terrazza_core
+  rotate: false
+  xy: 2, 172
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 13
+terrazza_core
+  rotate: false
+  xy: 364, 534
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 2
+terrazza_core
+  rotate: false
+  xy: 364, 534
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 12
+terrazza_core
+  rotate: false
+  xy: 726, 896
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 3
+terrazza_core
+  rotate: false
+  xy: 726, 896
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 11
+terrazza_core
+  rotate: false
+  xy: 1088, 1258
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 4
+terrazza_core
+  rotate: false
+  xy: 1088, 1258
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 10
+terrazza_core
+  rotate: false
+  xy: 1450, 1620
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 5
+terrazza_core
+  rotate: false
+  xy: 1450, 1620
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 9
+terrazza_core
+  rotate: false
+  xy: 364, 172
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 6
+terrazza_core
+  rotate: false
+  xy: 364, 172
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 8
+terrazza_core
+  rotate: false
+  xy: 726, 534
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 7
+terrazza_crown
+  rotate: false
+  xy: 2, 2
+  size: 178, 168
+  orig: 178, 168
+  offset: 0, 0
+  index: 0

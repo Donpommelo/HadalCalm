@@ -11,4 +11,6 @@ dependencies {
     implementation "com.squareup.okio:okio:$okioVersion"
     implementation "org.json:json:$jsonVersion"
     implementation "io.socket:socket.io-client:$socketioVersion"
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+    implementation "ch.qos.logback:logback-core:$logbackVersion"
 }

@@ -55,7 +55,7 @@ public class Record {
 		saveRecord();
 	}
 	
-	public void setlastIp(String lastIp) {
+	public void setLastIP(String lastIp) {
 		this.lastIp = lastIp;
 		saveRecord();
 	}

@@ -7,7 +7,7 @@ import com.mygdx.hadal.equip.Equippable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.SpriteManager;
 import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.SoundLoad;

@@ -2,7 +2,7 @@ package com.mygdx.hadal.server.states;
 
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.FadeManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;

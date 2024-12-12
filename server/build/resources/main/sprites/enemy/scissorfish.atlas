@@ -1,0 +1,139 @@
+
+scissorfish.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+scissorfish
+  rotate: false
+  xy: 2, 590
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 0
+scissorfish
+  rotate: false
+  xy: 2, 296
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 1
+scissorfish
+  rotate: false
+  xy: 213, 590
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 2
+scissorfish
+  rotate: false
+  xy: 2, 2
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 3
+scissorfish
+  rotate: false
+  xy: 213, 296
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 4
+scissorfish
+  rotate: false
+  xy: 424, 590
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 5
+scissorfish
+  rotate: false
+  xy: 213, 2
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 6
+scissorfish
+  rotate: false
+  xy: 424, 296
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 7
+scissorfish
+  rotate: false
+  xy: 635, 590
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 8
+scissorfish
+  rotate: false
+  xy: 424, 2
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 9
+scissorfish_attack
+  rotate: false
+  xy: 635, 296
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 0
+scissorfish_attack
+  rotate: false
+  xy: 846, 590
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 1
+scissorfish_attack
+  rotate: false
+  xy: 635, 2
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 2
+scissorfish_attack
+  rotate: false
+  xy: 846, 296
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 3
+scissorfish_attack
+  rotate: false
+  xy: 1057, 590
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 4
+scissorfish_attack
+  rotate: false
+  xy: 846, 2
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 5
+scissorfish_attack
+  rotate: false
+  xy: 1057, 296
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 6
+scissorfish_attack
+  rotate: false
+  xy: 1268, 590
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 7
+scissorfish_attack
+  rotate: false
+  xy: 1057, 2
+  size: 209, 292
+  orig: 209, 292
+  offset: 0, 0
+  index: 8

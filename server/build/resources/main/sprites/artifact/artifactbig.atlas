@@ -1,0 +1,265 @@
+
+artifactbig.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+8ball
+  rotate: false
+  xy: 2, 1716
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+admincard
+  rotate: false
+  xy: 2, 1458
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+albatross
+  rotate: false
+  xy: 260, 1716
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+anarchybook
+  rotate: false
+  xy: 2, 1200
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+anchoramulet
+  rotate: false
+  xy: 260, 1458
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+artifact
+  rotate: false
+  xy: 2, 2
+  size: 164, 164
+  orig: 164, 164
+  offset: 0, 0
+  index: -1
+batterybucket
+  rotate: false
+  xy: 518, 1716
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bossmug
+  rotate: false
+  xy: 2, 942
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bottleship
+  rotate: false
+  xy: 260, 1200
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+boxoffun
+  rotate: false
+  xy: 518, 1458
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+burialbook
+  rotate: false
+  xy: 776, 1716
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+cagefaraday
+  rotate: false
+  xy: 2, 684
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+celestialanointment
+  rotate: false
+  xy: 260, 942
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+cilice
+  rotate: false
+  xy: 518, 1200
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+clepsydra
+  rotate: false
+  xy: 776, 1458
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+clockcage
+  rotate: false
+  xy: 1034, 1716
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+crimestick
+  rotate: false
+  xy: 2, 426
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+curioussauce
+  rotate: false
+  xy: 260, 684
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+deadmanhand
+  rotate: false
+  xy: 518, 942
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+glove
+  rotate: false
+  xy: 776, 1200
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+gluttonousglove
+  rotate: false
+  xy: 1034, 1458
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+goodhealth
+  rotate: false
+  xy: 1292, 1716
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+honeytenebrae
+  rotate: false
+  xy: 2, 168
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+icenine
+  rotate: false
+  xy: 260, 426
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+inkwell
+  rotate: false
+  xy: 518, 684
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+kumquat
+  rotate: false
+  xy: 776, 942
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+lotusflower
+  rotate: false
+  xy: 1034, 1200
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+matteruniveralizer
+  rotate: false
+  xy: 1292, 1458
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+niceshoe
+  rotate: false
+  xy: 1550, 1716
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+nutrilogcrunch
+  rotate: false
+  xy: 260, 168
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+philopatrytome
+  rotate: false
+  xy: 518, 426
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+samuraishark
+  rotate: false
+  xy: 776, 684
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+synapse
+  rotate: false
+  xy: 1034, 942
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+thesis
+  rotate: false
+  xy: 1292, 1200
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+thorncrown
+  rotate: false
+  xy: 1550, 1458
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+travelog
+  rotate: false
+  xy: 518, 168
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+vitreous
+  rotate: false
+  xy: 776, 426
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1

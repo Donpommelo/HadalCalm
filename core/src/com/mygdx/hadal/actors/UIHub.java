@@ -16,7 +16,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.hub.HubEvent;
 import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.requests.SoundLoad;
 import com.mygdx.hadal.save.SavedLoadout;

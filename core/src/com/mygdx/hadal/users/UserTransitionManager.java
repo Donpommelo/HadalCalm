@@ -9,7 +9,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.EffectEntityManager;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.requests.ParticleCreate;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;

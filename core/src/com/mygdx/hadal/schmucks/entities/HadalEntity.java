@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.constants.Constants;
 import com.mygdx.hadal.constants.ObjectLayer;
 import com.mygdx.hadal.effects.Shader;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.schmucks.entities.helpers.ShaderHelper;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.packets.Packets;

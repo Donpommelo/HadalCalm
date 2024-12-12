@@ -14,7 +14,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.StateManager.Mode;
 import com.mygdx.hadal.managers.StateManager.State;
@@ -23,6 +23,7 @@ import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.managers.SoundManager;
 import com.mygdx.hadal.map.GameMode;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.server.util.SocketManager;
 import com.mygdx.hadal.users.User;
 import com.mygdx.hadal.server.packets.Packets;
 import com.mygdx.hadal.text.UIText;
@@ -218,6 +219,9 @@ public class PauseState extends GameState {
 						StateManager.removeState(PauseState.class);
 			        	ps.getTransitionManager().returnToTitle(0.0f);
 						SoundManager.play(SoundEffect.NEGATIVE);
+
+						//exiting sends message to close lobby, if we are hosting one locally
+						SocketManager.exit();
 			        }
 			    });
 				

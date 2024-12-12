@@ -13,6 +13,7 @@ import com.esotericsoftware.kryonet.serialization.KryoSerialization;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.DialogBox.DialogType;
 import com.mygdx.hadal.battle.DamageSource;
+import com.mygdx.hadal.constants.ServerConstants;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.PickupEquip;
@@ -20,7 +21,7 @@ import com.mygdx.hadal.event.hub.Disposal;
 import com.mygdx.hadal.event.hub.Vending;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.StateManager;
 import com.mygdx.hadal.managers.TransitionManager;
 import com.mygdx.hadal.map.GameMode;
@@ -60,7 +61,8 @@ public class KryoServer {
 	//name of the server to be displayed in the lobby state
 	private String serverName = "";
 
-	private boolean headless, hostSet;
+	//for headless servers, has the host been set yet? We request settings from first client to connect.
+	private boolean hostSet;
 
 	public KryoServer(UserManager userManager) {
 		this.usm = userManager;
@@ -92,7 +94,6 @@ public class KryoServer {
 		usm.resetUsers();
 		usm.setConnID(0);
 
-		this.headless = headless;
 		if (!headless) {
 			usm.addUserServer(new User(0, JSONManager.loadout.getName(), new Loadout(JSONManager.loadout)));
 		}
@@ -795,6 +796,7 @@ public class KryoServer {
 							JSONManager.setting.setArtifactSlots(p.settings.getArtifactSlots());
 							ps.getUIManager().getScoreWindow().syncSettingTable();
 
+							//headless server receiving sync from host client also sets the server name
 							if (p instanceof Packets.SyncInitialHeadlessSettings headlessSettings) {
 								serverName = headlessSettings.serverName;
 							}
@@ -808,10 +810,10 @@ public class KryoServer {
 		server.addListener(packetListener);
 
 		try {
-			server.bind(JSONManager.setting.getPortNumber(), JSONManager.setting.getPortNumber());
+			server.bind(ServerConstants.PORT, ServerConstants.PORT);
 		} catch (IOException e) {
 			if (StateManager.states.peek() instanceof LobbyState lobby) {
-				lobby.setNotification(UIText.PORT_FAIL.text(Integer.toString(JSONManager.setting.getPortNumber())));
+				lobby.setNotification(UIText.PORT_FAIL.text(Integer.toString(ServerConstants.PORT)));
 			}
 		}
 		PacketManager.serverPackets(server);

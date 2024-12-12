@@ -10,7 +10,7 @@ import com.mygdx.hadal.constants.UITagType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.modes.ArcadeMarquis;
 import com.mygdx.hadal.managers.JSONManager;
-import com.mygdx.hadal.managers.PacketManager;
+import com.mygdx.hadal.server.util.PacketManager;
 import com.mygdx.hadal.managers.TransitionManager.TransitionState;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockEquip;

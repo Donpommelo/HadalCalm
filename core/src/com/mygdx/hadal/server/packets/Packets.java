@@ -937,6 +937,10 @@ public class Packets {
 
 		public SyncInitialHeadlessSettings() {}
 
+		/**
+		 * A SyncInitialHeadlessSettings is sent from a host client to the headless server after connecting.
+		 * This ensures the starting settings are synced, and also gives the server name
+		 */
 		public SyncInitialHeadlessSettings(SharedSetting settings, String serverName) {
 			super(settings);
 			this.serverName = serverName;
@@ -946,6 +950,10 @@ public class Packets {
 
 	public static class HeadlessHostRequest {
 
+		/**
+		 * A HeadlessHostRequest is sent from a headless server to a client host after they connect.
+		 * This prompts the client host to send the server their settings and the server name
+		 */
 		public HeadlessHostRequest() {}
 	}
 
