@@ -45,6 +45,7 @@ jobs:
           --query "Reservations[0].Instances[0].PublicIpAddress" \
           --output text)
         echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
+        echo "Public IP: $PUBLIC_IP"
 
     - name: Clean up old files
       uses: appleboy/ssh-action@v1.2.0
