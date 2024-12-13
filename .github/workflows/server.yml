@@ -98,7 +98,7 @@ jobs:
     - name: Create AMI
       run: |
         aws ec2 create-image \
-        --instance-id ${{ env.INSTANCE_ID }} \
+        --instance-ids ${{ env.INSTANCE_ID }} \
         --name "HadalServerAMI-$(date +%Y-%m-%d)" \
         --no-reboot
         echo "AMI created successfully."
