@@ -80,7 +80,7 @@ jobs:
           sudo yum install -y java-21-amazon-corretto-devel
           
           echo "Logging running processes..."
-          ps aux | grep HadalServer | grep -v grep >> ~/project/process_check.log
+          ps aux | grep HadalServer >> ~/project/process_check.log
           
           # Check if the process is running
           PID=$(pgrep -f HadalServer)
