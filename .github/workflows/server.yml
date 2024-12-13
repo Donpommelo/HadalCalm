@@ -95,7 +95,7 @@ jobs:
           --query 'ImageId' \
           --output text)
 
-          echo "Waiting for AMI creation to finish..."
+          echo "Waiting for AMI creation to finish... $IMAGE_ID $AMI_NAME"
           aws ec2 wait image-available --image-ids $IMAGE_ID
           echo "AMI creation complete."
           aws ec2 stop-instances --instance-ids ${{ env.INSTANCE_ID }}
