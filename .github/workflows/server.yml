@@ -83,7 +83,7 @@ jobs:
           ps aux | grep HadalServer >> ~/project/process_check.log
           
           # Check if the process is running
-          PID=$(pgrep -f HadalServer)
+          PID=$(ps aux | grep 'java -jar .*HadalServer.jar' | grep -v 'bash' | grep -v 'grep' | awk '{print $2}')
           
           # Kill the process if it exists
           if [ -n "$PID" ]; then
