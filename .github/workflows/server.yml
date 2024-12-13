@@ -90,16 +90,4 @@ jobs:
         script: |
           TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
           AMI_NAME="HadalServerAMI_$TIMESTAMP"
-          IMAGE_ID=$(aws ec2 create-image \
-          --instance-id ${{ env.INSTANCE_ID }} \
-          --name "$AMI_NAME" \
-          --query 'ImageId' \
-          --output text)
-          echo "Waiting for AMI creation to finish... $IMAGE_ID $AMI_NAME"
-          IMAGE_STATUS=$(aws ec2 describe-images --image-ids $IMAGE_ID --query "Images[0].State" --output text)
-          while [ "$IMAGE_STATUS" != "available" ]; do
-            echo "AMI is in state: $IMAGE_STATUS, waiting..."
-            sleep 30
-            IMAGE_STATUS=$(aws ec2 describe-images --image-ids $IMAGE_ID --query "Images[0].State" --output text)
-          done
-          echo "AMI creation complete."
+          aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} --name "$AMI_NAME"
