@@ -78,9 +78,10 @@ jobs:
         script: |
           # Install Java (OpenJDK 21)
           sudo yum install -y java-21-amazon-corretto-devel
-      
           pkill -f HadalServer.jar || true
-          nohup java -jar ~/project/HadalServer.jar > debug.log 2>&1 &
+          echo "$(date) - pkilled" >> ~/debug.log
+          nohup java -Xrs -jar ~/project/HadalServer.jar > debug.log 2>&1 &
+          echo "$(date) - Server started" >> ~/debug.log
 
   create-ami:
     name: Create AMI
