@@ -96,6 +96,15 @@ jobs:
           --output text)
 
           echo "Waiting for AMI creation to finish... $IMAGE_ID $AMI_NAME"
-          aws ec2 wait image-available --image-ids $IMAGE_ID
+          while true; do
+            STATUS=$(aws ec2 describe-images --image-ids $IMAGE_ID --query 'Images[0].State' --output text)
+            echo "AMI status: $STATUS"
+            if [ "$STATUS" == "available" ]; then
+            echo "AMI creation complete."
+            break
+            fi
+            echo "AMI creation still in progress. Waiting..."
+            sleep 15  # Wait 1 minute before checking again
+          done
           echo "AMI creation complete."
           aws ec2 stop-instances --instance-ids ${{ env.INSTANCE_ID }}
