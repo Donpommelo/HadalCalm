@@ -35,7 +35,6 @@ jobs:
       run: |
         INSTANCE_ID=i-03d7994f355793647
         echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
-        echo "Instance ID: ${{ env.INSTANCE_ID }}"
         aws ec2 start-instances --instance-ids $INSTANCE_ID
         aws ec2 wait instance-running --instance-ids $INSTANCE_ID
         
@@ -80,6 +79,7 @@ jobs:
           # Install Java (OpenJDK 21)
           sudo yum install -y java-21-amazon-corretto-devel
           if pgrep -f HadalServer.jar > /dev/null; then
+            echo "Server is running"
             pkill -f HadalServer.jar
           else
             echo "Server is not running"
