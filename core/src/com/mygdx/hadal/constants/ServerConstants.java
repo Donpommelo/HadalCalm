@@ -9,5 +9,7 @@ public class ServerConstants {
     public static final int PORT = 11100;
 
     public static final float CONNECTION_TIMEOUT = 10.0f;
+    public static final int MAX_RETRIES = 10;
+    public static final int RETRY_DELAY = 5000;
 
 }

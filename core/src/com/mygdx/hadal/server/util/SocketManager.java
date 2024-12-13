@@ -176,21 +176,35 @@ public class SocketManager {
             lobby.updateLobbies(lobbies);
         })
         .on("lobbyCreated", args -> {
+            Gdx.app.log("LOBBY", "ONLINE LOBBY CREATED " + args[0]);
+
             HadalGame.client.init();
             StateManager.currentMode = StateManager.Mode.MULTI;
             Gdx.app.postRunnable(() -> {
+                String serverIP = String.valueOf(args[0]);
+                String instanceID = String.valueOf(args[1]);
 
-                //Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
-                try {
-                    String serverIP = String.valueOf(args[0]);
-                    String instanceID = String.valueOf(args[1]);
-                    HadalGame.client.getClient().connect(5000, serverIP, ServerConstants.PORT, ServerConstants.PORT);
-                    HadalGame.client.setInstanceID(instanceID);
-                } catch (IOException ex) {
-                    Gdx.app.log("LOBBY", "FAILED TO JOIN: " + ex);
-                    lobby.setNotification(UIText.CONNECTION_FAILED.text());
-                    lobby.setInputDisabled(false);
+                int retries = 0;
+                while (retries < ServerConstants.MAX_RETRIES) {
+                    try {
+                        HadalGame.client.getClient().connect(ServerConstants.RETRY_DELAY, serverIP, ServerConstants.PORT, ServerConstants.PORT);
+                        HadalGame.client.setInstanceID(instanceID);
+                        break;
+                    } catch (IOException ex) {
+                        Gdx.app.log("LOBBY", "FAILED TO JOIN: " + ex);
+                        try {
+                            Thread.sleep(ServerConstants.RETRY_DELAY);
+                        } catch (InterruptedException interrupt) {
+                            Thread.currentThread().interrupt();
+                            break;
+                        }
+                    }
+                    retries++;
                 }
+                if (retries >= ServerConstants.MAX_RETRIES) {
+                    lobby.setNotification(UIText.CONNECTION_FAILED.text());
+                }
+                lobby.setInputDisabled(false);
             });
         });
     }

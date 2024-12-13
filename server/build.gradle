@@ -4,8 +4,6 @@ sourceSets.main.resources.srcDirs += [ project(':core').file('assets').path ]
 dependencies {
     implementation project(":core")
     implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-    implementation "software.amazon.awssdk:core:$awssdkVersion"
-    implementation "software.amazon.awssdk:ec2:$awssdkVersion"
 }
 
 project.ext.assetsDir = new File("../core/assets")
