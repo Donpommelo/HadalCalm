@@ -91,6 +91,7 @@ jobs:
         username: ec2-user
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
+        timeout: 300s
         script: |
           TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
           AMI_NAME="HadalServerAMI_$TIMESTAMP"
