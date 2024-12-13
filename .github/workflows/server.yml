@@ -94,14 +94,8 @@ jobs:
           --name "$AMI_NAME" \
           --query 'ImageId' \
           --output text)
-          echo "Created AMI with ID: $IMAGE_ID and name: $AMI_NAME"
 
-    - name: Stop EC2 Instance
-      uses: appleboy/ssh-action@v1.2.0
-      with:
-        host: ${{ env.PUBLIC_IP }}
-        username: ec2-user
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
+          echo "Waiting for AMI creation to finish..."
+          aws ec2 wait image-available --image-ids $IMAGE_ID
+          echo "AMI creation complete."
           aws ec2 stop-instances --instance-ids ${{ env.INSTANCE_ID }}
