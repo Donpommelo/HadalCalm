@@ -110,7 +110,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         script: |
-          aws ec2 create-image --instance-id $INSTANCE_ID \
+          aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} \
           --name "HadalServerAMI-$(date +%Y-%m-%d)" \
           --no-reboot
           echo "AMI created successfully."
