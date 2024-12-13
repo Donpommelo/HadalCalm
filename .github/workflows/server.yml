@@ -76,6 +76,13 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         script: |
+          # Install Java (OpenJDK 21)
+          sudo yum install -y java-21-openjdk-devel
+
+          # Set JAVA_HOME environment variable (if needed)
+          export JAVA_HOME=/usr/lib/jvm/java-21-openjdk
+          export PATH=$JAVA_HOME/bin:$PATH
+      
           pkill -f HadalServer.jar || true
           nohup $JAVA_HOME/bin/java -jar ~/HadalServer.jar > debug.log 2>&1 &
 
