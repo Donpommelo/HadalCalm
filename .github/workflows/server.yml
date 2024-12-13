@@ -78,9 +78,9 @@ jobs:
         script: |
           # Install Java (OpenJDK 21)
           sudo yum install -y java-21-amazon-corretto-devel
-          if pgrep -f HadalServer.jar > /dev/null; then
+          if pgrep -f "java -jar .*HadalServer.jar" > /dev/null; then
             echo "Server is running"
-            pkill -f HadalServer.jar
+            pkill -f "java -jar .*HadalServer.jar"
           else
             echo "Server is not running"
           fi
