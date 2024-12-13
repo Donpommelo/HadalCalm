@@ -44,6 +44,7 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
+          distribution: 'temurin'
           java-version: 21
 
       - name: Download Butler
@@ -74,6 +75,7 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
+          distribution: 'temurin'
           java-version: 21
 
       - name: Download butler
