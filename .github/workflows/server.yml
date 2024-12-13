@@ -77,7 +77,7 @@ jobs:
         port: 22
         script: |
           pkill -f HadalServer.jar || true
-          nohup java -jar ~/HadalServer.jar > debug.log 2>&1 &
+          nohup $JAVA_HOME/bin/java -jar ~/HadalServer.jar > debug.log 2>&1 &
 
   create-ami:
     name: Create AMI
