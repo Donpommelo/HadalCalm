@@ -56,7 +56,7 @@ jobs:
           script: |
             # Navigate to the project directory, or create it if it doesn't exist
             mkdir -p ~/project && cd ~/project
-            rm -rf *
+            rm -rf ./*
           
     - name: Upload JAR to EC2
       uses: appleboy/scp-action@v0.1.7
@@ -85,7 +85,7 @@ jobs:
           # Kill the process if it exists
           if [ -n "$PID" ]; then
             echo "Process is running with PID: $PID. Terminating..."
-            kill -9 $PID
+            kill -9 $PID || true
           else
             echo "No running process found."
           fi
