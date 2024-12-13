@@ -78,13 +78,20 @@ jobs:
         script: |
           # Install Java (OpenJDK 21)
           sudo yum install -y java-21-amazon-corretto-devel
-          if pgrep -f "java -jar .*HadalServer.jar" > /dev/null; then
-            echo "Server is running"
-            pkill -f "java -jar .*HadalServer.jar"
+          
+          # Check if the process is running
+          PID=$(pgrep -f 'java -jar ~/project/HadalServer.jar')
+          
+          # Kill the process if it exists
+          if [ -n "$PID" ]; then
+            echo "Process is running with PID: $PID. Terminating..."
+            kill -9 $PID
           else
-            echo "Server is not running"
+            echo "No running process found."
           fi
-          java -jar ~/project/HadalServer.jar > debug.log 2>&1 &
+          echo "Starting the server..."
+          nohup java -jar ~/project/HadalServer.jar > debug.log 2>&1 &
+          echo "Server started."
 
   create-ami:
     name: Create AMI
@@ -101,8 +108,9 @@ jobs:
 
     - name: Create AMI
       run: |
-        echo "CREATING AMI ${{ env.INSTANCE_ID }}"
-        aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} \
+        INSTANCE_ID=i-03d7994f355793647
+        echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
+        aws ec2 create-image --instance-id $INSTANCE_ID \
         --name "HadalServerAMI-$(date +%Y-%m-%d)" \
         --no-reboot
         echo "AMI created successfully."
