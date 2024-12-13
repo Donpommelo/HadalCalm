@@ -80,10 +80,10 @@ jobs:
           sudo yum install -y java-21-amazon-corretto-devel
           
           echo "Logging running processes..."
-          ps aux | grep ~/project/HadalServer.jar > ~/project/process_check.log
+          ps aux | grep -f 'java -jar ~/project/HadalServer.jar' > ~/project/process_check.log
   
           # Check if the process is running
-          PID=$(pgrep -f 'java -jar ~/project/HadalServer.jar')
+          PID=$(pgrep ~/project/HadalServer.jar)
           
           # Kill the process if it exists
           if [ -n "$PID" ]; then
