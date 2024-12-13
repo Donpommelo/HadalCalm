@@ -33,7 +33,7 @@ jobs:
         
     - name: Start EC2 Instance
       run: |
-        INSTANCE_ID=i-03d7994f355793647
+        INSTANCE_ID=i-014cd9c2ccb5bf61f
         echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
         aws ec2 start-instances --instance-ids $INSTANCE_ID
         aws ec2 wait instance-running --instance-ids $INSTANCE_ID
@@ -68,7 +68,7 @@ jobs:
         source: HadalServer.jar
         target: ~/project
 
-    - name: SSH into EC2 and Deploy Server
+    - name: Download Java 21 and Clean Up Running Server
       uses: appleboy/ssh-action@v1.2.0
       with:
         host: ${{ env.PUBLIC_IP }}
@@ -80,9 +80,9 @@ jobs:
           sudo yum install -y java-21-amazon-corretto-devel
           
           echo "Logging running processes..."
-          ps aux | grep HadalServer | grep -v grep > ~/project/process_check.log
-          ps aux | pgrep -f HadalServer | grep -v grep > ~/project/process_check.log
-  
+          ps aux | grep HadalServer | grep -v grep >> ~/project/process_check.log
+          ps aux | pgrep -f HadalServer | grep -v grep >> ~/project/process_check.log
+          
           # Check if the process is running
           PID=$(pgrep -f HadalServer)
           
@@ -93,6 +93,16 @@ jobs:
           else
             echo "No running process found."
           fi
+          exit 0
+
+    - name: SSH into EC2 and Deploy Server
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ env.PUBLIC_IP }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
           echo "Starting the server..."
           nohup java -jar ~/project/HadalServer.jar > debug.log 2>&1 &
           echo "Server started."
@@ -112,7 +122,7 @@ jobs:
 
     - name: Create AMI
       run: |
-        INSTANCE_ID=i-03d7994f355793647
+        INSTANCE_ID=i-014cd9c2ccb5bf61f
         echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
         aws ec2 create-image --instance-id $INSTANCE_ID \
         --name "HadalServerAMI-$(date +%Y-%m-%d)" \
