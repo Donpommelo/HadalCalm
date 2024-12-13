@@ -87,12 +87,8 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         script: |
-          IMAGE_ID=$(aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} \
-          --name "HadalServerAMI-$(date +%Y-%m-%d_%H-%M-%S)" \
-          --query 'ImageId' \
-          --output text)
-          aws ec2 wait image-available --image-ids $IMAGE_ID
-          echo "AMI creation complete."
+          aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} \
+          --name "HadalServerAMI-$(date +%Y-%m-%d_%H-%M-%S)"
 
     - name: Stop EC2 Instance
       uses: appleboy/ssh-action@v1.2.0
@@ -103,4 +99,3 @@ jobs:
         port: 22
         script: |
           aws ec2 stop-instances --instance-ids ${{ env.INSTANCE_ID }}
-          aws ec2 wait instance-stopped --instance-ids ${{ env.INSTANCE_ID }}
