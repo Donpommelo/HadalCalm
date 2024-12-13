@@ -35,8 +35,8 @@ jobs:
       run: |
         INSTANCE_ID=i-03d7994f355793647
         echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
-        aws ec2 start-instances --instance-ids $INSTANCE_ID
-        aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+        aws ec2 start-instances --instance-ids ${{ env.INSTANCE_ID }}
+        aws ec2 wait instance-running --instance-ids ${{ env.INSTANCE_ID }}
         
     - name: Get EC2 Public IP
       run: |
@@ -78,9 +78,8 @@ jobs:
         script: |
           # Install Java (OpenJDK 21)
           sudo yum install -y java-21-amazon-corretto-devel
-          echo "$(date) - java installed" >> ~/debug.log
+          pkill -f HadalServer.jar || echo "Failed to kill server"
           java -jar ~/project/HadalServer.jar > debug.log 2>&1 &
-          echo "$(date) - Server started" >> ~/debug.log
 
   create-ami:
     name: Create AMI
@@ -97,8 +96,8 @@ jobs:
 
     - name: Create AMI
       run: |
-        aws ec2 create-image \
-        --instance-ids ${{ env.INSTANCE_ID }} \
+        echo "CREATING AMI ${{ env.INSTANCE_ID }}"
+        aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} \
         --name "HadalServerAMI-$(date +%Y-%m-%d)" \
         --no-reboot
         echo "AMI created successfully."
