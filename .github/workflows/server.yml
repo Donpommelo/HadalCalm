@@ -68,7 +68,7 @@ jobs:
         source: HadalServer.jar
         target: ~/project
 
-    - name: Download Java 21 and Clean Up Running Server
+    - name: Set up JDK 21 for the Instance
       uses: appleboy/ssh-action@v1.2.0
       with:
         host: ${{ env.PUBLIC_IP }}
@@ -78,29 +78,6 @@ jobs:
         script: |
           # Install Java (OpenJDK 21)
           sudo yum install -y java-21-amazon-corretto-devel
-          
-          # Check if the process is running
-          PID=$(ps aux | grep 'java -jar .*HadalServer.jar' | grep -v 'bash' | grep -v 'grep' | awk '{print $2}')
-          
-          # Kill the process if it exists (avoid killing bash processes, like itself)
-          if [ -n "$PID" ]; then
-            echo "Process is running with PID: $PID. Terminating..."
-            kill $PID
-          else
-            echo "No running process found."
-          fi
-
-    - name: SSH into EC2 and Deploy Server
-      uses: appleboy/ssh-action@v1.2.0
-      with:
-        host: ${{ env.PUBLIC_IP }}
-        username: ec2-user
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
-          echo "Starting the server..."
-          nohup java -jar ~/project/HadalServer.jar > ~/project/debug.log 2>&1 &
-          echo "Server started."
 
     - name: Create AMI
       uses: appleboy/ssh-action@v1.2.0
@@ -113,11 +90,14 @@ jobs:
           aws ec2 create-image --instance-id ${{ env.INSTANCE_ID }} \
           --name "HadalServerAMI-$(date +%Y-%m-%d)" \
           --no-reboot
-          echo "AMI created successfully."
 
-    #
-    #    - name: Stop EC2 Instance
-    #      run: |
-    #        aws ec2 stop-instances --instance-ids ${{ env.INSTANCE_ID }}
-    #        aws ec2 wait instance-stopped --instance-ids ${{ env.INSTANCE_ID }}
-    #        echo "Instance stopped successfully."
+    - name: Stop EC2 Instance
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ env.PUBLIC_IP }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          aws ec2 stop-instances --instance-ids ${{ env.INSTANCE_ID }}
+          aws ec2 wait instance-stopped --instance-ids ${{ env.INSTANCE_ID }}
