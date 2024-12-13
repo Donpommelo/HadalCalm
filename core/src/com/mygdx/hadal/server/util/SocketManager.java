@@ -177,10 +177,12 @@ public class SocketManager {
         })
         .on("lobbyCreated", args -> {
             Gdx.app.log("LOBBY", "ONLINE LOBBY CREATED " + args[0]);
+            lobby.setNotification(UIText.LOBBY_CREATED.text());
 
             HadalGame.client.init();
             StateManager.currentMode = StateManager.Mode.MULTI;
             Gdx.app.postRunnable(() -> {
+
                 String serverIP = String.valueOf(args[0]);
                 String instanceID = String.valueOf(args[1]);
 

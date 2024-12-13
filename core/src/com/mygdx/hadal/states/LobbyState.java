@@ -249,7 +249,7 @@ public class LobbyState extends GameState {
                         if (inputDisabled) { return; }
                         inputDisabled = true;
 
-                        setNotification(UIText.HOSTED.text());
+                        setNotification(UIText.LOBBY_INITIALIZED.text());
                         SocketManager.makeOnlineServer(enterName.getText());
                         SoundManager.play(SoundEffect.UISWITCH1);
                     }
@@ -504,6 +504,6 @@ public class LobbyState extends GameState {
     @Override
     public void dispose() {
         stage.dispose();
-        SocketManager.dispose();;
+        SocketManager.dispose();
     }
 }
