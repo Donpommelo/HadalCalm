@@ -85,7 +85,7 @@ jobs:
           # Kill the process if it exists
           if [ -n "$PID" ]; then
             echo "Process is running with PID: $PID. Terminating..."
-            kill -9 $PID || true
+            (kill -9 $PID || true) || echo "Kill command failed, but continuing..."
           else
             echo "No running process found."
           fi
