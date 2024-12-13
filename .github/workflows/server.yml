@@ -81,7 +81,6 @@ jobs:
           
           echo "Logging running processes..."
           ps aux | grep HadalServer | grep -v grep >> ~/project/process_check.log
-          ps aux | pgrep -f HadalServer | grep -v grep >> ~/project/process_check.log
           
           # Check if the process is running
           PID=$(pgrep -f HadalServer)
@@ -93,7 +92,6 @@ jobs:
           else
             echo "No running process found."
           fi
-          exit 0
 
     - name: SSH into EC2 and Deploy Server
       uses: appleboy/ssh-action@v1.2.0
@@ -104,7 +102,7 @@ jobs:
         port: 22
         script: |
           echo "Starting the server..."
-          nohup java -jar ~/project/HadalServer.jar > debug.log 2>&1 &
+          nohup java -jar ~/project/HadalServer.jar > ~/project/debug.log 2>&1 &
           echo "Server started."
 
   create-ami:
