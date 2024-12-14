@@ -48,7 +48,7 @@ jobs:
           java-version: 21
 
       - name: Download Butler
-        run: Invoke-WebRequest -Uri https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -OutFile butler.zip
+        run: Invoke-WebRequest -Uri https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default -OutFile -AllowInsecureRedirect butler.zip
 
       - name: Extract butler
         run: Expand-Archive -DestinationPath . butler.zip
