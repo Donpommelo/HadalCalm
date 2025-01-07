@@ -2,7 +2,7 @@ package com.mygdx.hadal.constants;
 
 public class ServerConstants {
 
-    public final static String LOBBY_IP = "http://13.59.116.132:8080";
+    public final static String LOBBY_IP = "https://hadalcalmlobby.fly.dev/";
 //    public final static String LOBBY_IP = "http://localhost:8080";
     public final static String IP_URL = "http://checkip.amazonaws.com";
 

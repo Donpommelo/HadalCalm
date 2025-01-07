@@ -55,7 +55,7 @@ public class PacketsSync {
          */
         public SyncEntityAngled(int entityID, Vector2 pos, Vector2 velocity, float timestamp, float angle) {
             super(entityID, pos, velocity, timestamp);
-            this.angle = PacketUtil.angleToByte(angle);
+            this.angle = PacketUtil.radianAngleToByte(angle);
         }
     }
 
@@ -101,7 +101,7 @@ public class PacketsSync {
         public SyncSchmuckAngled(int entityID, Vector2 pos, Vector2 velocity, float timestamp,
                                  MoveState moveState, byte hpPercent, float angle) {
             super(entityID, pos, velocity, timestamp, moveState, hpPercent);
-            this.angle = PacketUtil.angleToByte(angle);
+            this.angle = PacketUtil.radianAngleToByte(angle);
         }
     }
 

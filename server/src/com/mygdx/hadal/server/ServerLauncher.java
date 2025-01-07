@@ -9,7 +9,7 @@ public class ServerLauncher {
     public static void main(String[] args) {
         HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
 
-        config.updatesPerSecond = 30;
+        config.updatesPerSecond = 60;
 
         new HeadlessApplication(new HadalGameHeadless(), config);
 

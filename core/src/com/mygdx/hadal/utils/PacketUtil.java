@@ -1,5 +1,7 @@
 package com.mygdx.hadal.utils;
 
+import com.badlogic.gdx.math.MathUtils;
+
 /**
  * The PacketUtil contains some function used to process packets sent between the client and server.
  * The purpose of these is usually to reduce the size of commonly-sent sync packets
@@ -23,15 +25,26 @@ public class PacketUtil {
     }
 
     /**
-     * These 2 functions convert a degree angle into a byte and back to a float
+     * These 2 functions convert a radian angle into a byte and back to a float
      * This is done for serialization purposes for syncing objects to save bytes
      */
-    public static byte angleToByte(float angle) {
-        return (byte) (angle / 360.0f * 255);
+    public static byte radianAngleToByte(float radian) {
+        // Normalize the radian to the range [0, 2π)
+        radian = (float) (radian % (2 * MathUtils.PI));
+        if (radian < -Math.PI) {
+            radian += 2 * MathUtils.PI; // Ensure within [-π, π)
+        } else if (radian >= MathUtils.PI) {
+            radian -= 2 * MathUtils.PI;
+        }
+
+        // Scale to [-128, 127] range for bytes
+        int scaledValue = MathUtils.round((radian / (2 * MathUtils.PI)) * 256);
+        return (byte) scaledValue;
     }
 
-    public static float byteToAngle(byte angleByte) {
-        return (angleByte & 0xFF) / 255.0f * 360.0f;
+    // Converts a byte back to a float radian value
+    public static float byteToRadianAngle(byte angleByte) {
+        return (float) (angleByte / 256.0 * 2 * Math.PI);
     }
 
     /**

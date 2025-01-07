@@ -240,10 +240,10 @@ public abstract class HadalEntity {
 
 				float angle = 0;
 				if (o instanceof PacketsSync.SyncEntityAngled a) {
-					angle = PacketUtil.byteToAngle(a.angle);
+					angle = PacketUtil.byteToRadianAngle(a.angle);
 				}
 				if (o instanceof PacketsSync.SyncSchmuckAngled a) {
-					angle = PacketUtil.byteToAngle(a.angle);
+					angle = PacketUtil.byteToRadianAngle(a.angle);
 				}
 				//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity of the most recent snapshot and the one before it
 				if (copyServerInstantly) {

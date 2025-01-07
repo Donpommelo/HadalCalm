@@ -157,7 +157,7 @@ public class Turret extends Enemy {
 		state.getSyncPackets().add(new PacketsSync.SyncSchmuckAngled(entityID, getPosition(), new Vector2(), state.getTimer(),
 				moveState,
 				PacketUtil.percentToByte(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)),
-				attackAngle));
+				MathUtils.degRad * attackAngle));
 	}
 	
 	@Override
@@ -165,7 +165,7 @@ public class Turret extends Enemy {
 		super.onClientSync(o);
 		if (o instanceof PacketsSync.SyncSchmuckAngled p) {
 			serverAngle.set(0, 0);
-			attackAngle = PacketUtil.byteToAngle(p.angle);
+			attackAngle = MathUtils.radDeg * PacketUtil.byteToRadianAngle(p.angle);
 		}
 	}
 
